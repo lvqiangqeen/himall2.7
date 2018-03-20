@@ -1,0 +1,123 @@
+﻿@using Himall.Core
+@model Himall.Model.CapitalInfo
+    @{ 
+        ViewBag.Title = "我的资产";
+    }
+
+<style>html,body{height:100%;background-color:#fff;}</style>
+<div class="container assets">
+    <div id="J_assets_layer"></div>
+    <div class="assets-hd">
+        <div class="divBalance">
+			<div class="recharge" id="btnCharge" style="right: 100px;">充值</div>
+            <div class="recharge" id="btnWithDraw">提现</div>
+            <span id="spanBalance">
+                <i>¥</i>
+                <span id="balanceValue">@(Model != null && Model.Balance.HasValue ? Model.Balance.Value.ToString("f2") : "0.00")</span>
+            </span>
+            <span class="baM">元可用</span>
+        </div>
+        <div class="total-red">
+            <span>
+                <p class="get">累计收到红包</p>
+                <i>@ViewBag.RedPacketAmount <strong>元</strong></i>
+            </span>
+            <span class="red-envelop">
+                <p class="get">累计充值金额</p>
+                <i>@(Model!=null && Model.ChargeAmount.HasValue?Model.ChargeAmount.Value.ToString("f2"):"0") <strong>元</strong></i>
+            </span>
+        </div>
+    </div>
+    <div class="ulList">
+        <table class="table" id="ulList">
+            @if (ViewBag.CapitalDetails != null) {
+                var capitaldetails = (IEnumerable<Himall.Model.CapitalDetailInfo>)ViewBag.CapitalDetails;
+                foreach (var detail in capitaldetails) {
+                    <tr>
+                        <td width="40%">@detail.CreateTime.Value.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        @if (detail.Amount > 0) {
+                            <td width="20%">@detail.Amount</td>
+                        }
+                        else {
+                            <td class="green" width="20%">@detail.Amount</td>
+                        }
+                        <td width="20%">@detail.SourceType.ToDescription()</td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+    <div style="display:none;" class="loading" id="autoLoad"><span></span></div>
+    <div class="box1 lh24 steponeee" id="stepone" style="display:none">
+        <span class="close" aria-hidden="true"></span>
+        <form>
+            <h3 class="title_txt cur">请设置支付密码</h3>
+            <div class="item">
+                <div>
+                    <input type="password" placeholder="请输入支付密码" value="" id="firstPwd" name="userVo.realName" maxlength="20" class="form-control itxt fl">
+                </div>
+            </div>
+            <div class="item">
+                <div>
+                    <input type="password" placeholder="请再次输入支付密码" value="" id="secondPwd" name="userVo.realName" maxlength="20" class="form-control itxt fl">
+                </div>
+            </div>
+            <div class="item">
+                <div>
+                    <a id="submitPwd" class="btn btn-primary">提交</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="box1 lh24 steponeee" id="steptwo" style="display:none">
+        <span class="close" aria-hidden="true"></span>
+        <form>
+            <h3 class="title_txt cur">提现申请</h3>
+            <div class="item">
+                <div>
+                    <input value="" id="inputMoney" placeholder="提现金额" name="userVo.realName" maxlength="20" class="itxt fl">
+                </div>
+            </div>
+            <div class="item">
+                <div>
+                    <input type="password" placeholder="支付密码" value="" id="payPwd" name="userVo.realName" maxlength="20" class="itxt fl">
+                </div>
+            </div>
+            <div class="item">
+                <div>
+                    <a id="submitApply" class="btn btn-primary">提交</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!---------- 新增功能 - 账户充值、开发做完后删除此注释 ----------------------------------------------------------------------->
+    <div class="box1 lh24 steponeee" id="rechargePay" style="display:none">
+        <span class="close" aria-hidden="true"></span>
+        <form>
+            <h3 class="title_txt cur">账户充值</h3>
+            <div class="item">
+                <div>
+                    <input type="text" id="chargeAmount" placeholder="请输入充值金额" name="" maxlength="20" class="itxt fl">
+                </div>
+            </div>
+            <div class="item">
+                <div>
+                    <a id="submitPayBtn" class="btn btn-primary">提交</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- End -->
+</div>
+@*<section class="assets-bar-container">
+    <div class="assets-bar">
+        <a class="btn" href="#">充值</a>
+        <a id="btnWithDraw" class="btn" href="#">提现</a>
+    </div>
+</section>*@
+<input type="hidden" value="@ViewBag.WithDrawMinimum" id="inputWithDrawMinimum" />
+<input type="hidden" value="@ViewBag.WithDrawMaximum" id="inputWithDrawMaximum" />
+<script>
+    var pwdflag = '@ViewBag.IsSetPwd';
+</script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/ApplyWithDraw.js"></script>

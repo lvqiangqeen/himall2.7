@@ -1,0 +1,41 @@
+﻿html,body{height: 100%;font-size: 12px;font-family: "微软雅黑"}
+.container{max-width: 640px;min-height: 100%; padding: 0;background-color: #F5F5F5;padding-bottom:20px;}
+header ul li{width: 20%;height: 36px;line-height: 36px;text-align: center;float: left; border-bottom:2px solid #fff; border-radius: 3px;font-size: 12px;background-color: #fff;}
+header ul li.active{border-bottom: 2px solid #DC4452;color: #DC4452;}
+.content{padding: 0 10px;}
+.activityInner{background-color: #fff;border:1px solid #DBDBDB;box-shadow: 1px 1px 4px #E8E8E8;margin-bottom: 20px;}
+.activityInner .activityimg img{max-width: 100%;}
+.activityTopic h2{font-size: 14px;color: #999999;text-align: center;margin: 10px 0;}
+.activityInner .activityInfo{padding: 5px 10px;}
+.activityInner .activityInfo p{margin: 10px 0;}
+.activityInner .activityInfo p span{display: block;float: left;}
+.activityInner .activityInfo p span:last-child{width: 70%;}
+.activityInner .activityInfo p:after{content:"";clear:both;display:block;height:0;}
+.activityInner .activityInfo p.color{line-height: 20px; color: #EA8010;text-indent: 25px;background: url(../images/iconfont-iconfont75.png) no-repeat left top;}
+.activityInner .activityInfo p.color span:last-child{text-indent: 0;}
+.activityInner .activityFooter a{position: relative; display: block;height: 35px;line-height: 35px;text-indent: 10px;border-top: 1px solid #DBDBDB;}
+.activityInner .activityFooter a span.glyphicon{position: absolute;right: 2%;top: 0px;font-size: 16px;display: block;height: 35px;line-height: 35px;}
+.rollCollar{padding-left: 10px;margin-bottom: 20px;}
+.rollCollar a{position: relative; display: block;width: 100%;background-color: #DA4453;color: #fff;font-size: 12px;margin-bottom: 1px;}
+.tabList{display: none;}
+.tabList:first-child{display: block;}
+.rollCollar a:before{position: absolute;left: -10px;top: 0;display:block;
+	content:"";
+	width: 10px;
+	height:100%;
+	background-color:transparent;
+	background-size:10px 20px;
+	background-image:-webkit-linear-gradient(70deg, #DA4453 10%, transparent 10%, transparent),
+		-webkit-linear-gradient(-70deg, #DA4453 25%, transparent 25%, transparent),
+		-webkit-linear-gradient(70deg, transparent 75%, #DA4453 75%),
+		-webkit-linear-gradient(-70deg, transparent 75%, #DA4453 75%);
+		z-index: 100;
+}
+.rollCollar a .left{position: absolute; width: 37%;height: 100%;border-right: 1px dashed #FFCC00;}
+.rollCollar a .left span{display: block;}
+.rollCollar a .left span:first-child{text-indent: 10%;padding-top: 10%;margin-bottom: 5%;font-size: 16px;}
+.rollCollar a .left span:last-child{text-align: center;}
+.rollCollar a .left span:last-child i{font-size: 30px;font-style: normal;}
+.rollCollar a .right{padding-left: 40%;padding-top: 4%; padding-bottom:4%;}
+.rollCollar a .right h5{font-size: 16px;margin-bottom: 5%;}
+.rollCollar a .right p{font-family: "宋体";}

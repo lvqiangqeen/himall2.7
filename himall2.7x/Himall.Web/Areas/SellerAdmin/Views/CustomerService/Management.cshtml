@@ -1,0 +1,67 @@
+﻿@model Himall.Web.Areas.SellerAdmin.Models.CustomerServiceManagementViewModel
+@using Himall.Core;
+
+<script src="~/Areas/SellerAdmin/Scripts/CustomerServiceManagement.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>管理</a></li>
+        <li><a href="add">新增PC客服</a></li>
+        <li><a href="addMobile">@(Model.HasMobileService == true ? "编辑移动端客服" : "新增移动端客服")</a></li>
+		@if (Model.CustomerServices.Any(p => p.Tool == Himall.Model.CustomerServiceInfo.ServiceTool.MeiQia)==false)
+		{
+			<li><a href="addMeiQia">添加美洽客服</a></li>
+		}
+    </ul>
+
+    <table class="table mt20">
+        <thead>
+            <tr>
+                <th class="tac">客服名称</th>
+                <th class="tac">沟通工具</th>
+                <th class="tac">账号</th>
+                <th class="tac">客服类型</th>
+                <th class="td-operate tac">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customerService in Model.CustomerServices)
+            {
+                <tr class="tac">
+                    <td>@customerService.Name</td>
+                    <td align="center">@customerService.Tool.ToDescription()</td>
+                    <td align="center">@customerService.Account</td>
+                    <td align="center">@customerService.Type.ToDescription()</td>
+                    <td class="td-operate">
+                        <span class="btn-a">
+							@if (customerService.Tool == Himall.Model.CustomerServiceInfo.ServiceTool.MeiQia)
+							{
+								<a href="addMeiQia?id=@customerService.Id">编辑</a>
+							}
+							else
+							{
+								<a href="add?id=@customerService.Id">编辑</a>
+							}
+                            <a onclick="del(@customerService.Id,'@customerService.Name')">删除</a>
+                        </span>
+                    </td>
+                </tr>
+            }
+
+            @if (Model.HasMobileService)
+            { 
+                <tr style="text-align:center">
+                    <td>@Model.MobileService.Name</td>
+                    <td align="center">QQ</td>
+                    <td align="center">@Model.MobileService.AccountCode</td>
+                    <td align="center">移动端客服</td>
+                    <td class="td-operate">
+                        <span class="btn-a">
+                            <a href="addMobile">编辑</a>
+                            <a onclick="del(@Model.MobileService.Id,'@Model.MobileService.Name')">删除</a>
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

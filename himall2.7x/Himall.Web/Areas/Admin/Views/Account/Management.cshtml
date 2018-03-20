@@ -1,0 +1,26 @@
+﻿@{ ViewBag.Title = "OrderComplaint";}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Areas/Admin/Scripts/accountManagement.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li value="0" class="active" type="statusTab"><a onclick="Query(0)">未结算</a></li>
+        <li value="1" type="statusTab"><a onclick="Query(1)">已结算</a></li>
+        <li><a href="@Url.Action("SetSettlementWeek")">结算周期设置</a></li>
+    </ul>
+
+    <div class="search-box only-line">
+        <form class="custom-inline" role="form">
+            <div class="form-group">
+                <label class="label-inline" for="">店铺名称</label>
+                <input class="form-control input-ssm" type="text" id="txtShopName">
+            </div>
+            <button type="button" class="btn btn-primary btn-sm" id="searchButton" >搜 索</button>
+            <h5 class="tips-top"><span class="help-default"><i></i>本期应结=商品实付总额 + 运费 - 佣金 - 退款金额 + 退还佣金 - 服务费用-分销佣金+退还分销佣金</span></h5>           
+        </form>
+    </div>
+    <table id="list" class="table mt0"></table>
+    <a class="btn-export" href="#" onclick="exportExcel()" id="exceptExcelA">导出查询结果</a>
+</div>

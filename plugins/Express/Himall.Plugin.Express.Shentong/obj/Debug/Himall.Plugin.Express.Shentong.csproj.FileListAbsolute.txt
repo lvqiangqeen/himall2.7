@@ -1,0 +1,10 @@
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shentong\bin\Debug\plugin.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shentong\bin\Debug\Himall.Plugin.Express.Shentong.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shentong\bin\Debug\Himall.Plugin.Express.Shentong.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shentong\bin\Debug\Himall.Core.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shentong\bin\Debug\Himall.ExpressPlugin.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shentong\bin\Debug\Himall.ExpressPlugin.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shentong\bin\Debug\Himall.Core.xml
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shentong\obj\Debug\Himall.Plugin.Express.Shentong.csprojResolveAssemblyReference.cache
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shentong\obj\Debug\Himall.Plugin.Express.Shentong.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shentong\obj\Debug\Himall.Plugin.Express.Shentong.pdb

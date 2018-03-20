@@ -1,0 +1,69 @@
+﻿@model Himall.Web.Areas.Web.Models.HomeFloorModel
+@{
+    var floor = Model;
+}
+<!--楼层样式2-->
+<div class="floorA  floor clearfix">
+    <div class="floorA-hd">
+        <h3>@floor.Name</h3>
+        <ul>
+            <li class="active">@floor.DefaultTabName<s></s></li>
+            @foreach (var tab in floor.Tabs)
+            {
+                <li>@tab.Name<s></s></li>
+            }
+        </ul>
+    </div>
+    <!--左侧公用广1告-->
+    <div class="left-show clearfix">
+        <div class="section showA"><a><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(floor.Products.ElementAt(0).ImageUrl)" /></a></div>
+    </div>
+    <!--右侧-->
+    <div class="floorA-right">
+        <!--右侧广告-->
+        <div class="right-img-show clearfix tab-right current">
+            <div class="right-show-wrap clearfix">
+                <div class="section showB">
+                    <a href="@floor.Products.ElementAt(1).Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(floor.Products.ElementAt(1).ImageUrl)" /></a>
+                    <a href="@floor.Products.ElementAt(4).Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(floor.Products.ElementAt(4).ImageUrl)" /></a>
+                </div>
+                <div class="section showC">
+                    <a href="@floor.Products.ElementAt(2).Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(floor.Products.ElementAt(2).ImageUrl)" /></a>
+                    <a href="@floor.Products.ElementAt(3).Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(floor.Products.ElementAt(3).ImageUrl)" /></a>
+                    <a href="@floor.Products.ElementAt(5).Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(floor.Products.ElementAt(5).ImageUrl)" /></a>
+                    <a href="@floor.Products.ElementAt(6).Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(floor.Products.ElementAt(6).ImageUrl)" /></a>
+                </div>
+            </div>
+            <div class="right-hot clearfix">
+                <h3>热销推荐</h3>
+                <ul>
+                    <li><a href="@floor.Products.ElementAt(7).Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(floor.Products.ElementAt(7).ImageUrl)" /></a></li>
+                    <li><a href="@floor.Products.ElementAt(8).Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(floor.Products.ElementAt(8).ImageUrl)" /></a></li>
+                    <li><a href="@floor.Products.ElementAt(9).Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(floor.Products.ElementAt(9).ImageUrl)" /></a></li>
+                    <li><a href="@floor.Products.ElementAt(10).Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(floor.Products.ElementAt(10).ImageUrl)" /></a></li>
+                </ul>
+            </div>
+        </div>
+        <!--右侧商品-->
+        @foreach (var tab in floor.Tabs)
+        {
+            <div class="right-tab-pro clearfix tab-right">
+                <ul>
+                    @foreach (var item in tab.Detail)
+                    {
+                        <li>
+                            <a href="/Product/Detail/@item.ProductId"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetProductSizeImage(item.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_150)" /></a>
+                            <div>
+                                <span>￥@item.Price</span>
+                                <p><a href="/Product/Detail/@item.ProductId">@item.Name</a></p>
+                            </div>
+                        </li>
+                    }
+
+                </ul>
+            </div>
+        }
+    </div>
+
+
+</div>

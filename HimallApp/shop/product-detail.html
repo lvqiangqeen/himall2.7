@@ -1,0 +1,902 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>商品详情页</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav transparent-bg">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">商品详情</h1>
+			<span id="goodsShare" class="goods-share iconfont icon-fenxiang mui-pull-right"></span>
+		</header>
+		<div class="mui-content">
+		</div>   
+		<footer id="goodsBar" class="goods-bar transparent">
+	        <div class="action-bar mui-flex">
+	            <div class="tocart cell iconfont icon-gouwuche" id="goCart">购物车<span class="plus-one">1</span></div>
+	            <button class="end-time" id="endTime" style="display: none;"><span class="iconfont icon-time"></span><em>0</em>天<em>0</em>时<em>0</em>分<em>0</em>秒</button>
+	            <button class="cart cell" id="addToCart">加入购物车</button>
+	            <button class="buy cell" id="easyBuyBtn">立即购买</button>
+	            <button class="nobuy cell" id="noBuy" style="display: none;">已 下 架</button>
+	            <button class="nobuy cell" id="noStock" style="display: none;">己卖光</button>
+	            <div class="addfav cell iconfont icon-fav" id="favProduct">收藏</div>
+	        </div>
+	    </footer>
+	    <div class="goods-sku" id="choose"></div>
+        <div class="fullCut" id="fullCut"></div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/swiper.min.js"></script>
+		<script src="js/mui.zoom.js"></script>
+		<script src="js/mui.previewimage.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/template.js" ></script>
+		<script src="js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.init({
+				swipeBack: true,
+				beforeback:function(){
+					if(!himall.hasClass(content,'transparent') && !document.querySelector('.mui-preview-image.mui-preview-in')){
+						content.className+=' transparent';
+						goodsBar.className+=' transparent';
+						mui.scrollTo(0,0);
+					}
+				}
+			});
+			
+			var productId,
+				shopId,
+				skuLen,
+				skuId,
+				stock=0,
+				limitBuyMax,
+				intDiff,
+				limitTime,
+				mask,
+				w,
+				loadPage,
+				userkey,
+				shareImg;
+			var goCart=document.getElementById('goCart'),
+				favProduct=document.getElementById('favProduct'),
+				addToCart=document.getElementById('addToCart'),
+				easyBuyBtn=document.getElementById('easyBuyBtn'),
+				noBuy=document.getElementById('noBuy'),
+				noStock=document.getElementById('noStock'),
+				choose=document.getElementById('choose'),
+            	fullCut=document.getElementById('fullCut'),
+				endTime=document.getElementById('endTime'),
+				content=document.querySelector('.mui-content'),
+				goodsBar=document.getElementById('goodsBar'),
+				title=document.getElementsByClassName('mui-title')[0];
+				
+				function getIsSelfTake(){
+	            	var fromLatLng;
+	            	if (navigator.geolocation){ 
+					    navigator.geolocation.getCurrentPosition(function(position){
+					    	var lat = position.coords.latitude; //纬度 
+	  						var lon = position.coords.longitude; //经度 
+	  						mui.ajax(TENXUNMAP, {
+			                    data: {
+			                    	locations: lat+','+lon,
+			                    	type: 1,
+			                    	key: MAPKEY
+			                    },
+			                    dataType: 'json',
+			                    type: 'get',
+			                    timeout: 10000,
+			                    success: function (data) {
+			                        lat = data.locations[0].lat;
+			                        lon = data.locations[0].lng;
+			                        fromLatLng = lat+','+lon;
+			    					mui.ajax(URL + 'api/product/GetIsSelfDelivery', {
+					            		data:himall.md5Data({
+												shopId: shopId,
+					                            productId: productId,
+					                            fromLatLng: fromLatLng,
+					                            userkey:himall.getState().userkey
+											}),
+					                        dataType:'json',
+					                        type:'get',
+					                        timeout: 10000,
+					                        success: function(data){
+					                        	if(data.IsSelfDelivery){
+					                        		document.querySelector(".goods-service").innerHTML = document.querySelector(".goods-service").innerHTML+
+					                        		'<span><i class="iconfont icon-ensure"></i>到店自提</span>';
+					                        	}
+					                        }
+					            	});
+			                    },
+			                    error: function (xhr, type, errorThrown) {
+		                    	   console.log(errorThrown);  
+			                    }
+			                });
+	  						
+					    });
+				    }
+	            }
+				
+				mui.plusReady(function() {
+				plus.webview.currentWebview().setStyle({scrollIndicator:'none'});
+				loadPage=function(){
+					userkey=himall.getState().userkey;
+					w=plus.nativeUI.showWaiting('',{padlock:true});
+					mui.ajax(URL+'api/product/GetProductDetail',{
+						data:himall.md5Data({
+							id:productId,
+							userkey:userkey
+						}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){		
+							if(data.Success=='true'){
+								if(data.Product.ImagePath && data.Product.ImagePath.length>0){
+									shareImg=data.Product.ImagePath[0];
+								}
+								var service = document.querySelector('.customer-service');
+								if(service){
+									mui("body").off("tap",".service_list-item");
+									mui("body").off("tap",".keng-lb-1");
+									service.parentNode.removeChild(service);
+								}
+								customerService(data.CustomerServices);
+								content.innerHTML=template('productInfo', data);
+								shopId=data.Shop.Id;
+								var slider=document.getElementById('slider');
+								if(data.Product.ImagePath.length>0){
+									slider.style.height=slider.offsetWidth+'px';
+									himall.initSwiper();
+						            mui.previewImage();
+								}
+								
+								if(data.Color.length>0||data.Size.length>0||data.Version.length>0){
+									document.getElementById('chooseSkuBtn').style.display='block';
+								}else{
+									document.getElementById('chooseSkuBtn').style.display='none';
+								}
+								
+								if(data.Product.CommentCount>0){
+									mui.ajax(URL+'api/product/GetProductCommentShow',{
+										data:himall.md5Data({
+											id:productId
+										}),
+										dataType:'json',
+										type:'get',
+										timeout:10000,
+										success:function(data){
+											data=data.data[0];
+											document.getElementById('commentList').innerHTML=template('initComment',data);
+											delayimg.render();
+										}
+									});
+								}
+								
+								if(data.Product.IsFavorite){
+									favProduct.className+=' red';
+								}else{
+									himall.removeClass(favProduct,' red');
+								}
+								
+								if (himall.ios()) {
+									if (!himall.isQQInstalled()&&!himall.isWXInstalled()){
+										document.getElementById('goodsShare').style.display='none';
+									}
+								}
+								
+								choose.innerHTML=template('skuInfo',data);
+								mui('.mui-numbox').numbox();
+								skuLen=choose.getElementsByClassName('choose-sku').length;
+                              	fullCut.innerHTML=template('fullCutTemplate',data);
+								
+								mui('#choose').off('tap','.enabled');
+								himallSku.setSKUInfo({
+									ajaxUrl:'api/product/GetSKUInfo',
+									productId:productId,
+									skuLen:skuLen,
+									callBack:function(select){
+										stock=select.Stock;
+										skuId=select.SkuId;
+									},
+									noStockCallBack:function(){
+										
+										easyBuyBtn.style.display=addToCart.style.display='none';
+										if(data.IsOnLimitBuy=='true'){
+											endTime.className+=' nobuy-time';
+											noStock.innerHTML="己抢光";
+										}else{											
+											noStock.innerHTML="己卖光";
+										}
+										noStock.style.display='block';
+									}
+								});
+								
+								//图片延时加载处理
+								document.getElementById('ProductDescription').innerHTML=himall.parseDomImg(data.Product.ProductDescription);
+								delayimg.init({offset:300,throttle:0});
+								
+								//限时购商品处理
+								if(data.IsOnLimitBuy=='true'){
+									limitBuyMax=data.MaxSaleCount;
+									title.innerText='限时折扣';
+									goCart.style.display=favProduct.style.display=addToCart.style.display='none';
+									endTime.style.display='block';
+									easyBuyBtn.className='buy cell limit-btn';
+									easyBuyBtn.innerText='立即抢购';
+									
+									intDiff=data.Second;
+									limitTime=setInterval(function () {
+							            var day=0,
+							            	hour = 0,
+							                minute = 0,
+							                second = 0;
+							            if (intDiff > 0) {
+							            	day = Math.floor(intDiff / (60 * 60 * 24));
+							                hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+							                minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+							                second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+							            }
+							            if (minute <= 9) minute = '0' + minute;
+							            if (second <= 9) second = '0' + second;
+							            endTime.innerHTML='<span class="iconfont icon-time"></span><em>'+day + '</em>天<em>'+hour + '</em>时<em>' + minute + '</em>分<em>' + second+'</em>秒';
+							            intDiff--;
+							        }, 1000);
+								}else{
+									intDiff=limitBuyMax=0;
+									title.innerText='商品详情';
+									goCart.style.display=favProduct.style.display=addToCart.style.display='block';
+									endTime.style.display='none';
+									easyBuyBtn.className='buy cell';
+									easyBuyBtn.innerText='立即购买';
+								}
+								if(data.Product.ProductSaleStatus==2 ||data.Product.AuditStatus!=2){
+									easyBuyBtn.style.display=addToCart.style.display='none';
+									endTime.className+=' nobuy-time';
+									noBuy.style.display='block';
+								}else{
+									easyBuyBtn.style.display='block';
+									if(!data.IsOnLimitBuy){
+										addToCart.style.display='block';
+									}
+									endTime.className='end-time';
+									noBuy.style.display='none';
+								}
+								
+								//拼团处理
+								if(data.IsFightGroupActive && data.ActiveStatus==0){
+									mui('.mui-content').on('tap', '#goGroup', function() {
+							            himall.openVW('merge-detail.html', {activeId: this.getAttribute('data-id')});
+							        });
+								}else{
+									mui('.mui-content').off('tap','#goGroup');
+								}
+								
+								w.close();
+								himall.removeClass(content,'transparent');
+								himall.removeAllClass(goodsBar,'transparent');
+							        //开启授权，显示门店信息
+								if (data.IsOpenStore) {
+								    LoadStore();
+								    //显示门店信息
+								}
+								//获取是否可以到店自提
+                            	getIsSelfTake();
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							himall.removeClass(content,'transparent');
+					        content.innerHTML='<div class="empty-show"><h4>网络不给力，请检查网络！</h4><button id="detailReload" class="mui-btn mui-btn-negative">重新加载</button></div>';
+						}
+					});
+				}
+				
+				mui('.mui-content').on('tap','#detailReload',function(){
+					window.clearInterval(limitTime);
+					skuLen=0;
+					loadPage();
+				});
+				
+				document.addEventListener('updateData',function(e){
+					window.clearInterval(limitTime);
+					skuLen=0;
+					productId=e.detail.productId;
+					loadPage();
+				})
+				
+				plus.key.addEventListener('backbutton',function(){
+					if(choose.className=='goods-sku active'){
+						mask.close();
+						return false;
+					}
+				});
+				
+				himall.stopHref(mui('#ProductDescription'));
+			});
+			
+			var showSkuChoose=function(){
+				if(!mask)
+					mask = mui.createMask(function(){choose.className='goods-sku';});
+				mask.show();
+				choose.className+=' active';
+			}
+			
+			mui.oldBack = mui.back;
+			mui.back = function(event) {
+				if(choose.className=='goods-sku active'){
+					mask.close();
+					return false;
+				}else
+				if(fullCut.className=='fullCut active'){
+					maskFullCut.close();
+					return false;  
+				}else{
+					mui.oldBack();
+				}
+			};
+			
+			
+			goodsBar.addEventListener('tap',function (e) {
+				var skuBtn=document.querySelector('.choose-sku-btn'),
+					confirmBuy=document.getElementById('confirmBuy'),
+					confirmCart=document.getElementById('confirmCart');
+				var targetId=e.target.id;
+				if(targetId=='addToCart'){
+					skuBtn.style.display='none';
+					confirmBuy.style.display='none';
+					confirmCart.style.display='block';
+					showSkuChoose();
+				}else if(targetId=='easyBuyBtn'){
+					skuBtn.style.display='none';
+					confirmCart.style.display='none';
+					confirmBuy.style.display='block';
+					showSkuChoose();
+				}
+			});
+			
+			mui('.mui-content').on('tap','#chooseSkuBtn',function(){
+				document.querySelector('.choose-sku-btn').style.display='block';
+				document.getElementById('confirmBuy').style.display='none';
+				document.getElementById('confirmCart').style.display='none';
+				showSkuChoose();
+			});
+			
+			
+			mui('#choose').on('tap','[data-type="cart"]',function(){
+				if(himall.isLogin()){
+					var len = choose.getElementsByClassName('selected').length;
+					if (len === skuLen) {
+						setTimeout(function(){
+							var count=document.getElementById('porductCount').value;
+							if(count<=stock){
+								var w=plus.nativeUI.showWaiting('',{padlock:true});
+								mui.ajax(URL+'api/Cart/PostAddProductToCart',{
+									data:himall.md5Data({skuId:skuId,count:count,userkey:userkey}),
+									dataType:'json',
+									type:'post',
+									timeout:10000,
+									success:function(data){
+										w.close();
+										if(data.Success=="true"){
+											mask.close();
+											plus.nativeUI.toast('加入购物车成功');
+											var plusOne=document.getElementsByClassName('plus-one')[0];
+											plusOne.innerText=count;
+											plusOne.className='plus-one animate';
+											setTimeout(function(){plusOne.className='plus-one';},1000)
+											
+										}else{
+											plus.nativeUI.toast('加入购物车失败');
+										}
+									},
+									error:function(xhr,type,errorThrown){
+										w.close();
+										plus.nativeUI.toast('加入购物车失败，请检查网络')
+									}
+								});
+							}else{
+								plus.nativeUI.toast('库存不足，当前规格库存为'+stock);
+							}
+						},100);	
+					}else{
+						plus.nativeUI.toast('请选择商品规格');
+					}
+				}else{
+					showLogin();
+				}
+			});
+			
+			mui('#choose').on('tap','[data-type="buy"]',function(){
+				if(himall.isLogin()){
+					var len = choose.getElementsByClassName('selected').length;
+					if (len === skuLen) {
+						setTimeout(function(){
+							var count=document.getElementById('porductCount').value;
+							if(limitBuyMax){
+								if(limitBuyMax<count){
+									plus.nativeUI.toast('此商品每人限购'+limitBuyMax);
+									return false;
+								}
+							}
+							if(count<=stock){
+								mask.close();
+								himall.openVW('order-submit.html',{skuIdCount:JSON.stringify({skuId:skuId,count:count})});
+							}else{
+								plus.nativeUI.toast('库存不足，当前规格库存为'+stock);
+							}
+						},100);
+					}else{
+						plus.nativeUI.toast('请选择商品规格');
+					}
+				}else{
+					showLogin();
+				}
+			});
+			
+			document.getElementById("favProduct").addEventListener('tap',function () {
+				var _this=this;
+				if(himall.isLogin()){
+					var w=plus.nativeUI.showWaiting('',{padlock:true});
+					mui.ajax(URL+'api/product/PostAddFavoriteProduct',{
+						data:himall.md5Data({productId:productId,userkey:userkey}),
+						dataType:'json',
+						type:'POST',
+						timeout:10000,
+						success:function(data){
+							w.close();
+							if(data.Success){
+								plus.nativeUI.toast(data.Msg);
+								if(himall.hasClass(_this,'red'))
+									_this.className=_this.className.replace(' red','');
+								else
+									_this.className+=' red';
+							}else{
+								plus.nativeUI.toast('收藏商品失败');
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							plus.nativeUI.toast('收藏失败，请检查网络')
+						}
+					});
+				}else{
+					showLogin();
+				}
+				
+			});
+			
+			mui(document).on('tap',"#Commission_btn",function(){
+				var _dgs=document.getElementById("goodsShare");
+				mui.trigger(_dgs,'tap');
+			});
+			//分享链接点击事件
+			mui(document).on('tap', '#goodsShare', function() {
+				var isPromoter = himall.getState().isPromoter;
+			var userId = himall.getState().userId;
+			var shareurl = URL+'product/detail/'+productId;
+			console.log("userId:"+userId);
+			console.log("isp:"+isPromoter);
+			if(userId>0 && isPromoter){
+				shareurl = shareurl+"?partnerid="+userId;
+			}
+			console.log("url:"+shareurl);
+				loadShare({
+					title:document.getElementById('pName').innerText,
+					href:shareurl,
+					pictures:shareImg,
+					content:document.getElementById('pShortName')? document.getElementById('pShortName').innerText:title
+				});
+			});
+			
+			mui('.mui-content').on('tap', '#goShopCoupon', function() {
+				if(himall.isLogin()){
+				if(this.getAttribute('data-vshopid')>0){
+					himall.openVW('vshop-coupon.html',{shopid:this.getAttribute('data-id')});
+				}else{
+					plus.nativeUI.toast('该店铺未开通微店，请到PC端去领取');
+				}
+				}else{
+					showLogin({id:'vshop-coupon.html',extras:{shopid:this.getAttribute('data-id')}});
+				}
+			});
+			
+				mui('.mui-content').on('tap', '#goods-fullCut', function() {
+			    showfullCut();
+			});  
+			
+			mui('#fullCut').on('tap', '.close_fullCut', function() {
+			    mui('.fullCut')[0].className='fullCut';  
+			    maskFullCut.close();    
+			});
+			//促销优惠
+			var maskFullCut;
+			var showfullCut=function(){
+				if(!maskFullCut)  
+				maskFullCut = mui.createMask(function(){mui('.fullCut')[0].className='fullCut';});
+				maskFullCut.show();
+				mui('.fullCut')[0].className+=' active';
+			}
+			
+			mui('.mui-content').on('tap', '#goshop', function() {
+				himall.openVW('vshop-detail.html',{vshopId:this.getAttribute('data-vshopid')})
+			});
+			
+			mui('.mui-content').on('tap', '#favShop', function() {
+				var _this=this;
+				if(himall.isLogin()){
+					var w=plus.nativeUI.showWaiting('',{padlock:true});
+					var shopid=_this.getAttribute('data-shopid');
+					mui.ajax(URL+'api/VShop/PostAddFavoriteShop',{
+						data: himall.md5Data({
+                        	shopId:shopid,
+                        	userkey:userkey
+                        }),
+						dataType:'json',
+						type:'POST',
+						timeout:10000,
+						success:function(data){
+							w.close();
+							if(_this.innerText=='关注'){
+								_this.innerText='已关注';
+							}else{
+								_this.innerText='关注';
+							}
+							console.log(_this.innerText)
+							plus.nativeUI.toast(data.Msg);
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							plus.nativeUI.toast('关注失败，请检查网络')
+						}
+					});
+				}else{
+					showLogin();
+				}
+			});
+			
+			mui('.mui-content').on('tap', '#productComBtn', function() {
+				himall.openVW('product-comment.html',{pId:productId});
+			});
+			
+			goCart.addEventListener('tap',function(){
+				if(himall.isLogin()){
+					himall.openVW('cart-box.html');
+				}else{
+					showLogin({id:'cart-box.html'});
+				}
+			});
+			//门店信息
+			function LoadStore(){
+						var fromLatLng = '';
+						if (navigator.geolocation){ 
+						    navigator.geolocation.getCurrentPosition(function(position){
+						    	var lat = position.coords.latitude; //纬度 
+								var lon = position.coords.longitude; //经度 
+								mui.ajax(TENXUNMAP, {
+				                    data: {
+				                    	locations: lat+','+lon,
+				                    	type: 1,
+				                    	key: MAPKEY
+				                    },
+				                    dataType: 'json',
+				                    type: 'get',
+				                    timeout: 10000,
+				                    success: function (data) {
+				                        lat = data.locations[0].lat;
+				                        lon = data.locations[0].lng;
+				                        fromLatLng = lat+','+lon;
+				    					if(fromLatLng==''){
+											plus.nativeUI.toast("请在系统设置中打开“定位服务“允许Himall商城获取您的位置");
+											return;
+										}
+					            		mui.ajax(URL + 'api/product/GetStroreInfo', {
+							                data: himall.md5Data({
+							                    shopId: shopId,
+							                    productId:productId,
+							                    fromLatLng:fromLatLng
+							                }),
+							                dataType: 'json',
+							                type: 'get',
+							                timeout: 10000,
+							                success: function (data) {
+							                    if (data.Success == true&&data.StoreInfo!=null) {
+							                       $(".j_storeName").html(data.StoreInfo.ShopBranchName);
+										            $(".j_distanceUnit").html('('+data.StoreInfo.DistanceUnit+')');
+										            $(".j_storeAddress").html(data.StoreInfo.AddressDetail);
+										            $(".j_storelist").html('查看全部'+data.Total+'家门店');
+										            $(".j_storesInfo").show();
+										             mui('body').on('tap', '.storeinfobox', function () {
+									                   		himall.openVW('shop-index.html', {Id: data.StoreInfo.Id });
+									                });
+									                 mui('body').on('tap', '.j_storelist', function (e) {
+														e.stopPropagation();
+									                   	himall.openVW('around-stores.html', {shopId: shopId});
+									                });
+									                
+							                    } else {
+							                        plus.nativeUI.toast(data.Message)
+							                    }
+							                },
+							                error: function (xhr, type, errorThrown) {
+							                    reloadWvLoad();
+							                }
+				            			});
+				                    },
+				                    error: function (xhr, type, errorThrown) {
+			                    	   console.log(errorThrown);  
+				                    }
+				                });
+				    			
+						    },function(error){
+						    	switch(error.code) { 
+								    case error.PERMISSION_DENIED: 
+								      plus.nativeUI.toast("定位失败,请检查是否允许定位"); 
+								      break; 
+								    case error.POSITION_UNAVAILABLE: 
+								      plus.nativeUI.toast("定位失败,位置信息是不可用"); 
+								      break; 
+								    case error.TIMEOUT: 
+								      plus.nativeUI.toast("定位失败,请求获取位置超时"); 
+								      break; 
+								    case error.UNKNOWN_ERROR: 
+								      plus.nativeUI.toast("定位失败,定位系统失效"); 
+								      break; 
+								} 
+						    });
+					    }else{
+					    	plus.nativeUI.toast("该浏览器不支持地理定位");
+					    }
+			}
+		 	//门店信息
+		</script>
+		
+		<script id="productInfo" type="text/html">
+			<div class="swiper-container product-detail" id="slider">
+		        <div class="swiper-wrapper">
+		        	{{each Product.ImagePath}}
+		            	<div class="swiper-slide "><div class="mui-zoom"><img src="{{$value}}" data-preview-src="" data-preview-group="1"></div></div>
+		            	
+		            {{/each}}
+		        </div>
+		        <div class="swiper-pagination"></div>
+		        {{if IsFightGroupActive}}
+					{{if ActiveStatus==0}}
+					<div id="goGroup" class="pro-type-tip act-ongoing" data-id="{{ActiveId}}">当前商品正在参加拼团活动，点击前往</div>
+					{{/if}}
+					{{if ActiveStatus==1}}
+					<div class="pro-type-tip act-will-start">拼团活动即将开始</div>
+					{{/if}}
+				{{/if}}
+	        </div>
+		        
+		    {{if IsDistribution == true && IsPromoter == true}}
+		        <div class="Commission_btn" id="Commission_btn">		  
+		        	<div>
+		        	   赚{{Brokerage}}元
+		        	 </div>
+		        </div>
+		    {{/if}}
+			
+			<ul class="mui-table-view table-goods-box">
+				<li class="mui-table-view-text">
+					<div class="goods-info">						  
+						<p class="p-price"><span>¥ {{Product.MinSalePrice.toFixed(2)}}</span><s>¥{{Product.MarketPrice}}</s></p>
+						<h3 id="pName">{{Product.ProductName}}</h3>
+						{{if Product.ShortDescription!=""}}
+							<h4 id="pShortName">{{Product.ShortDescription}}</h4>
+						{{/if}}
+					</div>
+				</li>
+				{{if Shop.FreeFreight!=0 || Shop.CouponCount!=0 || BonusCount!=0}}
+					<li class="mui-table-view-text">
+						<div class="goods-onsale">
+							{{if Shop.CouponCount!=0}}
+								<p class="goods-coupon" id="goShopCoupon" data-id="{{Shop.Id}}" data-vshopid="{{Shop.VShopId}}"><i>优惠券</i>{{Shop.CouponCount}} 张可领优惠券<em class="iconfont icon-more"></em></p>
+							{{/if}} 
+							{{if Shop.FreeFreight!=0 || BonusCount!=0 || fullDiscount!=null}}  
+							    <p id="goods-fullCut" class="fullCut_show"><i>促销优惠</i>
+							    <span class="father"> 	
+							    {{if Shop.FreeFreight!=0}}
+							        <span>满{{Shop.FreeFreight}}免运费 </span>
+							    {{/if}}  
+							    {{if BonusCount!=0}}
+							        <span>满{{BonusGrantPrice}}送{{BonusCount}}个代金红包  </span>
+							    {{/if}}
+							    {{if fullDiscount!=null}}  
+							        <span>满{{fullDiscount.Rules[0].Quota.toFixed(2)}}减{{fullDiscount.Rules[0].Discount.toFixed(2)}} </span>
+							    {{/if}}  
+							    </span>
+							    <em class="iconfont icon-more"></em></p>
+							{{/if}}
+						</div>
+						<div class="product-address">
+							<i class="iconfont icon-address"></i>{{ProductAddress}}<span>{{Free}}</span>
+						</div>
+						<div class="goods-service">
+							{{if CashDepositsServer.IsCustomerSecurity}}
+								<span><i class="iconfont icon-ensure"></i>消费者保障</span>
+							{{/if}}
+							{{if CashDepositsServer.IsSevenDayNoReasonReturn}}
+								<span><i class="iconfont icon-ensure"></i>七天无理由</span>
+							{{/if}}
+							{{if CashDepositsServer.IsTimelyShip}}
+								<span><i class="iconfont icon-ensure"></i>及时发货</span>
+							{{/if}}
+						</div>
+					</li>
+				{{/if}}
+			</ul>
+			<ul class="mui-table-view table-goods-box" id="chooseSkuBtn">
+				<li class="mui-table-view-text">
+					<div class="goods-comment">
+						<span>选择规格</span>
+						<b class="mui-pull-right"><i class="iconfont icon-more"></i></b>
+					</div>
+				</li>
+			</ul>
+			<ul class="mui-table-view table-goods-box j_storesInfo" style="display:none">
+				<li class="mui-table-view-text product-store-title">
+					<div class="goods-comment storeinfobox">
+						 <h1><b class="j_storeName"></b><span class="j_distanceUnit"></span><i class="ic-arrow"></i></h1> 
+						 <p class="j_storeAddress"></p>
+						 <a class="j_storelist"></a>
+					</div>
+				</li>
+			</ul>
+			<ul class="mui-table-view table-goods-box">
+				<li class="mui-table-view-text">
+					<div class="goods-comment">
+						<span>商品评价</span>
+						<em class="mui-pull-right"><i class="iconfont icon-daipingjia"></i>{{Product.CommentCount}}</em>
+					</div>
+				</li>
+				<ul class="comment-list" id="commentList"></ul>
+			</ul>
+			
+			<ul class="mui-table-view table-goods-box">
+				<li class="mui-table-view-text">
+					<div class="goods-shop">
+						<img src="{{VShopLog||'images/logo.png'}}"/>
+						<h4>{{Shop.Name}}</h4>
+						<h5>宝贝数量：<span>{{Shop.ProductNum}}</span>关注人数：<span>{{Shop.FavoriteShopCount}}</span></h5>
+						<p>
+							<span>商品：<em>{{Shop.ProductAndDescription.toFixed(2)}}</em></span>
+							<span>发货：<em>{{Shop.SellerServiceAttitude.toFixed(2)}}</em></span>
+							<span>服务：<em>{{Shop.SellerDeliverySpeed.toFixed(2)}}</em></span>
+						</p>
+						<div class="goods-shop-btn">
+							{{if Shop.VShopId!=-1}}
+								<span><a id="goshop" data-vshopid="{{Shop.VShopId}}">进入店铺</a></span>
+							{{/if}}
+							<span><a id="favShop" data-shopid="{{Shop.Id}}">{{IsFavoriteShop?'已关注':'关注'}}</a></span>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<div class="p-detail-more"><span>拖动查看详情</span></div>
+			<div class="p-detail mt10">
+				<h4>商品图文详情</h4>
+				<div class="p-detail-html" id="ProductDescription"></div>
+			</div>
+		</script>
+		
+		<script id="skuInfo" type="text/html">
+			<div class="choose-head border-bot">
+				<img id="colorImg" src="{{Product.ImagePath[0]||'images/logo.png'}}">
+				<p><em id="pPrice">¥ {{Product.MinSalePrice.toFixed(2)}}</em></p>
+				<p>库存 <span id="stock">0</span> 件</p>
+			</div>
+			{{if Color.length>0}}
+				<div class="choose-sku">
+					<label>{{ColorAlias}}</label>
+					<div class="mui-clearfix">
+						{{each Color}}
+							<span st="0" cid="{{$value.SkuId}}" data-img="{{$value.Img}}" class="enabled">{{$value.Value}}</span>
+						{{/each}}
+					</div>
+				</div>
+			{{/if}}
+			{{if Size.length>0}}
+				<div class="choose-sku">
+					<label>{{SizeAlias}}</label>
+					<div class="mui-clearfix">
+						{{each Size}}
+							<span st="1" cid="{{$value.SkuId}}" class="enabled">{{$value.Value}}</span>
+						{{/each}}
+					</div>
+				</div>
+			{{/if}}
+			{{if Version.length>0}}
+				<div class="choose-sku">
+					<label>{{VersionAlias}}</label>
+					<div class="mui-clearfix">
+						{{each Version}}
+							<span st="2" cid="{{$value.SkuId}}" class="enabled">{{$value.Value}}</span>
+						{{/each}}
+					</div>
+				</div>
+			{{/if}}
+			<div class="goods-num">
+				<label>数量</label>
+				<div id="pMaxCount" class="mui-numbox" data-numbox-min="1">
+					<button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
+					<input id="porductCount" class="mui-numbox-input" type="number" value="1" />
+					<button class="mui-btn mui-numbox-btn-plus" type="button">+</button>
+				</div>
+				{{if IsOnLimitBuy=="true"}}
+					<i class="limit-count">同ID限购{{MaxSaleCount}}件</i>
+				{{/if}}
+			</div>
+			<a class="custom-btn" id="confirmCart" data-type="cart">确 定</a>
+			<a style="display:none" class="custom-btn" id="confirmBuy" data-type="buy">确 定</a>
+			<div class="choose-sku-btn">
+				{{if IsOnLimitBuy=="true"}}
+					<span data-type="buy" style="width: 100%;">立即购买</span>
+				{{else}}
+					<span data-type="cart">加入购物车</span><span data-type="buy">立即购买</span>
+				{{/if}}
+			</div>
+		</script>
+		
+		<script type="text/html" id="fullCutTemplate">
+			<div class="fullCut_table">
+				   {{if Shop.FreeFreight!=0}}
+				       <div class="fullCut_table_row">
+					 	   <div class="fullCut_table_cell title">满额包邮</div>
+					 	   <div class="fullCut_table_cell">
+					        <span>满￥{{Shop.FreeFreight}}免运费 </span>
+					 	   </div> 
+				 	   </div>
+				    {{/if}}  
+				     {{if fullDiscount!=null}}  
+				       <div class="fullCut_table_row">
+					        <div class="fullCut_table_cell title">满额减</div>
+					 	    <div class="fullCut_table_cell">
+					 	    	  {{each fullDiscount.Rules as item i}}  
+					               <span>满 ￥{{item.Quota.toFixed(2)}} 减  ￥{{item.Discount.toFixed(2)}}</span>
+					              {{/each}} 
+					 	    </div>
+				 	   </div> 
+				    {{/if}} 
+				    {{if BonusCount!=0}}
+				       <div class="fullCut_table_row">
+				        <div class="fullCut_table_cell title">满就送</div>
+				 	    <div class="fullCut_table_cell">
+				          <span>满￥{{BonusGrantPrice}}元送红包({{BonusCount}}个{{BonusRandomAmountStart}}—{{BonusRandomAmountEnd}}元代金券红包)</span>
+				 	    </div> 
+				       </div> 
+				    {{/if}}
+			</div> 
+		    <div class="close_fullCut"></div>
+		</script>
+		<script type="text/html" id="initComment">
+			<li class="border-top">
+			<h3>{{UserName}}</h3>
+			<p>{{ReviewContent}}</p>
+			<h5>{{ReviewDate.replace(/-/g,'.').replace('T',' ')}} &nbsp; {{Sku}}</h5>
+			{{if Images.length>0}}
+				<div class="comment-img cl">
+					{{each Images}}
+						<div><img src="images/blank.gif" data-delay="{{$value}}" /></div>
+					{{/each}}
+				</div>
+			{{/if}}
+			</li>
+			<li>
+			  <div class="goods-shop-btn">
+				<span><a id="productComBtn">查看全部评价</a></span>
+		   	</div>
+			</li>
+		</script>
+	</body>
+
+</html>

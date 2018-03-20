@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "EMailGroupMessage";
+}
+<link href="/Content/WXmsg.css" rel="stylesheet" />
+<script src="~/Scripts/ueditor/ueditor.config.js"></script>
+<script src="~/Scripts/ueditor/ueditor.all.min.js"></script>
+<script src="~/Areas/Admin/Scripts/MessageGroupEmail.js"></script>
+
+  <div class="container">
+      <ul class="nav nav-tabs-custom clearfix">
+          <li><a href="WXGroupMessage">群发微信消息</a></li>
+          <li class="active"><a >群发邮件</a></li>
+          <li><a href="PhoneGroupMessage">群发短信</a></li>
+          <li><a href="CouponGroupMessage">群发优惠券</a></li>
+          <li><a href="Management">已发送消息</a></li>
+      </ul>
+      <h5 class="tips-top"><span class="help-default"><i></i>说明：未绑定邮箱的会员无法收到您群发的邮件</span></h5>
+        <div class="email-all">
+            <div class="coverage"></div>
+            <div class="object-choice">
+                <i>群发对象</i>
+                <p><label><input type="radio" id="allLabel" name="label" >全部会员</label><label><input checked type="radio" name="label">按标签<em class="tag-choice" id="selectLabel">选择</em></label></p>
+                 <p class="tag-area">
+                                @*<span labelid="">新会员</span><span>80后</span>*@
+                 </p>
+            </div>
+            <div class="dialog-tag">
+                <h3>勾选标签<span class="glyphicon glyphicon-remove"></span></h3>
+                <p class="clearfix">
+                    @if (ViewBag.LabelInfos != null)
+                    {
+                        var labelinfos = (IEnumerable<Himall.Model.LabelInfo>)ViewBag.LabelInfos;
+                        foreach (var label in labelinfos)
+                        {
+                            <label>
+                                @Html.CheckBox("check_Label", new { value = label.LabelName, id = "check_" + label.Id, datavalue = label.Id })
+                                @label.LabelName
+                            </label>
+                        }
+                    }
+                    <span style="clear:both"></span>
+                </p>
+
+                <h5><span class="tag-submit" style="cursor:pointer;">确认</span><span class="tag-back" style="cursor:pointer;">返回</span></h5>
+            </div>
+            <div style="clear: both"></div>
+
+            <div class="email-content">
+                 <h5>邮件标题</h5>
+                 <input type="text" id="title">
+                <h5>邮件正文</h5>
+                <textarea id="contentDesc1"></textarea>
+            </div>
+            <button class="btn btn-primary btn-sm" id="SendMsg"  style="margin:25px 0 0 415px;font-size:14px;cursor:pointer">群发</button>
+        </div>
+    </div>

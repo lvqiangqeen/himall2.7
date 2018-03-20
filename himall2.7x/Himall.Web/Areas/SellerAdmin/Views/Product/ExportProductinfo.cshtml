@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Himall.Web.Areas.SellerAdmin.Models.ProductInfoForExportModel>
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+    <thead>
+        <tr>
+            <th colspan="13">商品基本信息</th>
+            <th colspan="4">规格信息</th>
+        </tr>
+        <tr>
+            <th>商品</th>
+            <th>商品货号</th>
+            <th>商家分类</th>
+            <th>品牌</th>
+            <th>审核状态</th>
+            <th>审核备注</th>
+            <th>发布时间</th>
+            <th>销售状态</th>
+            <th>市场价</th>
+            <th>商城价</th>
+            <th>库存</th>
+            <th>计量单位</th>
+            <th>是否开启规格</th>
+            <th>规格</th>
+            <th>价格</th>
+            <th>库存</th>
+            <th>货号</th>
+        </tr>
+    </thead>
+    <tbody id="list-table-body">
+        @foreach (var item in Model)
+        {
+            int rowcount = 1;
+            if (item.SKUInfo != null && item.HasSKU)
+            {
+                rowcount = item.SKUInfo.Count();
+            }
+            <tr>
+                <td rowspan='@rowcount'>@item.ProductName</td>
+                <td rowspan='@rowcount'>@item.ProductCode</td>
+                <td rowspan='@rowcount'>@item.CategoryName</td>
+                <td rowspan='@rowcount'>@item.BrandName</td>
+                <td rowspan='@rowcount'>@item.AuditStatus.ToDescription()</td>
+                <td rowspan='@rowcount'>@item.AuditReason</td>
+                <td rowspan='@rowcount'>@item.AddedDate.ToString("yyyy-MM-dd HH:mm")</td>
+                <td rowspan='@rowcount'>@item.SaleStatus.ToDescription()</td>
+                <td rowspan='@rowcount'>@item.MarketPrice.ToString("F2")</td>
+                <td rowspan='@rowcount'>@item.MinSalePrice.ToString("F2")</td>
+                <td rowspan='@rowcount'>@item.SKUInfo.Sum(r=>r.Stock)</td>
+                <td rowspan='@rowcount'>@item.MeasureUnit</td>
+                <td rowspan='@rowcount'>@(item.HasSKU ? "是" : "否")</td>
+                @if (item.HasSKU&&@rowcount>1)
+                {
+                    <td>@item.SKUInfo.First().Color @item.SKUInfo.First().Size @item.SKUInfo.First().Version</td>
+                    <td>@item.SKUInfo.First().SalePrice.ToString("F2")</td>
+                    <td>@item.SKUInfo.First().Stock</td>
+                    <td>@item.SKUInfo.First().Sku</td>
+                }
+                else
+                {
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                }
+            </tr>
+            if (item.HasSKU && item.SKUInfo.Count() >= 2)
+            {
+                int index = 1;
+                foreach (var skuitem in item.SKUInfo)
+                {
+                    if (index >= 2)
+                    {
+                        <tr>
+                            <td>@skuitem.Color @skuitem.Size @skuitem.Version</td>
+                            <td>@skuitem.SalePrice.ToString("F2")</td>
+                            <td>@skuitem.Stock</td>
+                            <td>@skuitem.Sku</td>
+                        </tr>
+                    }
+                    index++;
+                }
+            }
+        }
+    </tbody>
+</table>

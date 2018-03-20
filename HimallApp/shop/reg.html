@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>注册页面</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<link href="css/account.css" rel="stylesheet"/>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">注册</h1>
+		</header>
+		<div class="mui-content transparent">
+			<div class="mui-input-group" id="nomarlReg">
+				<div class="mui-input-row">
+					<label>账号</label>
+					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+				</div>
+				<div class="mui-input-row mui-password">
+					<label>密码</label>
+					<input id='password' type="password" class="mui-input-password mui-input" placeholder="请输入密码">
+				</div>
+				
+				<div class="mui-input-row mui-password">
+					<label>确认</label>
+					<input id='password_confirm' type="password" class="mui-input-password mui-input" placeholder="请确认密码">
+				</div>
+				<div id="emailCheck" style="display: none;">
+					<div class="mui-input-row">
+						<label>邮箱</label>
+						<input id='email' type="email" class="mui-input-clear mui-input" placeholder="请输入邮箱">
+					</div>
+					<div class="mui-input-row">
+						<label>邮箱验证</label>
+						<input id='emailCode' type="number" class="mui-input input-half" ><a class="input-btn" id="getCode">获取验证码</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class="mui-input-group" id="phoneReg">
+				<div class="mui-input-row">
+					<label>手机号</label>
+					<input id='account' type="number" class="mui-input-clear mui-input" placeholder="请输入手机号">
+				</div>
+				<div class="mui-input-row">
+					<label>验证码</label>
+					<input id="imgCode" type="text"  class="mui-input" placeholder="图片点击可更改"/>
+					<span class="vertify-code"><img id="vertifyImg" src="images/blank.gif"></span>
+				</div>
+				<div class="mui-input-row mui-password">
+					<label>密码</label>
+					<input id='password' type="password" class="mui-input-password mui-input" >
+				</div>
+				<div class="mui-input-row mui-password">
+					<label>重复密码</label>
+					<input id='password_confirm' type="password" class="mui-input-password mui-input">
+				</div>
+				<div class="mui-input-row">
+					<label>手机验证</label>
+					<input id='phoneCode' type="number" class="mui-input input-half" ><a class="input-btn" id="getCode">获取验证码</a>
+				</div>
+			</div>
+			
+			<div class="mui-content-padded">
+				<button id='reg' class="mui-btn mui-btn-block mui-btn-danger">注册</button>
+			</div>
+			<div class="mui-content-padded">
+				<p>欢迎注册，注册后请妥善保存您的账户密码。</p>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script>
+			mui.init({swipeBack: true});
+			mui.plusReady(function() {
+				var w=plus.nativeUI.showWaiting('',{padlock:true}),
+					nomarlReg=document.getElementById('nomarlReg'),
+					phoneReg=document.getElementById('phoneReg'),
+					regBtn=document.getElementById('reg'),
+					codeId;
+				mui.ajax(URL+'api/Register/GetRegisterType',{
+					data:himall.md5Data(),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(!data.RegisterType){
+							if(data.RegisterEmailRequired){
+								document.getElementById('emailCheck').style.display='block';
+							}
+							//普通注册
+							phoneReg.parentNode.removeChild(phoneReg);
+							var accountBox = document.getElementById('account'),
+								passwordBox = document.getElementById('password'),
+								passwordConfirmBox = document.getElementById('password_confirm'),
+								emailBox=document.getElementById('email'),
+								emailCode=document.getElementById('emailCode');
+							
+							if (data.RegisterEmailRequired){
+								getCodeFn('email','email');
+							}
+							
+							regBtn.addEventListener('tap', function(event) {
+								var regInfo = {
+									account: accountBox.value,
+									password: passwordBox.value,
+									email: emailBox.value,
+									emailCode:emailCode.value
+								};
+								var passwordConfirm = passwordConfirmBox.value;
+								if (passwordConfirm != regInfo.password) {
+									plus.nativeUI.toast('密码两次输入不一致');
+									return;
+								}
+								if (data.RegisterEmailRequired){
+									if (!himall.checkEmail(emailBox.value)) {
+										plus.nativeUI.toast('邮箱地址不合法');
+										return;
+									}
+									if (emailCode.value.length < 4) {
+										plus.nativeUI.toast('请输入4位验证码');
+										return;
+									}
+								}
+								himall.reg(regInfo, function(err,data) {
+									if (err) {
+										plus.nativeUI.toast(err);
+										return;
+									}
+									plus.nativeUI.toast('注册成功'+(data.CouponNum>0?'，获得'+data.CouponNum+'张赠送优惠券':''));
+									plus.webview.currentWebview().close();
+								});
+							});
+						}else{
+							//手机注册
+							nomarlReg.parentNode.removeChild(nomarlReg);
+							var accountBox = document.getElementById('account'),
+								passwordBox = document.getElementById('password'),
+								passwordConfirmBox = document.getElementById('password_confirm'),
+								codeImg=document.getElementById("vertifyImg"),
+								loadCode=function(){
+									mui.ajax(URL+'api/Login/GetImageCheckCode',{
+										data:himall.md5Data(),
+										dataType:'json',
+										type:'get',
+										timeout:10000,
+										success:function(data){
+											codeImg.src='data:'+data.ContentType+';base64,'+data.FileContents;
+											codeId=data.Id;
+										}
+									});
+								}
+							loadCode();
+							
+							codeImg.addEventListener('tap',function(){
+								loadCode();
+							});
+							
+							var imgCode=document.getElementById("imgCode"),
+								phoneCode=document.getElementById("phoneCode"),
+								time;
+							
+							getCodeFn('phone','account','imgCode');
+			
+							regBtn.addEventListener("tap",function(){
+								if(accountBox.value.length != 11){
+									plus.nativeUI.toast('请输入正确的手机号');
+									return;
+								};
+								if(passwordBox.value.length < 6){
+									plus.nativeUI.toast('密码最短为 6 个字符');
+									return;
+								};
+								if (passwordConfirmBox.value != passwordBox.value) {
+									plus.nativeUI.toast('密码两次输入不一致');
+									return;
+								};
+								if(phoneCode.value<4){
+									plus.nativeUI.toast('验证码不正确！');
+									return;
+								};
+								var w=plus.nativeUI.showWaiting('',{padlock:true});
+								mui.ajax(URL+'api/Register/GetCheckPhoneOrEmailCheckCode',{
+									data:himall.md5Data({
+										checkCode:phoneCode.value,
+										contact:accountBox.value
+									}),
+									dataType:'json',
+									type:'get',
+									timeout:10000,
+									success:function(data){
+										if(data.success){
+											mui.ajax(URL+'api/Register/PostRegisterUser',{
+												data:himall.md5Data({
+													userName:accountBox.value,
+													password:passwordBox.value,
+													code:phoneCode.value
+												}),
+												dataType:'json',
+												type:'post',
+												timeout:10000,
+												success:function(data){
+													if(data.Success=="true"){
+														w.close();
+														plus.nativeUI.toast('注册成功'+(data.CouponNum>0?'，获得'+data.CouponNum+'张赠送优惠券':''));
+														plus.webview.currentWebview().close();
+													}
+												},
+												error:function(xhr,type,errorThrown){
+													w.close();
+													plus.nativeUI.toast('注册失败，请检查网络');
+												}
+											});								
+										}else{
+											w.close();
+											plus.nativeUI.toast(data.msg);
+										}
+									}
+								});
+							});
+						}
+						
+						w.close();
+						himall.removeClass(document.querySelector('.mui-content'),'transparent');
+					}
+				});
+				
+				function getCodeFn(type,contact,code){
+					var getCode=document.getElementById("getCode"),
+						contactEl=document.getElementById(contact),
+						codeEl=(code?document.getElementById(code):null),
+						flag=false;
+					getCode.addEventListener("tap",function(){
+						var contact=contactEl.value,
+							data={};
+						if(flag)
+							return;
+						
+						if(type=='phone'){
+							var checkCode=codeEl.value;
+							if(contact.length != 11){
+								plus.nativeUI.toast('手机号码为11位');
+								return;
+							}
+							if(checkCode.length<4){
+								plus.nativeUI.toast('请输入4位验证码');
+								return;
+							}
+							data={contact:contact,imageCheckCode:checkCode,id:codeId};
+						}else{
+							if (!himall.checkEmail(contact)) {
+								plus.nativeUI.toast('请输入正确的邮箱地址');
+								return;
+							}
+							data={contact:contact};
+						}
+						var w=plus.nativeUI.showWaiting('',{padlock:true});
+						
+						mui.ajax(URL+'api/Register/GetPhoneOrEmailCheckCode',{
+							data:himall.md5Data(data),
+							dataType:'json',
+							type:'get',
+							timeout:10000,
+							success:function(data){
+								w.close();
+								if(data.success){
+									plus.nativeUI.toast('验证码已发送，请注意查收');
+									flag=true;
+									var total=60;
+									time=setInterval(function(){
+										if(total>0){
+											total--;
+											getCode.innerText=total+'s后可重发';
+										}else{
+											getCode.innerText='重新发送';
+											clearInterval(time);
+											flag=false;
+										}
+									},1000)				
+								}else{
+									plus.nativeUI.toast(data.msg);
+								}
+							}
+						});
+					});
+				}
+			});
+		</script>
+	</body>
+
+</html>

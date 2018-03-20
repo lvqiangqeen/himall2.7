@@ -1,0 +1,41 @@
+﻿<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+       
+        <li class="active"><a>微店列表</a></li>
+        <li><a href="./HotVShop">热门微店管理</a></li>
+        <li><a href="./TopShop">主推微店管理</a></li>
+    </ul>
+    <div class="search-box">
+        <form class="custom-inline form-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">微店名称</label>
+                <input class="form-control input-ssm" type="text" id="vshopName">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">微店类型</label>
+                <select class="form-control input-ssm" id="vshopState">
+                    <option value="">全部微店</option>
+                    <option value="0">普通微店</option>
+                    <option value="2">热门微店</option>
+                    <option value="1">主推微店</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm clear-v46" onclick="bindSearchBtn()" id="searchButton">搜索</button>
+            </div>
+        </form>
+    </div>
+    <table id="list" class="table"></table>
+</div>
+<input type="hidden" id="categoryId" value="" />
+
+<div class="mobile-dialog">
+    <iframe name="mobile-iframe" id="mobileshow" frameborder="0" scrolling="auto" src="about:blank"></iframe>
+</div>
+<div class="cover"></div>
+
+
+
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Areas/Admin/Scripts/vshopManagemengt.js"></script>

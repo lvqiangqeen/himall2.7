@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<title>个人信息</title>
+<link type="text/css" href="../../Content/mui.min.css" rel="stylesheet" />
+<link type="text/css" href="../../Content/custom.css" rel="stylesheet" />
+</head>
+
+<body>
+<header class="mui-bar mui-bar-nav">
+	<a class="mui-action-back mui-icon mui-pull-left back">返回</a>
+	<h1 class="mui-title">个人信息</h1>
+</header>
+ 
+<div id='company' class="info_container">
+	<div class="info_title">个人信息</div>
+	<form class="mui-input-group">
+		<div class="mui-input-row">
+			<label>姓名</label>
+			<input type="text" class="mui-input" placeholder="何安下">
+		</div>
+		<div class="mui-input-row select-addr">
+			<label>所在地区</label>
+			<input id="showCity" type="text" readonly="readonly" class="mui-input" placeholder="选择省、市、区">
+		</div>
+		<div class="mui-input-row select-addr" id="streetLine">
+			<label>街道</label>
+			<input id="showStreet" type="text" readonly="readonly" class="mui-input" placeholder="选择街道">
+		</div>
+		<div class="mui-input-row" id="detailaddr">
+			<label>详细地址</label>
+			<input type="text" class="mui-input" placeholder="小区/楼层等">
+			<span class="icon_clear"></span>
+		</div>
+	</form>
+    
+	<div class="info_title">身份信息</div>
+   	<div class="yingye_box">	
+	<form class="mui-input-group">
+		<div class="mui-input-row select-addr">
+			<label>身份证号</label>
+			<input id="cardId" type="text" class="mui-input" placeholder="">
+		</div>
+	</form>        
+    	<div class="license">
+            <span>身份证照片</span>
+            <div class="card_box">
+            	<ul>
+                	<li class="fl">
+                       <div class="card_img"><img src="../../Images/ic_plus.png" /></div>
+                       <span>正面</span>
+                    </li>
+                	<li class="fr">
+                        <div class="card_img"><img src="../../Images/ic_plus.png" /></div>
+                        <span>反面</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+     	 
+    </div>
+    
+	<div class="info_title">管理员信息</div>
+    
+    <div class="manage_box">
+	<form class="mui-input-group">
+		<div class="mui-input-row">
+			<label>管理员</label>
+			<input type="text" class="mui-input" placeholder="请输入管理员姓名">
+		</div>
+		<div class="mui-input-row">
+			<label>手机</label>
+			<input type="text" class="mui-input width_input" placeholder="18638236220">
+			<span id="codebtn">获取验证码</span>
+		</div>
+		<div class="mui-input-row">
+			<label>验证码</label>
+			<input type="text" class="mui-input" placeholder="">
+		</div>
+	</form>
+	</div>
+
+
+	<div class="btn-area">
+		<button type="button" class="mui-btn mui-btn-block default-btn">下一步</button>
+	</div>
+</div>
+
+<script type="text/javascript">
+    var isBlur = true;
+	$('#detailaddr input').on('focus',function(){
+		$('.icon_clear').show();
+	})
+	$('#detailaddr input').on('blur',function(e){
+			setTimeout(function(){
+				if(isBlur){
+					$('.icon_clear').hide();
+				}
+			},300);
+	})
+	$('#detailaddr .icon_clear').on('click',function(e){
+		$("#detailaddr input").val('');
+		$('#detailaddr input').focus();
+		isBlur = false;
+		setTimeout(function(){
+			isBlur = true;
+		},400);
+	})
+	var regionid,
+				streetList=[],
+				showStreet=document.getElementById('showStreet'),
+				showCity=document.getElementById('showCity'),
+				streetLine=document.getElementById("streetLine");
+	$(function(){
+	　　 $.ajax({
+		    url:'/common/RegionAPI/GetAllRegion',
+		    type:'get', //GET
+		    async:true,    //或false,是否异步
+		    data:{
+		    },
+		    timeout:10000,    //超时时间
+		    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+		    success:function(data,textStatus,jqXHR){
+		        var cityPicker3 = new mui.PopPicker({
+					layer: 3
+				}); 
+				cityPicker3.setData(data);
+				
+				showCity.addEventListener('tap',function(){
+					var focus=document.querySelector(':focus');
+					if(focus)
+						focus.blur();
+					cityPicker3.show(function(items) {
+						showCity.value = (items[0].Name || '') + " " + (items[1].Name || '') + " " + (items[2].Name || '');
+						showStreet.value='请选择街道';
+						if(!items[1].Id){
+							regionid=items[0].Id;
+							streetLine.style.display='none';
+						}else{
+							if(!items[2].Id){
+								regionid=items[1].Id;
+								streetLine.style.display='none';
+							}else{
+								$.ajax('/common/RegionAPI/GetSubRegion?parent='+items[2].Id,{
+									dataType:'json',
+									type:'get',
+									timeout:10000,
+									success:function(data){
+										if(data.length>0){
+											streetList = data;
+											regionid='';
+											streetLine.style.display='block';
+										}else{
+											regionid=items[2].Id;
+											streetLine.style.display='none';
+											
+										}
+									}
+								});
+							}
+						}
+						
+					});
+				},false);
+		    }
+		})
+		showStreet.addEventListener('tap',function(){
+			if(streetList.length<1){
+				alert('请先选择地区');
+				return;
+			}
+			
+			var userPicker = new mui.PopPicker();
+			userPicker.setData(streetList);
+			userPicker.show(function(items) {
+				showStreet.value=items[0].Name;
+				regionid = items[0].Id;
+			});
+		});
+	}); 
+
+</script>
+
+
+
+</body>
+</html>
+    

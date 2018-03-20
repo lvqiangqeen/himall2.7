@@ -1,0 +1,10 @@
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhaijisong\bin\Debug\plugin.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhaijisong\bin\Debug\Himall.Plugin.Express.Zhaijisong.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhaijisong\bin\Debug\Himall.Plugin.Express.Zhaijisong.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhaijisong\bin\Debug\Himall.Core.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhaijisong\bin\Debug\Himall.ExpressPlugin.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhaijisong\bin\Debug\Himall.ExpressPlugin.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhaijisong\bin\Debug\Himall.Core.xml
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhaijisong\obj\Debug\Himall.Plugin.Express.Zhaijisong.csprojResolveAssemblyReference.cache
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhaijisong\obj\Debug\Himall.Plugin.Express.Zhaijisong.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhaijisong\obj\Debug\Himall.Plugin.Express.Zhaijisong.pdb

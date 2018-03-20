@@ -1,0 +1,15 @@
+﻿@{
+    Layout = null;
+}
+@model Himall.DTO.Theme
+
+@if (Model.TypeId == Himall.CommonModel.ThemeType.Customize)
+{
+    <style>
+        /*主色*/
+        #toSettlement,#checkout .payment-dialog .pd-commit,.ftx-05,.checkout-buttons .checkout-submit,#checkout .btn-submit span { background-color: @Model.MainColor ; }
+        /*字体*/
+        a:hover,#checkout a.return-edit, #checkout a.return-edit:visited,.order-summary .statistic .offline-icon,.checkout-steps .step-action a, .checkout-steps .step-action a:visited,
+        .checkout-steps .step-action a:hover,.sticky-placeholder .sticky-wrap .offline-icon{color: @Model.WritingColor ;}
+    </style>
+}

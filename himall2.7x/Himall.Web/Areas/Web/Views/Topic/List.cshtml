@@ -1,0 +1,20 @@
+﻿@model Himall.Model.TopicInfo
+@{
+    ViewBag.Title = "推荐专题";
+    var TopicInfo = (IEnumerable<Himall.Model.TopicInfo>)ViewBag.TopicInfo;
+}
+
+
+<div class="warp">       
+	<ul  class="topic-list cl" id="topicUl">
+		@foreach (var item in (TopicInfo))
+		{
+			<li>
+				<h3>@item.Name</h3>
+				<a href="./Detail/@item.Id"><span><img alt="@item.Name" src="@Himall.Core.HimallIO.GetImagePath(item.TopImage)" /></span></a>
+			</li>
+		}
+	</ul>
+</div>
+<div class="loading" id="autoLoad"><span></span></div>
+<script src="~/Areas/Web/Scripts/topicList.js"></script>

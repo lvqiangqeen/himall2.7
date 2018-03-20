@@ -1,0 +1,16 @@
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_App\bin\Debug\logo.gif
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_App\bin\Debug\plugin.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_App\bin\Debug\data.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_App\bin\Debug\alipay.gif
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_App\bin\Debug\Himall.Plugin.Payment.Alipay_App.dll.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_App\bin\Debug\Himall.Plugin.Payment.Alipay_App.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_App\bin\Debug\Himall.Plugin.Payment.Alipay_App.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_App\bin\Debug\Himall.Core.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_App\bin\Debug\Himall.PaymentPlugin.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_App\bin\Debug\Himall.Plugin.Payment.Alipay.Base.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_App\bin\Debug\Himall.PaymentPlugin.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_App\bin\Debug\Himall.Plugin.Payment.Alipay.Base.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_App\bin\Debug\Himall.Core.xml
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_App\obj\Debug\Himall.Plugin.Payment.Alipay_App.csprojResolveAssemblyReference.cache
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_App\obj\Debug\Himall.Plugin.Payment.Alipay_App.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_App\obj\Debug\Himall.Plugin.Payment.Alipay_App.pdb

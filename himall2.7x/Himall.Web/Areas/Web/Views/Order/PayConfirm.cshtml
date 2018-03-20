@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "订单支付";
+    Layout = "~/Areas/Web/Views/Shared/_PayTopBar.cshtml";
+    var orders = (IEnumerable<Himall.Model.OrderInfo>)ViewBag.Orders;
+}
+<form action="PayConfirm" method="Post">
+    <div class="w990 main">
+        <div class="m mainbody">
+            <div class="mc">
+                <s class="icon-succ04"></s>
+                <h3 class="orderinfo">您的订单已提交！</h3>
+                <ul class="list-orderinfo">
+                    @{var ids = orders.Select(a => a.Id).ToArray();
+
+                      var t = string.Join(",", ids);
+                       
+                      }
+                    @foreach (var order in orders)
+                    {
+                        <li>订单号：@order.Id</li>
+
+
+                    }
+                    <li> <input type="hidden" value="@t" name="orderIds" /></li> 
+                    <li class="li-last">应付金额：<strong class="ftx-01">@(((decimal)ViewBag.TotalAmount).ToString("F2"))</strong> 元</li>
+                </ul>
+                <p class="mb-tip"></p><input style="margin-top:10px;" id="Submit" class="btn-5" type="submit" value="确认支付" />
+            </div>
+        </div>
+    </div>
+</form>

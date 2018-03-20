@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html class="proShare">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>设置库存</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body class="proShare">
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">设置库存</h1>
+		</header>
+		<div class="mui-content transparent">
+			<div id="refundDetail" style="padding-bottom: 10px;">
+				
+			</div>
+		</div>
+		<div class="bottom-savebtn">
+			<button class="mui-btn mui-btn-block mui-btn-blue" id="save">保 存</button>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js"></script>
+		<script type="text/javascript">
+			var isJoin = himall.isJoin(),
+				userkey=himall.getState().userkey,
+				info = document.getElementById('refundDetail');
+			var ajaxUrl = 'api/ShopBranchProduct/GetProductSku',
+				setSkuUrl = 'api/ShopBranchProduct/PostSetSkuStock';
+			if(isJoin){
+				ajaxUrl = 'api/ShopProduct/GetProductSku';
+				setSkuUrl = 'api/ShopProduct/PostSetSkuStock';
+			}
+			mui.init({
+				swipeBack: true
+			});
+			mui.plusReady(function() {
+				var ws=plus.webview.currentWebview();
+				ws.setStyle({scrollIndicator:'none'});
+				loadPage();
+				function loadPage(){
+					mui.ajax(URL+ajaxUrl,{
+				        	data:himall.md5Data({
+								userkey:userkey,
+								pid:ws.pid
+							}),
+							dataType:'json',
+							type:'get',
+							timeout:10000,
+							success:function(data){
+								data.name=ws.name;
+								data.pid=ws.pid;
+								data.img=ws.img;
+								data.codeid=ws.codeid;
+								info.innerHTML=template('initData', data);
+			      				himall.removeClass(document.querySelector('.mui-content'),' transparent');
+							},
+							error:function(xhr,type,errorThrown){
+								plus.nativeUI.toast('请求失败，请检查网络重试');
+							}
+						});
+				}
+			});
+			document.getElementById('save').addEventListener('tap',function(){
+				var cartidArr=[],stockArr=[],hasError=false;
+				mui('#refundDetail input[name="stockNum"]').each(function(){
+					if(this.value==""||null==this.value){
+						hasError=true;
+					}
+					if(isNaN(Number(this.value))){
+						hasError=true;
+					}
+					cartidArr.push(this.parentNode.getAttribute('data-skuid'));
+					stockArr.push(this.value);
+				});
+				if(hasError){
+					plus.nativeUI.toast('库存不能为空，必须为数字');
+					return;
+				}
+				doSetStock(cartidArr.join(','),stockArr.join(','));
+			});
+			mui('#refundDetail').on('tap', '#batchSetStock', function(ev) {
+				ev.detail.gesture && ev.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+				var btnArrays = ['取消', '确定'];
+				var cartidArr=[],stockArr=[];
+				mui.prompt('批量设置库存', '请输入库存数', '', btnArrays, function(e) {
+					if (e.index == 1) {
+						if(!(parseFloat(e.value)=== parseInt(e.value))||parseFloat(e.value)<0){
+							plus.nativeUI.toast('请输入正确的库存数');
+							return;
+						}
+						mui('#refundDetail input[name="stockNum"]').each(function(){
+							cartidArr.push(this.parentNode.getAttribute('data-skuid'));
+							stockArr.push(e.value);
+						});
+						
+						doSetStock(cartidArr.join(','),stockArr.join(','));
+					}
+				},'div')
+			});
+			function doSetStock(skus,stocks){
+				mui.ajax(URL + setSkuUrl, {
+                    data:himall.md5Data({
+                        userkey:userkey,
+						skus:skus,
+						stock:stocks,
+						optype:'0'
+                    }),
+                    dataType: 'json',
+                    type: 'post',
+                    timeout: 10000,
+                    success: function(data) {
+                    	if(data.success){
+	      					plus.nativeUI.toast('已成功设置库存');
+	      					
+							mui.fire(plus.webview.getWebviewById('product.html'),'updateData');
+							mui.fire(plus.webview.getWebviewById('seller-product.html'),'updateData');
+	      					setTimeout(function(){
+	      						plus.webview.currentWebview().close();
+	      					},1000);
+	      				}else{
+	      					plus.nativeUI.toast(data.error_response.sub_msg);
+	      				}
+                    },
+                    error: function(xhr, type, errorThrown) {
+                        plus.nativeUI.toast('请求失败，请检查网络重试');
+                    }
+                });
+			}
+			
+		</script>
+		<script type="text/html" id="initData">
+			<div class="service-info">
+				<div class="item showRefund">
+					<div class="buy-goods">
+						<a class="goods-img" style="background-color: transparent; background-position: initial initial; background-repeat: initial initial;"><img src="{{img}}" style="opacity: 1;"></a>
+						<p><span><a>{{name}}</a></span></p>
+						<h5 class="mart10">
+							商品货号: {{codeid}}
+						</h5>
+					</div>
+				</div>
+			</div>
+			<div class="mart10 marb10 padl10 padr10">
+				<span>规格</span>
+				<span class="mui-pull-right" id="batchSetStock">批量设置</span>
+			</div>
+			{{each sku as item}}
+			<div class="standard">
+				<h3 class="{{!item.Color&&!item.Size&&!item.Version?'hidden':''}}">{{item.Color?(item.ColorAlias+':'+item.Color+' '):''}}{{item.Size?(item.SizeAlias+':'+item.Size+' '):''}}{{item.Version?(item.VersionAlias+':'+item.Version+' '):''}}</h3>
+				<div class="line"><label>商城价</label><span>¥ {{item.SalePrice}}</span></div>
+				<div class="line" data-skuid="{{item.Id}}"><label>库存</label><input name="stockNum" type="text" pattern="[0-9]*" onkeyup="value=value.replace(/[^\d]/g,'')" value="{{item.Stock}}"/></div>
+			</div>
+			{{/each}}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Himall.Web.Areas.Admin.Models.Product.ProductModel>
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+    <thead>
+        <tr>
+            <th>商品</th>
+            <th>店铺</th>
+            <th>价格</th>
+            <th>状态</th>
+            <th>分类</th>
+            <th>品牌</th>
+            <th>货号</th>
+        </tr>
+    </thead>
+    <tbody id="list-table-body">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.name</td>
+                <td>@item.shopName</td>
+                <td>@item.price</td>
+                <td>@item.state</td>
+                <td>@item.categoryName</td>
+                <td>@item.brandName</td>
+                <td>@item.productCode</td>
+            </tr>
+        }
+    </tbody>
+</table>

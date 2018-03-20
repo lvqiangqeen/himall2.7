@@ -1,0 +1,187 @@
+﻿@model Himall.Model.UserMemberInfo
+@{
+	ViewBag.Title = "修改支付密码";
+}
+
+@section Styles
+{
+	<style>
+		.Acc-Manag .verification input.code{
+			width:calc(100% - 105px);
+		}
+
+		.Acc-Manag .verification .btn {
+			width: 100px;
+			background: initial;
+			display: inline-block;
+			font-size: initial;
+			color: initial;
+			border: solid 1px;
+			letter-spacing: inherit;
+		}
+		.pwd-success{
+			position:fixed;
+			top:0;
+			left:0;
+			width:100%;
+			height:100%;
+			display:none;
+			background-color:white;
+			text-align: center;
+		}
+		.pwd-success img{ width: 30%;margin: 80px 0 30px;}
+		
+	</style>
+}
+
+<div class="container">
+	<div class="acc-safe clearfix">
+		<div class="list">当前用户账号：@CurrentUser.UserName<br></div>
+	</div>
+	<div class="acc-safe clearfix">
+		<div class="list">我记得原支付密码<br></div>
+		<span class="glyphicon glyphicon-menu-right"></span>
+	</div>
+	<div class="acc-safe clearfix">
+		<div class="list">我忘记支付密码了<br></div>
+		<span class="glyphicon glyphicon-menu-right"></span>
+	</div>
+</div>
+
+<div class="container hidden">
+	<div class="Acc-Manag hidden">
+		<input name="OldPayPwd" type="password" placeholder="原支付密码" />
+		<input name="NewPayPwd" type="password" placeholder="新支付密码" />
+		<input type="password" placeholder="确认支付密码" />
+		<input class="btn" type="submit" value="提交" />
+	</div>
+
+	<div class="Acc-Manag hidden">
+		<h4>
+			您绑定的手机号码为@(string.IsNullOrEmpty(CurrentUser.CellPhone) ? "" : (CurrentUser.CellPhone.Substring(0, 3) + "****" + CurrentUser.CellPhone.Substring(7, 4)))
+		</h4>
+		<input name="NewPayPwd" type="password" placeholder="请输入新支付密码" />
+		<input type="password" placeholder="请确认新支付密码" />
+		<div class="verification">
+			<input name="PhoneCode" class="code" placeholder="验证码" />
+			<button class="btn code send-code" id="btnSendCode" type="button">发送验证码</button>
+		</div>
+		<input name="SendCodePluginId" id="SendCodePluginId" type="hidden" value="Himall.Plugin.Message.SMS" />
+		<input class="btn" type="submit" value="提交" />
+	</div>
+</div>
+<div class="pwd-success">
+	<img src="/Areas/Mobile/Templates/Default/images/success.png" />
+	<p>重置成功，请妥善保管您的密码</p>
+</div>
+<input type="hidden" value="@Url.Action("BindPhone")" id="urlBindPhone" />
+<input type="hidden" value="@Url.Action("ChangePayPwd")" id="urlChangePayPwd" />
+@section Scripts
+{
+	<script>
+		$(function () {
+			var count = 120;
+			var sended = false;
+			var btnSendCode = $('#btnSendCode');
+			var hasCellPhone=@(string.IsNullOrEmpty(CurrentUser.CellPhone)?"false":"true");
+
+			function countDown1() {
+				btnSendCode.html(count + 's后重发');
+				if (count == 1) {
+					btnSendCode.html('重新发送');
+					sended = false;
+					count = 120;
+					return;
+				} else {
+					setTimeout(countDown1, 1000);
+				}
+				count--;
+			}
+
+			$('.container .acc-safe').click(function () {
+				var index = $(this).index()-1;
+				if(index==1&&hasCellPhone==false)
+				{
+				    $.dialog.alertTips('您未绑定手机，请先绑定手机',function(){
+				        window.location.href=$('#urlBindPhone').val()+'?returnUrl='+$('#urlChangePayPwd').val();
+				    });
+				    
+					return false;
+				}
+
+				$('.container').toggleClass('hidden');
+				var container = $(this).closest('.container').next();
+				$('.Acc-Manag', container).addClass('hidden');
+				$('.Acc-Manag:eq({0})'.format(index), container).removeClass('hidden');
+			});
+
+			$('#btnSendCode').click(function () {
+				if (sended != false)
+					return;
+				sended = true;
+
+			    $.post('SendFindCode', { pluginId: $('#SendCodePluginId').val() }, function (result) {
+					if (result.success) {
+						setTimeout(countDown1, 1000);
+					} else {
+						sended = false;
+						$.dialog.errorTips('发送验证码失败,' + result.msg);
+					}
+				}).error(function () {
+					sended = false;
+					$.dialog.errorTips('发送验证码失败');
+				});
+			});
+
+			$('.Acc-Manag input:submit').click(function () {
+				var parent = $(this).parent();
+				var oldPwdInput = $('input[name=OldPayPwd]', parent);
+				var newPwdInput = $('input[name=NewPayPwd]', parent);
+				var paramets = {};
+				if (oldPwdInput.length > 0)
+				{
+					var oldPwd = oldPwdInput.val();
+					if ($.isNullOrEmpty(oldPwd)) {
+						$.dialog.errorTips('请输入原支付密码');
+						return false;
+					}
+					paramets.oldPayPwd = oldPwd;
+				}
+
+				var newPwd = newPwdInput.val();
+				if ($.isNullOrEmpty(newPwd)) {
+					$.dialog.errorTips('请输入新支付密码');
+					return false;
+				}
+
+				if (newPwdInput.next().val() != newPwd){
+					$.dialog.errorTips('两次密码输入不一致');
+					return false;
+				}
+
+				paramets.newPayPwd = newPwd;
+
+				var phoneCodeInput = $('input[name=PhoneCode]',parent);
+				if (phoneCodeInput.length > 0) {
+					var phoneCode = phoneCodeInput.val();
+					if ($.isNullOrEmpty(phoneCode)) {
+						$.dialog.errorTips('请输入手机验证码');
+						return false;
+					}
+					paramets.phoneCode = phoneCode;
+				}
+
+				paramets.sendCodePluginId = $('input[name=SendCodePluginId]',parent).val();
+
+				$.post(location.href, paramets, function (data) {
+					if (data.success)
+						$('div.pwd-success').show();
+					else if (data.msg)
+						$.dialog.errorTips(data.msg);
+				}).error(function () {
+					$.dialog.errorTips('操作失败，请稍后再试！');
+				});
+			});
+		});
+	</script>
+}

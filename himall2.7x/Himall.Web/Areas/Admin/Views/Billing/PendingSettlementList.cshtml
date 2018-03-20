@@ -1,0 +1,97 @@
+﻿@model Himall.DTO.SettlementCycle
+@section HeadScript
+{
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+}
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("index")">财务总览</a></li>
+		<li class="active"><a href="#" onclick="return false">待结算列表</a></li>
+        <li><a href="@Url.Action("SettlementList")">已结算列表</a></li>
+        <li><a href="@Url.Action("PlatAccountItem")">结余明细</a></li>
+        <li><a href="@Url.Action("SetSettlementWeek","account")">结算周期设置</a></li>
+    </ul>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">商家名称</label>
+                <input class="form-control input-ssm" type="text" id="txtShopName">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table class="table" id="list"></table>
+	<div class="tabel-operate" id="operationButtons">
+		<a class="btn-export" href='@Url.Action("ExportPendingSettlementList")' onclick="ExportExecl.call(this);">导出EXCEL</a>
+	</div>
+</div>
+
+@section Scripts
+{
+	<script>
+		var settlementOrdersUrl = '@Url.Action("PendingSettlementOrders")';
+
+		$('.start_datetime').on('changeDate', function () {
+			if ($(".end_datetime").val()) {
+				if ($(".start_datetime").val() > $(".end_datetime").val()) {
+					$('.end_datetime').val($(".start_datetime").val());
+				}
+			}
+
+			$('.end_datetime').datetimepicker('setStartDate', $(".start_datetime").val());
+		});
+
+		$("#list").hiMallDatagrid({
+			url: 'PendingSettlementList',
+			nowrap: false,
+			rownumbers: true,
+			NoDataMsg: '没有找到符合条件的待结算记录',
+			border: false,
+			fit: true,
+			fitColumns: true,
+			pagination: true,
+			pageSize: 15,
+			pagePosition: 'bottom',
+			operationButtons: "#operationButtons",
+			pageNumber: 1,
+			columns: [[
+				{ field: "shopName", title: '商家名称', width: 'auto' },
+				{ field: "amount", title: "本期应结", width: 'auto', align: "center" },
+				{
+					field: "settmentTime", title: "预计结算时间", width: 'auto', align: "center",
+					formatter: function () {
+						return '@Model.EndTime';
+					}
+				},
+				{
+					field: "cycle", title: "结算周期", width: 'auto', align: "center",
+					formatter: function () {
+						return '@Model.BillingCycleStr';
+					}
+				},
+				{
+					field: "last", title: "操作", width: 'auto', align: "center",
+					formatter: function (v, row) {
+						return '<a href="{0}?shopId={1}">查看</a>'.format(settlementOrdersUrl,row.shopId);
+					}
+				}]]
+		});
+
+		$('#searchButton').click(function (e) {
+			searchClose(e);
+			var shopName = $.trim($('#txtShopName').val());
+			$("#list").hiMallDatagrid('reload', { shopName: shopName });
+		})
+
+		function ExportExecl() {
+			var shopName = $.trim($('#txtShopName').val());
+			var href = $(this).attr('href').split('?')[0] + '?shopName={0}'.format(shopName);
+			$(this).attr('href', href);
+		}
+	</script>
+}

@@ -1,0 +1,45 @@
+﻿@model Himall.Web.Models.PayJumpPageModel
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+    var urlarr = Model.RequestUrl.Split('?');
+    string acturl = urlarr[0];
+    Dictionary<string, string> formkeyval = new Dictionary<string, string>();
+    if (urlarr.Length > 1)
+    {
+        var arrformkv = urlarr[1].Split('&');
+        foreach (var item in arrformkv)
+        {
+            var arrkv = item.Split('=');
+            string fk = arrkv[0];
+            string fv = "";
+            if (arrkv.Length > 1)
+            {
+                fv = arrkv[1];
+            }
+            formkeyval.Add(fk, fv);
+        }
+    }
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <title>在线支付</title>
+</head>
+
+<body onload="init()">
+    <form id="payform" name="payform" method="post" action="@(acturl)">
+        @foreach (var item in formkeyval)
+        {
+            <input type="hidden" name="@(item.Key)" id="@(item.Key)" value="@(item.Value)" />
+        }
+    </form>
+    <script type="text/javascript">
+        function init()
+        {
+            document.getElementById("payform").submit();
+        }
+    </script>
+</body>
+</html>

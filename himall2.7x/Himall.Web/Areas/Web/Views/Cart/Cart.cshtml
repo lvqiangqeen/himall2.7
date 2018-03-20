@@ -1,0 +1,78 @@
+﻿@model Himall.Web.Areas.Web.Models.CartCartModel
+@{
+    ViewBag.Title = "购物车结算";
+    Layout = "~/Areas/Web/Views/Shared/_OrderTopBar.cshtml";
+}
+
+<div class="w990 cart">
+    <div class="cart-hd group"><h2>我的购物车</h2></div>
+    <div id="show">
+        <div class="cart-inner">
+        	<div class="message">
+                <ul>
+                    <li>购物车内暂时没有商品<span class="unLogin">，<a href="javascript:bindToSettlement();">登录</a>后，将显示您之前加入的商品</span></li>
+                    <li><a href="/">去首页</a>挑选喜欢的商品</li>
+                </ul>
+            </div>
+            <div class="cart-list">
+                <div class="cart-thead cl">
+                    <div class="column t-checkbox form"><input type="checkbox" name="checkAll" checked="" value="" /><label for="">全选</label></div>
+                    <div class="column t-goods">商品</div>
+                    <div class="column t-price">商城价</div>
+                    <div class="column t-quantity">数量</div>
+                    <div class="column t-action">操作</div>
+                </div>
+                <div id="product-list" class="cart-tbody">
+    
+                </div>
+                
+                <div class="ui-ceilinglamp-1">
+                    <div class="cart-dibu">
+                        <div class="cart-total-2014">
+                            <span class="column t-checkbox form" style="margin-right:10px;">
+                                <input type="checkbox" checked="" name="checkAll" value="" class="jdcheckbox" style="margin: 15px 5px 0 19px;"/>
+                                <label for="">全选</label>
+                            </span>
+                            <span class="delete" style="margin-right:10px;">
+                                <b></b>
+                                <a href="javascript:void(0);" id="remove-batch">删除</a>
+                            </span>
+                            <span id="selectedCount" style="color:#e4393c;">0</span> 件商品
+                            <div class="cart-button">
+                                <a class="checkout" href="javascript:void(0);" id="toSettlement"><b></b>去结算</a>
+                            </div>
+                            <div class="total fr">总计（不含运费）：<span id="finalPrice">¥ 0</span></div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+        </div>
+    </div>
+    <div class="cart-recommend" id="cartrecommend">
+        <h3><a href="#">商品推荐</a></h3>
+        <ul class="clearfix">
+            @if (Model.Top3RecommendProducts != null)
+            {
+                foreach (var p in Model.Top3RecommendProducts)
+                {
+                    <li>
+                        <a title="@p.ProductName" href="@Url.Action("detail", "Product" , new { id=@p.Id})" target="_blank">
+                            <img width="182" height="182" src="@Himall.Core.HimallIO.GetProductSizeImage(p.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_220)" />
+                            <i>去购买 &gt;</i>
+                        </a>
+                        <p><a href="@Url.Action("detail", "Product" , new { id=@p.Id})" target="_blank">@p.ProductName</a></p>
+                    </li>
+                }
+            }
+
+        </ul>
+    </div>
+
+</div>
+<input type="hidden" value="@Himall.Model.ProductInfo.ProductAuditStatus.Audited.GetHashCode()" id="hidAuditStatus" />
+<input type="hidden" value="@Himall.Model.ProductInfo.ProductSaleStatus.OnSale.GetHashCode()" id="hidSaleStatus" />
+<link href="~/Areas/Web/Content/WebLoginPlug.css" rel="stylesheet" />
+<script src="~/Areas/Web/Scripts/jQuery.Web.Login.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Scripts/jquery.cookie.js"></script>
+<script src="~/Areas/Web/Scripts/cartSettleAccounts.js"></script>

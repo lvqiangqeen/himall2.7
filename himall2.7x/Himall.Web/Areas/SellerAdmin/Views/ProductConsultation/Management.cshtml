@@ -1,0 +1,24 @@
+﻿<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jqeury.himallLinkage.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/ProductConsultation.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li flag="" onclick="query('')"><a>全部</a></li>
+        <li flag="false" onclick="query('false')"><a id="notReply">未处理</a></li>
+    </ul>
+    <table class="table" id="list"></table>
+</div>
+<div class="dialog-form" id="reply-form" style="display:none">
+    <div class="form-group">
+        <p class="help-top pl0">请填写您的回复内容（必填）</p>
+            <textarea id="replyContent" name="replyContent" class="form-control" cols="50" rows="3" ></textarea>
+            <br/>
+            <span class="field-validation-error" id="consultationCotentTip">回复内容在200个字符以内！</span>
+    </div>
+</div>
+
+
+
+
+

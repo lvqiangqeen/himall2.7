@@ -1,0 +1,419 @@
+
+
+
+ 记录时间：2017-10-13 11:54:55,429 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 12:01:38,563 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 12:03:51,681 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 12:08:29,536 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 12:15:04,642 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 12:21:37,189 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 12:42:35,228 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 13:03:38,634 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 13:24:42,130 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 13:45:45,838 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 13:45:47,160 
+日志级别：  ERROR 
+出错类：Himall.Web.Framework.BaseController.OnException  
+错误描述：页面未捕获的异常：Area:Web,Controller:home,Action:Index,id:Get:post: 
+
+System.Data.Entity.Core.EntityException: 基础提供程序在 Open 上失败。 ---> MySql.Data.MySqlClient.MySqlException: Unable to connect to any of the specified MySQL hosts. ---> System.Net.Sockets.SocketException: 套接字操作尝试一个无法连接的主机。 120.78.68.252:3306
+   在 System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   在 MySql.Data.Common.MyNetworkStream.CreateSocketStream(MySqlConnectionStringBuilder settings, IPAddress ip, Boolean unix)
+   在 MySql.Data.Common.MyNetworkStream.CreateStream(MySqlConnectionStringBuilder settings, Boolean unix)
+   在 MySql.Data.Common.StreamCreator.GetStream(MySqlConnectionStringBuilder settings)
+   在 MySql.Data.MySqlClient.NativeDriver.Open()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 MySql.Data.MySqlClient.NativeDriver.Open()
+   在 MySql.Data.MySqlClient.Driver.Open()
+   在 MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   在 MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   在 MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   在 MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   在 MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   在 MySql.Data.MySqlClient.MySqlConnection.Open()
+   在 System.Data.Entity.Infrastructure.Interception.DbConnectionDispatcher.<Open>b__36(DbConnection t, DbConnectionInterceptionContext c)
+   在 System.Data.Entity.Infrastructure.Interception.InternalDispatcher`1.Dispatch[TTarget,TInterceptionContext](TTarget target, Action`2 operation, TInterceptionContext interceptionContext, Action`3 executing, Action`3 executed)
+   在 System.Data.Entity.Infrastructure.Interception.DbConnectionDispatcher.Open(DbConnection connection, DbInterceptionContext interceptionContext)
+   在 System.Data.Entity.Core.EntityClient.EntityConnection.<Open>b__2()
+   在 System.Data.Entity.Infrastructure.DefaultExecutionStrategy.Execute(Action operation)
+   在 System.Data.Entity.Core.EntityClient.EntityConnection.Open()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Data.Entity.Core.EntityClient.EntityConnection.Open()
+   在 System.Data.Entity.Core.Objects.ObjectContext.EnsureConnection(Boolean shouldMonitorTransactions)
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectQuery`1.<>c__DisplayClass7.<GetResults>b__5()
+   在 System.Data.Entity.Infrastructure.DefaultExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectQuery`1.GetResults(Nullable`1 forMergeOption)
+   在 System.Data.Entity.Core.Objects.ObjectQuery`1.<System.Collections.Generic.IEnumerable<T>.GetEnumerator>b__0()
+   在 System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
+   在 System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   在 System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   在 Himall.Service.SiteSettingService.GetSiteSettings() 位置 c:\zhaopian\src\Himall.Service\System\SiteSettingService.cs:行号 26
+   在 Himall.Application.SiteSettingApplication.GetSiteSettings() 位置 c:\zhaopian\src\Himall.Application\SiteSettingApplication.cs:行号 23
+   在 Himall.Web.Framework.BaseController.get_CurrentSiteSetting() 位置 c:\zhaopian\src\Himall.Web.Framework\BaseControllers\BaseController.cs:行号 405
+   在 Himall.Web.Framework.BaseController.OnAuthorization(AuthorizationContext filterContext) 位置 c:\zhaopian\src\Himall.Web.Framework\BaseControllers\BaseController.cs:行号 540
+   在 System.Web.Mvc.Controller.System.Web.Mvc.IAuthorizationFilter.OnAuthorization(AuthorizationContext filterContext)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAuthorizationFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+
+
+
+ 记录时间：2017-10-13 14:06:49,390 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 14:06:50,705 
+日志级别：  ERROR 
+出错类：Himall.Web.Framework.BaseController.OnException  
+错误描述：页面未捕获的异常：Area:Web,Controller:home,Action:Index,id:Get:post: 
+
+System.Data.Entity.Core.EntityException: 基础提供程序在 Open 上失败。 ---> MySql.Data.MySqlClient.MySqlException: Unable to connect to any of the specified MySQL hosts. ---> System.Net.Sockets.SocketException: 套接字操作尝试一个无法连接的主机。 120.78.68.252:3306
+   在 System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   在 MySql.Data.Common.MyNetworkStream.CreateSocketStream(MySqlConnectionStringBuilder settings, IPAddress ip, Boolean unix)
+   在 MySql.Data.Common.MyNetworkStream.CreateStream(MySqlConnectionStringBuilder settings, Boolean unix)
+   在 MySql.Data.Common.StreamCreator.GetStream(MySqlConnectionStringBuilder settings)
+   在 MySql.Data.MySqlClient.NativeDriver.Open()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 MySql.Data.MySqlClient.NativeDriver.Open()
+   在 MySql.Data.MySqlClient.Driver.Open()
+   在 MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   在 MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   在 MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   在 MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   在 MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   在 MySql.Data.MySqlClient.MySqlConnection.Open()
+   在 System.Data.Entity.Infrastructure.Interception.DbConnectionDispatcher.<Open>b__36(DbConnection t, DbConnectionInterceptionContext c)
+   在 System.Data.Entity.Infrastructure.Interception.InternalDispatcher`1.Dispatch[TTarget,TInterceptionContext](TTarget target, Action`2 operation, TInterceptionContext interceptionContext, Action`3 executing, Action`3 executed)
+   在 System.Data.Entity.Infrastructure.Interception.DbConnectionDispatcher.Open(DbConnection connection, DbInterceptionContext interceptionContext)
+   在 System.Data.Entity.Core.EntityClient.EntityConnection.<Open>b__2()
+   在 System.Data.Entity.Infrastructure.DefaultExecutionStrategy.Execute(Action operation)
+   在 System.Data.Entity.Core.EntityClient.EntityConnection.Open()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Data.Entity.Core.EntityClient.EntityConnection.Open()
+   在 System.Data.Entity.Core.Objects.ObjectContext.EnsureConnection(Boolean shouldMonitorTransactions)
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectQuery`1.<>c__DisplayClass7.<GetResults>b__5()
+   在 System.Data.Entity.Infrastructure.DefaultExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectQuery`1.GetResults(Nullable`1 forMergeOption)
+   在 System.Data.Entity.Core.Objects.ObjectQuery`1.<System.Collections.Generic.IEnumerable<T>.GetEnumerator>b__0()
+   在 System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
+   在 System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   在 System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   在 Himall.Service.SiteSettingService.GetSiteSettings() 位置 c:\zhaopian\src\Himall.Service\System\SiteSettingService.cs:行号 26
+   在 Himall.Application.SiteSettingApplication.GetSiteSettings() 位置 c:\zhaopian\src\Himall.Application\SiteSettingApplication.cs:行号 23
+   在 Himall.Web.Framework.BaseController.get_CurrentSiteSetting() 位置 c:\zhaopian\src\Himall.Web.Framework\BaseControllers\BaseController.cs:行号 405
+   在 Himall.Web.Framework.BaseController.OnAuthorization(AuthorizationContext filterContext) 位置 c:\zhaopian\src\Himall.Web.Framework\BaseControllers\BaseController.cs:行号 540
+   在 System.Web.Mvc.Controller.System.Web.Mvc.IAuthorizationFilter.OnAuthorization(AuthorizationContext filterContext)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAuthorizationFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+
+
+
+ 记录时间：2017-10-13 14:27:52,936 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 14:27:54,244 
+日志级别：  ERROR 
+出错类：Himall.Web.Framework.BaseController.OnException  
+错误描述：页面未捕获的异常：Area:Web,Controller:home,Action:Index,id:Get:post: 
+
+System.Data.Entity.Core.EntityException: 基础提供程序在 Open 上失败。 ---> MySql.Data.MySqlClient.MySqlException: Unable to connect to any of the specified MySQL hosts. ---> System.Net.Sockets.SocketException: 套接字操作尝试一个无法连接的主机。 120.78.68.252:3306
+   在 System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   在 MySql.Data.Common.MyNetworkStream.CreateSocketStream(MySqlConnectionStringBuilder settings, IPAddress ip, Boolean unix)
+   在 MySql.Data.Common.MyNetworkStream.CreateStream(MySqlConnectionStringBuilder settings, Boolean unix)
+   在 MySql.Data.Common.StreamCreator.GetStream(MySqlConnectionStringBuilder settings)
+   在 MySql.Data.MySqlClient.NativeDriver.Open()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 MySql.Data.MySqlClient.NativeDriver.Open()
+   在 MySql.Data.MySqlClient.Driver.Open()
+   在 MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   在 MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   在 MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   在 MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   在 MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   在 MySql.Data.MySqlClient.MySqlConnection.Open()
+   在 System.Data.Entity.Infrastructure.Interception.DbConnectionDispatcher.<Open>b__36(DbConnection t, DbConnectionInterceptionContext c)
+   在 System.Data.Entity.Infrastructure.Interception.InternalDispatcher`1.Dispatch[TTarget,TInterceptionContext](TTarget target, Action`2 operation, TInterceptionContext interceptionContext, Action`3 executing, Action`3 executed)
+   在 System.Data.Entity.Infrastructure.Interception.DbConnectionDispatcher.Open(DbConnection connection, DbInterceptionContext interceptionContext)
+   在 System.Data.Entity.Core.EntityClient.EntityConnection.<Open>b__2()
+   在 System.Data.Entity.Infrastructure.DefaultExecutionStrategy.Execute(Action operation)
+   在 System.Data.Entity.Core.EntityClient.EntityConnection.Open()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Data.Entity.Core.EntityClient.EntityConnection.Open()
+   在 System.Data.Entity.Core.Objects.ObjectContext.EnsureConnection(Boolean shouldMonitorTransactions)
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectQuery`1.<>c__DisplayClass7.<GetResults>b__5()
+   在 System.Data.Entity.Infrastructure.DefaultExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectQuery`1.GetResults(Nullable`1 forMergeOption)
+   在 System.Data.Entity.Core.Objects.ObjectQuery`1.<System.Collections.Generic.IEnumerable<T>.GetEnumerator>b__0()
+   在 System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
+   在 System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   在 System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   在 Himall.Service.SiteSettingService.GetSiteSettings() 位置 c:\zhaopian\src\Himall.Service\System\SiteSettingService.cs:行号 26
+   在 Himall.Application.SiteSettingApplication.GetSiteSettings() 位置 c:\zhaopian\src\Himall.Application\SiteSettingApplication.cs:行号 23
+   在 Himall.Web.Framework.BaseController.get_CurrentSiteSetting() 位置 c:\zhaopian\src\Himall.Web.Framework\BaseControllers\BaseController.cs:行号 405
+   在 Himall.Web.Framework.BaseController.OnAuthorization(AuthorizationContext filterContext) 位置 c:\zhaopian\src\Himall.Web.Framework\BaseControllers\BaseController.cs:行号 540
+   在 System.Web.Mvc.Controller.System.Web.Mvc.IAuthorizationFilter.OnAuthorization(AuthorizationContext filterContext)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAuthorizationFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+
+
+
+ 记录时间：2017-10-13 14:48:56,412 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 14:48:57,754 
+日志级别：  ERROR 
+出错类：Himall.Web.Framework.BaseController.OnException  
+错误描述：页面未捕获的异常：Area:Web,Controller:home,Action:Index,id:Get:post: 
+
+System.Data.Entity.Core.EntityException: 基础提供程序在 Open 上失败。 ---> MySql.Data.MySqlClient.MySqlException: Unable to connect to any of the specified MySQL hosts. ---> System.Net.Sockets.SocketException: 套接字操作尝试一个无法连接的主机。 120.78.68.252:3306
+   在 System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   在 MySql.Data.Common.MyNetworkStream.CreateSocketStream(MySqlConnectionStringBuilder settings, IPAddress ip, Boolean unix)
+   在 MySql.Data.Common.MyNetworkStream.CreateStream(MySqlConnectionStringBuilder settings, Boolean unix)
+   在 MySql.Data.Common.StreamCreator.GetStream(MySqlConnectionStringBuilder settings)
+   在 MySql.Data.MySqlClient.NativeDriver.Open()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 MySql.Data.MySqlClient.NativeDriver.Open()
+   在 MySql.Data.MySqlClient.Driver.Open()
+   在 MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   在 MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   在 MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   在 MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   在 MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   在 MySql.Data.MySqlClient.MySqlConnection.Open()
+   在 System.Data.Entity.Infrastructure.Interception.DbConnectionDispatcher.<Open>b__36(DbConnection t, DbConnectionInterceptionContext c)
+   在 System.Data.Entity.Infrastructure.Interception.InternalDispatcher`1.Dispatch[TTarget,TInterceptionContext](TTarget target, Action`2 operation, TInterceptionContext interceptionContext, Action`3 executing, Action`3 executed)
+   在 System.Data.Entity.Infrastructure.Interception.DbConnectionDispatcher.Open(DbConnection connection, DbInterceptionContext interceptionContext)
+   在 System.Data.Entity.Core.EntityClient.EntityConnection.<Open>b__2()
+   在 System.Data.Entity.Infrastructure.DefaultExecutionStrategy.Execute(Action operation)
+   在 System.Data.Entity.Core.EntityClient.EntityConnection.Open()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Data.Entity.Core.EntityClient.EntityConnection.Open()
+   在 System.Data.Entity.Core.Objects.ObjectContext.EnsureConnection(Boolean shouldMonitorTransactions)
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectQuery`1.<>c__DisplayClass7.<GetResults>b__5()
+   在 System.Data.Entity.Infrastructure.DefaultExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectQuery`1.GetResults(Nullable`1 forMergeOption)
+   在 System.Data.Entity.Core.Objects.ObjectQuery`1.<System.Collections.Generic.IEnumerable<T>.GetEnumerator>b__0()
+   在 System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
+   在 System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   在 System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   在 Himall.Service.SiteSettingService.GetSiteSettings() 位置 c:\zhaopian\src\Himall.Service\System\SiteSettingService.cs:行号 26
+   在 Himall.Application.SiteSettingApplication.GetSiteSettings() 位置 c:\zhaopian\src\Himall.Application\SiteSettingApplication.cs:行号 23
+   在 Himall.Web.Framework.BaseController.get_CurrentSiteSetting() 位置 c:\zhaopian\src\Himall.Web.Framework\BaseControllers\BaseController.cs:行号 405
+   在 Himall.Web.Framework.BaseController.OnAuthorization(AuthorizationContext filterContext) 位置 c:\zhaopian\src\Himall.Web.Framework\BaseControllers\BaseController.cs:行号 540
+   在 System.Web.Mvc.Controller.System.Web.Mvc.IAuthorizationFilter.OnAuthorization(AuthorizationContext filterContext)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAuthorizationFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+
+
+
+ 记录时间：2017-10-13 15:10:01,393 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 15:31:02,056 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 15:31:41,829 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 15:52:42,011 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 16:13:44,871 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 16:34:48,738 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 16:55:52,011 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-13 17:16:55,814 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)

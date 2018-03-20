@@ -1,0 +1,46 @@
+﻿<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.himall.Region.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/ShopBranchManagement.js"></script>
+<div class="container Sclear-M">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>门店管理</a></li>
+        <li><a href="Add">新增门店</a></li>
+        <li><a href="@Url.Action("Setting")">门店设置</a></li>
+    </ul>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group" filter normal audit saleoff>
+                <label class="label-inline w75" for="">门店名称</label>
+                <input class="form-control input-ssm" type="text" id="shopBranchName">
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline w75" for="">联系方式</label>
+                <input class="form-control input-ssm" type="text" id="contactPhone">
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline w75" for="">联系人</label>
+                <input class="form-control input-ssm" type="text" id="contactUser">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">门店区域</label>
+                <div id="area-selector" class="inline-block wauto"></div>
+                @Html.Hidden("AddressId")
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton" style="top:0">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table class="table mt5" id="shopDatagrid"></table>
+</div>
+<div class="dialog-form" id="storesLink-form" style="display:none">
+    <div class="form-group">
+        <span class="sign-t"><i class="red">*</i>&nbsp;&nbsp;推广链接：</span>
+        <input class="form-control input-ssm" type="text" id="referralsLink"  style="width:300px"/>
+    </div>
+    <div class="form-group">
+        <span class="sign-t">&nbsp;&nbsp;&nbsp;二维码：</span>
+        <img id="imgsrc" type="img" width="100" />
+    </div>
+</div>

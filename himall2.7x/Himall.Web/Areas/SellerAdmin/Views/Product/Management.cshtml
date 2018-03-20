@@ -1,0 +1,106 @@
+﻿
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script>    var val = "@Request.QueryString["status"]";</script>
+<script src="~/Areas/SellerAdmin/Scripts/productManagement.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li class="active" type="onSale" value="1"><a>销售中</a></li>
+        <li type="unAudit" value="1,3"><a>待审核</a></li>
+        <li type="inStock" value="2"><a>仓库中</a></li>
+        <li type="saleOff" value="4"><a>违规下架</a></li>
+        <li type="inDraft" value="3"><a>草稿箱</a></li>
+        
+    </ul>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group" filter normal audit saleoff>
+                <label class="label-inline w75" for="">商品名称</label>
+                <input class="form-control input-ssm" type="text" id="searchBox">
+            </div>
+            <div class="form-group" filter audit>
+                <label class="label-inline w75" for="">审核状态</label>
+                <select class="form-control input-ssm" name="auditState">
+                    <option value="">全部</option>
+                    <option value="1">待审核</option>
+                    <option value="3">未通过</option>
+                </select>
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline w75" for="">商品货号</label>
+				<input class="form-control input-ssm" type="text" id="productCode">
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline w75" for="">商品分类</label>
+                <select id="category1" class="form-control input-ssm">
+                    <option>分类</option>
+                </select>
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline w75" for="">二级分类</label>
+                <select id="category2" class="form-control input-ssm">
+                    <option>分类</option>
+                </select>
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline w75" for="">品牌</label>
+                <input class="form-control input-ssm" type="text" id="brandBox" autocomplete="off">
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline w75" for="">开始日期</label>
+                <input class="form-control input-ssm start_datetime" type="text" >
+                <i class="glyphicon glyphicon-calendar"></i>
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline w75" for="">结束日期</label>
+                <input class="form-control input-ssm end_datetime" type="text" >
+                <i class="glyphicon glyphicon-calendar"></i>
+            </div>
+            <div class="form-group fg-stock" filter normal>
+                <div class="checkbox">
+                    <label class="font14"><input type="checkbox" @(Request["isSafeStock"]=="true"?"checked":"")> 显示警戒库存商品</label>
+                </div>
+            </div>
+            <div class="form-group fg-stock">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table id="list" class="table"></table>
+    <div class="tabel-operate hidden" id="saleOff">
+        <a class="btn btn-danger btn-ssm" id="batchDelete">批量删除</a>
+        <a class="btn btn-default btn-ssm" id="batchSaleOff" style="display:none">下架</a>
+        <a class="btn btn-default btn-ssm" id="batchOnSale" style="display:none">上架</a>
+        <a class="btn btn-default btn-ssm" id="overSafeStock">批量设置警戒库存</a>
+        <a class="btn btn-default btn-ssm" id="associateTemplate">关联版式</a>
+        <a class="btn-export" id="aExport" href='javascript:;' onclick="ExportExecl();">导出EXCEL</a>
+    </div>
+	<div class="tabel-operate hidden keep" id="productSelectorBtns">
+		<a id="selectAll" class="btn btn-default btn-ssm" href="javascript:void(0);">批量选择</a>
+	</div>
+</div>
+
+<div style="display:none" id="publish">
+    <wb:publish action="publish" id="wb_publisher"></wb:publish>
+</div>
+<div class="form-group" id="weixinQrCode" style="display:none">
+    <img id="QrCode" />
+</div>
+<input type="hidden" value="@ViewBag.AuditOnOff" id="VBAO" />
+
+<script type="text/javascript">
+    $(function () {
+        $('.nav-tabs-custom li').each(function () {
+            if ($(this).attr("type") == val) {
+                $(this).trigger("click");
+            }
+        });
+    });
+</script>

@@ -1,0 +1,40 @@
+/* pages/login/login.wxss */
+page{background: #f5f5f5}
+.container{
+      display: flex;
+  flex-direction: column;width: 100%; padding:0; background: #fff;
+}
+
+.loginpassword{
+    display: flex;width: 100%;  height: 98rpx;line-height: 98rpx;
+}
+.borderbott0m{border-bottom:1rpx solid #dcdcdc;}
+.loginpassword input{ height: 98rpx;line-height: 98rpx; color: #000;   padding-left: 5rpx;width: 598rpx;}
+.loginpassword text{ width: 128rpx;}
+.tjiaoname button{ margin-top: 16rpx;width:702rpx; margin-left: 24rpx;font-size: 36rpx;}
+.tjiaoname button::after{border: none;}
+button[type="default"] {
+color:#fff;
+background: linear-gradient(to right, #fe5722 0%,#ff191b 100%); border: 1rpx #fe5722 solid;
+}
+button[disabled].other-button-hover {color:#fff;
+background: linear-gradient(to right, #fe5722 0%,#ff191b 100%); border: 1rpx #fe5722 solid;
+}
+button[type="primary"] {
+color:#09bb07;
+background-color:#FFFFFF;
+border:1rpx solid #e0e0e0;
+}
+.tjiaoname image{ width:44rpx; height: 40rpx; display: inline-block; vertical-align: middle;}
+.huoze{ height: 20rpx;border-bottom: 1rpx solid #e0e0e0; width: 400rpx; margin: 48rpx auto;  text-align: center; }
+.huoze view{width: 100rpx; margin: 0 auto; background: #f5f5f5;color: #757575;}
+button.other-button-hover {
+color:#fff;margin-top: 16rpx;
+background: linear-gradient(to right, #fe5722 0%,#ff191b 100%);
+
+}
+
+.button-hover[type="primary"]{
+  background: none; color: #09bb07;
+}
+.wechat_size{ font-size: 56rpx; width: 44rpx; height: 36rpx; vertical-align: middle;}

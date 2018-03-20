@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Himall.Web.Areas.Mobile.CategoryModel>
+@{
+    ViewBag.Title = "店铺分类";
+}
+<div class="container">
+    <div class="screen vshop-cate">
+        <div class="screen_hd clearfix">店铺分类</div>
+        <div class="screen_bd">
+            <ul class="list-group">
+                @foreach (var category in Model) {
+                    <li class="list-group-item">
+                        <a href="@(category.SubCategories.Count() > 0 ? "javascript:;" : "/" + ViewBag.AreaName + "/vshop/search?vshopId=" + ViewBag.VShopId + "&shopcid=" + category.Id + "")">@category.Name<span class="glyphicon glyphicon-menu-right"></span></a>
+                        <ol>
+                            @foreach (var secondCategory in category.SubCategories) {
+                                <li><a href="/@ViewBag.AreaName/vshop/search?vshopId=@(ViewBag.VShopId)&shopcid=@secondCategory.Id">@secondCategory.Name</a></li>
+                            }
+                        </ol>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    $(function() {
+        $('.screen .list-group-item').click(function() {
+            $(this).find('ol').toggle();
+            $(this).find('.glyphicon').toggleClass('glyphicon-menu-down glyphicon-menu-right');
+        });
+    });
+</script>

@@ -1,0 +1,268 @@
+﻿@model Himall.DTO.WeiActivityModel
+@{
+    ViewBag.Title = "大转盘";
+	ViewBag.WeiXinShareArgs = this.WeiXinShareArgs;
+}
+<script src="~/Areas/Mobile/Templates/Default/Scripts/htmlSize.js"></script>
+<link rel="stylesheet" href="~/Content/bootstrap.min.css">
+<link rel="stylesheet" href="~/Areas/Mobile/Templates/Default/Content/custom.css">
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="/Areas/Mobile/Templates/Default/Scripts/BigWheel.js"></script>
+<script src="~/Scripts/jquery.artDialog.js"></script>
+<script src="~/Scripts/artDialog.iframeTools.js"></script>
+<style>
+    .container{padding-bottom:0;}
+</style>
+<div class="container hide">
+    <div class="big-wheel">
+        <div class="wheel-top">
+            
+            @if (Model.participationCount >= 0)
+            {
+
+                if (Model.participationType == Himall.CommonModel.WeiParticipateType.CommonCount)
+                {
+                    <p class="chance-leave">您还剩余<em id="chanceCount">@Model.participationCount</em>次机会</p>
+                }
+                else if (Model.participationType == Himall.CommonModel.WeiParticipateType.DayCount)
+                {
+                    <p class="chance-leave">今天还剩余<em id="chanceCount">@Model.participationCount</em>次机会</p>
+                }
+
+            }
+            else if (Model.participationCount == -1)
+            {
+                <em id="chanceCount" style="display:none;">@Model.participationCount</em>
+            }
+            else
+            {
+                if (Model.participationType == Himall.CommonModel.WeiParticipateType.CommonCount)
+                {
+                    <p class="chance-leave">您还剩余<em id="chanceCount">0</em>次机会</p>
+                }
+                else if (Model.participationType == Himall.CommonModel.WeiParticipateType.DayCount)
+                {
+                    <p class="chance-leave">今天还剩余<em id="chanceCount">0</em>次机会</p>
+                }
+            }
+        </div>
+        <div class="wheel-mid">
+            <div class="wheel-wrap" id="lottery">
+                <table>
+                    @{
+                        var item = Model.awards;
+                        var _id = 0;
+                        for (int i = 0; i < 3; i++)
+                        {
+                            <tr>
+                                @for (int j = 0; j < 3; j++)
+                                {
+                                    var num = (i * 3) + j;
+                                    if (num==3)
+                                    {
+                                        _id = 7;
+                                    }
+                                    else if (num==5)
+                                    {
+                                        _id = 3;
+                                    }
+                                    else if (num==7)
+                                    {
+                                        _id = 5;
+                                    }
+                                    else if (num==8)
+                                    {
+                                        _id = 4;
+                                    }
+                                    else if (num==6)
+                                    {
+                                        _id = 6;
+                                    }
+                                    
+                                    if (num == 4)
+                                    {
+                                        <td>
+                                            @*有需要消耗20积分的时候removeClass(".tb-cell"),然后("$.wheel-wrap .start-btn
+
+                                                span").addClass("agg")*@
+                                            <div class="grid start-btn">
+                                                <span class="agg">开始</span>
+                                                @if (Model.consumePoint > 0)
+                                                {
+
+                                                  
+                                                      <p class="agg" >需 @Model.consumePoint 积分</p>
+                                                       
+                                                }
+                                            </div>
+                                            <input type="hidden" id="@(num+ 1)" value="-1" />
+                                        </td>
+                                    }
+                                    else
+                                    {
+
+                                        <td>
+                                            @if (item[num].Id > 0)
+                                            {
+                                                if (item[num].awardType == Himall.CommonModel.WeiActivityAwardType.Integral)
+                                                {
+                                                    <div class="grid case4 lottery-unit lottery-unit-@_id " name="integral"><span></span><p id="integralName">@item[num].integral 积分</p></div>
+
+                                                }
+                                                else if (item[num].awardType == Himall.CommonModel.WeiActivityAwardType.Bonus)
+                                                {
+                                                    <div class="grid case3 lottery-unit lottery-unit-@_id" name="bonus">
+                                                        <span> <i></i> </span> <p >
+                                                                                   红包
+                                                                                   <input type="hidden" id="bonusName_@_id" value="@item[num].bonusName" />
+                                                            </p>
+                                                        
+</div>
+                                                }
+                                                else if (item[num].awardType == Himall.CommonModel.WeiActivityAwardType.Coupon)
+                                                {
+                                                    <div class="grid case1 lottery-unit lottery-unit-@_id " name="coupon"><span></span> <p>优惠券</p>  <input type="hidden" id="couponName_@_id" value="@item[num].couponName" /></div>
+                                                }
+                                                <input type="hidden" id="@(num + 1)" value="@item[@num].Id" />
+
+                                            }
+                                            else
+                                            {
+                                                <div class="grid case2 lottery-unit lottery-unit-@_id" name="default">
+                                                    <span>
+                                                        感谢抽奖<br />么么哒
+
+                                                        
+                                                    </span>
+                                                </div>
+                                                <input type="hidden" id="@(num+1)" value="0" />
+                                            }
+
+                                        </td>
+                                        _id++;
+                                    }
+                                }
+
+                            </tr>
+
+                        }
+                    }
+
+
+                </table>
+            </div>
+        </div>
+        <input type="hidden" value="@Model.Id" id="activityid" />
+        <input type="hidden" value="@Model.userId" id="userId" />
+        <input type="hidden" value="@ViewBag.Integrals" id="Integrals" />
+        <input type="hidden" value="@Model.consumePoint" id="consumePoint" />
+      
+        <div class="wheel-bottom">
+            <div class="activity-rules">
+                <h3>活动规则</h3>
+                <div class="rules">
+                    <p>1、积分请在我的积分中查收</p>
+                    <p>2、优惠券请在我的优惠券中查收</p>
+                </div>
+                <div class="activity-img">
+                    <img src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=@ViewBag.QRTicket">
+                </div>
+                
+            </div>
+        </div>
+
+        @*弹窗*@
+        <div class="wheel-alert animated zoomIn" style="display:none;">
+            <div class="alert-c">
+                @*感谢参与*@
+                <div class="alert-case1" style="display:none;"><span>感谢参与！</span></div>
+                @*抽奖机会已用完*@
+                <div class="alert-case2" style="display:none;"><span>抽奖机会已用完！</span></div>
+                @*积分不足*@
+                <div class="alert-case3" style="display:none;"><span>积分不足！</span></div>
+                @*积分中奖*@
+                <div class="alert-case4" style="display:none;">
+                    <i></i>
+                    <span >获得<em id="txtIntegral">50</em></span>
+                </div>
+                @*现金红包*@
+                <div class="alert-case5" style="display:none;">
+                    <i></i>
+                    <span >获得<em id="txtBouns"> </em>元红包</span>
+                </div>
+                @*优惠券*@
+                <div class="alert-case6" style="display:none;">
+                    <i></i>
+                    <span >获得优惠券 <em id="txtCoupon"> 满<s>200减</s>50</em></span>
+                </div>
+            </div>
+            <a class="wheel-submit" id="wheel-submit"   >确定</a>
+        </div>
+        @if (DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")) > (DateTime.Parse(Model.endTime.ToString("yyyy-MM-dd HH:mm:ss"))))
+        {
+            <div class="wheel-alert begain-end animated zoomIn" >
+                <div class="alert-c">
+                    <div class="alert-case1"><span style="font-size:.14rem">活动已结束请期待下次活动！</span></div>
+                </div>
+                <div class="start-end">
+                    <a href="/@ViewBag.AreaName/Member/Center" class="two-submit use-center">个人中心</a>
+                    <a href="/m-wap" class="two-submit home-page">商城首页</a>
+                </div>
+            </div>
+            @*蒙版*@
+            <div class="wheel-cover" ></div>
+        }
+        @if (DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")) < (DateTime.Parse(Model.beginTime.ToString("yyyy-MM-dd HH:mm:ss"))))
+        {
+            <div class="wheel-alert begain-end animated zoomIn" >
+                <div class="alert-c">
+                    <div class="alert-case1" ><span style="font-size:.14rem">活动尚未开始！</span></div>
+                    </div>
+                    <div class="start-end">
+                        <a href="/@ViewBag.AreaName/Member/Center" class="two-submit use-center">个人中心</a>
+                        <a href="/m-wap" class="two-submit home-page">商城首页</a>
+                    </div>
+                </div>
+            @*蒙版*@
+            <div class="wheel-cover" ></div>
+        }
+
+        @*活动未开始活动已结束*@
+        
+    </div>
+    <div class="wheel-cover" style="display:none"></div>
+
+</div>
+<script>
+	var loading = showLoading();
+	var winxinShareArgs = {
+		success: function(){
+			loading.close();
+		},
+		error:function(){
+			loading.close();
+		},
+		share: {
+			title: '@Model.activityTitle',
+			desc: '@Model.activityDetails',
+			link: '@Request.Url.AbsoluteUri',
+			imgUrl: '@(Model.activityUrl.ToLower().IndexOf("http:") ==0 ? Model.activityUrl:"http://"+Request.Url.Host.ToString()+Model.activityUrl)'
+		}
+	};
+	document.addEventListener( "plusready", function(){
+		$.cookie('Himall-User',plus.storage.getItem('appuserkey'));
+		if(!plus.storage.getItem('alreayFresh')){
+			plus.storage.setItem('alreayFresh','true');
+			window.location.reload();
+			return;
+		}
+		$(".container").removeClass('hide');
+		$('.start-end').hide();
+		if(plus.storage.getItem('appuserid')){
+			document.getElementById("userId").value = plus.storage.getItem('appuserid');
+		}
+	});
+	
+</script>
+
+@Html.Partial("_WeiXinShare")

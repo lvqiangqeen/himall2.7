@@ -1,0 +1,41 @@
+﻿@model Himall.DTO.ShopAccount
+@{
+    ViewBag.Title = "Renew";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<div class="container Sclear-K">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>店铺充值</a></li>
+    </ul>
+    <form class="form-horizontal" id="from_Save" role="form">
+        <div class="add-detail">
+            <div class="form-group">
+                <label class="col-sm-2 clear-d control-label" for="">可用金额：</label>
+                <div class="col-sm-10 clear-d form-inline">
+                    <span>@Model.Balance 元</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 clear-d control-label fee" for="">充值金额：</label>
+                <div class="col-sm-10 clear-d form-inline">
+                    <input class="form-control input-sm" onkeyup="" onblur="" value="" id="balance" type="text" /> <span>元</span>
+                </div>
+            </div>
+
+        </div>
+        <div class="Sclear-K3">
+            <div class="col-sm-offset-2 col-sm-10">
+                <a class="btn btn-primary" id="RenewPay" data-flag="true" href="javascript:;">提 交</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="dln" id="payMent" >
+    <h5 class="subtit" style="margin-bottom:20px">请选择支付方式</h5>
+    <ul></ul>
+</div>
+
+
+<script src="~/Areas/SellerAdmin/Scripts/UserAccount.js"></script>

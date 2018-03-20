@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "订单支付";
+    Layout = "~/Areas/Web/Views/Shared/_PayTopBar.cshtml";
+    var orders = ViewBag.Orders as List<Himall.Model.OrderInfo>;
+}
+@model IEnumerable<Himall.DTO.PaymentModel>
+<div class="w990 main">
+    <div class="m mainbody">
+        <div class="mc">
+            <s class="icon-succ04"></s>
+            <h3 class="orderinfo">订单提交成功，请您尽快付款！</h3>
+            <ul class="list-orderinfo">
+                @foreach (var order in orders)
+                {
+                    <li>订单号：@order.Id</li>
+                }
+                <li class="li-last">应付金额：<strong class="ftx-01" id="totalAmount">@(((decimal)ViewBag.TotalAmount).ToString("F2"))</strong> 元</li>
+            </ul>
+            <p class="mb-tip">请您在提交订单后<span class="ftx-04">@(ViewBag.UnpaidTimeout)小时</span>内完成支付，否则订单会自动取消。</p>
+        </div>
+    </div>
+    <div class="m pay-box">
+        <div class="mc">
+            <h5 class="subtit">使用预付款支付</h5>
+            <label>
+                <input type="radio" class="jdradio" value="" name="requestUrl" urltype="-1" id="" />
+                <span>当前账户可用余额 <span id="capitalAmount"> @(ViewBag.Capital)</span>元</span>
+                <a id="btnCharge" href="@Url.Action("CapitalCharge", "UserCapital")">去充值</a>
+            </label>
+        </div>
+    </div>
+    <div class="m pay-box">
+        <div class="mc">
+            <h5 class="subtit">请选择支付方式</h5>
+            <ul class="list-bank">
+                @{var i = 0;}
+                @foreach (var payment in Model)
+                {
+                    <li>
+                        <label>
+                            <input type="radio" class="jdradio" value="@payment.RequestUrl" name="requestUrl" id="@payment.Id" urlType="@((int)payment.UrlType)" />
+                            <img width="165" height="48" alt="微信PC" src="@payment.Logo" /> <!----插件中的图片暂不处理-->
+                        </label>
+                    </li>
+                }
+            </ul>
+
+        </div>
+    </div>
+     <div class="btns"><a class="btn-next" href="javascript:;" id="nextBtn">下一步</a></div>
+</div>
+
+
+<input type="hidden" id="orderIds" value="@ViewBag.OrderIds" />
+<input type="hidden" id="payid" value="@ViewBag.PayId" />
+<script src="~/Areas/Web/Scripts/payOrder.js"></script>

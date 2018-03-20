@@ -1,0 +1,89 @@
+﻿@model decimal
+@{
+    ViewBag.Title = "DefaultCommissionSet";
+}
+
+
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<div class="container Sclear-N1">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li><a href="@Url.Action("Manage")">分销商品设置</a></li>
+        <li class="active"><a>默认佣金比例设置</a></li>
+        <li><a href="@Url.Action("AdvPageSet")">聚合页推广设置</a></li>
+    </ul>
+    <h5 class="tips-top"><span class="help-default"><i></i>  说明：商品添加到分销列表后若不单独设置，则使用默认分佣比例</span></h5>
+
+    <div class="form-horizontal">
+        @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "post", OnBegin = "beginpost", OnSuccess = "successpost" }))
+        {
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><span class="red">*</span>默认佣金比例：</label>
+                <div class="col-sm-3">
+                    <input class="input-sm" style="width:50px;" value="@(Model.ToString("F1"))" maxlength="4" type="text" id="defaultrate" name="defaultrate"
+                           data-val="true" data-val-number="默认佣金比例必须是一个数字。" data-val-range="比例需在 0.1% ~ 90% 之间" data-val-range-max="90"
+                           data-val-range-min="0.1" data-val-required="请填写默认佣金比例" data-val-regex="只可以保留一位小数" data-val-regex-pattern="\d{1,2}(\.\d)?" onkeyup="value=value.replace(/[^\d.]/g,'')">
+                    &nbsp;%
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="help-default">最多一位小数</span>
+                </div>
+                <div class="col-sm-3">
+                    <span class="field-validation-valid help-default cor-red" data-valmsg-for="defaultrate" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary" id="btsubmit">保 存</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<script type="text/javascript">
+    var btsubmit;
+    var loading;
+    var isposting = false;
+
+    $(function () {
+        btsubmit = $("#btsubmit");
+    });
+
+    function beginpost() {
+        if (isposting) {
+            $.dialog.tips("数据提交中...");
+            return false;
+        }
+        isposting = true;
+        btsubmit.text("提交中...");
+        loading = showLoading();
+    }
+
+    function successpost(data) {
+        isposting = false;
+        btsubmit.text("保 存");
+        loading.close();
+        if (data.success == true) {
+            $.dialog.tips("设置默认佣金比例成功！"
+                //, function () {window.location.reload();//数据提交成功页面跳转}
+            );
+        } else {
+            $.dialog.errorTips(data.msg);
+        }
+    }
+</script>
+
+@if (Model<=0)
+{
+    <script type="text/javascript">
+        $(function () {
+            $.dialog.errorTips("佣金比例不可为零，请设置佣金比例！");
+        });
+    </script>
+}

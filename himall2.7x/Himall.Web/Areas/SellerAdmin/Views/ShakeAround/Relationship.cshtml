@@ -1,0 +1,210 @@
+﻿@using Senparc.Weixin.MP.AdvancedAPIs.ShakeAround;
+
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<style>
+    .table{margin-bottom:0;}
+    table.aui_dialog .table-bt { padding-bottom: 15px; }
+</style>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li><a href="/SellerAdmin/ShakeAround/Index">管理</a></li>
+        <li class="active"><a>配置页面</a></li>
+    </ul>
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>设备ID</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm cw" value="@ViewBag.DevModel.device_id" maxlength="50" type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>备注</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm cw" value="@ViewBag.DevModel.comment" maxlength="50" type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>UUID</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm cw" value="@ViewBag.DevModel.uuid" maxlength="50" type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>Major</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm cw" value="@ViewBag.DevModel.major" maxlength="50" type="text" disabled>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>Minor</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm cw" value="@ViewBag.DevModel.minor" maxlength="50" type="text" disabled>
+            </div>
+        </div>
+
+        <h3 class="table-hd">页面配置</h3>
+		
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10"><input type="button" id="addpage" class="btn btn-primary btn-sm" value="添加页面" /></div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-5">
+				<ul class="relation-list clearfix">
+				@foreach( var item in ( List<SearchPages_Data_Page> )ViewBag.PageModel )
+				{
+				<li id="@item.page_id">
+					<div class="col-sm-9">
+                        <img src="@(Himall.Core.HimallIO.GetImagePath(item.icon_url))" />
+						<h3>@item.title</h3>
+						<p>@item.description</p>
+					</div>
+					<a href="#" onclick="removeRelation(@ViewBag.DevModel.device_id , @item.page_id)">删除</a>
+					<h5>备注信息： @item.comment</h5>
+				</li>
+				}
+				</ul>
+			</div>
+        </div>
+    </div>
+
+    
+
+</div>
+
+<table id="list" class="table" style="display:none;"></table>
+
+
+
+<script>
+    
+
+    $(function(){
+        function getSelectedIds() {
+            var selecteds = $("#list").hiMallDatagrid('getSelections');
+            var ids = [];
+            $.each(selecteds, function () {
+                ids.push(this.page_id);
+            });
+            return ids;
+        }
+
+        $("#addpage").click(function(){
+            $.dialog({
+                title: '添加页面',
+                lock: true,
+                id: 'AddPage',
+                width: '600px',
+                content: document.getElementById("list"),
+                padding: '0 40px',
+                okVal: '确定',
+                init: function () {
+                    loadGrid();
+                },
+                ok: function () {
+
+                    var s = {};
+                    s.id = @ViewBag.DevModel.device_id;
+
+                    var ids = getSelectedIds();
+                    var pageids = "";
+                    for(var i = 0; i < ids.length; i++)
+                    {
+                        pageids += ids[i] + ",";
+                    }
+                    s.pageids = pageids.substring(0 , pageids.length - 1);
+                    var loading = showLoading();
+                    $.post( '/SellerAdmin/ShakeAround/BindRelationship', s, function ( result )
+                    {
+                        loading.close();
+                        if ( result.success )
+                        {
+                            $.dialog.tips( '添加成功' );
+                            location.reload(true);
+                        }
+                        else
+                            $.dialog.errorTips( '添加失败！' + result.msg );
+                    } );
+
+                }
+            });
+        });
+    })
+
+
+
+    function loadGrid()
+    {
+        
+        $( "#list" ).hiMallDatagrid( {
+            url: '/SellerAdmin/ShakeAround/GetPagesByNotRelationship',
+            nowrap: false,
+            rownumbers: true,
+            NoDataMsg: '没有找到符合条件的数据',
+            border: false,
+            fit: true,
+            fitColumns: true,
+            pagination: true,
+            idField: "page_id",
+            pageSize: 50,
+            pagePosition: 'bottom',
+            pageNumber: 1,
+            queryParams:  { id : @ViewBag.DevModel.device_id },
+            operationButtons: "#orderOperate",
+            columns:
+            [[
+                { checkbox:true, title: '选择', width: 100, align: "center" },
+                { field: "title", title: '主标题', width: 150, align: "center" },
+                { field: "description", title: '副标题', width: 150, align: "center" },
+                {
+                    field: "icon_url", title: '图片', width: 100, align: "center", formatter: function ( value, row, index )
+                    {
+                        html = "";
+                        html += '<img src="' + row.icon_url + '" style="width:50px;" />';
+                        return html;
+                    }
+                },
+                {
+                    field: "page_url", title: '页面地址', width: 100, align: "center", formatter: function ( value, row, index )
+                    {
+                        return '<a target="_blank" href="' + row.page_url + '" title="' + row.page_url + '">页面链接</a>';
+                    }
+                }
+            ]]
+        } )
+    }
+
+
+    function removeRelation( id , pageid )
+    {
+        var s = {};
+        s.id = id;
+        s.pageid = pageid;
+        var loading = showLoading();
+        $.post( '/SellerAdmin/ShakeAround/RemoveRelationship', s, function ( result )
+        {
+            loading.close();
+            if ( result.success )
+            {
+                $.dialog.tips( '删除成功' );
+
+                $( "#" + pageid ).remove();
+            }
+            else
+                $.dialog.errorTips( '删除失败！' + result.msg );
+        } );
+    }
+
+
+</script>
+
+

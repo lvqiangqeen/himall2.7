@@ -1,0 +1,68 @@
+﻿@model Himall.DTO.CouponSendByRegisterModel
+
+@{
+    ViewBag.CopyRight = false;
+    ViewBag.Title = "注册有礼";
+}
+
+<style>
+    html, body { height: 100%; }
+</style>
+<div class="container register-gift-page">
+    <div class="register-gift-hd">
+        <span>注册即可得</span>
+        <p>
+            <em>¥</em>
+            <strong>@Model.price</strong>
+            <i>大礼包</i>
+        </p>
+    </div>
+    <div class="register-gift-bd" id="slides">
+        <ul class="item-wrap">
+            @{
+             for (int i = 0; i < Model.CouponIds.Count; i++)
+             {
+                <li class="item">
+                    <div class="item-l">
+                        <sup>¥</sup><strong>@Model.CouponIds[i].Price</strong><span>@Model.CouponIds[i].OrderAmount</span>
+                    </div>
+                    <div class="item-r">
+                        <span>注</span><span>册</span><span>即</span><span>得</span>
+                    </div>
+                </li>
+
+                 if ((i + 1) % 3 == 0&&Model.CouponIds.Count!=3)
+                 {
+                    @Html.Raw("</ul><ul  class=\"item-wrap\">")
+                 }
+             }
+            }
+        </ul>
+    </div>
+</div>
+<section class="register-gift-bar-container flex-center">
+    <a class="btn btn-danger" href="javascript:;" id="lqgift">领取礼包</a>
+</section>
+<script src="/Scripts/jquery.slides.min.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/Gift.js"></script>
+<script>
+    $(function () {
+        var slides = $('#slides');
+        if (slides.children().length == 0) {
+            slides.hide();
+        }
+        if (slides.children().length > 1) {
+            slides.slidesjs({
+                navigation: false,
+                play: {
+                    active: false,
+                    auto: false,
+                    interval: 4000,
+                    swap: true
+                },
+            });
+        } else {
+            slides.css({ 'height': $('.register-gift-page').width() });
+        }
+    });
+</script>

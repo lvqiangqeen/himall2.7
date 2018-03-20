@@ -1,0 +1,34 @@
+﻿<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Areas/Admin/Scripts/GiftManagement.js"></script>
+
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>礼品列表</a></li>
+        <li><a href="@Url.Action("Add")">新增礼品</a></li>
+
+    </ul>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">名称</label>
+                <input class="form-control input-ssm" type="text" id="title">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">状态</label>
+                <select class="form-control input-ssm" id="status">
+                    <option value="">全部</option>
+                    <option value="1">可兑换</option>
+                    <option value="2">已过期</option>
+                    <option value="0">已下架</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" id="search" class="btn btn-primary btn-sm">搜索</button>
+            </div>
+        </form>
+    </div>
+
+    <table class="table clear-v39" id="list"></table>
+</div>

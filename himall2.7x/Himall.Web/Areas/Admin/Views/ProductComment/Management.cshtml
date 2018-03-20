@@ -1,0 +1,38 @@
+﻿<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jqeury.himallLinkage.js"></script>
+<script src="~/Areas/Admin/Scripts/ProductComment.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a id="notReply" onclick="ShowStatus(this)">未处理</a></li>
+        <li><a onclick="ShowStatus(this)">全部</a></li>
+    </ul>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">商品名称</label>
+                <input class="form-control input-ssm" type="text" id="txtProductName">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">评分</label>
+                <select id="selmark" class="form-control input-ssm">
+                    <option value="-1">全部</option>
+                    <option value="0">好评</option>
+                    <option value="1">中评</option>
+                    <option value="2">差评</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-inline" for="">查看追加的评论</label>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="hasAppend" value="true"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchBtn">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table class="table" id="list"></table>
+</div>
+
+<div class="dialog-form dln" id="reply-form"></div>

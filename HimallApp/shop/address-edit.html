@@ -1,0 +1,596 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <title>编辑收货地址</title>
+    <link href="css/mui.min.css" rel="stylesheet" />
+    <link href="css/mui.listpicker.css" rel="stylesheet" />
+    <link href="css/mui.poppicker.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">编辑收货地址</h1>
+    </header>
+    <div class="mui-content transparent address-edit" style="padding-top:64px;">
+        <div class="addressd-list">
+        </div>
+    </div>
+    <div class="addressDetail mui-scroll" id="addressDetail" style="display:none;">
+        <div style="position:fixed;top:0;width:100%;z-index:2;">
+            <ul class="mui-table-view addAddress">
+                <li class="mui-table-view-cell">
+                    <span class="mui-pull-left">详细地址</span>
+                    <textarea type="text" class="mui-input-clear" id="txtKeyWord" placeholder="请输入详细地址"></textarea>
+                    <img src="images/ic_clear.png" onclick="document.getElementById('txtKeyWord').value = ''" style="position: absolute;right:20px;top:12px;z-index:3;width:20px;">
+                </li>
+            </ul>
+        </div>
+        <ul class="mui-table-view addressDetail_list" id="nearAddress"></ul>
+    </div>
+    <script src="js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/mui.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/md5.js"></script>
+    <script src="js/mui.listpicker.js"></script>
+    <script src="js/mui.poppicker.js"></script>
+    <script src="https://map.qq.com/api/js?v=2.exp"></script>
+    <script src="https://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+    <script>
+        mui.init({
+            swipeBack: true
+        });
+
+        var adsId,
+            regionid,
+            ws,
+            streetList = [],
+            province = {},
+            userkey = himall.getState().userkey, cityPicker3;
+        var regionFullPath = '', regionFullName = '';
+        var _temp, _proIndex = 0, _cityIndex = 0, _districtIndex = 0, _streetIndex = 0;
+        var _proId = 0, _cityId = 0, _districtId = 0, _streetId = 0;
+        var selectCityName='';
+		var flag=0;
+        mui.plusReady(function () {
+            ws = plus.webview.currentWebview();
+            adsId = ws.adsId;//传参地址ID
+            var w = plus.nativeUI.showWaiting('', { padlock: true });
+            mui.ajax(URL + 'common/RegionAPI/GetAllRegion', {
+                data: himall.md5Data(),
+                dataType: 'json',
+                type: 'get',
+                timeout: 10000,
+                success: function (data) {
+                    province = data;
+                     cityPicker3 = new mui.PopPicker({
+                        layer: 3
+                    });
+                    cityPicker3.setData(province);
+                    //初始化地址
+                    mui.ajax(URL + 'api/ShippingAddress/GetShippingAddress', {
+                        data: himall.md5Data({
+                            id: adsId,
+                            userkey: userkey
+                        }),
+                        dataType: 'json',
+                        type: 'get',
+                        timeout: 10000,
+                        success: function (data) {
+                            if (data.Success == 'true') {
+                                longitude = data.ShippingAddress.Longitude;
+                                latitude = data.ShippingAddress.Latitude;
+                                regionFullPath = data.ShippingAddress.RegionIdPath;
+                                regionFullName = data.ShippingAddress.RegionFullName;
+                                var ads = data.ShippingAddress.RegionFullName.split(' '),
+                                    adsCity,
+                                    adsStreet;
+                                if (ads.length > 3) {
+                                    adsCity = ads[0] + ' ' + ads[1] + ' ' + ads[2];
+                                    adsStreet = ads[3];
+                                } else {
+                                    adsCity = ads.join(' ');
+                                }
+                                //初始化街道组合
+                                var adsPath = data.ShippingAddress.RegionIdPath.split(','),
+                                    temp;
+                                //如果有街道，则获取街道
+                                if (adsPath.length > 3) {
+                                    for (var i = 0; i < adsPath.length - 1; i++) {
+                                        if (i == 0) {
+                                            temp = province.filter(function (a) {
+                                                return a.Id == adsPath[i];
+                                            });
+                                        } else {
+                                            temp = temp[0].Sub.filter(function (a) {
+                                                return a.Id == adsPath[i];
+                                            });
+                                        }
+                                    }
+                                    streetList = temp[0].Sub;//这里无法获取街道
+                                     mui.ajax(URL+'/common/RegionAPI/GetSubRegion?parent=' + temp[0].Id, {
+			                            dataType: 'json',
+			                            type: 'get',
+			                            timeout: 10000,
+			                            success: function (data) {
+			                                if (data.length > 0) {
+			                                    streetList = data;
+			                                    showStreet.style.display = 'block';
+			                                } else {
+			                                    showStreet.style.display = 'none';
+			                                }
+			                            }
+	                       			 });
+                                }//如果有街道，则获取街道完毕
+
+                                var html = '';
+                                html += '<ul class="mui-table-view addAddress">' +
+                                        '<li class="mui-table-view-cell" for="name"><span class="mui-pull-left">收货人</span><input type="text" value="' + data.ShippingAddress.ShipTo + '"  id="shipTo" placeholder="收货人姓名"/></li>' +
+                                        '<li class="mui-table-view-cell"><span class="mui-pull-left">联系电话</span><input type="text" id="phone" value="' + data.ShippingAddress.Phone + '"  placeholder="联系电话"/></li>' +
+                                        '<li class="mui-table-view-cell" id="showCity"><span class="mui-pull-left">所在地区</span><input type="text" id="addressData" value="' + adsCity + '" readonly placeholder="选择省/市/区"/></li>' +
+                                        '<li class="mui-table-view-cell" id="showStreet"><span class="mui-pull-left" >街道</span><input type="text" id="streetData" readonly value="' + (adsStreet || '请选择街道') + '" placeholder="选择街道"/></li>' +
+                                        '<li class="mui-table-view-cell" id="addressLi"><span class="mui-pull-left">详细地址</span><textarea id="address" placeholder="小区/楼层">' + data.ShippingAddress.Address + '</textarea></li>' +
+                                    '</ul><button class="mui-btn mui-btn-block subAds"  id="submitAds">保 存</button>';
+                                regionid = data.ShippingAddress.RegionId;
+                                document.getElementsByClassName('addressd-list')[0].innerHTML = html;
+                                w.close();
+                                himall.removeClass(document.querySelector('.mui-content'), 'transparent');
+                                
+                                //如果是修改收货地址,则可反查出全路径
+                                if (regionFullPath != '') {
+                                    var arr = regionFullPath.split(',');
+                                    if (arr.length >= 3) {
+                                        _proId = arr[0]; _cityId = arr[1]; _districtId = arr[2];
+                                    }
+                                    if (arr.length >= 4) {
+                                        _streetId = arr[3];
+                                    }
+                                }//如果是修改收货地址,则可反查出全路径
+                                
+                                //设置地区插件的选中状态
+                                if (Number(_proId) > 0) {//当修改收货地址的时候才进行
+		                        _temp = province.filter(function (a, index) {
+		                            if (a.Id == _proId) {
+		                                _proIndex = index;
+		                            }
+		                            return a.Id == _proId;
+		                            return;
+		                        });
+		                        _temp = _temp[0].Sub.filter(function (a, index) {
+		                            if (a.Id == _cityId) {
+		                                _cityIndex = index;
+		                            }
+		                            return a.Id == _cityId;
+		                            return;
+		                        });
+		                        _temp = _temp[0].Sub.filter(function (a, index) {
+		                            if (a.Id == _districtId) {
+		                                _districtIndex = index;
+		                            }
+		                            return a.Id == _districtId;
+		                            return;
+		                        });
+		                        if(_streetId==0){
+						           	showStreet.style.display='none';
+						        }
+                   			 }
+                           }
+                        },
+                        error: function (xhr, type, errorThrown) {
+                            w.close();
+                            reloadWvLoad()
+                        }
+                    });//初始化地址完毕
+					
+					//选择省市区后触发事件
+                    mui('.addressd-list').on('tap', '#showCity', function () {
+                        var focus = document.querySelector(':focus');
+                        if (focus)
+                            focus.blur();
+                        //点击省市区的时候触发
+                        if(flag==0){
+                        if(_streetId>0){
+                            cityPicker3.pickers[0].setSelectedIndex(_proIndex);
+				            setTimeout(function () {
+				             cityPicker3.pickers[1].setSelectedIndex(_cityIndex);
+				             }, 1000);
+				            cityPicker3.pickers[2].setSelectedIndex(_districtIndex);
+				          }else{
+				           cityPicker3.pickers[0].setSelectedIndex(_proIndex);
+				            setTimeout(function () {
+				             cityPicker3.pickers[1].setSelectedIndex(_cityIndex);
+				             }, 500);
+				            setTimeout(function(){
+				            	cityPicker3.pickers[2].setSelectedIndex(_districtIndex);
+				            },1000);
+				     	 }
+				     }
+				     //点击省市区的时候触发
+                        cityPicker3.show(function (items) {
+                        	flag=1;
+                            document.getElementById('addressData').value = (items[0].Name || '') + " " + (items[1].Name || '') + " " + (items[2].Name || '');
+                            if (items[2].Name != '') {
+	                            selectCityName = items[2].Name;
+	                        }
+	                        else {
+	                            selectCityName = items[1].Name;//当用户先选择了地区，则定位搜索范围为用户选择区域。优先区县
+	                        }
+                            $("#txtKeyWord").val("");//当用户重新选择了地区信息后，将详细地址清空。不然会出现经纬度(旧的)与本次选择的地区不符合。
+                            $("#address").val("");
+                            streetData.value = '请选择街道';
+                            if (!items[1].Id) {
+                                regionid = items[0].Id;
+                                showStreet.style.display = 'none';
+                            } else {
+                                if (!items[2].Id) {
+                                    regionid = items[1].Id;
+                                    showStreet.style.display = 'none';
+                                } else {
+                                    mui.ajax(URL + 'common/RegionAPI/GetSubRegion?parent=' + items[2].Id, {
+                                        data: himall.md5Data(),
+                                        dataType: 'json',
+                                        type: 'get',
+                                        timeout: 10000,
+                                        success: function (data) {
+                                            if (data.length > 0) {
+                                                streetList = data;
+                                                regionid = '';
+                                                showStreet.style.display = 'block';
+                                            } else {
+                                                regionid = items[2].Id;
+                                                showStreet.style.display = 'none';
+
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+
+                        });
+                    }, false);
+                }
+            });
+
+            var userPicker = new mui.PopPicker({ layer: 1 });
+            mui('.addressd-list').on('tap', '#showStreet', function () {
+                if (streetList.length < 1) {
+                    plus.nativeUI.toast('请先重新选择地区');
+                    return;
+                }
+                userPicker.setData(streetList);
+                userPicker.show(function (items) {
+                    streetData.value = items[0].Name;
+                    regionid = items[0].Id;
+                    _streetId = regionid;
+                    $("#txtKeyWord").val("");//当用户重新选择了街道后，也要清空详细地址重新定位
+                    $("#address").val("");
+                });
+                if (_streetId > 0) {//如果修改时匹配到了街道
+                    var streetIndex = 0;
+                    var temp = streetList.filter(function (a, index) {
+                        if (a.Id == _streetId) {
+                            streetIndex = index;
+                        }
+                        return a.Id == _streetId;
+                        return;
+                    });
+                    userPicker.pickers[0].setSelectedIndex(streetIndex);
+                    regionid = _streetId;
+                }
+            });
+        });
+
+        mui('body').on('tap', '#submitAds', function () {
+            if (!document.getElementById('shipTo').value) {
+                plus.nativeUI.toast('收货人不能为空');
+                return false;
+            }
+            var phone = document.getElementById('phone').value;
+            if (!phone) {
+                plus.nativeUI.toast('联系方式不能为空');
+                return false;
+            }
+            if (phone.length > 12 || phone.length < 10) {
+                plus.nativeUI.toast('请填写正确的联系方式');
+                return false;
+            }
+            if (!regionid) {
+                var streetStyle = showStreet.style.display;
+                if (streetStyle == "block") {
+                    plus.nativeUI.toast('所选街道不能为空');
+                } else {
+                    plus.nativeUI.toast('所在地区不能为空');
+                }
+                return false;
+            }
+            if (!document.getElementById('address').value) {
+                plus.nativeUI.toast('收货人详细地址不能为空');
+                return false;
+            }
+            var w = plus.nativeUI.showWaiting('', { padlock: true });
+            mui.ajax(URL + 'api/ShippingAddress/PostEditShippingAddress', {
+                data: himall.md5Data({
+                    id: adsId,
+                    regionId: regionid,
+                    address: document.getElementById('address').value,
+                    phone: phone,
+                    shipTo: document.getElementById('shipTo').value,
+					latitude: latitude,
+                    longitude: longitude,
+                    userkey: userkey
+                }),
+                dataType: 'json',
+                type: 'POST',
+                timeout: 10000,
+                success: function (data) {
+                    w.close();
+                    if (data.Success == "true") {
+                        plus.nativeUI.toast('地址保存成功');
+                        mui.fire(plus.webview.getWebviewById('address.html'), 'updateData');
+                        mui.fire(plus.webview.getWebviewById('order-submit.html'),'updateData');
+                        mui.fire(plus.webview.getWebviewById('integral-submit.html'),'updateData');
+                        setTimeout(function () {
+                            ws.close();
+                        }, 1000)
+                    } else {
+                        w.close();
+                        plus.nativeUI.toast('地址保存失败，请填写完整资料');
+                    }
+                },
+                error: function (xhr, type, errorThrown) {
+                    w.close();
+                    plus.nativeUI.toast('保存失败，请检查网络')
+                }
+            });
+        });
+
+
+        var addressPage = document.getElementById('addressDetail');
+        mui('.addressd-list').on('tap', "#addressLi", function () {
+            addressPage.style.display = 'block';
+            mui('#txtKeyWord')[0].value = mui('#address')[0].value;
+            setTimeout(function () {
+                addressPage.style.webkitTransform = 'translateY(0)';
+            }, 50);
+        });
+        mui('.addressDetail_list').on('tap', "li", function () {
+            var text = mui(this)[0].getElementsByClassName('ads')[0].innerHTML;
+            mui('#address')[0].value = text;
+            addressPage.style.webkitTransform = 'translateY(100%)';
+            setTimeout(function () {
+                addressPage.style.display = 'none';
+            }, 300);
+        });
+
+        document.getElementById('txtKeyWord').addEventListener('keydown', function (e) {
+            if (e.keyCode == 13) {
+                var text = this.value;
+                mui('#address')[0].value = text;
+                addressPage.style.webkitTransform = 'translateY(100%)';
+                setTimeout(function () {
+                    addressPage.style.display = 'none';
+                }, 300);
+            }
+        });
+        document.getElementById('txtKeyWord').addEventListener('blur', function (e) {
+            var text = document.getElementById('txtKeyWord').value;
+            mui('#address')[0].value = text;
+            addressPage.style.webkitTransform = 'translateY(100%)';
+            setTimeout(function () {
+                addressPage.style.display = 'none';
+            }, 300);
+        });
+    </script>
+    <script>
+        var searchService;
+        var pageIndex = 0;
+        var pageCapacity = 1000;
+        var geocoder;
+        var hasData = true;
+        $(document).ready(function () {
+            //设置Poi检索服务，用于本地检索、周边检索
+            searchService = new qq.maps.SearchService({
+                //检索成功的回调函数
+                complete: function (results) {
+                    //设置回调函数参数
+                    var pois = results.detail.pois;
+                    if (pois == undefined) {
+                        $("#divMore").html("查询不到数据");
+                    }
+                    else {
+                        for (var i = 0, l = pois.length; i < l; i++) {
+                            var poi = pois[i];
+                            if (typeof (poi.address) != "undefined") {
+                                var parText = "\'" + poi.latLng + "\'";
+                                var address = "\'" + poi.address + "\'";
+                                var name = "\'" + poi.name + "\'";
+                                $("#nearAddress").append('<li class="mui-table-view-cell" data-name=\"' + poi.name + '\"  data-addr=\"' + poi.address + '\" data-parText=' + parText + '><span class="iconfont icon-address mui-pull-left"></span><div><span class="mui-pull-left">' + poi.name + '</span><br /><span class="ads">' + poi.address + '</span></div></li>');
+                            }
+                        }
+                        mui('#nearAddress').on('tap', '.mui-table-view-cell', function () {
+                            choosePosition(this.getAttribute('data-parText'), this.getAttribute('data-addr'), this.getAttribute('data-name'));
+                        });
+                        if (pois.length < 10) {
+                            $("#divMore").html("附近没有更多地址了");
+                            hasData = false;
+                        }
+                        else {
+                            //$("#divMore").html("加载更多...");
+                        }
+                        pageIndex++;
+                    }
+                },
+                //若服务请求失败，则运行以下函数
+                error: function () {
+                    $("#divMore").html("查询不到数据");
+                }
+            });
+            $("#divAdr").hide();
+            $("#txtKeyWord").bind('input propertychange', function () {
+                setTimeout(function () {
+                    var keyword = $("#txtKeyWord").val();
+                    if (keyword.length > 0) {
+                        searchKeyword(1);
+                    }
+                }, 300);
+            });
+            $("#txtKeyWord").focus(function () {
+                setTimeout(function () {
+                    var keyword = $("#txtKeyWord").val();
+                    if (keyword.length > 0) {
+                        searchKeyword(1);
+                    }
+                }, 300);
+            });
+        });
+
+        //设置搜索的范围和关键字等属性
+        function searchKeyword(index) {
+            if (!isRefresh && index == 2) {
+                isRefresh = true;
+                return;
+            }
+            //$("#container").hide();
+            $("#divAdr").show();
+            var keyword = $("#txtKeyWord").val();
+            if (keyword == "") {
+                $.dialog.errorTips("请输入要搜索的地址信息");
+                return;
+            }
+            var region = selectCityName;
+            if (index == 1) {
+                pageIndex = 0;
+                hasData = true;
+                $("#nearAddress").empty();
+            }
+            else {
+                if (!hasData) {
+                    return;
+                }
+            }
+            //根据输入的城市设置搜索范围
+            searchService.setLocation(region);
+            //设置搜索页码
+            searchService.setPageIndex(pageIndex);
+            //设置每页的结果数
+            searchService.setPageCapacity(pageCapacity);
+            //根据输入的关键字在搜索范围内检索
+            searchService.search(keyword);
+        }
+        //--------滚动时，往下加载数据 start--------------
+
+        //选择地址后反向匹配地区插件
+        var isRefresh = true;
+        //var streetId = 0, proId = 0, cityId = 0, districtId = 0, longitude = 0, latitude = 0;
+        var longitude = 0, latitude = 0;
+        function choosePosition(latLng, address,name) {
+            longitude = latLng.split(',')[1].trim();
+            latitude = latLng.split(',')[0].trim();
+            isRefresh = false;
+            $("#divAdr").hide();
+            var fromLatLng = latLng.split(',')[0].trim() + ',' + latLng.split(',')[1].trim();
+            mui.plusReady(function () {
+                mui.ajax(URL + 'api/ShippingAddress/GetRegion', {
+                    data: himall.md5Data({
+                        fromLatLng: fromLatLng
+                    }),
+                    dataType: 'json',
+                    type: 'get',
+                    timeout: 10000,
+                    success: function (data) {
+                        var fullPath = data.fullPath;//省，市，区，县 :1812,1813,1814,27074
+                        var showCity = data.showCity;
+                        var street = data.street;
+                        $("#addressData").val(showCity);
+                        $("#streetData").val(street);
+                        name = getNewAddress(name, showCity, street);// 过滤掉选择地址名称中的省市区街道
+                        $("#txtKeyWord").val(name);
+                        $("#address").val(name);
+                        _proId=0;_cityId=0;_districtId=0;_streetId=0;//每次选之前，先清空
+                        if (fullPath != '') {
+                            var arr = fullPath.split(',');
+                            if (arr.length >= 3) {
+                                _proId = arr[0]; _cityId = arr[1]; _districtId = arr[2];
+                            }
+                            if (arr.length >= 4) {
+                                _streetId = arr[3];
+                            }
+                        }
+                        flag=0;
+                        //初始化街道组合,这里要优化！！！
+                        var temp;
+                        temp = province.filter(function (a, index) {
+                            if (a.Id == _proId) {
+                                _proIndex = index;
+                            }
+                            return a.Id == _proId;
+                            return;
+                        });
+
+                        temp = temp[0].Sub.filter(function (a, index) {
+                            if (a.Id == _cityId) {
+                                _cityIndex = index;
+                            }
+                            return a.Id == _cityId;
+                            return;
+                        });
+
+                        temp = temp[0].Sub.filter(function (a, index) {
+                            if (a.Id == _districtId) {
+                                _districtIndex = index;
+                            }
+                            return a.Id == _districtId;
+                            return;
+                        });
+
+                        mui.ajax(URL + '/common/RegionAPI/GetSubRegion?parent=' + temp[0].Id, {
+                            dataType: 'json',
+                            type: 'get',
+                            timeout: 10000,
+                            success: function (data) {
+                                if (data.length > 0) {
+                                    streetList = data;
+                                    regionid = _streetId;
+                                    showStreet.style.display = 'block';
+                                } else {
+                                    regionid = temp[0].Id;
+                                    showStreet.style.display = 'none';
+                                }
+                            },
+                            error: function (xhr, type, errorThrown) {
+                                $("#addressData").val('');
+                                $("#streetData").val('');
+                                $("#txtKeyWord").val(address);
+                                plus.nativeUI.toast("网络错误：请重新选择");
+                            }
+                        });
+                    },
+                    error: function (xhr, type, errorThrown) {
+                        $("#addressData").val('');
+                        $("#streetData").val('');
+                        $("#txtKeyWord").val(address);
+                        plus.nativeUI.toast("网络错误：请重新选择");
+                    }
+                });
+            });
+        }
+        function getNewAddress(address, showCity, street) {
+            if (showCity != '') {
+                var storeAreaArr = showCity.split(' ');
+                if (street != '') {
+                    storeAreaArr.push(street);
+                }
+                for (var i = 0; i < storeAreaArr.length; i++) {
+                    address = address.replace(storeAreaArr[i], '');
+                }
+            }
+            return address;
+        }
+    </script>
+</body>
+</html>

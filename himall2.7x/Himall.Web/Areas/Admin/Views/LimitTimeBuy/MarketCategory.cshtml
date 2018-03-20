@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "MarketCategory";
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Areas/Admin/Scripts/LimitTimeBuyMarketCategory.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="./Management">活动列表</a></li>
+        <li><a href="./SetSlide">活动页面设置</a></li>
+        <li><a href="./BoughtList">服务购买列表</a></li>
+        <li class="active"><a>活动商品分类</a></li>
+        <li><a href="./ServiceSetting">服务费用设置</a></li>
+        <li><a href="./ConfigSetting">活动参数设置</a></li>
+    </ul>
+    <a id="AddCate" class="btn-especial"><span class="glyphicon glyphicon-plus"></span><em>添加分类</em></a>
+    <table id="list" class="table clear-v19 mt20"></table>
+</div>

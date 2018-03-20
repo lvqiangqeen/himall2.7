@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "分销首页设置";
+}
+<style>
+    .page-item .table-bt{padding:14px 0;}
+</style>
+<script src="~/Areas/Admin/Scripts/DistributionShopPageSetting.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>分销首页设置</a></li>
+    </ul>
+    <ul class="page-tab-hd page-fxindex mt20">
+        <li class="li1"><i class="glyphicon glyphicon-pencil"></i>轮播图配置</li>
+        <li class="li2"><i class="glyphicon glyphicon-pencil"></i>商品设置</li>
+        <i class="arrow"></i>
+    </ul>
+    <div class="page-tab-bd">
+        <div class="page-item">
+            <div class="table-top"><a class="btn btn-primary btn-xs" id="addSlideImage"><i class="glyphicon glyphicon-plus"></i> 添加轮播图</a></div>
+            <table id="slideImagesTable" class="table table-bordered"></table>
+
+            <form class="form-horizontal dln" id="editSlideImage">
+                <div class="form-group upload-img" id="imgUrl">
+                    <div class="col-sm-3"></div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">描述：</label>
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm" name="description" id="description" value="" maxlength="10" />
+                        <p class="help-default">限10个字符</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">跳转链接：</label>
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm" name="url" id="url" value="" />
+                    </div>
+
+                </div>
+            </form>
+            <input type="hidden" id="SlideImageBox" value="" />
+            <input type="hidden" id="SlideImageId" value="" />
+
+            <div id="choceTopicUrl" class="dln">
+                <div class="choose-search">
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="" >标题</label>
+                        <input class="form-control input-ssm" type="text" id="titleKeyword">
+                    </div>
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="">标签</label>
+                        <input class="form-control input-ssm" type="text" id="tagsKeyword">
+                    </div>
+                    <button type="button" class="btn btn-primary btn-ssm" id="topicSearchButton">搜索</button>
+                </div>
+                <table id="topicGrid" class="table table-bordered"></table>
+            </div>
+
+        </div>
+
+        <div class="page-item">
+            <div class="table-top"><a class="btn btn-primary btn-xs" id="addBtn"><i class="glyphicon glyphicon-plus"></i> 添加商品</a></div>
+            <div class="search-box">
+                <form class="form-inline custom-inline pt15">
+                    <div class="form-group">
+                        <label class="label-inline w95" for="">商品/品牌</label>
+                        <input class="form-control input-ssm" type="text" id="productName">
+                    </div>
+                    <div class="form-group">
+                        <label class="label-inline w75" for="">分类</label>
+                        <select id="category1" class="form-control input-ssm">
+                            <option>分类</option>
+                        </select>
+                        <select id="category2" class="form-control input-ssm">
+                            <option>分类</option>
+                        </select>
+                        <select id="category3" class="form-control input-ssm">
+                            <option>分类</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary  btn-ssm" id="productSearchButton">搜索</button>
+                    </div>
+                </form>
+            </div>
+            <table id="productList" class="table table-bordered"></table>
+            <input type="hidden" id="categoryId" value="" />
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Areas/Admin/Scripts/DistributionShopSlideImage.js"></script>
+
+<script src="~/Areas/Admin/Scripts/mobileHomeTopic.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Areas/Admin/Scripts/DistributionShopProductSetting.js"></script>

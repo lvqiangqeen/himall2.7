@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "保证金规则设置";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model List<Himall.Model.CategoryCashDepositInfo>
+<link href="~/Content/bootstrap-switch.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-switch.min.js"></script>
+<link href="~/Content/jquery.onoff.css.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.onoff.min.js"></script>
+<script src="~/Areas/Admin/Scripts/CashDepositRule.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="Management">保证金管理</a></li>
+        <li class="active"><a>保证金规则设置</a></li>
+    </ul>
+    <h5 class="tips-top"><span class="help-default"><i></i>平台可根据商城的一级分类设置经营该类目的商家应缴纳保证金，商家缴纳相应保证金后，可在商品详情页、店铺首页及订单列表页面出现消费者保障标识；
+
+当商家同时经营多个一级类目时则按最高值缴纳；当开启七天无理由退换后，在缴纳保证经卖家的商品详情页面、店铺首页及订单列表页面将出现七天无理由退换货标识。<a href="/admin/Article/Add">去设计保证金相关文章</a></span></h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="tac">类目</th>
+                <th class="tac">应缴金额（元）</th>
+                <th class="tac">七天无理由退换货</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var c in Model)
+            {
+                <tr>
+                    <td class="tac">
+                        @c.CategoriesInfo.Name
+                    </td>
+                    
+                    <td class="tac clear-v9">
+                        <input class="text-order input-int-num" onchange="updateNeedpay(@c.CategoryId,$(this))" type="text" value="@Math.Floor(c.NeedPayCashDeposit)" />
+                    </td>
+
+                    <td class="tac clear-v50">
+                        <input type="checkbox" class="CashRules" categorycashdepositid="@c.CategoryId" enablenoreasonreturn="@c.EnableNoReasonReturn" @(@c.EnableNoReasonReturn ? "checked" : "")>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

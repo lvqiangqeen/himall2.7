@@ -1,0 +1,34 @@
+﻿@{ ViewBag.Title = "OrderComplaint";}
+@model Himall.Web.Areas.Admin.Models.WeekSettlementModel
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        @*<li type="statusTab"><a href="@Url.Action("Management")">结算管理</a></li>
+            <li class="active"><a href="#">设置</a></li>*@
+        <li><a href="@Url.Action("index","Billing")">财务总览</a></li>
+		<li><a href="@Url.Action("PendingSettlementList", "Billing")">待结算列表</a></li>
+		<li><a href="@Url.Action("SettlementList", "Billing")">已结算列表</a></li>
+        <li><a href="@Url.Action("PlatAccountItem", "Billing")">结余明细</a></li>
+        <li class="active"><a href="@Url.Action("SetSettlementWeek","account")">结算周期设置</a></li>
+    </ul>
+    @using (Html.BeginForm("UpdateSettlementWeek", "Account", new { Area = "Admin" }, FormMethod.Post, new { id = "ShopGradeForm" }))
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-2 text-right lh30" for="">当前结算周期(天)：</div>
+                <div class="col-sm-2 lh30" for="">@Model.CurrentWeekSettlement</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">新结算周期(天)：</label>
+                <div class="col-sm-3">
+                    <input type="text" name="NewWeekSettlement" id="NewWeekSettlement" class="form-control input-sm" onkeyup=" value = value.replace(/[^\d\.]/g, '')" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary" id="submitWeek" onclick="return checkValue();">提 交</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script src="~/Areas/Admin/Scripts/SetSettlement.js"></script>

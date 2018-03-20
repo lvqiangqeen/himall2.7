@@ -1,0 +1,169 @@
+﻿@model Himall.Web.Models.SiteSettingModel
+
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Areas/Admin/Scripts/SiteSettingEdit.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>站点设置</a></li>
+    </ul>
+    @using (Html.BeginForm("Edit", "SiteSetting", FormMethod.Post))
+    {
+        <div class="form-horizontal form-pt0">
+
+            <h3 class="table-hd">站点基本设置</h3>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">网站名称：</label>
+                <div class="col-sm-4">
+                    @Html.EditorFor(item => item.SiteName, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                </div>
+                <div class="col-sm-4">
+                    <p class="help-default">显示在商城顶部欢迎信息等位置</p>
+                </div>
+            </div>
+
+            <div class="form-group upload-img" id="Logo"></div>
+
+            <div class="form-group upload-img" id="wxlogobox"></div>
+
+            <div class="form-group upload-img" id="MemberLogo"></div>
+
+            <div class="form-group upload-img" id="QRCode"></div>
+
+            <div class="form-group upload-img" id="PCLoginPic"></div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">客服电话：</label>
+                <div class="col-sm-4">
+                    @Html.EditorFor(item => item.SitePhone, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                </div>
+                <div class="col-sm-4">
+                    <p class="help-default">提供小程序显示客服电话功能</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">是否提供APP下载：</label>
+                <div class="col-sm-8 form-control-static">
+                    @Html.CheckBoxFor(item => item.CanDownload) (开启后会在首页显示APP下载的二维码)
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">App版本号：</label>
+                <div class="col-sm-4">
+                    @Html.EditorFor(item => item.AppVersion, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                </div>
+                <div class="col-sm-4">
+                    <p class="help-default">版本号如：2.4.1</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">AppleStore：</label>
+                <div class="col-sm-4">
+                    @Html.EditorFor(item => item.IOSDownLoad, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                </div>
+                <div class="col-sm-4">
+                    <p class="help-default">IOS版本下载地址</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">Andirod：</label>
+                <div class="col-sm-3">
+                    @Html.EditorFor(item => item.AndriodDownLoad, new { htmlAttributes = new { @class = "form-control input-sm", @readOnly = "readOnly " } })
+                </div>
+                <div class="col-sm-1 form-control-static">
+                        <div class="divFile">
+                            <input type="file" id="btnFile" class="inputFile" name="file" accept="" style="display:none;" />
+                            <input type="button" name="button" value="选择文件" style="margin-top: -3px;" onclick="javascript:openBrowse();" />
+                        </div>
+                </div>
+                <div class="col-sm-2">
+                    <p class="help-default">Andriod版本安装包apk</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">APP更新说明：</label>
+                <div class="col-sm-4">
+                    @Html.TextAreaFor(item => item.AppUpdateDescription, new { @class = "form-control input-sm", rows = 5 })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">第三方流量统计代码：</label>
+                <div class="col-sm-4">
+                    @Html.TextAreaFor(item => item.FlowScript, new { @class = "form-control input-sm", rows = 5 })
+                </div>
+                <div class="col-sm-6">
+                    <p class="help-default">在商城（前台）各个页面加上第三方流量统计代码，用于记录各页面访问情况</p>
+                </div>
+            </div>
+
+
+            <h3 class="table-hd">SEO设置</h3>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">Title：</label>
+                <div class="col-sm-4">
+                    @Html.EditorFor(item => item.Site_SEOTitle, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                </div>
+                <div class="col-sm-4">
+                    <p class="help-default"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">Keywords：</label>
+                <div class="col-sm-4">
+                    @Html.EditorFor(item => item.Site_SEOKeywords, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                </div>
+                <div class="col-sm-4">
+                    <p class="help-default"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">Description：</label>
+                <div class="col-sm-4">
+                    @Html.EditorFor(item => item.Site_SEODescription, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                </div>
+                <div class="col-sm-4">
+                    <p class="help-default"></p>
+                </div>
+            </div>
+            @*<h3 class="table-hd">站点状态</h3>*@
+            @*<div class="form-group">
+                <label class="col-sm-2 control-label" for="">是否关闭站点：</label>
+                <div class="col-sm-8 form-control-static">
+                    @Html.CheckBoxFor(item => item.SiteIsOpen) (勾选关闭站点后，前台和商家中心全部功能不能使用, 请您谨慎操作！)
+                </div>
+            </div>*@
+            <h3 class="table-hd">会员注册</h3>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">注册方式：</label>
+                <div class="col-sm-8 form-control-static">
+                    <label>@Html.RadioButton("RegisterType", "0", Model.RegisterType == Himall.Model.SiteSettingsInfo.RegisterTypes.Normal) 普通账号</label>
+                    <label>@Html.RadioButton("RegisterType", "1", Model.RegisterType == Himall.Model.SiteSettingsInfo.RegisterTypes.Mobile) 手机注册</label>
+                </div>
+            </div>
+            <div class="form-group" id="regemailbox">
+                <label class="col-sm-2 control-label" for="">是否需要邮箱验证：</label>
+                <div class="col-sm-8 form-control-static">
+                    @Html.CheckBoxFor(item => item.EmailVerifOpen) (勾选邮箱验证后，会员注册需要经过邮箱验证！)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="button" id="Save" class="btn btn-primary" value="保 存">
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+
+<input type="hidden" value="@Model.Logo" id="Logo1" />
+<input type="hidden" value="@Model.WXLogo" id="WXLogo1" />
+<input type="hidden" value="@Model.MemberLogo" id="MemberLogo1" />
+<input type="hidden" value="@Model.QRCode" id="QRCode1" />
+<input type="hidden" value="@Model.PCLoginPic" id="PCLoginPic1" />

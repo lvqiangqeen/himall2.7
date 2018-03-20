@@ -1,0 +1,36 @@
+﻿@model Himall.Model.LimitTimeBuySettingModel
+@{
+    ViewBag.Title = "ServiceSetting";
+}
+<script src="~/Areas/Admin/Scripts/LimitTimeBuyServiceSetting.js"></script>
+<script src="~/Scripts/v.js"></script>
+<div class="container clear-v20">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="./Management">活动列表</a></li>
+        <li><a href="./SetSlide">活动页面设置</a></li>
+        <li><a href="./BoughtList">服务购买列表</a></li>
+        <li><a href="./MarketCategory">活动商品分类</a></li>
+        <li class="active"><a>服务费用设置</a></li>
+        <li><a href="./ConfigSetting">活动参数设置</a></li>
+    </ul>
+    @using (Html.BeginForm("SaveServiceSetting", "LimitTimeBuy", FormMethod.Post, new { id = "form1" }))
+    {
+        <div class="form-horizontal clear-v28">
+            <div class="form-group v-server-mb30">
+                <label class="col-sm-2 control-label" for="">服务价格：</label>
+                 <div class="col-sm-3 v-server-error">@Html.EditorFor(item => item.Price, new { htmlAttributes = new { @class = "form-control input-sm" } })</div>
+                 <div class="col-sm-5"><span class="help-default">设置限时购服务的价格（按照每月计算）.</span></div>
+            </div>
+            @*<div class="form-group">
+                <label class="label-inline" for="">活动审核期：</label>
+                @Html.EditorFor(item => item.ReviceDays, new { htmlAttributes = new { @class = "form-control input-sm" } })
+            </div>*@
+            <div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary">保存</button>
+				</div>
+			</div>
+        </div>
+    }
+    </div>
+  

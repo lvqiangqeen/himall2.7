@@ -1,0 +1,87 @@
+﻿@model Himall.Web.Areas.SellerAdmin.Models.OrderPrintViewModel
+<script src="~/Scripts/jquery.himall.Region.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li><a href="./management">所有订单</a></li>
+        <li class="active"><a>批量打印快递单(@Model.OrdersCount)</a></li><!--数字为已选择订单数量-->
+    </ul>
+    <h3 class="table-hd">寄件人信息</h3>
+    <form class="form-horizontal mt20">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">姓名：</label>
+            <div class="col-sm-4">
+                <input id="senderName" type="text" class="form-control input-sm" value="@Model.SenderName" />
+            </div>
+            <div class="col-sm-3">
+                <!--<span class="help-default cor-red">不能多于10个字</span>-->
+                <span class="field-validation-valid"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">区域：</label>
+            @*<div class="col-sm-7">
+                <select id="senderAddressProvince" class="form-control input-sm select-sort"></select>
+                <select id="senderAddressCity" class="form-control input-sm select-sort"></select>
+                <select id="senderAddressDistrict" class="form-control input-sm select-sort"></select>
+            </div>*@
+            <div class="col-sm-10"><div id="regionSelector"></div></div>
+            @Html.HiddenFor(a => a.SenderRegionId)
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">地址：</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control input-sm" id="address" value="@Model.SenderAddress" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">联系电话：</label>
+            <div class="col-sm-4">
+                <input id="phone" type="text" class="form-control input-sm" value="@Model.SenderPhone" />
+            </div>
+            <div class="col-sm-3">
+                <span class="help-default cor-red" style="display:none">请输入正确的联系电话</span>
+                <span class="field-validation-valid"></span>
+            </div>
+        </div>
+    </form>
+
+    <h3 class="table-hd">快递信息</h3>
+    <form class="form-horizontal mt20">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">选择快递公司：</label>
+            <div class="col-sm-4">
+                <ul class="express-choose clearfix">
+                    @*class="active"*@
+                    @foreach (var express in Model.Expresses)
+                    {
+                        <li name="@express.Name" title="@express.DisplayName" expresscompany @(express.Elements == null || express.Elements.Count() == 0 ? "notSet=\"true\"" : "")><img src="@express.Logo" style="width:86px;height:24px" /><b class="on-choose"></b></li>
+                    }
+                </ul>
+                <a class="more-express">显示更多</a>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">快递单号：</label>
+            <div class="col-sm-4">
+                <input type="text" id="startNo" class="form-control input-sm" />
+            </div>
+            <div class="col-sm-5">
+                <span class="help-default">批量打印，填写开始快递单号，后续的快递单号将自动递增。</span>
+                <span class="field-validation-valid"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-4">
+                <button type="button" class="btn btn-primary" id="print-express">确认打印</button>
+            </div>
+        </div>
+        <input type="hidden" id="fullRegionPath" value="@Model.FullRegionPath" />
+    </form>
+</div>
+<object id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0 style="position:absolute;left:0px;top:-20px;"> </object>
+<object id="LODOP_EM" type="application/x-print-lodop" width=0 height=0 style="position:absolute;left:0px;top:-20px;"></object>
+<script src="~/Scripts/LodopFuncs.js"></script>
+<script src="~/Scripts/print.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/orderPrint.js"></script>

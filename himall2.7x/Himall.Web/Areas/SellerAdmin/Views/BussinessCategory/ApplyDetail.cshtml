@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "申请的经营类目详情";
+}
+
+@model Himall.Model.BusinessCategoriesApplyInfo
+
+<style>
+    .top-msg span {
+        font-size: 14px;
+        color: #494e52;
+        line-height: 30px;
+    }
+
+    .top-msg {
+        margin-top: 30px;
+    }
+
+    .table {
+        margin-top: 30px;
+    }
+
+        .table > tbody > tr > td {
+            padding: 10px 5px;
+            text-align: center;
+        }
+
+        .table th {
+            text-align: center;
+        }
+        .container{padding-bottom:60px;}
+</style>
+<div class="container">
+    <ul class="breadcrumb clearfix">
+        <li><a href="../Applylist">经营类目审核</a></li>
+        <li><a href="#">审核详情</a></li>
+    </ul>
+    <div class="top-msg">
+        <span>商家：@Model.ShopName</span><br />
+        @if (Model.AuditedDate.HasValue)
+        {
+            <span>审核时间：@Model.AuditedDate</span>
+        }
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>申请类目</th>
+                <th>佣金比例</th>
+            </tr>
+        </thead>
+        @foreach (var t in Model.Himall_BusinessCategoriesApplyDetail)
+        {
+            <tr>
+
+                <td>@t.CatePath</td>
+                <td>@t.CommisRate</td>
+            </tr>
+        }
+    </table>
+    <a href="../applylist" style="width: 55px;height: 30px;displaY: inline-block;position: relative;top: 2px;"><span class="btn btn-primary btn-sm" style="margin-top:30px;margin-left:0;padding:5px 15px!important">返回</span></a>
+</div>

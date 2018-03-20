@@ -1,0 +1,249 @@
+﻿<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<style>
+    .form-control {
+        width:350px;
+    }
+</style>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li class="active"><a>管理</a></li> 
+        <li><a href="addsa">新增</a></li>
+    </ul>
+    <table id="list" class="table"></table>
+</div>
+<script type="text/javascript">
+    $( function ()
+    {
+        loadGrid();
+    } )
+
+    function loadGrid()
+    {
+        $( "#list" ).hiMallDatagrid( {
+            url: './List',
+            nowrap: false,
+            rownumbers: true,
+            NoDataMsg: '没有找到符合条件的数据',
+            border: false,
+            fit: true,
+            fitColumns: true,
+            pagination: true,
+            idField: "device_id",
+            pageSize: 15,
+            pagePosition: 'bottom',
+            pageNumber: 1,
+            queryParams: {},
+            operationButtons: "#orderOperate",
+            columns:
+            [[
+                {
+                    field: "device_id", title: '设备ID', width: 150, align: "center", formatter: function ( value, row, index )
+                    {
+                        return '<a href="#" onclick="ShowIBeacon(' + row.device_id + ',' + row.major + ',\'' + row.uuid + '\',' + row.minor + ')">' + row.device_id + '</a>';
+                    }
+                },
+                //{ field: "poi_name", title: '所在门店', width: 150, align: "center" },
+                { field: "comment", title: '备注', width: 150, align: "center" },
+                //{
+                //    field: "page_ids", title: '配置页面数', width: 100, align: "center", formatter: function ( value, row, index )
+                //    {
+                //        if ( row.page_ids != null && row.page_ids.indexOf( ',' ) >= 0 )
+                //        {
+                //            return row.page_ids.split( ',' ).length;
+                //        }
+                //        return "0";
+                //    }
+                //},
+                {
+                    field: "status", title: '状态', width: 100, align: "center", formatter: function ( value, row, index )
+                    {
+                        if ( row.status != 0 )
+                        {
+                            return "已激活";
+                        }
+                        else
+                        {
+                            return "<a href='#' title='1. 打开设备开关（建议关闭或远离附近的其他设备，以避免其他设备的信号干扰）2. 使用手机，打开蓝牙并靠近设备，进入微信摇一摇，等待“周边”出现，摇出激活页面即可（iOS手机需为系统7.0以上版本、微信5.4以上版本；Android手机需为系统4.3.3以上版本、微信6.0以上版本）为什么摇不出页面设备激活后，摇出的页面默认为“公众号关注”,你可以随时在后台修改摇出的页面'>未激活<a>";
+                        }
+                    }
+                },
+                {
+                    field: "operation", title: '操作', width: 150, align: "center", formatter: function ( value, row, index )
+                    {
+                        var id = row.device_id;
+
+                        var html = '<span class="btn-a">';
+                        if ( row.status != 0 )
+                        {
+                            html += '<a class="good-check" onclick="Save(' + id + ',' + row.major + ',\'' + row.uuid + '\',' + row.minor + ',\'' + row.comment + '\')">备注</a>';
+                            //html += '<a onclick="SavePoi(' + id + ',' + row.major + ',\'' + row.uuid + '\',' + row.minor + ' , ' + row.poi_id + ')">门店</a>';
+                            html += '<a href="Relationship/' + id + '">配置页面</a>';
+                        }
+
+                        html += '</span>';
+
+                        return html;
+                    }
+                }
+            ]]
+        } )
+    }
+
+    var _loading;
+    function SavePoi( id, major, uuid, minor, poi_id )
+    {
+        _loading = showLoading();
+        $.post( "/SellerAdmin/ShakeAround/GetPoiList", {}, function ( data )
+        {
+            if ( data.length > 0 )
+            {
+                var html = '<select class="input-sm" id="poi_id">';
+                for ( var i = 0; i < data.length; i++ )
+                {
+                    if ( data[i].poi_id == poi_id )
+                    {
+                        html += '<option value="' + data[i].poi_id + '" selected="selected">' + data[i].business_name + '</option>';
+                    }
+                    else
+                    {
+                        html += '<option value="' + data[i].poi_id + '">' + data[i].business_name + '</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                _loading.close();
+                SavePoiDialog( id, major, uuid, minor, html );
+            }
+            else
+            {
+                _loading.close();
+                $.dialog.errorTips( '无门店存在！'  );
+            }
+        } )
+    }
+
+    function SavePoiDialog( id, major, uuid, minor, opetionHtml )
+    {
+        $.dialog( {
+            title: '门店设置',
+            lock: true,
+            id: 'goodCheck',
+            content: ['<div class="dialog-form">',
+                '<div class="form-group">',
+                    '<label class="lable-left" for="">门店</label>',
+                    opetionHtml,
+                '</div>',
+            '</div>'].join( '' ),
+            padding: '0 40px',
+            init: function () { $( "#txtPayRemark" ).focus(); },
+            button: [
+            {
+                name: '确认',
+                callback: function ()
+                {
+                    var s = {};
+                    s.device_id = id;
+                    s.uuid = uuid;
+                    s.major = major;
+                    s.minor = minor;
+                    s.poi_id = $( "#poi_id" ).val();
+                    _loading = showLoading();
+                    $.post( "/SellerAdmin/ShakeAround/DeviceBindLocatoin", s, function ( result )
+                    {
+                        _loading.close();
+                        if ( result.success )
+                        {
+                            $.dialog.tips( '保存成功' );
+                            $( "#list" ).hiMallDatagrid( 'reload', { pageNumber: 1 } );
+                        }
+                        else
+                            $.dialog.errorTips( '保存失败！' + result.msg );
+                    } )
+                },
+                focus: true
+            }]
+        } );
+    }
+
+    function ShowIBeacon( id, major, uuid, minor )
+    {
+        $.dialog( {
+            title: '详情',
+            lock: true,
+            id: 'goodCheck',
+            content: ['<div class="dialog-form">',
+                '<div class="form-group">',
+                    '<label class="lable-left" for="">ID</label>',
+                    '<input disabled type="text" id="txtIName" value="' + id + '" class="form-control input-sm mb10"/></br>',
+                    '<label class="lable-left" for="">UUID</label>',
+                    '<input disabled type="text" id="txtIName" value="' + uuid + '" class="form-control input-sm mb10"/></br>',
+                    '<label class="lable-left" for="">Major</label>',
+                    '<input disabled type="text" id="txtIName" value="' + major + '" class="form-control input-sm mb10"/></br>',
+                    '<label class="lable-left" for="">Minor</label>',
+                    '<input disabled type="text" id="txtIName" value="' + minor + '" class="form-control input-sm mb10"/>',
+                '</div>',
+            '</div>'].join( '' ),
+            padding: '0 40px',
+            init: null,
+            button: [
+            {
+                name: '关闭',
+                focus: true
+            }]
+        } );
+    }
+
+    function Save( id, major, uuid, minor, com )
+    {
+        $.dialog( {
+            title: '修改备注',
+            lock: true,
+            id: 'goodCheck',
+            content: ['<div class="dialog-form">',
+                '<div class="form-group">',
+                     '<label class="lable-left" for="">备注</label>',
+                    '<input type="text" id="txtIName" value="' + com + '" form-control input-sm"/>',
+                '</div>',
+            '</div>'].join( '' ),
+            padding: '0 40px',
+            init: function () { $( "#txtPayRemark" ).focus(); },
+            button: [
+            {
+                name: '确认',
+                callback: function ()
+                {
+                    var loading = showLoading();
+                    var s = {};
+                    s.id = id;
+                    s.device_id = id;
+                    s.uuid =uuid ;
+                    s.major =major ;
+                    s.minor = minor;
+                    s.comment = $( "#txtIName" ).val();
+                    $.post( "/SellerAdmin/ShakeAround/Save", s, function ( result )
+                    {
+                        loading.close()
+                        if ( result.success )
+                        {
+                            $.dialog.tips( '保存成功' );
+                            $( "#list" ).hiMallDatagrid( 'reload', { pageNumber: 1 } );
+                        }
+                        else
+                            $.dialog.errorTips( '保存失败！' + result.msg );
+                    } )
+                },
+                focus: true
+            }]
+        } );
+    }
+
+</script>

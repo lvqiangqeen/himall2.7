@@ -1,0 +1,462 @@
+﻿@using Himall.Core;
+@using Himall.Model;
+@model  Himall.Model.OrderRefundInfo
+@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "退换货明细";
+	var RefundLogs = (List<Himall.DTO.OrderRefundlog>)ViewBag.RefundLogs;
+}
+@{
+    //是否弃货
+    bool isDiscard = false;
+    if (Model.SellerAuditStatus == OrderRefundInfo.OrderRefundAuditStatus.Audited
+        && Model.BuyerDeliverDate == null
+        && Model.RefundMode != OrderRefundInfo.OrderRefundMode.OrderRefund
+        && Model.IsReturn == true
+        )
+    {
+        isDiscard = true;
+    }
+    //是否拒绝
+    bool isUnAudit = (Model.SellerAuditStatus == OrderRefundInfo.OrderRefundAuditStatus.UnAudit);
+    //是否退货
+    bool isReturnGoods = (Model.RefundMode == OrderRefundInfo.OrderRefundMode.ReturnGoodsRefund);
+    var order = Model.Order as Himall.DTO.Order;
+    var who = (order.DeliveryType == Himall.CommonModel.Enum.DeliveryType.SelfTake || (order.ShopBranchId.HasValue && order.ShopBranchId.Value > 0)) ? "门店" : "商家";
+
+    int curstep = 1;
+    string curshowcls = "todo";
+}
+<style>
+    .search_btn:hover {
+        color: #6a7c86;
+    }
+	table.tb-back tbody tr:first-child,table.tb-back tbody tr:first-child span{
+		color: #e3393c
+	}
+</style>
+<div class="box1 lh24">
+    <div class="title bot-border">
+        <h3 class="title_txt cur">退货记录详情</h3>
+    </div>
+    <div class="mod lh24">
+        <div class="smt-01" style="padding-bottom:10px;padding-top:10px;">
+            售后服务进度条<span class="remind-box">（服务单号：@Model.Id）</span>
+            @if (Model.SellerAuditStatus == Himall.Model.OrderRefundInfo.OrderRefundAuditStatus.UnAudit
+            && Model.IsOrderRefundTimeOut == false)
+            {
+				var orderStatus=Model.OrderItemInfo.OrderInfo.OrderStatus;
+				
+                if (
+                    (Model.RefundMode != Himall.Model.OrderRefundInfo.OrderRefundMode.OrderRefund)
+					|| (Model.RefundMode == Himall.Model.OrderRefundInfo.OrderRefundMode.OrderRefund && (orderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitDelivery || orderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitSelfPickUp))
+                    )
+                {
+                    <a class="search_btn" style="margin-left:40px;" href="/OrderRefund/RefundApply/?orderid=@(Model.OrderId)&refundid=@(Model.Id)@Html.Raw(Model.RefundMode == OrderRefundInfo.OrderRefundMode.OrderRefund ? "" : "&itemId=" + Model.OrderItemId.ToString())">重新申请</a>
+                }
+            }
+
+            @if (Model.SellerAuditStatus == Himall.Model.OrderRefundInfo.OrderRefundAuditStatus.WaitDelivery&&order.DeliveryType!= Himall.CommonModel.Enum.DeliveryType.SelfTake)
+            {
+                <a class="search_btn back-goods-btn" datashop="@Model.ShopId" dataid="@Model.Id" style="margin-left:40px;" href="###">请寄货</a>
+            }
+        </div>
+        <div class="smc-01">
+
+            <div class="step-list">
+                <div class="step-u done">
+                    <em>@(curstep)</em>
+                    买家申请售后
+                    <span class="tail tail2"></span>
+                    <span class="tail"></span>
+                </div>
+                @{
+                    curstep++;
+                    curshowcls = "done";
+                    if (Model.SellerAuditStatus == OrderRefundInfo.OrderRefundAuditStatus.WaitAudit)
+                    {
+                        curshowcls = "active";
+                    }
+                }
+                <div class="step-u @(curshowcls)">
+                    <em>@(curstep)</em>
+                    @(who)审核申请
+                    <span class="tail tail2"></span>
+                    <span class="tail"></span>
+                </div>
+                @if (isUnAudit)
+                {
+                    curstep++;
+                    <div class="step-u  done">
+                        <em>@(curstep)</em>
+                        @(who)拒绝申请
+                    </div>
+                }
+                @if (Model.SellerAuditStatus == OrderRefundInfo.OrderRefundAuditStatus.Audited && isDiscard)
+                {
+                    curstep++;
+                    <div class="step-u  done">
+                        <em>@(curstep)</em>
+                        @(who)选择弃货
+                        <span class="tail tail2"></span>
+                        <span class="tail"></span>
+                    </div>
+                }
+                @if (isReturnGoods && !isDiscard && !isUnAudit&&order.DeliveryType!= Himall.CommonModel.Enum.DeliveryType.SelfTake)
+                {
+					curstep++;
+					curshowcls = "todo";
+					if ((int)Model.SellerAuditStatus > (int)OrderRefundInfo.OrderRefundAuditStatus.WaitDelivery && !isDiscard
+					&& !isUnAudit)
+					{
+						curshowcls = "done";
+					}
+					if (curshowcls == "todo" && Model.SellerAuditStatus == OrderRefundInfo.OrderRefundAuditStatus.WaitDelivery)
+					{
+						curshowcls = "active";
+					}
+                    <div class="step-u  @(curshowcls)">
+                        <em>@(curstep)</em>
+                        买家回寄商品
+                        <span class="tail tail2"></span>
+                        <span class="tail"></span>
+                    </div>
+                }
+                @if (isReturnGoods && !isDiscard && !isUnAudit)
+                {
+                    {
+                        curstep++;
+                        curshowcls = "todo";
+                        if ((int)Model.SellerAuditStatus > (int)OrderRefundInfo.OrderRefundAuditStatus.WaitReceiving && !isDiscard
+                        && Model.SellerAuditStatus != OrderRefundInfo.OrderRefundAuditStatus.UnAudit)
+                        {
+                            curshowcls = "done";
+                        }
+                        if (curshowcls == "todo" && Model.SellerAuditStatus == OrderRefundInfo.OrderRefundAuditStatus.WaitReceiving)
+                        {
+                            curshowcls = "active";
+                        }
+                    }
+                    <div class="step-u @(curshowcls)">
+                        <em>@(curstep)</em>
+                        @(who)确认收货
+                        <span class="tail tail2"></span>
+                        <span class="tail"></span>
+                    </div>
+                }
+                @{
+                    curstep++;
+                    curshowcls = (Model.ManagerConfirmStatus == Himall.Model.OrderRefundInfo.OrderRefundConfirmStatus.Confirmed ? "done" : "todo");
+                    if (Model.SellerAuditStatus == OrderRefundInfo.OrderRefundAuditStatus.Audited && curshowcls == "todo")
+                    {
+                        curshowcls = "active";
+                    }
+                }
+                @if (!isUnAudit)
+                {
+                    <div class="step-u  @(curshowcls)">
+                        <em>@(curstep)</em>
+                        平台完成退款
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="mod lh24">
+        <h3 class="sub-title">服务单信息</h3>
+        <div class="border-box" style=" border-top:1px solid #e4e4e4;">
+            <table class="tb-void tb-cols">
+                <colgroup>
+                    <col width="160px" />
+                    <col />
+                </colgroup>
+                <tbody>
+                    <tr class="tr-td">
+                        <td>退款金额</td>
+                        <td class="ftx-04">@Model.Amount</td>
+                    </tr>
+                    @if (Model.IsReturn)
+                    {
+                        <tr class="tr-td">
+                            <td>退货数量</td>
+                            <td>@Model.ShowReturnQuantity</td>
+                        </tr>
+                    }
+                    <tr class="tr-td">
+                        <td>退款方式</td>
+                        <td>@(Model.RefundPayType == null ? "线下处理" : Model.RefundPayType.ToDescription())</td>
+                    </tr>
+                    <tr class="tr-td">
+                        <td>退款理由</td>
+                        <td>@Model.Reason.Replace("&nbsp;", " ")</td>
+                    </tr>
+                    <tr class="tr-td">
+                        <td>退款原因</td>
+                        <td>@HttpUtility.HtmlDecode(Model.ReasonDetail)</td>
+                    </tr>
+                    @if (!string.IsNullOrWhiteSpace(Model.CertPic1 + Model.CertPic2 + Model.CertPic3))
+                    {
+                        <tr class="tr-td">
+                            <td>售后凭证</td>
+                            <td style="padding:15px 20px ">
+                                <div class="after-service-img">
+                                    @if (!string.IsNullOrWhiteSpace(Model.CertPic1))
+                                    {  <img src="@(HimallIO.GetImagePath(Model.CertPic1))" width="150" />
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(Model.CertPic2))
+                                    {
+                                        <img src="@(HimallIO.GetImagePath(Model.CertPic2))" width="150" />
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(Model.CertPic3))
+                                    {
+                                        <img src="@(HimallIO.GetImagePath(Model.CertPic3))" width="150" />
+                                    }
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+    <div class="refund-remark mt20">
+        <h5><b>进度说明：</b></h5>
+    </div>
+
+    <div class="mod lh24">
+        <div class="border-box">
+            <table class="tb-void tb-back">
+                <colgroup>
+                    <col width="150" />
+                    <col width="400" />
+                    <col width="120" />
+                    <col width="160" />
+                </colgroup>
+                <thead>
+                    <tr class="tr">
+                        <th>处理时间</th>
+                        <th>处理信息</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.SellerAuditStatus == Himall.Model.OrderRefundInfo.OrderRefundAuditStatus.Audited)
+                    {
+                        <tr class="tr-td">
+                            <td><span>@Model.ManagerConfirmDate.ToString("yyyy-MM-dd HH:mm:ss")</span></td>
+                            <td>【@Model.ManagerConfirmStatus.ToDescription()】@(Model.ManagerRemark)</td>
+                        </tr>
+                    }
+                    @if (Model.SellerConfirmArrivalDate != null
+                    && (int)Model.SellerAuditStatus > (int)OrderRefundInfo.OrderRefundAuditStatus.WaitReceiving
+                    )
+                    {
+                        <tr class="tr-td">
+                            <td><span>@(Model.SellerConfirmArrivalDate.HasValue ? Model.SellerConfirmArrivalDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</span></td>
+                            <td>【@(who)确认收货】</td>
+                        </tr>
+                    }
+                    @if (Model.BuyerDeliverDate != null
+                    && (int)Model.SellerAuditStatus == (int)OrderRefundInfo.OrderRefundAuditStatus.WaitReceiving
+                    )
+                    {
+                        <tr class="tr-td">
+                            <td><span>@(Model.BuyerDeliverDate.HasValue ? Model.BuyerDeliverDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</span></td>
+                            <td>
+                                【买家回寄商品】
+                                <br />
+                                @(Model.ExpressCompanyName)
+                                <br />
+                                @(Model.ShipOrderNumber)
+                            </td>
+                        </tr>
+                    }
+                    @if (Model.SellerAuditStatus != OrderRefundInfo.OrderRefundAuditStatus.WaitAudit)
+                    {
+                        <tr class="tr-td">
+                            <td><span>@Model.SellerAuditDate.ToString("yyyy-MM-dd HH:mm:ss")</span></td>
+                            <td>
+                                【
+                                @if (Model.SellerAuditStatus == OrderRefundInfo.OrderRefundAuditStatus.UnAudit)
+                                {
+                                    <label>@(who)拒绝</label>
+                                }
+                                else
+                                {
+                                    @(who+"同意退款") @(isDiscard ? "并弃货" : "")
+                                }
+                                】
+                                @(Model.SellerRemark)
+                            </td>
+                        </tr>
+                    }
+                    <tr class="tr-td">
+                        <td><span>@Model.ApplyDate.ToString("yyyy-MM-dd HH:mm:ss")</span></td>
+                        <td>您的服务单已申请成功，待@(who)审核中</td>
+                    </tr>
+
+                    @foreach (var item in RefundLogs)
+                    {
+                        <tr class="tr-td">
+                            <td>@item.OperateDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                            <td>@item.OperateContent</td>
+                        </tr>
+                    }
+                </tbody>
+
+
+
+            </table>
+        </div>
+    </div>
+    <div class="cover"></div>
+    <div class="preview-img"><img src="" /></div>
+</div>
+<script>
+    $(function () {
+        $(".after-service-img img").click(function () {
+            $(".preview-img").show();
+            $(".preview-img img").attr("src", $(this).attr("src"));
+            $(".cover").show();
+        });
+        $(".preview-img").click(function () {
+            $(this).hide()
+            $(".cover").hide();
+        });
+        $(".cover").click(function () {
+            $(".preview-img").hide();
+            $(".cover").hide();
+        })
+    });
+</script>
+
+<script type="text/javascript">
+    var curentId;
+    $(function () {
+        $('.back-goods-btn').click(function () {
+            var shopId = $(this).attr("dataShop");
+            curentId = $(this).attr("dataId");
+            $.dialog({
+                title: '请退货',
+                lock: true,
+                id: 'BackForm',
+                content: $('#backform')[0],
+                init: function () {
+                    $.ajax({
+                        type: 'get',
+                        async: false,
+                        url: "/OrderRefund/GetShopInfo?shopId=" + shopId,
+                        dataType: 'json',
+                        data: {},
+                        success: function (d) {
+                            $("#SellerAddress").text(d.SenderAddress);
+                            $("#SellerName").text(d.SenderName);
+                            $("#SellerPhone").text(d.SenderPhone);
+                        }
+                    });
+                },
+                padding: '20px 30px 20px 0',
+                okVal: '确认已退货',
+                ok: function () {
+                    UpdateRefund();
+                }
+            });
+        });
+
+    });
+
+    function UpdateRefund() {
+        var expressCompanyName = $("#ExpressCompanyName").val();
+        var shipOrderNumber = $("#ShipOrderNumber").val();
+        if (expressCompanyName == "" || shipOrderNumber == "") {
+            $.dialog.errorTips("请输入快递公司和快递单号！", '', 1);
+            return;
+        }
+        var loading = showLoading();
+        $.ajax({
+            type: 'post',
+            async: false,
+            url: "/OrderRefund/UpdateRefund",
+            dataType: 'json',
+            data: { id: curentId, expressCompanyName: expressCompanyName, shipOrderNumber: shipOrderNumber },
+            success: function (d) {
+                if (d.success) {
+                    $.dialog.succeedTips("提交成功！", function () {
+                        window.location.reload();
+                    }, 1);
+                }
+                else {
+                    loading.close();
+                    $.dialog.errorTips("提交失败," + d.msg, '', 2);
+                }
+            }
+        });
+    }
+</script>
+
+<div id="backform" style="display: none;">
+    <div class="form">
+        <div class="form">
+            @*<div class="item">
+                    <span class="label p0">地址：</span>
+                    <div class="fl" id="SellerAddress"></div>
+                    <div class="clr"></div>
+                </div>
+                <div class="item">
+                    <span class="label p0">联系人：</span>
+                    <div class="fl" id="SellerName"></div>
+                    <div class="clr"></div>
+                </div>
+                <div class="item">
+                    <span class="label p0">联系电话：</span>
+                    <div class="fl" id="SellerPhone"></div>
+                    <div class="clr"></div>
+                </div>*@
+            <div class="item">
+                <span class="label">快递公司：</span>
+                <div class="fl">
+                    <input type="text" id="ExpressCompanyName" name="ExpressCompanyName" class="text" value="" />
+                    <span class="error-msg hide">请您填写快递公司</span>
+                </div>
+                <div class="clr"></div>
+            </div>
+            <div class="item">
+                <span class="label">快递单号：</span>
+                <div class="fl">
+                    <input type="text" class="text" id="ShipOrderNumber" name="ShipOrderNumber" value="" />
+                    <span class="error-msg hide">请您填写快递单号</span>
+                </div>
+                <div class="clr"></div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="thickdiv hide"></div>
+    <div class="thickbox hide">
+        <div class="thickwrap">
+            <div class="thicktitle">
+                <span>请退货</span>
+            </div>
+            <div style="width: 400px; padding-left: 10px; padding-right: 10px;" class="thickcon">
+                <div id="">
+                    <div id="edit-cont">
+                        <div class="mc">
+
+
+                            <div class="btns">
+                                <a id="id_add_order" class="e-btn btn-9 save-btn" onclick="UpdateRefund()">确认已退货</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a id="" class="thickclose" href="javascript:void(0);">×</a>
+    </div>
+</div>

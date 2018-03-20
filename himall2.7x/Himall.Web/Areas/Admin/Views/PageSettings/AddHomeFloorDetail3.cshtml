@@ -1,0 +1,98 @@
+﻿@model Himall.Web.Areas.Admin.Models.HomeFloorDetail
+@using Himall.Web.Areas.Admin.Models;
+@using System.Linq;
+
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Areas/Admin/Scripts/pageSettings-floorDetail3.js"></script>
+
+
+<style>
+    .floor-ex-img img{height:250px;width:auto;}
+</style>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="./HomeFloor">管理</a></li>
+        <li class="active"><a>编辑</a></li>
+    </ul>
+
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>楼层名称：</label>
+            <div class="col-sm-3 form-control-static">
+                <input class="form-control input-xs" type="text" id="FloorName" name="FloorName" value="@ViewBag.FloorName" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">楼层小标题：</label>
+            <div class="col-sm-3 form-control-static">
+                <input class="form-control input-xs" type="text" id="SubName" name="SubName" value="@ViewBag.SubName" />
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">图片：</label>
+            <div class="col-sm-9">
+                <table class="table table-bordered clear-v12">
+                    <thead>
+                        <tr>
+                            <th>
+                                区域
+                                <div class="floor-ex-img floor3-img">
+                                    （<a class="ex-btn">区域划分图</a>）
+                                    <img src="/Images/floor-img3.jpg" />
+                                </div>
+                            </th>
+                            <th>图片</th>
+                            <th>跳转链接</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>固定图</td>
+                            <td><div class="upload-img" id="one" url="@HimallIO.GetImagePath(Model.ProductLinks.ElementAt(0).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="1" name="url" value="@Model.ProductLinks.ElementAt(0).Name" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">商品：</label>
+            <div class="col-sm-9">
+                <table class="table table-bordered clear-v12">
+                    <thead>
+                        <tr>
+                            <th>商品</th>
+                            <th>售价</th>
+                            <th align="center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody class="prol">
+                        @foreach (var item in Model.ProductModules)
+                        {
+                            <tr>
+                                <td><img src="@item.productImg" alt="" />@item.productName </td>
+                                <td>@item.price</td>
+                                <td align="center">
+                                <input type="hidden" value="@item.ProductId" class="fid" />
+                                <a href="javascript:;" class="proremove">删除</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a class="add-atrr" id="addProducts"><span class="glyphicon glyphicon-plus-sign"></span>添加</a>&nbsp;<span>(最多增加12个)</span>
+            </div>
+        </div>
+
+        <input type="hidden" name="id" id="homeFloorId" value="@Model.Id" />
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" name="submit" class="btn btn-primary">保存楼层</button>
+            </div>
+        </div>
+    </form>
+</div>

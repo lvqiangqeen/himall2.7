@@ -1,0 +1,91 @@
+﻿@model Himall.Web.Models.PayJumpPageModel
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+    //var urlarr = Model.RequestUrl.Split('?');
+    //string acturl = urlarr[0];
+    //Dictionary<string, string> formkeyval = new Dictionary<string, string>();
+    //if (urlarr.Length > 1)
+    //{
+    //    var arrformkv = urlarr[1].Split('&');
+    //    foreach (var item in arrformkv)
+    //    {
+    //        var arrkv = item.Split('=');
+    //        string fk = arrkv[0];
+    //        string fv = "";
+    //        if (arrkv.Length > 1)
+    //        {
+    //            fv = arrkv[1];
+    //        }
+    //        formkeyval.Add(fk, fv);
+    //    }
+    //}
+}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <title>在线支付</title>
+</head>
+
+<body>
+    @if (!Model.IsErro)
+    {
+        @*<form id="payform" name="payform" method="post" enctype="application/x-www-form-urlencoded" action="@(acturl)">
+            @foreach (var item in formkeyval)
+            {
+                <input type="hidden" name="@(item.Key)" id="@(item.Key)" value="@(item.Value)" />
+            }
+        </form>*@
+        <script type="text/javascript">
+            function init() {
+                document.getElementById("payform").submit();
+            }
+            //window.onload = init();
+            var url = '@(Html.Raw(Model.RequestUrl))';
+            BuildPostForm('pay_form', url, '').submit();
+
+
+            function BuildPostForm(fm, url, target) {
+                var e = null, el = [];
+                if (!fm || !url)
+                    return e;
+                target = target || '_blank';
+                e = document.getElementById(fm);
+                if (!e) {
+                    e = document.createElement('Form');
+                    e.Id = fm;
+                    document.body.appendChild(e);
+                }
+
+                e.method = 'post';
+                //e.target = target;
+                e.style.display = 'none';
+                e.enctype = 'application/x-www-form-urlencoded';
+
+                var idx = url.indexOf('?');
+                var para = [], op = [];
+                if (idx > 0) {
+                    para = url.substring(idx + 1, url.length).split('&');
+                    url = url.substr(0, idx);//截取URL
+                    var keypair = [];
+                    for (var p = 0 ; p < para.length; p++) {
+                        idx = para[p].indexOf('=');
+                        if (idx > 0) {
+                            el.push('<input type="hidden" name="' + para[p].substr(0, idx) + '" id="frm' + para[p].substr(0, idx) + '" value="' + para[p].substring(idx + 1, para[p].length) + '" />');
+                        }
+                    }
+                }
+
+                e.innerHTML = el.join('');
+                e.action = url;
+                return e;
+            }
+        </script>
+    }
+    else
+    {
+        <span>支付出错:@(Model.ErroMsg)</span>
+    }
+</body>
+</html>

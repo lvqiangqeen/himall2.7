@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no,email=no" />
+        <title>拼团个人中心详情页</title>
+        <link href="css/mui.min.css" rel="stylesheet" />
+        <link href="css/style.css" rel="stylesheet" />
+    </head>
+    <body class="merge-bg">
+        <header class="mui-bar mui-bar-nav">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+            <h1 class="mui-title">我的拼团详情</h1>
+        </header>
+        <div class="scroll-div" id="scrollDiv">
+        	<div class="mui-content merge-bg transparent" id="mergePersonalDetail"></div>
+        </div>
+        <div class="merge-bar-container mui-text-center" style="display: none;">
+            <span class="btn-center"><a class="mui-btn mui-btn-danger" id="goodsShare">邀请好友参团</a></span>
+        </div>
+    </body>
+    <script src="js/mui.min.js"></script>
+    <script src="js/app.js"></script>
+	<script src="js/md5.js"></script>
+    <script src="js/delayimg.min.js"></script>
+    <script>
+        mui.init({
+            swipeBack: true
+        });
+        
+        var productId = null,
+        	shareData,
+            mergeContent=document.getElementById('mergePersonalDetail');
+        mui.plusReady(function() {
+        	var w=plus.nativeUI.showWaiting('',{padlock:true}),
+        		ws=plus.webview.currentWebview(),
+            	id = ws.Id;
+            	ws.setStyle({scrollIndicator:'none'});
+            mui.ajax(URL + 'api/FightGroup/GetFightGroupOrderDetail', {
+            	data:himall.md5Data({
+            		id:id,
+            		userkey:himall.getState().userkey
+            	}),
+                dataType:'json',
+                type:'get',
+                timeout: 10000,
+                success: function(data) {
+                    var html = '';
+                    productId=data.OrderDetail.ProductId,
+                    status=data.OrderDetail.GroupStatus;
+                    /*if(0<data.OrderDetail.Seconds<3600*24){
+                		himall.countDown(data.OrderDetail.Seconds,function(d,h,m,s){html+=h+':'+m+':'+s})
+                	}else{
+                		html+=data.OrderDetail.OverTime.replace('T',' ');
+                	}*/
+                    html += '<div class="merge-personal-hd">' +
+                        '<div class="hmui-img-center thumb">' +
+                            '<div class="son"><img src="' + data.OrderDetail.IconUrl + '"></div>' +
+                        '</div>' +
+                        '<div class="info">' +
+                            '<p class="hmui-multiple-ellipsis name" id="pName">' + data.OrderDetail.ProductName + '</p>' +
+                            '<p class="price"><span>火拼价</span><em>￥</em>' + data.OrderDetail.MiniGroupPrice + '</p>' +
+                            '<p class="time"><span class="merge-per-time">'+
+                            	'<i class="iconfont icon-time"></i> '+ ((data.OrderDetail.Seconds<3600*24 &&data.OrderDetail.Seconds>0)?data.OrderDetail.OverTime.split('T')[1]:data.OrderDetail.OverTime.replace('T',' '))+'</span>';
+                            	if(status==0){
+						        	html +='后组团结束';
+						        }
+					        	if(status==1){
+									html +='成团成功';
+						        }
+						    	if(status==-1){
+						        	html +='成团失败';
+						        }
+                            html +='</p>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="merge-personal-detail-bd">' +
+                        '<section class="merge-go merge-go-mar0 merge-personal-go">'+
+                        	'<div class="merge-go-tip">已参团的小伙伴';
+                            if (status == 0 ) {
+                                html += '，还差<strong class="merge-highlight">' + (data.OrderDetail.LimitedNumber - data.OrderDetail.JoinedNumber) + '</strong>人';
+                            }
+                            html += '</div>'+
+                            '<ul>';
+                                for ( var i = 0; i < data.OrderDetail.UserInfo.length; i++ ) {
+                            		html += '<li class="mui-clearfix info">' +
+                                        '<div class="avatar"><span><img src="' + data.OrderDetail.UserInfo[i].Photo + '"></span></div>' +
+                                        '<div class="leader"><span>'+(i==0?'团长':'参团')+'</span></div>' +
+                                        '<div class="name"><span class="hmui-multiple-ellipsis">' + data.OrderDetail.UserInfo[i].UserName + '</span></div>' +
+                                        '<div class="time"><span>' + data.OrderDetail.UserInfo[i].JoinTime.replace('T', ' ') + '</span></div>' +
+                                    '</li>';
+                                }
+                            html += '</ul>';
+                            if(status==1) {
+                                html += '<div class="merge-do-sign"></div>';
+                            }
+                            if(status==-1){
+                            	html += '<div class="merge-fail-sign"></div>';
+                            }
+                        html +='</section>' +
+                        '<section class="merge-rule merge-rule-mar0" id="pShortName">活动规则：当您在' + data.OrderDetail.LimitedHour + '小时内成功邀请' + data.OrderDetail.LimitedNumber + '位好友参团，则火拼成功；若火拼失败，系统会自动将金额退还到预付款余额或者原路退回。</section>' +
+                        '<div class="mui-table-view-cell detail-view-cell">' +
+                            '<a class="mui-navigate-right" id="productComBtn" data-count="' + data.ComCount + '">商品评价<span>' + data.ComCount + '</span></a>' +
+                        '</div>' +
+                        '<div class="p-detail-more"><span>拖动查看详情</span></div>'+
+                        '<div class="p-detail mt10">'+
+                            '<div class="p-detail-html" id="ProductDescription"></div>'+
+                        '</div>';
+                    '</div>';
+                    shareData={
+                    	title: '火拼团：'+data.OrderDetail.ProductName,
+	                    href: URL + 'm-weixin/FightGroup/GroupDetail/'+data.OrderDetail.GroupId+'?aid='+data.OrderDetail.ActiveId,
+	                    content: data.OrderDetail.MiniGroupPrice+'元立即拼团'
+                    }
+                    mergeContent.insertAdjacentHTML('beforeend', html);
+                    document.getElementById('ProductDescription').innerHTML=himall.parseDomImg(data.ProductDescription);
+					delayimg.init({content:document.getElementById('scrollDiv'),offset:300,throttle:0});
+                    
+                    if(status==0) {
+                    	document.querySelector('.mui-text-center').style.display='block';
+                    }
+                    himall.removeClass(mergeContent,'transparent');
+                    w.close();
+                    
+                    
+                    /*himall.countDown(data.OrderDetail.Seconds,function(day,hour,minute){
+                    	document.getElementById('mergePerTime').innerHTML = day + '天' + hour + '时' + minute + '分';
+                    });*/
+                },
+                error: function(xhr, type, errorThrown) {
+                    plus.nativeUI.toast('请求失败，请检查网络');
+                }
+            }, 100);
+        })
+
+        // 商品评论点击事件
+        mui('.mui-content').on('tap', '#productComBtn', function() {
+            var count = this.getAttribute('data-count');
+            if ( count > 0 ) {
+                himall.openVW('product-comment.html', {pId:productId});
+            } else {
+                plus.nativeUI.toast('该宝贝暂无评论');
+            }
+        })
+        
+        // 分享链接点击事件
+        mui(document).on('tap', '#goodsShare', function() {
+            loadShare(shareData);
+        });
+    
+        himall.backTop();
+    </script>
+</html>

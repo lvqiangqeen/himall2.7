@@ -1,0 +1,113 @@
+﻿@model Himall.Model.VShopInfo
+@using Himall.Core;
+
+<meta property="wb:webmaster" content="13b21966c78f011e" />
+<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+<script src="~/Areas/SellerAdmin/Scripts/VShopManagement.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li class="active"><a>微店</a></li>
+
+        @if (Model != null)
+        {
+            <li><a href="editvshop?shopId=@Model.ShopId" id="btnUpd">店铺信息管理</a></li>
+            @*<li><a href="/Selleradmin/VTemplate/VHomepage">店铺首页配置</a></li>*@
+        }
+    </ul>
+
+    @if (Model == null)
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                <p class="apply-primary"><span class="glyphicon glyphicon-info-sign"></span>您还未开设自己的微店，<a href="EditVShop?shopId=@ViewBag.ShopId">现在开设</a></p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">店铺名称:</label>
+                <div class="col-sm-3 form-control-static">@Model.Name</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">当前状态:</label>
+                <div class="col-sm-3 form-control-static">@Model.State.ToDescription()</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">创建时间:</label>
+                <div class="col-sm-3 form-control-static">@Model.CreateTime.ToString("yyyy-MM-dd")</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">浏览数:</label>
+                <div class="col-sm-3 form-control-static">@Model.VisitNum</div>
+            </div>
+            @*<div class="form-group">
+                    <label class="col-sm-2 control-label" for="">购买数:</label>
+                    <div class="col-sm-3 form-control-static">@Model.buyNum</div>
+                </div>*@
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">店铺二维码:</label>
+                <div class="col-sm-3"><img style="width: 150px;margin: -11px;" src="@ViewBag.QRCode" /></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">微店预览:</label>
+                <div class="col-sm-3 form-control-static"><a class="glyphicon glyphicon-eye-open view-mobile-shop" title="预览微店" style="font-size:18px;text-decoration: none; cursor:pointer;"></a></div>
+            </div>
+            <div class="form-group">
+
+                <label class="col-sm-2 control-label">分享到： </label>
+
+                    @*//  <wb:share-button type="button" count="n" addition="simple" title="这家店铺很不错哦" pic="http://@Request.Url.Host@ViewBag.QRCode" url="http://@Request.Url.Host/shop/home/@Model.ShopId"></wb:share-button>*@
+               
+                <div class="col-sm-3 form-control-static">
+                    <a href="javascript:void(0);" onclick="Share('sina')" title="分享到新浪微博"><img src="/Images/weibo.png" /></a>
+                    <a href="javascript:void(0);" onclick="Share('qq')" title="分享到QQ空间"><img src="/Images/qzone.png" /></a>
+                </div>
+
+            </div>
+
+            @*<div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-1"><a class="btn btn-primary btn-sm" href="editvshop?shopId=@Model.ShopId">编辑店铺信息</a></div>
+
+                </div>*@
+        </div>
+    }
+
+</div>
+@if (Model != null)
+{
+    <div class="mobile-dialog">
+        <iframe name="mobile-iframe" frameborder="0" scrolling="auto" src="@Url.Action("detail", "vshop", new { Area = "Mobile", id = Model.Id,sv=true })"></iframe>
+    </div>
+}
+<div class="cover"></div>
+@if (Model != null)
+{
+    <script type="text/javascript">
+    @{
+        string host = Himall.Core.Helper.WebHelper.GetHost();
+        var port = Himall.Core.Helper.WebHelper.GetPort();
+       var portPre = port == "80" ? "" : ":" + port;
+       var url= "http://" + host + portPre + "/";
+       url+="/shop/home/"+Model.ShopId;
+       }
+
+        var qzoneurl = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=";
+        var sinaurl = "http://service.weibo.com/share/share.php?source=bookmark&url=";
+        var currenturl = encodeURIComponent('@url');
+        function Share(target) {
+            var url = "";
+            switch (target) {
+                case "qq":
+                    url = qzoneurl + currenturl + '&pics=' + '@ViewBag.QRCode' + '&summary=' + ' ' + '&title=' + '这家店不错哟！' + '&desc=' + '@Model.Himall_Shops.ShopName';
+                    break;
+                case "sina":
+                    url = sinaurl + currenturl + '&pic=' + '@ViewBag.QRCode' + '&title=' + '这家店不错哟！' + '@Model.Himall_Shops.ShopName' + '&searchPic=true';
+                    break;
+            }
+            window.open(url);
+        }
+    </script>
+}

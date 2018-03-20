@@ -1,0 +1,302 @@
+﻿<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.himall.Region.js"></script>
+<script type="text/javascript" charset="utf-8" src="http://map.qq.com/api/js?v=1"></script>
+@*<script src="~/Areas/SellerAdmin/Scripts/addStores.js"></script>*@
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li><a href="/SellerAdmin/Poi/Index">管理</a></li>
+        <li class="active"><a>新增</a></li>
+    </ul>
+
+
+    <form id="v-form" class="form-horizontal">
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>所在地区</label>       
+               <div id="regionSelector" class="fl pl20"></div>
+                            <div class="clr"></div>
+                <input type="hidden"  id="poiRegion" name="poiRegion" />
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>详细地址</label>
+            <div class="col-sm-4">
+                <input placeholder="输入详细地址，请勿重复填写省市区信息" class="form-control input-sm" value="" name="address" maxlength="50" type="text" id="address">
+            </div>
+            @*<div class="col-sm-4"><input type="button" id="seachMap" class="btn" value="搜索标注"></div>*@
+        </div>
+
+        @*<div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>定位</label>
+            <div class="col-sm-4">
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>门店名</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm" name="business_name" value="" maxlength="50" type="text" id="business_name">
+            </div>
+            <div class="col-sm-4"><span class="help-default">不得含有区域地址信息（如，北京市XXX公司）</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>分店名</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm" value="" name="branch_name" maxlength="50" type="text" id="branch_name">
+            </div>
+            <div class="col-sm-4"><span class="help-default">不得含有区域地址信息（如，“北京国贸店”中的“北京”）</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>类目</label>
+            <div class="col-sm-4">
+                <select class="input-sm" id="categoryOne" name="categoryOne" id="categoryOne">
+                    @foreach( var item in ViewBag.Category )
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+
+                @{int i = 0;}
+
+                @foreach( var item in ViewBag.Category )
+                {
+                    <select class="input-sm" name="categoryTwo" data-id="@item.Id" style="display:none;">
+                        @i++;
+                        @foreach( var child in item.Child )
+                        {
+                            <option value="">@child.Name</option>
+                        }
+                    </select>
+                }
+            </div>
+        </div>
+
+
+        <div class="form-group upload-img" name="photo_list" id="photo_list"></div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>电话</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm" value="" name="telephone" maxlength="50" type="text" id="telephone">
+            </div>
+            <div class="col-sm-4"><span class="help-default">固定电话需加区号；区号、分机号均用“-”连接</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>人均价格</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm" value="" name="avg_price" maxlength="50" type="text" id="avg_price">
+            </div>
+            <div class="col-sm-4"><span class="help-default">大于零的整数，须如实填写，默认单位为人民币</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>营业时间</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm" value="" name="open_time" maxlength="50" type="text" id="open_time">
+            </div>
+            <div class="col-sm-4"><span class="help-default">如，10:00-21:00</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>推荐</label>
+            <div class="col-sm-4">
+                <textarea class="form-control input-sm" value="" name="recommend" maxlength="50" type="text" id="recommend"></textarea>
+            </div>
+            <div class="col-sm-4"><span class="help-default">如，推荐菜，推荐景点，推荐房间</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>特色服务</label>
+            <div class="col-sm-4">
+                <textarea class="form-control input-sm" value="" name="special" maxlength="50" type="text" id="special"></textarea>
+            </div>
+            <div class="col-sm-4"><span class="help-default">如，免费停车，WiFi</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>简介</label>
+            <div class="col-sm-4">
+                <textarea class="form-control input-sm" value="" name="introduction" maxlength="50" type="text" id="introduction"></textarea>
+            </div>
+            <div class="col-sm-4"><span class="help-default">对品牌或门店的简要介绍</span></div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="button" id="Save" class="btn btn-primary" value="保 存">
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<script>
+
+    $( function ()
+    {
+        $("#regionSelector").RegionSelector({
+            selectClass: "form-control input-sm select-sort",
+            valueHidden: "#poiRegion"
+        });
+
+      //  city = [];
+      //  var provinceDiv = $( '#provinceDiv' );
+      //  var cityDiv = $( '#cityDiv' );
+      //  var countyDiv = $( '#countyDiv' );
+      //  var areaName = $( '#areaName' );
+      //  var createElem = function ( data, elem, id )
+      //  {
+      //      if ( !data ) { return; }
+      //      for ( var i = 0, e; e = data[i++]; )
+      //      {
+      //          if ( id )
+      //          {
+      //              elem.append( '<option value="' + e.id + '" data="' + id + '">' + e.name + '</option>' );
+      //          } else
+      //          {
+      //              elem.append( '<option value="' + e.id + '">' + e.name + '</option>' );
+      //          }
+      //      }
+      //  };
+      ////  createElem( province, provinceDiv );
+
+      //  var fnSelect = function ( data, val, tag )
+      //  {
+      //      if ( !data ) { return; }
+      //      for ( var i = 0, e; e = data[i++]; )
+      //      {
+      //          if ( e.id == val )
+      //          {
+      //              return e[tag];
+      //          }
+      //      }
+      //  };
+      //  provinceDiv.change( function ( e )
+      //  {
+      //      var t = e.target,
+      //          id = $( this ).val(),
+      //          city;
+      //      if ( id != 0 )
+      //      {
+      //          city = fnSelect( province, id, 'city' );
+      //          cityDiv.html( '<option value="0">请选择</option>' );
+      //          countyDiv.html( '<option value="0">请选择</option>' );
+      //          createElem( city, cityDiv, id );
+      //          areaName.find( 'span' ).eq( 0 ).html( $( this ).find( "option:selected" ).html() + '&nbsp;' );
+      //          areaName.find( 'span' ).eq( 1 ).html( '' );
+      //          areaName.find( 'span' ).eq( 2 ).html( '' );
+      //      }
+      //      return false
+      //  } );
+      //  cityDiv.change( function ( e )
+      //  {
+      //      var t = e.target,
+      //          id = $( this ).val(),
+      //          tag,
+      //          city,
+      //          county;
+      //      if ( id != 0 )
+      //      {
+      //          tag = $( this ).find( "option:selected" ).attr( 'data' );
+      //          city = fnSelect( province, tag, 'city' );
+      //          county = fnSelect( city, id, 'county' );
+      //          countyDiv.html( '<option value="0">请选择</option>' );
+      //          createElem( county, countyDiv );
+      //          areaName.find( 'span' ).eq( 1 ).html( $( this ).find( "option:selected" ).html() + '&nbsp;' );
+      //          areaName.find( 'span' ).eq( 2 ).html( '' );
+      //      }
+      //  } );
+      //  countyDiv.change( function ( e )
+      //  {
+      //      var id = $( this ).val();
+      //      if ( id != 0 )
+      //      {
+      //          areaName.find( 'span' ).eq( 2 ).html( $( this ).find( "option:selected" ).html() );
+      //      }
+      //  } );
+
+        $( "select[name=categoryTwo]" )[0].style.display = "inline-block";
+
+        $( "#categoryOne" ).change( function ()
+        {
+            var id = $( this ).val();
+            $( "select[name=categoryTwo]" ).hide();
+            $( "select[name=categoryTwo][data-id=" + id + "]" ).show();
+        } )
+
+        $( '#photo_list' ).himallUpload( {
+            title: '<span class="red">*</span>门店图片',
+            imageDescript: '640*340 ',
+            displayImgSrc: '',
+            imgFieldName: "photo_listx",
+            dataWidth: 8
+        } );
+
+        $( "#seachMap" ).click( function ()
+        {
+            var value = "";
+            $( "#latitude" ).val( value );
+        } )
+
+        $( '#Save' ).click( function ()
+        {
+            var s = {};
+            s.id = 0;
+          //  s.province = $( "#provinceDiv" ).find( "option:selected" ).text();
+            // s.city = $( "#cityDiv" ).find( "option:selected" ).text();
+            s.RegionId = $("#poiRegion").val();
+          //  s.district = $( "#countyDiv" ).find( "option:selected" ).text();
+            s.address = $( "#address" ).val();
+            s.business_name = $( "#business_name" ).val();
+            s.branch_name = $( "#branch_name" ).val();
+            s.categoryOne = $( "#categoryOne" ).find( "option:selected" ).text();
+            s.categoryTwo = $( "select[name=categoryTwo]:visible" ).find( "option:selected" ).text();
+            s.photo_list = $( "input[type=hidden][name=photo_listx]" ).val();
+            s.telephone = $( "#telephone" ).val();
+            s.avg_price = $( "#avg_price" ).val();
+            s.open_time = $( "#open_time" ).val();
+            s.recommend = $( "#recommend" ).val();
+            s.special = $( "#special" ).val();
+            s.introduction = $( "#introduction" ).val();
+
+            if ( !Verification(s) )
+            {
+                return;
+            }
+            var loading = showLoading();
+            $.post( '/SellerAdmin/Poi/Save', s, function ( result )
+            {
+                loading.close();
+                if ( result.success )
+                {
+                    $.dialog.tips( '保存成功' );
+                    window.location.href = "/SellerAdmin/Poi/Index";
+                }
+                else
+                    $.dialog.errorTips( '保存失败！' + result.msg );
+            } );
+        } );
+
+    } )
+
+    function Verification( obj )
+    {
+        for ( var i in obj )
+        {
+            if ( obj[i] == null || obj[i] === "" )
+            {
+                if ( i != "categoryTwo" )
+                {
+                    $.dialog.errorTips( '请将资料填写完整！' );
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }
+</script>

@@ -1,0 +1,262 @@
+﻿@model Himall.Web.Areas.Web.Models.RefundApplyModel
+@{
+	ViewBag.Title = "退换货申请";
+	string errormsg = ViewBag.errormsg;
+}
+
+@{
+    long MaxRGDNumber = (long)Model.MaxRefundGoodsNumber;
+    decimal MaxRefundAmount = (decimal)Model.MaxRefundAmount;
+    Himall.Model.OrderInfo OrderData = (Himall.Model.OrderInfo)Model.OrderInfo;
+    long? OrderItemId = (long?)Model.OrderItemId;
+    int RefundType = 0;
+    bool isRefundOrder = (OrderItemId == null);    //是否为整笔订单退款
+    if (Model != null)
+    {
+        if (Model.RefundMode == Himall.Model.OrderRefundInfo.OrderRefundMode.OrderRefund)
+        {
+            isRefundOrder = true;
+        }
+        if (Model.RefundMode == Himall.Model.OrderRefundInfo.OrderRefundMode.ReturnGoodsRefund)
+        {
+            RefundType = 2;
+        }
+        else
+        {
+            RefundType = 1;
+        }
+    }
+    if (isRefundOrder)
+    {
+        RefundType = 1;
+    }
+}
+<style>
+	.textarea-item {
+		width: 100%;
+		height: 33px;
+		border-radius: 5px;
+	}
+</style>
+<input type="hidden" name="maxNumber" value="@(MaxRGDNumber)" />
+<input type="hidden" name="maxPrice" value="@(MaxRefundAmount.ToString("F2"))" />
+<input type="hidden" name="refGoodsPrice" id="refGoodsPrice" value="@(Model.RefundGoodsPrice.ToString("F2"))">
+<div class="container refundbg">
+	<div class="refund">
+		<form id="form1" action="@Url.Action("RefundApply")" method="post">
+			<input type="hidden" name="OrderId" value="@(OrderData.Id)" />
+			<input type="hidden" name="OrderItemId" value="@(OrderItemId)" />
+			<input type="hidden" name="RefundType" value="@RefundType" />
+			@Html.Hidden("Id", (Model.RefundId.HasValue ? Model.RefundId.Value : 0))
+
+			<h5>售后类型：</h5>
+			<div class="refund-select">
+
+				<p name="iRefundType">
+					<span @(RefundType == 1 ? "class=active" : string.Empty)>仅退款</span>
+					<i id="refundMoney" value="1" class='glyphicon glyphicon-ok' @(RefundType == 0 || RefundType == 2 ? "style=display:none;" : string.Empty)></i>
+				</p>
+				@if (Model.OrderInfo.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitReceiving || Model.OrderInfo.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.Finish)
+				{
+					if (!isRefundOrder)
+					{
+						<p name="iRefundType"><span @(RefundType == 2 ? "class=active" : string.Empty)>退款退货</span><i id="refundGoodsMoney" value="2" class='glyphicon glyphicon-ok' @(RefundType == 0 || RefundType == 1 ? "style=display:none;" : string.Empty)></i></p>
+					}
+				}
+			</div>
+
+			<div id="ReturnGoodsBox" style="display:none;">
+				<h5>退货数量：</h5>
+				@Html.TextBox("ReturnQuantity", MaxRGDNumber, new Dictionary<string, object>() { { "class", "ipt" }, { "placeholder", "最多" + MaxRGDNumber + "件" } })
+			</div>
+			<span style="display: none;">最多<i>2</i>件</span>
+			<h5>退款金额：</h5>
+			@{
+				var amounthtmlattr = new Dictionary<string, object>() {
+                               { "class", "ipt" },{ "placeholder", "最多" + MaxRefundAmount.ToString("f2")+"元" } };
+				if (isRefundOrder)
+				{
+					amounthtmlattr.Add("disabled", "");
+				}
+			}
+			@Html.TextBox("Amount", MaxRefundAmount.ToString("F2"), amounthtmlattr)
+			<span style="display: none;">最多<i>￥2.00</i></span>
+
+			<h5>退款理由：</h5>
+			@Html.DropDownList("Reason", Model.RefundReasons, new Dictionary<string, object>() {
+                       { "class", "textarea-item" },
+                       { "data-check", "0" }})
+
+			<h5>退款原因：</h5>
+			@Html.TextArea("ReasonDetail", Model.RefundReasonDetail, new Dictionary<string, object>() {
+                       { "class", "textarea-item" },
+                       { "data-check", "0" }})
+
+
+
+			<h5>联系人：</h5>
+			@Html.TextBox("ContactPerson", (string)Model.ContactPerson, new Dictionary<string, object>() {
+                               { "class", "ipt" },
+                               {"maxlength","20"},
+                               { "data-check", "0" } })
+			<h5>联系电话：</h5>
+			@Html.TextBox("ContactCellPhone", (string)Model.ContactCellPhone, new Dictionary<string, object>() {
+                               { "class", "ipt" },
+                               {"maxlength","20"},
+                               { "data-check", "0" } })
+			<h5>退款方式：</h5>
+			<div class="refund-select">
+				<p name="iRefundPayType"><span class="active">退款到预付款账户</span><i id="BackCapital" value="@((int)Himall.Model.OrderRefundInfo.OrderRefundPayType.BackCapital)" class='glyphicon glyphicon-ok'></i></p>
+				@if (Model.BackOut == 1)
+				{
+					<p name="iRefundPayType"><span>退款原路返回</span><i id="BackOut" value="@((int)Himall.Model.OrderRefundInfo.OrderRefundPayType.BackOut)" class='glyphicon glyphicon-ok' style="display:none"></i></p>
+				}
+				<input type="hidden" name="RefundPayType" value="@((int)Himall.Model.OrderRefundInfo.OrderRefundPayType.BackCapital)" />
+			</div>
+			@if (Model.OrderInfo.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitSelfPickUp)
+			{
+				<h5>退货方式：</h5>
+				<div class="refund-select">
+					<p><span class="active">送货到店</span><i class='glyphicon glyphicon-ok'></i></p>
+				</div>
+			}
+			<p class="ipt02"><input type="submit" id="bt-submit" value="提交" /></p>
+		</form>
+	</div>
+</div>
+
+<input type="hidden" id="errormsg" value="@(errormsg)" />
+
+
+<script src="~/Scripts/v.js"></script>
+<script type="text/javascript">
+
+	$(".refund-select span").click(function () {
+		$('i', $(this).parent().parent()).hide();
+		$('span', $(this).parent().parent()).removeClass('active');
+		$(this).next(".glyphicon-ok").toggle();
+		if ($(this).hasClass("active")) {
+			//$(this).removeClass("active");
+		} else {
+			$(this).addClass("active");
+		};
+	});
+
+	function TipsError() {
+		var errmsg = $("#errormsg").val();
+		if (errmsg.length > 0) {
+			$.dialog.tips(errmsg, function () {
+				history.go(-1);//返回
+			});
+		}
+	}
+
+
+	var isLoading = false;
+
+	var maxNumber = $(':input[name=maxNumber]').val(),
+        maxPrice = $(':input[name=maxPrice]').val();
+
+	$(function () {
+	    $("#Reason").focus();
+	    TipsError();
+
+	    $("#ReturnQuantity").on("blur", function () {
+	        var refGoodsPrice = $("#refGoodsPrice").val();
+	        refGoodsPrice = parseFloat(refGoodsPrice);
+	        var rnum = $(this).val();
+	        rnum = parseInt(rnum);
+	        maxNumber = parseInt(maxNumber);
+	        if (refGoodsPrice > 0 && rnum > 0) {
+	            var ram = (rnum * refGoodsPrice).toFixed(2);
+	            ram = parseFloat(ram);
+	            maxPrice = parseFloat(maxPrice);
+	            if (rnum >= maxNumber) {
+	                ram = maxPrice;
+	            }
+	            if (ram > maxPrice) {
+	                ram = maxPrice;
+	            }
+	            $("#Amount").val(ram);
+	        }
+	    });
+	});
+	var loadingobj;
+	var a = v({
+		form: 'form1',
+		beforeSubmit: function () {
+			var a = $('#Amount').val();
+			if ((+a) > (+maxPrice)) {
+				$.dialog.errorTips("退款金额不能超过" + maxPrice, '', 3);
+				return false;
+			}
+			if ($("input[name=RefundType]").val() == 0) {
+				$.dialog.errorTips('请选择售后类型', '', 3);
+				return false;
+			}
+			if ($("input[name=RefundType]").val() == 2) {
+				var a = $('#ReturnQuantity').val();
+				if ((+a) > (+maxNumber)) {
+					$.dialog.errorTips('不能超过' + maxNumber + '件或者只能为数字!', '', 3);
+					return false;
+				}
+			}
+			var regTel = /([\d]{11}$)|(^0[\d]{2,3}-?[\d]{7,8}$)/;
+			if (!regTel.test($('#ContactCellPhone').val())) {
+				$.dialog.errorTips("联系电话格式不对,请检查！", '', 3);
+				return false;
+			}
+			if (!$("input[name=RefundPayType]").val()) {
+				$.dialog.errorTips("请选择退款方式", '', 3);
+				return false;
+			}
+			var a = $('#Reason').val();
+			if (a.length < 1) {
+				$.dialog.errorTips("请选择售后原因", '', 3);
+				return false;
+			}
+			if (isLoading) { return false; }
+			loadingobj = showLoading();
+			isLoading = true;
+			$("#bt-submit").val("提交中...");
+		},
+		ajaxSubmit: true,
+		afterSubmit: function (data) {// 表单提交成功回调
+			isLoading = false;
+			loadingobj.close();
+			$("#bt-submit").val("提交");
+			if (data.success) {
+				$.dialog.succeedTips("提交成功！", function () {
+					window.location.href = "/@(CurrentAreaName)/OrderRefund/RefundList";
+				}, 3);
+			} else {
+				$.dialog.errorTips(data.msg, '', 3);
+			}
+		}
+	});
+
+	$("p[name='iRefundType']").click(function () {
+		var _t = $('i', this);
+		rtype = _t.attr('value');
+		if ($('i', this).css('display') != 'none')
+			$("input[name='RefundType']").val(rtype);
+		ChangeRefundType(rtype);
+	});
+	$("p[name='iRefundPayType']").click(function () {
+		var _t = $('i', this);
+		rtype = _t.attr('value');
+		if ($('i', this).css('display') != 'none')
+			$("input[name='RefundPayType']").val(rtype);
+	});
+
+	function ChangeRefundType(v) {
+		var rgbox = $("#ReturnGoodsBox");
+		if (v == 2) {
+			rgbox.show();
+		} else {
+			rgbox.hide();
+		}
+
+	}
+	ChangeRefundType(@(RefundType));
+</script>

@@ -1,0 +1,249 @@
+﻿@model Himall.DTO.WeiActivityModel
+@{
+	ViewBag.WeiXinShareArgs = this.WeiXinShareArgs;
+}
+<script src="~/Areas/Mobile/Templates/Default/Scripts/htmlSize.js"></script>
+<link rel="stylesheet" href="~/Content/bootstrap.min.css">
+<link rel="stylesheet" href="~/Areas/Mobile/Templates/Default/Content/custom.css">
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/iphone.scratch.js"></script>
+<script src="~/Scripts/jquery.artDialog.js"></script>
+<script src="~/Scripts/artDialog.iframeTools.js"></script>
+<style>
+    .container {
+        padding-bottom: 0;
+    }
+</style>
+@using (Html.BeginForm("Add", "ScratchCard", new { Area = "Mobile" }, FormMethod.Post, new { id = "ScratchCardForm", @class = "form-horizontal  form-pt0" }))
+{
+    <div class="container scratch-card hide">
+        <div class="scratch-top">
+            <div class="submit-area">
+
+                @if (DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))<=(DateTime.Parse(  Model.endTime.ToString("yyyy-MM-dd HH:mm:ss"))) &&
+                    DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")) >=(DateTime.Parse(  Model.beginTime.ToString("yyyy-MM-dd HH:mm:ss"))))
+                {
+                    <span class="sb-scratch">点击刮奖</span>
+                }
+
+                @if (Model.consumePoint > 0)
+                {
+                    <p class="nd-code">需要 <em id="consumePoint" name="consumePoint"> @Model.consumePoint</em> 积分</p>
+                }
+            </div>
+            <div class="card-area area1">
+                @if (Model.winModel.isWin)
+                {
+
+                    <div class="award-content ">
+                        @*@if ((DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")) > (DateTime.Parse(Model.beginTime.ToString("yyyy-MM-dd HH:mm:ss")))
+                        && DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")) < (DateTime.Parse(Model.endTime.ToString("yyyy-MM-dd HH:mm:ss"))))
+                        && Model.consumePoint < Model.winModel.integrals
+                        )
+                        {*@
+                            @if (Model.winModel.awardType == Himall.CommonModel.WeiActivityAwardType.Integral)
+                            {
+                                <em>+</em><span id="Name" name="Name"> @Model.winModel.awardName 积分</span>
+                            }
+                            else if (Model.winModel.awardType == Himall.CommonModel.WeiActivityAwardType.Coupon)
+                            {
+                                <span id="Name" name="Name"> @Model.winModel.awardName</span>
+                            }
+                            else
+                            {
+                                <span id="Name" name="Name"> @Model.winModel.awardName</span>//可点击红包
+                            }
+                        @*}*@
+
+                        <p class="continue-submit"><a href="javascript:window.location.href=window.location.href+'?'+Math.round(10);">继续刮奖</a></p>
+                    </div>
+                }
+                else
+                {
+                    <div class="award-content ">
+                        @*@if (DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")) > (DateTime.Parse(Model.beginTime.ToString("yyyy-MM-dd HH:mm:ss")))
+                        && DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")) < (DateTime.Parse(Model.endTime.ToString("yyyy-MM-dd HH:mm:ss")))
+                             && Model.consumePoint < Model.winModel.integrals
+                        )*@
+                        
+                            <span>感谢参与</span>
+
+                        <p class="continue-submit"><a href="javascript:window.location.href=window.location.href+'?'+Math.round(10);">继续刮奖</a></p>
+                    </div>
+                }
+
+            </div>
+
+            @if (Model.userId > 0)
+            {
+
+                if (Model.participationCount >= 0)
+                {
+
+                    if (Model.participationType == Himall.CommonModel.WeiParticipateType.CommonCount)
+                    {
+                        <p class="count-num">您还剩余<em>@Model.participationCount</em>次机会</p>
+                    }
+                    else if (Model.participationType == Himall.CommonModel.WeiParticipateType.DayCount)
+                    {
+                        <p class="count-num">今天还剩余<em>@Model.participationCount</em>次机会</p>
+                    }
+
+
+                }
+                else if (Model.participationCount == -1)
+                {
+                    if (Model.participationType == Himall.CommonModel.WeiParticipateType.CommonCount)
+                    {
+                        <p class="count-num">您还剩余<em>0</em>次机会</p>
+                    }
+                    else if (Model.participationType == Himall.CommonModel.WeiParticipateType.DayCount)
+                    {
+                        <p class="count-num">今天还剩余<em>0</em>次机会</p>
+                    }
+                }
+                else
+                {
+                    if (Model.participationType == Himall.CommonModel.WeiParticipateType.CommonCount)
+                    {
+                        <p class="count-num">您还剩余<em>0</em>次机会</p>
+                    }
+                    else if (Model.participationType == Himall.CommonModel.WeiParticipateType.DayCount)
+                    {
+                        <p class="count-num">今天还剩余<em>0</em>次机会</p>
+                    }
+                }
+            }
+        </div>
+        <div class="scratch-bottom">
+            <img class="btm-bg" src="~/Areas/Mobile/Templates/Default/Images/ggk2.png">
+            @*<div class="time-notes">
+                    <h3>活动时间</h3>
+                    <p>@Model.validTime</p>
+                </div>*@
+            <div class="active-notes">
+                <h3>活动说明</h3>
+                <p>积分请在我的积分中查收</p>
+                <p>优惠券请在我的优惠券中查收</p>
+            </div>
+            <div class="scanning-code">
+                <div class="scanning-img">
+                    <img src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=@ViewBag.QRTicket">
+                </div>
+
+                <span style="margin-top:.07rem">长按识别二维码关注公众号</span>
+                <span>即可查看您的奖品</span>
+            </div>
+        </div>
+        @*@if (Model.userId == 0)
+        {
+            <div class="none-chance">
+                <div class="none-award">
+                    <span>用户未登陆</span>
+                    <p class="submit-close">确定</p>
+
+                </div>
+            </div>
+                <script>
+                    $("#continue-submit").hide();
+                    $("award-content").hide();
+                </script>
+        }*@
+       @if (Model.userId > 0)
+        {
+
+            if (Model.participationCount <= 0 && Model.participationCount != -1)
+            {
+                <div class="none-chance">
+                    <div class="none-award">
+                        <span>抽奖机会已用完</span>
+                        <p class="submit-close">返回商城首页</p>
+                    </div>
+                </div>
+                <script>
+                    $("#continue-submit").hide();
+                    $("award-content").hide();
+                </script>
+            }
+            else if (DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")) > (DateTime.Parse(Model.endTime.ToString("yyyy-MM-dd HH:mm:ss"))))
+            {
+                <div class="none-chance">
+                    <div class="active-over">
+                        <span>活动已结束，敬请期待下次活动</span>
+                        <a href="/m-wap" class="home">商城首页</a>
+                        <a href="/@ViewBag.AreaName/Member/Center" class="usecenter">个人中心</a>
+
+                        @*<em class="ggk-close"></em>*@
+                    </div>
+                </div>
+                <script>
+                    $("#continue-submit").hide();
+                    $("award-content").hide();
+                </script>
+            }
+            else if (DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")) < (DateTime.Parse(Model.beginTime.ToString("yyyy-MM-dd HH:mm:ss"))))
+            {
+                <div class="none-chance">
+                    <div class="active-over">
+                        <span>活动尚未开始！</span>
+                        <a href="/m-wap" class="home">商城首页</a>
+                        <a href="/@ViewBag.AreaName/Member/Center" class="usecenter">个人中心</a>
+
+                        @*<em class="ggk-close"></em>*@
+                    </div>
+                </div>
+                <script>
+                    $("#continue-submit").hide();
+                    $("award-content").hide();
+                </script>
+            }
+        }
+    </div>
+    <input type="hidden" id="hType" name="hType" value="@Model.winModel.awardId" />
+    <input type="hidden" id="hActivityId" name="hActivityId" value="@Model.Id" />
+    <input type="hidden" id="hUserId" name="hUserId" value="@Model.userId" />
+    <input type="hidden" id="hIsWin" name="hIsWin" value="@Model.winModel.isWin.ToString()" />
+    <input type="hidden" id="hintegrals" name="hintegrals" value="@Model.winModel.integrals" />
+    <input type="hidden" id="integrals" name="integrals" value="@Model.consumePoint" />
+    <input type="hidden" id="awardName" name="awardName" value="@Model.winModel.awardName" />
+    <input type="hidden" id="orderAmount" name="orderAmount" value="@Model.winModel.amount" />
+    <input type="hidden" id="awardType" name="awardType" value="@Model.winModel.awardType" />
+    <input type="hidden" id="bonusId" name="bonusId" value="@Model.winModel.bonusId" />
+    <input type="hidden" id="couponId" name="couponId" value="@Model.winModel.couponId" />
+}
+
+@Html.Partial("_WeiXinShare")
+<script type="text/javascript" src="~/Areas/Mobile/Templates/Default/Scripts/ScratchCard.js"></script>
+<script>
+	//var loading = showLoading();
+	var winxinShareArgs = {
+		success: function(){
+			//loading.close();
+		},
+		error:function(){
+			//loading.close();
+		},
+		share: {
+			title: '@Model.activityTitle',
+			desc: '@Model.activityDetails',
+			link: '@Request.Url.AbsoluteUri',
+			imgUrl: '@(Model.activityUrl.ToLower().IndexOf("http:") == 0 ? Model.activityUrl : "http://" + Request.Url.Host.ToString() + Model.activityUrl)'
+		}
+	};
+
+	document.addEventListener( "plusready", function(){
+		$.cookie('Himall-User', plus.storage.getItem('appuserkey'));
+		if(!plus.storage.getItem('alreayFresh')){
+			plus.storage.setItem('alreayFresh','true');
+			window.location.reload();
+			return;
+		}
+		$(".container").removeClass('hide');
+	    $('.start-end').hide();
+	    $(".none-chance .submit-close").html("返回积分商城");
+		$(".none-chance").off('click');
+		$(".none-chance").on('click', '.submit-close', function () {
+		    plus.webview.currentWebview().parent().close();
+		})
+	});
+</script>

@@ -1,0 +1,136 @@
+﻿@using Senparc.Weixin.MP.AdvancedAPIs.Poi;
+
+<style>
+    .cw { width:70px;}
+</style>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li><a href="/SellerAdmin/ShakeAround/Index">管理</a></li>
+        <li class="active"><a>新增</a></li>
+    </ul> 
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>设备数量</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm cw" value="1" name="quantity" maxlength="50" type="text" id="quantity">
+            </div>
+        </div>
+
+
+        <div class="form-group" style="display:none">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>放置的门店</label>
+            <div class="col-sm-4">
+                <select class="input-sm" id="poi_id">
+                    @foreach( var p in ( List<GetStoreList_BaseInfo> )ViewBag.Poi )
+                    {
+                        <option value="@p.poi_id">@p.business_name</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>备注</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm " value="" name="comment" maxlength="50" type="text" id="comment">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>申请理由</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm " value="" name="apply_reason" maxlength="50" type="text" id="apply_reason">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="button" id="Save" class="btn btn-primary" value="保 存">
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+
+    $( function ()
+    {
+        $( '#Save' ).click( function ()
+        {
+            var s = {};
+            s.id = 0;
+            s.quantity = $( "#quantity" ).val();
+            s.poi_id = $( "#poi_id" ).val();
+            s.comment = $( "#comment" ).val();
+            s.apply_reason = $( "#apply_reason" ).val();
+            if ( !Verification( s ) )
+            {
+                return;
+            }
+            var loading = showLoading();
+            $.post( '/SellerAdmin/ShakeAround/Save', s, function ( result )
+            {
+                loading.close();
+                if ( result.success )
+                {
+                    $.dialog.tips( '保存成功' );
+                    window.location.href = "/SellerAdmin/ShakeAround/Index";
+                }
+                else
+                    $.dialog.errorTips( '保存失败！' + result.msg );
+            } );
+        })
+
+    } )
+
+    function Verification( obj )
+    {
+        //for ( var i in obj )
+        //{
+        //    if ( obj[i] == null || obj[i] === "" )
+        //    {
+        //        $.dialog.errorTips( '请将资料填写完整！' );
+        //        return false;
+        //    }
+        //}
+
+        if( isNaN(obj.quantity))
+        {
+            $.dialog.errorTips( '数量请输入合法的数字！' );
+            return false;
+        }
+        else if ( GetStringLength( obj.comment ) > 30 )
+        {
+            $.dialog.errorTips( '备注不能超过15个文字或30个英文/数字！' );
+            return false;
+        }
+        else if ( GetStringLength( obj.apply_reason ) > 200 )
+        {
+            $.dialog.errorTips( '申请理由，不超过100个字！' );
+            return false;
+        }
+
+        return true;
+    }
+
+    function GetStringLength( str )
+    {
+        ///获得字符串实际长度，中文2，英文1 
+        ///要获得长度的字符串 
+        var realLength = 0, len = str.length, charCode = -1;
+        for ( var i = 0; i < len; i++ )
+        {
+            charCode = str.charCodeAt( i );
+            if ( charCode >= 0 && charCode <= 128 )
+                realLength += 1;
+            else realLength += 2;
+        }
+        return realLength;
+    };
+</script>

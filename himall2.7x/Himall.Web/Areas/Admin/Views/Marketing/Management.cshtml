@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "营销中心";
+}
+<div class="container market-admin">
+    <div class="sale-tool clearfix">
+        <span class="title">商家促销工具</span>
+        <ul class="yxmunu">
+            <li><a href="/Admin/Coupon/management" id="9002"><i class="i01"></i><div class="tool-des"><span>优惠券</span><br /><em>向客户发放商家优惠券</em></div></a></li>
+            <li><a href="/Admin/LimitTimeBuy/management" id="9001"><i class="i02"></i><div class="tool-des"><span>限时购</span><br /><em>设置商品限时折扣</em></div></a></li>
+            <li><a href="/Admin/Collocation/management" id="9003"><i class="i03"></i><div class="tool-des"><span>组合购</span><br /><em>将多种商品组合成套餐销售</em></div></a></li>
+            <li><a href="@Url.Action("BoughtList","FullDiscount")" id="9015"><i class="ip ip01"></i><div class="tool-des"><span>满额减</span><br /><em>设置订单指定金额享受优惠</em></div></a></li>
+            <li><a href="/Admin/FightGroup/Index" id="9011"><i class="i04"></i><div class="tool-des"><span>拼团</span><br /><em>由客户邀请朋友一起组团购买</em></div></a></li>
+            <li><a href="/Admin/ShopBonus/management" id="9005"><i class="i05"></i><div class="tool-des"><span>代金红包</span><br /><em>可设置在客户下单后获得裂变式红包</em></div></a></li>
+        </ul>
+    </div>
+    <div class="each-marketing clearfix">
+        <span class="title">平台互动营销</span>
+        <ul class="yxmunu">
+            <li><a href="/Admin/SignIn/Setting" id="9008"><i class="i06"></i><div class="tool-des"><span>签到</span><br /><em>每日签到领取奖励</em></div></a></li>
+            <li><a href="/Admin/Bonus/management" id="9004"><i class="i07"></i><div class="tool-des"><span>吸粉红包</span><br /><em>帮助平台快速积累粉丝，可提现</em></div></a></li>
+            <li><a href="/Admin/CouponActivity/Index" id="9013"><i class="i08"></i><div class="tool-des"><span>新人礼包</span><br /><em>以活动方式赠送礼券给新注册的会员</em></div></a></li>
+            <li><a href="/Admin/WeiActivity/Management" id="9012"><i class="i09"></i><div class="tool-des"><span>刮刮卡</span><br /><em>通过刮开卡片获得奖励</em></div></a></li>
+            <li><a href="/Admin/WeiBigWheel/Management" id="9014"><i class="i10"></i><div class="tool-des"><span>幸运大转盘</span><br /><em>通过点击转盘获得奖励</em></div></a></li>
+            <li><a href="/Admin/Gift/management" id="9006"><i class="i11"></i><div class="tool-des"><span>礼品管理</span><br /><em>管理积分商城的礼品</em></div></a></li>
+            <li><a href="/Admin/Gift/Order" id="9007"><i class="i12"></i><div class="tool-des"><span>礼品兑换列表</span><br /><em>礼品兑换处理</em></div></a></li>
+            <li><a href="/Admin/Gift/AppManage" id="9015"><i class="i13"></i><div class="tool-des"><span>APP积分商城</span><br /><em>配置积分商城首页</em></div></a></li>
+        </ul>
+    </div>
+    <div class="sale-subject clearfix">
+        <span class="title">平台营销专题</span>
+        <ul class="yxmunu">
+            <li><a href="/Admin/MobileTopic/management" id="9009"><i class="i13"></i><div class="tool-des"><span>移动端专题</span><br /><em>设置移动端专题</em></div></a></li>
+            <li><a href="/Admin/Topic/management" id="9010"><i class="i14"></i><div class="tool-des"><span>PC端专题</span><br /><em>设置PC端专题</em></div></a></li>
+
+        </ul>
+    </div>
+</div>
+
+<script type="text/javascript">
+    (function () {
+        var arr = "@ViewBag.Rights".split(','),
+        obj = {};
+        if (arr[0] == 0) {
+            return;
+        }
+        ; (function (a, o) {
+            $.each(a, function (i, e) {
+                o[e] = true;
+            });
+        }(arr, obj));
+        $('.yxmunu').each(function (i, e) {
+            var num = $(e).children().length,
+                uid = 0;
+            $(e).children().each(function (n, o) {
+                var a = $(o).find('a').attr('id');
+                if (!obj[a]) {
+                    $(o).remove();
+                    $('#_' + a).remove();
+                    uid += 1;
+                }
+                if (uid == num) {
+                    $(e).parent().remove();
+                }
+            });
+        });
+    }());
+</script>

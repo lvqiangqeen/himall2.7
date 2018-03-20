@@ -1,0 +1,125 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="dialog-simple" id="BankBind">
+    <a class="close">×</a>
+  
+    <ul class="choose-step">
+        <li class="active">
+            验证管理员身份
+            <span class="border"></span>
+            <span class="border-n Sclear-P34"></span>
+        </li>
+        <li>
+            输入新账户信息
+            <span class="border"></span>
+            <span class="border-n"></span>
+        </li>
+        <li>绑定成功</li>
+    </ul>
+    <div class="form-horizontal weixin-bind">
+        <!--第一步-->
+        <div class="bank-step-1">
+            <div class="form-group">
+                @if (ViewBag.MemberPhone == "")
+                {
+                    <div class="col-sm-offset-1 col-sm-9 form-control-static">
+                        短信验证将发送至商户绑定的邮箱 @ViewBag.MemberEmail &nbsp;
+                        <input type="hidden" id="pluginId_bank" value="Himall.Plugin.Message.Email" />
+                        <input type="hidden" id="destination_bank" value="@ViewBag.MemberEmail">
+                        <a href="javascript:;" id="sendCode_bank">发送验证码</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-sm-offset-1 col-sm-9 form-control-static">
+                        短信验证将发送至商户绑定的手机 @ViewBag.MemberPhone &nbsp;
+                        <input type="hidden" id="pluginId_bank" value="Himall.Plugin.Message.SMS" />
+                        <input type="hidden" id="destination_bank" value="@ViewBag.MemberPhone">
+                        <a href="javascript:;" id="sendCode_bank">发送验证码</a>
+                    </div>
+                }
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-9 form-control-static">请联系你的商户管理员获取验证码</div>
+            </div>
+            <div class="form-group">
+
+                <label for="" class="col-sm-2 col-sm-offset-1 control-label" style="text-align:left">验证码：</label>
+                    <div class="col-sm-3">
+                        <input class="form-control input-sm" id="code_bank">
+                    </div>
+                </div>
+            <div class="form-group">
+                <div class="col-sm-5 col-sm-offset-5">
+                    <a class="btn btn-primary" id="bank_next" href="javascript:;">下 一 步</a>
+                </div>
+            </div>
+        </div>
+
+        <!--第二步-->
+        <div class="bank-step-2" style="display:none;">
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label"><b>*</b>银行开户名：</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-sm" id="BankAccountName" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label"><b>*</b>银行账号：</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-sm" id="BankAccountNumber" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label"><b>*</b>支行名称：</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-sm" id="BankName" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">支行联行号：</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-sm" id="BankCode" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label"><b>*</b>开户银行所在地：</label>
+                <div id="regionSelector"></div>
+                <div class="col-sm-8">
+                    <input type="hidden" id="BankRegionId" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-5 col-sm-offset-4">
+                    <a class="btn btn-primary" href="javascript:;" id="btn_bankstep3">提交</a>
+                </div>
+            </div>
+        </div>
+
+        <!--第三步-->
+        <div class="bank-step-3" style="display:none;">
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-6 form-control-static"><span class="glyphicon glyphicon-ok-sign"></span> 绑定银行卡成功</div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-5 col-sm-offset-5">
+                    <a class="btn btn-primary" href="javascript:;" id="btn_bankfi">完成</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $("#regionSelector").RegionSelector({
+            selectClass: "form-control input-sm select-sort",
+            valueHidden: "#BankRegionId"
+        });
+    })
+</script>
+
+<script src="~/Areas/SellerAdmin/Scripts/AccountSettingsBank.js"></script>

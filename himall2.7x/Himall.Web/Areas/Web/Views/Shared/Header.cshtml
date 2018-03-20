@@ -1,0 +1,492 @@
+﻿@model Himall.Web.Areas.Web.Models.ProductPartialHeaderModel
+@{ var memberInfo = ViewBag.Member as Himall.Model.UserMemberInfo;}
+<!--Header start-->
+<script src="~/Scripts/jquery.cookie.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Scripts/jQuery.mouseDelay.min.js"></script>
+<script src="~/Scripts/jquery.scrollLoading.min.js"></script>
+<script src="~/Scripts/jquery.nicescroll.min.js"></script>
+<link href="~/Areas/Web/Content/WebLoginPlug.css" rel="stylesheet" />
+<link href="~/Areas/Web/Content/WebAlertPlug.css" rel="stylesheet" />
+<script src="~/Areas/Web/Scripts/jQuery.Web.Alert.js"></script>
+<script src="~/Areas/Web/Scripts/jQuery.Web.Login.js"></script>
+<script src="/Scripts/jquery.artDialog.js"></script>
+<script src="/Areas/Web/Scripts/artDialog.iframeTools.js"></script>
+<script src="~/Areas/Web/Scripts/head.js"></script>
+<link href="/Areas/Web/Content/artdilog.css" rel="stylesheet" />
+<script src="/Scripts/bootstrap.autocomplete.js"></script>
+@if (ViewBag.TypeId == Himall.CommonModel.ThemeType.Customize)
+{
+	<style>
+    /*分类颜色*/
+    .categorys .mc { background-color: @ViewBag.ClassifiedsColor ; }
+
+    /*侧边栏*/
+    .right-side-menu, .right-side-menu li span { background-color: @ViewBag.FrameColor ; }
+    .right-side-menu li span:before { border-left-color: @ViewBag.FrameColor ; }
+
+    /*辅色*/
+    .nav-bar, .floor-hd h3, .floor-hd, .content .Limited-buy li .buy-it-now, .brand-attr ul.f-list li:hover, #plist.prebuy .list-h li:hover .lh-wrap, #plist.plist-n7 div.scale-img
+     { border-color: @ViewBag.SecondaryColor ; }
+    .content .Limited-buy li .buy-it-now, #product-intro #name strong,.limited-home span.limi-img { color: @ViewBag.SecondaryColor ; }
+    .content .Limited-buy li .buy-it-now:after,.ltcatebox .ltcate .curr { background-color: @ViewBag.SecondaryColor ; }
+
+    /*主色*/
+    .search-form .button, .categorys, .floor-nav li:hover, .floor-nav li.cur, .right-side-menu li:hover, .right-side-menu li.active, .right-side-menu li.side-cart em,
+    .right-side-menu li .side-point a, a.css3-btn, #summary .himall-district li.cur a, #summary .himall-district li:hover a, .integra-coupon ul li p a,
+    .integra-gift ul li .btn-buy, .integra-coupon ul li p a:hover,.slide .slide-controls .cur,.limited-home .inprogress-list li .tags,
+    .limited-home .inprogress-list li:hover .p-price,#choose-btns .btn a,button.aui_state_highlight,#comment .percent dd div,.btn-goshop_in,
+    .topic .topic-navbar,.topic-goods-Z .btn-buy:after,.topic-nav li.cur,.side-cart-c .side-bt input[type="button"],.cart-list-goods .s-num span { background-color: @ViewBag.MainColor ; }
+
+
+    .search-form, .choose .item a:hover, .choose .item a:active,.choose .selected a, .choose .selected a:visited, .district-hd span.cur,
+    .district-hd,.limited-home .inprogress-list li:hover,#choose-btns #choose-btn-append a,.products-group .p-group-btn a,button.aui_state_highlight,.m3 .p-info s,
+    .topic-goods-Z .btn-buy,#filter-limit .stock-search .text-stock-search,.nav li._banner.cur{ border-color: @ViewBag.MainColor ; }
+    .right .tab .curr, .right .tab .curr a b, .address-choose.active:before { border-top-color: @ViewBag.MainColor ; }
+    .choose .selected b,#choose-btns #choose-btn-append a,.products-group .p-group-btn a,.m3 .fore1 .p-info s,.integra-left ul li i,.topic-goods-Z .btn-buy
+    {color: @ViewBag.MainColor ;}
+
+    /*字体颜色*/
+    a:hover, .red, .top .top-link a, .hot-search a.active, .nav li.cur a, .nav li:hover a, .categorys .item dd a:hover, .search-form ul li:hover, .floor-hd ul li.active,
+    .footer-service dl a:hover, #refilter .item h3 a.curr, .crumb ul.select-value li a, .prop-attrs .v-fold .f-list a:hover, .prop-attrs .v-fold .f-list a.curr, .pagin .text i,
+    .crumb .total-p strong, .right .tab .curr, #product-detail .tab .curr a, #comments-list .tab .curr a, #consult .tab .curr a, .choose #choose-result,
+    .district-hd span.cur, .seller-link a, #tab-services a, .detail-correction a, .detail-list a, #summary a, .p-comm a,
+    #id_comment_btn li.active a, .product-left a:hover,#filter-limit .order .curr a, #filter-limit .order .curr a:visited,.floor .content-right-tab li h3 a:hover,
+    .content-left table a:hover,#comment .rate strong,.inte-user-info h3 span { color: @ViewBag.WritingColor ; }
+	</style>
+}
+
+	@{Html.RenderAction("TopInfo", "ProductPartial");}
+	<div class="header">
+		<div class="search-bar cl">
+			<div class="logo"><a href="/"><img src="@Himall.Core.HimallIO.GetImagePath(ViewBag.Logo)" alt="Himall" /></a></div>
+
+			<div class="top-head-ad">
+				<a href="@ViewBag.HeadAds[0].Url"><img src="@Himall.Core.HimallIO.GetImagePath(ViewBag.HeadAds[0].ImageUrl)" width="160" height="80" /></a>
+			</div>
+
+			<div class="search">
+                <div style="width:100%; clear:both;padding-bottom:10px; color:red; font-weight:bold;font-size:14px">
+                   
+                </div>
+				<div class="search-form cl">
+					<ul>
+						<li>商品</li>
+						<li>店铺</li>
+					</ul>
+					<label>商品</label>
+					<input type="text" id="searchBox" class="text" name="" value="" placeholder="@ViewBag.Keyword" />
+					<input type="button" id="searchBtn" class="button" value="搜索" />
+				</div>
+				<div class="hot-search">
+					@{
+						int i = 0;
+					}
+					@foreach (var hotKey in ViewBag.HotKeyWords)
+					{
+						if (i++ == 0)
+						{
+							<a onclick="location.href=encodeURI( $(this).attr('url'))" class="active" url="/search/searchAd?keywords=@hotKey">@hotKey</a>
+						}
+						else
+						{
+							<a onclick="location.href=encodeURI( $(this).attr('url'))" url="/search/searchAd?keywords=@hotKey">@hotKey</a>
+						}
+					}
+				</div>
+			</div>
+		</div>
+		<!--search end-->
+	</div>
+
+	<div class="nav-bar">
+		<div class="nav-content">
+			<div class="categorys">
+				<div class="cate-all"><a>全部商品分类</a><b></b></div>
+				<div class="category">
+					<div class="mc">
+						@{  IEnumerable<Himall.Model.HomeCategorySet> categories = ViewBag.Categories;
+                            IEnumerable<Himall.Model.CategoryInfo> secondCategoies = ViewBag.AllSecondCategoies;
+                            int rowNumber = 0;
+                            List<string> list = new List<string>();
+						}
+
+						@foreach (var cateogry in categories)
+                        {
+                            rowNumber++;
+
+                            if (cateogry.HomeCategories.Count() > 0)
+                            {
+								<div class="item">
+									<span>
+										<h3>
+											@{int j = 0;
+
+                                                var topCategories = cateogry.HomeCategories.Where(item => item.Depth == 1);
+
+                                                //二级菜单
+                                                long Depth1id = topCategories.First().CategoryId;
+                                                int n = 0;
+                                                }
+                                            @if (!list.Contains(Depth1id.ToString()))
+                                            {
+                                                foreach (var topCateory in topCategories)
+                                                {
+                                                    if (j++ > 0)
+                                                    {@("、")}
+                                                    <i class="icon">
+                                                        @if (topCateory.CategoryInfo.Icon != null && Himall.Core.HimallIO.ExistFile(topCateory.CategoryInfo.Icon))
+                                                        {
+                                                            <img src="@(Himall.Core.HimallIO.GetImagePath(topCateory.CategoryInfo.Icon))" />
+                                                        }
+                                                    </i><a href="@Url.Action("SearchAd", "Search", new { cid = topCateory.CategoryId })">@topCateory.CategoryInfo.Name</a>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                var subCategoriesTitle = cateogry.HomeCategories.Where(item => item.Depth == 3).GroupBy(item => item.CategoryInfo.ParentCategoryId);
+                                                if (null != subCategoriesTitle && subCategoriesTitle.Count() > 0)
+                                                {
+                                                    foreach (var group in subCategoriesTitle)
+                                                    {
+
+                                                        foreach (var subThirdCategoy in group)
+                                                        {
+                                                            if (n < 3)
+                                                            {
+                                                                if (n++ > 0)
+                                                                {@("、")}
+                                                                <i class="icon">
+                                                                    @if (subThirdCategoy.CategoryInfo.Icon != null && Himall.Core.HimallIO.ExistFile(subThirdCategoy.CategoryInfo.Icon))
+                                                                    {
+                                                                        <img src="@(Himall.Core.HimallIO.GetImagePath(subThirdCategoy.CategoryInfo.Icon))" />
+                                                                    }
+                                                                </i>
+                                                                <a href="@Url.Action("SearchAd", "Search", new { cid = subThirdCategoy.CategoryInfo.Id })">@subThirdCategoy.CategoryInfo.Name</a>
+                                                            }
+                                                        }
+                                                        @*<i class="icon">
+                                                            @if (secondCategoies.FirstOrDefault(item => item.Id == group.Key).Icon != null && Himall.Core.HimallIO.ExistFile(secondCategoies.FirstOrDefault(item => item.Id == group.Key).Icon))
+                                                            {
+                                                                <img src="@(Himall.Core.HimallIO.GetImagePath(secondCategoies.FirstOrDefault(item => item.Id == group.Key).Icon))" />
+                                                            }
+                                                        </i><a href="@Url.Action("SearchAd", "Search", new { cid = secondCategoies.FirstOrDefault(item => item.Id == group.Key).Id })">@secondCategoies.FirstOrDefault(item => item.Id == group.Key).Name.Replace("家具","")</a>*@
+                                                    }
+                                                }
+
+                                            }
+
+										</h3>
+                                        @{ 
+                                            //二级菜单
+                                            if (!list.Contains(Depth1id.ToString()))
+                                            {
+                                                list.Add(Depth1id.ToString());
+                                            }
+                                        }
+
+									</span>
+									<div class="category-details">
+										<div class="subitem">
+											<p>
+												@{int k = 0; }@foreach (var topCateory in topCategories)
+												{
+													if (k++ > 0)
+													{@("、")}
+                                                    <a href="@Url.Action("SearchAd", "Search", new{cid=topCateory.CategoryId})">@topCateory.CategoryInfo.Name</a>
+                                                }
+											</p>
+											@{
+												j = 0;
+
+												var subCategories = cateogry.HomeCategories.Where(item => item.Depth == 3).GroupBy(item => item.CategoryInfo.ParentCategoryId);
+											}
+											@if (null != subCategories && subCategories.Count() > 0)
+                                            {
+                                                foreach (var group in subCategories)
+                                                {
+                                                    var cursecodecate = secondCategoies.FirstOrDefault(item => item.Id == group.Key);
+                                                    if (cursecodecate != null)
+                                                    {
+													<dl class="@(j++ == 0 ? "first" : "")">
+														<dt><a href="@Url.Action("SearchAd", "Search", new { cid = secondCategoies.FirstOrDefault(item => item.Id == group.Key).Id })">@secondCategoies.FirstOrDefault(item => item.Id == group.Key).Name</a></dt>
+														<dd>
+
+															@foreach (var subThirdCategoy in group)
+                                                            {
+																<em><a href="@Url.Action("SearchAd", "Search", new { cid = subThirdCategoy.CategoryInfo.Id })">@subThirdCategoy.CategoryInfo.Name</a></em>
+                                                            }
+														</dd>
+													</dl>
+                                                    }
+                                                }
+                                            }
+										</div>
+										<div class="cate-right">
+											<h5>推荐品牌</h5>
+											<ul>
+												@*品牌数量最多显示8个*@
+
+												@foreach (var c in cateogry.HomeBrand)
+												{
+													<li><a href="/Search/SearchAd?b_id=@c.Id" title="@c.Name"><img src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(c.Logo)" class="lazyload" alt="@c.Name" /></a></li>
+												}
+
+											</ul>
+										</div>
+									</div>
+								</div>
+							}
+
+						}
+					</div>
+				</div>
+			</div>
+
+			<ul class="nav cl">
+				@{ IEnumerable<Himall.Model.BannerInfo> navigators = ViewBag.Navigators; }
+				<li class="_banner" id="homePage" index=""><a href="/">首页</a></li>
+				@foreach (var navigator in navigators)
+				{
+					if (navigator.STATUS == 1)
+					{
+						<li class="_banner" index="@navigator.Url"><a target="@(navigator.EnableDelete == 1 ? "_blank" : "")" href="@navigator.Url">@navigator.Name</a></li>
+					}
+				}
+			</ul>
+		</div>
+	</div>
+
+	<div class="right-side">
+		<div class="right-side-menu">
+			<ul class="menu-top">
+				<li data-tag="user">
+					<i class="user" id="right_userCenter"><s></s></i>
+					<span>个人中心</span>
+				</li>
+				<s></s>
+				<li data-tag="cart" arrow class="side-cart" id="right_cart">
+					<i class="cart"><s></s></i>
+					<p>购物车</p>
+					<em>0</em>
+				</li>
+				<s></s>
+				<li data-tag="asset" arrow id="right_asset">
+					<i class="asset"><s></s></i>
+					<span>资产中心</span>
+					<div class="side-point">
+						该店铺可领优惠券<br />
+						<a>立即领取</a>
+					</div>
+				</li>
+				<li data-tag="at-goods" arrow id="right_goods">
+					<i class="at-goods"><s></s></i>
+					<span>关注商品</span>
+				</li>
+				<li data-tag="history" arrow id="right_history">
+					<i class="history"><s></s></i>
+					<span>浏览历史</span>
+				</li>
+				@{ var customerservices = Model.PlatformCustomerServices; }
+				@if (customerservices.Count>0)
+				{
+					if (customerservices.Count>1)
+					{
+
+						<li data-tag="customer" id="right_customer">
+							<s></s><i class="customer"><b></b><em>客服</em></i>
+							<span>
+								@foreach (var item in customerservices)
+								{
+									if (item.Tool == Himall.Model.CustomerServiceInfo.ServiceTool.MeiQia)
+									{
+										<a href="javascript:void(0)" onclick="commonJS.callMeiQiaCS(@item.AccountCode)" title="美洽客服"><img src="/images/meiqia_icon.png" /></a>
+									}
+								}
+								@foreach (var item in customerservices)
+								{
+									if(item.Tool== Himall.Model.CustomerServiceInfo.ServiceTool.QQ)
+									{ 
+										<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=@item.AccountCode&amp;site=qq&amp;menu=yes" title="@item.Name">
+											<div class="online-service">
+												<i class="qq-img"></i>
+												<em>@item.Name</em>
+											</div>
+										</a>
+									}
+								}
+							</span>
+						</li>
+					}
+					else
+					{
+						<li data-tag="customer" id="right_customer">
+							@foreach (var item in customerservices)
+							{	
+								<s></s>
+								if (item.Tool == Himall.Model.CustomerServiceInfo.ServiceTool.MeiQia)
+								{
+									<a href="javascript:void(0)" onclick="commonJS.callMeiQiaCS(@item.AccountCode)" title="美洽客服"><img src="http://meiqia.com/favicon-96x96.png" style="width: 30px;height: 30px;margin: 0 auto;" /></a>
+								}
+								else
+								{
+									<a class="qq_icon_one" target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=@item.AccountCode&amp;site=qq&amp;menu=yes" title="@item.Name">
+										<i class="customer"><b></b><em>客服</em></i>
+									</a>
+								}
+							}
+						</li>
+					}
+				}
+			</ul>
+			<ul class="menu-bot">
+				<li>
+					<i class="go-top"></i>
+					<span>返回顶部</span>
+				</li>
+			</ul>
+		</div>
+		<div class="side-content">
+			<div class="side-cart-c">
+				<div class="side-bd">
+					<input type="hidden" value="@Himall.Model.ProductInfo.ProductAuditStatus.Audited.GetHashCode()" id="hidAuditStatus" />
+					<input type="hidden" value="@Himall.Model.ProductInfo.ProductSaleStatus.OnSale.GetHashCode()" id="hidSaleStatus" />
+					<div class="cart-top">
+						<label><input type="checkbox" name="s-checkAll" checked />全选</label>
+						<a href="/cart/cart" title="">查看全部</a>
+					</div>
+					<div class="cart-list">
+						<ul id="side-cart-list"></ul>
+					</div>
+				</div>
+				<div class="side-bt">
+					<div class="cart-total">
+						<span class="total-money">￥<em id="s-total-money">0</em></span>
+						<span class="total-num">已选<em id="s-total-num">0</em>件</span>
+					</div>
+					<input type="button" id="toSubmitOrder" value="购物车结算">
+				</div>
+			</div>
+
+			<div class="side-asset-c">
+				<div class="side-hd">
+					<a class="side-close" title="关闭">>></a>
+					<a href="/UserCenter?url=/userCoupon&tar=userCoupon" target="_blank">资产中心</a>
+				</div>
+				<div class="side-bd" id="userCouponList">
+					<div class="side-asset-total cl">
+						<div>
+							<span id="memberIntegral">@Model.MemberIntegral</span>
+							<p>我的积分</p>
+						</div>
+						<div>
+							<span id="mycouponcount">@(Model.BaseCoupon.Count)</span>
+							<p>优惠券</p>
+						</div>
+					</div>
+					<div class="side-asset-list" id="myCouponList">
+						@{string cls = "";}
+						<p>已领取的优惠券</p>
+						<ul>
+							@foreach (var item in Model.BaseCoupon)
+							{
+								if (item.BasePrice >= 100) { cls = "coupon-lg"; }
+
+								else if (item.BasePrice <= 50) { cls = "coupon-sm"; }
+
+								<li class="@cls">
+									<a href="/Shop/Home/@item.BaseShopId" target="_blank">
+										<h5>@item.BaseShopName</h5>
+										@if (item.BaseType == Himall.Model.CouponType.Coupon)
+										{
+											Himall.Model.UserCouponInfo obj = (Himall.Model.UserCouponInfo)item;
+											if (obj.OrderAmount > 0)
+											{
+												<h3><span>￥@item.BasePrice</span>满@(obj.OrderAmount)可用</h3>
+											}
+											else
+											{
+												<h3><span>￥@item.BasePrice</span>无门槛(不含运费)</h3>
+											}
+										}
+										else if (item.BaseType == Himall.Model.CouponType.ShopBonus)
+										{
+											Himall.Model.ShopBonusReceiveInfo obj = (Himall.Model.ShopBonusReceiveInfo)item;
+											if (obj.Himall_ShopBonusGrant.Himall_ShopBonus.UseState == Himall.Model.ShopBonusInfo.UseStateType.FilledSend)
+											{
+												<h3><span>￥@item.BasePrice</span>满@{@obj.Himall_ShopBonusGrant.Himall_ShopBonus.UsrStatePrice}减@{@item.BasePrice}</h3>
+											}
+											else
+											{
+												<h3><span>￥@item.BasePrice</span>无门槛(不含运费)</h3>
+											}
+										}
+										<p>截止@(item.BaseEndTime.ToString("yyyy.MM.dd"))</p>
+									</a>
+								</li>
+							}
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="side-atgoods-c">
+				<div class="side-hd">
+					<a class="side-close" title="关闭">>></a>
+					<a href="/UserCenter?url=/productConcern&tar=productConcern" target="_blank">关注商品</a>
+				</div>
+				<div class="side-bd">
+					<ul class="side-goods-list cl" id="memberConcern">
+						@*@foreach (var item in (List<Himall.Model.FavoriteInfo>)Model.Concern)
+						{
+							<li>
+								<a href="@Url.Action("Detail", "Product", new { id=@item.ProductId})" target="_blank"><img src="@Himall.Core.HimallIO.GetProductSizeImage(item.ProductInfo.RelativePath, 1, (int)Himall.CommonModel.ImageSize.Size_50)" /></a>
+								<p><a href="@Url.Action("Detail", "Product", new { id=@item.ProductId})" target="_blank">@item.ProductInfo.ProductName</a></p>
+							</li>
+						}*@
+					</ul>
+				</div>
+			</div>
+			<div class="side-history-c">
+				<div class="side-hd">
+					<a class="side-close" title="关闭">>></a>
+					<a href="javascript:void(0)" target="_blank">浏览历史</a>
+				</div>
+				<div class="side-bd">
+					<ul class="side-goods-list cl" id="userBrowsingProducts">
+						@*@foreach (var item in Model.BrowsingProducts)
+						{
+							<li>
+								<a href="@Url.Action("Detail", "Product", new { id=@item.ProductId})" target="_blank"><img src="@Himall.Core.HimallIO.GetProductSizeImage(item.ImagePath,1,50)" /></a>
+								<p><a href="@Url.Action("Detail", "Product", new { id=@item.ProductId})" target="_blank">@item.ProductName</a></p>
+							</li>
+						}*@
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" id="isLogin" value="@Model.isLogin" />
+    <script type="text/javascript">
+        var curshopid = couponsUrl = canCouponsUrl = null;
+    </script>
+	@if (((bool?)TempData["isShopPage"]) == true)
+	{
+		var curshopid = TempData["CurShopId"];
+		var getcouponurl = "/Shop/PostShopCoupons/" + curshopid;
+		var getcancouponurl = "/Shop/PostCanUseShopCoupons/" + curshopid;
+
+		<script type="text/javascript">
+            curshopid = "@(curshopid)";
+            couponsUrl = "@(getcouponurl)";
+			canCouponsUrl = "@(getcancouponurl)";
+		</script>
+	}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            loadLoginUserInfo();
+            loadUserCoupons();
+        });
+    </script>
+<script src="~/Areas/Web/Scripts/headdata.js"></script>
+<!--Header end-->

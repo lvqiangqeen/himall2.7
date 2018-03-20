@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>购物车父框</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">购物车</h1>
+		</header>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script>
+			//启用双击监听
+		mui.init();
+		
+		mui.plusReady(function(){
+			var ws=plus.webview.currentWebview(),
+				top=44;
+		    if(plus.navigator.isImmersedStatusbar()){
+		    	var immersedTop=Math.round(plus.navigator.getStatusbarHeight());
+		        top=immersedTop+top;
+		        setTimeout(function(){
+		        	document.querySelector('.mui-pull-top-pocket').style.top=immersedTop+44+'px';
+		        },2000)
+		    }
+		    
+		    var cartWV = plus.webview.create('cart.html', 'cart.html', {
+			    top: top+'px',
+			    bottom: 0,
+			    bounce:'vertical'
+			});
+			ws.append(cartWV);
+		});
+		
+		
+		</script>
+	</body>
+
+</html>

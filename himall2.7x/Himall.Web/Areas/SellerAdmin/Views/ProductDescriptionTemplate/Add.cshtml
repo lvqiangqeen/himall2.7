@@ -1,0 +1,57 @@
+﻿@model Himall.Web.Areas.SellerAdmin.Models.ProductDescriptionTemplateModel
+<script src="~/Scripts/ueditor/ueditor.config.js"></script>
+<script src="~/Scripts/ueditor/ueditor.all.min.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/addProductDesctiptionTemplate.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li><a href="management">管理</a></li>
+        <li class="active"><a>@(Model.Id > 0 ? "编辑" : "新增")</a></li>
+    </ul>
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><span class="red">*</span>名称：</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control input-sm" name="name" value="@Model.Name" />
+            </div>
+            <div class="col-sm-4"><span class="field-validation-error" id="nameTip"></span></div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">版式位置：</label>
+            <div class="col-sm-9">
+                <label><input type="radio" value="1" name="position" @((Model.Position == 1||Model.Position==0) ? "checked" : "") />顶部</label>
+                <label><input type="radio" value="2" name="position" @(Model.Position==2?"checked":"") />底部</label>
+                <span class="help-default">选择“顶部”为商品详情上方内容，“底部”为商品详情下方内容。</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><span class="red">*</span>版式内容：</label>
+            <div class="col-sm-9 descon">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="active"><a style="padding:10px 30px;">PC端</a></li>
+                    <li><a style="padding:10px 30px;">移动端</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="contentContainer">
+                        <textarea name="htmlContent" id="des">@(Model.HtmlContent)</textarea>
+                    </div>
+                    <div class="tab-pane" id="mpdes">
+                        <textarea name="MobileHtmlContent" id="mdes">@(Model.MobileHtmlContent)</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id" value="@Model.Id" />
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" id="submit" class="btn btn-primary">保 存</button>
+            </div>
+        </div>
+        
+    </form>
+</div>
+

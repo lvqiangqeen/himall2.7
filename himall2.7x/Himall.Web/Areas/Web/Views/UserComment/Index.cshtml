@@ -1,0 +1,90 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "商品咨询";
+}
+@model IEnumerable<Himall.Model.UserOrderCommentModel>
+
+<style>
+    .tb-line>tbody>tr>td>a{color:#6b6c6e;font-size:13px;}
+    .tb-line td{ padding: 7px 0;}
+</style>
+<div class="box1 lh24">
+    <div class="title bot-border">
+        <h3 class="title_txt cur">满意度评价</h3>
+    </div>
+    
+    <div class="border-box" style="margin-top:20px;">
+        <table class="tb-void tb-line" width="100%" cellspacing="0" cellpadding="0" border="0">
+            <colgroup>
+                <col width="260">
+                <col width="130">
+                <col width="134">
+                <col width="240">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>订单编号</th>
+                    <th>状态</th>
+                    <th>评价时间</th>
+                    <th>评价</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() == 0)
+                {
+                    <tr><td colspan="4" class="ety"><div class="empty">暂时没有评论记录</div></td></tr>
+                }
+                @{var i = 0;}
+                @foreach (var m in Model)
+                {
+                    i++;
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Detail", "UserOrder", new { id = @m.OrderId })" style="color:#6b6c6e;">@m.OrderId</a>
+                        </td>
+                        <td>
+                           <strong state="ddfk" class="ftx-02 order-statu">已评价</strong>
+                        </td>
+                        <td>               
+                            <span class="ftx03" style="color:#6b6c6e;">@m.CommentTime</span>
+                        </td>  
+                        <td>
+
+                            @*@if (m.EvaluationStatus)
+                            {*@
+                                <a href="@Url.Action("Details", "OrderEvaluation", new { orderId = @m.OrderId })" class="pj" title="已评价" catethird="0" style="color:#e5a50c;font-size:14px;">查看评价</a><br>
+                                 @*<a href="@Url.Action("AppendComment", "OrderEvaluation", new { orderId = @m.OrderId })">追加评价</a>
+                            }
+                            else
+                            {
+                                <a catethird="@m.Id" class="id_sub" title="发评价" class="pj" href="@Url.Action("Index", "OrderEvaluation", new { id = @m.OrderId })">
+                                发表评价<b class="icon-show"></b>
+                                </a>
+                                  <a href="@Url.Action("AppendComment", "OrderEvaluation", new { orderId = @m.OrderId })">追加评价</a>
+                            }*@
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+        <div class="mt10 clearfix">
+            <div class="m clearfix" id="bottom_pager">
+                <div id="pagin-btm" class="pagin fr" style="clear:both">
+                    @{
+                        var count = ((PagingInfo)ViewBag.pageInfo).TotalPages;
+                        var curr = ((PagingInfo)ViewBag.pageInfo).CurrentPage;
+                    }
+                    @Html.PageLinks((PagingInfo)ViewBag.pageInfo, x => Url.Action("Index", new { pageNo = x }))
+                    <span class="page-skip">
+                        <em>&nbsp;&nbsp;共 @count 页&nbsp;&nbsp;&nbsp;&nbsp;</em>
+                    </span>
+                </div>
+            </div>
+            <!--pagin end-->
+        </div>
+    </div>
+
+
+</div>
+<script src="~/Areas/Web/Scripts/userComment.js"></script>

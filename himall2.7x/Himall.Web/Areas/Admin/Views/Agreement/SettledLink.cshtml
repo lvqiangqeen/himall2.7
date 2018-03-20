@@ -1,0 +1,28 @@
+﻿@model Himall.Web.Models.AgreementModel
+<div class="container">
+
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="Settled">入驻参数配置</a></li>
+        <li><a href="Management">会员注册协议</a></li>
+        <li><a href="Management?type=Seller">卖家入驻协议</a></li>
+        <li class="active"><a href="SettledLink">入驻链接</a></li>
+    </ul>
+    <div class="form-horizontal mt0">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label" style="padding-top:0px;">链接：</label>
+            <div class="col-sm-9">
+                <label class="" id="linkUrl" name="linkUrl">@ViewBag.LinkUrl</label>
+                @*<input type="button" class="btn btn-default j-copy" value="复制" data-url="@ViewBag.LinkUrl" />*@
+                <a id="copylink" data-url="@ViewBag.LinkUrl" >复制链接</a>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">二维码：</label>
+            <div class="col-sm-9">
+                <img id="imgsrc" type="img" width="300" src="@ViewBag.Imgsrc" />
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Areas/Admin/Scripts/SettledLink.js"></script>
+<script src="~/Scripts/jquery.zclip.js"></script>

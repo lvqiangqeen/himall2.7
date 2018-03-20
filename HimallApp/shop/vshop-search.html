@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>店铺内搜索</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">
+				<div class="search-box">
+					<input type="search" class="search-text" id="keywordsText" placeholder="搜索店铺内商品...">
+					<i class="mui-icon mui-icon-search search-btn" id="searchKey"></i>
+				</div>
+			</h1>
+		</header>
+		<div class="fixed-inner" id="fixedNav">
+            <a class="no_icon default rangBtn" orderkey="1">默认<i></i></a>
+            <a class="price rangBtn" orderkey="3">价格<i class="icon_sort"></i></a>
+            <a class="state_switch rangBtn" orderkey="2">销量<i class="icon_sort_single"></i></a>
+            <a class="state_switch rangBtn" orderkey="4">评价数<i class="icon_sort_single"></i></a>
+            <a class="switch">&nbsp;<i class="icon_switch"></i></a>
+        </div>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="mui-table-view mui-grid-view mui-clearfix vshop-product has-fixed" id="productsList">
+					
+				</ul>
+			</div>
+		</div>
+		<div class="empty-show" id="emptyShow" style="display: none;"><h4>没有搜索到相关商品</h4></div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/template.js"></script>
+		<script>
+			var page = 1,
+				isnodata = false,
+				vshopId,
+				shopId,
+				keywords=null,
+				cid,
+				orderKey,
+				orderType,
+				userkey=himall.getState().userkey,
+				waitLoading=document.getElementById('waitLoading'),
+				keywordsText=document.getElementById('keywordsText'),
+				productsList=document.getElementById('productsList');
+			mui.init({
+				pullRefresh : {
+				    container:'#pullrefresh',
+				    deceleration:0.0006,
+				    up : {
+					    contentrefresh : "正在加载...",
+					    contentnomore:'已加载全部商品',
+					    callback :function(){
+					      	var self=this;
+					      	if (!isnodata) {
+					      		page++;
+						        mui.ajax(URL+'api/search/GetSearchProducts',{
+						        	data:himall.md5Data({
+										pageno:page,
+										pagesize:10,
+										vshopId:vshopId,
+										sid:shopId,
+										keywords:keywords,
+										cid:cid,
+										orderkey:orderKey,
+										ordertype:orderType,
+										userkey:userkey
+									}),
+									dataType:'json',
+									type:'get',
+									timeout:10000,
+									success:function(data){
+										if(data.Success=='true'){
+						                    var html = '';
+						                    if(data.Product.length>0){
+							                    productsList.insertAdjacentHTML('beforeend',template('initProduct',data));
+							                    delayimg.render();
+						                    }else{
+												isnodata = true;
+											}
+											self.endPullupToRefresh(isnodata);
+					      					
+										}
+									},
+									error:function(xhr,type,errorThrown){
+										plus.nativeUI.toast('请求失败，请检查网络')
+									}
+								});
+						    }else{
+						    	self.endPullupToRefresh(isnodata);
+						    }
+				    	}
+				    }
+				}
+			});
+			himall.immersedNav();
+			mui.plusReady(function() {
+				var ws=plus.webview.currentWebview();
+				ws.setStyle({scrollIndicator:'none'});
+				keywords=ws.keywords||'';
+				cid=ws.cid;
+				vshopId=ws.vshopId;
+				shopId=ws.sid;
+				if(keywords!=null || cid!=null){
+					searchRun(vshopId,keywords,cid,orderKey,orderType);
+				}
+				
+				document.getElementById('searchKey').addEventListener('tap',function(){
+					cid=orderKey=orderType=undefined;
+					keywords=keywordsText.value;
+					page = 1;
+					isnodata = false;
+					mui('#pullrefresh').pullRefresh().refresh(true);
+					window.scrollTo(0,0);
+					searchRun(vshopId,keywords,cid,orderKey,orderType);
+				});
+				
+				document.addEventListener("keyup",function(event){
+					if((event||window.event).keyCode==13){
+						keywordsText.blur();
+						cid=orderKey=orderType=undefined;
+						keywords=keywordsText.value;
+						page = 1;
+						isnodata = false;
+						mui('#pullrefresh').pullRefresh().refresh(true);
+						window.scrollTo(0,0);
+						searchRun(vshopId,keywords,cid,orderKey,orderType);
+					}
+				});
+				
+				mui('.fixed-inner').on('tap','a.rangBtn',function(){
+					var selectA=document.getElementsByClassName('select');
+					if(selectA.length>0)
+						selectA[0].className=selectA[0].className.replace(/ select/g,'');
+					if(!himall.hasClass(this,'select'))
+						this.className+=' select';
+					if(himall.hasClass(this,'price')){
+						if(himall.hasClass(this,'state_switch')){
+							himall.removeClass(this,'state_switch');
+							orderType=1;
+						}else{
+							this.className+=' state_switch';
+							orderType=2;
+						}
+					}else{
+						orderType=2;
+					}
+					orderKey=this.getAttribute('orderkey');
+					page = 1;
+					isnodata = false;
+					mui('#pullrefresh').pullRefresh().refresh(true);
+					window.scrollTo(0,0);
+					searchRun(vshopId,keywords,cid,orderKey,orderType);
+				});
+				
+				mui('.fixed-inner').on('tap','a.switch',function(){
+					if(himall.hasClass(this,'state_switch')){
+						himall.removeClass(this,'state_switch');
+					}else{
+						this.className+=' state_switch';
+					}
+					if(himall.hasClass(productsList,'crossrange')){
+						himall.removeClass(productsList,'crossrange');
+					}else{
+						productsList.className+=' crossrange';
+					}
+				});
+			});
+			
+			function searchRun(vshopId,keywords,cid,orderKey,orderType){
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				mui.ajax(URL+'api/search/GetSearchProducts',{
+					data:himall.md5Data({
+						pageno:page,
+						pagesize:10,
+						vshopId:vshopId,
+						sid:shopId,
+						keywords:keywords,
+						cid:cid,
+						orderkey:orderKey,
+						ordertype:orderType,
+						userkey:userkey
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						console.log(JSON.stringify(data))
+						if(data.Success=='true'){
+					        if (data.Product.length > 0) {
+					            document.getElementById('emptyShow').style.display='none';
+					            productsList.innerHTML=template('initProduct',data);
+					            keywordsText.blur();
+			                    delayimg.init();
+					            w.close();
+					            
+					        }else{
+					        	productsList.innerHTML='';
+					        	document.getElementById('emptyShow').style.display='block';
+					        	w.close();
+					        }
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						var errorText='<div class="empty-show"><h4>网络不给力，请检查网络！</h4><button id="reloadWv" class="mui-btn mui-btn-negative">重新加载</button></div>'
+						document.getElementById('pullrefresh').innerHTML=errorText;
+					}
+				});
+			}
+			
+			
+			mui('#productsList').on('tap', 'a', function() {
+				showProduct(this.getAttribute('data-id'));
+			});
+			
+			
+		</script>
+		
+		<script type="text/html" id="initProduct">
+			{{each Product}}
+        		<li class="mui-table-view-cell mui-media mui-col-xs-6">
+        			<div class="vshop-product-box">
+						<a data-id="{{$value.ProductId}}">
+							<div class="p-img"><b data-delay-background="{{$value.ImagePath}}"></b></div>
+							<div class="mui-media-body">{{$value.ProductName}}</div>
+							<p class="vshop-product-price"><span>¥ {{$value.SalePrice}}</span></p>
+						</a>
+					</div>
+        		</li>
+            {{/each}}
+		</script>
+	</body>
+
+</html>

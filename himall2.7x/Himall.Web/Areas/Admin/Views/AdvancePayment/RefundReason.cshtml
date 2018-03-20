@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Himall.Model.RefundReasonInfo>
+@{
+    ViewBag.Title = "RefundReason";
+}
+<script src="~/Areas/Admin/Scripts/AdvancePaymentRefundReason.js"></script>
+<div class="container">
+
+    <ul class="nav nav-tabs-custom clearfix">
+        <li type="statusTab"><a href="@(Url.Action("edit"))">交易参数</a></li>
+        <li type="statusTab"><a href="@(Url.Action("CustomerServicesEdit"))">客服设置</a></li>
+        <li type="statusTab" class="active"><a>售后原因设置</a></li>
+    </ul>
+    <a id="AddSlide" class="btn-especial mb20 clear-v56"><span class="glyphicon glyphicon-plus"></span><i>新增售后原因</i></a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="clear-e">退款/退货原因</th>
+                <th class="td-operate clear-f">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            { 
+            <tr>
+                <td id="rea_@(item.Id)" class="clear-e">@(item.AfterSalesText)</td>
+                <td class="td-operate clear-e1 tar " ><span class=" btn-a"><a onclick="ShowReasonDialog(@(item.Id))">编辑</a></span>&nbsp;&nbsp;<span class="btn-a"><a onclick="DeleteReason(@(item.Id))">删除</a></span></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<input type="hidden" value='@(Url.Action("DeleteRefundReason"))' id="Delet_id"/>
+<input type="hidden" value="@(Url.Action("SaveRefundReason"))" id="Save_reason" />

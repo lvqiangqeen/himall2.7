@@ -1,0 +1,12 @@
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.Weibo\bin\Debug\NetDimension.Weibo.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.Weibo\bin\Debug\plugin.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.Weibo\bin\Debug\weibo1.png
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.Weibo\bin\Debug\weibo2.png
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.Weibo\bin\Debug\Weibo.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.Weibo\bin\Debug\Himall.Plugin.OAuth.Weibo.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.Weibo\bin\Debug\Himall.Plugin.OAuth.Weibo.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.Weibo\bin\Debug\Himall.Core.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.Weibo\bin\Debug\Himall.Core.xml
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.Weibo\obj\Debug\Himall.Plugin.OAuth.Weibo.csprojResolveAssemblyReference.cache
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.Weibo\obj\Debug\Himall.Plugin.OAuth.Weibo.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.Weibo\obj\Debug\Himall.Plugin.OAuth.Weibo.pdb

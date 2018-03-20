@@ -1,0 +1,38 @@
+/* CSS Document */
+html,body{ height:100%; width:100%;}
+body{ color:#fff}
+.login-box{ position:absolute; top:50%; left:50%; margin:-110px 0 0 -360px; min-width:781px;}
+.login-box .form-option{ margin-top:28px; position:relative;}
+.login-box .form-option .tipic-dialog{ top:-48px; right:99px; padding:5px;border-radius:5px;}
+.login-box .form-option .tipic-dialog img{ cursor: pointer;}
+.login-box .text{ width:300px; height:38px; padding-left:12px; border:0 none; line-height:38px; outline:none; color:#afafaf; margin-right:5px; font-size: 16px;box-shadow:inset 0 3px 4px rgba(29,0,0,.3)}
+.login-box span.line{width:10px;height:38px;background-color:#f61829;margin-right:5px;display:inline-block;float:left;}
+.login-box .text.text-code{ width:95px; border:0}
+.login-logo{ background:url(../Images/login-logo.png) no-repeat; padding: 30px 0 10px 210px; font-size:18px;}
+.login-box .login-btn{ background-color:#e50011; border:0 none; height:38px; width:90px; outline:none;font-size:18px; color:#e2e2e2;border-radius:3px;}
+.business-login .login-btn{ background-color:#00a1e9}
+.business-login .login-btn:hover{ background-color:#04aaf4;background-image: -webkit-gradient(radial,50% 10%,10,50% 0%,50,from(#24bbfe),to(#00a1e9));}
+.business-login .text{ border-color:#00a1e9}
+.form-option label{ font-weight:normal;color:#85888e;}
+.form-option label input{ vertical-align:top;opacity: 0;left:1px;position:absolute;top:0px; }
+.form-option label .checkb{float:left;margin-right:10px;margin-top:2px;}
+.form-option label .checkb i{height: 14px;width: 14px;background-image:url(../Images/login_check.png);display:inline-block;position:relative;}
+.form-option label .checkb i.add{background-image:url(../Images/login_check_0.png)}
+.login-box .error-info{background: rgba(0, 0, 0, 0.2);padding: 10px 50px 10px 20px;margin: 0;margin-top: 15px; float:left; color:#999; border-radius:5px;box-shadow: 0 1px 1px rgba(0,0,0,.3) inset,0 0 1px rgba(255,255,255,.15);}
+.error-info p{ margin:0; line-height:20px}
+.error-info .glyphicon{ font-size:14px; margin-right:10px}
+.form-option .glyphicon{ position: absolute;}
+.glyphicon-ok-circle,.glyphicon-remove-circle{ position: absolute;top: 10px;right: 95px; font-size:14px}
+.glyphicon-ok-circle{color:#393;}
+.glyphicon-remove-circle{color:#e3393c;}
+.glyphicon-user,.glyphicon-lock{ top:12px; font-size:16px; color:#bbbaba;}
+.glyphicon-user{ left:260px;}
+.glyphicon-lock{ left:560px;}
+.ajax-loading{ width:100%; height:100%; position:fixed; z-index:999999; background-color: rgba(0, 0, 0, 0.2); transition:all ease-in-out .5s; top:0; left:0; display:none;}
+.ajax-loading p{ width: 100px;height: 100px;padding-top: 60px;background: url('/Images/progress.gif') no-repeat center;border-radius: 5px;background-color: rgba(0, 0, 0, 0.8);color: #fff;font-size: 16px;}
+.blur{filter: url(blur.svg#blur);-webkit-filter: blur(10px);-moz-filter: blur(10px);-ms-filter: blur(10px);   filter: blur(10px);filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=10, MakeShadow=false); /* IE6~IE9 */}
+
+/*自定义小弹框------------*/
+.tipic-dialog{ position:absolute; padding:10px;box-shadow: 2px 2px 1px rgba(0,0,0,0.2); background:#fff; display:none }
+.tipic-dialog:before{content: '';display: inline-block;border-left: 6px solid transparent;border-right: 6px solid transparent;border-top: 6px solid #ccc;border-top-color: rgba(0,0,0,0.2);position: absolute;bottom: -6px;right:39px}
+.tipic-dialog:after{content: '';display: inline-block;border-left: 5px solid transparent;border-right: 5px solid transparent;border-top: 5px solid #fff;position: absolute;bottom: -5px; right:40px}

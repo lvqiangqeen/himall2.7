@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "规格选择";
+}
+@model  List<Himall.Model.CollocationProducts>
+<style>html,body{height:100%;}</style>
+@if (Model != null&&Model.Count>1) {
+    var pros = @Model;
+    int i = 0;
+    var main = "";
+    <header class="hmui-fixed-top pbuy-header">组合购</header>
+    <div class="pbuy-content">
+        <ul>
+            @foreach (var t in pros)
+            {
+                <li class="hmui-after" data-sku="@(t.ProductId+"_0_0_0")" data-collopid="@t.ColloPid">
+                    @if (i > 0)
+                    {
+                        <div class="flex-center choice-box"><span class="choice"></span></div>
+                    }
+                    <a class="thumb"><img src="@t.Image"></a>
+                    <div class="info">
+                        <div class="info-hd">
+                            <h4 class="hmui-multiple-ellipsis">@t.ProductName</h4>
+                            <span class="price">
+                                <strong>￥@t.MinCollPrice </strong>
+                                <del>￥@t.MaxSalePrice</del>
+                            </span>
+                        </div>
+                        @if (t.IsShowSku)
+                        {
+                            <a class="btn hmui-single-ellipsis att-choice active" href="javascript:" data-pid="@t.ProductId" data-collopid="@t.ColloPid" id="@t.ProductId">选择商品规格</a>
+                        }
+                    </div>
+                </li>
+                        i++;
+            }
+        </ul>
+    </div>
+}
+<section class="hmui-fixed-bottom pbuy-bar-container">
+    <div class="pbuy-bar-l">
+        <p>组合购价格：<strong id="totalSkuPrice"> </strong></p>
+        <p>优惠金额合计： <strong id="selectedCount"> </strong></p>
+    </div>
+    <a class="btn btn-danger pbuy-bar-btn flex-center" onclick="CollocationBuy()">购买套餐</a>
+    <form name="CollProducts" id="CollProducts" action="/@CurrentAreaName/Order/SubmitByProductId" method="get">
+        <input type="hidden" name="skuids" id="skuids" value="" />
+        <input type="hidden" name="counts" id="counts" value="" />
+        <input type="hidden" name="collpids" id="collpids" value="" />
+    </form>
+</section>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/PortfolioBuy.js"></script>

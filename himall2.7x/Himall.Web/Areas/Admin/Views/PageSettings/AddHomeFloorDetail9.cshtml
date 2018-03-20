@@ -1,0 +1,171 @@
+﻿@model Himall.Web.Areas.Admin.Models.HomeFloorDetail
+@using Himall.Web.Areas.Admin.Models;
+@using Himall.Web.Framework;
+@{
+    var LeftOne = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Himall.Model.Position.LeftOne, new HomeFloorDetail.TextLink() { Id = (int)Himall.Model.Position.LeftOne });
+    var LeftTwo = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Himall.Model.Position.LeftTwo, new HomeFloorDetail.TextLink() { Id = (int)Himall.Model.Position.LeftTwo });
+    var MiddleOne = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Himall.Model.Position.MiddleOne, new HomeFloorDetail.TextLink() { Id = (int)Himall.Model.Position.MiddleOne });
+    var MiddleTwo = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Himall.Model.Position.MiddleTwo, new HomeFloorDetail.TextLink() { Id = (int)Himall.Model.Position.MiddleTwo });
+    var MiddleThree = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Himall.Model.Position.MiddleThree, new HomeFloorDetail.TextLink() { Id = (int)Himall.Model.Position.MiddleThree });
+    var ROne = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Himall.Model.Position.ROne, new HomeFloorDetail.TextLink() { Id = (int)Himall.Model.Position.ROne });
+    var RTwo = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Himall.Model.Position.RTwo, new HomeFloorDetail.TextLink() { Id = (int)Himall.Model.Position.RTwo });
+    var RThree = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Himall.Model.Position.RThree, new HomeFloorDetail.TextLink() { Id = (int)Himall.Model.Position.RThree });
+    var BottomOne = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Himall.Model.Position.BottomOne, new HomeFloorDetail.TextLink() { Id = (int)Himall.Model.Position.BottomOne });
+    var BottomTwo = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Himall.Model.Position.BottomTwo, new HomeFloorDetail.TextLink() { Id = (int)Himall.Model.Position.BottomTwo });
+    var BottomThree = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Himall.Model.Position.BottomThree, new HomeFloorDetail.TextLink() { Id = (int)Himall.Model.Position.BottomThree });
+    var BottomFour = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Himall.Model.Position.BottomFour, new HomeFloorDetail.TextLink() { Id = (int)Himall.Model.Position.BottomFour });
+    var BottomFive = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Himall.Model.Position.BottomFour, new HomeFloorDetail.TextLink() { Id = (int)Himall.Model.Position.BottomFour });
+}
+}
+
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Areas/Admin/Scripts/charCode.js"></script>
+<script src="~/Areas/Admin/Scripts/pageSettings-floorDetail9.js"></script>
+
+
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="./HomeFloor">管理</a></li>
+        <li class="active"><a>编辑</a></li>
+    </ul>
+
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>楼层名称：</label>
+            <div class="col-sm-3 form-control-static">
+                <input class="form-control input-xs" type="text" id="FloorName" name="FloorName" value="@ViewBag.FloorName" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">文本模块：</label>
+            <div class="col-sm-9">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>跳转链接</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody type="textLink">
+                        @foreach (var textLink in Model.TextLinks)
+                        {
+                            <tr type="textLink" name="@textLink.Id">
+                                <td><input class="form-control input-xs" type="text" name="name" value="@textLink.Name" /></td>
+                                <td><input class="form-control input-xs" type="text" name="url" value="@textLink.Url" /></td>
+                                <td class="td-operate"><span class="btn-a"><a>删除</a></span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a class="add-atrr" id="addTextLink"><span class="glyphicon glyphicon-plus-sign"></span>添加</a>&nbsp;<span>(最多增加8个)</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">默认选项卡名称：</label>
+            <div class="col-sm-3 form-control-static">
+                <input class="form-control input-xs" type="text" id="DefaultTabName" name="DefaultTabName" value="@Model.DefaultTabName" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">图片：</label>
+            <div class="col-sm-9">
+                <table class="table table-bordered upload-file-btn">
+                    <thead>
+                        <tr>
+                            <th>
+                                区域
+                                <div class="floor-ex-img">
+                                    （<a class="ex-btn">区域划分图</a>）
+                                    <img src="/Images/floor_08.jpg" />
+                                </div>
+                            </th>
+                            <th>图片</th>
+                            <th>跳转链接</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>左一</td>
+                            <td><div class="upload-img" id="up0" url="@HimallIO.GetImagePath(LeftOne.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Himall.Model.Position.LeftOne)" name="url" value="@LeftOne.Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>左二</td>
+                            <td><div class="upload-img" id="up1" url="@HimallIO.GetImagePath(LeftTwo.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Himall.Model.Position.LeftTwo)" name="url" value="@LeftTwo.Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>中图一</td>
+                            <td><div class="upload-img" id="up2" url="@HimallIO.GetImagePath(MiddleOne.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Himall.Model.Position.MiddleOne)" name="url" value="@MiddleOne.Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>中图二</td>
+                            <td><div class="upload-img" id="up3" url="@HimallIO.GetImagePath(MiddleTwo.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Himall.Model.Position.MiddleTwo)" name="url" value="@MiddleTwo.Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>中图三</td>
+                            <td><div class="upload-img" id="up4" url="@HimallIO.GetImagePath(MiddleThree.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Himall.Model.Position.MiddleThree)" name="url" value="@MiddleThree.Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>右图一</td>
+                            <td><div class="upload-img" id="up5" url="@HimallIO.GetImagePath(ROne.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Himall.Model.Position.ROne)" name="url" value="@ROne.Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>右图二</td>
+                            <td><div class="upload-img" id="up6" url="@HimallIO.GetImagePath(RTwo.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Himall.Model.Position.RTwo)" name="url" value="@RTwo.Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>右图三</td>
+                            <td><div class="upload-img" id="up7" url="@HimallIO.GetImagePath(RThree.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Himall.Model.Position.RThree)" name="url" value="@RThree.Name" /></td>
+                        </tr>
+
+                        <tr>
+                            <td>底图一</td>
+                            <td><div class="upload-img" id="up8" url="@HimallIO.GetImagePath(BottomOne.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Himall.Model.Position.BottomOne)" name="url" value="@BottomOne.Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>底图二</td>
+                            <td><div class="upload-img" id="up9" url="@HimallIO.GetImagePath(BottomTwo.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Himall.Model.Position.BottomTwo)" name="url" value="@BottomTwo.Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>底图三</td>
+                            <td><div class="upload-img" id="up10" url="@HimallIO.GetImagePath(BottomThree.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Himall.Model.Position.BottomThree)" name="url" value="@BottomThree.Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>底图四</td>
+                            <td><div class="upload-img" id="up11" url="@HimallIO.GetImagePath(BottomFour.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Himall.Model.Position.BottomFour)" name="url" value="@BottomFour.Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>底图五</td>
+                            <td><div class="upload-img" id="up12" url="@HimallIO.GetImagePath(BottomFive.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Himall.Model.Position.BottomFive)" name="url" value="@BottomFive.Name" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <input type="hidden" name="id" id="homeFloorId" value="@Model.Id" />
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" name="submit" class="btn btn-primary">保存楼层</button>
+            </div>
+        </div>
+    </form>
+</div>

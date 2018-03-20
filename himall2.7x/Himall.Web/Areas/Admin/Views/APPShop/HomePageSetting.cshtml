@@ -1,0 +1,177 @@
+﻿@{
+    ViewBag.Title = "APP首页配置";
+}
+@{
+    var slideImages = (IEnumerable<Himall.Web.Areas.Admin.Models.SlideAdModel>)ViewBag.SlideImages;
+    var imageAds = (List<Himall.Model.ImageAdInfo>)ViewBag.imageAds;
+}
+@model IEnumerable<Himall.Web.Areas.Admin.Models.TopicModel>
+           
+<script src="~/Areas/Admin/Scripts/APPShopHomePageSetting.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>APP商城首页设置</a></li>
+    </ul>
+    <ul class="page-tab-hd page-appindex mt20">
+        <li class="li1"><i class="glyphicon glyphicon-pencil"></i>轮播图配置</li>
+        <li class="li2"><i class="glyphicon glyphicon-pencil"></i>图标配置</li>
+        <li class="li3"><i class="glyphicon glyphicon-pencil"></i>首页专题</li>
+        <li class="li4"><i class="glyphicon glyphicon-pencil"></i>首页商品配置</li>
+        <i class="arrow"></i>
+    </ul>
+    <div class="page-tab-bd">
+        <div class="page-item">
+            <div class="table-top"><a class="btn btn-primary btn-xs" id="addSlideImage"><i class="glyphicon glyphicon-plus"></i> 添加轮播图</a></div>
+            <table id="slideImagesTable" class="table table-bordered"></table>
+            @*<div class="form-group">
+                    <div class="col-sm-5">
+                        <p class="help-default">注：可最多添加5个轮播图</p>
+                    </div>
+                </div>*@
+
+            <form class="form-horizontal dln" id="editSlideImage">
+                <div class="form-group upload-img" id="imgUrl">
+                    <div class="col-sm-3"></div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">描述：</label>
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm" name="description" id="description" value="" maxlength="10" />
+                        <p class="help-default">限10个字符</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">跳转链接：</label>
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm" name="url" id="url" value="" />
+                        <p class="help-default">如需跳转到专题，可点击右方选择，<a onclick="ChoceTopic(0)">选择专题</a></p>
+                    </div>
+
+                </div>
+            </form>
+            <input type="hidden" id="SlideImageBox" value="" />
+            <input type="hidden" id="SlideImageId" value="" />
+
+            <div id="choceTopicUrl" class="dln">
+                <div class="choose-search">
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="" >标题</label>
+                        <input class="form-control input-ssm" type="text" id="titleKeyword">
+                    </div>
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="">标签</label>
+                        <input class="form-control input-ssm" type="text" id="tagsKeyword">
+                    </div>
+                    <button type="button" class="btn btn-primary btn-ssm" id="topicSearchButton">搜索</button>
+                </div>
+                <table id="topicGrid" class="table table-bordered"></table>
+            </div>
+
+        </div>
+
+
+
+        <div class="page-item">
+            <div class="table-top"><a class="btn btn-primary btn-xs" id="addAppIcon"><i class="glyphicon glyphicon-plus"></i> 添加图标</a></div>
+            <table id="appIconTable" class="table table-bordered"></table>
+         
+            <form class="form-horizontal dln" id="editAppIcon">
+                <div class="form-group upload-img" id="iconimgUrl">
+                    <div class="col-sm-3"></div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">图标名称：</label>
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm" name="iconDesc" id="iconDesc" value="" maxlength="4" />
+                        <p class="help-default">限4个字符</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">跳转链接：</label>
+                    <div class="col-sm-9">
+                        <select class="form-control input-sm" name="iconUrl" id="iconUrl">
+                           <!--专题  拼团  限时购列表  积分商城  分类-->
+                            <option value="1">专题</option>
+                            <option value="2">拼团</option>
+                            <option value="3">限时购</option>
+                            <option value="4">积分商城</option>
+                            <option value="5">分类</option>
+                            @if (ViewBag.IsOpenStore)
+                            {
+                                <option value="6">周边门店</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <input type="hidden" id="appIconBox" value="" />
+            <input type="hidden" id="appIconId" value="" />
+        </div>
+
+
+        <div class="page-item">
+            <div class="app-topic">
+                <div class="fore1">
+                    <a onclick="editImageAd(@imageAds[0].Id)"></a>
+                    <a onclick="editImageAd(@imageAds[1].Id)"></a>
+                </div>
+                <div class="fore2">
+                    <a onclick="editImageAd(@imageAds[2].Id)"></a>
+                    <a onclick="editImageAd(@imageAds[3].Id)"></a>
+                    <a onclick="editImageAd(@imageAds[4].Id)"></a>
+                </div>
+                <form class="form-horizontal dln" id="editImageAds">
+                    <div class="form-group upload-img" id="uploadImgUrl">
+                        <div class="col-sm-3"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">跳转链接：</label>
+                        <div class="col-sm-9">
+                            <input class="form-control input-sm" id="gotoUrl" value="" />
+                            <p class="help-default">如需跳转到专题，可点击右方选择，<a onclick="ChoceTopic(1)">选择专题</a></p>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="page-item">
+            <div class="table-top"><a class="btn btn-primary btn-xs" id="addBtn"><i class="glyphicon glyphicon-plus"></i> 添加商品</a></div>
+            <div class="search-box">
+                <form class="form-inline custom-inline">
+                    <div class="form-group">
+                        <label class="label-inline w95" for="">商品/品牌</label>
+                        <input class="form-control input-ssm" type="text" id="productName">
+                    </div>
+                    <div class="form-group">
+                        <label class="label-inline w75">分类</label>
+                        <select id="category1" class="form-control input-ssm">
+                            <option>分类</option>
+                        </select>
+                        <select id="category2" class="form-control input-ssm">
+                            <option>分类</option>
+                        </select>
+                        <select id="category3" class="form-control input-ssm">
+                            <option>分类</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                    <button type="button" class="btn btn-primary  btn-ssm" id="productSearchButton">搜索</button>
+                    </div>
+                </form>
+            </div>
+            <table id="productList" class="table table-bordered"></table>
+            <input type="hidden" id="categoryId" value="" />
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Areas/Admin/Scripts/APPShopSlideImage.js"></script>
+
+<script src="~/Areas/Admin/Scripts/mobileHomeTopic.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Areas/Admin/Scripts/appShopProductSetting.js"></script>
+<script src="~/Areas/Admin/Scripts/APPIconSetting.js"></script>

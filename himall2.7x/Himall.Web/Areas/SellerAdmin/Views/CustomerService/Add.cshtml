@@ -1,0 +1,57 @@
+﻿@using Himall.Core;
+@model Himall.Web.Areas.SellerAdmin.Models.CustomerServiceModel
+
+
+<script src="~/Areas/SellerAdmin/Scripts/CustomerServiceAdd.js"></script>
+<div class="container">
+    <ul class="breadcrumb clearfix">
+
+        <li><a href="management">PC客服列表</a></li>
+        <li class="active"><a>@(Model.Id > 0 ? "编辑PC客服" : "新增PC客服")</a></li>
+    </ul>
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>客服名称：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control input-sm", maxlength = 15 })
+            </div>
+            <div class="col-sm-3">
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "help-default cor-red" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>沟通工具：</label>
+            <div class="col-sm-3">
+                @Html.DropDownListFor(s => s.Tool, ((IEnumerable<SelectListItem>)Himall.Model.CustomerServiceInfo.ServiceTool.QQ.ToSelectList(false)), new { @class = "form-control input-sm" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>账号：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Account, new { @class = "form-control input-sm", maxlength = 25 })
+            </div>
+            <div class="col-sm-3">
+                @Html.ValidationMessageFor(m => m.Account, "", new { @class = "help-default cor-red" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>账号：</label>
+            <div class="col-sm-3">
+                <label> <input type="radio" name="type" value="1" @((Model.Type.HasValue || Model.Type == Himall.Model.CustomerServiceInfo.ServiceType.PreSale) ? "checked" : "") />售前</label>
+                <label> <input type="radio" name="type" value="2" @(Model.Type == Himall.Model.CustomerServiceInfo.ServiceType.AfterSale ? "checked" : "") />售后</label>
+            </div>
+        </div>
+
+        @Html.HiddenFor(m => m.Id)
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" class="btn btn-primary" id="submit">保 存</button>
+            </div>
+        </div>
+    </form>
+</div>
+<input type="hidden" value="@Url.Action("management", "CustomerService", new {area="Selleradmin"})" id="MCurl" />
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

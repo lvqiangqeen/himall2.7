@@ -1,0 +1,366 @@
+﻿@using Himall.CommonModel;
+@using Himall.Core;
+@using Himall.DTO;
+@model Himall.Model.OrderInfo
+
+@{
+    ViewBag.Title = "订单详情";
+    bool isExpire = false;//是否过了维权期
+    bool isCanRefundOrder = true;//整笔订单是否可退
+    if (Model.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.Finish)
+    {
+        if ((bool)ViewBag.IsRefundTimeOut)
+        {
+            isExpire = true;
+        }
+    }
+    var detail = ViewBag.Detail as Himall.DTO.OrderDetail;
+    isCanRefundOrder = detail.OrderItems.Where(e => e.IsCanRefund == false).Count() == 0;
+    FightGroupOrderJoinStatus? fgojoinstate = Model.FightGroupOrderJoinStatus;
+    bool canfgrefund = true;
+    if (Model.OrderType == Himall.Model.OrderInfo.OrderTypes.FightGroup)
+    {
+        canfgrefund = (bool)Model.FightGroupCanRefund;
+    }
+    var shopBranchInfo = ViewBag.ShopBranchInfo as ShopBranch;
+}
+
+<div class="container order-detail">
+    <div class="status">
+        <span>
+            订单状态：<i>@Model.OrderStatus.ToDescription()</i>
+            @if (Model.OrderType == Himall.Model.OrderInfo.OrderTypes.FightGroup)
+            {
+                <i class="fgordstatus  fgordstatus@(fgojoinstate.GetHashCode())">@(fgojoinstate.ToDescription())</i>
+            }
+        </span>
+    </div>
+    @{var hasExpressStatus = !string.IsNullOrWhiteSpace(Model.ShipOrderNumber);}
+    @if (hasExpressStatus)
+    {
+        <a href="@Url.Action("ExpressInfo")?orderId=@Model.Id">
+            <div id="expressinfo" style="background-color:#fff;">
+                <div class="add-wuliu">
+                    @*<span style="line-height:17px;color:#494e52;">已送达</span>*@
+                    <span id="expressTopInfo" style="text-align:left;width:55%;">查看物流</span>
+                    <i class="glyphicon glyphicon-menu-right"></i>
+                </div>
+            </div>
+        </a>
+    }
+    <div class="take">
+        <div class="take-info shipto">
+            <span>@Model.ShipTo</span>
+            <span style="float: right;">@Model.CellPhone</span>
+            <p>@Model.RegionFullName @Model.Address</p>
+        </div>
+    </div>
+
+    <div class="bill">
+        @if (Model.InvoiceType == Himall.Model.InvoiceType.None)
+        {
+            <h6>发票   :   无</h6>
+        }
+        else
+        {
+            <h6>发票</h6>
+            <p>发票抬头<span>@Model.InvoiceTitle</span></p>
+            <p>发票内容<span>@Model.InvoiceContext</span></p>
+        }
+    </div>
+    <!--留言字段添加6-12-->
+    <div class="leave-message-detail">
+        <label>买家留言：</label>
+        <span>@Model.OrderRemarks</span>
+    </div>
+    <ul class="order-list">
+        <li>
+            @if (detail.VShopId > 0)
+            {
+                <a href="/@(CurrentAreaName)/vshop/detail/@detail.VShopId"> <h6>@detail.ShopName<i class="glyphicon glyphicon-menu-right pull-right gray"></i></h6></a>
+            }
+            else
+            {
+                <a> <h6>@detail.ShopName<i class="glyphicon glyphicon-menu-right pull-right gray"></i></h6></a>
+            }
+            @foreach (var orderItem in detail.OrderItems)
+            {
+                <a href="@Url.Action("detail","product")/@orderItem.ProductId">
+                    <div class="order-goods clearfix">
+
+                        <img src="@orderItem.ProductImage" />
+
+                        <p class="name"><span class="pd-name">@orderItem.ProductName</span><span class="red-p">¥@orderItem.Price.ToString("F2")</span></p>
+                        <p class="p-r"><span class="gray"> @orderItem.Color @orderItem.Size @orderItem.Version</span><em class="pull-right"><i style="font-style: normal;padding:0 5px;">x</i>@(orderItem.Count)</em></p>
+                         
+                        @if (ViewBag.Bonus != null)
+                        {
+                            <div class="dialog-HB" id="paymentsChooser"><a href="@ViewBag.ShareHref"><img src="~/Areas/Mobile/Templates/Default/Images/detailHB_03.png"></a></div>
+                        }
+                        @if (orderItem.IsCanRefund && orderItem.EnabledRefundAmount>0)
+                        {
+                            bool isShowRefund = false;
+                            if (Model.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.Finish)
+                            {
+                                isShowRefund = true;
+                            }
+                            if (Model.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitReceiving)
+                            {
+                                isShowRefund = true;
+                            }
+                            if (isShowRefund)
+                            {
+                                if (Model.PaymentType != Himall.Model.OrderInfo.PaymentTypes.CashOnDelivery
+                                    || Model.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.Finish)
+                                {
+                                    if (!isExpire)
+                                    {
+                                        <a class="od-btn" href="/@(CurrentAreaName)/OrderRefund/RefundApply/?orderid=@Model.Id&itemId=@orderItem.Id">申请售后</a>
+                                    }
+                                }
+                            }
+                        }
+                        @if (orderItem.OrderRefundId > 0 || detail.OrderRefundId > 0)
+                        {
+                            var refundid = detail.OrderRefundId;
+                            var refundstate = detail.RefundStats;
+                            if (orderItem.OrderRefundId > 0)
+                            {
+                                refundid = orderItem.OrderRefundId;
+                                refundstate = orderItem.RefundStats;
+                            }
+                            <a class="od-btn" href="/@(CurrentAreaName)/OrderRefund/RefundDetail/@(refundid)">
+                                @switch (refundstate)
+                                {
+                                    case 4:
+                                        @("退款拒绝")
+                                        break;
+                                    case 7:
+                                        @("退款成功")
+                                        break;
+                                    default:
+                                        @("退款中")
+                                        break;
+                                }
+                            </a>
+                        }
+                    </div>
+                </a>
+            }
+            <p class="order-info acount">
+                <span>运费<em style="color:#494e52">¥@Model.Freight.ToString("F2")</em></span> <br />
+                @if (Model.FullDiscount > 0)
+                {
+                    <span>满减优惠<em style="color:#494e52">-¥@Model.FullDiscount.ToString("F2")</em></span> <br />
+                }
+
+                @if (Model.IntegralDiscount > 0)
+                {
+                    <span>平台积分抵扣<em style="color:#494e52">-¥@Model.IntegralDiscount.ToString("F2")</em></span> <br />
+                }
+
+                @if (Model.DiscountAmount > 0)
+                {
+                    <span>
+                        优惠券抵扣<em style="color:#494e52">-¥@Model.DiscountAmount.ToString("F2")</em>
+                    </span> <br />
+                }
+                <span>
+                    @if (Model.PaymentType == Himall.Model.OrderInfo.PaymentTypes.CashOnDelivery)
+                    {<text>订单金额</text> }
+                    else
+                    { <text>实付(含运费) </text>}
+                    <em style="color:#da2a27;font-size:14px;">¥@((Model.OrderTotalAmount).ToString("F2"))</em>
+                </span>
+            </p>
+            <p class="payment">支付方式<span>@Model.PaymentType.ToDescription()</span></p>
+            <p class="order-num">订单编号：<span>@Model.Id </span><br />下单时间：<span>@Model.OrderDate.ToString("yyyy-MM-dd HH:mm:ss")</span></p>
+        </li>
+    </ul>
+    @if (shopBranchInfo != null)
+    {
+        <div class="take">
+            <div class="take-info">
+               @if (Model.DeliveryType != Himall.CommonModel.Enum.DeliveryType.SelfTake)
+               {
+                <p>配送门店：@shopBranchInfo.ShopBranchName</p>
+                <p>配送方式：门店配送</p>
+                <p>配送时间：@(Model.ShippingDate.HasValue ? Model.ShippingDate.Value.ToString("yyyy-MM-dd") : "任意时间")</p>
+               }
+                <p>联系电话：@shopBranchInfo.ContactPhone</p>
+                <p class="long-content">门店地址：<span>@shopBranchInfo.AddressFullName</span></p>
+            </div>
+        </div>
+    }
+    <div class="bottom_fixedBtn right-btn">
+        <div class="item total-m item-btn">
+            @if (Model.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitDelivery && Model.PaymentType == Himall.Model.OrderInfo.PaymentTypes.CashOnDelivery)
+            {
+                if (Model.OrderType != Himall.Model.OrderInfo.OrderTypes.FightGroup)
+                {
+                    <a class="btn " href="javascript:cancelOrder('@Model.Id')">取消订单</a>
+                }
+            }
+            else if (Model.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitPay)//待支付
+            {
+                if (Model.OrderType != Himall.Model.OrderInfo.OrderTypes.FightGroup)
+                {
+                    <a class="btn " href="javascript:cancelOrder('@Model.Id')">取消订单</a>
+                }
+                <a class="btn btn-red" href="javascript:payOrder('@Model.Id')">去付款</a>
+            }
+            else if (Model.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitReceiving)//待收货
+            {
+                <a class="btn btn-red" href="javascript:confirm('@Model.Id')">确认收货</a>
+            }
+            @if ((Model.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitDelivery || Model.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitSelfPickUp) && Model.PaymentType != Himall.Model.OrderInfo.PaymentTypes.CashOnDelivery)
+            {
+                if (((isCanRefundOrder && canfgrefund) || detail.RefundStats.Equals(4)) && Model.OrderEnabledRefundAmount > 0)
+                {
+                    <a class="btn" href="/@(CurrentAreaName)/OrderRefund/RefundApply/?orderid=@Model.Id">申请退款</a>
+                }
+            }
+            @if (Model.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitDelivery
+            || Model.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitReceiving
+            || Model.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitSelfPickUp
+            || Model.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.Finish)
+            {//待发货、待收货、待自提、已完成
+             //晒单
+            <a class="btn" href="/@(CurrentAreaName)/Order/OrderShare?orderids=@Model.Id">我要晒单</a>
+            }
+        </div>
+    </div>
+</div>
+<div class="custom-dialog" id="paymentsChooser"></div>
+<div class="cover" style="display:none;"></div>
+<input type="hidden" value="@Model.ExpressCompanyName" id="expressCompanyName" />
+<input type="hidden" value="@Model.ShipOrderNumber" id="shipOrderNumber" />
+<input type="hidden" value="@hasExpressStatus" id="hasExpressStatus" />
+<script>
+
+    //显示物流信息
+    /*详情页不显示物流信息
+    var expressValidStatus = $('#hasExpressStatus').val();//获取当前状态
+    if (expressValidStatus) {//包含快递信息的状态，即已发货后的状态
+        $('[expressInfo]').removeClass('hide');
+        var expressCompanyName = $('#expressCompanyName').val();
+        var shipOrderNumber = $('#shipOrderNumber').val();
+
+        $.post('/common/ExpressData/searchTop',
+            { expressCompanyName: expressCompanyName, shipOrderNumber: shipOrderNumber },
+            function (expressData) {
+                if (expressData.success) {
+                    var html = '<ul class="goods_interflow">';
+                    $.each(expressData.data, function (i, data) {
+                        $('#expressTopInfo').html('<label><p class="address-w">'+ data.content + '</p><p class="time" style="color:#6b6c6e;font-size:11px;"> ' + data.time + '</p></label>');
+                        style = ' class="active"';
+                    });
+                }
+                else {
+                    $('#expressTopInfo').html('<label class="red">物流参数错误</label>');
+                }
+            }
+        );
+    }
+    */
+    function cancelOrder(orderId) {
+        $.dialog.confirm("确定取消该订单吗？", function () {
+            var loading = showLoading();
+            $.ajax({
+                type: 'post',
+                url: '/' + areaName + '/Order/CloseOrder',
+                dataType: 'json',
+                data: { orderId: orderId },
+                width:"250px",
+                success: function (d) {
+                    loading.close();
+                    if (d.success) {
+                        $.dialog.succeedTips("取消成功！", function () {
+                            window.location.href = window.location.href;
+                        }, 1);
+                    }
+                    else {
+                        $.dialog.errorTips("取消失败！", '', 2);
+                    }
+                },
+                error: function () {
+                    loading.close();
+                }
+            });
+        });
+    }
+
+
+    function confirm(orderId) {
+        $.dialog.confirm("你确定收到货了吗？", function () {
+            var loading = showLoading();
+            $.ajax({
+                type: 'post',
+                url: '/' + areaName + '/Order/ConfirmOrder',
+                dataType: 'json',
+                data: { orderId: orderId },
+                width:"250px",
+                success: function (d) {
+                    loading.close();
+                    if (d.success) {
+                        $.dialog.succeedTips("确认成功！", function () {
+                            window.location.href = window.location.href;
+                        }, 1);
+                    }
+                    else {
+                        $.dialog.errorTips("确认失败！", '', 2);
+                    }
+                },
+                error: function () {
+                    loading.close();
+                }
+            });
+        });
+
+
+    }
+
+    function payOrder(orderId)
+    {
+        var loading = showLoading();
+        if(@Model.OrderTotalAmount==0)
+        {
+            loading && loading.close();
+            $.dialog.confirm('您确定用积分抵扣全部金额吗？', function () {
+                ajaxRequest({
+                    type: 'POST',
+                    url: '/' + areaName + '/Order/PayOrderByIntegral',
+                    param: { orderIds: orderId },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.success == true) {
+                            $.dialog.succeedTips('支付成功！', function () {
+                                location.href = '/' + areaName + '/Member/Orders';
+                            },0.5);
+
+                        }
+                    },
+                    error: function (data) { $.dialog.tips('支付失败,请稍候尝试.', null, 0.5); }
+                });
+            });
+        }
+        else
+        {
+            loading && loading.close();
+            GetPayment(orderId, window.location.href);
+        }
+    }
+    $(document).ready(function(){
+        $(".dialog-HB").show();
+    });
+    function RefundProductTip()
+    {
+        $.dialog.alert( "很遗憾，该维权入口已经关闭<br/>1、交易已过退货维权受理期,您无法发起退换货<br/>2、请在帮助中心查看平台退换货流程", '', 2000 );
+    }
+
+    $(document).on('click','.cover,.custom-dialog-header .close',function () {
+        if ($('.custom-dialog').is(':visible')){
+            $('.cover,.custom-dialog').fadeOut();
+        }
+    });
+</script>

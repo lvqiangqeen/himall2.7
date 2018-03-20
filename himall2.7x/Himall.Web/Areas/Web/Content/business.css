@@ -1,0 +1,67 @@
+/* CSS Document  */
+
+/*商品发布-------- */
+.ancestor, .father, .child, .tory { display: inline-block; border: 1px solid #e4e4e4; height: 360px; width: 290px; float: left; margin-right: 20px; overflow-y: scroll; cursor: pointer; }
+.child { margin-right: 0 }
+.tory { height: 381px; width: 910px; float: right; display: none; }
+.history { display: block; line-height: 28px; }
+.select { display: block; line-height: 28px; padding-left: 10px; color: #333; }
+.ancestor a:hover, .history a:hover, .father a:hover, .child a:hover, .select.hover { background: #f5f5f5; text-decoration: none; }
+.select span { display: inline-block; width: 240px; height: 28px; color: #333; }
+.tag { font-size: 14px; font-style: normal }
+#id_story { width: 100%; height: 30px; border: 1px solid #e4e4e4; margin-bottom: 20px; }
+#id_story #id_w_tory { width: 80%; display: inline-block; flaot: left; line-height: 30px; padding-left: 10px; }
+#id_story #id_t { width: 15%; float: right; line-height: 28px; padding-right: 10px; text-align: right; }
+.table-input { border: 1px solid #e4e4e4; padding: 0; width: 100px; line-height: 28px; margin-right: 10px; padding-left: 10px; height: 30px; outline: 0; }
+.g-tag { display: block; float: left; width: 60px; height: 100%; }
+.g-select-box { display: block; float: right; width: 100%; position: relative; }
+.g-select-box1 { display: block; float: right; width: 500px; height: 100%; position: relative; }
+.checkbox-row { display: block; float: left; margin-right: 20px; width: 80px; height: 30px; }
+.red { color: red; }
+.mr15 { margin-right: 15px; }
+.fileBox { display: inline-block; width: 80px; height: 30px; line-height: 30px; text-align: center; overflow: hidden; position: relative; z-index: 3; cursor: pointer; }
+.fileLabel { background: blue; }
+.uploadFile { opacity: 0; filter: alpha(opacity=0); font-size: 100px; position: absolute; top: 0; right: 0; cursor: pointer; }
+.view img, .view1 img, .view2 img, .view3 img, .view4 img { width: 100px; height: 100px; }
+
+/*重写样式----------- */
+	/*颜色风格重新--  */
+	.nav-tabs-custom strong { color: #00a1e9; }
+	.nav-tabs-custom li a:hover { border-color: #00a1e9; color: #00a1e9 }
+	.nav-tabs-custom li.active a { background-color: #00a1e9; border-color: #00a1e9; color: #fff; }
+	.table .glyphicon:hover { color: #00a1e9 }
+	.table .text-order:focus, .table .text-module:focus { border: 1px solid #00a1e9 }
+	.btn-a a:hover, .btn-a a.active { color: #00a1e9; border: 1px solid #00a1e9; }
+	.upload-img .glyphicon-picture.active { color: #00a1e9; border-color: #00a1e9; }
+	.form-horizontal .apply-primary span { color: #00a1e9; }
+	.spec-list li i { color: #00a1e9; }
+	.empty-info i{ color:#00a1e9}
+	
+	.btn-primary,button.aui_state_highlight {background-color: #428bca;border-color: #357ebd;}
+	.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active,button.aui_state_highlight:hover,button.aui_state_highlight:active{background-color: #3071a9;border-color: #285e8e;}
+	
+	
+.overflow-ellipsis { color: #428bca; }
+.express-choose { padding: 0; margin: 0; margin-right: -10px; height: 80px; overflow: hidden; }
+.express-choose.height-auto { height: auto; }
+.express-choose li { float: left; padding: 2px; border: 1px solid #ddd; width: 92px; height: 30px; margin: 0 10px 10px 0; position: relative; cursor: pointer }
+.express-choose li:hover, .express-choose li.active { border: 2px solid #e4393c; padding: 1px }
+.express-choose li.active b { display: block }
+.on-choose { width: 13px; height: 13px; position: absolute; right: 0; bottom: 0; background: url(/Images/choose.png) no-repeat left top; display: none; }
+.more-express { position: absolute; right: -60px; bottom: 10px; cursor: pointer }
+.vis-view-area { background: url(/Images/shop.jpg) no-repeat; height: 1150px; }
+.banner-area { height: 90px; }
+.banner-area a { width: 699px; }
+.vis-view-area .logo-area { margin-right: 2px }
+.vis-view-area .nav-area { margin: 0; padding: 0; height: 23px }
+.focus-area { height: 260px; padding-left: 166px; margin-top: 6px; }
+.goods-area { height: 748px; margin-top: 8px }
+.recomm-goods-area { height: 100%; float: left; height: 245px; }
+.vis-view-area .shop-goood-sort { width: 158px; }
+.vis-view-area .recomm-goods-area a { width: 243px; margin-left: 8px; }
+.vis-view-area .recomm-goods-area a:last-child { margin-left: 7px; }
+.vis-view-area .floors-area { height: 493px; margin-top: 10px; float: right; width: 744px }
+.console-detaile .goods-item .item-bd ul li { height: 60px; line-height: 60px; padding-top: 0; }
+.console-detaile .item-bd { border-bottom: 0 }
+.console-detaile .item-bd ul li strong span { margin-left: 5px; margin-top: 0; }
+.console-detaile .goods-item .item-bd li { text-align: left; padding-left: 20px; }

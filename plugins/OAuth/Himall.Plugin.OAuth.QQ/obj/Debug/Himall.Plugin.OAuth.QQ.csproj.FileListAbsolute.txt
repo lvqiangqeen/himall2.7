@@ -1,0 +1,13 @@
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.QQ\bin\Debug\plugin.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.QQ\bin\Debug\QQ.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.QQ\bin\Debug\qq1.png
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.QQ\bin\Debug\qq2.png
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.QQ\bin\Debug\Himall.Plugin.OAuth.QQ.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.QQ\bin\Debug\Himall.Plugin.OAuth.QQ.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.QQ\bin\Debug\Himall.Core.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.QQ\bin\Debug\QConnectSDK.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.QQ\bin\Debug\RestSharp.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.QQ\bin\Debug\Himall.Core.xml
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.QQ\obj\Debug\Himall.Plugin.OAuth.QQ.csprojResolveAssemblyReference.cache
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.QQ\obj\Debug\Himall.Plugin.OAuth.QQ.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\OAuth\Himall.Plugin.OAuth.QQ\obj\Debug\Himall.Plugin.OAuth.QQ.pdb

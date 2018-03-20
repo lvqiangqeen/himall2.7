@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>业绩统计</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header-blue2">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">业绩统计</h1>
+			<a class="mui-pull-right header-icon" id="orderFilter">筛选</a>
+		</header>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper transparent">
+			<div class="mui-scroll">
+				<div class="store-head">
+					<span><i class="iconfont icon-shopability"></i>店铺能力</span>
+				</div>
+				<div class="store-static" id="shopAbility"></div>
+				
+				<div class="store-head track-head">
+					<span><i class="iconfont icon-trackdetail"></i>业绩详情</span>
+				</div>
+				
+				<table class="user-list store-track-list">
+					<thead>
+						<tr><th width="30%" id="thName">日期</th><th>业绩</th><th width="28%">排名</th></tr>
+					</thead>
+					<tbody id="trackList"></tbody>
+				</table>
+			</div>
+		</div>
+		<div class="full-dialog" id="filterBox">
+			<div class="order-filter">
+				<h3>时间：</h3>
+				<p id="timeChoose">
+					<span data-day="1">当日</span>
+					<span data-day="7">当周</span>
+					<span class="active" data-day="30">当月</span>
+					<span data-day="90">近3月</span>
+				</p>
+				<input type="date" id="startDate" />
+				<input type="date" id="endDate"/>
+			</div>
+			<div class="full-dialog-btn">
+				<a class="dialog-cancel" id="filterReset">重置</a>
+				<a class="dialog-ok" id="filterBtn">确定</a>
+			</div>
+			
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js" ></script>
+		<script>
+			var isEnd = false,
+				page = 0,
+				start,
+				end,
+				startDateText=document.getElementById('startDate'),
+				endDateText=document.getElementById('endDate');
+			
+			mui.init({
+				pullRefresh : {
+				    container:'#pullrefresh',
+				    deceleration:0.0006,
+				    up : {
+					    contentrefresh : "正在加载...",
+					    contentnomore:'已加载全部',
+					    callback :initTrackList
+				    }
+				}
+			});
+			
+			var w,
+				userkey=himall.getState().userkey,
+				shopAbility=document.getElementById('shopAbility'),
+				trackList=document.getElementById('trackList');
+				
+			var abilityUrl='api/ShopBranchBility/Get',
+				trackUrl='api/ShopBranchBility/GetBranchShopFeat';
+			if(himall.isJoin()){
+				abilityUrl='api/ShopBility/Get';
+				trackUrl='api/ShopBility/GetBranchShopFeat';
+				document.getElementById('thName').innerText='店名';
+			}
+			
+			mui('#timeChoose span').each(function(){
+				himall.timeSection(this.getAttribute('data-day'),this);
+			})
+			
+			var defaultTime=document.querySelector('#timeChoose span.active');
+			start=defaultTime.getAttribute('data-start');
+			end=defaultTime.getAttribute('data-end');
+			startDateText.value=start;
+			endDateText.value=end;
+			
+			himall.immersedSide();
+			if(mui.os.android)
+				document.getElementsByClassName('mui-scroll')[0].className='';
+			mui.plusReady(function() {
+				w=plus.nativeUI.showWaiting('',{padlock:true});
+				initShopAbility();
+				initTrackList('reset');
+				
+				var ws=plus.webview.currentWebview();
+            	ws.setPullToRefresh({
+					support:true,
+					height:"50px",
+					range:"100px",
+					style: 'circle',
+					offset: '20px'
+				},function(){
+					setTimeout(function(){
+						reloadPage();
+						ws.endPullToRefresh();
+					},300)
+				});
+			});
+			
+			mui('body').on('tap', '#fireReloadWv', function() {
+				document.getElementById('emptyShow').style.display='none';
+				w=plus.nativeUI.showWaiting('',{padlock:true});
+				setTimeout(function(){
+					initShopAbility();
+					initTrackList();
+				},300)
+				
+			});
+			
+			function initShopAbility(){
+				mui.ajax(URL+abilityUrl,{
+					data:himall.md5Data({
+						userkey:userkey,
+						startDate:start,
+						endDate:end
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						shopAbility.innerHTML=template('initShopAbility',data);
+					}
+				});
+			}
+			
+			function initTrackList(re){
+				var self=this;
+		      	if (!isEnd) {
+		      		page++;
+			        mui.ajax(URL+trackUrl,{
+			        	data:himall.md5Data({
+							userkey:userkey,
+							startDate:start,
+							endDate:end,
+							pageno:page,
+							pagesize:20
+						}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							if(data.rows.length <20){
+								isEnd = true;
+							}
+							if(re){
+					        	trackList.innerHTML=template('initTrackList', data);
+					        	mui('#pullrefresh').pullRefresh().scrollTo(0,0,20);;
+					        }else{
+					        	trackList.insertAdjacentHTML('beforeend',template('initTrackList', data));
+					        	self.endPullupToRefresh(isEnd);
+					        }
+							if(page==1){
+								if(w){
+									w.close();
+								}
+								himall.removeClass(document.querySelector('.mui-content'),'transparent');
+								if(data.rows.length <= 0){
+									document.querySelector('.mui-pull-bottom-pocket').style.opacity=0;
+									trackList.innerHTML='';
+								}else{
+									document.querySelector('.mui-pull-bottom-pocket').style.opacity=1;
+								}
+							}else{
+								self.endPullupToRefresh(isEnd);
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							if(page!=1){
+								plus.nativeUI.toast('请求失败，请检查网络重试');
+								self.endPullupToRefresh(isEnd);
+								page--;
+							}
+							
+						}
+					});
+			    }else{
+			    	self.endPullupToRefresh(isEnd);
+			    }
+			}
+		
+			//将日期字符串转为int型
+			function getInt(str){
+				str = str.substr(0,4)+str.substr(5,2);
+				return parseInt(str);
+			}
+			var filterBox=document.getElementById('filterBox'),
+				orderFilter=document.getElementById('orderFilter');
+			orderFilter.addEventListener('tap',function(){
+				if(himall.hasClass(filterBox,'active')){
+					himall.removeClass(filterBox,' active');
+					himall.removeClass(this,' active');
+				}else{
+					filterBox.className+=' active';
+					this.className+=' active';
+				}
+			})
+			document.getElementById('filterBtn').addEventListener('tap',function(){
+				start=startDateText.value;
+				end=endDateText.value;
+				if(getInt(start)>getInt(end)){
+					plus.nativeUI.toast('开始日期不能大于结束日期');
+					return;
+				}
+				himall.removeClass(filterBox,'active');
+				himall.removeClass(orderFilter,' active');
+				isEnd = false;
+				page = 0;
+				mui('#pullrefresh').pullRefresh().refresh(true);
+				initShopAbility();
+				initTrackList('reset');
+			});
+			
+			function reloadPage(){
+				isEnd = false;
+				page = 0;
+				mui('#pullrefresh').pullRefresh().refresh(true);
+				initShopAbility();
+				initTrackList('reset');
+			}
+			
+			document.getElementById('filterReset').addEventListener('tap',function(){
+				himall.removeClass(document.querySelector('#timeChoose span.active'),'active');
+				startDateText.value='';
+				endDateText.value='';
+			});
+			
+			mui('#timeChoose').on('tap','span',function(){
+				himall.removeClass(document.querySelector('#timeChoose span.active'),'active');
+				this.className+='active';
+				
+				startDateText.value=this.getAttribute('data-start');
+				endDateText.value=this.getAttribute('data-end');
+			});
+		</script>
+		<script type="text/html" id="initShopAbility">
+			<div class="store-sale-total border-bot">
+				<p>销售额(元)</p>
+				<h3>{{SalesVolume.toFixed(2)}}</h3>
+			</div>
+			<ul class="store-num cl">
+				<li>
+					<h3>{{SaleCount}}</h3>
+					<p>销售件数</p>
+				</li>
+				<li>
+					<h3>{{DealCount}}</h3>
+					<p>成交笔数</p>
+				</li>
+				<li>
+					<h3>{{OrderAverage.toFixed(2)}}</h3>
+					<p>连带率</p>
+				</li>
+			</ul>
+			<ul class="store-num cl">
+				<li>
+					<h3>{{OrderItemPrice.toFixed(2)}}</h3>
+					<p>件单价</p>
+				</li>
+				<li>
+					<h3>{{OrderPrice.toFixed(2)}}</h3>
+					<p>客单价</p>
+				</li>
+				<li>
+					<h3>{{RefundRate}}</h3>
+					<p>退款率</p>
+				</li>
+			</ul>
+		</script>
+		<script type="text/html" id="initTrackList">
+			{{each rows}}
+				<tr><td>{{$value.BranchShopName||$value.Day.substring(0,10)}}</td><td>{{($value.SaleAmount||0).toFixed(2)}}</td><td>{{$value.Rank}}</td></tr>
+			{{/each}}
+		</script>
+	</body>
+
+</html>

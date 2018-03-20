@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "商家管理员管理";
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/managerManagement.js"></script>
+<style>
+
+</style>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>子帐号</a></li>
+        <li class="add-manager"><a>添加子帐号</a></li>
+
+    </ul>
+
+    <table class="table" id="list">
+        <div class="tabel-operate" id="batchOperate">
+            <button type="button" class="btn btn-default btn-ssm" onclick="BatchDelete()">批量删除</button>
+        </div>
+    </table>
+</div>
+<div class="dialog-form" id="addManagerform" style="display:none">
+    <div class="form-group" id="UserNameDiv">
+        <label class="label-inline fl" for="">用户名</label>
+        <p id="name-prefix" class="help-top"></p>
+        <input class="form-control input-sm" type="text" id="UserName" name="UserName" style="margin-left:150px;">
+    </div>
+    <div class="form-group">
+        <label class="label-inline fl" for="">密码</label>
+       <input class="form-control input-sm" type="password" id="PassWord" name="PassWord">
+    </div>
+    <div class="form-group">
+        <label class="label-inline fl" for="">确认密码</label>
+        <input class="form-control input-sm" type="password" id="confirmPassWord" name="confirmPassWord">
+    </div>
+    <div class="form-group">
+        <label class="label-inline fl" for="">姓名</label>
+        <input class="form-control input-sm" type="text" id="realName" name="realName">
+    </div>
+    <div class="form-group">
+        <label class="label-inline fl" for="">备注</label>
+        <textarea class="form-control input-sm input-half" id="reMark" name="reMark" rows="5"></textarea>
+    </div>
+    <div class="form-group" id="roleGroupDiv">
+        <label class="label-inline fl" for="">权限组</label>
+        <select class="form-control input-sm" id="RoleId" name="RoleId"></select>
+    </div>
+</div>
+<script>
+    var mainUserName = '@ViewBag.MainUserName';
+    var userId= '@ViewBag.UserId';
+</script>

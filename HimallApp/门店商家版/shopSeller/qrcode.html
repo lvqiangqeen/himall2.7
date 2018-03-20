@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>单号扫码</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body style="height:100%;margin:padding:0;">
+		<header class="mui-bar mui-bar-nav" style="position:absolute;">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">订单发货</h1>
+		</header>
+	     <div id="smbox" style="width:100%;bottom:200px;top:44px;background:#000;position: absolute;">
+	     	    
+	     </div>  
+		<div class="qrbottom" style="width:100%;height:200px;bottom:0;position: absolute;text-align: center;">
+			  <div>
+		     	 <p class="tipText">将二维码放入框内即可自动扫描</p>  
+		     	 <a class="qrBtn mui-action-back" id="inputOrder">手动输入单号</a>
+		      </div> 	 
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script>
+		    mui.init();
+			var ws=null,wo=null;
+			var scan=null,domready=false;
+			mui.plusReady(function(){  
+					ws=plus.webview.currentWebview();
+	                wo=ws.opener();
+	                ws.addEventListener('show', function(){
+						scan=new plus.barcode.Barcode('smbox',[plus.barcode.CODE39,plus.barcode.CODE128]);
+					    scan.onmarked=onmarked;  
+					    scan.start({conserve:true,filename:'_doc/barcode/'});
+					}, false);  
+			        ws.show('pop-in');   
+			});
+			
+			// 二维码扫描成功
+			function onmarked(type, result, file){
+			    result = result.replace(/\n/g, '');
+			    mui.fire(plus.webview.getWebviewById('goods-deliver.html'),'updateData',{deliverCode:result});
+			    setTimeout(function(){
+			    	mui.back();
+			    },500);
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "../Shared/_Base.cshtml";
+    ViewBag.Title = "周边门店";
+    ViewBag.ShowAside = 1;  // 显示更多按钮
+}
+
+<link href="~/Areas/Mobile/Templates/Default/Content/shopbranchs.css" rel="stylesheet" />
+<div class="no_sotre">
+    <img src="/Areas/mobile/templates/default/Images/no_store.png" style="display:none;" id="imgnonstore" />
+    <span id="sansearchstroe"><img src="/Areas/mobile/templates/default/Images/locating.gif" width="80" /><b style="float: left;width: 100%;color: #666;">正在定位...</b></span>
+</div>
+<ul class="store_list" id="store_list"></ul>
+<div id="divMore" class="no_more" style="display:none" onclick="loadStoresData()">
+    加载更多...
+</div>
+<input type="hidden" id="hidLatitude" />
+<input type="hidden" id="hidLongitude" />
+@{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_Aside.cshtml");}
+@Html.Hidden("hdQQMapKey", (string)ViewBag.QQMapKey)
+<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+<script charset="utf-8" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/storeList.js"></script>

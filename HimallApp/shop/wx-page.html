@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>   
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/style.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title"></h1>   
+		</header>
+		   
+		<script src="js/mui.min.js"></script>   
+		<script src="js/app.js"></script>                       
+		<script type="text/javascript"> 
+			 document.addEventListener('plusready',function(){   
+			 	  var ms=plus.webview.currentWebview();
+			 	  var token=plus.storage.getItem('appuserkey');
+			 	  var link=ms.url;             
+			 	  var fullpath=ms.fullPath;   
+			 	  var time=new Date()*1;                
+				  mui.init({  
+				    subpages:[{     
+				      url:URL+link+"?token="+token+"&time="+time,       
+				      id:link,                  
+				      styles:{  
+				        top:"40px",                                  
+				        bottom:"0",                 
+				      },
+				      extras:{url:link,fullpath:fullpath}      
+				    }]
+				  });       
+			 	  mui(".mui-title")[0].innerHTML=ms.title;
+			 });  
+		</script>
+	</body>
+
+</html>                     

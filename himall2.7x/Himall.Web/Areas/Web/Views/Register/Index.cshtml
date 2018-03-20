@@ -1,0 +1,217 @@
+﻿@model Himall.Web.Areas.Web.Models.RegisterIndexPageModel
+@{
+    Layout = null;
+    bool HaveCodeCheck = false;
+    if (Model.RegisterType == Himall.Model.SiteSettingsInfo.RegisterTypes.Mobile)
+    {
+        HaveCodeCheck = true;
+    }
+    else
+    {
+        if (Model.EmailVerifOpen == true)
+        {
+            HaveCodeCheck = true;
+        }
+    }
+}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>注册页面</title>
+    <link href="~/Areas/Web/Content/register.css" rel="stylesheet" />
+    <link href="~/Areas/Web/Content/artdilog.css" rel="stylesheet" />
+    <style>
+        .btn { margin-left: 10px; border: 1px solid #dddddd; padding: 0; width: 106px; height: 36px; background: #f4f4f4; margin-top: 0; text-align: center; line-height: 36px; color: #333; text-decoration: none; display: inline-block; }
+    </style>
+</head>
+
+<body>
+    <div class="top">
+        <div class="w cl">
+            <span class="favorite"><i></i><a href="javascript:AddFavorite('/','商城')">收藏商城</a></span>
+            <ul class="quick_list">
+                <li class="loginbar">您好！欢迎来到商城！<a href="/login">[登录]</a>&nbsp;<a href="javascript:regist()">[免费注册]</a></li>
+                @*<li class="service dropdown">
+                        <s></s>
+                        <span class="outline"></span>
+                        <span class="blank"></span>
+                        客户服务
+                        <b></b>
+                        <div class="dropdown-menu">
+                            <ol>
+                                <li><a href="/Article/Category">帮助中心</a></li>
+                                <li><a href="/OrderRefund">售后服务</a></li>
+                                <li><a href="/OrderComplaint">投诉中心</a></li>
+                            </ol>
+                        </div>
+                    </li>*@
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="w">
+        <div id="logo"><a href="/"><img src="@Himall.Core.HimallIO.GetImagePath(ViewBag.Logo)" alt="商城" height="60"></a><b>欢迎注册</b></div>
+    </div>
+
+    <div class="w" id="regist">
+        <div class="mt">
+
+            <div class="extra"><span>我已经注册，现在就&nbsp;<a href="/login" class="flk13">登录</a></span></div>
+        </div>
+        <div class="mc">
+            <form id="personRegForm" method="POST" onsubmit="return false;">
+                <input type="hidden" name="regType" id="regType" value="@((int)Model.RegisterType)">
+                <input type="hidden" name="uuid" id="uuid" value="9e4da8d0-1b3e-45c7-b3bd-928fd09f3f97">
+                @Html.Hidden("ischeckemail", (Model.EmailVerifOpen ? "1" : "0"))
+                @Html.Hidden("ischecktel", (Model.MobileVerifOpen ? "1" : "0"))
+
+                <div class="form">
+
+                    <div class="item" id="select-regName" style="@((Model.RegisterType== Himall.Model.SiteSettingsInfo.RegisterTypes.Mobile)?"display:none":"")">
+                        <span class="label"><b class="ftx04">*</b>用户名：</span>
+                        <div class="fl item-ifo">
+                            <div class="o-intelligent-regName">
+                                <input type="text" id="regName" name="regName" class="text" tabindex="1" autocomplete="off" onpaste="return false;" value="用户名" onfocus="if(this.value=='用户名') this.value='';this.style.color='#333'" onblur="if(this.value=='') {this.value='用户名';this.style.color='#999999'}" style="color: rgb(153, 153, 153);">
+                                <i class="i-name"></i>
+                                <label id="regName_succeed" class="blank"></label>
+                                <label id="regName_info" style="display:none;" class="focus"><span>4-12位字符，支持中英文、数字(非纯数字)及"-"、"_"的组合</span></label>
+                                <label id="regName_error" style="display:none;" class="error">请输入用户名</label>
+                            </div>
+                        </div>
+                    </div>
+                    @{var Mobile = Model.MobileVerifOpen;}
+                    @if (Model.RegisterType == Himall.Model.SiteSettingsInfo.RegisterTypes.Mobile)
+                    {
+                        if (Model.MobileVerifOpen == true)
+                        {
+                            <div class="item" id="select-cellPhone">
+                                <span class="label"><b class="ftx04">*</b>手机号码：</span>
+
+                                <div class="fl item-ifo">
+                                    <div class="o-intelligent-cellPhone">
+                                        <input type="text" id="cellPhone" name="cellPhone" class="text" tabindex="2" autocomplete="off" onpaste="return false;">
+                                        <i class="i-name"></i>
+                                        <label id="cellPhone_succeed" class="blank"></label>
+                                        <label id="cellPhone_info" style="display:none;" class="focus">请输入手机号码</label>
+                                        <label id="cellPhone_error" style="display:none;" class="error">请输入手机号码</label>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }                    @if (Model.RegisterEmailRequired)
+                    {
+                        <div class="item" id="select-cellPhone">
+                            <span class="label"><b class="ftx04">*</b>电子邮箱：</span>
+
+                            <div class="fl item-ifo">
+                                <div class="o-intelligent-cellPhone">
+                                    <input type="text" id="callEmail" name="callEmail" class="text" tabindex="3" autocomplete="off" onpaste="return false;">
+                                    <i class="i-name"></i>
+                                    <label id="callEmail_succeed" class="blank"></label>
+                                    <label id="callEmail_info" style="display:none;" class="focus">请输入Email</label>
+                                    <label id="callEmail_error" style="display:none;" class="error">请输入Email</label>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="item hide" id="authcodeDiv">
+                        <span class="label"><b class="ftx04">*</b>图形验证：</span>
+                        <div class="fl item-ifo" style="width:272px;">
+                            <input type="text" id="checkCode" name="authcode" class="text text-1" tabindex="4" autocomplete="off" maxlength="5">
+                            <label class="img">
+                                <img id="checkCodeImg" src="/Register/GetCheckCode" onclick="reloadImg()">
+                            </label>
+                            <label id="checkCode_error" class="error" style="display:none"><span>请输入验证码</span></label>
+                            <span class="clr"></span>
+                        </div>
+                    </div>
+
+                    <div id="o-password">
+                        <div class="item">
+                            <span class="label"><b class="ftx04">*</b>请设置密码：</span>
+
+                            <div class="fl item-ifo">
+                                <input type="password" id="pwd" name="pwd" class="text" tabindex="5" style="ime-mode:disabled;" onpaste="return  false" autocomplete="off">
+                                <i class="i-pass"></i>
+                                <label id="pwd_succeed" class="blank"></label>
+                                <label id="pwd_info" class="focus" style="display:none;"><span>6-20位字符，可使用字母、数字或符号的组合,，不建议使用纯字母、纯数字、纯符号</span></label>
+                                <label id="pwd_error" class="focus" style="display:none;"><span>密码长度只能在6-20位字符之间，不包含空格</span></label>
+                                <span class="clr"></span>
+
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <span class="label"><b class="ftx04">*</b>请确认密码：</span>
+
+                            <div class="fl item-ifo">
+                                <input type="password" id="pwdRepeat" name="pwdRepeat" class="text" tabindex="6" onpaste="return  false" autocomplete="off">
+                                <i class="i-pass"></i>
+                                <label id="pwdRepeat_succeed" class="blank"></label>
+                                <label id="pwdRepeat_info" class="focus" style="display:none;"><span>请再次输入密码</span></label>
+                                <label id="pwdRepeat_error" class="error" style="display:none"><span>两次输入密码不一致</span></label>
+                            </div>
+                        </div>
+
+                        @if (HaveCodeCheck)
+                        {
+                            <div class="item hide" id="syscodeDiv">
+                                <span class="label"><b class="ftx04">*</b>@(Model.RegisterType == Himall.Model.SiteSettingsInfo.RegisterTypes.Mobile?"手机":"邮箱")验证码：</span>
+                                <div class="fl item-ifo" style="width:272px;">
+                                    <input type="text" id="syscheckCode" name="syscheckCode" class="text text-1" tabindex="7" autocomplete="off" maxlength="5">
+                                    @if (Model.RegisterType == Himall.Model.SiteSettingsInfo.RegisterTypes.Mobile)
+                                    {
+
+                                        <a class="btn" href="javascript:void(0);" onclick="sendMobileCode();" id="sendMobileCode">
+                                            <span id="dyMobileButton">获取验证码</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        if (Model.EmailVerifOpen == true)
+                                        {
+
+                                            <a class="btn" href="javascript:void(0);" onclick="sendEmailCode();" id="sendEmailCode">
+                                                <span id="dyEmailButton">获取验证码</span>
+                                            </a>
+                                        }
+                                    }
+                                    <label id="syscheckCode_error" class="error" style="display:none"><span>请输入获取到的验证码</span></label>
+                                    <span class="clr"></span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="item item-new">
+                        <span class="label">&nbsp;</span>
+                        <div class="fl item-ifo">
+                            <label><input type="checkbox" class="checkbox" onchange="checkAgreementIsValid()" id="readme">我已阅读并同意《<a href="/Register/RegisterAgreement" target="_blank" style="color:#e3393c" id="protocol">用户注册协议</a>》</label>
+                            <label id="checkAgreement_error" class="error" style="display:none"><span>请仔细阅读并同意以上协议</span></label>
+                            <span class="clr"></span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="label">&nbsp;</span>
+                        <input type="hidden" id="introducer" name="introducer" value="@Model.Introducer" />
+                        <input type="button" class="btn-img btn-regist" id="registsubmit" style="cursor:pointer" value="立即注册" tabindex="8">
+                    </div>
+                </div>
+                <span class="clr"></span>
+            </form>
+        </div>
+    </div>
+    <div class="w">
+        <div id="footer">
+            <div class="copyright">Copyright©2004-2017&nbsp;&nbsp; @ViewBag.SiteName &nbsp;版权所有</div>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.cookie.js"></script>
+    <script src="~/Scripts/jquery.artDialog.js"></script>
+    <script src="~/Areas/Web/Scripts/artDialog.iframeTools.js"></script>
+    <script src="~/Scripts/CommonJS.js"></script>
+    <script src="~/Areas/Web/Scripts/register.js"></script>
+</body>
+</html>

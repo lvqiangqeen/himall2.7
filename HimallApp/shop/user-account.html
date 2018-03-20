@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>账号管理</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">账号管理</h1>
+		</header>
+		<div id="scrollDiv" class="scroll-div">
+			<div class="mui-content">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media">
+						<a class="mui-navigate-right" id="changePassword">
+							<div class="mui-media-body">
+								修改密码
+								<p class="mui-ellipsis">建议定期修改密码以保护账户安全</p>
+							</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media">
+						<a class="mui-navigate-right" id="bindPhone">
+							<div class="mui-media-body">
+								绑定手机<span id="Phone" style="margin-left: 30px; color: #E3393C;"></span>
+								<p class="mui-ellipsis">如若您已更换手机号，请及时绑定</p>
+							</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script>
+			mui.init({swipeBack: true});
+			mui.plusReady(function() {
+				var CellPhone=plus.webview.currentWebview().CellPhone;
+				if(CellPhone!='' && CellPhone)
+					document.getElementById('Phone').innerText='已绑定：'+CellPhone;
+				document.getElementById('changePassword').addEventListener('tap',function(){
+					himall.openVW('password-change.html');
+				})
+				document.getElementById('bindPhone').addEventListener('tap',function(){
+					himall.openVW('bind-phone.html');
+				})
+			});
+			
+			
+			
+		</script>
+	</body>
+
+</html>

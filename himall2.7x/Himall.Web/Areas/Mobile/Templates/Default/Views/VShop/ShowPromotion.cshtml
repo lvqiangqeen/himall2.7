@@ -1,0 +1,25 @@
+﻿@model Himall.Web.Areas.Mobile.Models.VShopShowPromotionModel
+@{
+    Layout = null;
+}
+
+<div class="promotion">
+    <ul class="promotion-list">
+        @if (Model.CouponCount > 0)
+        {
+            <li class="promotion-coupon">
+                <a href="javascript:;" class="item-navigate-right J_coupon_trigger" onclick="ShowCoupon(@Model.ShopId)">
+                    <span id="couponTip"><i class="coupon-tip">优惠券</i> @Model.CouponCount 张券可领</span>
+                </a>
+            </li>
+        }
+        @if (Model.FreeFreight > 0)
+        {
+            <li id="couponTip"><i class="bonus-tip">促销优惠</i> 满@(Model.FreeFreight)免运费</li>
+        }
+        @if (Model.BonusCount > 0)
+        {
+            <li><i class="voucher-tip">满就送</i> 满@(Model.BonusGrantPrice)元送@(Model.BonusCount)个代金红包</li>
+        }
+    </ul>
+</div>

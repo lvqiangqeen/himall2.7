@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{B0C5D55B-1175-4544-BBAC-9348947154C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Himall.Model", "..\Himall.Model\Himall.Model.csproj", "{E607D04D-3B11-409B-B832-E95BB4E9A84E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Himall.Entity", "..\Himall.Entity\Himall.Entity.csproj", "{3AC43B71-B5A6-4331-8517-153812ABAA9A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{A7B93DF5-3F6E-4939-8705-F091BAFF5D2F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "service", "service", "{CE5270C1-2CC5-44EC-9AAE-86FACFE6BA78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Himall.Search.Service", "..\Himall.Search.Service\Himall.Search.Service.csproj", "{101604D4-3621-48C5-8CFF-1D3061B65EA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Indexer", "Indexer\Indexer.csproj", "{1549694A-A9FE-41DC-BA78-6817F67B62C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinSearchProduct", "WinSearchProduct\WinSearchProduct.csproj", "{720E7606-A6B2-4E4C-896D-54CDC36BD41C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinSearchProductTests", "WinSearchProductTests\WinSearchProductTests.csproj", "{38C1D939-BE97-4BA7-84C3-D572F7FFFB1D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E607D04D-3B11-409B-B832-E95BB4E9A84E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E607D04D-3B11-409B-B832-E95BB4E9A84E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E607D04D-3B11-409B-B832-E95BB4E9A84E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E607D04D-3B11-409B-B832-E95BB4E9A84E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AC43B71-B5A6-4331-8517-153812ABAA9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AC43B71-B5A6-4331-8517-153812ABAA9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AC43B71-B5A6-4331-8517-153812ABAA9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AC43B71-B5A6-4331-8517-153812ABAA9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{101604D4-3621-48C5-8CFF-1D3061B65EA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{101604D4-3621-48C5-8CFF-1D3061B65EA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{101604D4-3621-48C5-8CFF-1D3061B65EA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{101604D4-3621-48C5-8CFF-1D3061B65EA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1549694A-A9FE-41DC-BA78-6817F67B62C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1549694A-A9FE-41DC-BA78-6817F67B62C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1549694A-A9FE-41DC-BA78-6817F67B62C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1549694A-A9FE-41DC-BA78-6817F67B62C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{720E7606-A6B2-4E4C-896D-54CDC36BD41C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{720E7606-A6B2-4E4C-896D-54CDC36BD41C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{720E7606-A6B2-4E4C-896D-54CDC36BD41C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{720E7606-A6B2-4E4C-896D-54CDC36BD41C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38C1D939-BE97-4BA7-84C3-D572F7FFFB1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38C1D939-BE97-4BA7-84C3-D572F7FFFB1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38C1D939-BE97-4BA7-84C3-D572F7FFFB1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38C1D939-BE97-4BA7-84C3-D572F7FFFB1D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E607D04D-3B11-409B-B832-E95BB4E9A84E} = {B0C5D55B-1175-4544-BBAC-9348947154C5}
+		{3AC43B71-B5A6-4331-8517-153812ABAA9A} = {B0C5D55B-1175-4544-BBAC-9348947154C5}
+		{101604D4-3621-48C5-8CFF-1D3061B65EA4} = {CE5270C1-2CC5-44EC-9AAE-86FACFE6BA78}
+		{1549694A-A9FE-41DC-BA78-6817F67B62C1} = {A7B93DF5-3F6E-4939-8705-F091BAFF5D2F}
+	EndGlobalSection
+EndGlobal

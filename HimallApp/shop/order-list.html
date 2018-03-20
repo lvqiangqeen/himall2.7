@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>订单列表</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的订单</h1>
+		</header>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper transparent">
+			<div class="mui-scroll">
+				<div id="orderList" class="order-list XG">
+				</div>
+			</div>
+		</div>
+		<ul class="nav-list fixed" id="fixedNav">
+			<li data-status="0">全部订单</li>
+			<li data-status="1">待付款</li>
+			<li data-status="2">待发货</li>
+			<li data-status="3">待收货</li>
+			<li data-status="5">待评价</li>
+		</ul>
+		<div id="dcontent" class="dcontent"></div>
+		<div id="bonusBox" class="dcontent bonus-content"></div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js"></script>
+		<script>
+		
+			var isnodata = false,
+				page = 1,
+				orderStatus,
+				payOrderId,
+				pays={},
+				mask=null,
+				loadPage,
+				bonusId,
+				maskBonus,
+				shares = {},
+				w,
+				orderList=document.getElementById('orderList'),
+				userkey=himall.getState().userkey;
+			mui.init({
+				pullRefresh : {
+				    container:'#pullrefresh',
+				    deceleration:0.0006,
+				    up : {
+					    contentrefresh : "正在加载...",
+					    contentnomore:'已加载完订单',
+					    callback :function(){
+					      	var self=this;
+					      	if (!isnodata) {
+					      		page++;
+						        mui.ajax(URL+'api/MemberOrder/GetOrders',{
+						        	data:himall.md5Data({
+										orderstatus:orderStatus,
+										pageno:page,
+										pagesize:10,
+										userkey:userkey
+									}),
+									dataType:'json',
+									type:'get',
+									timeout:10000,
+									success:function(data){
+										if(data.Success=='true'){
+									        if(data.Orders.length > 0) {
+									        	orderList.insertAdjacentHTML('beforeend',template('initData', data));
+									        	delayimg.render();
+									        	himall.removeClass(document.querySelector('.mui-pull'),'mui-hidden');
+									        }else{
+												isnodata = true;
+											}
+						                    //if (orderTotal<=page*10) {isnodata = true;}
+											self.endPullupToRefresh(isnodata);
+					      					
+										}
+									},
+									error:function(xhr,type,errorThrown){
+										plus.nativeUI.toast('请求失败，请检查网络')
+									}
+								});
+						    }else{
+						    	self.endPullupToRefresh(isnodata);
+						    }
+				    	}
+				    }
+				},
+				swipeBack: true
+			});
+			
+			if (mui.os.android)
+				document.getElementsByClassName('mui-scroll')[0].className='';
+			himall.immersedNav();
+			mui.plusReady(function() {
+				var ws=plus.webview.currentWebview();
+				orderStatus=ws.orderStatus+'';
+				bonusId=ws.bonusId;
+				document.querySelector('li[data-status="'+orderStatus+'"]').className='active';
+	            
+				ws.setStyle({scrollIndicator:'none'});
+				w=plus.nativeUI.showWaiting('',{padlock:true});
+				loadPage=function(){
+					mui.ajax(URL+'api/MemberOrder/GetOrders',{
+						data:himall.md5Data({
+							orderstatus:orderStatus,
+							pageno:page,
+							pagesize:10,
+							userkey:userkey
+						}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							if(data.Success=='true'){
+						        if(data.Orders.length > 0) {
+						            orderList.innerHTML=template('initData', data);
+						            delayimg.init();
+						            himall.removeClass(document.querySelector('.mui-pull'),'mui-hidden');
+						        }else{
+						        	document.querySelector(".mui-pull").className+=' mui-hidden';
+						        	var html='<div class="empty-show"><h4>暂无此类订单...</h4><button id="closeWv" class="mui-btn mui-btn-negative">去其他地方逛逛</button></div>';
+						        	orderList.innerHTML=html;
+						        }
+								w.close();
+								if(bonusId){
+									mui.ajax(URL+'api/MemberOrder/GetOrderBonus',{
+										data:himall.md5Data({
+											orderIds:bonusId
+										}),
+										dataType:'json',
+										type:'get',
+										timeout:10000,
+										success:function(data){
+											if(data.Success){
+												if(data.List.length >0) {
+											        document.getElementById('bonusBox').innerHTML=template('bonusData', data);
+													maskBonus = mui.createMask(function(){document.getElementById('bonusBox').className='dcontent bonus-content';});
+													maskBonus.show();
+													document.getElementById('bonusBox').className='dcontent bonus-content active';
+												}
+											}
+										}
+									});
+								}
+								himall.removeClass(document.querySelector('.mui-content'),'transparent');
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							reloadWvLoad();
+						}
+					});
+				}
+				
+				loadPage();
+				initPay('dcontent');
+			});
+			
+			function reloadPage(){
+				isnodata = false;
+				page = 1;
+				mui('#pullrefresh').pullRefresh().refresh(true);
+				loadPage();
+			}
+			
+			document.addEventListener('updateData', function(e) {
+				bonusId=e.detail.bonusId;
+				reloadPage();
+			});
+			
+			mui('#bonusBox').on('tap', '.share-bonus-btn', function() {
+				shareWeixin(this,maskBonus);
+			});
+			
+			mui('#fixedNav').on('tap', 'li', function() {
+				w=plus.nativeUI.showWaiting('',{padlock:true});
+				orderStatus=this.getAttribute('data-status');
+				reloadPage();
+				document.getElementById("fixedNav").querySelector('.active').className='';
+				this.className='active';
+			});
+			
+			mui('#orderList').on('tap', '.vshop-url', function() {
+				var vshopid = this.getAttribute('data-id');
+				if(vshopid==0){
+					plus.nativeUI.toast('该店铺暂未开通微店')
+				}else{
+					himall.openVW('vshop-detail.html',{vshopId:vshopid})
+				}
+			});
+			
+			mui('#orderList').on('tap', '.showOrder', function() {
+				himall.openVW('order-detail.html',{orderId:this.parentNode.getAttribute('data-id')});
+			});
+			
+			mui('#orderList').on('tap', '.evaluateOrder', function() {
+				himall.openVW('order-evaluate.html',{orderId:this.parentNode.parentNode.getAttribute('data-id')});
+			});
+			
+			mui('#orderList').on('tap', '.evaluateAppendOrder', function() {
+				himall.openVW('order-evaluate-append.html',{orderId:this.parentNode.parentNode.getAttribute('data-id')});
+			});
+			mui('#orderList').on('tap', '.orderShare', function() {
+				himall.openVW('orderShare.html',{orderId:this.parentNode.parentNode.getAttribute('data-id')});
+			});
+			mui('#orderList').on('tap', '.goExpressInfo', function() {
+				himall.openVW('express-info.html',{orderId:this.parentNode.parentNode.getAttribute('data-id')});
+			});
+			mui('#orderList').on('tap', '.pickupGoods', function() {
+				himall.openVW('pickupGoods.html',{orderId:this.parentNode.parentNode.getAttribute('data-id')});
+			});
+			mui('#orderList').on('tap', '.enterOrder', function() {
+				var orderId = this.parentNode.parentNode.getAttribute('data-id'),
+					btnArray = ['取消', '确认'];
+				mui.confirm('请确保您已收到宝贝,再收货！', '', btnArray, function(e) {
+					if (e.index == 1) {
+				    	mui.ajax(URL+'api/MemberOrder/PostConfirmOrder',{
+							data:himall.md5Data({
+								orderId:orderId,
+								userkey:userkey
+							}),
+							dataType:'json',
+							type:'POST',
+							timeout:10000,
+							success:function(data){
+								if(data.Success=="true"){
+									plus.nativeUI.toast('已确认收货');
+									reloadPage();
+									setTimeout(function(){mui.fire(plus.webview.getWebviewById('usercenter.html'),'updateData')},1000);
+								}else{
+									plus.nativeUI.toast('确认收货失败，请稍后重试')
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								plus.nativeUI.toast('请求失败，请检查网络')
+							}
+						});
+					}
+				});
+			});
+			
+			mui('#orderList').on('tap', '.cancelOrder', function() {
+				var orderId = this.parentNode.parentNode.getAttribute('data-id'),
+					btnArray = ['取消', '确认'];
+				mui.confirm('确定取消该订单？', '', btnArray, function(e) {
+					if (e.index == 1) {
+				    	mui.ajax(URL+'api/MemberOrder/PostCloseOrder',{
+							data:himall.md5Data({
+								orderId:orderId,
+								userkey:userkey
+							}),
+							dataType:'json',
+							type:'POST',
+							timeout:10000,
+							success:function(data){
+								if(data.Success=="true"){
+									plus.nativeUI.toast('订单取消成功');
+									reloadPage();
+									setTimeout(function(){mui.fire(plus.webview.getWebviewById('usercenter.html'),'updateData')},1000);
+								}else{
+									plus.nativeUI.toast('订单取消失败，请稍后重试')
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								plus.nativeUI.toast('订单取消失败，请检查网络')
+							}
+						});
+					}
+				});
+			});
+			
+			mui('#orderList').on('tap', '.refundApply', function() {
+				var orderId = this.parentNode.parentNode.getAttribute('data-id');
+				himall.openVW('order-refund.html',{orderId:orderId});
+				
+			});
+			
+			mui('#orderList').on('tap', '.payOrder', function() {
+				payOrderId = this.parentNode.parentNode.getAttribute('data-id');
+				if(this.getAttribute('data-amout')<=0){
+					var pW=plus.nativeUI.showWaiting();
+					mui.ajax(URL+'api/Order/GetPayOrderByIntegral',{
+						data:himall.md5Data({
+							orderIds:payOrderId,
+							userkey:userkey
+						}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							pW.close();
+							if(data.Success=="true"){
+								plus.nativeUI.alert('订单需支付金额为零，购买成功，等待发货');
+								reloadPage();
+								setTimeout(function(){mui.fire(plus.webview.getWebviewById('usercenter.html'),'updateData')},1000);
+							}else{
+								plus.nativeUI.toast('订单支付失败，请稍后重试')
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							pW.close();
+							plus.nativeUI.toast('订单支付失败，请检查网络')
+						}
+					});
+					
+				}else{
+					if(!mask)
+						mask = mui.createMask(function(){document.getElementById('dcontent').className='dcontent';});
+					mask.show();
+					document.getElementById('dcontent').className='dcontent active';
+				}
+			});
+			
+			var wPay=null;
+			mui('#dcontent').on('tap','.custom-btn',function(){
+				payOrder(this.id,payOrderId,
+					function(data){
+						plus.nativeUI.alert("支付成功，等待卖家发货！",function(){
+							mask.close();
+							bonusId=payOrderId;
+							if(data.groupId && data.groupId>0){
+								himall.openVW('merge-call.html',{Id:data.orderId});
+								setTimeout(function(){
+									plus.webview.getWebviewById('order-list.html').close('none');
+								},1000);
+							}else{
+								reloadPage();
+							}
+							setTimeout(function(){mui.fire(plus.webview.getWebviewById('usercenter.html'),'updateData')},1000);
+						});
+					},function(){
+						mask.close();
+						plus.nativeUI.alert("订单支付失败，请重新支付！");
+					}
+				)
+			});
+			
+		</script>
+		
+		<script id="initData" type="text/html">
+		    {{each Orders as order i}}
+			<div class="order-info" data-id="{{order.id}}">
+				<div class="item">
+					<div class="order-shop">
+					<a class="vshop-url" data-id="{{order.vshopId}}"><i class="iconfont icon-dianpu"></i>{{order.shopname}}</a>
+					<span class="mui-pull-right">{{order.status}}</span></div>
+				</div>
+				{{each order.itemInfo as item j}}
+                <div class="item showOrder">
+                    <div class="buy-goods">
+                        <a class="goods-url goods-img"><img src="images/blank.gif" data-delay="{{item.image}}"/></a>
+                        <p><em>¥ {{item.price}}</em><span><a class="goods-url">{{item.productName}}</a></span></p>
+                        <h5>
+                        	<span>x {{item.count}}</span>
+                        	<em style="float:left">{{if item.size}}
+								{{item.SizeAlias}}：{{item.size}}&nbsp;&nbsp;
+							{{/if}}
+							{{if item.color}}
+								{{item.ColorAlias}}：{{item.color}}&nbsp;&nbsp;
+							{{/if}}
+							{{if item.version}}
+								{{item.VersionAlias}}：{{item.version}};
+							{{/if}}
+							</em>
+                        </h5>
+                    </div>
+                </div>
+	            {{/each}}
+	            <div class="item showOrder">
+	            	<div class="item-text">
+	            		{{if order.PaymentTypeValue!=0}}
+	                    	<span class="pay-way-notice">{{order.PaymentType}}</span>
+	                    {{/if}}
+	                    &nbsp;<span class="mui-pull-right order-total">共{{order.productCount}}件商品 &nbsp;&nbsp; 总价：<em>¥ {{order.orderTotalAmount}}</em></span>
+	            	</div>
+	            </div>
+	            <div class="item total-m item-btn" style="padding-top:10px;">
+	            {{if order.orderStatus!=1 && order.orderStatus!=4}}
+	            		<button class="mui-btn mui-btn-negative orderShare">我要晒单</button>
+	            {{/if}}
+	            {{if order.orderStatus==1}}
+            		{{if order.orderType!=3}}
+            			<button class="mui-btn cancelOrder">取消订单</button>
+            		{{/if}}
+            		<button class="mui-btn mui-btn-negative payOrder" data-amout="{{order.orderTotalAmount}}">付款</button>
+	            {{/if}}
+	            {{if order.orderStatus==2 && order.PaymentTypeValue==3 && order.orderType!=3}}
+            		<button class="mui-btn cancelOrder">取消订单</button>
+	            {{/if}}
+	            {{if (order.CanRefund == true || order.RefundStats == 4) && order.EnabledRefundAmount>0}}
+            		<button class="mui-btn refundApply">申请退款</button>
+	            {{/if}}
+	            {{if order.orderStatus==3}}
+            		<button class="mui-btn mui-btn-negative enterOrder">确认收货</button>
+            		{{if order.HasExpressStatus}}
+            			<button class="mui-btn goExpressInfo">查看物流</button>
+            		{{/if}}
+	            {{/if}}
+	            {{if order.orderStatus==5}}
+	            	{{if order.commentCount==0}}
+	            		<button class="mui-btn mui-btn-negative evaluateOrder">评价</button>
+	            		{{if order.HasExpressStatus}}
+	            			<button class="mui-btn goExpressInfo">查看物流</button>
+	            		{{/if}}
+	            	{{else if !order.HasAppendComment}}
+	            		<button class="mui-btn mui-btn-negative evaluateAppendOrder">追加评论</button>
+	            		{{if order.HasExpressStatus}}
+	            			<button class="mui-btn goExpressInfo">查看物流</button>
+	            		{{/if}}
+	            	{{/if}}
+	            {{/if}}
+	            {{if order.orderStatus==6 && order.pickupCode && order.pickupCode.length>0}}
+	            	<button class="mui-btn pickupGoods">提货码</button>
+	            {{/if}}
+	            </div>
+	        </div>
+			{{/each}}
+
+		</script>
+		
+		<script id="bonusData" type="text/html">
+			{{if List.length ==1}}
+	        	<div class="bonus-box">
+		        	<h3>恭喜你获得<span>{{List[0].ShareCount}}</span>个红包</h3>
+			        <h4>把他分享给好友吧</h4>
+			        <div class="bg"><img src="images/bonus-box.png"></div>
+			        <h5><a class="custom-btn share-bonus-btn" data-href="{{List[0].ShareHref}}" data-title="{{List[0].ShareTitle}}" data-content="{{List[0].ShareDetail}}" >分享给好友</a></h5>
+	        	<div>
+	        {{/if}}
+	        {{if List.length > 1}}
+	        	<div class="bonus-box">
+		        	<h3>恭喜你获得<span>{{List.length}}</span>个店家的红包</h3>
+			        <h4>把他分享给好友吧</h4>
+			        <div class="bg"><img src="images/bonus-box.png"></div>
+			        {{each List}}
+			        	<p>{{$value.ShopName}}{{$value.ShareCount}}个红包<a class="share-bonus-btn" data-href="{{$value.ShareHref}}" data-title="{{$value.ShareTitle}}" data-content="{{$value.ShareDetail}}">我要发红包 <i class="mui-icon mui-icon-arrowright"></i></a></p>
+			        {{/each}}
+	        	<div>
+	        {{/if}}
+
+		</script>
+	</body>
+
+</html>

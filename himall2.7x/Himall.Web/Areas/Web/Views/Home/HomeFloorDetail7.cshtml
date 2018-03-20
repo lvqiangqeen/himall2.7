@@ -1,0 +1,175 @@
+﻿@model Himall.Web.Areas.Web.Models.HomeFloorModel
+@using Himall.Web.Framework;
+@{
+    var floor = Model;
+    Himall.Web.Areas.Web.Models.HomeFloorModel.WebFloorProductLinks defaultModel = new Himall.Web.Areas.Web.Models.HomeFloorModel.WebFloorProductLinks()
+    {
+        ImageUrl = string.Empty,
+        Url = "#"
+    };
+}
+<!--楼层样式7-->
+<div class="floor floor-seven clearfix">
+    <div class="floor-seven-hd">
+        <h3>@floor.Name</h3>
+        <ul>
+            <li class="active">@floor.DefaultTabName<s></s></li>
+            @foreach (var tab in floor.Tabs)
+            {
+                <li class="">@tab.Name<s></s></li>
+            }
+        </ul>
+    </div>
+    <div class="floor-seven-top clearfix">
+        <div class="fst-left">
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.LeftOne,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.LeftOne,defaultModel).ImageUrl" /></a>
+        </div>
+        <div class="fst-mid ">
+            <div class="fst-img-show tab-right current">
+                <a href="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.MiddleOne,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.MiddleOne,defaultModel).ImageUrl" /></a>
+                <a href="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.MiddleTwo,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.MiddleTwo,defaultModel).ImageUrl" /></a>
+                <a class="fst-m-spe" href="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.MiddleThree,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.MiddleThree,defaultModel).ImageUrl" /></a>
+                <a href="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.MiddleFour,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.MiddleFour,defaultModel).ImageUrl" /></a>
+                <a href="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.MiddleFive,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.MiddleFive,defaultModel).ImageUrl" /></a>
+                <a class="fst-m-spe" href="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.MiddleSix,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.MiddleSix,defaultModel).ImageUrl" /></a>
+            </div>
+            <!--TAB-->
+            @foreach (var tab in floor.Tabs)
+            {
+                <div class="tab-pro-show tab-right" style="display:none;">
+                    <ul>
+                        @foreach (var item in tab.Detail)
+                        {
+                            <li>
+                                <div>
+                                    <p><a href="/Product/Detail/@item.ProductId">@item.Name</a></p>
+                                    <span>￥@item.Price <s>￥@item.Price</s></span>
+                                </div>
+                                <a href=""><img class="lazyload" src="Areas/Web/Images/integra-bg.png" data-url="@Himall.Core.HimallIO.GetProductSizeImage(item.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_150)"></a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+            @*<div class="tab-pro-show tab-right" style="display:none;">
+                <ul>
+                    <li>
+                        <div>
+                            <p><a href="">2015男士休闲短裤男夏天潮修身5分五分裤夏季沙滩裤薄中裤子7七分</a></p>
+                            <span>￥45.00 <s>￥44.00</s></span>
+                        </div>
+                        <a href=""><img class="lazyload" src="Areas/Web/Images/integra-bg.png"></a>
+                    </li>
+                    <li>
+                        <div>
+                            <p><a href="">2015男士休闲短裤男夏天潮修身5分五分裤夏季沙滩裤薄中裤子7七分</a></p>
+                            <span>￥45.00 <s>￥44.00</s></span>
+                        </div>
+                        <a href=""><img class="lazyload" src="Areas/Web/Images/integra-bg.png"></a>
+                    </li>
+                    <li>
+                        <div>
+                            <p><a href="">2015男士休闲短裤男夏天潮修身5分五分裤夏季沙滩裤薄中裤子7七分</a></p>
+                            <span>￥45.00 <s>￥44.00</s></span>
+                        </div>
+                        <a href=""><img class="lazyload" src="Areas/Web/Images/integra-bg.png"></a>
+                    </li>
+                    <li>
+                        <div>
+                            <p><a href="">2015男士休闲短裤男夏天潮修身5分五分裤夏季沙滩裤薄中裤子7七分</a></p>
+                            <span>￥45.00 <s>￥44.00</s></span>
+                        </div>
+                        <a href=""><img class="lazyload" src="Areas/Web/Images/integra-bg.png"></a>
+                    </li>
+                    <li>
+                        <div>
+                            <p><a href="">2015男士休闲短裤男夏天潮修身5分五分裤夏季沙滩裤薄中裤子7七分</a></p>
+                            <span>￥45.00 <s>￥44.00</s></span>
+                        </div>
+                        <a href=""><img class="lazyload" src="Areas/Web/Images/integra-bg.png"></a>
+                    </li>
+                    <li>
+                        <div>
+                            <p><a href="">2015男士休闲短裤男夏天潮修身5分五分裤夏季沙滩裤薄中裤子7七分</a></p>
+                            <span>￥45.00 <s>￥44.00</s></span>
+                        </div>
+                        <a href=""><img class="lazyload" src="Areas/Web/Images/integra-bg.png"></a>
+                    </li>
+                    <li>
+                        <div>
+                            <p><a href="">2015男士休闲短裤男夏天潮修身5分五分裤夏季沙滩裤薄中裤子7七分</a></p>
+                            <span>￥45.00 <s>￥44.00</s></span>
+                        </div>
+                        <a href=""><img class="lazyload" src="Areas/Web/Images/integra-bg.png"></a>
+                    </li>
+                    <li>
+                        <div>
+                            <p><a href="">2015男士休闲短裤男夏天潮修身5分五分裤夏季沙滩裤薄中裤子7七分</a></p>
+                            <span>￥45.00 <s>￥44.00</s></span>
+                        </div>
+                        <a href=""><img class="lazyload" src="Areas/Web/Images/integra-bg.png"></a>
+                    </li>
+                </ul>
+            </div>*@
+        </div>
+        <div class="fst-right">
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.ROne,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.ROne,defaultModel).ImageUrl" /></a>
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.RTwo,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.RTwo,defaultModel).ImageUrl" /></a>
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.RThree,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.RThree,defaultModel).ImageUrl" /></a>
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.RFour,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.RFour,defaultModel).ImageUrl" /></a>
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.RFive,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.RFive,defaultModel).ImageUrl" /></a>
+        </div>
+    </div>
+    <div class="floor-seven-bottom clearfix">
+        <div class="fsb-img-show tab-right current">
+            <ul>
+                <li>
+                    <img src="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.BottomOne,defaultModel).ImageUrl" />
+                </li>
+                <li>
+                    <img src="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.BottomTwo,defaultModel).ImageUrl" />
+                </li>
+                <li>
+                    <img src="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.BottomThree,defaultModel).ImageUrl" />
+                </li>
+            </ul>
+        </div>
+        <div class="fsb-pro-show tab-right">
+            <ul>
+                <li>
+                    <img src="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.BottomOne,defaultModel).ImageUrl" />
+                </li>
+                <li>
+                    <img src="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.BottomTwo,defaultModel).ImageUrl" />
+                </li>
+                <li>
+                    <img src="@floor.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.BottomThree,defaultModel).ImageUrl" />
+                </li>
+                @*<li>
+                    <a href=""><img src="" /></a>
+                    <div>
+                        <h5><a href="">2015男士休闲短裤男夏天潮修身5分五分裤夏季沙滩裤薄中裤子7七分</a></h5>
+                        <h6>2015男士休闲短裤男夏天潮修身5分五分裤夏季沙滩裤薄中裤子7七分</h6>
+                        <span>￥55.00</span>
+                    </div>
+                </li>
+                <li>
+                    <a href=""><img src="" /></a>
+                    <div>
+                        <h5><a href="">2015男士休闲短裤男夏天潮修身5分五分裤夏季沙滩裤薄中裤子7七分</a></h5>
+                        <h6>2015男士休闲短裤男夏天潮修身5分五分裤夏季沙滩裤薄中裤子7七分</h6>
+                        <span>￥55.00</span>
+                    </div>
+                </li>
+                <li>
+                    <a href=""><img src="" /></a>
+                    <div>
+                        <h5><a href="">2015男士休闲短裤男夏天潮修身5分五分裤夏季沙滩裤薄中裤子7七分</a></h5>
+                        <h6>2015男士休闲短裤男夏天潮修身5分五分裤夏季沙滩裤薄中裤子7七分</h6>
+                        <span>￥55.00</span>
+                    </div>
+                </li>*@
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "TestLogin";
+}
+
+<div id="ss">asdasd</div>
+
+<link href="~/Areas/Web/Content/WebLoginPlug.css" rel="stylesheet" />
+<script src="~/Areas/Web/Scripts/jQuery.Web.Login.js"></script>
+<script>
+$('#ss').bind('click',function(){
+	$.fn.login({},function(url){
+		//跳转方法函数  回调 当登陆成功执行的回调 url对应倒数第二个参数(数据url) this为ajax返回的对象
+		//console.log(this)
+	},'http://192.168.10.191:8019/home/TestLogin','','/Login/Login');
+});
+</script>

@@ -1,0 +1,25 @@
+ 
+.container{max-width: 640px;min-height: 100%; padding: 0;background-color: #F5F5F5;}
+.container header{margin-bottom: 10px;}
+.container header ul li{float: left;width: 33.33333%;height: 35px;line-height: 35px; text-align: center;}
+.container header ul li a{display: block;height: 100%;background-color: #fff;text-decoration: none;}
+.container header ul li.active a{border-bottom: 2px solid #DA4453;color: #DA4453;}
+.integralNum{padding: 5px 0;margin-bottom: 10px; background-color: #fff;}
+.integralNum ul li{width: 50%;float: left;text-align: center;}
+.integralNum ul li p{border-right: 1px solid #F5F5F5;}
+.integralNum ul li p em{color: #008000;font-weight: 700;}
+.tableTitle{border-top: 1px solid #E4E4E4;border-bottom: 1px solid #E4E4E4;color: #333333;overflow: hidden;}
+.tableList{display: none;}
+.tableList:nth-of-type(1){display: block;}
+.tableTitle ul li{width: 20%;text-align: center;float: left;height: 30px;line-height: 28px;}
+.tableTitle ul li span{display: block;height: 100%;border-left: 1px solid #E4E4E4;margin-left: -1px;}
+.tableTitle ul li:nth-of-type(1){width: 60%;}
+.tableBody{background-color: #fff;}
+.tableBody .blue{color: #006699;}
+.tableBody .ye{color: #00803B;}
+.tableBody .ccc{color: #999999;}
+.tableBody .red{color: red;}
+.tableBody table tr td{padding: 2% 0;border-bottom:1px solid #F5F5F5; }
+.tableBody table tr td:nth-of-type(1){text-indent: 5%;}
+.tableBody table tr td:nth-of-type(2){text-align: center;text-indent: 0;font-weight: 700;}
+.tableBody table tr td:nth-of-type(3){text-indent: 2%;}

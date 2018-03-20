@@ -1,0 +1,393 @@
+﻿@using Himall.Core;
+@model Himall.DTO.ShopProfileSteps1
+@{
+    ViewBag.Title = "个人信息";
+}
+<link type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.picker.css" />
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.poppicker.css" />
+<style type="text/css">
+	body{
+		height: 100%;
+		padding-bottom: .5rem;
+	}
+	#tips{
+		display: none !important; 
+	}
+	.mui-input-row label ~ input{
+		padding: 8px 15px;
+	}
+</style>
+@*<header class="mui-bar mui-bar-nav Gheader ">
+    <a class="mui-action-back mui-icon mui-pull-left back" href="@(Url.Action("step2"))">返回</a>
+    <h1 class="mui-title">个人信息</h1>
+</header>*@
+
+<div id='company' class="info_container himall_ui">
+    <input type="hidden" id="RefuseReason" value="@ViewBag.RefuseReason" />
+    <script type="text/javascript">
+        var refusereason = $("#RefuseReason").val();
+    </script>
+    <div class="info_title">公司信息</div>
+    <form class="mui-input-group" id="form_step1">
+        <div class="mui-input-row">
+            <label>姓名</label>
+            @Html.TextBoxFor(item => item.CompanyNameT, new { @class = "mui-input" })
+        </div>
+        <div class="mui-input-row select-addr">
+            <label>所在地区</label>
+            <input id="showCity" type="text" readonly="readonly" class="mui-input" placeholder="选择省、市、区">
+        </div>
+        <div class="mui-input-row select-addr" id="streetLine">
+            <label>街道</label>
+            <input id="showStreet" type="text" readonly="readonly" class="mui-input" placeholder="选择街道">
+        </div>
+        @Html.HiddenFor(a => a.CityRegionId)
+        @Html.Hidden("regionFullPath", (string)ViewBag.CompanyRegionIds)
+        @Html.Hidden("regionFullName", (string)ViewBag.fullName)
+        <div class="mui-input-row" id="detailaddr">
+            <label>详细地址</label>
+            @Html.TextBoxFor(item => item.AddressT, new { @class = "mui-input", placeholder = "小区/楼层等" })
+            <span class="icon_clear"></span>
+        </div>
+        <div class="info_title">身份信息</div>
+        <div class="yingye_box">
+            <div class="mui-input-group">
+                <div class="mui-input-row select-addr">
+                    <label>身份证号</label>
+                    @Html.TextBoxFor(item => item.IDCardT, new { @class = "mui-input" })
+                </div>
+            </div>
+            <div class="license">
+                <span>身份证照片</span>
+                <div class="card_box imageContainer">
+                    <ul>
+                        <li>
+                            <div class="card_img userPictureImage" id="ProductImages0"><img src="/Areas/Mobile/Templates/Default/Images/ic_plus.png" /></div>
+                            <span>正面</span>
+                            @Html.HiddenFor(item => item.IDCardUrl)
+                        </li>
+                        <li>
+                            <div class="card_img userPictureImage" id="ProductImages1"><img src="/Areas/Mobile/Templates/Default/Images/ic_plus.png" /></div>
+                            <span>反面</span>
+                            @Html.HiddenFor(item => item.IDCardUrl2)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="info_title">管理员信息</div>
+        <div class="manage_box hasCode">
+            <div class="mui-input-group">
+                <div class="mui-input-row">
+                    <label>管理员</label>
+                    @Html.TextBoxFor(item => item.RealName, new { @class = "mui-input", placeholder = "请输入管理员姓名" })
+                </div>
+                <div class="mui-input-row hasVerifyCode">
+                    <label>手机</label>
+                    <input type="text" id="MemberPhone" name="MemberPhone" value="@Model.MemberPhone" @(!Model.MemberPhone.Equals("") ? "readonly" : "") class="mui-input width_input" />
+                    @if (Model.MemberPhone.Equals(""))
+                    {
+                        <span id="codebtn">获取验证码</span>
+                    }
+                </div>
+                <div class="mui-input-row" id="pcv" style="display:none">
+                    <label>验证码</label>
+                    <input type="text" id="PhoneCode" name="PhoneCode" class="mui-input" />
+                    <span id="codebtnT">重新获取</span>
+                </div>
+            </div>
+        </div>
+        <div class="Gbottom_btnRow" style="z-index:3">
+            <div class="mui-btn GbtnList_one mui-btn-block gbtn-red" id="nextStep">下一步</div>
+        </div>
+    </form>
+</div>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.min.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.picker.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.poppicker.js"></script>
+<script src="~/Scripts/jquery.hishopUpload.shopregister.js"></script>
+<script src="~/Scripts/jquery.form.js"></script>
+<script type="text/javascript">
+    var isBlur = true;
+    $('#detailaddr input').on('focus', function () {
+        $('.icon_clear').show();
+    })
+    $('#detailaddr input').on('blur', function (e) {
+        setTimeout(function () {
+            if (isBlur) {
+                $('.icon_clear').hide();
+            }
+        }, 300);
+    })
+    $('#detailaddr .icon_clear').on('click', function (e) {
+        $("#detailaddr input").val('');
+        $('#detailaddr input').focus();
+        isBlur = false;
+        setTimeout(function () {
+            isBlur = true;
+        }, 400);
+    })
+    var regionid,
+				streetList = [],
+				showStreet = document.getElementById('showStreet'),
+				showCity = document.getElementById('showCity'),
+				streetLine = document.getElementById("streetLine"), province = {};
+    //地区选择插件代码要优化
+    $(function () {
+        regionid = Number($("#CityRegionId").val());//如果是修改
+        var _temp, _proIndex = 0, _cityIndex = 0, _districtIndex = 0, _streetIndex = 0;
+        var _proId = 0, _cityId = 0, _districtId = 0, _streetId = 0;
+        var regionFullPath = $("#regionFullPath").val();//如果是则可反查出全路径
+        if (regionFullPath != '') {
+            var arr = regionFullPath.split(',');
+            if (arr.length >= 3) {
+                _proId = arr[0]; _cityId = arr[1]; _districtId = arr[2];
+            }
+            if (arr.length >= 4) {
+                _streetId = arr[3];
+            }
+        }
+        var regionFullName = $("#regionFullName").val();
+        if (regionFullName != '') {
+            var arr = regionFullName.split(' ');
+            if (arr.length >= 3) {
+                $("#showCity").val(arr[0]+' '+arr[1]+' '+arr[2]);
+            }
+            if (arr.length >= 4) {
+                $("#showStreet").val(arr[3]);
+            }
+        }
+        $.ajax({
+            url: '/common/RegionAPI/GetAllRegion',
+            type: 'get', //GET
+            async: true,    //或false,是否异步
+            data: {
+            },
+            timeout: 10000,    //超时时间
+            dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+            success: function (data, textStatus, jqXHR) {
+                var cityPicker3 = new mui.PopPicker({
+                    layer: 3
+                });
+                cityPicker3.setData(data);
+                province = data;
+                showCity.addEventListener('tap', function () {
+                    var focus = document.querySelector(':focus');
+                    if (focus)
+                        focus.blur();
+                    cityPicker3.show(function (items) {
+                        showCity.value = (items[0].Name || '') + " " + (items[1].Name || '') + " " + (items[2].Name || '');
+                        showStreet.value = '请选择街道';
+                        if (!items[1].Id) {
+                            regionid = items[0].Id;
+                            streetLine.style.display = 'none';
+                        } else {
+                            if (!items[2].Id) {
+                                regionid = items[1].Id;
+                                streetLine.style.display = 'none';
+                            } else {
+                                $.ajax('/common/RegionAPI/GetSubRegion?parent=' + items[2].Id, {
+                                    dataType: 'json',
+                                    type: 'get',
+                                    timeout: 10000,
+                                    success: function (data) {
+                                        if (data.length > 0) {
+                                            streetList = data;
+                                            regionid = '';
+                                            streetLine.style.display = 'block';
+                                        } else {
+                                            regionid = items[2].Id;
+                                            streetLine.style.display = 'none';
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }, false);
+                if (Number(_proId) > 0) {//当修改收货地址的时候才进行
+                    _temp = province.filter(function (a, index) {
+                        if (a.Id == _proId) {
+                            _proIndex = index;
+                        }
+                        return a.Id == _proId;
+                        return;
+                    });
+                    _temp = _temp[0].Sub.filter(function (a, index) {
+                        if (a.Id == _cityId) {
+                            _cityIndex = index;
+                        }
+                        return a.Id == _cityId;
+                        return;
+                    });
+                    _temp = _temp[0].Sub.filter(function (a, index) {
+                        if (a.Id == _districtId) {
+                            _districtIndex = index;
+                        }
+                        return a.Id == _districtId;
+                        return;
+                    });
+                    cityPicker3.pickers[0].setSelectedIndex(_proIndex);
+                    setTimeout(function () {
+                        cityPicker3.pickers[1].setSelectedIndex(_cityIndex);
+                    }, 300);
+                    cityPicker3.pickers[2].setSelectedIndex(_districtIndex);
+                    $.ajax('/common/RegionAPI/GetSubRegion?parent=' + _temp[0].Id, {
+                        dataType: 'json',
+                        type: 'get',
+                        timeout: 10000,
+                        success: function (data) {
+                            if (data.length > 0) {
+                                streetList = data;
+                                regionid = _streetId;
+                                streetLine.style.display = 'block';
+                            } else {
+                                regionid = _temp[0].Id;
+                                streetLine.style.display = 'none';
+
+                            }
+                        }
+                    });
+                }
+            }
+        })
+        var userPicker = new mui.PopPicker();
+        showStreet.addEventListener('tap', function () {
+            if (streetList.length < 1) {
+                $.dialog.errorTips('请先选择地区');
+                return;
+            }
+            userPicker.setData(streetList);
+            userPicker.show(function (items) {
+                showStreet.value = items[0].Name;
+                regionid = items[0].Id;
+                _streetId = regionid;
+            });
+            if (_streetId > 0) {//如果匹配到了街道
+                var streetIndex = 0;
+                var temp = streetList.filter(function (a, index) {
+                    if (a.Id == _streetId) {
+                        streetIndex = index;
+                    }
+                    return a.Id == _streetId;
+                    return;
+                });
+                userPicker.pickers[0].setSelectedIndex(streetIndex);
+                regionid = _streetId;
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        if (refusereason.length > 0) {
+            $.dialog({
+                title: '您的申请未通过，原因',
+                lock: true,
+                id: 'refusertips',
+                width: '350px',
+                content: '<div style="font-size:14px;color:#999;">' + refusereason + '</div>',
+                padding: '30px 60px',
+                ok: function () { }
+            });
+        }
+        var bindPhone='@Model.MemberPhone';
+        $('#nextStep').click(function () {
+            var form = $('#form_step1');
+            if($("#CompanyNameT").val()==""||$("#CompanyNameT").val()==null){
+                $.dialog.errorTips('请填写姓名');
+                return false;
+            }
+            var region_Id = Number(regionid);//全局
+            if (region_Id<=0)
+            {
+                var streetStyle = streetLine.style.display;
+                if (streetStyle == "block") {
+                    $.dialog.errorTips('所选街道不能为空');
+                } else {
+                    $.dialog.errorTips('所在地区不能为空');
+                }
+                return false;
+            }
+            if($("#AddressT").val()==""||$("#AddressT").val()==null){
+                $.dialog.errorTips('请填写详细地址');
+                return false;
+            }
+            if($("#IDCardT").val()==""||$("#IDCardT").val()==null){
+                $.dialog.errorTips('请填写身份证号');
+                return false;
+            }
+            getUploadImages();//获取正反身份证图片地址
+            if($("#IDCardUrl").val()==""||$("#IDCardUrl").val()==null){
+                $.dialog.errorTips('请上传身份证正面照');
+                return false;
+            }
+            if($("#IDCardUrl2").val()==""||$("#IDCardUrl2").val()==null){
+                $.dialog.errorTips('请上传身份证背面照');
+                return false;
+            }
+            if ($("#RealName").val().length < 2 || $("#RealName").val().length > 10) {
+                $.dialog.errorTips('管理员姓名长度在2至10位！');
+                return false;
+            }
+            var memberPhone=$('#MemberPhone');
+            var input_phoneCode = $('#PhoneCode');
+            if (input_phoneCode.val() == ''&&memberPhone.val()!=bindPhone) {
+                if (input_phoneCode.closest('.form-group').is(':hidden'))
+                    $.dialog.errorTips('请先获取手机验证码');
+                else
+                    $.dialog.errorTips('请输入手机验证码');
+                return false;
+            }
+            $("#CityRegionId").val(region_Id);//在获取表单参数之前，要给区域ID赋值，后端通过该字段取值
+            var data = form.serialize();
+            var loading = showLoading();
+            $.post('EditProfiles1', data, function (result) {
+                loading.close();
+                if (result.success)
+                    location.href = '@(Url.Action("step4"))';
+                else
+                    $.dialog.errorTips('保存失败！' + result.msg);
+            });
+
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        initImageUpload();//初始化图片上传控件
+    });
+    //初始化图片上传控件
+    function initImageUpload() {
+        var url = '/common/publicOperation/UploadPic';
+        $(".imageContainer li").each(function () {
+            var displayImgSrc = $(this).find('div.userPictureImage').parent().find("input[name^='IDCardUrl']").val();
+            displayImgSrc = displayImgSrc?displayImgSrc + '?rnd=' + new Date():'';
+            $(this).find('div.userPictureImage').hishopUpload(
+            {
+                title: '',
+                url: url,
+                imageDescript: '',
+                displayImgSrc: displayImgSrc,
+                imgFieldName: "userPictureImage",
+                defaultImg: '',
+                pictureSize: '',
+                imagesCount: 1,
+                dataWidth: 4,
+                fileMaxSize: 2,
+                foldName: 'review'
+            });
+        });
+    }
+    //获取上传成功后的图片路径
+    function getUploadImages() {
+        $(".imageContainer li").each(function () {
+            var aryImgs = $(this).find('div.userPictureImage').hishopUpload("getImgSrc");
+            $(this).find('div.userPictureImage').parent().find("input[name^='IDCardUrl']").val(aryImgs);
+        });
+        return true;
+    }
+</script>
+<script src="~/Scripts/autoNumeric.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/step1.js"></script>

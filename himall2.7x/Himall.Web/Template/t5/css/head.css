@@ -1,0 +1,45 @@
+﻿.mobile11_nav {
+    width: 320px;
+    height: 220px;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    margin-left: -160px;
+    background-size: 100%;
+}
+.members_bottom {
+    display: none;
+}
+    .mobile11_nav ul {
+        width: 100%;
+        height: 100%;
+    }
+
+        .mobile11_nav ul li {
+            float: left;
+            width: 78px;
+            height: 78px;
+            text-align: center;
+            border: #fff solid 1px;
+            border-radius: 50%;
+            margin: 11px 14px;
+        }
+
+            .mobile11_nav ul li a {
+                display: block;
+            }
+
+            .mobile11_nav ul li img {
+                margin-top: 14px;
+            }
+
+            .mobile11_nav ul li b {
+                display: block;
+                color: #fff;
+                font-size: 14px;
+                margin-top: 6px;
+            }
+
+            .mobile11_nav ul li:nth-child(3n) {
+                margin-right: 0;
+            }

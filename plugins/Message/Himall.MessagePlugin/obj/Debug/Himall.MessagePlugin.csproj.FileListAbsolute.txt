@@ -1,0 +1,5 @@
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.MessagePlugin\bin\Debug\Himall.MessagePlugin.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.MessagePlugin\bin\Debug\Himall.MessagePlugin.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.MessagePlugin\obj\Debug\Himall.MessagePlugin.csprojResolveAssemblyReference.cache
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.MessagePlugin\obj\Debug\Himall.MessagePlugin.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.MessagePlugin\obj\Debug\Himall.MessagePlugin.pdb

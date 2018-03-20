@@ -1,0 +1,25 @@
+﻿@model Himall.Web.Areas.Mobile.Models.FightGroupShowDetailModel
+@{
+    Layout = null;
+    var actdata = Model.ActiveData;
+}
+@Html.Hidden("gid", actdata.ProductId)
+@Html.Hidden("aid", actdata.Id)
+@Html.Hidden("sid", actdata.ShopId)
+@Html.Hidden("has", actdata.ActiveItems.Count() == 0 ? 0 : 1)
+@Html.Hidden("maxSaleCount", actdata.LimitQuantity)
+<div class="detail-hd">
+    <div id="slides">
+        <img data-src="@(actdata.ProductDefaultImage)">
+        @foreach (var item in actdata.ProductImages)
+            {
+            <img data-src="@(item)">
+        }
+    </div>
+    @if (actdata.StartTime.Date <= DateTime.Now.Date)
+    {
+        <div class="merge-size@(actdata.EndTime.Date<DateTime.Now.Date?"-disabled":"")"><span>@(actdata.LimitedNumber)</span>人团</div>
+    }
+
+    <a class="dis-info-a bt_share" id="dis-brokerage-box" style="display:none;">赚<span id="dis-brokerage">00.00</span>元</a>
+</div>

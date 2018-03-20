@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Label";
+}
+@model Himall.Web.Models.LabelModel
+
+
+
+<div class="container">
+    <ul class="breadcrumb clearfix">
+        <li><a href="Management">标签管理</a></li>
+        <li class="active"><a>@(Model.Id == 0 ? "标签新增" : "标签编辑")</a></li>
+    </ul>
+    <h5 class="tips-top" style="margin-bottom:0;"><span class="help-default"><i></i>说明：您可在此处新建会员标签，标签名称不能超过15个字</span></h5>
+    <div class="form-inline search-box addTages-lp" id="search-box">
+        @using (Ajax.BeginForm("Label", "Label", null
+            , new AjaxOptions { HttpMethod = "post", OnSuccess = "successpost" }, new { @class = "custom-inline"}))
+        {
+            if (Model.Id > 0)
+            {
+                <input type="hidden" name="Id" value="@Model.Id" />
+            }
+            <div class="form-group">
+                <label class="label-inline w75" for="">标签名称</label>
+                @Html.TextBoxFor(e => e.LabelName, new { @class = "form-control input-ssm", id = "txtLabelName", value = Model.LabelName, maxlength = 15 })
+                @Html.ValidationMessageFor(e => e.LabelName)
+            </div>
+            <div class="form-group">
+                <button type="submit" id="saveButton" class="btn btn-primary btn-sm">保 存</button>
+            </div>
+        }
+    </div>
+</div>
+<script src="~/Areas/Admin/Scripts/LabelLabel.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>

@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "Management";
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/LimitTimeBuyManagement.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<div class="container Sclear-N">
+
+    @if (ViewBag.IsExpired)
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                <p class="apply-primary"><span class="glyphicon glyphicon-info-sign"></span>您还未购买限时购服务或者服务已到期，<a href="./BuyService">现在购买</a></p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <ul class="nav nav-tabs-custom clearfix">
+            <li class="active"><a>活动管理</a></li>
+            <li><a href="./Add">新增限时购</a></li>
+            <li class=""><a href="./BuyService">购买服务</a></li>
+        </ul>
+        @*<div class="table-top">
+                <a  id="AddItem" class="btn btn-primary btn-ssm"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp; 添加活动</a>
+            </div>*@
+
+        <div class="search-box" id="search-box">
+            <form class="form-inline custom-inline">
+                <div class="form-group">
+                    <label class="label-inline w75" for="">状态</label>
+                    <select class="form-control input-ssm" id="AuditStatus">
+                        <option value="0">请选择</option>
+                        @foreach (var item in Himall.Core.EnumHelper.ToDictionary<Himall.Model.FlashSaleInfo.FlashSaleStatus>())
+                        {
+                            <option value="@item.Key">@(((Himall.Model.FlashSaleInfo.FlashSaleStatus)item.Key).ToDescription())</option>
+                        }
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="label-inline w75" for="">商品名称</label>
+                    <input class="form-control input-ssm" type="text" id="txtProductName">
+                </div>
+                <div class="form-group">
+                    <label class="label-inline w75" for="">开始日期</label>
+                    <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text">
+                    <label class="label-inline-line">-</label>
+                    <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text">
+                </div>
+                <div class="form-group"><button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button></div>
+            </form>
+        </div>
+        <table class="table" id="list"></table>
+    }
+</div>
+

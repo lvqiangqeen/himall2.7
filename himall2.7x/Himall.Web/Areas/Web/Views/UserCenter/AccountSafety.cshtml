@@ -1,0 +1,97 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "我的账户";
+}
+@model  Himall.Model.MemberAccountSafety
+@using Himall.Model;
+@using Himall.Core;
+@{var type = Request.QueryString["type"];}
+
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Areas/Web/Scripts/UserCapital.js"></script>
+<style>.tb-goods td{ padding:5px 15px;}</style>
+<div class="box1 lh24 Acc_Safety">
+	<div class="title bot-border">
+        <h3 class="title_txt cur">账户安全管理</h3>
+    </div>
+
+    <div class="border-box">
+       <div class="header_l">账户安全
+        @if(Model.AccountSafetyLevel==1)
+        { 
+            <progress value="33" max="100"></progress><span>低</span>
+        }
+        else if(Model.AccountSafetyLevel==4)
+        {
+            <progress value="100" max="100"></progress><span>高</span>
+        }
+        else
+        {
+            <progress value="66" max="100"></progress><span>中</span>
+        }
+           <em style="color:#acb1b9">完成相应设置可提高账户及资金安全</em></div>
+       <div class="list clearfix">
+            <ul class="clearfix">
+                <li><i class="yes"></i>已设置</li>
+                <li>登录密码</li>
+                <li><span style="position:relative;top:-2px;">安全性高的密码可以使账号更安全。建议您定期更换密码</span></li>
+                <li><a href="../UserInfo/ChangePassword">修改</a></li>
+            </ul>
+           <ul class="clearfix">
+               @if (Model.PayPassword)
+               {
+                   <li><i class="yes"></i>已设置</li>
+                   <li>交易密码</li>
+                   <li><span>安全性高的密码可以使财产更安全。建议您定期更换密码</span></li>
+                   <li><a href="../UserCapital/SetPayPwd">更换</a></li>
+               }
+               else
+               {
+                   <li><i class="no"></i>未设置</li>
+                   <li>交易密码</li>
+                   <li><span>安全性高的密码可以使财产更安全。建议您定期更换密码</span></li>
+                   <li><a href="../UserCapital/SetPayPwd">去设置</a></li>
+               }
+           </ul>
+           <ul class="clearfix">
+               @if (Model.BindPhone)
+               {
+                   <li><i class="yes"></i>已验证</li>
+                   <li>手机验证</li>
+                   <li><span>验证后可通过手机找回密码，并接收订单发货、付款成功等系统通知</span></li>
+                   <li><a href="/UserInfo/Rebind?pluginId=Himall.Plugin.Message.SMS">更换</a></li>
+               }
+               else
+               {
+                   <li><i class="no"></i>未验证</li>
+                   <li>手机验证</li>
+                   <li><span>验证后可通过手机找回密码，并接收订单发货、付款成功等系统通知</span></li>
+                   <li><a href="Bind?pluginId=Himall.Plugin.Message.SMS">去验证</a></li>
+               }
+           </ul>
+
+           <ul class="clearfix">
+               @if (Model.BindEmail)
+               {
+                   <li><i class="yes"></i>已验证</li>
+                   <li>邮箱验证</li>
+                   <li><span>验证后可通过邮箱找回密码，并接收订单发货、付款成功等系统通知</span></li>
+                   <li><a href="/UserInfo/Rebind?pluginId=Himall.Plugin.Message.Email">更换</a></li>
+               }
+               else
+               {
+                   <li><i class="no"></i>未验证</li>
+                   <li>邮箱验证</li>
+                   <li><span>验证后可通过邮箱找回密码，并接收订单发货、付款成功等系统通知</span></li>
+                   <li><a href="Bind?pluginId=Himall.Plugin.Message.Email">去验证</a></li>
+               }
+           </ul>
+
+            
+       </div>
+    </div>
+
+</div>

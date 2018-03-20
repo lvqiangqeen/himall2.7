@@ -1,0 +1,518 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "我的订单";
+}
+<div class="coverd cover" style="display:none;"></div>
+@model IEnumerable<Himall.DTO.OrderListModel>
+@using Himall.Core
+
+<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="~/Scripts/datetimeCustom.js"></script>
+<style>
+    .search_order { margin-top: 7px; }
+
+    .sep-col { width: 1px; }
+</style>
+
+<div class="order-dialog" style="display:none;">
+    <div class="close" onclick="closeQR();"><img src="/Images/close_01.png"></div>
+    <h3>恭喜您获得<span></span>个红包</h3>
+    <h5>快去把它分享给好友吧！</h5>
+    <img style="width:180px;height:180px;" src="/Images/close_01_13.jpg">
+    <p>请使用微信扫描该二维码，在打开的页面选择分享到朋友圈</p>
+</div>
+
+
+<div class="box1 lh24">
+
+    <div class="title">
+        <span class="title_txt cur">我的订单</span>
+    </div>
+    <div class="search-area" style="margin-bottom:17px;">
+        <label style="width:66px;">关键字：</label>
+        <input class="search_order" id="txtkeyword" type="text" value="商品名称、订单编号" />
+        <label>开始日期：</label>
+        <input id="inputStartDate" class="search_order start_datetime" type="text">
+
+        <label>结束日期：</label>
+        <input id="inputEndDate" class="search_order end_datetime" type="text">
+        <button class="search_btn pointer" onclick="Search()">搜索</button>
+    </div>
+    <div class="border-box">
+
+        <table class="tb-void">
+            <colgroup>
+                <col width="1" />
+                <col width="620" />
+                <col width="120" />
+                <col width="120" />
+                <col width="120" />
+            </colgroup>
+            <thead>
+                <tr class="tr">
+                    <th colspan="2"><span style="width:53%;text-align:left;padding-left:42px;">订单信息</span><span style="width:20%;text-align:center">单价 数量</span><span style="width:20%;text-align:center">操作商品</span></th>
+
+                    <th>订单实付</th>
+                    @*<th>
+                            <select name="" id="submitDate" onchange="Query()">
+                                <option selected="selected" value="all">请选择...</option>
+                                <option value="threeMonth">最近三个月</option>
+                                <option value="halfyear">最近半年</option>
+                                <option value="year">最近一年</option>
+                                <option value="yearAgo">一年以前</option>
+                            </select>
+                        </th>*@
+                    <th>
+                        @Html.DropDownList("status", @Himall.Model.OrderInfo.OrderOperateStatus.Close.ToSelectList(), "请选择...", new { onchange = "Query()" })
+                    </th>
+                    <th colspan="2">操作</th>
+                </tr>
+            </thead>
+            <tbody id="tb-1877769835">
+                <tr style="height:15px;width:100%;"><td colspan="8" style="padding: 8px 0;"></td></tr>
+                @if (Model.Count() == 0)
+                {
+                    <tr><td colspan="8" class="ety"><div class="empty">暂时没有任何的订单信息！</div></td></tr>
+                }
+                @{var before = true;
+                    var child = false;}
+                @foreach (var m in Model)
+                {
+                    var model = Model.Where(a => a.OrderDate == m.OrderDate).ToArray();
+                    if (model.Count() > 1 && m.Id == model[0].Id)
+                    {
+                        child = true;
+                        <!--<tr class="tr-th-info">
+                            <td colspan="6">
+                                <span class="tcol">
+                                    尊敬的客户，由于你的商品属于不同商家，所以你的订单被拆分为多个子订单分开配送，给你带来的不便还请谅解。
+                                </span>
+                            </td>
+                        </tr>-->
+                    }
+                    else if (model.Count() > 1)
+                    {
+                        child = true;
+                    }
+                    else
+                    {
+                        child = false;
+                    }
+
+                    <tr class="tr-th">
+                        <td class="sep-col "></td>
+                        <td class="tr-th-text" colspan="6">
+                            <span>@(m.OrderDate)</span>
+                            <span class="tcol1" style="margin-right:27px;position:relative;padding-right:30px;">
+                                订单编号:
+                                <a href="@Url.Action("detail", new { id=@m.Id})">
+                                    @m.Id @if (m.UserId != ViewBag.UserId)
+                                    {<label>(子订单)</label>}
+                                </a>
+
+                                @if (m.ReceiveBonus != null)
+                                {
+                                    @*<img src="@m.ReceiveBonus.BonusQR" />*@
+                                    <img style="cursor: pointer;position:absolute;right:5px;top:0;" src="/Images/myorder_bonus.jpg" onclick="bonusQR( '@HimallIO.GetImagePath(m.ReceiveBonus.BonusQR)' , @m.ReceiveBonus.Himall_ShopBonus.Count );">
+                                }
+
+                            </span>
+
+
+                            <span><a target="_blank" href="@Url.Action("home", "shop", new { id=@m.ShopId})">@m.ShopName</a></span>
+                            <span class="tcol3">
+                                @Html.Action("CustmerServices", new { shopId = @m.ShopId })
+                            </span>
+                            <span class="tcol3 hl_blue">@(m.OrderType.HasValue ? m.OrderType.Value.ToDescription() + "订单" : "")</span>
+                            @if (!string.IsNullOrEmpty(m.PickupCode))
+                            {
+                                <span class="tcol3 hl_blue">提货码：@m.PickupCode</span>
+                            }
+                        </td>
+                        <td class="sep-col"></td>
+                    </tr>
+                    <tr class="tr-td" oty="0,4" id="track1877769835">
+                        <td class="sep-col l"></td>
+                        <td style="padding:0 0 0 19px;">
+                            <table class="insert-table" width="100%">
+                                @foreach (var item in m.OrderItemList)
+                                {
+                                    <tr>
+                                        <td style="width:60%;">
+                                            <div class="img-list">
+                                                @{
+                                                    var spc1 = "";
+                                                    var spc2 = "";
+                                                    var spc3 = "";
+                                                    if (!string.IsNullOrWhiteSpace(item.Color)) { spc1 += item.ColorAlias + "：" + item.Color; }
+                                                    if (!string.IsNullOrWhiteSpace(item.Size)) { spc2 += "  " + item.SizeAlias + "：" + item.Size; }
+                                                    if (!string.IsNullOrWhiteSpace(item.Version)) { spc3 += "  " + item.VersionAlias + "：" + item.Version; }
+                                                }
+
+                                                <div class="img-info-d">
+                                                    <a target="_blank" class="img-box" href="@Url.Action("Detail", "Product", new { id = @item.ProductId})" style="float:none;">
+                                                        <img width="80" height="80" title="@item.ProductName @((spc1 + spc2 + spc3).Equals("") ? "" : ("【" + spc1 + spc2 + spc3 + "】")) " src="@HimallIO.GetProductSizeImage(item.ThumbnailsUrl, 1, (int)Himall.CommonModel.ImageSize.Size_100)" class="err-product" />
+                                                    </a>
+                                                    <div class="p-name"><a href="@Url.Action("Detail", "Product", new { id = @item.ProductId})">@(item.ProductName)</a></div>
+                                                    <span class="norms-detail"><i>@spc1</i><i>@spc2</i><i>@spc3</i></span>
+                                                    <div class="icon-img">
+                                                        @if (item.CashDepositsObligation.IsCustomerSecurity)
+                                                        {
+                                                            <img src="/Images/Security.jpg" />
+                                                        }
+                                                        @if (item.CashDepositsObligation.IsSevenDayNoReasonReturn)
+                                                        {
+                                                            <img src="/Images/SevenDay.jpg" />
+                                                        }
+                                                        @if (item.CashDepositsObligation.IsTimelyShip)
+                                                        {
+                                                            <img src="/Images/TimelyDelivery.jpg" />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="width:20%;">
+
+                                            @item.SalePrice <span style="margin:0 10px">* </span>@item.Quantity
+
+                                        </td>
+                                        <td style=" width:20%;border-right:none;font-size:13px;color:#494e52;">
+                                            @if (item.RefundStats.HasValue)
+                                            {
+                                                <a href="@Url.Action("Detail","OrderRefund", new { id=item.ItemRefundId})">退款：@(item.ShowRefundStats)</a>
+                                            }
+                                            else
+                                            {
+                                                if (m.UserId == ViewBag.UserId)
+                                                {
+                                                    if (m.OrderCanRefund && item.EnabledRefundAmount > 0)
+                                                    {
+                                                        bool isShowRefund = false;
+                                                        if (m.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.Finish)
+                                                        {
+                                                            isShowRefund = true;
+                                                        }
+                                                        if (m.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitReceiving)
+                                                        {
+                                                            isShowRefund = true;
+                                                        }
+
+                                                        if (isShowRefund && !m.IsRefundTimeOut)
+                                                        {
+                                                            <a href="@Url.Action("RefundApply", "OrderRefund", new { orderid = m.Id, itemId = item.Id })">退货/退款</a><br />
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        </td>
+                                    </tr>
+
+                                                    }
+                            </table>
+
+                        </td>
+
+
+                        @*<td><div class="u-name">@m.ShipTo</div></td>*@
+                        <td style="vertical-align:middle;">
+                            <span style="color:#fe3a3a;font-size:13px;"> ￥@m.OrderTotalAmount.ToString("F2") </span>
+
+                            @*<br />
+                                @m.PaymentTypeName*@
+                        </td>
+                        <td style="vertical-align:middle;display:none;">
+                            <input type="hidden" value="@m.OrderDate" />
+                        </td>
+                        <td class="td-01 check-de" style="vertical-align:middle;color:#78a1c1">
+                            <strong state="ddfk" class="order-statu" style="color:#494e52;font-size:13px;font-weight:bold">@m.OrderStatus.ToDescription()</strong>
+                            <br />
+                            @if (m.OrderType == Himall.Model.OrderInfo.OrderTypes.FightGroup)
+                            {
+
+                                <strong state="fgordstatus" class="order-statu" style="color:#18589F;font-size:13px;">@m.FightGroupJoinStatus.ToDescription()</strong>
+                                <br />
+                            }
+                            <a href="@Url.Action("Detail", new { id=@m.Id})" style="color:#78a1c1;font-size:12px;display:inline-block;padding-top:3px;font-family:SimSun;">查看详情</a>
+                        </td>
+
+                        <td width="115" class="order-doi" style="vertical-align:middle">
+                            @if (m.UserId == ViewBag.UserId)
+                            {
+                                if (m.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitReceiving)
+                                {
+                                    <a href="javascript:;" onclick="ConfirmOrder('@m.Id')" class="btn btn-4">确认收货</a>
+                                }
+                                if (m.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.Finish && m.CommentCount == 0)
+                                {
+                                    <a href="@Url.Action("index", "OrderEvaluation", new { id = @m.Id })" class="cmm">评价订单</a>
+                                }
+                                else if (m.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.Finish && m.CommentCount == 1 && !m.HasAppendComment)
+                                {
+                                    <a href="@Url.Action("AppendComment", "OrderEvaluation", new { orderId = @m.Id })" class="cmm">追加评价</a>
+                                }
+                            }
+
+                            @if (m.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitPay)
+                            {
+                                <a href="@Url.Action("Pay", "Order", new { orderIds=@m.Id})" target="_blank" class="btn btn-4"><s></s>付&nbsp;款</a><br />
+                            }
+                            @{
+                                if (m.OrderType != Himall.Model.OrderInfo.OrderTypes.FightGroup && (m.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitPay ||
+                                m.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitDelivery && m.PaymentType == Himall.Model.OrderInfo.PaymentTypes.CashOnDelivery))
+                                {
+                                    <a href="javascript:;" onclick="CancelOrder('@m.Id')" class="b-agian">取消订单</a><br />
+                                }
+                                if (m.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitDelivery || m.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitSelfPickUp)
+                                {
+                                    switch (m.RefundStats)
+                                    {
+                                        case null:
+                                        case 0:
+                                            if (m.PaymentType != Himall.Model.OrderInfo.PaymentTypes.CashOnDelivery && m.PaymentType != Himall.Model.OrderInfo.PaymentTypes.None
+                                                && m.EnabledRefundAmount > 0
+                                                )
+                                            {
+                                                if (m.FightGroupCanRefund)
+                                                {
+                                                    <a href=@Url.Action("RefundApply", "OrderRefund", new { orderid = m.Id, refundid = m.OrderRefundId })>订单退款</a><br />
+                                                }
+                                            }
+                                            break;
+                                        case 4:
+                                            <a href="@Url.Action("Detail","OrderRefund", new { id=m.OrderRefundId})">退款被拒</a><br />
+                                            break;
+                                        default:
+                                            <span>退款中</span><br />
+                                            break;
+                                    }
+                                }
+                                var sku = string.Join(",", m.OrderItemList.Select(a => a.SkuId));
+                                var num = string.Join(",", m.OrderItemList.Select(a => a.Quantity));
+
+
+                            }
+                        </td>
+
+                    </tr>
+                    <tr style="height:15px;width:100%;"><td colspan="8" style="padding: 6px;"></td></tr>
+                                }
+
+
+            </tbody>
+        </table>
+        <div class="mt10">
+            <div id="pagin-btm" class="pagin fr">
+                @{
+                    var count = ((PagingInfo)ViewBag.pageInfo).TotalPages;
+                    var curr = ((PagingInfo)ViewBag.pageInfo).CurrentPage;
+                    var keywords = Request.QueryString["keywords"];
+                    var orderStatus = Request.QueryString["orderStatus"];
+                    var orderDate = Request.QueryString["orderDate"];
+                    var purchaser = Request.QueryString["purchaser"];
+                    var startDate = Request.QueryString["startDateTime"];
+                    var endDate = Request.QueryString["endDateTime"];
+                }
+                @Html.PageLinks((PagingInfo)ViewBag.pageInfo, x => Url.Action("Index", new { pageNo = x, keywords = keywords, orderStatus = orderStatus, orderDate = orderDate, startDateTime = startDate, endDateTime = endDate, purchaser = purchaser }))
+                <span class="page-skip">
+                    <em>&nbsp;&nbsp;共 @count 页&nbsp;&nbsp;&nbsp;&nbsp;</em>
+                </span>
+            </div>
+
+            <div class="clr"></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    $( function ()
+    {
+        @if( ViewBag.Grant != null )
+        {
+            <text>
+        bonusQR( '@ViewBag.Grant.BonusQR' , @ViewBag.Grant.Himall_ShopBonus.Count );
+
+        </text>
+        }
+    } )
+    function Query()
+    {
+        // var keywords = $("#txtkeyword").val();
+        var orderDate = $( "#submitDate" ).val();
+        var orderStatus = $( "#status" ).val();
+        window.location.href = "?orderDate=" + orderDate + "&orderStatus=" + orderStatus;
+    }
+
+
+    function ConfirmOrder( orderId )
+    {
+        $.dialog.confirm( "你确定收到货了吗？", function () { Confirm( orderId ); } );
+    }
+    function RefundProductTip()
+    {
+        $.dialog.alert( "很遗憾，该维权入口已经关闭<br/>1、交易已过退货维权受理期,您无法发起退换货<br/>2、请在帮助中心查看平台退换货流程", '', 2000 );
+    }
+    function Confirm( orderId )
+    {
+        var loading = showLoading();
+        $.ajax( {
+            type: 'post',
+            url: "@Url.Action("ConfirmOrder")",
+            dataType: 'json',
+            data: { orderId: orderId },
+            success: function ( d )
+            {
+                loading.close();
+                if ( d.success )
+                {
+                    $.dialog.succeedTips( "确认成功！", function ()
+                    {
+                        window.location.href = window.location.href;
+                    }, 1 );
+                }
+                else
+                {
+                    if (d.status==2 || d.status==1)
+                    {
+                        window.location.href='@Url.Action("Detail")'+'/'+orderId;
+                    }
+                    else{
+                        $.dialog.errorTips( "确认失败！", '', 2 );
+                    }
+
+                }
+            }
+        } );
+    }
+
+    function CancelOrder( orderId )
+    {
+        $.dialog.confirm( "确定取消该订单吗？", function () { Cancel( orderId ); } );
+    }
+    function Cancel( orderId )
+    {
+        var loading = showLoading();
+        $.ajax( {
+            type: 'post',
+            url: "@Url.Action("CloseOrder")",
+            dataType: 'json',
+            data: { orderId: orderId },
+            success: function ( d )
+            {
+                loading.close();
+                if ( d.success )
+                {
+                    $.dialog.succeedTips( "取消成功！", function ()
+                    {
+                        window.location.href = window.location.href;
+                    }, 1 );
+                }
+                else
+                {
+                    $.dialog.errorTips( "取消失败,"+d.msg, '', 2 );
+                }
+            }
+        } );
+    }
+
+    function Search()
+    {
+        var keywords = $( "#txtkeyword" ).val();
+        if ( keywords == "商品名称、订单编号" )
+            keywords = "";
+        var purchaser = $( "#purchaser" ).val();
+        var startDate = $( "#inputStartDate" ).val();
+        var endDate = $( "#inputEndDate" ).val();
+        var d1 = new Date(startDate.replace(/\-/g, "\/"));
+        var d2 = new Date(endDate.replace(/\-/g, "\/"));
+
+        window.location.href = "?keywords=" + keywords + '&startDateTime=' + startDate + '&endDateTime=' + endDate + '&purchaser=' + purchaser;
+    }
+
+
+
+    $( function ()
+    {
+        document.onkeydown = function ( e )
+        {
+            var ev = document.all ? window.event : e;
+            var keywords = $( "#txtkeyword" ).val();
+            if ( keywords == "商品名称、订单编号" )
+                keywords = "";
+            var purchaser = $( "#purchaser" ).val();
+            var startDate = $( "#inputStartDate" ).val();
+            var endDate = $( "#inputEndDate" ).val();
+
+            if ( ev.keyCode == 13 && (keywords !="" || startDate !="" || endDate !=""))
+            {
+                window.location.href = "?keywords=" + keywords + '&startDateTime=' + startDate + '&endDateTime=' + endDate + '&purchaser=' + purchaser;
+            }
+        }
+
+        $( '#txtkeyword' ).focus( function ()
+        {
+            var a = $( this ).val(),
+                b = '商品名称、订单编号';
+            if ( a == b )
+            {
+                $( this ).val( '' ).css( 'color', '#333' );
+            }
+        } ).blur( function ()
+        {
+            var a = $( this ).val(),
+                b = '商品名称、订单编号';
+            if ( !a )
+            {
+                $( this ).val( b ).css( 'color', '#999' );
+            }
+        } );
+        var orderStatus = "@Request.QueryString["orderStatus"]";
+        var orderDate = "@Request.QueryString["orderDate"]";
+        var keywords = html_decode( "@Request.QueryString["keywords"]" );
+        var startDate = "@Request.QueryString["startDateTime"]";
+        var endDate = "@Request.QueryString["endDateTime"]";
+        if ( orderDate != "" && orderDate != null )
+            $( "#submitDate" ).val( orderDate );
+        if ( orderStatus != "" && orderStatus != null )
+            $( "#status" ).val( orderStatus );
+        if ( keywords != "" && keywords != null )
+            $( "#txtkeyword" ).val( keywords );
+        if ( startDate != '' && startDate != null )
+            $( "#inputStartDate" ).val( startDate );
+        if ( endDate != '' && endDate != null )
+            $( "#inputEndDate" ).val( endDate );
+    } );
+
+    function html_decode( str )
+    {
+        var s = "";
+        if ( str.length == 0 ) return "";
+        s = str.replace( /&amp;/g, "&" );
+        s = s.replace( /&lt;/g, "<" );
+        s = s.replace( /&gt;/g, ">" );
+        s = s.replace( /&nbsp;/g, " " );
+        s = s.replace( /&#39;/g, "\'" );
+        s = s.replace( /&quot;/g, "\"" );
+        s = s.replace( /<br\/>/g, "\n" );
+        return s;
+    }
+
+    function bonusQR( path, count )
+    {
+
+        $( ".order-dialog > img" )[0].src = path;
+        $( ".order-dialog h3 span" ).html( count );
+        $( ".order-dialog" ).css( "display", "block" );
+        $( ".coverd" ).css( "display", "block" );
+    }
+
+    function closeQR()
+    {
+        $( ".coverd" ).css( "display", "none" );
+        $( ".order-dialog" ).css( "display", "none" );
+    }
+</script>

@@ -1,0 +1,107 @@
+/* coupondetail.wxss */
+
+page {
+  background: #f5f5f5;
+}
+
+.page-section {
+  margin-top: 24rpx;
+  overflow: hidden;
+}
+
+.counp {
+  margin: 0rpx auto;
+  width: 702rpx;
+  overflow: hidden;
+  border-radius:0 0 8rpx 8rpx;
+}
+
+.counp .pic {
+  width: 100%;
+  height: 256rpx;
+  overflow: hidden;
+}
+
+.counp .counpinfo {
+  color: #fff;
+  width: 635rpx;
+  overflow: hidden;
+  margin: 32rpx;
+}
+
+.counp-title {
+  text-align: center;
+  font-size: 28rpx;
+  color: #fff2f2;   
+  height: 40rpx;
+  line-height: 40rpx;
+}
+
+.counp-title text { 
+   background: #ff5252;
+   padding: 0 20rpx;
+   font-size: 28rpx;
+   line-height: 40rpx;
+}
+
+.counp-price {
+  font-size: 72rpx;
+  overflow: hidden;
+  height: 112rpx;
+}
+
+.counp-price text {
+  float: left;
+}
+
+.price-icon {
+  font-size: 58rpx;
+  margin-right: 5rpx;
+  margin-left: -12rpx;
+  margin-top: 16rpx;
+  float: left;
+}
+
+.counp-area {
+  font-size: 24rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+}
+
+.counp-des {
+  background: #fff;
+  font-size: 24rpx;
+  padding: 24rpx 32rpx;
+  line-height: 36rpx;
+}
+
+.counp-des .coupon-txt {
+  margin: 5rpx 0;
+}
+
+.counp-des .coupon-txt:before {
+  content: "";
+  width: 10rpx;
+  height: 10rpx;
+  background: #ff5252;
+  display: inline-block;
+  margin-right: 15rpx;
+  margin-bottom: 5rpx;
+}
+
+.btn {
+  margin: 0 auto;
+  width: 702rpx;
+  overflow: hidden;
+}
+
+.btn button.btn_coup {
+  background: #fbfafc;
+  border-radius: 8rpx;
+  line-height: 48rpx;
+  overflow: hidden;
+  font-size: 36rpx;
+  text-align: center;
+  margin-top: 48rpx;
+  padding: 24rpx 0;
+}

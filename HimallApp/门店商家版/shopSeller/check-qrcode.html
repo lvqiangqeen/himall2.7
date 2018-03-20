@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html style="background: #000;">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>核销扫码</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header-transparent">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">扫码核销</h1>
+			<a class="mui-pull-right mui-btn-link" id="albumSelect">相册选取</a>
+		</header>
+		<div class="qrcode-box" id="qrcode">
+			<div style="height:100%;"></div>
+		</div>
+		<a class="check-btn" id="checkBtn">输入提货码</a>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script>
+			var scan=null;
+			mui.init({
+				swipeBack: true,
+				beforeback: function() {
+					scan.close();
+				}
+			});
+			
+			mui.plusReady(function() {
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				setTimeout(function(){
+					if(scan){
+						return;
+					}
+					scan=new plus.barcode.Barcode('qrcode',[plus.barcode.CODE128],{frameColor:'#3289ff',scanbarColor:'#3289ff'});
+				    scan.onmarked=onmarked;
+				    scan.start({vibrate:false});
+				    w.close();
+				},300)
+				
+			});
+			
+			function onmarked(type,result){
+			    switch(type){
+			    	case plus.barcode.CODE128:
+			    	type = "CODE128";
+			    	break;
+			    }
+			    result = result.replace(/\n/g, '');
+			    scan.close();
+			    himall.openVW('check-order.html',{code:result});
+			    setTimeout(function(){
+			    	plus.webview.currentWebview().close('none');
+			    },1000)
+			}
+			
+			document.getElementById('albumSelect').addEventListener('tap',function(){
+			    plus.gallery.pick(function(path){
+				    plus.barcode.scan(path,onmarked,function(error){
+						plus.nativeUI.alert( "无法识别此图片" );
+					});
+			    },function(err){
+			        //plus.nativeUI.alert("Failed: "+err.message);
+			    });
+			})
+			
+			document.getElementById('checkBtn').addEventListener('tap',function(){
+				himall.openVW('check-input.html');
+			})
+			
+			
+		</script>
+	</body>
+
+</html>

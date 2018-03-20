@@ -1,0 +1,43 @@
+﻿@using Himall.Core;
+@model Himall.Model.VShopInfo
+@{
+    Layout = "../Shared/_Base.cshtml";
+    ViewBag.Title = "店铺介绍";
+}
+<div class="container">
+    @{var shop = (Himall.Model.ShopInfo)ViewBag.shop;}
+    <div class="list-group">
+        <div class="list-group-item">
+            <div class="vshop-head">
+                <a class="v-logo" href=""><img src="@(Himall.Core.HimallIO.GetImagePath(Model.Logo))" /></a>
+                <p>@Model.Name</p>
+                @if (ViewBag.IsFavorite) {
+                    <a class="btn btn-primary btn-sm" id="favorite">已收藏</a>
+                }
+                else {
+                    <a class="btn btn-primary btn-sm" id="favorite">收藏</a>
+                }
+            </div>
+        </div>
+    </div>
+    @if(Model.Himall_Shops.IsSelf!=true) {
+        <div class="list-group">
+            <div class="list-group-item f14">
+                <div class="shop-score">店铺：<em>@(((decimal)ViewBag.ProductAndDescription).ToString("F2"))</em>发货：<em>@(((decimal)ViewBag.SellerDeliverySpeed).ToString("F2"))</em>服务：<em>@(((decimal)ViewBag.SellerServiceAttitude).ToString("F2"))</em></div>
+            </div>
+        </div>
+    }
+    <!-- <div class="list-group">
+        <div class="list-group-item ">
+            <h6 class="f14">店铺简介：</h6>
+            <p>@Model.Description</p>
+        </div>
+    </div> -->
+    <div class="list-group">
+        <div class="list-group-item f14">店铺二维码：<img class="lazyload" src="@ViewBag.QRCode" width="150" /></div>
+    </div>
+</div>
+<a class="WX-backtop" href="#"></a>
+<input type="hidden" id="shopId" value="@Model.ShopId" />
+<input type="hidden" id="vshopId" value="@Model.Id" />
+<script src="~/Areas/Mobile/Templates/Default/Scripts/vshopIntroduce.js"></script>

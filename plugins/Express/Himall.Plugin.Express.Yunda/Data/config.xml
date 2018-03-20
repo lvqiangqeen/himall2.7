@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ExpressInfo>
+  <Name>韵达快递</Name>
+  <DisplayName>韵达快递</DisplayName>
+  <BackGroundImage>2010111741205.jpg</BackGroundImage>
+  <Logo>logo.jpg</Logo>
+  <Width>2300</Width>
+  <Height>1290</Height>
+  <TaobaoCode>YUNDA</TaobaoCode>
+  <Kuaidi100Code>yunda</Kuaidi100Code>
+  <KuaidiNiaoCode>YD</KuaidiNiaoCode>
+</ExpressInfo>

@@ -1,0 +1,98 @@
+﻿@model List<Himall.DTO.FullOrder>
+@{
+	Layout = null;
+    var mapPayType = new Dictionary<string, string>();
+    mapPayType.Add("支付宝手机支付", "支付宝支付");
+    mapPayType.Add("支付宝", "支付宝支付");
+    mapPayType.Add("支付宝支付", "支付宝支付");
+    mapPayType.Add("支付宝APP支付", "支付宝支付");
+    mapPayType.Add("微信扫码支付", "微信支付");
+    mapPayType.Add("微信支付", "微信支付");
+    mapPayType.Add("微信APP支付", "微信支付");
+    mapPayType.Add("银联支付", "银联支付");
+    mapPayType.Add("预付款支付", "预付款支付");
+    mapPayType.Add("积分支付", "线上支付（积分抵扣）");
+    mapPayType.Add("优惠券支付", "线上支付（优惠券抵扣）");
+    mapPayType.Add("平台线下收款", "线下收款");
+    mapPayType.Add("货到付款", "货到付款");
+}
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+	<thead>
+		<tr>
+			<th>订单类型</th>
+			<th>订单编号</th>
+			<th>店铺</th>
+			<th>买家</th>
+			<th>下单时间</th>
+			<th>支付方式</th>
+			<th>商品总额</th>
+			<th>运费</th>
+			<th>税金</th>
+			<th>优惠券抵扣</th>
+			<th>商家改价</th>
+			<th>积分代支付</th>
+			<th>订单实付总额</th>
+			<th>佣金</th>
+			<th>订单状态</th>
+			<th>买家留言</th>
+			<th>收货人</th>
+			<th>手机号码</th>
+			<th>收货地址</th>
+			<th>商品名称</th>
+			<th>数量</th>
+		</tr>
+	</thead>
+	<tbody id="list-table-body">
+		@foreach (var item in Model)
+		{
+			int rowcount = 1;
+			if (item.OrderItems != null)
+			{
+				rowcount = item.OrderItems.Count;
+			}
+
+			<tr>
+				<td rowspan='@rowcount'>@item.Platform.ToDescription()</td>
+				<td rowspan='@rowcount' style='vnd.ms-excel.numberformat:@Html.Raw("@")'>@item.Id.ToString()</td>
+				<td rowspan='@rowcount'>@item.ShopName</td>
+				<td rowspan='@rowcount'>@item.UserName</td>
+				<td rowspan='@rowcount'>@item.OrderDate.ToString("yyyy-MM-dd")</td>
+                <td rowspan='@rowcount'>@(string.IsNullOrWhiteSpace(item.PaymentTypeName) ? "" : mapPayType[item.PaymentTypeName]) </td>
+				<td rowspan='@rowcount'>@item.ProductTotalAmount.ToString("F2")</td>@*商品总额*@
+				<td rowspan='@rowcount'>@item.Freight.ToString("F2")</td>           @*运费*@
+				<td rowspan='@rowcount'>@item.Tax.ToString("F2")</td>               @*税金*@
+				<td rowspan='@rowcount'>@item.DiscountAmount.ToString("F2")</td>    @*优惠券抵扣*@
+				@{var itemDis = item.OrderItems.Sum(r => r.DiscountAmount);}
+				<td rowspan='@rowcount'>@(itemDis > 0 ? "-" : "+") @itemDis.ToString("F2") </td>    @*改价*@
+				<td rowspan='@rowcount'>@item.IntegralDiscount.ToString("F2")</td>  @*积分抵扣*@
+				<td rowspan='@rowcount'>@item.OrderTotalAmount.ToString("F2")</td>  @*订单实付总额*@
+				<td rowspan='@rowcount'>@item.OrderItems.Sum(r => r.CommisRate * (r.RealTotalPrice - r.RefundPrice)).ToString("F2")</td> @*佣金*@
+				<td rowspan='@rowcount'>@item.OrderStatus.ToDescription()</td>      @*订单状态*@
+				<td rowspan='@rowcount'>@item.UserRemark</td>                       @*买家留言*@
+				<td rowspan='@rowcount'>@item.ShipTo</td>                           @*收货人*@
+				<td rowspan='@rowcount'>@item.CellPhone</td>                        @*手机号码*@
+				<td rowspan='@rowcount'>@item.RegionFullName</td>                   @*收货地址*@
+				@{
+			var orderItem = item.OrderItems[0];
+				}
+				<td>@orderItem.ProductName  @orderItem.Color @orderItem.Size @orderItem.Version</td> @*商品名称*@
+				<td>@orderItem.Quantity</td>   @*数量*@
+			</tr>
+			if (item.OrderItems.Count >= 2)
+			{
+				int index = 1;
+				foreach (var orderitem in item.OrderItems)
+				{
+					if (index >= 2)
+					{
+						<tr>
+							<td>@orderitem.ProductName  @orderitem.Color @orderitem.Size @orderitem.Version</td>   @*商品名称*@
+							<td>@orderitem.Quantity</td>                       @*数量*@
+						</tr>
+					}
+					index++;
+				}
+			}
+		}
+	</tbody>
+</table>

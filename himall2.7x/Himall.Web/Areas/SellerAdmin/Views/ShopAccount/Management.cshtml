@@ -1,0 +1,57 @@
+﻿@{ 
+    ViewBag.Title = "提现记录";
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Scripts/jquery.json.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li ><a href="@Url.Action("index","Billing")">财务总览</a></li>
+        <li><a href="@Url.Action("PendingSettlementOrders","Billing")">待结算订单</a></li>
+		<li><a href="@Url.Action("SettlementList","Billing")">已结算列表</a></li>
+        <li><a href="@Url.Action("ShopAccountItem", "Billing")">收支明细</a></li>
+        <li class="active"><a href="@Url.Action("Management","ShopAccount")">提现明细</a></li>
+    </ul>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">申请时间</label>
+                <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text">
+                <label class="label-inline-line">-</label>
+                <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text" >
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">审核时间</label>
+                <input id="inputStartDates" class="form-control input-ssm start_datetimes" type="text">
+                <label class="label-inline-line">-</label>
+                <input id="inputEndDates" class="form-control input-ssm end_datetimes" type="text">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">状态</label>
+                <select id="WithdrawStaus" class="form-control input-ssm">
+                    <option value="">全部类型</option>
+                    @foreach (var item in Enum.GetValues(typeof(Himall.CommonModel.WithdrawStaus)))
+                    {
+                        Himall.CommonModel.WithdrawStaus itemdata = (Himall.CommonModel.WithdrawStaus)item;
+                        <option value="@((int)itemdata)">@itemdata.ToDescription() </option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table id="list" class="table"></table>
+	<div class="tabel-operate" id="operationButtons">
+		<a class="btn-export" href='@Url.Action("ExportShopWithDraw")' onclick="ExportExecl.call(this);">导出EXCEL</a>
+	</div>
+    <div class="cover"></div>
+    <div class="preview-img"><img src="" /></div>
+</div>
+<script src="~/Areas/SellerAdmin/Scripts/ApplyWithDrawManagement.js"></script>

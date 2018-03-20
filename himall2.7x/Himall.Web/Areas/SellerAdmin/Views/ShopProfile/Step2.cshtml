@@ -1,0 +1,301 @@
+﻿@model Himall.DTO.ShopProfileStep2
+@{
+    Layout = "~/Areas/SellerAdmin/Views/Shared/_SellerAdminRegLayout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<style>
+    ul.choose-step li {
+        width: 25%;
+    }
+</style>
+<script src="~/Scripts/jquery.himall.Region.js"></script>
+<div class="container pt0">
+    <ul class="choose-step step2">
+        <li style="background:none;">
+            基本信息
+            <span class="border"></span>
+            <span class="border-n Sclear-P34"></span>
+        </li>
+        <li class="active" >
+            账户信息
+            <span class="border"></span>
+            <span class="border-n"></span>
+        </li>
+        <li style="background:none;">
+            店铺信息
+            <span class="border"></span>
+            <span class="border-n"></span>
+        </li>
+        <li style="background:none;">审核状态</li>
+    </ul>
+    <form id="form_step2" class="form-horizontal form-pt0" role="form">
+        <div @Html.Raw(Model.Settled.SettlementAccountType.Equals(Himall.CommonModel.SettleAccountsType.SettleWeiXin)?"style='display:none;'":"")>
+            <h3 class="table-hd">开户银行信息</h3>
+            @if (!Model.Settled.SettlementAccountType.Equals(Himall.CommonModel.SettleAccountsType.SettleWeiXin))
+            {
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label"><b>*</b>银行开户名：</label>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(item => item.BankAccountNameT, new { @class = "form-control input-sm" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.ValidationMessageFor(item => item.BankAccountNameT)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label"><b>*</b>银行账号：</label>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(item => item.BankAccountNumberT, new { @class = "form-control input-sm" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.ValidationMessageFor(item => item.BankAccountNumberT)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label"><b>*</b>支行名称：</label>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(item => item.BankNameT, new { @class = "form-control input-sm" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.ValidationMessageFor(item => item.BankNameT)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">支行联行号：</label>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(item => item.BankCode, new { @class = "form-control input-sm" })
+                    </div>
+                    <div class="col-sm-3">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label"><b>*</b>开户银行所在地：</label>
+                    <div class="col-sm-10"><div id="regionSelector"></div></div>
+                    <div class="col-sm-3">
+                        @*@Html.ValidationMessageFor(item => item.BankRegionIdT)*@
+                    </div>
+                    @*@Html.TextBoxFor(item => item.BankRegionIdT, new { style = "width:1px;height:1px; border-width:0px;" })*@
+                    @Html.HiddenFor(item=>item.BankRegionId)
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">银行开户名：</label>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(item => item.BankAccountName, new { @class = "form-control input-sm" })
+                    </div>
+                    <div class="col-sm-3">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">银行账号：</label>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(item => item.BankAccountNumber, new { @class = "form-control input-sm" })
+                    </div>
+                    <div class="col-sm-3">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">支行名称：</label>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(item => item.BankName, new { @class = "form-control input-sm" })
+                    </div>
+                    <div class="col-sm-3">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">支行联行号：</label>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(item => item.BankCode, new { @class = "form-control input-sm" })
+                    </div>
+                    <div class="col-sm-3">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">开户银行所在地：</label>
+                        <div id="regionSelector">
+                    </div>
+                    <div class="col-sm-3">
+                    </div>
+                   @*// @Html.TextBoxFor(item => item.BankRegionId, new { style = "width:0px;height:0px; border-width:0px;" })*@
+                    @Html.HiddenFor(item => item.BankRegionId);
+                </div>
+            }
+        </div>
+
+        <div @Html.Raw(Model.Settled.SettlementAccountType.Equals(Himall.CommonModel.SettleAccountsType.SettleBank) ? "style='display:none;'" : "")>
+            <h3 class="table-hd">微信账户</h3>
+            <div class="form-group" @(Html.Raw(Model.WeiXinOpenId.Equals("") ? "" : "style='display:none;'")) id="szwx">
+                <div class="col-sm-6 form-control-static col-sm-offset-1">设置微信账户后，后续账户金额您可直接提现至微信零钱包，<a class="weixinBindBtn">现在去设置</a></div>
+            </div>
+            <div @(Html.Raw(Model.WeiXinOpenId.Equals("") ? "style='display:none;'" : "")) id="xswx">
+                <div class="form-group">
+                    <div class="col-sm-6 form-control-static col-sm-offset-1">请确认您绑定微信的账号，如有误可 <a class="weixinBindBtn">更改</a></div>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" id="opid" value="@Model.WeiXinOpenId">
+                    <label for="" class="col-sm-2 control-label">收款微信昵称：</label>
+                    <div class="col-sm-3 form-control-static" id="dWeiXinNickName">@Model.WeiXinNickName</div>
+                    <input type="hidden" id="WeiXinNickName" name="WeiXinNickName" value="@Model.WeiXinNickName">
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">性别：</label>
+                    <div class="col-sm-3 form-control-static" id="dWeiXinSex">@(Model.WeiXinSex.Equals(0) ? "女" : "男")</div>
+                    <input type="hidden" id="WeiXinSex" name="WeiXinSex" value="@Model.WeiXinSex">
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">所在地区：</label>
+                    <div class="col-sm-3 form-control-static" id="dWeiXinAddress">@Model.WeiXinAddress</div>
+                    <input type="hidden" id="WeiXinAddress" name="WeiXinAddress" value="@Model.WeiXinAddress">
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">真实姓名：</label>
+                    <div class="col-sm-3 form-control-static" id="dWeiXinTrueName">@Model.WeiXinTrueName</div>
+                    <input type="hidden" id="WeiXinTrueName" name="WeiXinTrueName" value="@Model.WeiXinTrueName">
+                </div>
+
+            </div>
+            @{Html.RenderAction("Weixin", "AccountSettings");}
+        </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <a id="submit" class="btn btn-primary btn-sm color-f" href="javascript:;">下 一 步</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a id="backpre" class="btn btn-back" href="@(Url.Action("EditProfile1", new { source = "Previous" }))" target="_top">返回上一步</a>
+                </div>
+            </div>
+</form>
+</div>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script>
+    $(function () {
+        var SettlementAccountType = "@((int)Model.Settled.SettlementAccountType)";
+        @*$('#bankLocationProvince,#bankLocationCity,#bankLocationDistrict').himallLinkage({//开户银行所在地
+            url: '/common/RegionAPI/GetRegion',
+            enableDefaultItem: true,
+            defaultItemsText: '请选择',
+            defaultSelectedValues: [@ViewBag.BankRegionIds],
+            onChange: function (level, value, text) {
+                var len = $("#bankLocationDistrict option").size();
+                $("#BankRegionIdT").focus();
+                $("#BankRegionId").focus();
+                $("#BankRegionId").val("");
+                $("#BankRegionIdT").val("");
+                if (level == 1 && len == 0) {
+                    console.log(1);
+                    $("#BankRegionIdT").val(value);
+                    $("#BankRegionId").val(value);
+                }
+                else if (level == 2) {
+                    console.log(2);
+                    $("#BankRegionIdT").val(value);
+                    $("#BankRegionId").val(value);
+                }
+                $("#submit").focus();
+            }
+        });*@
+        
+
+        $('#submit').click(function () {
+            var form = $('#form_step2');
+            if (form.valid()) {
+                if (SettlementAccountType != 1 && $("#BankRegionId").attr("isfinal") == "false")
+                    $.dialog.errorTips('请选择开户银行所在地');
+                else if (SettlementAccountType ==1 && $("#opid").val() == "") {
+                    $.dialog.errorTips('请绑定微信！');
+                }
+                else {
+                    var data = form.serialize();
+                    var loading = showLoading();
+                    $.post('EditProfile2', data, function (result) {
+                        loading.close();
+                        if (result.success)
+                            window.top.location.href = '@(Url.Action("EditProfile3"))';
+                        else
+                            $.dialog.errorTips(result.msg);
+                    });
+                }
+            }
+        });
+
+
+        $('#bankPhoto').himallUpload({
+            title: '<b>*</b>开户银行许可证电子版',
+            imageDescript: '请确保图片清晰，文字可辨并有清晰的红色公章。',
+            displayImgSrc: '@HimallIO.GetImagePath(Model.BankPhoto)',
+            imgFieldName: "bankPhoto",
+            dataWidth: 6
+        });
+
+
+        $("#regionSelector").RegionSelector({
+            selectClass: "form-control input-sm select-sort",
+            valueHidden: "#BankRegionId"
+        });
+
+    });
+
+    function bindCity(provinceControl, cityControl, countyControl, regionId) {
+        var regions = regionId.split(',');
+        var shengfen = regions.length > 0 ? regions[0] : 0;
+        var city = regions.length > 1 ? regions[1] : 0;
+        var county = regions.length > 2 ? regions[2] : 0;
+        $('#' + provinceControl + ',#' + cityControl + ',#' + countyControl).cityLink(shengfen, city, county);
+        $('#' + cityControl).removeAttr('disabled');
+        $('#' + countyControl).removeAttr('disabled');
+    }
+
+
+
+    var isSelectAddr = function (p, c, t) {
+        if (!p || !c || !t)
+            return false;
+        var haveProvince = false;
+        var haveCity = false;
+        var haveTown = false;
+        p.children().each(function (i, e) {
+            s = e.selected;
+            if (s == true && i > 0) {
+                haveProvince = true;
+                return;
+            }
+        });
+        if (haveProvince) {
+            c.children().each(function (i, e) {
+                s = e.selected;
+                v = e.value;
+                if (s == true && v != "") {
+                    haveCity = true;
+                    return;
+                }
+            });
+            if (haveCity) {
+                var idx = 0;
+                t.children().each(function (i, e) {
+                    s = e.selected;
+                    v = e.value;
+                    idx = i;
+                    if (s == true && v != "") {
+                        haveTown = true;
+                        return;
+                    }
+                });
+                haveTown = idx > 0 ? haveTown : true;
+            }
+        }
+        return haveProvince && haveCity && haveTown;
+    };
+
+    //微信设置完成
+    $("#btn_winxinfi").click(function () {
+        $("#xswx").show();
+        $("#szwx").hide();
+    })
+
+    var sceneid = '@ViewBag.Sceneid';
+</script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>

@@ -1,0 +1,35 @@
+﻿@{
+	Layout = "_HeadAndFoot.cshtml";
+}
+
+@section Style
+{
+	<link href="~/Areas/Web/Content/inner.css" rel="stylesheet" />
+	<link href="~/Areas/Web/Content/artdilog.css" rel="stylesheet" />
+	@RenderSection("Style", false)
+}
+@section Script
+{
+	<script src="~/Scripts/jquery.artDialog.js"></script>
+	<script src="~/Areas/Web/Scripts/artDialog.iframeTools.js"></script>
+	@RenderSection("Script",false)
+}
+
+@if (IsSectionDefined("Header"))
+{
+	@section Header
+	{
+		@RenderSection("Header")
+	}
+}
+<!--_Normal start-->
+@RenderBody()
+<!--_Normal end-->
+
+@if (IsSectionDefined("Foot"))
+{
+	@section Foot
+	{
+		@RenderSection("Foot")
+	}
+}

@@ -1,0 +1,71 @@
+﻿@{Layout = null;}
+@model List<Himall.Web.Areas.Web.Models.CollocationSkusModel>
+@{var index=0;}
+@foreach (var p in Model)
+{	<div class="group-item">
+    <a class="product-item"  href="@Url.Action("detail", new { id=@p.ProductId})" target="_blank" data-colloproductid="@p.ColloProductId" data-productid="@p.ProductId" title="@p.ProductName"><img src="@Himall.Core.HimallIO.GetProductSizeImage(p.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_50)"/></a>
+    <ul class="choose SKUgroup@(index++)">
+        @if (p.Color.Count() > 0)
+        {
+            <li class="choose-sku">
+                <div class="dt"> 选择<span>@p.ColorAlias</span>：</div>
+                <div class="dd">
+                    @foreach (var color in p.Color)
+                    {
+                        <div st="0" cid="@color.SkuId" class="item itemSku @color.EnabledClass @color.SelectedClass">
+                            <b>◆</b>
+                            <a href="#none" title="@color.Value">
+                                <i>@color.Value</i>
+                            </a>
+                        </div>
+                    }
+
+                </div>
+            </li>
+        }
+        @if (p.Size.Count() > 0)
+        {
+            <li class="choose-sku">
+                <div class="dt">选择<span>@p.SizeAlias</span>：</div>
+                <div class="dd">
+                    @foreach (var size in p.Size)
+                    {
+                        <div st="1" cid="@size.SkuId" class="item itemSku @size.EnabledClass @size.SelectedClass">
+                            <b>◆</b>
+                            <a href="#none" title="@size.Value">@size.Value</a>
+                        </div>
+                    }
+                </div>
+            </li>
+        }
+
+        @if (p.Version.Count() > 0)
+        {
+            <li class="choose-sku">
+                <div class="dt">选择<span>@p.VersionAlias</span>：</div>
+                <div class="dd">
+                    @foreach (var version in p.Version)
+                    {
+                        <div st="2" cid="@version.SkuId" class="item itemSku @version.EnabledClass @version.SelectedClass">
+                            <b>◆</b>
+                            <a href="#none" title="@version.Value">@version.Value</a>
+                        </div>
+                    }
+                </div>
+            </li>
+        }
+        <li>库存：<span class="group-stock">@p.Stock</span><span style="margin-right:30px">@p.MeasureUnit</span>价格：￥<span class="product-price">@p.MinPrice</span></li>
+		<input type="hidden" class="group-skuId" value="@(p.ProductId.ToString()+"_0_0_0")" />
+    </ul>
+	</div>
+}
+<div class="submit-group-bot">
+	购买<input type="text" id="groupCounts" value="1" />套 &nbsp; 合计
+	<div class="group-price">￥<span data-groupprice="0">0</span></div>
+</div>
+
+<form name="CollProducts" id="CollProducts" action="/Order/SubmitByProductId" method="post">
+	<input type="hidden" name="skuids" id="skuids" value="" />
+	<input type="hidden" name="counts" id="counts" value="" />
+	<input type="hidden" name="collpids" id="collpids" value="" />
+</form>

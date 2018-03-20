@@ -1,0 +1,189 @@
+﻿@model List<Himall.DTO.OrderDetailView>
+@{ 
+    var idsStr = ViewBag.OrderIds;
+    ViewBag.Title = "订单分享";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="format-detection" content="telephone=no, address=no">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>订单分享</title>
+    <script type="text/javascript" src="~/Areas/Mobile/Templates/Default/Scripts/swiper.min.js"></script>
+    	<script type="text/javascript">
+
+var myScroll;
+var isShared='@ViewBag.IsShared';
+function loaded () {
+	var h= window.screen.availHeight;
+    var u = navigator.userAgent;
+    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+    var slideW=document.getElementsByClassName('swiper-slide')[0].offsetWidth;
+    var slideList=document.getElementsByClassName('orderShare_img');
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        slidesPerView: 'auto',
+        centeredSlides: true,
+        paginationClickable: true,
+        spaceBetween: 12
+    });
+    document.getElementById('orderShare_box').style.opacity='1';
+	$(".fenixang").click(function(){
+		$(this).hide();
+	});
+	document.querySelector(".shareContent").addEventListener('click',function(){
+		location.href = ''+this.getAttribute('data-href');
+	})
+}
+
+</script>
+</head>
+<body onload="loaded()">
+	
+<div class="fenixang"><img src="~/Areas/Mobile/Templates/Default/Images/fenxiang.png" /></div>
+<style type="text/css">
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.fenixang{ position: fixed;width: 100%;height: 100%;background:rgba(0,0,0,0.5); z-index: 99;}
+.fenixang img{width: 100%;}
+body,ul,li {
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+body {height: 100%;
+	font-size: 12px;
+	font-family: ubuntu, helvetica, arial;
+}
+html{height: 100%;}
+
+.wrapper {
+	position: relative;
+	z-index: 1;
+	height: 100%;
+	width: 100%;
+	background: #eaeaea; padding-top: 10px;
+	overflow: hidden;
+	-ms-touch-action: none;
+}
+</style>
+	
+<!--<div id="wrapper1">
+	<div class="swiper-container">
+		<div class="swiper-wrapper">
+            @foreach (var order in Model)
+            {
+                foreach (var item in order.Detail.OrderItems)
+                {
+                    var producturl = Url.Action("Detail", "Product", new { @id = item.ProductId });
+                    <div class="swiper-slide">
+                        <a class="p-img" href="@producturl"><img class="lazyload" src="/Storage/Shop/1/Products/236/1_220.png" data-url="@item.ThumbnailsUrl" alt=""></a>
+                        <h3><a href="@producturl">@item.ProductName</a></h3>
+                        <div class="red">￥@item.SalePrice.ToString("f2")</div>
+                        <div class="dizhi">@order.Detail.ShopName</div>
+                        @if (order.Detail.VShopId > 0)
+                        {
+                            <div class="jindian"><a href="@Url.Action("Detail", "VShop", new { @id = order.Detail.VShopId })">进店逛逛</a></div>
+                        }
+                        @if (ViewBag.Source != null && ViewBag.Source == "pay")
+                        {
+                            <div class="jindian"><a href="@Url.Action("PaymentToOrders", "Member", new { @ids =idsStr  })">返回订单列表</a></div>
+                        }
+                        else
+                        {
+                            <div class="jindian"><a href="@Url.Action("Orders", "Member", new { @ids =idsStr  })">返回订单列表</a></div>
+                        }
+                    </div>
+                }
+            }
+		</div>
+       
+	</div>
+     <div class="swiper-pagination"></div>
+</div>-->
+<div class="wrapper" id="orderShare_box" style="padding:0;">
+    <div class="swiper-container orderShare" id="orderShare" >
+        <div class="swiper-wrapper" id="orderDetails">
+        	@foreach (var order in Model)
+            {
+                foreach (var item in order.Detail.OrderItems)
+                {
+                	var producturl = Url.Action("Detail", "Product", new { @id = item.ProductId });
+		        	<div class="swiper-slide">
+			        	 <div class="orderShare_img">
+			        	 	  <a href="@producturl"><img class="shareImg lazyload" src="/Storage/Shop/1/Products/236/1_220.png" data-url="@item.ThumbnailsUrl"/></a>
+			        	 </div>
+			        	 <p class="shareContent" data-href="@producturl">
+			        	 	@item.ProductName
+			        	 </p>
+			        	 <span class="price">¥@item.SalePrice.ToString("f2")</span>
+			        	 <p class="ads"><span class="iconfont icon-address"></span>@order.Detail.ShopName</p>
+			        	 <div class="orderShare_btn">
+			            	@if (order.Detail.VShopId > 0)
+	                        {
+	                        	<a class="vshop-detail" href="@Url.Action("Detail", "VShop", new { @id = order.Detail.VShopId })">进店逛逛</a>
+	                        }
+			        	 </div>
+			       </div>
+	           }
+            }
+        </div>
+    </div>
+    <div class="swiper-pagination orderShareDian"></div>
+    @if (ViewBag.Source != null && ViewBag.Source == "pay")
+    {
+    	
+        <a class="returnOrderList" href="@Url.Action("PaymentToOrders", "Member", new { @ids =idsStr  })">返回订单列表</a>
+    }
+    else
+    {
+        <a class="returnOrderList" href="@Url.Action("Orders", "Member", new { @ids =idsStr  })">返回订单列表</a>
+    }
+</div>   
+
+</body>
+</html>
+
+@section Scripts
+{
+    @if (Model.Count > 0)
+    {
+        var firstitem = Model[0].Detail.OrderItems.FirstOrDefault();
+    <script>
+        var winxinShareArgs = {
+            share: {
+                title: '买到好货，必须炫一下',
+                desc: '@(firstitem.ProductName)',
+                link: location.href,
+                imgUrl: '@firstitem.ThumbnailsUrl',
+                success: function (res) {
+                    if (isShared=='')
+                    {
+                        $.post('/' + areaName + '/Order/OrderShareAddIntegral', { orderids: '@idsStr' }, function (result) {
+                            if (result.success) {
+                                console.log('分享成功!');
+                            }
+                        })
+                    }
+                },
+                cancel: null,
+                fail: null,
+                complete: null,
+                trigger: null
+            }
+        };
+    </script>
+    }
+
+    @Html.Partial("_WeiXinShare")
+}

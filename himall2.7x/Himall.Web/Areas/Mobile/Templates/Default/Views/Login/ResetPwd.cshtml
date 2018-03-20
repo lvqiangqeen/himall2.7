@@ -1,0 +1,67 @@
+﻿@model Himall.Model.SiteSettingsInfo
+@{
+    ViewBag.Title = "重设密码";
+    ViewBag.CopyRight = false;
+
+}
+<style>
+    body {
+        background-color: #fff;
+    }
+</style>
+<div class="login">
+    <div class="login" style="margin-top: .12rem;">
+        <h3 style="margin-bottom:18px">重设密码</h3>
+    </div>
+    <div class="login-bd">
+        <div class="login-input-group">
+            <div class="input-item"><input class="form-control" id="password" type="password" placeholder="新密码"></div>
+            <div class="input-item"><input class="form-control" id="repeatPassword" type="password" placeholder="确认密码"></div>
+        </div>
+        <a id="bindBtn" class="flex-center">提 交</a>
+    </div>
+</div>
+
+
+
+<script src="~/Areas/Mobile/Templates/Default/Scripts/validate.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $('#bindBtn').click(function () {
+            var password = $.trim($('#password').val());
+            var repeatPassword = $.trim($('#repeatPassword').val());
+
+            var reg = /^(13|14|15|16|17|18|19)[0-9]{9}$/;
+            if (!password)
+                $.dialog.errorTips('请输入密码');
+            else if (password.length < 6 && password.length > 20)
+                $.dialog.errorTips('密码必须6-20位字符');
+            else if (!repeatPassword)
+                $.dialog.errorTips('请再次输入密码');
+            else if (password != repeatPassword)
+                $.dialog.errorTips('两次密码不一致');
+            else {
+                var loading = showLoading('请稍候', 1);
+
+                $.post('/' + areaName + '/Login/ModPwd',
+                {
+                    contact: '@ViewBag.Contact',
+                    password: password,
+                    repeatPassword: repeatPassword
+
+                },
+                function (result) {
+                    loading.close();
+                    if (!result.success) {
+                        $.dialog.alert('失败!' + result.msg);
+                    }
+                    else {
+                        //console.log(result)
+                        window.location.href = result.url;
+                    }
+
+                });
+            }
+        })
+    });
+</script>

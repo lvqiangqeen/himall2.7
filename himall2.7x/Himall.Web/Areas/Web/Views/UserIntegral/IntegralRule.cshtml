@@ -1,0 +1,60 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "怎么获取积分";
+}
+@model  Himall.Model.UserIntegralGroupModel
+
+@using Himall.Model;
+@using Himall.Core;
+<div class="box1 lh24">
+    <div class="border-box">
+        <table class="tb-void tb-goods">
+            <thead>
+                <tr class="tr-td">
+                    <th width="150">项目</th>
+                    <th>当前累积积分</th>
+                    <th>规则说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tr-td">
+                    <td>登录</td>
+                    <td class="red-lg">@Model.LoginIntegral</td>
+                    <td>您每次登录都可获得一定积分奖励，每日只能获得一次登录积分</td>
+                </tr>
+                <tr class="tr-td">
+                    <td>评论</td>
+                    <td class="red-lg">@Model.CommentIntegral</td>
+                    <td>您所购买的商品，发表评论可获得积分奖励</td>
+                </tr>
+                <tr class="tr-td">
+                    <td>消费</td>
+                    <td class="red-lg">@Model.ConsumptionIntegral</td>
+                    <td>您每次消费均可获得一定积分奖励</td>
+                </tr>
+                <tr class="tr-td">
+                    <td>绑定</td>
+                    <td class="red-lg">@Model.BindWxIntegral</td>
+                    <td>首次绑定平台下微信公众号可获得积分奖励</td>
+                </tr>
+                <tr class="tr-td">
+                    <td>注册</td>
+                    <td class="red-lg">@Model.RegIntegral</td>
+                    <td>注册并完成验证（手机或邮箱）可获得积分奖励</td>
+                </tr>
+                <tr class="tr-td">
+                    <td>邀请好友</td>
+                    <td class="red-lg">@Model.InviteIntegral</td>
+                    <td>邀请好友注册并完成验证（手机或邮箱）可获得积分奖励</td>
+                </tr>
+                <tr class="tr-td">
+                    <td>签到</td>
+                    <td class="red-lg">@Model.SignIn</td>
+                    <td>每天登录签到可以获得积分奖励</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

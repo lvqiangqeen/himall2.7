@@ -1,0 +1,386 @@
+﻿@{
+    ViewBag.Title = "Configuration";
+    this.Layout = null;
+}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>系统安装向导-数据填写</title>
+    <link href="~/Content/installStyle.css" rel="stylesheet" />
+    <link href="~/Areas/Web/Content/WebAlertPlug.css" rel="stylesheet" />
+    <link href="~/Content/artdialog.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Areas/Web/Scripts/jQuery.Web.Alert.js"></script>
+    <script src="~/Scripts/CommonJS.js"></script>
+    <script src="~/Scripts/jquery.artDialog.js"></script>
+    <script src="~/Scripts/artDialog.iframeTools.js"></script>
+    <script type="text/javascript">
+        $(function ()
+        {
+            $('#submit').click(function ()
+            {
+                var version = $(this).attr("version");
+                        var dbServer = $('input[name=dbServer]').val();
+                        var dbName = $('input[name=dbName]').val();
+                        var dbLoginName = $('input[name=dbLoginName]').val();
+                        var dbPwd = $('input[name=dbPwd]').val();
+                        //var dbPort = $('input[name=dbPort]').val();
+                        var siteName = $('input[name=siteName]').val();
+                        var siteAdminName = $('input[name=siteAdminName]').val();
+                        var sitePwd = $('input[name=sitePwd]').val();
+                        var sitePwd2 = $('input[name=sitePwdAgn]').val();
+                        var shopName = $('input[name=shopName]').val();
+                        var shopAdminName = $('input[name=shopAdminName]').val();
+                        var shopPwd = $('input[name=shopPwd]').val();
+                        var shopPwd2 = $('input[name=shopPwdAgn]').val();
+                        var installData = $("#installData").attr('checked') == 'checked' ? 1 : 0;
+                        var date = {
+                            dbServer: dbServer,
+                            dbName: dbName,
+                            dbLoginName: dbLoginName,
+                            dbPwd: dbPwd,
+                            //dbPort: dbPort,
+                            siteName: siteName,
+                            siteAdminName: siteAdminName,
+                            sitePwd: sitePwd,
+                            sitePwd2: sitePwd2,
+                            shopName: shopName,
+                            shopAdminName: shopAdminName,
+                            shopPwd: shopPwd,
+                            shopPwd2: shopPwd2,
+                            installData: installData
+                        };
+                        $('.form input').each(function () {
+                            if ($(this).val() == '') {
+                                var top = $(this).offset().top;
+                                $('body').animate({ scrollTop: top - 14 }, 300);
+                                showError($(this));
+                                //loading.close();
+                                return false;
+
+                            }
+                        });
+
+                        if ($('.form .char').length > 0) {
+                            var top = $('.form .char').first().offset().top;
+                            $('body').animate({ scrollTop: top - 14 }, 300);
+                            return false;
+                        }
+                //日龙修改
+                //这里需要后续重构
+                        
+                        if ( version == "Debug" )
+                        {
+                            $.dialog.confirm( '您目前安装的是Debug版本，可能无法进行授权机制，建议安装发布版本，确定要安装吗？', function ()
+                            {
+                                var loading = showLoading();
+                                $.ajax({
+                                    type: 'POST',
+                                    url: './SaveConfiguration',
+                                    cache: false,
+                                    data: date,
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        loading.close();
+                                        if (data.errorMsg != undefined) {
+                                            $.alert({
+                                                width: 300,// 宽度
+                                                height: 140,// 高度
+                                                state: 3,// 1 正常图片 2警告图片 3错误图片
+                                                msg: data.errorMsg,// 传入消息
+                                                title: '安装提示',// 提示标题
+                                                success: function (close) { },
+                                                close: function () {
+                                                }
+                                            });
+                                        } else if (data.msg != undefined && data.status == 0) {
+                                            $.alert({
+                                                width: 300,// 宽度
+                                                height: 140,// 高度
+                                                state: 3,// 1 正常图片 2警告图片 3错误图片
+                                                msg: data.msg,// 传入消息
+                                                title: '安装提示',// 提示标题
+                                                success: function (close) { },
+                                                close: function () {
+                                                }
+                                            });
+                                        } else if (data.msg != undefined && data.status == 1) {
+                                            $.alert({
+                                                width: 300,// 宽度
+                                                height: 140,// 高度
+                                                state: 1,// 1 正常图片 2警告图片 3错误图片
+                                                msg: data.msg,// 传入消息
+                                                title: '安装提示',// 提示标题
+                                                success: function (close) { },
+                                                close: function () {
+                                                }
+                                            });
+                                            location.href = "/Installer/Completed";
+                                        }
+                                    },
+                                    error: function () { }
+                                });
+                            });
+
+                        }
+                        else
+                        {
+                            var loading = showLoading();
+                            $.ajax({
+                                type: 'POST',
+                                url: './SaveConfiguration',
+                                cache: false,
+                                data: date,
+                                dataType: 'json',
+                                success: function (data) {
+                                    loading.close();
+                                    if (data.errorMsg != undefined) {
+                                        $.alert({
+                                            width: 300,// 宽度
+                                            height: 140,// 高度
+                                            state: 3,// 1 正常图片 2警告图片 3错误图片
+                                            msg: data.errorMsg,// 传入消息
+                                            title: '安装提示',// 提示标题
+                                            success: function (close) { },
+                                            close: function () {
+                                            }
+                                        });
+                                    } else if (data.msg != undefined && data.status == 0) {
+                                        $.alert({
+                                            width: 300,// 宽度
+                                            height: 140,// 高度
+                                            state: 3,// 1 正常图片 2警告图片 3错误图片
+                                            msg: data.msg,// 传入消息
+                                            title: '安装提示',// 提示标题
+                                            success: function (close) { },
+                                            close: function () {
+                                            }
+                                        });
+                                    } else if (data.msg != undefined && data.status == 1) {
+                                        $.alert({
+                                            width: 300,// 宽度
+                                            height: 140,// 高度
+                                            state: 1,// 1 正常图片 2警告图片 3错误图片
+                                            msg: data.msg,// 传入消息
+                                            title: '安装提示',// 提示标题
+                                            success: function (close) { },
+                                            close: function () {
+                                            }
+                                        });
+                                        location.href = "/Installer/Completed";
+                                    }
+                                },
+                                error: function () { }
+                            });
+                        }
+            });
+
+            function showError(obj)
+            {
+                obj.siblings('.error').show().siblings('.msg').hide();
+                obj.addClass('char');
+            }
+
+            function showMsg(obj)
+            {
+                obj.siblings('.msg').show().siblings('.error').hide();
+                obj.removeClass('char');
+            }
+
+            $('.form input').each(function ()
+            {
+                $(this).blur(function ()
+                {
+                    var val = $.trim($(this).val());
+                    if (val == '')
+                    {
+                        showError($(this))
+                    } else
+                    {
+                        showMsg($(this))
+                    }
+                });
+                $(this).keyup(function ()
+                {
+                    $(this).siblings('.msg').show().siblings('.error').hide();
+                });
+            });
+
+            function PwdCheck(pwd, pwdAgn)
+            {
+                $(pwdAgn).blur(function ()
+                {
+                    var sitePwdAgn = $(pwdAgn).val();
+                    var sitePwd = $(pwd).val();
+                    if (sitePwd != sitePwdAgn)
+                    {
+                        showError($(this))
+                    }
+                });
+                $(pwdAgn).keyup(function ()
+                {
+                    var sitePwdAgn = $(pwdAgn).val();
+                    var sitePwd = $(pwd).val();
+                    if (sitePwd == sitePwdAgn)
+                    {
+                        showMsg($(this))
+                    }
+                });
+                $(pwd).keyup(function ()
+                {
+                    var sitePwdAgn = $(pwdAgn).val();
+                    var sitePwd = $(pwd).val();
+                    if (sitePwdAgn != '' && sitePwdAgn != sitePwd)
+                    {
+                        showError($(pwdAgn))
+                    } else
+                    {
+                        showMsg($(pwdAgn))
+                    }
+                    if (sitePwd.length > 16)
+                    {
+                        
+                        showError($(this))
+                    } else
+                    {
+                        showMsg($(this))
+                    }
+                });
+                $(pwd).blur(function ()
+                {
+                    var sitePwd = $(pwd).val();
+                    if (sitePwd.length < 6)
+                    {
+                        $(this).siblings('.error').html("密码长度不能低于6位");
+                        showError($(this))
+                    }
+                    else if (sitePwd.length > 16)
+                    {
+                        $(this).siblings('.error').html("密码长度不能高于16位");
+                        showError($(this))
+                    }
+                });
+
+            }
+            PwdCheck('input[name=sitePwd]', 'input[name=sitePwdAgn]');
+            PwdCheck('input[name=shopPwd]', 'input[name=shopPwdAgn]');
+
+
+        });
+    </script>
+</head>
+
+<body>
+    <div class="warp">
+        <div class="header cl">
+            <div class="logo"><img src="/Images/installLogo.png" /></div>
+            <div class="version">2015.07.21.02</div>
+        </div>
+        <div class="proess cl">
+            <div class="cur">安装协议</div>
+            <span class="finish"></span>
+            <div class="cur">创建数据</div>
+            <span class="cur"></span>
+            <div>安装完成</div>
+        </div>
+        <div class="content">
+            <form name="form" action="">
+                <div class="form">
+                    <div class="title"><span>数据库信息</span></div>
+                    <div class="form-group">
+                        <label>数据库服务器</label>
+                        <input type="text" class="text" name="dbServer" value="localhost" />
+                        <span class="msg">数据库服务器地址，一般为localhost</span>
+                        <span class="error">请输入数据库服务器</span>
+                    </div>
+                    <div class="form-group">
+                        <label>数据库名</label>
+                        <input type="text" class="text" name="dbName" value="" />
+                        <span class="msg"></span>
+                        <span class="error">请输入数据库名</span>
+                    </div>
+                    <div class="form-group">
+                        <label>数据库用户名</label>
+                        <input type="text" class="text" name="dbLoginName" value="" />
+                        <span class="msg"></span>
+                        <span class="error">请输入数据库用户名</span>
+                    </div>
+                    <div class="form-group">
+                        <label>数据库密码</label>
+                        <input type="password" class="text" name="dbPwd" value="" />
+                        <span class="msg"></span>
+                        <span class="error">请输入数据库密码</span>
+                    </div>
+                    <div class="form-group">
+                        <div style="margin-left:90px"><input name="installData" id="installData" type="checkbox" />安装演示数据</div>
+                    </div>
+                    <div class="title"><span>网站信息</span></div>
+                    <div class="form-group">
+                        <label>站点名称</label>
+                        <input type="text" class="text" name="siteName" value="" />
+                        <span class="msg"></span>
+                        <span class="error">请输入站点名称</span>
+                    </div>
+                    <div class="form-group">
+                        <label>管理员账号</label>
+                        <input type="text" class="text" name="siteAdminName" value="" />
+                        <span class="msg"></span>
+                        <span class="error">请输入管理员账号</span>
+                    </div>
+                    <div class="form-group">
+                        <label>管理员密码</label>
+                        <input type="password" class="text" name="sitePwd" />
+                        <span class="msg"></span>
+                        <span class="error">请输入管理员密码</span>
+                    </div>
+                    <div class="form-group">
+                        <label>重复密码</label>
+                        <input type="password" class="text" name="sitePwdAgn" />
+                        <span class="msg"></span>
+                        <span class="error">两次输入密码不一致</span>
+                    </div>
+
+                    <div class="title"><span>自营店铺信息</span></div>
+                    <div class="form-group">
+                        <label>店铺名称</label>
+                        <input type="text" class="text" name="shopName" value="" />
+                        <span class="msg"></span>
+                        <span class="error">请输入店铺名称</span>
+                    </div>
+                    <div class="form-group">
+                        <label>店铺账号</label>
+                        <input type="text" class="text" name="shopAdminName" value="" />
+                        <span class="msg"></span>
+                        <span class="error">请输入店铺账号</span>
+                    </div>
+                    <div class="form-group">
+                        <label>登录密码</label>
+                        <input type="password" class="text" name="shopPwd" />
+                        <span class="msg"></span>
+                        <span class="error">请输入登录密码</span>
+                    </div>
+                    <div class="form-group">
+                        <label>重复密码</label>
+                        <input type="password" class="text" name="shopPwdAgn" />
+                        <span class="msg"></span>
+                        <span class="error">两次输入密码不一致</span>
+                    </div>
+
+                </div>
+                <div class="btn-group">
+                    <a href="@Url.Action("Agreement","Installer")" class="btn">上一步</a><input type="button" class="btn" id="submit" version="@(ViewBag.IsDebug?"Debug":"Release")" name="submit" value="确认提交" />
+                    @if( ViewBag.IsDebug )
+                    {<span style="color:red;">系统当前为Debug版本！</span>}
+                </div>
+            </form>
+        </div>
+        <div class="footer">
+            <p><strong>Powered By <span>Hishop</span>【Himall】</strong></p>
+            <p>Copyright 2003 - 2011 Hishop网店系统 All Rights Reserved.</p>
+            <p>软件注册备案号：234234234</p>
+        </div>
+    </div>
+</body>
+</html>

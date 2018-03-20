@@ -1,0 +1,9 @@
+﻿	*{margin: 0;padding: 0;list-style: none;}
+	.menuNav{position: fixed;bottom: 0;left:0; width: 100%;border-top: 1px solid #ccc;box-shadow: 0 -2px 5px #ccc;cursor: pointer;background-color: #f8f8f8;font-size: 12px;}
+	.menuNav ul li{float: left;height: 50px;text-align: center;position: relative;display: table;}
+	.menuNav ul:after{display: block;height: 0;content: "";clear: both;}
+	.navcontent{display: table-cell;vertical-align: middle;}
+	.navcontent img{display: block;margin: 0 auto 2px;}
+	.menuNav ul li .childNav{position: absolute;left: 0;bottom: 51px;z-index: 10;width: 100%;display: none;}
+	.menuNav ul li .childNav ul li{width: 100%;height: 50px;line-height: 50px;background-color:#f8f8f8; float: left;border: 1px solid #ccc;border-bottom: none;}
+    .menuNav a{color:#000;}

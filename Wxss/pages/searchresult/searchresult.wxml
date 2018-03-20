@@ -1,0 +1,117 @@
+<!--pages/searchresult/searchresult.wxml-->
+<view class="searchk padding24">
+  <view class="searchl width679">
+    <view class="iconfont icon__search font40 search_btn"></view>
+    <input placeholder="{{KeyWord==''?'搜索商品':KeyWord}}" bindinput="bindKeyWordInput" bindblur="bindBlurInput" bindfocus="gotoKeyWordPage" bindconfirm="onConfirmSearch" confirm-type="search" confirm-type="search" class="ptb16"  />
+  </view>
+<!--  <view class="searchr pt24 pl24" bindtap="onSearch">搜索</view>-->
+</view>
+<view class="coupontitle" hidden="{{ProductList==null||ProductList.length<=0}}">
+  <view class="coupontitlel">
+    <view class="{{Num==0 ? 'active':''}}" data-num="0" data-sortby="ProductId" bindtap="onSortClick">默认</view>
+  </view>
+  <view class="coupontitlel">
+    <view class="jiages {{Num==1 ? 'active'+' '+SortClass:''}}" data-sortby="SaleCounts" data-num="1" bindtap="onSortClick">销量</view>
+  </view>
+  <view class="coupontitlel">
+    <view class="jiages {{Num==2 ? 'active'+' '+SortClass:''}}" data-sortby="SalePrice" data-num="2" bindtap="onSortClick">价格</view>
+  </view>
+  <view class="coupontitlel">
+    <view class="jiages1s jiages {{Num==3 ? 'active'+' '+SortClass:''}}" data-sortby="VistiCounts" data-num="3" bindtap="onSortClick">浏览量</view>
+  </view>
+</view>
+<view class="prodcut-list search-list">
+      <view class="prodcut-comm">
+            <block wx:for="{{ProductList}}"  wx:key="ProductId">
+          <view class="prodcut {{index==ProductList.length-1&&ProductList.length%2>0 ? 'noborder':''}}">
+            <view class="product-info">
+              <view class="product-pic"  catchtap="goToProductDetail" data-productid="{{item.ProductId}}" data-activeid="{{item.ActiveId}}" data-activetype="{{item.ActiveType}}">
+                <image class="image" src="{{item.Pic}}" style="width:320rpx;height:320rpx"></image>
+              </view>
+              <view class="product-des">
+                <view class="product-name" atchtap="goToProductDetail" data-productid="{{item.ProductId}}" data-activeid="{{item.ActiveId}}" data-activetype="{{item.ActiveType}}">{{item.ProductName}}</view>
+                <view class="product-into">
+                  <view class="product-price">￥<text>{{item.SalePrice}}</text></view>
+
+                <view class="product-shop">
+                  <view class="product-add" wx:if="{{item.HasSKU || (!item.HasSKU && item.CartQuantity==0)}}" catchtap="catchAddCart" data-productid="{{item.ProductId}}" data-operator="+" data-sku="{{item.SkuId}}" data-opensku="{{item.HasSKU}}">
+                      <text class="iconfont icon__plus font48"></text>
+                    <view hidden="{{item.CartQuantity<=0}}">{{item.CartQuantity}}</view>
+                  </view>
+                  <view class="product-buy"  wx:if="{{!item.HasSKU && item.CartQuantity>0}}">
+                    <view class="l" catchtap="catchAddCart" data-productid="{{item.ProductId}}" data-operator="-" data-sku="{{item.SkuId}}" data-opensku="{{item.HasSKU}}"><text class="iconfont icon__minus_L font24"></text></view>
+                    <text class="m">{{item.CartQuantity}}</text>
+                    <view class="r" catchtap="catchAddCart" data-productid="{{item.ProductId}}" data-operator="+" data-sku="{{item.SkuId}}" data-opensku="{{item.HasSKU}}">
+                      <text class="iconfont icon__plus_L font24"></text>
+                    </view>
+                  </view>
+                </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+  </view>
+<!--无订单-->
+<view class="kong" hidden="{{ProductList.length>0}}">
+  <image src="/images/null_search.png"></image>
+</view>
+
+<!--弹出规格开始-->
+<view class="mask" hidden="{{!isShowSkuSelectBox}}">
+  <view class="comm-stand">
+    <view class="comm-stand-con">
+      <view class="comm-name">
+        <view class="comm-txt">{{CurrentProduct.ProductName}}</view>
+        <view class="comm-icon" bindtap="hideSkuDOM">
+          <image src="/images/colse_03.jpg"></image>
+        </view>
+      </view>
+      <view class="comm-bd">
+        <block wx:for="{{CurrentProduct.SkuItems}}" wx:key="AttributeId" wx:for-index="i">
+          <view class="comm-item">
+            <view class="comm-title">{{item.AttributeName}}</view>
+            <view class="comm-attr">
+              <block wx:for="{{item.AttributeValue}}" wx:key="ValueId" wx:for-item="sku">
+                <text class="{{sku.UseAttributeImage=='selected'?'active':''}}" id="{{sku.ValueId}}" data-skuvalue="{{sku.Value}}" data-indexcount="{{i}}" catchtap="onSkuClick">{{sku.Value}}</text>
+              </block>
+
+              <!-- <image class="{{sku.UseAttributeImage=='selected'?'SKUSelectValueClass':'skuvalueclass'}}" wx:if="{{sku.ImageUrl!=''}}" src="{{sku.ImageUrl}}" id="{{sku.ValueId}}" data-skuvalue="{{sku.Value}}" data-indexcount="{{i}}" bindtap="onSkuClick"></image>-->
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+    <view class="comm-stand-shop">
+      <view class="product-into">
+        <view class="product-price">￥
+          <text>{{CurrentSku.SalePrice}}</text>
+        </view>
+        <view class="product-shop">
+          <view class="iconfont icon__plus" hidden="{{CurrentSku && CurrentSku.CartQuantity>0}}" catchtap="catchAddCart" data-productid="{{CurrentProduct.ProductId}}" data-operator="+" data-sku="{{CurrentSku.SkuId}}" data-opensku="false">
+            <view hidden="{{!CurrentSku || CurrentSku.CartQuantity<=0}}">{{CurrentSku.CartQuantity}}</view>
+          </view>
+          <view class="product-buy" hidden="{{!CurrentSku || CurrentSku.CartQuantity<=0}}">
+            <view class="l" catchtap="catchAddCart" data-productid="{{CurrentProduct.ProductId}}" data-operator="-" data-sku="{{CurrentSku.SkuId}}" data-opensku="false">
+              <text class="iconfont icon__minus_L font36"></text>
+            </view>
+            <text class="m">{{CurrentSku.CartQuantity}}</text>
+            <view class="r" catchtap="catchAddCart" data-productid="{{CurrentProduct.ProductId}}" data-operator="+" data-sku="{{CurrentSku.SkuId}}" data-opensku="false">
+              <text class="iconfont icon__plus_L font36"></text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!--弹出规格结束-->
+
+<view class="shop_box" hidden="{{TotalNum<=0}}">
+<navigator url="../shopcart/shopcart" open-type="switchTab">
+    <view class="shop_icon iconfont icon__cart font48"></view>
+    <text class="shop_num font28">{{TotalNum}}</text>
+    </navigator>
+</view>

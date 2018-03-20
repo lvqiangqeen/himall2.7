@@ -1,0 +1,67 @@
+﻿
+@model List<Himall.DTO.CustomerService>
+
+@{
+    Layout = null;
+    var count = Model != null ? Model.Count : 0;
+    var meiqia = Model.FirstOrDefault(e => e.Tool == Himall.Model.CustomerServiceInfo.ServiceTool.MeiQia);
+    string meiqiaentid = string.Empty;
+    if (meiqia!=null)
+    {
+        meiqiaentid = meiqia.AccountCode;
+    }
+}
+<!--_Aside start-->
+@if (count > 0)
+{
+    @helper MeiQiaCS(string entId)
+    {
+        <a class="qq_icon" onclick="commonJS.callMeiQiaCS(@entId)" title="美洽客服"><span class="line1"><img src="/images/meiqia_icon.png" /></span></a>
+}
+
+    <div class="service-online">
+        @if (count >1)
+        {
+            <div class="s-line" style="visibility:hidden">
+                @foreach (var item in Model)
+                {
+                    if (item.Tool == Himall.Model.CustomerServiceInfo.ServiceTool.QQ)
+                    {
+                        <a class="qq_icon" target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=@item.AccountCode&amp;site=qq&amp;menu=yes" title="@item.Name">
+                            <span class="line1" data-value=""><i></i></span>
+                        </a>}
+                    else if (item.Tool == Himall.Model.CustomerServiceInfo.ServiceTool.MeiQia)
+                    {
+                        @MeiQiaCS(item.AccountCode)
+                    }
+                }
+            </div>
+            <div class="line-btn" id="two-service">
+                <span class="lb-1"><i></i></span>
+            </div> }
+        else
+        {
+            if (count == 1)
+            {
+                foreach (var item in Model)
+                {
+                    if (item.Tool == Himall.Model.CustomerServiceInfo.ServiceTool.QQ)
+                    {
+                    <a class="qq_icon_one" target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=@item.AccountCode&amp;site=qq&amp;menu=yes" title="@item.Name">
+                        <div class="line-btn">
+                            <span class="lb-1"><i></i></span>
+                        </div>
+                    </a>    }
+                    else if (item.Tool == Himall.Model.CustomerServiceInfo.ServiceTool.MeiQia)
+                    {
+                    <a class="qq_icon_one" onclick="commonJS.callMeiQiaCS(@item.AccountCode)" title="美洽客服">
+                        <div class="line-btn">
+                            <span class="lb-1"><i></i></span>
+                        </div>
+                    </a>
+                    @*@MeiQiaCS(item.AccountCode)*@    }
+                }
+            }
+        }
+    </div>
+}

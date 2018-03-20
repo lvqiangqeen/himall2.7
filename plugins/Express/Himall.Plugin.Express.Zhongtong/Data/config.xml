@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ExpressInfo>
+  <Name>中通速递</Name>
+  <DisplayName>中通速递</DisplayName>
+  <BackGroundImage>2010111758806.jpg</BackGroundImage>
+  <Logo>logo.png</Logo>
+  <Width>2300</Width>
+  <Height>1270</Height>
+  <TaobaoCode>ZTO</TaobaoCode>
+  <Kuaidi100Code>zhongtong</Kuaidi100Code>
+  <KuaidiNiaoCode>ZTO</KuaidiNiaoCode>
+</ExpressInfo>

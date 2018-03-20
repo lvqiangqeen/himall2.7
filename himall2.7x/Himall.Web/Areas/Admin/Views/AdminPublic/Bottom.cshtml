@@ -1,0 +1,35 @@
+﻿
+@{
+    Layout = null;
+}
+<script src="~/Scripts/custom.js"></script>
+<script src="~/Scripts/jquery.cookie.js"></script>
+<script type="text/javascript">
+        ; (function () {
+            var arr = "@ViewBag.Rights".split(','),
+            obj = {};
+            if (arr[0] == 0) {
+                return;
+            }
+            ; (function (a, o) {
+                $.each(a, function (i, e) {
+                    o[e] = true;
+                });
+            }(arr, obj));
+            $('.id_menu').each(function (i, e) {
+                var num = $(e).children().length,
+                    uid = 0;
+                $(e).children().each(function (n, o) {
+                    var a = $(o).find('a').attr('id');
+                    if (!obj[a]) {
+                        $(o).remove();
+                        $('#_' + a).remove();
+                        uid += 1;
+                    }
+                    if (uid == num) {
+                        $(e).parent().remove();
+                    }
+                });
+            });
+        }());
+</script>

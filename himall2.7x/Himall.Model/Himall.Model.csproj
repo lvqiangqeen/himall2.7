@@ -1,0 +1,910 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E607D04D-3B11-409B-B832-E95BB4E9A84E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Himall.Model</RootNamespace>
+    <AssemblyName>Himall.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Himall.Web\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging">
+      <HintPath>..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core">
+      <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Himall.Core, Version=2.5.6300.24900, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Himall.Core\Himall.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz">
+      <HintPath>..\packages\Quartz.2.4.0\lib\net40\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="zxing, Version=1.0.4727.18517, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.2.1.1\lib\net20\zxing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountDetailInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AccountInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AccountMetaInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AccountPurchaseAgreementInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActiveProductInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActiveInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActiveMarketServiceInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AgentProductsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AgreementInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppBaseSafeSettingInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ApplyWithDrawInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppMessagesInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ArticleCategoryInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ArticleInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AttributeInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AttributeValueInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AutoReplyInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BannerInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BonusInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BonusReceiveInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BrandInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BrokerageIncomeInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BrokerageRefundInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BrowsingHistoryInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BusinessCategoriesApplyDetailInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BusinessCategoriesApplyInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BusinessCategoryInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CapitalDetailInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CapitalInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CashDepositDetailInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CashDepositInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CategoryCashDepositInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CategoryInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChargeDetailInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChargeDetailShopInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CollocationInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CollocationPoruductInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CollocationSkuInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CouponInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CouponRecordInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CouponSendByRegisterDetailedInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CouponSendByRegisterInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DeliveryScopeInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DistributionProductsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\FightGroupPrice.cs" />
+    <Compile Include="DTO\PrepareGoodsModel.cs" />
+    <Compile Include="DTO\TradeStatisticModel.cs" />
+    <Compile Include="DTO\ProductCategoryStatisticModel.cs" />
+    <Compile Include="DTO\ShopStatisticModel.cs" />
+    <Compile Include="DTO\ProductStatisticModel.cs" />
+    <Compile Include="Enum\PayType.cs" />
+    <Compile Include="FightGroupActiveInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FightGroupActiveItemInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FightGroupOrderInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FightGroupsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FreightAreaDetailInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FullDiscountRulesInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IntegralMallAdInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberActivityDegreeInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberBuyCategoryInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberCommissionInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberConsumeStatisticsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberGroupInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ActiveInfo.cs" />
+    <Compile Include="Models\ActiveMarketServiceInfo.cs" />
+    <Compile Include="CouponSettingInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerServiceInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DistributionShareSetting.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DistributionUserLinkInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DistributorSettingInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\AddShopHomeModuleModel.cs" />
+    <Compile Include="DTO\AppendCommentModel.cs" />
+    <Compile Include="DTO\ApplyWithDrawModel.cs" />
+    <Compile Include="DTO\BrokerageModel.cs" />
+    <Compile Include="DTO\BonusModel.cs" />
+    <Compile Include="DTO\CategoryRateModel.cs" />
+    <Compile Include="DTO\DistributionFeatModel.cs" />
+    <Compile Include="DTO\DistributionShopModel.cs" />
+    <Compile Include="DTO\DistributionUserPerformanceSetModel.cs" />
+    <Compile Include="DTO\OAuthUserModel.cs" />
+    <Compile Include="DTO\UserOrderCommentModel.cs" />
+    <Compile Include="DTO\ProductsDistributionModel.cs" />
+    <Compile Include="DTO\SearchProductModel.cs" />
+    <Compile Include="DTO\TypeAttributesModel.cs" />
+    <Compile Include="DTO\UserProformance.cs" />
+    <Compile Include="DTO\PromoterStatistics.cs" />
+    <Compile Include="DTO\ChargeDetailModel.cs" />
+    <Compile Include="DTO\CapitalModel.cs" />
+    <Compile Include="DTO\CapitalDetailModel.cs" />
+    <Compile Include="DTO\CollocationProducts.cs" />
+    <Compile Include="DTO\CollocationDataModel.cs" />
+    <Compile Include="DTO\FlashSaleConfigModel.cs" />
+    <Compile Include="DTO\FlashSaleDetailModel.cs" />
+    <Compile Include="DTO\FlashSaleModel.cs" />
+    <Compile Include="DTO\MemberAccountSafety.cs" />
+    <Compile Include="DTO\PaymentType.cs" />
+    <Compile Include="DTO\ProductSkuModel.cs" />
+    <Compile Include="DTO\CollocationModel.cs" />
+    <Compile Include="DTO\InviteRuleModel.cs" />
+    <Compile Include="DTO\GiftModel.cs" />
+    <Compile Include="DTO\GiftOrderModel.cs" />
+    <Compile Include="DTO\IPDataModel.cs" />
+    <Compile Include="DTO\ProformanceModel.cs" />
+    <Compile Include="DTO\PromoterModel.cs" />
+    <Compile Include="DTO\ShopBonusModel.cs" />
+    <Compile Include="DTO\UserInviteModel.cs" />
+    <Compile Include="DTO\ZTJLOrderModel.cs" />
+    <Compile Include="Enum\CommentStatus.cs" />
+    <Compile Include="FlashSaleRemindInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AreaMapExportModel.cs" />
+    <Compile Include="Models\BusinessCategoriesApplyDetailInfo.cs" />
+    <Compile Include="Models\BusinessCategoriesApplyInfo.cs" />
+    <Compile Include="Models\ComboDetail.cs" />
+    <Compile Include="Models\FightGroupActiveImgInfo.cs" />
+    <Compile Include="Models\GaodeGetAddressByLatLngResult.cs" />
+    <Compile Include="Models\IntegralMallAdInfo.cs" />
+    <Compile Include="Models\MemberBuyCategoryInfo.cs" />
+    <Compile Include="Models\FightGroupActiveItemInfo.cs" />
+    <Compile Include="Models\FlashSaleRedisInfo.cs" />
+    <Compile Include="Models\FightGroupsInfo.cs" />
+    <Compile Include="Models\FightGroupOrderInfo.cs" />
+    <Compile Include="Models\FightGroupActiveInfo.cs" />
+    <Compile Include="Models\FreightAreaContentInfo.cs" />
+    <Compile Include="Models\SkuInfo.cs" />
+    <Compile Include="Models\SalesExportModel.cs" />
+    <Compile Include="Models\ShopBranchInfo.cs" />
+    <Compile Include="Models\ShopRenewRecord.cs" />
+    <Compile Include="Models\StatisticsPendingSettlement.cs" />
+    <Compile Include="Models\VirtualOrderInfo.cs" />
+    <Compile Include="OrderExpressInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderRefundlogsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PendingSettlementOrdersInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlatAccountInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlatAccountItemInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlatVisitsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductCommentsImagesInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductRelationProductInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductWordsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReceivingAddressInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RefundReasonInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SearchProductsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SegmentWordsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SendmessagerecordCouponInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SendmessagerecordCouponSNInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SettledInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopAccountInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopAccountItemInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopBranchInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopBranchManagersInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopBranchSkusInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopFooterInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopHomeModulesTopImgInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopOpenApiSettingInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopRenewRecord.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopWithDrawInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ThemeInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WeiActivityAwardInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WeiActivityInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WeiActivityWinInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WeiXin\WXApplet_MsgTemplateLinkData.cs" />
+    <Compile Include="WeiXin\WX_MsgFightGroupNewJoinDataModel.cs" />
+    <Compile Include="WeiXin\WX_MsgTemplateRefundDataModel.cs" />
+    <Compile Include="WeiXin\WX_MsgTemplateKey6DataModel.cs" />
+    <Compile Include="WeiXin\WX_MsgTemplateKey5DataModel.cs" />
+    <Compile Include="WeiXin\WX_MsgTemplateKey4DataModel.cs" />
+    <Compile Include="WeiXin\WX_MsgTemplateKey3DataModel.cs" />
+    <Compile Include="WeiXin\WX_MsgTemplateKey2DataModel.cs" />
+    <Compile Include="WeiXin\WX_MsgTemplateKey1DataModel.cs" />
+    <Compile Include="WeiXin\WX_MsgTemplateLinkData.cs" />
+    <Compile Include="WeiXin\WX_MsgTemplateSendDataModel.cs" />
+    <Compile Include="Enum\CompanyEmployeeCount.cs" />
+    <Compile Include="Enum\MsgType.cs" />
+    <Compile Include="Enum\InvoiceType.cs" />
+    <Compile Include="Enum\MarketType.cs" />
+    <Compile Include="Enum\UserPrivileges.cs" />
+    <Compile Include="Enum\QR_Scene.cs" />
+    <Compile Include="Enum\SellerPrivileges.cs" />
+    <Compile Include="Enum\AdminPrivileges.cs" />
+    <Compile Include="Enum\SaleDimension.cs" />
+    <Compile Include="Enum\ShopDimension.cs" />
+    <Compile Include="Enum\Position.cs" />
+    <Compile Include="FavoriteInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FavoriteShopInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlashSaleConfigInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlashSaleDetailInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlashSaleInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FloorBrandInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FloorCategoryInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FloorProductInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FloorTablDetailsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FloorTablsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FloorTopicInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FreightAreaContentInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FreightTemplateInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GiftInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GiftOrderInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GiftOrderItemInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HandSlideAdInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HomeCategoryInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HomeCategoryRowInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HomeFloorInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ImageAdInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\IPaltManager.cs" />
+    <Compile Include="Interface\ISellerManager.cs" />
+    <Compile Include="Interface\IManager.cs" />
+    <Compile Include="InviteRecordInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InviteRuleInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvoiceContextInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvoiceTitleInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\LimitTimeBuySettingModel.cs" />
+    <Compile Include="LabelInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LimitTimeMarketInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\LineChartDataModel.cs" />
+    <Compile Include="Entities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Enum\OrderDimension.cs" />
+    <Compile Include="Enum\SpecificationType.cs" />
+    <Compile Include="IModel.cs" />
+    <Compile Include="LogInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ManagerInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\MapChartDataModel.cs" />
+    <Compile Include="MarketServiceRecordInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MarketSettingInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MarketSettingMetaInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberContactsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberGrade.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberIntegral.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberIntegralExchangeRules.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberIntegralRecord.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberIntegralRecordAction.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberIntegralRule.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberLabelInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberOpenIdInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberSignInInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MenuInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MessageLog.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MobileHomeProductsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MobileHomeTopicsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountDetailInfo.cs" />
+    <Compile Include="Models\AccountMetaModel.cs" />
+    <Compile Include="Models\BrokerageIncomeInfo.cs" />
+    <Compile Include="Models\FlashSaleInfo.cs" />
+    <Compile Include="Models\IBaseCoupon.cs" />
+    <Compile Include="Models\ChargeDetailInfo.cs" />
+    <Compile Include="Models\CashDepositsObligation.cs" />
+    <Compile Include="Models\ApplyWithDrawInfo.cs" />
+    <Compile Include="Models\BonusInfo.cs" />
+    <Compile Include="Models\CapitalDetailInfo.cs" />
+    <Compile Include="Models\CollocationInfo.cs" />
+    <Compile Include="Models\CouponInfo.cs" />
+    <Compile Include="Models\CouponRecordInfo.cs" />
+    <Compile Include="Models\GiftInfo.cs" />
+    <Compile Include="Models\GiftOrderInfo.cs" />
+    <Compile Include="Models\GiftOrderItemInfo.cs" />
+    <Compile Include="Models\LimitTimeMarketInfo.cs" />
+    <Compile Include="Models\MemberGrade.cs" />
+    <Compile Include="Models\MemberIntegralInfo.cs" />
+    <Compile Include="Models\MemberOpenIdInfo.cs" />
+    <Compile Include="Models\OrderCommentInfo.cs" />
+    <Compile Include="Models\OrderItemInfo.cs" />
+    <Compile Include="Models\ProductBrokerage.cs" />
+    <Compile Include="Models\ProductDescriptionInfo.cs" />
+    <Compile Include="DTO\SceneModel.cs" />
+    <Compile Include="Models\PromoterInfo.cs" />
+    <Compile Include="Models\ShopBonusInfo.cs" />
+    <Compile Include="Models\ShopBonusReceiveInfo.cs" />
+    <Compile Include="Models\StatisticOrderCommentsInfo.cs" />
+    <Compile Include="Models\FreightTemplateInfo.cs" />
+    <Compile Include="Models\AgreementInfo.cs" />
+    <Compile Include="Models\AttributeInfo.cs" />
+    <Compile Include="Models\BannerInfo.cs" />
+    <Compile Include="Models\BusinessCategoryInfo.cs" />
+    <Compile Include="Models\ExpressData.cs" />
+    <Compile Include="Models\FloorTopicInfo.cs" />
+    <Compile Include="Models\HandSlideAdInfo.cs" />
+    <Compile Include="Models\HomeCategoryRowInfo.cs" />
+    <Compile Include="Models\ImageAdInfo.cs" />
+    <Compile Include="Models\MemberContactsInfo.cs" />
+    <Compile Include="Models\MenuInfo.cs" />
+    <Compile Include="Models\ShippingAddressInfo.cs" />
+    <Compile Include="Models\ShopBrandApplysInfo.cs" />
+    <Compile Include="Models\ShopBrandsInfo.cs" />
+    <Compile Include="Models\ShoppingCartInfo.cs" />
+    <Compile Include="Models\SlideAdInfo.cs" />
+    <Compile Include="Models\TopicInfo.cs" />
+    <Compile Include="Models\UserMemberInfo.cs" />
+    <Compile Include="Models\VShopExtendInfo.cs" />
+    <Compile Include="Models\VShopInfo.cs" />
+    <Compile Include="Models\WXCardCodeLogInfo.cs" />
+    <Compile Include="Models\WXCardLogInfo.cs" />
+    <Compile Include="Models\SendMsgInfo.cs" />
+    <Compile Include="Models\WXMaterialInfo.cs" />
+    <Compile Include="Models\WXCategory.cs" />
+    <Compile Include="ModuleProductInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OpenIdsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderCommentInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderComplaintInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\OrderCreateModel.cs" />
+    <Compile Include="OrderInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderItemInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderOperationLogInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderPayInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderRefundInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\PlatConsoleMode.cs" />
+    <Compile Include="PaymentConfigInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PhotoSpaceCategoryInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PhotoSpaceInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Privileage\PrivilegeAttribute.cs" />
+    <Compile Include="Privileage\Privleages.cs" />
+    <Compile Include="ProductAttributeInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductBrokerageInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductCommentInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductConsultationInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductDescriptionInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductDescriptionTemplateInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\ProductEvaluation.cs" />
+    <Compile Include="ProductInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductShopCategoryInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductTypeInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductVistiInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PromoterInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RecruitPlanInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RecruitSettingInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoleInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RolePrivilegeInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\SellerConsoleModel.cs" />
+    <Compile Include="Models\HomeCategorySet.cs" />
+    <Compile Include="Models\ManagerInfo.cs" />
+    <Compile Include="Models\RegionMode.cs" />
+    <Compile Include="Models\ShopInfo.cs" />
+    <Compile Include="Models\ProductDescriptionTemplateInfo.cs" />
+    <Compile Include="Models\OrderInfo.cs" />
+    <Compile Include="Models\OrderRefundInfo.cs" />
+    <Compile Include="Models\OrderComplaintInfo.cs" />
+    <Compile Include="Models\CustomerServiceInfo.cs" />
+    <Compile Include="Models\AccountInfo.cs" />
+    <Compile Include="Models\BrandInfo.cs" />
+    <Compile Include="Models\ProductTypeInfo.cs" />
+    <Compile Include="Models\SiteSettingInfo.cs" />
+    <Compile Include="DTO\PageModel.cs" />
+    <Compile Include="Models\ProductInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SellerSpecificationValueInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SendMessageRecordInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SensitiveWordsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShippingAddressInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopBonusGrantInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopBonusInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopBonusReceiveInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopBrandApplysInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopBrandsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopCategoryInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopDistributorSettingInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopGradeInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopHomeModuleInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopHomeModuleProductInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShoppingCartItemInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShopVistiInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SiteSettingsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SiteSignInConfigInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SKUInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SlideAdInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpecificationValueInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StatisticOrderCommentsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateVisualizationSettingsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TopicInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TopicModuleInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TypeBrandInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\UserCenterModel.cs" />
+    <Compile Include="DTO\UserCouponInfo.cs" />
+    <Compile Include="DTO\UserIntegralGroupModel.cs" />
+    <Compile Include="UserMemberInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VShopExtendInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VShopInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WeiXinBasicInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WeiXinMsgTemplateInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WeiXin\WX_MSGGetCouponModel.cs" />
+    <Compile Include="WeiXin\WX_MSGItemBaseModel.cs" />
+    <Compile Include="WXAccTokenInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WXAppletFormDatasInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WXCardCodeLogInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WXCardLogInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WXShopInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WXSmallChoiceProductsInfo.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Entities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Entities.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Himall.CommonModel\Himall.CommonModel.csproj">
+      <Project>{9378bfdf-a45e-416a-afba-5abc792f2613}</Project>
+      <Name>Himall.CommonModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。启用“NuGet 程序包还原”可下载这些程序包。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

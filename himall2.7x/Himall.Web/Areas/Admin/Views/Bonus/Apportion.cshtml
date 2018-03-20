@@ -1,0 +1,39 @@
+﻿@model Himall.Web.Areas.Admin.Models.Market.BonusModel
+
+
+<div class="container clear-k">
+    <ul class="breadcrumb clearfix">
+        <li><a href="/Admin/Bonus/Management">管理</a></li>
+        <li class="active"><a>发放微信现金红包</a></li>
+    </ul>
+
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">总面额：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor( p => p.TotalPrice , new { @disabled = "true" , @class = "form-control input-sm" } )
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">已领取面额：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor( p => p.ReceivePrice , new { @disabled = "true" , @class = "form-control input-sm" } )
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">领取链接：</label>
+            <div class="col-sm-3">
+                <input class="form-control input-sm lw" type="text" value="@Model.ReceiveHref"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">微信领取二维码：</label>
+            <div class="col-sm-3">
+                <img class="clear-k1" src="@Model.QRPath"/>
+            </div>
+        </div> 
+    </form>
+</div> 

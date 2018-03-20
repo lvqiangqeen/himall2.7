@@ -1,0 +1,49 @@
+﻿@model List<Himall.DTO.ShopWithDrawItem>
+@{
+	Layout = null;
+}
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+	<thead>
+		<tr>
+			<th> 退款ID</th>
+			<th> 处理时间</th>
+			<th> 申请时间</th>
+			<th> 提现商家用户ID</th>
+			<th> 提现商家用户名</th>
+			<th> 提现金额</th>
+			<th> 提现方式</th>
+			<th> 提现帐户</th>
+			<th> 提现人</th>
+			<th> 提现店铺Id</th>
+			<th> 提现店铺名称</th>
+			<th> 状态</th>
+			<th> 提现状态</th>
+			<th> 提现流水号</th>
+			<th> 提现商家备注</th>
+			<th> 提现平台备注</th>
+		</tr>
+	</thead>
+	<tbody id="list-table-body">
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td style='vnd.ms-excel.numberformat:@Html.Raw("@")'>@item.Id</td>
+				<td>@item.DealTime</td>
+				<td>@item.ApplyTime</td>
+				<td>@item.SellerId</td>
+				<td>@item.SellerName</td>
+				<td>@item.CashAmount</td>
+				<td>@item.CashType</td>
+				<td>@item.Account</td>
+				<td>@item.AccountName</td>
+				<td>@item.ShopId</td>
+				<td>@item.ShopName</td>
+				<td>@item.WithStatus</td>
+				<td>@item.Status</td>
+				<td>@item.AccountNo</td>
+				<td>@item.ShopRemark</td>
+				<td>@item.PlatRemark</td>
+			</tr>
+		}
+	</tbody>
+</table>

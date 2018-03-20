@@ -1,0 +1,36 @@
+﻿@using Himall.Web.Areas.SellerAdmin.Models
+@using Himall.Model
+@model ArticleInfo
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<div class="w help cl">
+    <div class="m breadcrumb"><strong><a href="" target="_self">@ViewBag.FirstPath</a></strong>&gt;<a href="" target="_self">@ViewBag.SecondPath</a></div>
+
+    <div class="left">
+        <div class="help_side">
+            @foreach (var cate in ((List<CategoryJsonModel>)ViewBag.Cate))
+            {
+                <div class="current">
+                    <h4><a href="@Url.Action("Category", "Article", new { id=cate.Id})" target="_self">@cate.Name</a></h4>
+                    <ul>
+                        @foreach (var item in cate.SubCategory)
+                        {
+                            <li class="@(ViewBag.ArticleCateId.ToString() == item.Id ? "current" : "")"><b></b><a href="@Url.Action("Category", "Article", new { id=item.Id})" target="_self">@item.Name</a></li>
+                        }
+                    </ul>
+                </div>
+            }
+
+        </div>
+    </div>
+    <div class="right">
+        <h3 class="help_tit"><strong>@Model.Title</strong></h3>
+        <div class="help_box help_line">
+           @MvcHtmlString.Create(Model.Content)
+        </div>
+    </div>
+    <div class="clr"></div>
+
+</div>

@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "分销市场首页";
+    string skey = ViewBag.SearchKey;
+}
+<script type="text/javascript">
+    isShopPage = true;
+</script>
+
+<div class="container yun-Market" style="background-color: #fff;padding:0!important">
+    @Html.Action("SearchBox", new { skey = skey, stype = 1 })
+    <!--店铺搜索页面-->
+    <div class="shop-result">
+        <div class="Mar-nav">
+            <ul>
+                <li class="active">排序</li>
+                <li class="datasort on" data-sort="1">销量</li>
+                <li class="datasort" data-sort="2">商品数</li>
+            </ul>
+        </div>
+        <div class="hotshop-wrap">
+            <ul class="shop-datafx" id="databox"></ul>
+        </div>
+    </div>  <!--店铺搜索页面结束-->
+    <div id="autoLoad" class="loading"></div>
+</div>
+
+<script src="~/Content/Public/js/dist/underscore.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/loading.js"></script>
+
+<script id="shoptmp" type="text/template">
+    <%_.each(datas, function(item) {%>
+    <li class="shop-frame">
+        <a href="@Url.Action("ShopDetail")/<%=item.ShopId%>"><span style="font-weight: 600;width:60%;overflow:hidden;height:18px;"><%=item.ShopName%></span><span style="float:right">推广商品数：<i><%=item.ProductCount%></i></span></a>
+        <ul>
+            <%_.each(item.ProductList, function(sumitem) {%>
+            <li class="shop-pro"><img src="<%=sumitem.Image%>"><br><p>佣金<em><%=sumitem.Commission%>元</em></p></li>
+            <%});%>
+        </ul>
+    </li>
+    <%});%>
+</script>
+
+<script type="text/javascript">
+    var skey = "@(skey)";
+</script>
+
+<script src="~/Areas/Mobile/Templates/Default/Scripts/DistributionMarketHotShop.js"></script>

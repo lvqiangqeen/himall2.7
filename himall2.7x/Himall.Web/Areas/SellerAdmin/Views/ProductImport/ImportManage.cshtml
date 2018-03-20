@@ -1,0 +1,124 @@
+﻿@model Himall.Model.ProductInfo
+
+@using System.Linq
+@{
+    ViewBag.Title = "ProductImport";
+}
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+
+
+<iframe name="iframeUpload" src="" width="350" height="35" frameborder="0"  scrolling="no" style="display:none" id="iframe"></iframe>
+<form></form>
+
+<div class="ajax-loading" style="display:none">
+    <table height="100%" width="100%">
+        <tr>
+            <td align="center">
+                <p></p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="container Sclear-F">
+    <input type="hidden" id="inputFileName" value="" />
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>商品数据导入</a></li>
+    </ul>
+    <div class="form-horizontal">
+		<div class="form-group">
+			<label class="col-sm-2 control-label">类目：</label>
+			<div class="col-sm-5">
+				<select id="category1" class="form-control input-sm select-sort">
+                    <option>分类</option>
+                </select>
+                <select id="category2" class="form-control input-sm select-sort">
+                    <option>分类</option>
+                </select>
+                <select id="category3" class="form-control input-sm select-sort">
+                    <option>分类</option>
+                </select>
+			</div>
+			<div class="col-sm-3"><span class="help-default">请选择商品所属的经营类目</span></div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">商品分类：</label>
+			<div class="col-sm-5">
+				<select id="sellercategory1" class="form-control input-sm select-sort">
+                    <option>分类</option>
+                </select>
+                <select id="sellercategory2" class="form-control input-sm select-sort">
+                    <option>分类</option>
+                </select>
+			</div>
+			<div class="col-sm-3"><span class="help-default">请选择商品所在的店铺分类</span></div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">品牌：</label>
+			<div class="col-sm-5">
+				<select id="selectBrand" class="form-control input-sm select-sort">
+                    <option>品牌</option>
+                </select>
+			</div>
+		</div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">运费：</label>
+            <div class="col-sm-3">
+                @Html.DropDownList("freightTemp", (IEnumerable<SelectListItem>)ViewBag.FreightTemplates, new
+                {
+                    @class = "form-control input-sm",
+                    id = "freightTemplate"
+                })
+            </div>
+            <div class="col-sm-4"><input type="button" value="新增运费模板" id="btnAddTemplate" style="height:30px;"/> </div>
+        </div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label">商品状态：</label>
+			<div class="col-sm-6 form-control-static">
+				<input name="paraSaleStatus" status="1" type="radio" id="paraSaleStatus1"><label for="paraSaleStatus1" style="margin-right:20px;"> 出售</label>
+				<input name="paraSaleStatus" status="3" type="radio" id="paraSaleStatus3"><label for="paraSaleStatus3"> 仓库</label>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="">数据包：</label>
+			<div class="col-sm-3 form-control-static">
+				<form id="formUpload" action="/common/PublicOperation/UploadFile" enctype="multipart/form-data" method="post" target="iframeUpload">
+					<div class="divFile">
+						<input type="text" id="inputFile" value="请选择文件" disabled="disabled" />
+						<input type="button" value="选择文件" />
+						<input type="file" id="btnFile" class="inputFile" name="_file" />
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" class="btn btn-primary" id="btnUpload" value="导 入" />
+            </div>
+        </div>
+		
+		<div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="divAttention">
+					<h5 style="color:red;">注意事项：</h5>
+					<p>1、支持淘宝助理<span style="color:red;"> 5.6、5.7</span>导出的数据包</p>
+					<p style="color:red;">2、淘宝或商品助理导出的文件，把CSV文件和图片文件夹都命名为products然后选中两个打成zip的压缩包 </p>
+					<p>3、单个文件大小不能超过<span style="color:red;">15M</span></p>
+				</div>
+            </div>
+        </div>
+		
+	</div>
+        
+</div>
+<iframe id="iframeImport" style="display:none;"></iframe>
+<input id="inputCount" type="hidden" value="@ViewBag.Count" />
+<input id="inputTotal" type="hidden" value="@ViewBag.Total" />
+<input id="inputSuccess" type="hidden" value="@ViewBag.Success" />
+<input id="inputShopid" type="hidden" value="@ViewBag.shopid" />
+<input id="inputUserid" type="hidden" value="@ViewBag.userid" />
+<script src="~/Areas/SellerAdmin/Scripts/ProductImport.js"></script>
+

@@ -1,0 +1,120 @@
+﻿@model Himall.Web.Models.BrandModel
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#uploadImg").himallUpload(
+      {
+		  imageDescript: '建议上传100px * 50px的图片',
+          displayImgSrc: "@Himall.Core.HimallIO.GetImagePath(Model.BrandLogo)",
+          imgFieldName: "BrandLogo"
+      });  
+    });
+</script>
+<div class="container">
+    <ul class="breadcrumb clearfix">
+        <li><a>品牌列表</a></li>
+        <li><a>编辑品牌</a></li>
+    </ul>
+    @using (Html.BeginForm("Edit", "Brand", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <div class="form-group">
+            <input type="hidden"id="brandId" value="@Model.ID"/>
+            <input type="hidden" id="NameBrand" value="@Model.BrandName" />
+            <label for="" class="col-sm-2 control-label">名称：</label>
+            <div class="col-sm-3">
+                @Html.EditorFor(item => item.BrandName, new { htmlAttributes = new { @class = "form-control input-sm" } })
+            </div>
+            <div class="col-sm-3">@Html.ValidationMessageFor(item => item.BrandName, "", new { @class = "help-default cor-red" })</div>
+        </div>
+
+        <div class="form-group upload-img" id="uploadImg">
+            <div class="col-sm-3">@Html.ValidationMessageFor(item => item.BrandLogo, "", new { @class = "help-default cor-red" })</div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">品牌简介：</label>
+            <div class="col-sm-5">
+                @Html.TextAreaFor(item => item.BrandDesc, 4, 50, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-3">@Html.ValidationMessageFor(item => item.BrandDesc, "", new { @class = "help-default cor-red" })</div>
+        </div>
+        @*<div class="form-group">
+            <label for="" class="col-sm-2 control-label">是否推荐：</label>
+            <div class="col-sm-3">
+                <label>   @Html.CheckBoxFor(item => item.IsRecommend)是</label>
+            </div>
+        </div>*@
+        @*<div class="form-group">
+            <label for="" class="col-sm-2 control-label">name：</label>
+            <div class="col-sm-3">
+                @Html.EditorFor(item => item.BrandEnName, new { htmlAttributes = new { @class = "form-control input-sm" } })
+            </div>
+            <div class="col-sm-5"><span class="help-default">请填写品牌的英文名或拼音</span></div>
+        </div>*@
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">title：</label>
+            <div class="col-sm-3">
+                @Html.EditorFor(item => item.MetaTitle, new { htmlAttributes = new { @class = "form-control input-sm" } })
+            </div>
+            <div class="col-sm-3">@Html.ValidationMessageFor(item => item.MetaTitle, "", new { @class = "help-default cor-red" })</div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">keywords：</label>
+            <div class="col-sm-3">
+                @Html.EditorFor(item => item.MetaKeyWord, new { htmlAttributes = new { @class = "form-control input-sm" } })
+            </div>
+            <div class="col-sm-3">@Html.ValidationMessageFor(item => item.MetaKeyWord, "", new { @class = "help-default cor-red" })</div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">description：</label>
+            <div class="col-sm-3">
+                @Html.EditorFor(item => item.MetaDescription, new { htmlAttributes = new { @class = "form-control input-sm" } })
+            </div>
+            <div class="col-sm-3">@Html.ValidationMessageFor(item => item.MetaDescription, "", new { @class = "help-default cor-red" })</div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" class="btn btn-primary" id="subBrand" onclick="return Check()" value="保 存" />
+            </div>
+        </div>
+    }
+    <script type="text/javascript">
+    $(function(){
+ 	   $("#BrandName").focus();
+	});
+    function Check() {
+        var flag = true;
+        var img = $("input[name='BrandLogo']").val();
+        if (img == "") {
+            $.dialog.tips("请上传一张品牌图片！");
+            flag= false;
+        }
+        if (flag) {
+            var oldName = $.trim($("#NameBrand").val());
+            var newName = $.trim($("#BrandName").val());
+            if (oldName != newName) {
+                $.ajax({
+                    type: 'post',
+                    url: "/Admin/Brand/IsExist",
+                    data: { name: newName },
+                    async: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.success == true) {
+                            $.dialog.tips("该品牌已存在，品牌不能重复！");
+                            flag = false;
+                        } else {
+                            flag = true;
+                        }
+                    }
+                });
+            }
+            //showLoading();
+
+        }
+        return flag;
+    }
+    </script>
+
+</div>

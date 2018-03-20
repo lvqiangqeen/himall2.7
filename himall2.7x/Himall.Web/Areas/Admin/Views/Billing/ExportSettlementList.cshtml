@@ -1,0 +1,31 @@
+﻿@model List<Himall.DTO.ShopAccountItem>
+@{
+	Layout = null;
+}
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+	<thead>
+		<tr>
+			<th>商家名称</th>
+			<th>
+				结算金额
+			</th>
+			<th>
+				结算时间
+			</th>
+			<th>
+				结算周期
+			</th>
+		</tr>
+	</thead>
+	<tbody id="list-table-body">
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>@item.ShopName</td>
+				<td>@item.Amount.ToString("F2")</td>
+				<td>@item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+				<td>@string.Format("{0:yyyy-MM-dd HH:mm:ss}-{1:yyyy-MM-dd HH:mm:ss}", item.CreateTime.AddDays(-item.SettlementCycle), item.CreateTime)</td>
+			</tr>
+		}
+	</tbody>
+</table>

@@ -1,0 +1,54 @@
+﻿@{
+    Layout = "~/Areas/SellerAdmin/Views/Shared/_SellerAdminRegLayout.cshtml";
+}
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>审核状态</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/inner-custom.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/artdialog.css">
+    <script type="text/javascript" src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Areas/Web/Scripts/inner-custom.js"></script>
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="~/Scripts/jquery.nicescroll.min.js"></script>
+</head>
+<body>
+    <style>
+        ul.choose-step li {
+            width: 25%;
+        }
+    </style>
+<div class="container pt0">
+    <ul class="choose-step step2">
+        <li style="background:none;">
+            基本信息
+            <span class="border"></span>
+            <span class="border-n Sclear-P34"></span>
+        </li>
+        <li style="background:none;">
+            账户信息
+            <span class="border"></span>
+            <span class="border-n"></span>
+        </li>
+        <li style ="background:none;">
+            店铺信息
+            <span class="border"></span>
+            <span class="border-n"></span>
+            </li>
+        <li class="active">审核状态</li>
+</ul>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <p class="apply-primary"><span class="glyphicon glyphicon-info-sign"></span>@ViewBag.Text</p>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

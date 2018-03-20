@@ -1,0 +1,33 @@
+﻿html,body{min-height: 100%;}
+.container{max-width: 640px;min-height: 100%; padding: 0;}
+header{margin-bottom: 10px;}
+header ul li{float: left;width: 50%;height: 35px;line-height: 35px;text-align: center;border-bottom: 1px solid #EAEAEA;background-color: #F5F5F5;}
+header ul li a{color: #000;}
+header ul li.active{border-bottom: 2px solid #E0001B;}
+header ul li.active a{color: #DF001B;}
+.search{position: relative;  padding: 0 10px;}
+.search input{width: 100%;background-color: #F8F8F8;border:none;height: 35px;line-height: 35px;padding-left: 5px;}
+.search .glyphicon{position: absolute;right: 20px;top: 10px;font-size: 16px;color: #777A7B;}
+.shoplist{margin-bottom:10px;}
+.shoplist ul li{position: relative;background-color: #F8F8F8;padding: 15px 0;border-bottom: 2px solid #EFF2F3;}
+.shoplist ul li .shopimg{position: absolute;width: 80px;height: 80px;  left: 35px;}
+.shoplist ul li .shopimg img{width: 100%;}
+.shoplist ul li .shopinfo{position: relative; height: 80px; margin-left: 130px;font-size: 12px;}
+.shoplist ul li .shopinfo p.intro{line-height: 15px;margin-bottom: 5px;color: #3D3C40;}
+.shoplist ul li .shopinfo p.Price{font: 14px/150% Arial,Verdana,"\5b8b\4f53";color: #E0001A;}
+.shoplist ul li .shopinfo p.saleshare{position: absolute;left: 0;bottom: 0;width: 100%;}
+.saleshare .sale{float: left;color: #8F8F8F;}
+.saleshare .share{float: right;display: block; height: 18px;line-height: 18px; margin-right: 10px;color: #373737;padding-left: 30px;background: url(../images/iconfont-fenxiang.png) no-repeat 8px 1px;text-decoration: none;border-left: 1px solid #E7E7E7;}
+.shoplist ul li .checkbox{position: absolute;width: 16px;height: 16px;border:1px solid #9EA3B2;left: 10px;top: 50%;margin-top: -8px;border-radius: 50%;}
+.shoplist ul li .checkbox span,.shelvesshop .selectall a em{position: absolute;display:none; width:8px;height: 8px; left: 50%;margin-left: -4px;top: 50%;margin-top: -4px;background-color: #D1172C;border-radius: 50%;}
+.shoplist ul li .checkbox.select span{display:block;}
+.shelvesshop{background-color: #fff;padding: 10px 0; position: relative;}
+.shelvesshop .selectall{float: left;margin-left: 10px;margin-top: 5px;font-size: 14px;}
+.shelvesshop .selectall a{display:inline-block;position: relative;top: 1px; width: 16px;height: 16px;border:1px solid #9EA3B2;border-radius: 50%;float: left;margin-right: 10px;}
+.shelvesshop .selectall.select a em{display: block;}
+.shelvesshop .shelvesshopbtn{float: right;}
+.shelvesshop .shelvesshopbtn a{float: left;display: block; padding: 5px;background-color: #E0001B;color: #fff;}
+.shelvesshop .shelvesshopbtn a:first-child{margin-right: 2px;}
+.occupying{height: 47px;}
+.loadingmore{text-align: center;}
+.loadingmore a{display: inline-block;padding: 2px 5px;color: #666;border-radius: 2px;}

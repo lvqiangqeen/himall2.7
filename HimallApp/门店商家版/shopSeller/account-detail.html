@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>结算明细</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">结算明细</h1>
+		</header>
+		<div class="mui-content account-detail">
+			<div class="outer-content" id="infoDetail">
+				
+			</div>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js" ></script>
+		<script>
+			mui.init({
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				var ws=plus.webview.currentWebview(),
+				    info  = ws.infos,
+				    data = JSON.parse(info);
+			    template.helper("format", function(a){  
+			    	a = a?parseFloat(a):0;
+		            return a.toFixed(2);
+		        });
+				document.getElementById('infoDetail').innerHTML = template('initData', data);
+			});
+		</script>
+		<script type="text/html" id="initData">
+			<h5>结算金额</h5>
+			<h3>{{format(SettlementAmount)}}</h3>
+			<div class="line">
+				<label>订单号</label>
+				<span>{{strOrderId}}</span>
+			</div>
+			<div class="line">
+				<label>订单完成时间</label>
+				<span>{{OrderFinshTime}}</span>
+			</div>
+			<div class="line">
+				<label>订单实付金额</label>
+				<span>{{format(OrderAmount)}}</span>
+			</div>
+			<div class="line">
+				<label>运费</label>
+				<span>{{format(FreightAmount)}}</span>
+			</div>
+			<div class="line">
+				<label>平台佣金</label>
+				<span>- {{format(PlatCommission)}}</span>
+			</div>
+			<div class="line">
+				<label>分销佣金</label>
+				<span>- {{format(DistributorCommission)}}</span>
+			</div>
+			<div class="line">
+				<label>退款金额</label>
+				<span>- {{format(RefundAmount)}}</span>
+			</div>
+			<div class="line">
+				<label>平台佣金退还</label>
+				<span>{{format(PlatCommissionReturn)}}</span>
+			</div>
+			<div class="line">
+				<label>分销佣金退还</label>
+				<span>{{format(DistributorCommissionReturn)}}</span>
+			</div>
+		</script>
+	</body>
+
+</html>

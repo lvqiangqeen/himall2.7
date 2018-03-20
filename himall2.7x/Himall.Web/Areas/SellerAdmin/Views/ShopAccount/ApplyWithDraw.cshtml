@@ -1,0 +1,105 @@
+﻿@model Himall.DTO.ShopProfileStep2
+@{
+    ViewBag.Title = "店铺提现";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<div class="container Sclear-K">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>店铺提现</a></li>
+    </ul>
+    <form class="form-horizontal" id="from_Save" role="form">
+        <div class="form-horizontal mt0">
+            <div class="form-group">
+                <label class="col-sm-2 clear-d control-label" for="">提现金额：</label>
+                <div class="col-sm-10 clear-d form-inline">
+                    <input class="form-control input-sm" id="balance" type="text" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 clear-d control-label" for="">验证码：</label>
+                <div class="col-sm-10 clear-d form-inline">
+                    <input class="form-control input-sm" id="code" type="text" />
+                    <input type="button" class="btn" value="获取验证码" id="sendCodesa" />
+                    @if (ViewBag.MemberPhone == "")
+                    {
+                        <span style="display:none;" class="sendSp">验证码已发至您绑定的邮箱 @ViewBag.MemberEmail </span>
+                        <input type="hidden" id="pluginId" value="Himall.Plugin.Message.Email" />
+                        <input type="hidden" id="destination" value="@ViewBag.MemberEmail">
+                    }
+                    else if (ViewBag.MemberPhone != "")
+                    {
+                        <span style="display:none;" class="sendSp">短信验证将发送至商户绑定的手机 @ViewBag.MemberPhone &nbsp;</span>
+                        <input type="hidden" id="pluginId" value="Himall.Plugin.Message.SMS" />
+                        <input type="hidden" id="destination" value="@ViewBag.MemberPhone">
+                    }
+                    else
+                    {
+                        <span style="display:none;" class="sendSp">没有验证手机或邮箱，无法申请提现</span>
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 clear-b control-label" for=""> 提现方式：</label>
+                <div class="col-sm-10 clear-b">
+                    <input type="radio" class="check-services" name="CashType" id="CashType1" checked="checked" /> 银行账户 &nbsp;
+                    @if (Model.WeiXinOpenId.Equals(""))
+                    {
+                        <input type="radio" class="check-services" name="CashType" id="CashType2" disabled="disabled" /><span>
+                            微信账户&nbsp;
+                            您还未绑定微信账户，<a href="javascript:;" class="weixinBindBtn">现在去绑定</a>
+                        </span>
+                    }
+                    else
+                    {
+                        <input type="radio" class="check-services" name="CashType" id="CashType2" /><span>微信账户</span>
+                    }
+                </div>
+            </div>
+            <div class="dbank">
+                <div class="form-group">
+                    <label class="col-sm-2 clear-b control-label" for="">银行：</label>
+                    <div class="col-sm-10 clear-b form-inline">
+                        @Model.BankName
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 clear-b control-label" for="">银行开户名：</label>
+                    <div class="col-sm-10 clear-b form-inline">
+                        @Model.BankAccountName
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 clear-b control-label" for="">开户支行完整名：</label>
+                    <div class="col-sm-10 clear-b form-inline">
+                        @Model.BankName
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 clear-b control-label" for="">银行账户：</label>
+                    <div class="col-sm-10 clear-b form-inline">
+                        @Model.BankAccountNumber
+                    </div>
+                </div>
+            </div>
+            <div class="dWei" style="display:none;">
+                <div class="form-group">
+                    <label class="col-sm-2 clear-b control-label" for="">账户姓名：</label>
+                    <div class="col-sm-10 clear-b form-inline">
+                        @Model.WeiXinTrueName
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="Sclear-K3">
+            <div class="col-sm-offset-2 col-sm-10">
+                <a class="btn btn-primary" id="btn_Apply" data-flag="true" href="javascript:;">提 交</a>
+            </div>
+        </div>
+    </form>
+</div>
+    <!--微信-->
+    @{Html.RenderAction("Weixin", "AccountSettings");}
+
+
+<script src="~/Areas/SellerAdmin/Scripts/UserAccountApplyWithDraw.js"></script>

@@ -1,0 +1,21 @@
+﻿@model Himall.Model.UserMemberInfo
+@{
+    ViewBag.Title = "账号管理";
+}
+
+<div class="container">
+    
+    <div class="list-grouppp">
+        <a href="../Order/ChooseShippingAddress">
+            <b class="icon09"></b><div class="list">收货地址管理</div>
+            <span class="glyphicon glyphicon-menu-right"></span>
+        </a>
+    </div>
+    <div class="list-grouppp">
+        <a href="AccountSecure">
+            <b class="icon09"></b><div class="list">帐户安全</div>
+            <span class="glyphicon glyphicon-menu-right"></span>
+        </a>
+    </div>
+    @{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_4ButtonsFoot.cshtml");}
+</div>

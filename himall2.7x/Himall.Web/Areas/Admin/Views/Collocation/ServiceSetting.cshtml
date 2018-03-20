@@ -1,0 +1,33 @@
+﻿@model Himall.Model.MarketSettingInfo
+@{
+    ViewBag.Title = "组合购设置";
+}
+
+<script src="~/Scripts/v.js"></script>
+<script src="~/Areas/Admin/Scripts/CollocationServiceSetting.js"></script>
+<div class="container clear-v52">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="./Management">服务购买列表</a></li>
+        <li class="active"><a href="./ServiceSetting">服务费用设置</a></li>
+       
+    </ul>
+    @using (Html.BeginForm("SaveServiceSetting", "Collocation", FormMethod.Post, new { id = "form1" }))
+    {
+		
+		<div class="form-horizontal clear-v28">
+            <div class="form-group v-server-mb30">
+                <label class="col-sm-2 control-label" for="">服务价格：</label>
+                 <div class="col-sm-3 v-server-error">@Html.EditorFor(item => item.Price, new { htmlAttributes = new { @class = "form-control input-sm" } })</div>
+                 <div class="col-sm-5"><span class="help-default">设置组合购服务的价格（按照每月计算）.</span></div>
+            </div>
+            <div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary">保存</button>
+				</div>
+			</div>
+        </div>
+    }
+</div>
+
+
+

@@ -1,0 +1,307 @@
+﻿@model Himall.Web.Areas.SellerAdmin.Models.ShopBonusModel
+           @{
+               string WXColorValue = "";
+               if( Model.CardColor != null )
+               {
+                   WXColorValue = Himall.Model.WXCardLogInfo.WXCardColors[ Model.CardColor ].ToString();
+               }
+           }
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<style>
+    input[type="radio"] {
+        margin-top: 9px;
+    }
+
+    .w50 {
+        width: 50px;
+    }
+</style>
+
+<div class="container">
+    <ul class="breadcrumb clearfix">
+
+        <li><a href="/SellerAdmin/ShopBonus/Management">代金红包管理</a></li>
+        <li class="active"><a>编辑代金红包</a></li>
+    </ul>
+
+    @using( Html.BeginForm( "EditData" , "ShopBonus" , new { Area = "SellerAdmin" } , FormMethod.Post , new { id = "BonusForm" , @class = "form-horizontal" } ) )
+    {
+        @Html.HiddenFor( p => p.Id );
+        
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">活动名称：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor( p => p.Name , new { @class = "form-control input-sm" , @maxlength = "20" } )
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">红包个数：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(p => p.Count, new { @class = "form-control input-sm", @readonly = "true" })
+            </div>
+            <div class="col-sm-6">
+                <p class="help-default">1-1000,会员获得红包并分享出去后可被领取到的总个数</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">随机范围：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor( p => p.RandomAmountStart , new { @class = "w50" , @onkeypress = "return (/[\\d.]/.test(String.fromCharCode(event.which?event.which:window.event.keyCode)))" , @disabled = "true" } ) 至
+                @Html.TextBoxFor( p => p.RandomAmountEnd , new { @class = "w50" , @onkeypress = "return (/[\\d.]/.test(String.fromCharCode(event.which?event.which:window.event.keyCode)))" , @disabled = "true" } ) 元
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">使用条件：</label>
+            <div class="col-sm-3">
+                @if( Model.UseState == Himall.Model.ShopBonusInfo.UseStateType.None )
+                {
+                    @Html.RadioButtonFor( p => p.UseState , ( int )Himall.Model.BonusInfo.BonusType.Activity , new { @name = "UseState" , @id = "rdi1" , @disabled = "true" } )
+                    <label for="rdi1">满</label>
+                    @Html.TextBoxFor( p => p.UsrStatePrice , new { @class = "w50" , @onkeypress = "return (/[\\d.]/.test(String.fromCharCode(event.which?event.which:window.event.keyCode)))" , @disabled = "true" } ) <br />
+                    @Html.RadioButtonFor( p => p.UseState , ( int )Himall.Model.BonusInfo.BonusType.Attention , new { @name = "UseState" , @id = "rdi2" , @disabled = "true" , @Checked = "checked" } )
+                    <label for="rdi1">无限制</label>
+                }
+                else
+                { 
+                    
+                    @Html.RadioButtonFor( p => p.UseState , ( int )Himall.Model.BonusInfo.BonusType.Activity , new { @name = "UseState" , @id = "rdi1" , @disabled = "true" , @Checked = "checked" } )
+                    <label for="rdi1">满</label>
+                    @Html.TextBoxFor( p => p.UsrStatePrice , new { @class = "w50" , @onkeypress = "return (/[\\d.]/.test(String.fromCharCode(event.which?event.which:window.event.keyCode)))" , @disabled = "true" } ) <br />
+                    @Html.RadioButtonFor( p => p.UseState , ( int )Himall.Model.BonusInfo.BonusType.Attention , new { @name = "UseState" , @id = "rdi2" , @disabled = "true" } )
+                    <label for="rdi1">无限制</label>
+                }
+                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">发放方式：</label>
+            <div class="col-sm-3">
+                <label for="rdi1">购物满</label>
+                @Html.TextBoxFor( p => p.GrantPrice , new { @class = "w50" , @onkeypress = "return (/[\\d.]/.test(String.fromCharCode(event.which?event.which:window.event.keyCode)))" } ) 元
+            </div>
+            <div class="col-sm-6">
+                <p class="help-default">订单实付金额达到设定的值可获得，0元代表任何付完款的订单均可获得红包</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">活动开始时间：</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control input-sm end_datetime" name="DateStart" id="DateStart" value="@Model.DateStartStr" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">活动截止时间：</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control input-sm end_datetime" name="DateEnd" id="DateEnd" value="@Model.DateEndStr" />
+            </div>
+            <div class="col-sm-5">
+                <p class="help-default">活动时间内才能够发放红包</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">红包有效期限：</label>
+            <div class="col-sm-3">
+                <input type="text" readonly class="form-control input-sm" name="BonusDateStart" id="BonusDateStart" value="@Model.BonusDateStartStr" />
+                <label for="rdi1">至</label>
+                <input type="text" readonly class="form-control input-sm " name="BonusDateEnd" id="BonusDateEnd" value="@Model.BonusDateEndStr" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">分享标题：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor( p => p.ShareTitle , new { @class = "form-control input-sm" , @maxlength = "20" } )
+            </div>
+            <div class="col-sm-6">
+                <p class="help-default">红包被分享或发送出去后链接的名称，如：火拼双11，百万礼券疯狂抢</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">分享详情：</label>
+            <div class="col-sm-3">
+                @Html.TextAreaFor( p => p.ShareDetail , new { @class = "form-control input-sm" , @maxlength = "60" } )
+            </div>
+            <div class="col-sm-6">
+                <p class="help-default">红包被发送出去后链接的详情描述</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">分享图标：</label>
+            <div class="col-sm-3">
+                <div id="upload-img" class="form-group upload-img"></div>
+            </div>
+            <div class="col-sm-5">
+                <p class="help-default">活动被分享出去的链接图标<label class="pic-upload-suggest"></label></p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">同步发布至：</label>
+            <div class="col-sm-3">
+                @Html.CheckBoxFor( p => p.SynchronizeCard , new { @class = "input-sm" , @disabled = "true" } )
+                <label for="rdi1">微信卡包</label>
+            </div>
+            <div class="col-sm-6">
+                <p class="help-default">如您的微信公众号没有开通卡券权限，将由平台公众号代发券。同步至微信卡包后，需等待微信审核通过，才能领取；</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">卡券颜色：</label>
+            <div class="col-sm-3">
+                <input type="text" style="background:@WXColorValue;color:#fff;" class="form-control input-sm" value="@Model.CardColor" />
+                @*@Html.TextBoxFor( p => p.CardColor , new { @class = "form-control input-sm" , @maxlength = "30" , @disabled = "true" } )>*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">卡券标题：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor( p => p.CardTitle , new { @class = "form-control input-sm" , @maxlength = "30" , @disabled = "true" } )
+            </div>
+            <div class="col-sm-6">
+                <p class="help-default">建议填写代金券“减免金额”及自定义内容，描述卡券提供的具体优惠。例如：HiMall 100元代金券;字数上限为9个汉字</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">副标题 (非必填)：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor( p => p.CardSubtitle , new { @class = "form-control input-sm" , @maxlength = "18" , @disabled = "true" } )
+            </div>
+            <div class="col-sm-6">
+                <p class="help-default">字数上限为18</p>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">每个订单每人限领：</label>
+            <div class="col-sm-3">
+                <label for="rdi1">1次</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">使用范围：</label>
+            <div class="col-sm-3">
+                <label for="rdi1">全店通用</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" id="subCate" class="btn btn-primary">保 存</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    $( function ()
+    {
+        $( "#subCate" ).click( function ()
+        {
+            if ( check() )
+            {
+                document.getElementById( "BonusForm" ).submit();
+            }
+        } );
+
+        $( "#upload-img" ).himallUpload( {
+            title: '',
+            imageDescript: '100*100图片',
+            imgFieldName: "ShareImg",
+            displayImgSrc: "@(Himall.Core.HimallIO.GetImagePath(Model.ShareImg))",
+            dataWidth: 10
+        } );
+
+        $( ".start_datetime" ).datetimepicker( {
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            weekStart: 1,
+            minView: 2
+        } );
+        $( ".end_datetime" ).datetimepicker( {
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            weekStart: 1,
+            minView: 2
+        } );
+
+        //$( '.start_datetime' ).on( 'changeDate', function ()
+        //{
+        //    if ( $( ".end_datetime" ).val() )
+        //    {
+        //        if ( $( ".start_datetime" ).val() > $( ".end_datetime" ).val() )
+        //        {
+        //            $( '.end_datetime' ).val( $( ".start_datetime" ).val() );
+        //        }
+        //    }
+
+        //    $( '.end_datetime' ).datetimepicker( 'setStartDate', $( ".start_datetime" ).val() );
+        //} );
+
+    } )
+
+    function check()
+    {
+        if ( $.trim( $( "#Name" ).val() ) == "" )
+        {
+            $.dialog.tips( '活动名称不能为空！' );
+            return false;
+        }
+
+        var grantpricr = $.trim( $( "#GrantPrice" ).val() );
+        if ( grantpricr == "" || parseFloat( grantpricr ) < 0 )
+        {
+            $.dialog.tips( '发放条件不能小于0！' );
+            return false;
+        }
+
+        var bcount = $("#Count").val();
+        try{
+            bcount = parseInt(bcount);
+        } catch (ex) {
+            bcount=0
+        }
+        if (bcount < 1 || bcount>1000) {
+            $.dialog.tips('红包个数请控制在1-1000个！');
+            return false;
+        }
+
+        if ( $.trim( $( "#DateStart" ).val() ) == '' )
+        {
+            $.dialog.tips( '活动开始日期必填！' );
+            return false;
+        }
+        if ( $.trim( $( "#DateEnd" ).val() ) == '' )
+        {
+            $.dialog.tips( '活动结束日期必填！' );
+            return false;
+        }
+
+
+        if ( $.trim( $( "input[name=ShareImg]" ).val() ) == '' )
+        {
+            $.dialog.tips( '请上传图片！' );
+            return false;
+        }
+
+        return true;
+    }
+</script>

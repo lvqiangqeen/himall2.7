@@ -1,0 +1,55 @@
+﻿@model Himall.Web.Areas.Web.Models.HomeFloorModel
+@using Himall.Web.Framework;
+@using Himall.Web.Areas.Web.Models;
+@{
+    var floor = Model;
+    var defaultModel = new HomeFloorModel.WebFloorProductLinks() { };
+    var LeftOne = Model.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.LeftOne,defaultModel);
+    var LeftTwo = Model.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.LeftTwo, defaultModel);
+    var MiddleOne = Model.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.MiddleOne, defaultModel);
+    var MiddleTwo = Model.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.MiddleTwo, defaultModel);
+    var MiddleThree = Model.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.MiddleThree, defaultModel);
+    var ROne = Model.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.ROne, defaultModel);
+    var RTwo = Model.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.RTwo, defaultModel);
+    var RThree = Model.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.RThree, defaultModel);
+    var BottomOne = Model.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.BottomOne, defaultModel);
+    var BottomTwo = Model.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.BottomTwo, defaultModel);
+    var BottomThree = Model.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.BottomThree, defaultModel);
+    var BottomFour = Model.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.BottomFour, defaultModel);
+    var BottomFive = Model.Products.FirstOrDefault(e => e.Type == Himall.Model.Position.BottomFive, defaultModel);
+}
+<!--楼层样式8-->
+<div class="floor floor-eight clearfix">
+    <div class="floor-eight-hd">
+        <h3><i></i>@floor.Name</h3>
+        <ul>
+            @foreach (var text in Model.TextLinks)
+            {
+                <li><a href="@text.Url">@text.Name</a></li>
+            }
+        </ul>
+    </div>
+    <div class="floor-eight-top">
+        <div class="fet-left">
+            <a class="fet-left-a" href="@LeftOne.Url"><img src="@LeftOne.ImageUrl" /></a>
+            <a class="fet-left-b" href="@LeftTwo.Url"><img src="@LeftTwo.ImageUrl" /></a>
+        </div>
+        <div class="fet-mid">
+            <a class="fet-mid-spe" href="@MiddleOne.Url"><img src="@MiddleOne.ImageUrl" /></a>
+            <a href="@MiddleTwo.Url"><img src="@MiddleTwo.ImageUrl" /></a>
+            <a href="@MiddleThree.Url"><img src="@MiddleThree.ImageUrl" /></a>
+        </div>
+        <div class="fet-right">
+            <a href="@ROne.Url"><img src="@ROne.ImageUrl" /></a>
+            <a href="@RTwo.Url"><img src="@RTwo.ImageUrl" /></a>
+            <a href="@RThree.Url"><img src="@RThree.ImageUrl" /></a>
+        </div>
+    </div>
+    <div class="floor-eight-bottom">
+        <a href="@BottomOne.Url"><img src="@BottomOne.ImageUrl" /></a>
+        <a href="@BottomTwo.Url"><img src="@BottomTwo.ImageUrl" /></a>
+        <a href="@BottomThree.Url"><img src="@BottomThree.ImageUrl" /></a>
+        <a href="@BottomFour.Url"><img src="@BottomFour.ImageUrl" /></a>
+        <a href="@BottomFive.Url"><img src="@BottomFive.ImageUrl" /></a>
+    </div>
+</div>

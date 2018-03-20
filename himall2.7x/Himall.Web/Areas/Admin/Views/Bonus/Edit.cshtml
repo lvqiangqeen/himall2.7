@@ -1,0 +1,241 @@
+﻿@model Himall.Web.Areas.Admin.Models.Market.BonusModel
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+
+<div class="container clear-v22">
+    <ul class="breadcrumb clearfix">
+        <li><a href="@Url.Action("Management", "Bonus", new { area = "Admin" })">管理</a></li>
+        <li class="active"><a>编辑微信现金红包</a></li>
+    </ul>
+
+
+    @using( Html.BeginForm( "EditData" , "Bonus" , new
+    {
+        Area = "Admin"
+    } , FormMethod.Post , new
+    {
+        id = "BonusForm" ,
+        @class = "form-horizontal"
+    } ) )
+    {
+
+        @Html.HiddenFor( p => p.Id );
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">红包类型：</label>
+            <div class="col-sm-3 bonus-che" style="width:27%">
+                @Html.RadioButtonFor(p => p.Type, (int)Himall.Model.BonusInfo.BonusType.Activity, new
+           {
+               @name = "Type",
+               @id = "rdi1",
+           })
+                <label for="rdi1">活动红包</label>
+                @Html.RadioButtonFor(p => p.Type, (int)Himall.Model.BonusInfo.BonusType.Attention, new
+           {
+               @name = "Type",
+               @id = "rdi2"
+           })
+                <label for="rdi2">关注红包</label>
+                @Html.RadioButtonFor(p => p.Type, (int)Himall.Model.BonusInfo.BonusType.Prize, new
+           {
+               @name = "Type",
+               @id = "rdi3"
+           })
+                <label for="rdi3">奖品红包</label>
+            </div>
+
+            <div class="col-sm-6" >
+                <p class="help-default">同一时间段内关注送红包活动只能添加一个，请确保红包金额充足</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">红包样式：</label>
+            <div class="col-sm-3">
+                @Html.RadioButtonFor( p => p.Style , ( int )Himall.Model.BonusInfo.BonusStyle.TempletOne , new
+           {
+               @name = "Style" ,
+               @id = "rdi3" ,
+           } )
+                <label for="rdi3">源生风格</label>
+                @*@Html.RadioButtonFor( p => p.Style , ( int )Himall.Model.BonusInfo.BonusStyle.TempletTwo , new
+           {
+               @name = "Style" ,
+               @id = "rdi4"
+           } )
+                <label for="rdi4">模板二</label>*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">商户名称：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor( p => p.MerchantsName , new
+           {
+               @class = "form-control input-sm",
+               @maxlength = "10"
+           } )
+            </div>
+    </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label" id="labBonusName">分享标题：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor( p => p.Name , new
+           {
+               @class = "form-control input-sm" ,
+               @maxlength = "30"
+           } )
+            </div>
+            <div class="col-sm-7">
+                <p class="help-default">活动被分享出去的链接名称，如：清凉一夏，百万现金疯狂抢</p>
+            </div>
+    </div>
+        
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">分享详情：</label>
+            <div class="col-sm-3">
+                @Html.TextAreaFor( p => p.Description , new
+           {
+               @class = "form-control input-sm"
+           } )
+            </div>
+            <div class="col-sm-6">
+                <p class="help-default">红包被分享出去后的链接详情</p>
+            </div>
+    </div>
+        
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">分享图标：</label>
+            <div class="col-sm-3">
+                <div id="upload-img" class="form-group upload-img"></div>
+            </div>
+            <div class="col-sm-6">
+                <p class="help-default">活动被分享出去的链接图标</p>
+            </div>
+        </div>
+
+        
+
+        
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">祝福语：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor( p => p.Blessing , new
+           {
+               @class = "form-control input-sm",
+               @maxlength = "20"
+           } )
+            </div>
+    </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">备注：</label>
+            <div class="col-sm-3">
+                @Html.TextAreaFor( p => p.Remark , new
+           {
+               @class = "form-control input-sm"
+           } )
+            </div>
+    </div>
+
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">单个面额：</label>
+            <div class="col-sm-3">
+
+                @Html.RadioButtonFor( p => p.PriceType , ( int )Himall.Model.BonusInfo.BonusPriceType.Fixed , new
+           {
+               @name = "PriceType" ,
+               @id = "rdi5" ,
+           } )
+                <label for="rdi3">固定金额</label>&nbsp;&nbsp;
+                @Html.TextBoxFor( p => p.FixedAmount , new
+           {
+               @class = "w50"
+           } ) 元 <br />
+
+                @Html.RadioButtonFor( p => p.PriceType , (int)Himall.Model.BonusInfo.BonusPriceType.Random , new
+           {
+               @name = "PriceType" ,
+               @id = "rdi6"
+           } )
+                <label for="rdi4">随机金额</label>&nbsp;&nbsp;
+                @Html.TextBoxFor( p => p.RandomAmountStart , new
+           {
+               @class = "w50" ,
+               @disabled = "true"
+           } ) 至
+                @Html.TextBoxFor( p => p.RandomAmountEnd , new
+           {
+               @class = "w50" ,
+               @disabled = "true"
+           } ) 元
+            </div>
+            <div class="col-sm-6">
+                <p class="help-default">单个红包的面额。最低0.01，最高200</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">红包总面额：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor( p => p.TotalPrice , new
+           {
+               @class = "form-control input-sm"
+           } )
+            </div>
+    </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">活动开始时间：</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control input-sm start_datetime" name="StartTime" id="StartTime" value="@Model.StartTime.ToString( "yyyy-MM-dd" )" />
+            </div>
+    </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">活动截止时间：</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control input-sm end_datetime" name="EndTime" id="EndTime" value="@Model.EndTime.ToString( "yyyy-MM-dd" )" />
+            </div>
+            <div class="col-sm-6">
+                <p class="help-default">截止日期，为领取完的红包也无法再领取</p>
+            </div>
+    </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">是否强制关注：</label>
+            <div class="col-sm-3 clear-v23">
+                @Html.CheckBoxFor(p => p.IsAttention)<label class="clear-v24">关注公众号后可领取</label>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">是否引导分享：</label>
+            <div class="col-sm-5 clear-v23">
+                @Html.CheckBoxFor(p => p.IsGuideShare)<label class="clear-v25">分享后可再次领取（单个用户最多领取两次活动红包）</label>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" id="subCate" class="btn btn-primary">保 存</button>
+            </div>
+        </div>
+        <div class="form-group bunus-tip hide">
+            <div class="col-sm-offset-2 col-sm-9">
+                <label style="color:red;">温馨提示：</label><br>
+                <label>使用红包进行虚假宣传、恶意诱导用户关注及分享的行为可能会被微信拦截，违规情节特别严重时，微信团队可能会采取永久封禁域名、IP地址或者封停公众号</label>
+            </div>
+        </div>
+    }
+</div>
+<input type="hidden" value="@Model.ImagePath" id="MIpath"/>
+<input type="hidden" value="@((int)Model.PriceType)" id="priceType" />
+<input type="hidden" value="@((int)Model.Type)" id="Type0" />
+<input type="hidden" value="@((int)Model.Style)" id="style0"/>
+<script src="~/Areas/Admin/Scripts/BonusEdit.js"></script>

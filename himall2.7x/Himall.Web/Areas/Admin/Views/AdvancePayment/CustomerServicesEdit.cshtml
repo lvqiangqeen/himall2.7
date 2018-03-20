@@ -1,0 +1,251 @@
+﻿@model Himall.Web.Areas.Admin.Models.PlatformCustomerServiceModel[]
+@{
+	ViewBag.Title = "CustomerServicesEdit";
+}
+
+@section Styles
+{
+<link href="~/Content/jquery.onoff.css.css" rel="stylesheet" />
+	
+<style>
+	.download a {
+		display: -moz-inline-stack;
+		display: inline-block;
+		margin-right: 10px;
+		vertical-align: top;
+		zoom: 1;
+		overflow: hidden;
+		text-indent: -999px;
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+	}
+
+	.download .win {
+		width: 152px;
+		height: 36px;
+		background-image: url(//everlook-qcloud.meiqia.com/assets/windows_button-17eefe7b43bb04ca8591802cb8ec189c8725c02de6d3839e72da9cc5079bf86d.png);
+		background-image: -webkit-image-set(url(//everlook-qcloud.meiqia.com/assets/windows_button-17eefe7b43bb04ca8591802cb8ec189c8725c02de6d3839e72da9cc5079bf86d.png) 1x, url(//everlook-qcloud.meiqia.com/assets/rv/windows_button-621c424cdb97c7fa55aff76b86df894b60e52cb9fc632abd26f7fdb466757902.png) 2x);
+	}
+
+	.download .ios {
+		width: 122px;
+		height: 36px;
+		background-image: url(//everlook-qcloud.meiqia.com/assets/AppStore_button-30a94c8eba98c403bfd515b4cb6e80cb3e49b3dbacf63742718e6eed21629698.png);
+		background-image: -webkit-image-set(url(//everlook-qcloud.meiqia.com/assets/AppStore_button-30a94c8eba98c403bfd515b4cb6e80cb3e49b3dbacf63742718e6eed21629698.png) 1x, url(//everlook-qcloud.meiqia.com/assets/rv/AppStore_button-a4a1060001f80478dc88b360684b020fc72885d804a75e2c8d2fd723640a0102.png) 2x);
+	}
+
+	.download .android {
+		width: 145px;
+		height: 36px;
+		background-image: url(//everlook-qcloud.meiqia.com/assets/android_no_narrow_btn-6f0546c265333f059c98668efaba4b27dc70000763aad679e2b1ac6451ab7af3.png);
+		background-image: -webkit-image-set(url(//everlook-qcloud.meiqia.com/assets/android_no_narrow_btn-6f0546c265333f059c98668efaba4b27dc70000763aad679e2b1ac6451ab7af3.png) 1x, url(//everlook-qcloud.meiqia.com/assets/rv/android_no_narrow_btn-92175bfd950c25bcd4a237981c0407f11cb93a0bd95b192fe1730ea2bf90e865.png) 2x);
+	}
+
+	.tab-content .tab-pane{
+		border:1px solid #ddd;
+		border-top:none;
+		padding-bottom:100px;
+	}
+
+	.form-group.btn {
+		margin-top: -50px;
+		margin-left: 130px;
+	}
+</style>
+
+}
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li type="statusTab"><a href="@(Url.Action("edit"))">交易参数</a></li>
+        <li type="statusTab" class="active"><a>客服设置</a></li>
+        <li type="statusTab"><a href="@(Url.Action("RefundReason"))">售后原因设置</a></li>
+    </ul>
+
+	<form class="form-horizontal" role="form">
+		<ul class="nav nav-tabs">
+			<li class="active"><a style="padding:8px 20px; cursor: pointer;">QQ客服设置</a></li>
+			<li class="mdes"><a style="padding:8px 20px; cursor: pointer;">美洽客服设置</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active">
+				<br/>
+				<h5 class="tips-top mb0" style="margin-top:0;"><span class="help-default clear-d"><i></i>说明：平台最多可设置@(Model.Count(p=>p.Tool== Himall.Model.CustomerServiceInfo.ServiceTool.QQ))个客服</span></h5>
+				<br/>
+				@{
+					var qqCsIndex = 0;
+					var mqCsIndex = 0;
+					var chars = new[] { "一", "二", "三", "四", "五", "六", "七", "八", "九", "十" };
+					var openServerStatus = Himall.Model.CustomerServiceInfo.ServiceStatusType.Open;
+					var allTerminalType = Himall.Model.CustomerServiceInfo.ServiceTerminalType.All;
+				}
+				@for (int i = 0; i < Model.Length; i++)
+				{
+					var cs = Model[i];
+					if (cs.Tool != Himall.Model.CustomerServiceInfo.ServiceTool.QQ)
+					{
+						continue;
+					}
+					var groupName = "客服" + chars[qqCsIndex];
+					
+					<div class="form-group">
+						<label for="" class="col-sm-2 control-label clear-b">@groupName：</label>
+						<div class="col-sm-5">
+							<input id="serverStatus_@i" type="checkbox" name="[@i].ServerStatus" value="@openServerStatus" @(cs.ServerStatus == openServerStatus ? "checked" : "") />
+							<input type="hidden" name="[@i].ServerStatus" value="@Himall.Model.CustomerServiceInfo.ServiceStatusType.Close" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="" class="col-sm-2 clear-b control-label">沟通工具：</label>
+						<div class="col-sm-3 clear-b">QQ</div>
+						<input name="[@i].Tool" type="hidden" value="@Himall.Model.CustomerServiceInfo.ServiceTool.QQ"/>
+					</div>
+
+					<div class="form-group">
+						<label for="" class="col-sm-2 clear-b control-label">客服名称：</label>
+						<div class="col-sm-3 clear-b">
+							@{
+								var inputAttr = new Dictionary<string, object>();
+								inputAttr.Add("class", "form-control input-sm");
+								inputAttr.Add("data-val", "true");
+								inputAttr.Add("data-val-length", groupName + "客服名称不能超过15个字符");
+								inputAttr.Add("data-val-length-max", "15");
+								inputAttr.Add("data-my-required", string.Format("#serverStatus_{0}:checked", i));
+								inputAttr.Add("data-val-required", groupName + "客服名称不能为空");
+							}
+							@Html.TextBoxFor(m => m[i].Name, inputAttr)
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="" class="col-sm-2 clear-b control-label">账号：</label>
+						<div class="col-sm-3 clear-b">
+							@{
+								inputAttr = new Dictionary<string, object>();
+								inputAttr.Add("class", "form-control input-sm");
+								inputAttr.Add("data-val", "true");
+								inputAttr.Add("data-val-length", groupName + "账号不能超过25个字符");
+								inputAttr.Add("data-val-length-max", "25");
+								inputAttr.Add("data-my-required", string.Format("#serverStatus_{0}:checked", i));
+								inputAttr.Add("data-val-required", groupName + "账号不能为空");
+							}
+							@Html.TextBoxFor(m => m[i].AccountCode, inputAttr)
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="" class="col-sm-2 clear-b control-label">手机客服：</label>
+						<div class="col-sm-3 clear-b">
+							<span>
+								<input name='[@i].TerminalType' type='checkbox' value='@allTerminalType' class='check-services' @(cs.TerminalType == allTerminalType ? "checked" : "") />
+								同时设为手机客服
+							</span>
+							<input type="hidden" name="[@i].TerminalType" value="@Himall.Model.CustomerServiceInfo.ServiceTerminalType.PC" />
+						</div>
+					</div>
+					
+					object attr=null;
+					if (cs.Id == 0)
+					{
+						attr = new { id = cs.CreateId };
+						@Html.HiddenFor(m=>m[i].CreateId)
+					}
+					
+					@Html.HiddenFor(m => m[i].Id,attr)
+					qqCsIndex++;
+				}
+			</div>
+			<div class="tab-pane">
+				@for (int i = 0; i < Model.Length; i++)
+				{
+					var cs = Model[i];
+					if (cs.Tool != Himall.Model.CustomerServiceInfo.ServiceTool.MeiQia)
+					{
+						continue;
+					}
+					var groupName = "客服" + chars[mqCsIndex];
+					
+					<br/>
+					<input type="hidden" name="[@i].Name" value="美洽" />
+					<input type="hidden" name="[@i].Tool" value="@(Himall.Model.CustomerServiceInfo.ServiceTool.MeiQia)" />
+					
+					<div class="form-group">
+						<label for="" class="col-sm-2 control-label clear-b">开关：</label>
+						<div class="col-sm-5">
+							<input id="serverStatus_@i" type="checkbox" name="[@i].ServerStatus" value="@openServerStatus" @(cs.ServerStatus == openServerStatus ? "checked" : "") />
+							<input type="hidden" name="[@i].ServerStatus" value="@Himall.Model.CustomerServiceInfo.ServiceStatusType.Close" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="" class="col-sm-2 control-label">企业ID：</label>
+						<div class="col-sm-3">
+							@{
+								var inputAttr = new Dictionary<string, object>();
+								inputAttr.Add("class", "form-control input-sm");
+								inputAttr.Add("data-val", "true");
+								inputAttr.Add("data-val-length", groupName + "企业ID不能超过25个字符");
+								inputAttr.Add("data-val-length-max", "25");
+								inputAttr.Add("data-my-required", string.Format("#serverStatus_{0}:checked", i));
+								inputAttr.Add("data-val-required", groupName + "企业ID不能为空");
+							}
+							@Html.TextBoxFor(m => m[i].AccountCode, inputAttr)
+						</div>
+						<div class="col-sm-3">
+							<a class="lh30" href="//app.meiqia.com/signup" target="_blank">去美洽注册账号</a>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="" class="col-sm-2 control-label"></label>
+						<div class="col-sm-10 color-9">登录美恰后，在【设置】&mdash;<a href="//app.meiqia.com/setting/id-query" target="_blank">【ID查询】</a>中，获取到企业ID，填写至此处。</div>
+					</div>
+					<div class="form-group download">
+						<label for="" class="col-sm-2 control-label pt9">客户端下载：</label>
+						<div class="col-sm-10">
+							<a class="win" href="//meiqia-cdn.b0.upaiyun.com/meiqia_for_windows.zip" target="_blank">下载 Windows 桌面客户端</a>
+							<a class="ios" href="//itunes.apple.com/cn/app/mei-qia-yi-dong-zai-xian-ke-fu/id1050591118" target="_blank">下载美洽 iOS App</a>
+							<a class="android" href="//meiqia-cdn.b0.upaiyun.com/meiqia_for_android.apk" target="_blank">下载 .apk 文件</a>
+						</div>
+					</div>
+
+					object attr=null;
+					if (cs.Id == 0)
+					{
+						attr = new { id = cs.CreateId };
+						@Html.HiddenFor(m=>m[i].CreateId)
+					}
+					
+					@Html.HiddenFor(m => m[i].Id,attr)
+					<br />
+					<br />
+					mqCsIndex++;
+				}
+			</div>
+		</div>
+
+		<div class="form-group btn">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="button" class="btn btn-primary" id="submit">保 存</button>
+			</div>
+		</div>
+	</form>
+</div>
+<input type="hidden" value="@Url.Action("CustomerServicesEdit", "AdvancePayment", new { area = "admin" })" id="CAa"/>
+@section Scripts
+{
+<script src="~/Scripts/jquery.onoff.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Areas/Admin/Scripts/CustomerServicesEdit.js"></script>
+	<script>
+		//详情描术选项卡切换
+		$('.nav.nav-tabs li').click(function () {
+			var li = $(this);
+			if (li.hasClass('active'))
+				return;
+			li.parent().children('li').toggleClass('active');
+			li.parent().next('.tab-content').children('.tab-pane').toggleClass('active');
+		});
+		$.validator.defaults.onsubmit = true;
+		$.validator.defaults.ignore = '';//不验证的元素选择器，默认为':hidden'
+	</script>
+}

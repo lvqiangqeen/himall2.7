@@ -1,0 +1,26 @@
+﻿@model List<Himall.DTO.CustomerService>
+    @{ 
+        Layout = null;
+    }
+<!--CustmerServices start-->
+@foreach (var item in Model.Where(p => p.Tool == Himall.Model.CustomerServiceInfo.ServiceTool.MeiQia))
+{
+	<a href="javascript:void(0)" onclick="commonJS.callMeiQiaCS(@item.AccountCode)" title="美洽客服"><img src="/images/meiqia_icon.png" style="max-width:20px; margin-top: 2px;" /></a>
+}
+
+@foreach (var m in Model.Where(p => p.Tool == Himall.Model.CustomerServiceInfo.ServiceTool.QQ))
+{
+	<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=@m.AccountCode&amp;site=qq&amp;menu=yes" title="@m.Name">
+		<img border="0" src="http://wpa.qq.com/pa?p=2:@m.AccountCode:4" style="vertical-align: middle;" />
+	</a>
+}
+
+@foreach (var m in Model.Where(p => p.Tool == Himall.Model.CustomerServiceInfo.ServiceTool.Wangwang))
+{
+	<a target="_blank" href="http://www.taobao.com/webww/ww.php?ver=3&touid=@m.AccountCode&siteid=cntaobao&status=2&charset=utf-8" class="vm" title="@m.Name">
+		<img border="0"
+			 src="http://amos.im.alisoft.com/online.aw?v=2&amp;uid=@m.AccountCode&amp;site=cntaobao&amp;s=2&amp;charset=UTF-8" alt="Wang Wang"
+			 style=" vertical-align: middle;">
+	</a>
+}
+<!--CustmerServices end-->

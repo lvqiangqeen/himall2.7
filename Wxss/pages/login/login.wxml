@@ -1,0 +1,22 @@
+<!--pages/login/login.wxml-->
+<view class="container mt32 font32 borderbott0m">
+<view class="ml24">
+  <view class="loginpassword borderbott0m ">
+  <text>账号</text>
+  <input name="username"  placeholder-style="color:#bdbdbd" placeholder="请输入用户名/邮箱/手机" type="text" maxlength="20" bindinput="bindUserNameInput" />
+  </view>
+  </view>
+  <view class="ml24">
+  <view class="loginpassword">
+  <text class="">密码</text>
+  <input name="password"   placeholder-style="color:#bdbdbd"  bindinput="bindPwdInput" placeholder="请输入密码" maxlength="20" password/>
+  </view>
+</view>
+</view>
+ <view class="tjiaoname mt32 ">
+ <button disabled="{{disabled}}" class="font36 pt24 pb24 line_height40" bindtap="loginbyUser" class="other-button-hover"> 登录 </button>
+ <view class="huoze line_height32 font24"><view>或</view></view>
+<button type="primary" class="font36 pt24 pb24 line_height40" bindtap="quickLogin">
+    <text class="iconfont wechat wechat_size"></text>
+微信信任登录 </button>
+ </view>

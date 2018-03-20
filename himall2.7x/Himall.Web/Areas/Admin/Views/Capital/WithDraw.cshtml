@@ -1,0 +1,48 @@
+﻿
+@{
+    var items = Himall.Core.EnumHelper.ToDescriptionDictionary<Himall.Model.ApplyWithDrawInfo.ApplyWithDrawStatus>().Select(e => new SelectListItem
+    {
+        Text = e.Value,
+        Value = e.Key.ToString()
+    }).ToList();
+    items.Insert(0, new SelectListItem { Text = "全部", Value = "0", Selected = true });
+}
+@{var status = Request.QueryString["status"];}
+<script src="~/Areas/Admin/Scripts/ApplyWithDraw.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<input type="hidden" id="inputApplyStatus" />
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="Index">预付款管理</a></li>
+        <li class="active"><a>提现管理</a></li>
+        <li><a href="Setting">提现金额设置</a></li>
+    </ul>
+
+    <h5 class="tips-top"><span class="help-default"><i></i>
+                             说明：使用微信企业付款并不使用交易资金，需要企业预先充值，充值的资金，企业可自助在微信支付平台提现至结算账户请您确保微信账户有足够的余额用于提现；如何充值：登录微信支付平台——点击资金管理——选择充值；若提现处理失败，可能原因如下：<br />
+                             1、新入驻90天内的商户，且连续交易未满30天不支持企业付款功能。<br />
+                             2、企业帐号余额不足<br />
+                             3、系统超时<br />
+                             4、商户未开通此接口权限<br /></span></h5>
+    <div class="search-box pt0" id="search-box">
+        <form class="form-inline custom-inline">           
+            <div class="form-group">
+                <label class="label-inline w75">状态：</label>
+                @Html.DropDownList("applyType", items, new { @class = "form-control input-sm" })
+            </div>
+            <div class="form-group">
+                <label class="label-inline w95">提现单号：</label>
+                <input id="inputWithNo" class="form-control input-ssm" type="text">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w95">提现会员：</label>
+                <input id="inputWithDrawUser" class="form-control input-ssm" type="text">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜索</button>
+            </div>
+        </form>
+    </div>
+    <table id="list" class="table"></table>
+</div>

@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D2EF2ADC-BE9C-4F4C-9D99-A31C12237EAC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Himall.Core</RootNamespace>
+    <AssemblyName>Himall.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Himall.Core.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\packages\Zip\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\Log4Net\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz, Version=2.2.4.400, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Quartz.2.2.4\lib\net40\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ZipLib">
+      <HintPath>..\packages\Zip\ZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing">
+      <HintPath>..\packages\zxing\zxing.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Helper\ApiSignHelper.cs" />
+    <Compile Include="Helper\QuartzHelper.cs" />
+    <Compile Include="IOC\IIinjectContainer.cs" />
+    <Compile Include="IOC\imp\DefaultContainerForDictionary.cs" />
+    <Compile Include="IOC\ObjectContainer.cs" />
+    <Compile Include="LicenseChecker.cs" />
+    <Compile Include="OnHimallStartMethod.cs" />
+    <Compile Include="PlatformType.cs" />
+    <Compile Include="Helper\ObjectHelper.cs" />
+    <Compile Include="Helper\ZipHelper.cs" />
+    <Compile Include="Plugins\Exceptions\PluginException.cs" />
+    <Compile Include="Helper\QRCodeHelper.cs" />
+    <Compile Include="Plugins\Message\IEmail.cs" />
+    <Compile Include="Plugins\Message\ISMS.cs" />
+    <Compile Include="Plugins\Message\MessageContent.cs" />
+    <Compile Include="Plugins\Message\MessageCouponInfo.cs" />
+    <Compile Include="Plugins\Message\StatusEnum.cs" />
+    <Compile Include="Plugins\Message\MessageShopInfo.cs" />
+    <Compile Include="Plugins\Message\MessageOrderInfo.cs" />
+    <Compile Include="Plugins\Message\MessageTypeEnum.cs" />
+    <Compile Include="Plugins\Message\MessageUserInfo.cs" />
+    <Compile Include="Exception\PlatformNotSupportedException.cs" />
+    <Compile Include="Plugins\Payment\PaymentPara.cs" />
+    <Compile Include="Plugins\Payment\RefundFeeReturnModel.cs" />
+    <Compile Include="Plugins\Payment\UrlType.cs" />
+    <Compile Include="Strategies\CacheMgr\Cache.cs" />
+    <Compile Include="Strategies\CacheMgr\ICache.cs" />
+    <Compile Include="Exception\CacheRegisterException.cs" />
+    <Compile Include="Exception\InstanceCreateException.cs" />
+    <Compile Include="Exception\InvalidPropertyException.cs" />
+    <Compile Include="Exception\PluginConfigException.cs" />
+    <Compile Include="Plugins\Exceptions\PluginNotFoundException.cs" />
+    <Compile Include="Helper\CommonHelper.cs" />
+    <Compile Include="Helper\DateTimeHelper.cs" />
+    <Compile Include="Helper\EnumHelper.cs" />
+    <Compile Include="Helper\HtmlContentHelper.cs" />
+    <Compile Include="Helper\ImageHelper.cs" />
+    <Compile Include="Helper\LinqHelper.cs" />
+    <Compile Include="Helper\SecureHelper.cs" />
+    <Compile Include="Helper\StringHelper.cs" />
+    <Compile Include="Helper\TypeHelper.cs" />
+    <Compile Include="Helper\ValidateHelper.cs" />
+    <Compile Include="Helper\WebHelper.cs" />
+    <Compile Include="Helper\XmlHelper.cs" />
+    <Compile Include="Instance.cs" />
+    <Compile Include="Plugins\Express\ExpressPrintElement.cs" />
+    <Compile Include="Plugins\Express\IExpress.cs" />
+    <Compile Include="Plugins\FormData.cs" />
+    <Compile Include="Plugins\Message\IMessagePlugin.cs" />
+    <Compile Include="Plugins\OAuth\IOAuth.cs" />
+    <Compile Include="Plugins\OAuth\OAuthUserInfo.cs" />
+    <Compile Include="Plugins\Payment\IPayment.cs" />
+    <Compile Include="Plugins\IPlugin.cs" />
+    <Compile Include="Plugins\Payment\PaymentInfo.cs" />
+    <Compile Include="Plugins\Plugin.cs" />
+    <Compile Include="Plugins\PluginBase.cs" />
+    <Compile Include="Plugins\PluginInfo.cs" />
+    <Compile Include="Plugins\PluginsManagement.cs" />
+    <Compile Include="Exception\HimallException.cs" />
+    <Compile Include="Helper\IOHelper.cs" />
+    <Compile Include="Job\Job.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="Plugins\PluginType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Strategies\CacheMgr\ICacheLocker.cs" />
+    <Compile Include="Strategies\IOMgr\FileCreateType.cs" />
+    <Compile Include="Strategies\IOMgr\HimallIO.cs" />
+    <Compile Include="Strategies\IOMgr\HimallIOException.cs" />
+    <Compile Include="Strategies\IOMgr\IHimallIO.cs" />
+    <Compile Include="Strategies\IOMgr\MetaInfo.cs" />
+    <Compile Include="Strategies\IStrategy.cs" />
+    <Compile Include="Type\SerializableDictionary.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Job\quartz_jobs.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

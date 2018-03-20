@@ -1,0 +1,221 @@
+﻿@model Himall.Web.Areas.Admin.Models.GiftViewModel
+@{
+    IEnumerable<SelectListItem> mglist = (IEnumerable<SelectListItem>)ViewBag.MemberGradeSelect;
+}
+
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/ueditor/ueditor.config.js"></script>
+<script src="~/Scripts/ueditor/ueditor.all.min.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Areas/Admin/Scripts/GiftEdit.js"></script>
+
+
+<iframe name="iframeUpload" src="" width="350" height="35" frameborder="0" scrolling="no" style="display:none" id="iframe"></iframe>
+<form></form>
+
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+
+<input type="hidden" value="@Url.Action("Management", "Gift")" id="UMG" />
+<input type="hidden" value="@(DateTime.Now.ToString("yyyy-MM-dd"))" id="DNT" />
+<div class="container clear-v30">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("management")">管理</a></li>
+        <li class="active"><a>@(Model.Id > 0 ? "编辑" : "新增")</a></li>
+    </ul>
+
+
+    @using (Ajax.BeginForm("Edit", "Gift", null
+        , new AjaxOptions { HttpMethod = "post", OnBegin = "beginpost", OnSuccess = "successpost" }
+        , new { @class = "form-horizontal", id = "gifteditform" }))
+    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>礼品名称：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.GiftName, new { @class = "form-control input-sm" })
+            </div>
+            <div class="col-sm-3">
+                @Html.ValidationMessageFor(m => m.GiftName, "", new { @class = "help-default cor-red" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>会员等级要求：</label>
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.NeedGrade, mglist, new { @class = "form-control input-sm" })
+            </div>
+            <div class="col-md-3">
+                @Html.ValidationMessageFor(model => model.NeedGrade, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>兑换截止时间：</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.EndDate, new { @class = "form-control input-sm", Value = Model.EndDate.ToString("yyyy-MM-dd HH:mm:ss") })
+                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>所需积分：</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(m => m.NeedIntegral, new { @class = "form-control input-sm" })
+            </div>
+            <div class="col-sm-3">
+                @Html.ValidationMessageFor(m => m.NeedIntegral, "", new { @class = "help-default cor-red" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>限兑数量：</label>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.LimtQuantity, new { @class = "form-control input-sm" })
+            </div>
+            <div class="col-sm-1">
+                <span class="help-default">0表不限</span>
+            </div>
+            <div class="col-sm-4">
+                @Html.ValidationMessageFor(model => model.LimtQuantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>礼品价值：</label>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.GiftValue, new { @class = "form-control input-sm" })
+            </div>
+            <div class="col-md-2">
+                <span class="help-default">元(精确到0.01)</span>
+            </div>
+            <div class="col-md-3">
+                @Html.ValidationMessageFor(model => model.GiftValue, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>库存：</label>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.StockQuantity, new { @class = "form-control input-sm" })
+            </div>
+            <div class="col-md-3">
+                @Html.ValidationMessageFor(model => model.StockQuantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">虚拟兑换数量：</label>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.VirtualSales, new { @class = "form-control input-sm" })
+            </div>
+            <div class="col-md-3">
+                @Html.ValidationMessageFor(model => model.VirtualSales, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">礼品图片：</label>
+            <div class="col-sm-9" id="id_upload">
+                <span class="clear-v31">
+                    @{
+        var isEdit = Model.Id > 0;
+        var attr = isEdit ? "data-del=\"1\"" : "";
+        var className = isEdit ? "glyphicon-remove" : "glyphicon-open";
+                    }
+                    <div class="fileBox glyphicon @(!string.IsNullOrWhiteSpace(Model.PicUrl1) && isEdit ? "glyphicon-remove" : "glyphicon-open")" id="fileBox1" data-del="@(!string.IsNullOrWhiteSpace(Model.PicUrl1) && isEdit ? "1" : "0")">
+                        <input type="file" name="test_file1" id="test_file1" data-num="1" class="file uploadFile" style="@(!string.IsNullOrWhiteSpace(Model.PicUrl1) && isEdit ? " display:none;" : "")" accept="image/jpg,image/jpeg,image/png,image/bmp">
+                        @Html.HiddenFor(model => model.PicUrl1, new { @class = "dpicurl" })
+                    </div>
+                    <div class="view1 clear-v32" id="up_pic1" data-url="@(Model.PicUrl1)">
+                        @if (Model.Id > 0)
+                        {
+                            <img src="@(Model.PicUrl1)">
+                        }
+                    </div>
+                </span>
+                <span class="clear-v33">
+                    <div class="fileBox glyphicon @(!string.IsNullOrWhiteSpace(Model.PicUrl2) && isEdit ? "glyphicon-remove" : "glyphicon-open")"
+                         data-del="@(!string.IsNullOrWhiteSpace(Model.PicUrl2) && isEdit ? "1" : "0")"
+                         id="fileBox2">
+                        <input type="file" style="@(!string.IsNullOrWhiteSpace(Model.PicUrl2) && isEdit ? "display:none;" : "")" name="test_file2" id="test_file2" data-num="2" class="file uploadFile" accept="image/jpg,image/jpeg,image/png,image/bmp">
+                        @Html.HiddenFor(model => model.PicUrl2, new { @class = "dpicurl" })
+                    </div>
+                    <div class="view2 clear-v34"  id="up_pic2" data-url="@(Model.PicUrl2)">
+                        @if (Model.Id > 0)
+                        {
+                            <img src="@(Model.PicUrl2)">
+                        }
+                    </div>
+                </span>
+                <span class="clear-v33">
+                    <div class="fileBox glyphicon @(!string.IsNullOrWhiteSpace(Model.PicUrl3) && isEdit ? "glyphicon-remove" : "glyphicon-open")"
+                         data-del="@(!string.IsNullOrWhiteSpace(Model.PicUrl3) && isEdit ? "1" : "0")"
+                         id="fileBox3">
+                        <input type="file" style="@(!string.IsNullOrWhiteSpace(Model.PicUrl3) && isEdit ? "display:none;" : "")" name="test_file3" id="test_file3" data-num="3" class="file uploadFile" accept="image/jpg,image/jpeg,image/png,image/bmp">
+                        @Html.HiddenFor(model => model.PicUrl3, new { @class = "dpicurl" })
+                    </div>
+                    <div class="view3 clear-v35"  id="up_pic3" data-url="@(Model.PicUrl3)">
+                        @if (Model.Id > 0)
+                        {
+                            <img src="@(Model.PicUrl3)">
+                        }
+                    </div>
+                </span>
+                <span class="clear-v33" id="id_up_file4">
+                    <div class="fileBox glyphicon @(!string.IsNullOrWhiteSpace(Model.PicUrl4) && isEdit ? "glyphicon-remove" : "glyphicon-open")"
+                         data-del="@(!string.IsNullOrWhiteSpace(Model.PicUrl4) && isEdit ? "1" : "0")"
+                         id="fileBox4">
+                        <input type="file" style="@(!string.IsNullOrWhiteSpace(Model.PicUrl4) && isEdit ? "display:none;" : "")" name="test_file4" id="test_file4" data-num="4" class="file uploadFile" accept="image/jpg,image/jpeg,image/png,image/bmp">
+                        @Html.HiddenFor(model => model.PicUrl4, new { @class = "dpicurl" })
+                    </div>
+                    <div class="view4 clear-v36"  id="up_pic4" data-url="@(Model.PicUrl4)">
+                        @if (Model.Id > 0)
+                        {
+                            <img src="@(Model.PicUrl4)">
+                        }
+                    </div>
+                </span>
+                <span class="clear-v33" id="id_up_file5">
+                    <div class="fileBox glyphicon @(!string.IsNullOrWhiteSpace(Model.PicUrl5) && isEdit ? "glyphicon-remove" : "glyphicon-open")"
+                         data-del="@(!string.IsNullOrWhiteSpace(Model.PicUrl5) && isEdit ? "1" : "0")"
+                         id="fileBox5">
+                        <input type="file" style="@(!string.IsNullOrWhiteSpace(Model.PicUrl5) && isEdit ? "display:none;" : "")" name="test_file5" id="test_file5" data-num="5" class="file uploadFile" accept="image/jpg,image/jpeg,image/png,image/bmp">
+                        @Html.HiddenFor(model => model.PicUrl5, new { @class = "dpicurl" })
+                    </div>
+                    <div class="view5 clear-v37"  id="up_pic5" data-url="@(Model.PicUrl5)">
+                        @if (Model.Id > 0)
+                        {
+                            <img src="@(Model.PicUrl5)">
+                        }
+                    </div>
+                </span>
+				<div class="clear-v38">(建议尺寸:700*700,支持gif,png,jpg,jpeg格式，大小不超过1M)</div>
+                <div class="clear-v38">上传图片尽量保持为<span>正方形</span>，默认第一张为预览图（必填）。请上传最大图，系统会自动生成各比例显示图。</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>礼品描述：</label>
+            <div class="col-md-8">
+                @Html.TextAreaFor(m => m.Description, new { style = "width:700px;" })
+                <div style="padding-top:10px;color:#999;@(string.IsNullOrWhiteSpace(Model.Description) ? "" : "display:none;")" class="cor-red" id="destips">礼品描述不能为空。</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" id="btsubmit" class="btn btn-primary">保 存</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+

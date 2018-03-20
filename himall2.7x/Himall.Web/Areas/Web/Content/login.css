@@ -1,0 +1,83 @@
+/* CSS Document */
+*{ margin:0; padding:0;}
+body, div, address, blockquote, iframe, ul, ol, dl, dt, dd, li, dl, h1, h2, h3, h4, h5, h6, p, pre, table, caption, th, td, form, legend, fieldset, input, button, select, textarea, em ,i{margin:0; padding:0;outline: 0 none; font-weight: normal;font-style: normal;font-size:100%; font-family: inherit;}
+table {border-collapse:collapse;word-break:break-all}
+input{font: 12px/1.5 Arial,Verdana,'SimSun';}
+ol, ul ,li{list-style: none;}
+img {border: 0 none; font-size:0; vertical-align:top}
+body {color:#545454;background:#f2f2f2; font: 12px/1.5 Arial,Verdana,'SimSun';_background-image:url(about:blank); /* for IE6 */ _background-attachment:fixed;}
+.cl {zoom: 1;}
+.cl:after {content: ".";display: block;height: 0;clear: both;visibility: hidden; overflow:hidden}
+.clr {display: block;overflow: hidden;clear: both;height: 0;line-height: 0;font-size: 0;}
+.fl{float:left;}
+.fr{float:right}
+a{text-decoration: none; color:#333;}
+a:hover{color:#e4393c; text-decoration:underline}
+
+a:link, a:visited { color: #333; text-decoration: none; }
+.w { width: 900px; padding: 0; margin: 0 auto; zoom: 1; }
+#logo { padding: 10px 0; float: none; margin: 0; position: relative; }
+#logo b { position: absolute; background: url(../images/login-all-bg.png) 0 -131px no-repeat; width: 111px; height: 46px; top: 18px; margin-left: 20px;}
+#entry {width:890px;height:402px;border:5px solid #e8e8e8; border-radius: 3px;margin:55px auto 0;position:relative;}
+
+
+#entry .mc { border: 1px solid #e1e1e1; background: #ffffff; height:400px; }
+#entry-bg { width: 460px; height:400px;float:left;background: url(../images/login-banner.png) no-repeat;background-size:cover; }
+#entry-bg img { width: 460px; height:400px;}
+#entry .form {float:right;margin-top: 34px; margin-right:55px;/* width: 320px;*/ overflow: hidden; height: 354px; width:321px;overflow: hidden}
+#entry .item {line-height: 26px; overflow: hidden;width: 320px; z-index: 1; }
+#entry .fore1 { z-index: 10;margin-bottom: 20px;height:46px; }
+#entry .fore2 { z-index: 8; }
+#entry .fore3 { z-index: 6; /*height: 63px;*/margin-top:5px; }
+#entry .fore4 { height: 37px; margin-top:1px; z-index: 3;color:#98999a; }
+#entry .fore4 a{color:#98999a;}
+#entry .item span { position:absolute;color: #b2b3b6; height:45px; line-height: 45px; display: block; left:40px;z-index: 1;font-family: simsun;font-size:14px;}
+#entry .item .item-ifo {width: 307px; }
+#entry .item .item-ifo .text-area{width:318px;height:46px;position:relative;}
+#entry .text {position:relative;top:0;left:0;width: 279px; height:36px; line-height: 24px; padding: 4px 0 4px 37px; border: 1px solid #b8c1c8; font-size: 14px; font-family: arial, SimSun; color:#4a4a4f;}
+#entry .text:focus { border-color: #7bc610; }
+#entry .text-1 { width: 100px; float: left; }
+#entry .img img { margin: 0 5px; margin-top:7px; cursor: pointer; height: 33px; display: block; }
+.form .hline { line-height: 16px; margin-top:8px;}
+.login-prm{ color:#84939c; padding:0 10px; line-height:23px; background-image:url("../Images/lg_bg.png");background-repeat: no-repeat; width:301px;height:52px; margin:20px 0}
+.login-prm span{color:#384751;padding:0 3px;}
+.ftx13, .flk13 a:link, .flk13 a:visited, a.flk13:link, a.flk13:visited { color: #005AA0; }
+#entry .item-ifo .ico { position:absolute; left: 15px; z-index: 5; background: url(../images/login-inp-bg.png) no-repeat #fff; }
+#entry .item-ifo .ico.i-name { background-position:0 0; width: 16px; height: 16px;top:15px; }
+#entry .item-ifo .ico.i-pass { background-position: 0px -22px; width: 14px; height: 19px;top:15px; }
+.form label, .form input, .form select, .form textarea, .form button, .form .label { float: left; font-size: 12px; }
+#entry .focus { color: #999; line-height: 22px; display: none; }
+#entry .blank { display: none; float: none; width: 16px; height: 16px; position: absolute; top: 9px; right: 8px; z-index: 10; padding: 2px; }
+#entry .item .item-ifo .fog{display:inline-block;float:right;position: relative;right:-12px;color:#98999a;}
+#entry .checkbox { margin:7px 12px 3px 0; vertical-align: middle; }
+#entry .mar { margin-right: 10px; }
+#entry .login-btn2013 { height: 52px; }
+#entry .null, #entry .error, #loginname_error.error, #loginpwd_error.error, #authcode_error.error { width: 313px; padding: 2px 0 2px 3px;border: 1px solid #ffbdbf; color: #e6393d; background: #ffebec;line-height: 16px; z-index: 100; margin: 10px 0;}
+#entry .btn-entry {background-color: #f6342f;border: medium none;border-radius: 3px;color: #fff;cursor: pointer;font-family: "Microsoft YaHei";font-size:18px;height: 46px;line-height: 43px;overflow: hidden;width: 321px;letter-spacing: 5px;}
+#entry .btn-entry:hover {background-color:#ff3b36; }
+#entry .login-bind-btn{ margin-top:30px;}
+#entry .btn-bind-id{ width:156px; height:46px; line-height:46px; text-align:center; background-color:#f6342f; border:0 none; border-radius:3px; font-size:19px; color:#fff; font-family:'microsoft yahei'; cursor:pointer;}
+#entry .btn-bind-id:hover{ background-color:#ff3b36;}
+#entry .login-bind-btn .ftx24{ display: inline-block;margin: 10px 0 0 15px;}
+#entry .coagent { position: absolute; right:54px; bottom:0px; width: 321px; line-height:50px; z-index: 99999; }
+#entry .ftx24 { color:#6a7c86;float:left;font-size:13px; }
+#entry .coagent .btns { float: left; height:31px; width:34px; margin-right:15px; overflow: hidden; position: relative;  cursor:pointer;}
+#entry .coagent .btns .img2{ display:none;}
+#entry .coagent .btns .img1{ display:block;}
+#entry .coagent .btns .img1,#entry .coagent .btns .img2{width: 25px;height: 25px;}
+#entry .coagent .btns a:hover .img1{ display:none}
+#entry .coagent .btns a:hover .img2{ display:block}
+/*#entry .coagent .g2{ background-position:0 -50px;}
+#entry .coagent .g3{ background-position:0 -100px;}
+#entry .coagent .g1:hover{ background-position:0 -25px;} 
+#entry .coagent .g2:hover{ background-position:0 -75px;} 
+#entry .coagent .g3:hover{ background-position:0 -125px;} */
+
+
+.free-regist {float:right;}
+.free-regist a { color:#698fc2; text-decoration: none }
+#mb-bg { background: url(../images/login-all-bg.png) no-repeat; height: 59px; width: 853px; }
+.mb { margin-bottom: 24px; overflow: hidden; }
+#footer { padding-bottom: 30px; text-align: center; }
+#footer .links a, #footer .links span { margin: 0 10px; }
+#footer .copyright { margin: 10px 0; }

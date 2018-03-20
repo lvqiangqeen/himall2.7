@@ -1,0 +1,317 @@
+﻿@{
+    ViewBag.CopyRight = false;
+
+}
+<style>
+    body { background-color: #fff; }
+    body, html { height: 100%; }
+    .login-input-group{padding:0;}
+</style>
+<div class="login">
+    <h3 >注册账号</h3>
+    <div class="login-input-group">
+        <div class="option"><span>用户名</span><input type="text" placeholder="请输入用户名" id="username" /></div>
+        <div class="option">
+            <span>验证码</span><input type="hidden" id="introducer" name="introducer" value="@ViewBag.Introducer" />
+            <input type="text" placeholder="图片点击可更改" maxlength="4" id="checkCode" />
+            <a class="code"><img src="" id="checkCodeImg" /></a>
+            <i id="checkBoxIcon" class="glyphicon" style="font-size:18px;"></i>
+        </div>
+        <div class="option"><span>密码</span><input type="password" id="password" /></div>
+        <div class="option"><span>重复密码</span><input type="password" id="repeatPassword" /></div>
+
+        @if (ViewBag.EmailVerifOpen == true)
+        {
+            <div class="option">
+                <span>邮箱地址</span><input type="text" id="email" />
+            </div>
+            <div class="option">
+                <span>邮箱验证码</span>
+                <a class="btn-send" id="btnAuthCode">获取邮箱验证码</a>
+                <a class="btn-send" style="display:none">60s后</a>
+                <input style="width:71%;" class="mobile-code" id="emailcheckCode" type="text" />
+            </div>
+            <input type="hidden" id="pluginId" value="Himall.Plugin.Message.Email" />
+        }
+    </div>
+    
+    <a id="registBtn">注 册</a>
+</div>
+<script>
+    $(function () {
+        //$('.login-00').height($('.container').width()*63/40);
+        //$(".login div.option").width($(".login").width() - 21);
+        var openId = QueryString('openId');
+        var serviceProvider = QueryString('serviceProvider');
+        var nickName = QueryString('nickName');
+        var sex = QueryString('sex');
+        var city = QueryString('city');
+        var province = QueryString('province');
+        var country = QueryString('country');
+        if (!openId || !serviceProvider)
+            $('#bindInfo').hide();
+
+        // $('.login').css('marginTop', -$('.login').height() / 2);
+
+        var checkCodeUrl = '/' + areaName + '/register/GetCheckCode';
+        $('#checkCodeImg').attr('src', checkCodeUrl + '?time=' + (new Date()).getTime());
+
+        $('#checkCodeImg').click(function () {
+            $('#checkCodeImg').attr('src', checkCodeUrl + '?time=' + (new Date()).getTime());
+        });
+
+        $('#registBtn').click(function () {
+
+            regist();
+        });
+
+
+
+        $('#checkCode').bind('input', function () {
+            checkCheckCode();
+        });
+        $('#btnAuthCode').click(SendCode);
+
+    });
+
+    var count = 60;
+    var t;
+    function countDown1() {
+        $("#btnAuthCode").html(count + 's');
+        $("#btnAuthCode").addClass("btn-agian");
+        if (count == 1) {
+            $("#btnAuthCode").bind('click', SendCode);
+            $("#btnAuthCode").html('重新发送');
+            $("#btnAuthCode").removeClass("btn-agian");
+            $("#btnAuthCode").removeAttr("disabled");
+            count = 60;
+            return;
+        } else {
+            t = setTimeout(countDown1, 1000);
+        }
+        count--;
+    }
+
+    function CheckEmailCode() {
+        var checkurl = '/' + areaName + '/register/CheckEmailCode';
+        var destination = $("#email").val();
+        var id = $('#pluginId').val();
+        var code = $('#emailcheckCode').val();
+        var flag = false;
+        $.ajax({
+            type: "post",
+            url: checkurl,
+            data: { pluginId: id, code: code, destination: destination },
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                if (result.success) {
+                    flag = true;
+                }
+                else {
+                    $.dialog.errorTips(result.msg);
+                    flag = false;
+                }
+            }
+        });
+        return flag;
+    }
+
+    function checkCheckCode(callback) {
+        var checkCode = $('#checkCode').val();
+        var icon = $('#checkBoxIcon');
+        var correct = false;
+        if (checkCode && checkCode.length == 4) {
+            $.ajax({
+                type: "post",
+                url: '/' + areaName + '/register/CheckCode',
+                data: { checkCode: checkCode },
+                dataType: "json",
+                async: true,
+                success: function (result) {
+                    if (result.success) {
+                        !icon.hasClass('glyphicon-ok-circle') && icon.addClass('glyphicon-ok-circle');
+                        correct = true;
+                    }
+                    else
+                        !icon.hasClass('glyphicon-remove-circle') && icon.addClass('glyphicon-remove-circle');
+                    callback && callback(correct);
+                }
+            });
+        }
+        else {
+            icon.removeClass('glyphicon-ok-circle').removeClass('glyphicon-remove-circle');
+            callback && callback(correct);
+        }
+    }
+
+
+    function check() {
+        var reg1 = /^\w+([-+.]\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+        // reg2 = /^\w+([-+.]\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+        str = $('#email').val();
+        var flag = false;
+        var a = reg1.test(str);
+        if (!a) {
+            $.dialog.errorTips('请填写正确的邮箱地址');
+            return false;
+        }
+        var checkCode = $('#checkCode').val();
+        if (!checkCode || checkCode.length < 4) {
+            $.dialog.errorTips('图形验证码输入错误！');
+            return false;
+        }
+        else {
+            $.ajax({
+                type: "post",
+                url: '/' + areaName + '/register/CheckCode',
+                data: { checkCode: checkCode },
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    if (result.success) {
+                        flag = true;
+                    }
+                    else {
+                        $.dialog.errorTips('图形验证码输入错误或者超时！');
+                        flag = false;
+                    }
+                }
+            });
+        }
+        return flag;
+    }
+
+    function SendCode() {
+        if (!check()) {
+            return;
+        }
+        var destination = $("#email").val();
+        var id = $('#pluginId').val();
+        $("#btnAuthCode").unbind('click');
+        var murl = '/' + areaName + '/register/SendEmailCode';
+        $.post(murl, { pluginId: id, destination: destination }, function (result) {
+            if (result.success) {
+                t = setTimeout(countDown1, 1000);
+            } else {
+                $("#btnAuthCode").bind('click', SendCode);
+                $.dialog.errorTips('发送验证码失败,' + result.msg);
+            }
+        });
+    }
+
+
+    function regist() {
+        var username = $.trim($('#username').val());
+        var password = $.trim($('#password').val());
+        var repeatPassword = $.trim($('#repeatPassword').val());
+        var introducer = $("#introducer").val();
+        var checkCode = $('#checkCode').val();
+        var email = '';
+        var emailcheckCode = '';
+        if ($('#email').length > 0) {
+            email = $('#email').val();
+            emailcheckCode = $("#emailcheckCode").val();
+        }
+        var openId = QueryString('openId');
+        var serviceProvider = QueryString('serviceProvider');
+        var nickName = QueryString('nickName');
+        var sex = QueryString('sex');
+        var city = QueryString('city');
+        var province = QueryString('province');
+        var country = QueryString('country');
+        var emailcheckCode = $('#emailcheckCode').val();
+
+        var reg = /^([\u4E00-\u9FA5]|[A-Za-z0-9])[\u4E00-\u9FA5\A-Za-z0-9\_\-]{3,19}$/;;
+        var regemail = /^\w+([-+.]\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+        if (!username)
+            $.dialog.errorTips('请输入用户名');
+        else if ((/^\d+$/.test(username))) {
+            $.dialog.errorTips('不可以使用纯数字用户名');
+        }
+        else if (!reg.test(username))
+            $.dialog.errorTips('用户名只能4-20位字符，暂只支持中英文、数字及"-"、"_"的组合');
+        else if (!password)
+            $.dialog.errorTips('请输入密码');
+        else if (password.length < 6 || password.length > 20)
+            $.dialog.errorTips('密码必须6-20位字符');
+        else if (!repeatPassword)
+            $.dialog.errorTips('请再次输入密码');
+        else if (password != repeatPassword)
+            $.dialog.errorTips('两次密码不一致');
+        else if (!checkCode)
+            $.dialog.errorTips('请填写验证码');
+        else if ($('#email').length > 0 && !regemail.test(email)) {
+
+            var email = $("#email").val();
+            $.dialog.errorTips('你输入的邮箱错误！');
+        }
+        else if ($('#email').length > 0 && (emailcheckCode == '' || emailcheckCode == null)) {
+            $.dialog.errorTips('请填写邮箱验证码');
+        }
+        else {
+            var loading = showLoading('请稍候', 1);
+            if ($('#email').length > 0 && !CheckEmailCode()) {
+                $.dialog.errorTips('邮箱验证码输入错误或者超时！');
+                loading.close();
+                return;
+            }
+            checkCheckCode(function (success) {
+                if (!success) {
+                    loading.close();
+                    $.dialog.errorTips('验证码错误');
+                }
+                else {
+                    var headimgurl = QueryString('headimgurl');
+                    var unionid = QueryString('unionid');
+                    $.post('/' + areaName + '/register',
+                    {
+                        username: username,
+                        password: password,
+                        checkCode: checkCode,
+                        serviceProvider: serviceProvider,
+                        openId: openId,
+                        unionid: unionid,
+                        introducer: introducer,
+                        headimgurl: headimgurl,
+                        nickName: nickName,
+                        email: email,
+                        emailcheckCode: emailcheckCode,
+                        sex: sex,
+                        city: city
+                    , province: province
+                    , country: country
+
+                    },
+                    function (result) {
+                        loading.close();
+                        if (result.success) {
+                            var strMessage = "注册成功!";
+                            if (result.num > 0) {
+                                strMessage = "注册成功，获得" + result.num + "张赠送优惠券！";
+                            } else if (getQueryString("type") == "gift") {
+                                strMessage = "很抱歉！优惠券已被领完，请期待下次活动！";
+                            }
+
+                            $.dialog.succeedTips(strMessage, function () {
+                                var returnUrl = QueryString('returnUrl');
+                                if (!returnUrl)
+                                    returnUrl = '/' + areaName;
+                                location.replace(decodeURIComponent(returnUrl));
+                            });
+                        }
+                        else
+                            $.dialog.alert('注册失败!' + result.msg);
+                    });
+                }
+
+            });
+        }
+    }
+    //获取URL中值
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+</script>

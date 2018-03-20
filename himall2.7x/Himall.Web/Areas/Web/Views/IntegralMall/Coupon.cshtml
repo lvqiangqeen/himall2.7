@@ -1,0 +1,127 @@
+﻿@model IEnumerable<Himall.Model.CouponInfo>
+
+@{
+    ViewBag.Title = "积分商城 - 优惠券兑换";
+    int MemberAvailableIntegrals = (int)ViewBag.MemberAvailableIntegrals;
+
+    var count = ((PagingInfo)ViewBag.pageInfo).TotalPages;
+    var curr = ((PagingInfo)ViewBag.pageInfo).CurrentPage;
+    bool isLogin = (CurrentUser != null);
+}
+<div class="integra-coupon">
+    <div class="warp">
+        <div class="inte-coupon-hd cl">
+            <span>热门优惠券</span>
+        </div>
+        <ul class="cl" id="couponbox">
+            @foreach (var item in Model)
+            {
+                string shopname = item.Himall_Shops.ShopName;
+                <li>
+                    <a href="@(Url.Action("Home", "shop", new { id=item.ShopId }))" target="_blank" class="shop-logo"><img src="@(item.ShowIntegralCover)" alt=""></a>
+                    <div>
+                        <h3><a href="@(Url.Action("Home", "shop", new { id=item.ShopId }))" target="_blank">@(shopname)</a></h3>
+                        <p><span class="couponprice">￥@(item.Price)</span><span class="uselimt">@(item.OrderAmount > 0 ? "满" + item.OrderAmount + "可用" : "满" + item.Price + "可用")</span></p>
+                        <p>有效期：@(item.StartTime.ToString("yyyy.MM.dd"))至@(item.EndTime.ToString("yyyy.MM.dd"))</p>
+                        <p><a class="@((CurrentUser==null || MemberAvailableIntegrals >= item.NeedIntegral )? "btnexchange" : "disabled")" data-shopid="@(item.ShopId)" data-id="@(item.Id)" data-jztime="@(item.EndTime.ToString("yyyy.MM.dd"))" data-needjf="@(item.NeedIntegral)" data-shopname="@(shopname)" data-price="@(item.Price)">@(item.NeedIntegral)积分兑换</a></p>
+                    </div>
+                </li>
+            }
+        </ul>
+        <div class="m clearfix mt20" id="bottom_pager">
+            <div id="pagin-btm" class="pagin fr">
+                @Html.PageLinks((PagingInfo)ViewBag.pageInfo, x => Url.Action("Coupon", new { page = x }))
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery.fly.js"></script>
+<!--[if lte IE 10]>
+<script src="~/Scripts/requestAnimationFrame.js"></script>
+<![endif]-->
+<script type="text/javascript">
+    var isNeedJump = "@(isLogin?"1":"1")";
+    $('#couponbox').on('click', '.btnexchange', function (e) {
+        var _t = $(this);
+        var couponid = _t.data('id');
+        var shopid = _t.data('shopid');
+        var needjf = _t.data('needjf');
+        var posturl = '/shop/ReceiveCoupons';
+        checkLogin(function () {
+            $.post(posturl, { couponId: couponid, shopId: shopid }, function (data) {
+                if (data.success) {
+                    //成功
+                    var cartOffset = $("#right_asset").offset(),
+                        h = $(document).scrollTop();
+                    flySrc = _t.parents('li').find('img')[0].src,
+                    flyer = $('<img class="cart-flyer" src="' + flySrc + '"/>');
+                    flyer.fly({
+                        start: {
+                            left: e.pageX,
+                            top: e.pageY - h - 30
+                        },
+                        end: {
+                            left: cartOffset.left,
+                            top: cartOffset.top - h,
+                            width: 20,
+                            height: 20
+                        },
+                        onEnd: function () {
+                            this.destory(); //移除dom
+                            //数据准备
+                            var dshopid = _t.data("shopid");
+                            var dshopname = _t.data("shopname");
+                            var djztime = _t.data("jztime");
+                            var dprice = _t.data("price");
+                            var _tpp = _t.parent().parent();
+                            var duselimt = $(".uselimt", _tpp).html();
+                            cls = "";
+                            if (dprice >= 100) { cls = "coupon-lg"; }
+                            if (dprice <= 50) { cls = "coupon-sm"; }
+
+                            //html准备
+                            var htmlcont = '<li class="' + cls + '">';
+                            htmlcont += '<a href="/Shop/Home/' + dshopid + '" target="_blank">';
+                            htmlcont += '<h5>' + dshopname + '</h5>';
+                            htmlcont += '<h3><span>￥' + dprice + '</span>' + duselimt + '</h3>';
+                            htmlcont += '<p>截止' + djztime + '</p>';
+                            htmlcont += '</a>';
+                            htmlcont += '</li>';
+                            $('.side-asset-list ul').prepend(htmlcont);
+                            $.dialog.succeedTips('领取成功!');
+
+                            if (isNeedJump == "1") {
+                                window.location.reload();
+                            }
+                        }
+                    });
+
+                    $.dialog.succeedTips('领取成功!', '', 3);
+                } else {
+                    if (data.status != -1) {
+                        _t.removeClass("btnexchange").addClass("disabled");
+                    }
+                    //失效
+                    var isshowerr = true;
+                    switch (data.status) {
+                        case -2:
+                            isshowerr = false;
+                            _t.html("已过期");
+                            break;
+                        case -3:
+                            _t.html("不可领");
+                            break;
+                        case -4:
+                            isshowerr = false;
+                            _t.html("积分不足");
+                            break;
+                    }
+                    if (isshowerr) {
+                        $.dialog.errorTips(data.msg, 3);
+                    }
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,97 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "怎么获取积分";
+}
+@model  Tuple<Himall.Model.UserInviteModel, Himall.Model.InviteRuleInfo, Himall.Model.UserMemberInfo>
+
+@if (Model.Item2 != null)
+{
+    <script type="text/javascript">
+        var qzoneurl = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=";
+        var sinaurl = "http://service.weibo.com/share/share.php?source=bookmark&url=";
+        var currenturl = encodeURIComponent('@Model.Item1.InviteLink');
+        function Share(target) {
+            var url = "";
+            switch (target) {
+                case "qq":
+                    url = qzoneurl + currenturl + '&pics='+ encodeURIComponent('@Model.Item2.ShareIcon') + '&summary=' + ' ' + '&title=' + '@Model.Item2.ShareTitle' + '&desc=' + '@Model.Item2.ShareDesc';
+                    break;
+                case "sina":
+                    url = sinaurl + currenturl + '&pic='+encodeURIComponent('@Model.Item2.ShareIcon')+ '&title=' + '@Model.Item2.ShareTitle' + '@Model.Item2.ShareDesc' + '&searchPic=false';
+                    break;
+            }
+            window.open(url);
+        }
+    </script>
+}
+
+<div class="box1 lh24 palt-popu">
+    <div class="title bot-border">
+        <h3 class="title_txt cur">平台推广</h3>
+    </div>
+    <div class="border-box popularize">
+        <div class=" userset-lcol">
+            <div class="form clearfix">
+                <p class="p1">
+                    成功推荐会员数：
+                    <span style="color:#1e9b3a;margin-right:10px">
+                        @Model.Item1.InvitePersonCount 
+                    </span>个
+                </p>
+                <p class="p2">
+                    累计获得积分：
+                    <span style="color:#129997;margin-right:10px">
+                        @Model.Item1.InviteIntergralCount 
+                    </span>分
+                </p>
+            </div>
+            <div class="rules">
+                <span>活动规则：</span>
+                <span>
+                    @if (Model.Item2 != null)
+                    {
+                        @Model.Item2.ShareRule
+                    }
+                </span>
+            </div>
+
+            <div class="bottom">
+                <p class="link">
+                    <span class="label">邀请注册链接：</span>
+                    <span>
+                        @Model.Item1.InviteLink   <a class="search_btn ml10" id="copyurlbt" data-url="@Model.Item1.InviteLink">复制</a>
+                    </span>
+                </p>
+                <p>
+                    <span class="label">专属二维码：</span>
+                    <span class="img">
+                        <img src="@Model.Item1.QR"  /><!--这个是base64的图片无需变动-->
+                    </span>
+                </p>
+                <p class="share">
+                    <span>分享到：</span>
+                    <span class="share-box">
+                        <a href="javascript:void(0);" onclick="Share('qq')" title="分享到QQ空间"><img src="/Images/qzone.png" /></a>
+                        <a href="javascript:void(0);" onclick="Share('sina')" title="分享到新浪微博"><img src="/Images/weibo.png" /></a>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery.zclip.js"></script>
+<script>
+    $(function () {
+        $("#copyurlbt").zclip({
+            path: '/Scripts/ZeroClipboard.swf',
+            copy: function () {
+                return $('#copyurlbt').data("url");
+            },
+            afterCopy: function () {
+                $.dialog.succeedTips('复制链接成功！');
+            }
+        });
+    });
+</script>

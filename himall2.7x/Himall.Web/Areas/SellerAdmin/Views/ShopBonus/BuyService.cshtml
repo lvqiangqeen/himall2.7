@@ -1,0 +1,117 @@
+﻿@model Himall.Web.Areas.SellerAdmin.Models.ShopBonusBuyServiceViewModel
+@{
+    ViewBag.Title = "购买随机红包服务";
+}
+
+<script src="~/Scripts/v.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li class=""><a href="@Url.Action("Management")">管理</a></li>
+        @if( Model.Market != null && Model.Market.MarketServiceRecordInfo.Max( a => a.EndTime ) >= DateTime.Now.Date )
+        {
+            <li class=""><a href="#" onclick="isad( '@Url.Action("Add")' )">添加代金红包</a></li>
+        }
+        <li class="active"><a>购买服务</a></li>
+    </ul>
+    @if (Model.IsNo)
+    {
+          <form id="form1" action="@Url.Action("BuyService")" method="post">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @if (null != Model.EndDate)
+                {
+                    <label class="col-sm-2 control-label" for="">服务到期时间：</label>
+                    <span class="pl20 lh30">@Model.EndDate</span>
+                    <span class="help-default pl20 lh30">每月您需要支付<span class="red"> @Model.Price.ToString("f2") </span> 元，相关费用会在店铺的账期结算中扣除</span>
+                }
+                else
+                {
+                    <label class="col-sm-2 control-label" for=""></label>
+                    <span class="red pl20">您未购买代金红包服务</span>
+                    <span class="help-default pl20 lh30">每月您需要支付 @Model.Price.ToString("f2") 元</span>
+                }
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">购买数量：</label>
+                <div class="col-sm-10"><input class="form-control input-sm input-int-num" type="text" id="range" name="month" data-price="@Model.Price.ToString("f2")" style="width:105px; display:inline-block" /> &nbsp; 月</div>
+            </div>
+            <div class="form-group">
+                <input type="submit" style="display:none" id="submit" />
+                <div class="col-sm-3 col-sm-offset-2"><button id="btnSave" type="button" class="btn btn-primary btn-sm color-f">确认购买</button></div>
+            </div>
+        </div>
+    </form>
+    }
+    else
+    { 
+        <div class="form-horizontal">
+			<div class="form-group">
+				<p class="apply-primary"><span class="glyphicon glyphicon-info-sign"></span>平台未开启随机红包功能</p>
+			</div>
+		</div>
+    }
+  
+</div>
+
+<script type="text/javascript">
+    function isad( href )
+    {
+        $.post( "/SellerAdmin/ShopBonus/isadd", {}, function ( data )
+        {
+            if ( data )
+            {
+                location.href = href;
+            }
+            else
+            {
+                $.dialog.tips( '一个时间段只能新增一个随机红包！' );
+            }
+        } );
+    }
+
+    $( function ()
+    {
+        $( "#range" ).focus();
+
+        $('#btnSave').click(function () {
+            var month = $("#range").val();
+            var price = $("#range").data("price");
+            if (month <= 12) {
+                $.dialog.confirm('您确定花费' + month * price + '元购买' + month + '个月代金红包服务吗？', function () {
+                    $('#submit').click();
+                });
+            }
+        })
+    } );
+    var a = v( {
+        form: 'form1',
+        ajaxSubmit: true,
+        beforeSubmit: function ()
+        {
+            loadingobj = showLoading();
+        },
+        afterSubmit: function ( data )
+        {// 表单提交成功回调
+            loadingobj.close();
+            var d = data;
+            if ( d.success )
+            {
+                $.dialog.succeedTips( "提交成功！", function ()
+                {
+                    window.location.reload();
+                }, 0.3 );
+            } else
+            {
+                $.dialog.alert(data.msg, '', 3);
+            }
+        }
+    } );
+    a.add(
+        {
+            target: 'range',
+            empty: true,
+            ruleType: 'uint&&(value>0)&&(value<=12)',// v.js规则验证
+            error: '只能为数字，且只能是1到12之间的整数!'
+        } );
+</script>

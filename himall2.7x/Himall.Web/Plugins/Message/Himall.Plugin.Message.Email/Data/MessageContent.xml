@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MessageContent>
+  <Bind><![CDATA[尊敬的用户：#userName#，您正在进行邮箱验证操作，您的验证码为：#checkCode#，验证码有效期为5分钟。【#siteName#】]]></Bind>
+  <OrderCreated><![CDATA[尊敬的用户：#userName#，您的订单(#orderId#)已成功创建。【#siteName#】]]></OrderCreated>
+  <OrderPay><![CDATA[尊敬的用户：#userName#，您的订单(#orderId#)已成功付款#Total#元。【#siteName#】]]></OrderPay>
+  <OrderShipping><![CDATA[尊敬的用户：#userName#，您的订单(#orderId#)已经发货，物流公司为:#shippingCompany#，物流单号：#shippingNumber#。【#siteName#】]]></OrderShipping>
+  <OrderRefund><![CDATA[尊敬的用户：#userName#，您的订单(#orderId#)，已经退款，退款金额:#RefundMoney#，请注意查收。【#siteName#】]]></OrderRefund>
+  <FindPassWord><![CDATA[尊敬的用户：#userName#，您已经成功通过邮件重置密码。【#siteName#】]]></FindPassWord>
+  <ShopAudited><![CDATA[尊敬的用户：#userName#，您申请的店铺#shopName#已经通过审核，请登录查看。【#siteName#】]]></ShopAudited>
+  <RefundDeliver><![CDATA[尊敬的用户：#userName#，您的订单(#orderId#)，售后申请己通过，请及时发货并填写快递信息以方便卖家及时处理。【#siteName#】]]></RefundDeliver>
+  <SendCouponSuccess><![CDATA[尊敬的用户：#userName#，#Money#元代金券已存入您的账户，请您登录至个人中心查收。【#siteName#】]]></SendCouponSuccess>
+</MessageContent>

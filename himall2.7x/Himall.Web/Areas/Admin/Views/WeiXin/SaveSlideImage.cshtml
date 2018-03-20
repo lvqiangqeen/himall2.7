@@ -1,0 +1,61 @@
+﻿@model Himall.Web.Areas.Admin.Models.SlideAdModel
+@{
+    ViewBag.Title = "SaveSlideImage";
+}
+
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Areas/Admin/Scripts/weixinSlideImage.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        
+        <li><a href="SlideImageSettings">轮播图管理</a></li>
+        <li class="active"><a href="SaveSlideImage">@(Model.ID > 0 ? "编辑" : "新增")</a></li>
+    </ul>
+    <form class="form-horizontal" id="form1">
+        <div class="form-group upload-img" id="imgUrl">
+            <div class="col-sm-3">@Html.ValidationMessageFor(item => item.imgUrl)</div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">轮播图描述：</label>
+            <div class="col-sm-4">
+                @Html.TextBoxFor(item => item.Description, new { @class = "form-control input-sm" })
+                <p class="help-default">限10个字符</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">跳转链接：</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(item => item.Url, new { @class = "form-control input-sm" })
+                <p class="help-default">如需跳转到专题，可点击右方选择，<a onclick="ChoceTopic()">选择专题</a></p>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" class="btn btn-primary" onclick="submitSlideImage()">保 存</input>
+            </div>
+        </div>
+    </form>
+    <input type="hidden" id="SlideImageBox" value="@Model.imgUrl" />
+    <input type="hidden" id="SlideImageId" value="@Model.ID" />
+</div>
+
+<div id="choceTopicUrl" style="display:none">
+    <div class="search-box only-line">
+        <form class="custom-inline">
+            <div class="form-group">
+                <label class="label-inline" for="">标题</label>
+                <input class="form-control input-ssm" type="text" id="titleKeyword">
+            </div>
+            <div class="form-group">
+                <label class="label-inline" for="">标签</label>
+                <input class="form-control input-ssm" type="text" id="tagsKeyword">
+            </div>
+            <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+        </form>
+    </div>
+    <table id="topicGrid" class="table"></table>
+</div>

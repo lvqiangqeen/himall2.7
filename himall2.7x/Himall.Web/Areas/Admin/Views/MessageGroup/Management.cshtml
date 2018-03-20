@@ -1,0 +1,55 @@
+﻿
+
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="~/Areas/Admin/Scripts/MessageGroupManagement.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="WXGroupMessage">群发微信消息</a></li>
+        <li><a href="EMailGroupMessage">群发邮件</a></li>
+        <li><a href="PhoneGroupMessage">群发短信</a></li>
+        <li><a href="CouponGroupMessage">群发优惠券</a></li>
+        <li class="active"><a>已发送消息</a></li>
+    </ul>
+    <div class="search-box clearfix">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">类型</label>
+                <select class="form-control input-ssm" id="MessageType">
+                    <option value="">全部</option>
+                    @foreach (var item in Enum.GetValues(typeof(Himall.CommonModel.MsgType)))
+                    {
+                        <option value="@((int)item)">@(((Himall.CommonModel.MsgType)item).ToDescription())</option>
+                    }
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">发送状态</label>
+                <select class="form-control input-ssm" id="SendState">
+                    <option value="">全部</option>
+                    <option value="1">发送成功</option>
+                    <option value="0">发送失败</option>
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">发送时间</label>
+                <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text">
+                <label class="label-inline-line">-</label>
+                <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text">
+            </div>
+            <div class="form-group">
+                <button type="button" id="searchBtn" class="btn btn-primary btn-sm">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <div class="source-manage">
+        <div class="source-content">
+            <table id="list" class="table mt20"></table>
+        </div>
+    </div>
+</div>

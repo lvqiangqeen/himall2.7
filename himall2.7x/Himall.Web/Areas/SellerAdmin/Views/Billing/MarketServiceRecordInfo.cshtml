@@ -1,0 +1,38 @@
+﻿@using Himall.Core;
+@model Himall.DTO.MarketServicesRecord
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<div class="container">
+    <ul class="breadcrumb clearfix"> 
+        <li><a>收支明细</a></li>
+        <li class="active"><a>营销服务费明细</a></li>
+    </ul>
+    <table id="list" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    金额
+                </th>
+                <th>
+                    购买周期
+                </th>
+                <th>
+                    营销服务类型
+                </th>
+                <th>
+
+                    购买时间
+                </th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Price</td>
+                <td>@Model.BuyingCycle</td>
+                <td>@Model.MarketType</td>
+                <td>@Model.BuyTime</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

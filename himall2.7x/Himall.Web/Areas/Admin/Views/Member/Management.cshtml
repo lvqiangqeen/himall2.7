@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "会员管理";
+    List<Himall.Model.LabelInfo> labelinfos = (List<Himall.Model.LabelInfo>)ViewBag.LabelInfos;
+    var selectItems = labelinfos.Select(e => new SelectListItem() { Text = e.LabelName, Value = e.Id.ToString() }).ToList();
+    selectItems.Insert(0, new SelectListItem { Text = "选择", Value = "0" });
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="~/Areas/Admin/Scripts/memberManagement.js"></script>
+
+
+<div class="container clear-s">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>管理</a></li>
+        <li><a href="@Url.Action("ManagementPower")">购买力筛选</a></li>
+    </ul>
+
+    <div class="search-box clearfix">
+        <form class="form-inline custom-inline">
+                <div class="form-group">
+                    <label class="label-inline w75" for="">会员名</label>
+                    <input class="form-control input-ssm" type="text" id="autoTextBox" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label class="label-inline w75" for="">微信昵称</label>
+                    <input class="form-control input-ssm" id="weChatNick" type="text">
+                </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">手机号码</label>
+                <input class="form-control input-ssm" type="text" id="mobile">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">会员等级</label>
+                <select class="form-control input-ssm" id="grade">
+                    <option value="">全部</option>
+                    @foreach (var m in Model)
+                    {
+                        <option value="@m.Id">@m.GradeName</option>
+                    }
+                </select>
+            </div>                             
+                <div class="form-group">
+                    <label class="label-inline w75" for="">会员状态</label>
+                    <select class="form-control input-ssm" id="status">
+                        <option value="">全部</option>
+                        <option value="false">正常</option>
+                        <option value="true">冻结</option>
+                    </select>
+                </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">会员标签</label>
+                @Html.DropDownList("labelSelect", selectItems, new { @class = "form-control input-ssm" })
+            </div>
+            <div class="form-group">
+                <button type="button" id="searchBtn" class="btn btn-primary btn-sm">搜 索</button>
+            </div>
+            <span class="menu-shrink menber-m" id="btnAdvanceSearch" style="top:-3px;"></span>
+            <div id="divAdvanceSearch" class="dln">
+                <div class="form-group">
+                    <label class="label-inline w75" for="">注册时间</label>
+                    <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text">
+                    <label class="label-inline-line" for="" >-</label>
+                    <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text">
+                </div>
+                <div class="form-group">
+                    <label class="label-inline" for="">是否关注微信</label>
+                    <div class="checkbox">
+                        <label>
+                            <input id="focusYes" name="focusWeixin" class="" type="radio">是
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input id="focusNo" name="focusWeixin" class="" type="radio"> 否
+                        </label>
+                    </div>
+                </div>
+                @*<div class="form-group">
+                    <label class="label-inline" for="">最后登录时间</label>
+                    <input id="inputStartDateLogin" class="form-control input-ssm start_datetime" type="text">
+                    <label class="label-inline clear-s4" for="" >-</label>
+                    <input id="inputEndDateLogin" class="form-control input-ssm end_datetime" type="text">
+                </div>*@
+                <div class="form-group">
+                    <label class="label-inline clear-s5" >是否为入驻商家</label>
+                    <div class="checkbox">
+                        <label>
+                            <input id="sellerYes" name="isSeller" class="" type="radio"> 是
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input id="sellerNo" name="isSeller" class="" type="radio"> 否
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+    <table class="table" id="list"></table>
+    <div class="tabel-operate" id="batchOperate" style="">
+        <button type="button" id="setMembersLabel" onclick="batchAddLabels()" class="btn btn-default btn-ssm">批量加标签</button>
+        <a class="btn btn-default btn-ssm" id="aExport" href='javascript:;' onclick="ExportExecl();">导出查询结果</a>
+    </div>
+        <!--@*<table class="table" id="list">
+                <div class="tabel-operate" id="batchOperate">
+                    <button type="button" class="btn btn-default btn-ssm" onclick="BatchLock()">冻结</button>
+                    <button type="button" class="btn btn-default btn-ssm" onclick="BatchDelete()">批量删除</button>
+                </div>
+           *@-->
+</div>
+<div id="dialogform" class="dialog-form" class="dln" style="display:none;">
+    <div class="form-group">
+        <label class="label-inline fl clear-s6" for="">密码</label><p class="help-top clear-s7 "><input class="form-control input-sm" type="password" id="password" name="password" style="width:150px;"></p>    
+    </div>
+</div>
+
+<div class="dialog-form" style="display:none;" id="divSetLabel">
+    @if (ViewBag.LabelInfos != null)
+    {
+        foreach (var label in labelinfos)
+        {
+            <div class="form-group" style="width: 150px; float: left; border: none; white-space: nowrap; overflow: hidden; margin: 10px; text-overflow: ellipsis;">
+                @Html.CheckBox("check_Label", new { value = label.LabelName, id = "check_" + label.Id, datavalue = label.Id })
+                @label.LabelName
+            </div>
+        }
+    }
+</div>

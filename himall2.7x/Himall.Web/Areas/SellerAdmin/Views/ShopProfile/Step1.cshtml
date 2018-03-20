@@ -1,0 +1,476 @@
+﻿@using Himall.Core;
+@model Himall.DTO.ShopProfileStep1
+@{
+    Layout = "~/Areas/SellerAdmin/Views/Shared/_SellerAdminRegLayout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<style>
+    ul.choose-step li {
+        width: 25%;
+    }
+</style>
+
+<script src="~/Scripts/jquery.himall.Region.js"></script>
+<div class="container pt0">
+    <input type="hidden" id="RefuseReason" value="@ViewBag.RefuseReason" />
+
+    <script type="text/javascript">
+        var refusereason = $("#RefuseReason").val();
+    </script>
+
+    <ul class="choose-step step2">
+        <li class="active">
+            基本信息
+            <span class="border"></span>
+            <span class="border-n Sclear-P34"></span>
+        </li>
+        <li style="background:none;">
+            账户信息
+            <span class="border"></span>
+            <span class="border-n"></span>
+        </li>
+        <li style="background:none;">
+            店铺信息
+            <span class="border"></span>
+            <span class="border-n"></span>
+        </li>
+        <li style="background:none;">审核状态</li>
+    </ul>
+    <form class="form-horizontal form-pt0" role="form" id="form_step1">
+        <h3 class="table-hd">公司及联系人信息</h3>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>公司名称：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(item => item.CompanyNameT, new { @class = "form-control input-sm" })
+            </div>
+            <div class="col-sm-3">
+                @Html.ValidationMessageFor(item => item.CompanyNameT)
+            </div>
+        </div>
+        <div class="form-group">
+            @if (Model.Settled.IsCity.Equals(Himall.CommonModel.VerificationStatus.Must))
+            {
+                <label for="" class="col-sm-2 control-label"><b>*</b>公司所在地：</label>
+                <div class="col-sm-10"><div id="regionSelector"></div></div>
+                @*<div class="col-sm-3">
+                    @Html.ValidationMessageFor(item => item.CityRegionIdT)
+                </div>
+                @Html.TextBoxFor(item => item.CityRegionIdT, new { style = "width:1px;height:1px;border-width:0px;" })*@
+                @Html.HiddenFor(a => a.CityRegionId)
+            }
+            else
+            {
+                <label for="" class="col-sm-2 control-label">公司所在地：</label>
+                <div class="col-sm-10"><div id="regionSelector"></div></div>
+                <div class="col-sm-3"></div>
+                @Html.HiddenFor(a=>a.CityRegionId)
+            }
+        </div>
+        <div class="form-group">
+            @if (Model.Settled.IsAddress.Equals(Himall.CommonModel.VerificationStatus.Must))
+            {
+                <label for="" class="col-sm-2 control-label"><b>*</b>公司详细地址：</label>
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(item => item.AddressT, new { @class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.ValidationMessageFor(item => item.AddressT)
+                </div>
+            }
+            else
+            {
+                <label for="" class="col-sm-2 control-label">公司详细地址：</label>
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(item => item.Address, new { @class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-3"></div>
+            }
+        </div>
+        <div class="form-group">
+            @if (Model.Settled.IsPeopleNumber.Equals(Himall.CommonModel.VerificationStatus.Must))
+            {
+                <label for="" class="col-sm-2 control-label"><b>*</b>员工总数：</label>
+                <div class="col-sm-3">
+                    @Html.DropDownListFor(item => item.EmployeeCountT, (IEnumerable<SelectListItem>)Himall.Model.CompanyEmployeeCount.LessThanFive.ToSelectList(), new { @class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.ValidationMessageFor(item => item.EmployeeCountT)
+                </div>
+            }
+            else
+            {
+                <label for="" class="col-sm-2 control-label">员工总数：</label>
+                <div class="col-sm-3">
+                    @Html.DropDownListFor(item => item.EmployeeCount, (IEnumerable<SelectListItem>)Himall.Model.CompanyEmployeeCount.LessThanFive.ToSelectList(), new { @class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-3"></div>
+            }
+        </div>
+
+        <h3 class="table-hd">营业执照信息（副本）</h3>
+        <div class="form-group">
+            @if (Model.Settled.IsBusinessLicenseCode.Equals(Himall.CommonModel.VerificationStatus.Must))
+            {
+                <label for="" class="col-sm-2 control-label"><b>*</b>营业执照号：</label>
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(item => item.BusinessLicenceNumberT, new { @class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.ValidationMessageFor(item => item.BusinessLicenceNumberT)
+                </div>
+            }
+            else
+            {
+                <label for="" class="col-sm-2 control-label">营业执照号：</label>
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(item => item.BusinessLicenceNumber, new { @class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.ValidationMessageFor(item => item.BusinessLicenceNumber)
+                </div>
+            }
+        </div>
+        <div class="form-group">
+            @if (Model.Settled.IsBusinessScope.Equals(Himall.CommonModel.VerificationStatus.Must))
+            {
+                <label for="" class="col-sm-2 control-label"><b>*</b>法定经营范围：</label>
+                <div class="col-sm-5">
+                    @Html.TextAreaFor(item => item.BusinessSphereT, new { @class = "form-control input-sm", maxLength = "100" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.ValidationMessageFor(item => item.BusinessSphereT)
+                </div>
+            }
+            else
+            {
+                <label for="" class="col-sm-2 control-label">法定经营范围：</label>
+                <div class="col-sm-5">
+                    @Html.TextAreaFor(item => item.BusinessSphere, new { @class = "form-control input-sm", maxLength = "100" })
+                </div>
+                <div class="col-sm-3"></div>
+            }
+        </div>
+        <div class="form-group upload-img " id="businessLicenceNumberPhoto"></div>
+
+        <div class="form-group">
+            @if (Model.Settled.IsAgencyCode.Equals(Himall.CommonModel.VerificationStatus.Must))
+            {
+                <label for="" class="col-sm-2 control-label"><b>*</b>组织机构代码：</label>
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(item => item.OrganizationCodeT, new { @class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.ValidationMessageFor(item => item.OrganizationCodeT)
+                </div>
+            }
+            else
+            {
+                <label for="" class="col-sm-2 control-label">组织机构代码：</label>
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(item => item.OrganizationCode, new { @class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-3"></div>
+            }
+        </div>
+        <div class="form-group upload-img " id="OrganizationCodePhoto"></div>
+
+        <div class="form-group upload-img " id="BusinessLicenseCert"></div>
+        <div class="form-group upload-img " id="ProductCert"></div>
+        <div class="form-group upload-img " id="OtherCert"></div>
+
+        <h3 class="table-hd">一般纳税人证明 @*<span class="cor-red"> 注：所属企业具有一般纳税人证明时，此项为必填。</span>*@</h3>
+        <div class="form-group upload-img " id="generalTaxpayerPhoto"></div>
+
+        <h3 class="table-hd">管理员信息 </h3>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>管理员姓名：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(item => item.RealNameT, new { @class = "form-control input-sm" })
+            </div>
+            <div class="col-sm-7 form-control-static">请确保管理员信息准确，后续结算账户修改及支付密码等重要信息设置均需通过管理员验证。 </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>@(Model.Settled.CompanyVerificationType.Equals(Himall.CommonModel.VerificationType.VerifyAll) || Model.Settled.CompanyVerificationType.Equals(Himall.CommonModel.VerificationType.VerifyPhone) ? "*" : "")</b>手机：</label>
+            <div class="col-sm-3">
+                <input type="text" id="MemberPhone" name="MemberPhone" value="@Model.MemberPhone" @(!Model.MemberPhone.Equals("") ? "readonly" : "") class="form-control input-sm" />
+            </div>
+            @if (!Model.MemberPhone.Equals(""))
+            {
+                <div class="col-sm-3 form-control-static">已验证&nbsp;&nbsp;<a href="javascript:;" id="phoneCh">更换</a></div>
+                <div class="col-sm-3 form-control-static"><a href="javascript:;" id="getPhoneCode" style="display:none;">获取验证码</a></div>
+            }
+            else
+            {
+                <div class="col-sm-3 form-control-static"><a href="javascript:;" id="getPhoneCode">获取验证码</a></div>
+            }
+        </div>
+        <div class="form-group" id="pcv" style="display:none;">
+            <label for="" class="col-sm-2 control-label"><b>*</b>验证码：</label>
+            <div class="col-sm-3">
+                <input type="text" id="PhoneCode" name="PhoneCode" class="form-control input-sm" />
+            </div>
+            <div class="col-sm-3"> <input type="button" class="btn" id="getPhoneCodeT" value="重新获取" /></div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b><b>@(Model.Settled.CompanyVerificationType.Equals(Himall.CommonModel.VerificationType.VerifyAll) || Model.Settled.CompanyVerificationType.Equals(Himall.CommonModel.VerificationType.VerifyEmail) ? "*" : "")</b></b>邮箱：</label>
+            <div class="col-sm-3">
+                <input type="text" id="MemberEmail" name="MemberEmail" value="@Model.MemberEmail" @(!Model.MemberEmail.Equals("") ? "readonly" : "") class="form-control input-sm" />
+            </div>
+            @if (!Model.MemberEmail.Equals(""))
+            {
+                <div class="col-sm-3 form-control-static">已验证&nbsp;&nbsp;<a href="javascript:;" id="emailCh">更换</a></div>
+                <div class="col-sm-3 form-control-static"><a href="javascript:;" id="getEmailCode" style="display:none;">获取验证码</a></div>
+            }
+            else
+            {
+                <div class="col-sm-3 form-control-static"><a href="javascript:;" id="getEmailCode">获取验证码</a></div>
+            }
+        </div>
+        <div class="form-group" id="ecv" style="display:none;">
+            <label for="" class="col-sm-2 control-label"><b>*</b>验证码：</label>
+            <div class="col-sm-3">
+                <input type="text" id="EmailCode" name="EmailCode" class="form-control input-sm" />
+            </div>
+            <div class="col-sm-3"><input type="button" class="btn" id="getEmailCodeT" value="重新获取" /></div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <a class="btn btn-primary btn-sm color-f" id="nextStep" href="javascript:;">下 一 步</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+@*<script src="~/Scripts/jquery.himallUpload.js"></script>*@
+<script src="~/Scripts/jquery.hishopUpload.js"></script>
+<script src="~/Scripts/autoNumeric.js"></script>
+<script type="text/javascript">
+    $(function () {
+        if (refusereason.length > 0) {
+            $.dialog({
+                title: '申请被拒绝，原因如下',
+                lock: true,
+                id: 'refusertips',
+                width: '400px',
+                content: '<div style="font-size:14px;color:#999;">' + refusereason + '</div>',
+                padding: '30px 60px',
+                ok: function () { }
+            });
+        }
+
+        $(".start_datetime").datetimepicker({
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            weekStart: 1,
+            minView: 2
+        });
+        $(".end_datetime").datetimepicker({
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            weekStart: 1,
+            minView: 2
+        });
+        $(".receipt_datetime").datetimepicker({
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            weekStart: 1,
+            minView: 2
+        });
+
+        $('.start_datetime').on('changeDate', function () {
+            if ($(".end_datetime").val()) {
+                if ($(".start_datetime").val() > $(".end_datetime").val()) {
+                    $('.end_datetime').val($(".start_datetime").val());
+                }
+            }
+
+            $('.end_datetime').datetimepicker('setStartDate', $(".start_datetime").val());
+        });
+
+        var IsBusinessLicense = "@((int)Model.Settled.IsBusinessLicense)";
+        var IsAgencyCodeLicense = "@((int)Model.Settled.IsAgencyCodeLicense)";
+        var IsTaxpayerToProve = "@((int)Model.Settled.IsTaxpayerToProve)";
+    	var IsCity = "@((int)Model.Settled.IsCity)";
+    	var verificationType=@((int)Model.Settled.CompanyVerificationType);//0:验证手机 1:验证邮箱 2:都须验证
+    	var bindPhone='@Model.MemberPhone';
+    	var bindEmail='@Model.MemberEmail';
+
+        $('#nextStep').click(function () {
+            var form = $('#form_step1');
+            if (form.valid()) {
+            	if (verificationType == 2 || verificationType == 0) {
+            		var memberPhone=$('#MemberPhone');
+            		var input_phoneCode = $('#PhoneCode');
+            		if (input_phoneCode.val() == ''&&memberPhone.val()!=bindPhone) {
+            			if (input_phoneCode.closest('.form-group').is(':hidden'))
+            				$.dialog.errorTips('请先获取手机验证码');
+            			else
+            				$.dialog.errorTips('请输入手机验证码');
+            			return false;
+            		}
+            	}
+
+            	if (verificationType == 2 || verificationType == 1) {
+            		var memberEmail=$('#MemberEmail');
+            		var input_emailCode = $('#EmailCode');
+            		if (input_emailCode.val() == ''&&memberEmail.val()!=bindEmail) {
+            			if (input_emailCode.closest('.form-group').is(':hidden'))
+            				$.dialog.errorTips('请先获取邮箱验证码');
+            			else
+            				$.dialog.errorTips('请输入邮箱验证码');
+            			return false;
+            		}
+            	}
+
+                var bizNOPhoto = true;
+                if (IsBusinessLicense == "1") {
+                    bizNOPhoto = $('#businessLicenceNumberPhoto').hishopUpload('getImgSrc');
+                }
+
+                var organizeCodePhoto = true;
+                if (IsAgencyCodeLicense == "1") {
+                    organizeCodePhoto = $('#OrganizationCodePhoto').hishopUpload('getImgSrc');
+                }
+
+                var generalTaxpayerPhoto = true;
+                if (IsTaxpayerToProve == "1") {
+                    generalTaxpayerPhoto = $('#generalTaxpayerPhoto').hishopUpload('getImgSrc');
+                }
+
+                var businessLicenceValidStart = $('#BusinessLicenceValidStart').val();
+                var businessLicenceValidEnd = $('#BusinessLicenceValidEnd').val();
+
+                if (IsCity == 1 && $("#CityRegionId").attr("isfinal")=="false")
+                {
+                    $.dialog.errorTips('请选择公司所在地');
+                }
+
+                else if (!bizNOPhoto)
+                    $.dialog.errorTips('请上传营业执照号电子版');
+                else if (!organizeCodePhoto)
+                    $.dialog.errorTips('请上传组织机构代码证电子版');
+                else if (!generalTaxpayerPhoto)
+                    $.dialog.errorTips('请上传一般纳税人证明');
+                else {
+                    //$('#RegisterMoney').val($('#RegisterMoney').val().replace(/,/g, ''));
+
+                    var data = form.serialize();
+
+                    var loading = showLoading();
+                    $.post('EditProfile1', data, function (result) {
+                        loading.close();
+                        if (result.success)
+                            window.top.location.href = '@(Url.Action("EditProfile2"))';
+                        else
+                            $.dialog.errorTips('保存失败！' + result.msg);
+                    });
+                }
+
+            } else {
+                if ($("#RealNameT").val().length < 2 || $("#RealNameT").val().length > 10) {
+                    $.dialog.errorTips('管理员姓名长度在2至10位！');
+                    return false;
+                }
+            }
+        });
+
+
+        if (IsBusinessLicense == "1") {
+            $('#businessLicenceNumberPhoto').hishopUpload({
+                title: '<b>*</b>营业执照号电子版：',
+                imageDescript: '请确保图片清晰，文字可辨并有清晰的红色公章。<label class="pic-upload-suggest">(图片大小不能超过1M)</label>',
+                displayImgSrc: '@HimallIO.GetImagePath(Model.BusinessLicenceNumberPhoto)',
+                imgFieldName: "businessLicenceNumberPhoto",
+                dataWidth: 8
+            });
+        } else {
+            $('#businessLicenceNumberPhoto').hishopUpload({
+                title: '营业执照号电子版：',
+                imageDescript: '请确保图片清晰，文字可辨并有清晰的红色公章。<label class="pic-upload-suggest">(图片大小不能超过1M)</label>',
+                displayImgSrc: '@HimallIO.GetImagePath(Model.BusinessLicenceNumberPhoto)',
+                imgFieldName: "businessLicenceNumberPhoto",
+                dataWidth: 8
+            });
+        }
+
+        if (IsAgencyCodeLicense == "1") {
+            $('#OrganizationCodePhoto').hishopUpload({
+                title: '<b>*</b>组织机构代码证电子版：',
+                imageDescript: '请确保图片清晰，文字可辨并有清晰的红色公章。<label class="pic-upload-suggest">(图片大小不能超过1M)</label>',
+                displayImgSrc: '@HimallIO.GetImagePath(Model.OrganizationCodePhoto)',
+                imgFieldName: "OrganizationCodePhoto",
+                dataWidth: 8
+            });
+        } else {
+            $('#OrganizationCodePhoto').hishopUpload({
+                title: '组织机构代码证电子版：',
+                imageDescript: '请确保图片清晰，文字可辨并有清晰的红色公章。<label class="pic-upload-suggest">(图片大小不能超过1M)</label>',
+                displayImgSrc: '@HimallIO.GetImagePath(Model.OrganizationCodePhoto)',
+                imgFieldName: "OrganizationCodePhoto",
+                dataWidth: 8
+            });
+        }
+
+        if (IsTaxpayerToProve == "1") {
+            $('#generalTaxpayerPhoto').hishopUpload({
+                title: '<b>*</b>一般纳税人证明：',
+                imageDescript: '请确保图片清晰，文字可辨并有清晰的红色公章。<label class="pic-upload-suggest">(图片大小不能超过1M)</label>',
+                displayImgSrc: '@HimallIO.GetImagePath(Model.GeneralTaxpayerPhoto)',
+                imgFieldName: "GeneralTaxpayerPhoto",
+                dataWidth: 8
+            });
+        } else {
+            $('#generalTaxpayerPhoto').hishopUpload({
+                title: '一般纳税人证明：',
+                imageDescript: '请确保图片清晰，文字可辨并有清晰的红色公章。<label class="pic-upload-suggest">(图片大小不能超过1M)</label>',
+                displayImgSrc: '@HimallIO.GetImagePath(Model.GeneralTaxpayerPhoto)',
+                imgFieldName: "GeneralTaxpayerPhoto",
+                dataWidth: 8
+            });
+        }
+
+        $("#BusinessLicenseCert").hishopUpload({
+            title: '经营许可类证书:(最多三张)',
+            imageDescript: '<label class="pic-upload-suggest">(图片大小不能超过1M)</label>',
+            displayImgSrc: '@HimallIO.GetImagePath(Model.BusinessLicenseCert)',
+            imgFieldName: "BusinessLicenseCert",
+            defaultImg: '/Images/default_100x100.png',
+            imagesCount: 3,
+            dataWidth: 6
+        });
+        $("#ProductCert").hishopUpload({
+            title: '产品类证书:(最多三张)',
+            imageDescript: '<label class="pic-upload-suggest">(图片大小不能超过1M)</label>',
+            displayImgSrc: '@HimallIO.GetImagePath(Model.ProductCert)',
+            imgFieldName: "ProductCert",
+            defaultImg: '/Images/default_100x100.png',
+            imagesCount: 3,
+            dataWidth: 6
+        });
+        $("#OtherCert").hishopUpload({
+            title: '其它证书:(最多三张)',
+            imageDescript: '<label class="pic-upload-suggest">(图片大小不能超过1M)</label>',
+            displayImgSrc: '@HimallIO.GetImagePath(Model.OtherCert)',
+            imgFieldName: "OtherCert",
+            defaultImg: '/Images/default_100x100.png',
+            //pictureSize: '100*100',
+            imagesCount: 3,
+            dataWidth: 6
+        });
+
+
+        $("#regionSelector").RegionSelector({
+            selectClass: "form-control input-sm select-sort",
+            valueHidden: "#CityRegionId"
+        });
+    });
+
+</script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/step1.js"></script>

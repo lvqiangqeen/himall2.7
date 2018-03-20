@@ -1,0 +1,380 @@
+﻿@using Himall.Core;
+@model Himall.Web.Models.ShopModel
+@{
+    ViewBag.Title = "Details";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<div class="container Sclear-M">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="Renew">店铺续费</a></li>
+        <li class="active"><a>店铺信息</a></li>
+    </ul>
+
+    <form class="form-horizontal" id="from_Save1" role="form">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        <h3>公司信息</h3>
+                        <div class="bjt">
+                            <div class="dView_1">
+                                <a href="javascript:;" id="edit_1">修改</a>
+                            </div>
+                            <div class="dEdit_1 shide">
+                                <a href="javascript:;" id="save_1">保存</a>&nbsp;
+                                <a href="javascript:;" id="cancel_1">取消</a>
+                            </div>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td align="right" width="15%">公司名称</td>
+                    <td>
+                        <div class="dEdit_1 shide">
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(item => item.CompanyName, new { @class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.ValidationMessageFor(item => item.CompanyName)
+                            </div>
+                        </div>
+                        <div class="dView_1">
+                            @Model.CompanyName
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">公司所在地</td>
+                    <td>
+                        <div class="dEdit_1 shide">
+                            <div class="col-sm-8">
+                                <span id="span_area"></span>
+                                @Html.HiddenFor(item => item.NewCompanyRegionId)
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.ValidationMessageFor(p => p.NewCompanyRegionId)
+                            </div>
+                        </div>
+                        <div class="dView_1">
+                            @Model.CompanyRegion
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">公司详细地址</td>
+                    <td>
+                        <div class="dEdit_1 shide">
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(item => item.CompanyAddress, new { @class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.ValidationMessageFor(item => item.CompanyAddress)
+                            </div>
+                        </div>
+                        <div class="dView_1">
+                            @Model.CompanyAddress
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">员工总数</td>
+                    <td>
+                        <div class="dEdit_1 shide">
+                            <div class="col-sm-3">
+                                @Html.DropDownListFor(item => item.CompanyEmployeeCount, (IEnumerable<SelectListItem>)Himall.Model.CompanyEmployeeCount.LessThanFive.ToSelectList(), new { @class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.ValidationMessageFor(item => item.CompanyEmployeeCount)
+                            </div>
+                        </div>
+                        <div class="dView_1">
+                            @Model.CompanyEmployeeCount.ToDescription()
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <form class="form-horizontal" id="from_Save2" role="form">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        <h3>营业执照信息</h3>
+                        <div class="bjt">
+                            <div class="dView_2">
+                                <a href="javascript:;" id="edit_2">修改</a>
+                            </div>
+                            <div class="dEdit_2 shide">
+                                <a href="javascript:;" id="save_2">保存</a>&nbsp;
+                                <a href="javascript:;" id="cancel_2">取消</a>
+                            </div>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td align="right" width="15%">营业执照号</td>
+                    <td>@Model.BusinessLicenceNumber</td>
+                </tr>
+                <tr>
+                    <td align="right">法定经营范围</td>
+                    <td>@Model.BusinessSphere</td>
+                </tr>
+                @if (!string.IsNullOrWhiteSpace(Model.BusinessLicenceNumberPhoto) && HimallIO.ExistFile(Model.BusinessLicenceNumberPhoto))
+                {
+                    <tr>
+                        <td align="right">上传营业执照</td>
+                        <td><img src="@(Himall.Core.HimallIO.GetImagePath(Model.BusinessLicenceNumberPhoto))" alt="" /></td>
+                    </tr>
+                }
+                <tr>
+                    <td align="right">组织机构代码</td>
+                    <td>@Model.OrganizationCode</td>
+                </tr>
+                @if (!string.IsNullOrWhiteSpace(Model.OrganizationCodePhoto) && HimallIO.ExistFile(Model.OrganizationCodePhoto))
+                {
+                    <tr>
+                        <td align="right">组织机构代码证</td>
+                        <td><img src="@(Himall.Core.HimallIO.GetImagePath(Model.OrganizationCodePhoto))" alt="" /></td>
+                    </tr>
+                }
+                <tr>
+                    <td align="right">经营许可类证书</td>
+                    <td>
+                        <div class="dEdit_2 shide">
+                            <div class="form-group upload-img" id="BusinessLicenseCert"></div>
+                        </div>
+                        <div class="dView_2">
+                            @for (int i = 1; i < 4; i++)
+                            {
+                                if (Himall.Core.HimallIO.ExistFile(Model.BusinessLicenseCert + string.Format("{0}.png", i)))
+                                {
+                                    <img src="@(Himall.Core.HimallIO.GetImagePath(Model.BusinessLicenseCert + string.Format("{0}.png", i)))" alt="" />
+                                }
+                            }
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">产品类证书</td>
+                    <td>
+                        <div class="dEdit_2 shide">
+                            <div class="form-group upload-img" id="ProductCert"></div>
+                        </div>
+                        <div class="dView_2">
+                            @for (int i = 1; i < 4; i++)
+                            {
+                                if (Himall.Core.HimallIO.ExistFile(Model.ProductCert + string.Format("{0}.png", i)))
+                                {
+                                    <img src="@(Himall.Core.HimallIO.GetImagePath(Model.ProductCert + string.Format("{0}.png", i)))" alt="" />
+                                }
+                            }
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">其它证书</td>
+                    <td>
+                        <div class="dEdit_2 shide">
+                            <div class="form-group upload-img" id="OtherCert"></div>
+                        </div>
+                        <div class="dView_2">
+                            @for (int i = 1; i < 4; i++)
+                            {
+                                if (Himall.Core.HimallIO.ExistFile(Model.OtherCert + string.Format("{0}.png", i)))
+                                {
+                                    <img src="@(Himall.Core.HimallIO.GetImagePath(Model.OtherCert + string.Format("{0}.png", i)))" alt="" />
+                                }
+                            }
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <form class="form-horizontal" role="form">
+        <table class="table">
+            <thead>
+                <tr><th colspan="2"><h3>一般纳税人证明</h3></th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td align="right" width="15%">一般纳税人证明</td>
+                    <td><img class="Sclear-M2" src="@(Himall.Core.HimallIO.GetImagePath(Model.GeneralTaxpayerPhot))" alt="" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <form class="form-horizontal" role="form">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        <h3>银行账户</h3>
+                        <div class="bjt">
+                            <a href="javascript:;" id="edit_3" class="bankBindBtn">修改</a>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td align="right" width="15%">银行开户名</td>
+                    <td>@Model.BankAccountName</td>
+                </tr>
+                <tr>
+                    <td align="right">公司银行账号</td>
+                    <td>@Model.BankAccountNumber</td>
+                </tr>
+                <tr>
+                    <td align="right">开户银行支行名称</td>
+                    <td>@Model.BankName</td>
+                </tr>
+                <tr>
+                    <td align="right">支行联行号</td>
+                    <td>@Model.BankCode</td>
+                </tr>
+                <tr>
+                    <td align="right">开户银行所在地</td>
+                    <td>@Model.BankRegionId</td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+    @if (!Model.WeiXinOpenId.Equals(""))
+    {
+        <form class="form-horizontal" role="form">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            <h3>微信账户</h3>
+                            <div class="bjt">
+                                <a href="javascript:;" id="edit_4" class="weixinBindBtn">修改</a>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td align="right" width="15%">账户昵称</td>
+                        <td>@Model.WeiXinNickName</td>
+                    </tr>
+                    <tr>
+                        <td align="right">真实姓名</td>
+                        <td>@Model.WeiXinTrueName</td>
+                    </tr>
+                    <tr>
+                        <td align="right">性别</td>
+                        <td>@(Model.WeiXinSex.Equals(0) ? "女" : "男")</td>
+                    </tr>
+                    <tr>
+                        <td align="right">所在地</td>
+                        <td>@Model.WeiXinAddress</td>
+                    </tr>
+                    @if (!Model.WeiXinImg.Equals(""))
+                    {
+                        <tr>
+                            <td align="right">头像</td>
+                            <td><img src="@Model.WeiXinImg" alt="" /></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+
+    }
+    <div style="clear:both;"></div>
+    <form class="form-horizontal" role="form">
+        <table class="table">
+            @*<colgroup>
+                    <col class="col-xs-1">
+                    <col class="col-xs-7">
+                </colgroup>*@
+            <thead>
+                <tr>
+                    <th colspan="2"><h3>管理员信息</h3></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td align="right" width="15%">姓名</td>
+                    <td>
+
+                        <div class="dView_5" style="float:left;">
+                            @ViewBag.RealName
+                        </div>
+                        <div class="dEdit_5 shide">
+                            <input class="form-control input-sm" style="width:260px;float:left;" data-val="true" id="RealName" name="RealName" value="@ViewBag.RealName" />
+                        </div>
+
+                        <div class="bjts">
+                            <div class="dView_5">
+                                <a href="javascript:;" id="edit_5">修改</a>
+                            </div>
+                            <div class="dEdit_5 shide">
+                                <a href="javascript:;" id="save_5">保存</a>&nbsp;
+                                <a href="javascript:;" id="cancel_5">取消</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">邮箱</td>
+                    <td>
+                        @ViewBag.MemberEmail
+
+                        <div class="bjts">
+                            <a href="javascript:;" id="edit_6" class="EmaliBindBtn">修改</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">手机</td>
+                    <td>
+                        @ViewBag.MemberPhone
+
+                        <div class="bjts">
+                            <a href="javascript:;" id="edit_7" class="PhoneBindBtn">修改</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+
+
+    
+</div>
+
+<!--微信-->
+    @{Html.RenderAction("Weixin", "AccountSettings");}
+    <!--银行-->
+    @{Html.RenderAction("Bank", "AccountSettings");}
+    <!--管理员-->
+    @{Html.RenderAction("Authenticate", "AccountSettings");}
+
+<input type="hidden" value="@Html.Raw(@ViewBag.BusinessLicenseCerts)" id="HRJVB" />
+<input type="hidden" value="@Html.Raw(@ViewBag.ProductCerts)" id="HRJVP" />
+<input type="hidden" value="@Html.Raw(@ViewBag.OtherCerts)" id="HRJVO" />
+<input type="hidden" value="@ViewBag.CompanyRegionIds" id="VCRID" />
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="~/Scripts/jquery.himall.Region.js"></script>
+<script src="~/Scripts/jquery.hishopUpload.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/autoNumeric.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/ShopDetail.js"></script>

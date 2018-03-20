@@ -1,0 +1,19 @@
+<view class="page-section">
+  <block wx:for="{{couponsList}}" wx:for-item="item" wx:for-index="idx" wx:key="coupons-box">
+       <view class="couponlist">
+      <view class="coupon-info bg-white">
+        <view class="coupon-pic">
+          <view style="background:url({{counpimg}}) center center no-repeat; background-size:100% 100%" class="counpimg padding24">
+            <view class="coupon-money">￥{{item.couponsPrice}}</view>
+            <view class="coupon-type">{{item.couponsCanUseProductse}}</view>
+          </view>
+        </view>
+        <view class="coupon-des">
+          <view class="coupon-txt-b"><view class="coupon-txt">{{item.LimitText}}</view>
+          <view class="coupon-txt">{{item.couponsDate}}</view></view>
+          <button id="{{item.couponsId}}" bindtap="getCoupon" wx:if="{{item.canReceive}}">领取</button>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>商城搜索</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">
+				<div class="search-box">
+					<input type="search" class="search-text mui-input-clear" id="keywordsText" placeholder="搜索全部商品..." autofocus="autofocus">
+					<i class="mui-icon mui-icon-search search-btn" id="searchKey"></i>
+				</div>
+			</h1>
+			<a id="screenResult" class="mui-pull-right mui-btn-link">筛选</a>
+		</header>
+		<div class="fixed-inner" id="fixedNav">
+            <a class="no_icon default rangBtn" orderkey="1">默认<i></i></a>
+            <a class="price rangBtn" orderkey="3">价格<i class="icon_sort"></i></a>
+            <a class="state_switch rangBtn" orderkey="2">销量<i class="icon_sort_single"></i></a>
+            <a class="state_switch rangBtn" orderkey="4">评价数<i class="icon_sort_single"></i></a>
+            <a class="switch">&nbsp;<i class="icon_switch"></i></a>
+        </div>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="mui-table-view mui-grid-view mui-clearfix vshop-product has-fixed" id="productsList">
+				</ul>
+			</div>
+		</div>
+		<div id="screenBox" class="screen-box">
+        	<div class="screen-head border-bot">
+        		<a id="cancelScreen">取消</a>
+        		<h1>筛选</h1>
+        		<a class="mui-right" id="enterScreen">确定</a>
+        	</div>
+        	<ul class="mui-table-view mui-table-view-chevron" id="screenTerm">
+        		<li class="collapse-line border-bot"></li>
+        		<li style="line-height: 100px; text-align: center;">当前搜索结果无可筛选项</li>
+        	</ul>
+        	<div class="screen-bot">
+        		<button class="custom-btn-default" id="clearChoose">清除选项</button>
+        	</div>
+        </div>
+		<div class="empty-show" id="emptyShow" style="display: none;"><h4>没有搜索到相关商品</h4></div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/template.js" ></script>
+		<script>
+			var page = 1,
+				isnodata = false,
+				keywords='',
+				a_id='',
+				cid,
+				b_id,
+				orderKey,
+				orderType,
+				flag=false,
+				chooseC,
+				chooseB,
+				chooseA=[],
+				mask,
+				userkey=himall.getState().userkey,
+				waitLoading=document.getElementById('waitLoading'),
+				keywordsText=document.getElementById('keywordsText'),
+				productsList=document.getElementById('productsList');
+			mui.init({
+				pullRefresh : {
+				    container:'#pullrefresh',
+				    deceleration:0.0006,
+				    up : {
+					    contentrefresh : "正在加载...",
+					    contentnomore:'已加载全部商品',
+					    callback :function(){
+					      	var self=this;
+					      	if (!isnodata) {
+					      		page++;
+						        mui.ajax(URL+'api/search/GetSearchProducts',{
+						        	data:himall.md5Data({
+						        		pageno:page,
+						        		pagesize:10,
+										keywords:keywords,
+										cid:cid,
+										a_id:a_id,
+										b_id:b_id,
+										orderkey:orderKey,
+										ordertype:orderType,
+										userkey:userkey
+									}),
+									dataType:'json',
+									type:'get',
+									timeout:10000,
+									success:function(data){
+										if(data.Success=='true'){
+						                    var html = '';
+						                    if(data.Product.length>0){
+							                    productsList.insertAdjacentHTML('beforeend',template('initProduct',data));
+							                    delayimg.render();
+						                    }else{
+												isnodata = true;
+											}
+											self.endPullupToRefresh(isnodata);
+					      					
+										}
+									},
+									error:function(xhr,type,errorThrown){
+										plus.nativeUI.toast('请求失败，请检查网络')
+									}
+								});
+						    }else{
+						    	self.endPullupToRefresh(isnodata);
+						    }
+				    	}
+				    }
+				}
+			});
+			
+			himall.immersedSide();
+			himall.immersedNav();
+			
+			mui.plusReady(function() {
+				var ws=plus.webview.currentWebview();
+				ws.setStyle({scrollIndicator:'none'});
+				keywords=ws.keywords||'';
+				cid=ws.cid;
+				if(keywords!='' || cid!=undefined){
+					searchRun(keywords,a_id,cid,b_id,orderKey,orderType,'reset');
+				}else{
+					//himall.openSoftKeyboard();
+					//keywordsText.focus();
+				}
+				
+				document.getElementById('searchKey').addEventListener('tap',function(){
+					a_id='';
+					cid=b_id=orderKey=orderType=undefined;
+					flag = false;
+					keywords=keywordsText.value;
+					searchRun(keywords,a_id,cid,b_id,orderKey,orderType);
+				});
+				
+				document.addEventListener("keyup",function(event){
+					if((event||window.event).keyCode==13){
+						keywordsText.blur();
+						a_id='';
+						cid=b_id=orderKey=orderType=undefined;
+						flag = false;
+						keywords=keywordsText.value;
+						searchRun(keywords,a_id,cid,b_id,orderKey,orderType);
+					}
+				});
+				
+				document.getElementById('screenResult').addEventListener('tap',function(){
+					openScreen();
+				});
+				
+				document.addEventListener("swiperight",function(){
+				     closeScreen();
+				});
+				
+				document.addEventListener("swipeleft",function(){
+				    openScreen();
+				});
+				
+				document.getElementById('enterScreen').addEventListener('tap',function(){
+					cid=chooseC;
+					b_id=chooseB;
+					a_id=chooseA.join(',');
+					closeScreen();
+					searchRun(keywords,a_id,cid,b_id,orderKey,orderType);
+				});
+				
+				document.getElementById('cancelScreen').addEventListener('tap',function(){
+					closeScreen();
+				});
+				
+				mui('.fixed-inner').on('tap','a.rangBtn',function(){
+					var selectA=document.getElementsByClassName('select');
+					if(selectA.length>0)
+						selectA[0].className=selectA[0].className.replace(/ select/g,'');
+					if(!himall.hasClass(this,'select'))
+						this.className+=' select';
+					if(himall.hasClass(this,'price')){
+						if(himall.hasClass(this,'state_switch')){
+							himall.removeClass(this,'state_switch');
+							orderType=1;
+						}else{
+							this.className+=' state_switch';
+							orderType=2;
+						}
+					}else{
+						orderType=2;
+					}
+					orderKey=this.getAttribute('orderkey');
+					searchRun(keywords,a_id,cid,b_id,orderKey,orderType);
+				});
+				
+				mui('.fixed-inner').on('tap','a.switch',function(){
+					if(himall.hasClass(this,'state_switch')){
+						himall.removeClass(this,'state_switch');
+					}else{
+						this.className+=' state_switch';
+					}
+					if(himall.hasClass(productsList,'crossrange')){
+						himall.removeClass(productsList,'crossrange');
+					}else{
+						productsList.className+=' crossrange';
+					}
+				});
+			});
+			
+			function openScreen(){
+				document.getElementById('screenBox').className='screen-box active';
+				if(!mask)
+					mask = mui.createMask(function(){document.getElementById('screenBox').className='screen-box'});
+				mask.show();
+			}
+			
+			function closeScreen(){
+				mask.close();
+			    document.getElementById('screenBox').className='screen-box';
+			}
+			function chooseRun(keywords,a_id,cid,b_id){
+				if(flag)return;
+				mui.ajax(URL+'api/search/GetSearchFilter',{
+					data:himall.md5Data({
+						keyword:keywords,
+						cid:cid || 0,
+						a_id:a_id || "",
+						b_id:b_id || 0,
+						userkey:userkey
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(data.Success=='true'){
+							var html='';
+							if(!flag){
+								flag = true;
+								var screenH=template('initChoose',data);
+								document.getElementById('screenTerm').innerHTML=screenH;
+								keywordsText.blur();
+								function chooseChangeText(_this){
+									var parentN=_this.parentNode.parentNode;
+									parentN.className=parentN.className.replace(' mui-active','');
+									if(_this.lastChild.checked)
+										parentN.getElementsByTagName('span')[0].innerHTML='<em>'+_this.innerText+'</em>';
+									else
+										parentN.getElementsByTagName('span')[0].innerText='全部';
+								}
+								
+								mui('#screenTerm').on('tap','.chooseCategory',function(){
+									var _this=this;
+									setTimeout(function(){
+										if(_this.lastChild.checked){
+											chooseC=_this.getAttribute('data-id');
+										}else
+											chooseC=undefined;
+											
+										chooseChangeText(_this);
+									},10)
+								});
+								mui('#screenTerm').on('tap','.chooseBrands',function(){
+									var _this=this;
+									setTimeout(function(){
+										if(_this.lastChild.checked){
+											chooseB=_this.getAttribute('data-id');
+										}else
+											chooseB=undefined;
+										
+										chooseChangeText(_this);
+									},10)
+								});
+								
+								mui('#screenTerm').on('tap','.chooseAttrs',function(){
+									var _this=this,
+										attrsArr=document.getElementsByClassName('chooseAttrsNode');
+									setTimeout(function(){
+										if(_this.lastChild.checked){
+											_this.parentNode.parentNode.setAttribute('data-attr',_this.getAttribute('data-id'));
+										}else{
+											_this.parentNode.parentNode.setAttribute('data-attr','');
+										}
+										chooseChangeText(_this);
+										chooseA=[];
+										for(var i=0; i<attrsArr.length; i++){
+											var attrd=attrsArr[i].getAttribute('data-attr');
+											if(attrd!='')
+												chooseA.push(attrd);
+										}
+									},10)
+									
+								});
+								
+								document.getElementById('clearChoose').addEventListener('tap',function(){
+									chooseC=chooseB=undefined;
+									chooseA=[];
+									document.getElementById('screenTerm').innerHTML=screenH;
+								});
+							}
+						}
+					}
+				});
+			}
+			
+			function searchRun(keywords,a_id,cid,b_id,orderKey,orderType,re){
+				page = 1;
+				isnodata = false;
+				if(!re){
+					mui('#pullrefresh').pullRefresh().refresh(true);
+				}
+				window.scrollTo(0,0);
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				mui.ajax(URL+'api/search/GetSearchProducts',{
+					data:himall.md5Data({
+		        		pageno:page,
+		        		pagesize:10,
+						keywords:keywords,
+						cid:cid,
+						a_id:a_id,
+						b_id:b_id,
+						orderkey:orderKey,
+						ordertype:orderType,
+						userkey:userkey
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(keywordsText.value == "")
+							keywordsText.value = data.keywords;
+						if(data.Success=='true'){
+					        if (data.Product.length > 0) {
+					            document.getElementById('emptyShow').style.display='none';
+					            productsList.innerHTML=template('initProduct',data);
+			                    delayimg.init({offset:100});
+					            w.close();
+					            chooseRun(keywords,a_id,cid,b_id);
+					        }else{
+					        	productsList.innerHTML='';
+					        	document.getElementById('emptyShow').style.display='block';
+					        	w.close();
+					        }
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						var errorText='<div class="empty-show"><h4>网络不给力，请检查网络！</h4><button id="reloadWv" class="mui-btn mui-btn-negative">重新加载</button></div>'
+						document.getElementById('pullrefresh').innerHTML=errorText;
+					}
+				});
+			}
+			
+			
+			mui('#productsList').on('tap', 'a', function() {
+				showProduct(this.getAttribute('data-id'));
+			});
+			
+			
+		</script>
+		
+		<script type="text/html" id="initProduct">
+			{{each Product}}
+        		<li class="mui-table-view-cell mui-media mui-col-xs-6">
+        			<div class="vshop-product-box">
+						<a data-id="{{$value.ProductId}}">
+							<div class="p-img"><b data-delay-background="{{$value.ImagePath}}"></b></div>
+							<div class="mui-media-body">{{$value.ProductName}}</div>
+							<p class="vshop-product-price"><span>¥ {{$value.SalePrice.toFixed(2)}}</span></p>
+						</a>
+					</div>
+        		</li>
+            {{/each}}
+		</script>
+		
+		<script type="text/html" id="initChoose">
+			<li class="collapse-line border-bot"></li>
+			{{if Category.length>0}}
+				<li class="mui-table-view-cell mui-collapse border-bot">
+        			<a class="mui-navigate-right">分类<span class="view-choose-text">全部</span></a>
+        			<ul class="mui-table-view mui-table-view-chevron">
+        			{{each Category as item}}
+						{{each item.SubCategory}}
+						{{each $value.SubCategory}}
+        					<li class="mui-table-view-cell mui-radio mui-right chooseCategory" data-id="{{$value.Id}}">{{$value.Name}}<input name="category" type="radio"></li>
+        				{{/each}}
+        				{{/each}}
+	        		{{/each}}
+					</ul>
+	        	</li><li class="collapse-line border-bot"></li>
+    		{{/if}}
+			{{if Brand.length>0}}
+				<li class="mui-table-view-cell mui-collapse border-bot">
+        			<a class="mui-navigate-right">品牌<span class="view-choose-text">全部</span></a>
+        			<ul class="mui-table-view mui-table-view-chevron">
+        				{{each Brand}}
+        					<li class="mui-table-view-cell mui-radio mui-right chooseBrands" data-id="{{$value.Id}}">{{$value.Name}}<input name="brands" type="radio"></li>
+        				{{/each}}
+        			</ul>
+        		</li><li class="collapse-line border-bot"></li>
+    		{{/if}}
+			{{if Attrs.length>0}}
+				{{each Attrs as item}}
+					<li class="mui-table-view-cell mui-collapse chooseAttrsNode" data-attr="">
+	        			<a class="mui-navigate-right">{{item.Name}}<span class="view-choose-text">全部</span></a>
+	        			<ul class="mui-table-view mui-table-view-chevron">
+	        				{{each item.AttrValues}}
+	        					<li class="mui-table-view-cell mui-radio mui-right chooseAttrs" data-id="{{$value.Id}}">{{$value.Name}}<input name="attrs{{item.AttrId}}" type="radio"></li>
+	        				{{/each}}
+	        			</ul>
+	        		</li>
+        		{{/each}}
+    		{{/if}}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,116 @@
+﻿@model Himall.Web.Areas.Web.Models.UserCapitalViewModels.SetPayPwdModel
+@{
+	Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+	ViewBag.Title = "支付密码";
+}
+<div class="box1 lh24" id="step1" name="stepname">
+	<div class="title bot-border">
+		<h3 class="title_txt cur">提现支付密码设置</h3>
+	</div>
+	<div class="border-box">
+		<div class="user-set userset-lcol">
+			<div class="form">
+				@if (Model.HasPawPwd)
+				{
+					<div class="item">
+						<span class="label">请输入旧密码：</span>
+						<div class="fl">
+							<input type="password" id="old" class="itxt fl">
+							<span class="prompt-06" style="padding-left:10px; color:#f60"></span>
+						</div>
+					</div>
+				}
+				<div class="item">
+					<span class="label">请设置新密码：</span>
+					<div class="fl">
+						<input type="password" value="" id="new" name="userVo.realName" maxlength="20" class="itxt fl">
+						<span id="new_msg" class="prompt-06" style="padding-left:10px;"></span><span>6-20位字符，可使用字母、数字或符号的组合</span>
+					</div>
+				</div>
+				<div class="item">
+					<span class="label">请确认新密码：</span>
+					<div class="fl">
+						<input type="password" value="" id="confirm" name="userVo.realName" maxlength="20" class="itxt fl">
+						<span class="prompt-06" id="confirm_msg" style="padding-left:10px;"></span>
+					</div>
+				</div>
+				<div class="item">
+					<span class="label">&nbsp;</span>
+					<div class="fl">
+						<a id="submitPwd" class="btn-5" href="javascript:;">提交</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(function () {
+		var stae2, stae3;
+		$('#new').blur(function () {
+			var d = $(this).val();
+			if (d.length < 6) {
+				$('#new').css({ borderColor: '#f60' });
+				$('#new_msg').css({ color: '#f60' }).html('密码不能少于6位!');
+				stae2 = '';
+			} else {
+				$('#new').css({ borderColor: '#ccc' });
+				$('#new_msg').css({ color: '#ccc' }).html('');
+				stae2 = d;
+				if ($('#confirm').val() != '' && $('#confirm').val() == $('#new').val()) {
+					$('#confirm').css({ borderColor: '#ccc' });
+					$('#confirm_msg').css({ color: '#ccc' }).html('');
+					stae3 = d;
+				}
+			}
+		});
+		$('#confirm').blur(function () {
+			var d = $(this).val();
+			if (d == $('#new').val()) {
+				$('#confirm').css({ borderColor: '#ccc' });
+				$('#confirm_msg').css({ color: '#ccc' }).html('');
+				stae3 = d;
+			} else {
+				$('#confirm').css({ borderColor: '#f60' });
+				$('#confirm_msg').css({ color: '#f60' }).html('两次密码不一致!');
+				stae3 = '';
+			}
+		});
+		$('#submitPwd').bind('click', function () {
+			var item = $("#payid", window.parent.document);
+			//console.log(stae1)
+			if (!stae2) {
+				$('#new').css({ borderColor: '#f60' });
+				$('#new_msg').css({ color: '#f60' }).html('密码不能少于6位!');
+			}
+			if (!stae3) {
+				$('#confirm').css({ borderColor: '#f60' });
+				$('#confirm_msg').css({ color: '#f60' }).html('两次密码不一致!');
+			}
+			var oldPwd = $('#old').val();
+			if (oldPwd == '') {
+				$('#old').css('borderColor', '#f60').next('span').html('请输入旧支付密码');
+				return;
+			} else
+				$('#old').css('borderColor', '').next('span').html('');
+
+			if (stae2 && stae3) {
+				var loading = showLoading();
+				$.ajax({
+					type: 'post',
+					url: '@Url.Action("SavePayPwd")',
+					data: { "pwd": stae3, oldPwd: oldPwd },
+					dataType: "json",
+					success: function (data) {
+						loading.close();
+						if (data.success) {
+							$.dialog.succeedTips('设置成功！');
+							location.href = '@Url.Action("AccountSafety", "UserCenter")';
+						} else if (data.msg)
+							$.dialog.errorTips(data.msg);
+					}
+				});
+			}
+		});
+	});
+</script>

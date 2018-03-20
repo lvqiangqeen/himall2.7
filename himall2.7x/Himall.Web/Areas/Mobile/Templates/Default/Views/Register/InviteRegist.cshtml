@@ -1,0 +1,269 @@
+﻿@{
+    ViewBag.CopyRight = false;
+}
+@model Himall.Model.InviteRuleInfo
+<div class="container login-00">
+    <div class="img"><img src="@(Himall.Core.HimallIO.GetImagePath(ViewBag.WXLogo))"></div>
+    <div class="code">注册即可获得<i class="i-01">@Model.InviteIntegral.Value.ToString()</i>积分</div>
+    <div class="money">无门槛抵扣<i>@ViewBag.Money</i>元订单金额</div>
+    @if (ViewBag.IsRegist == 0) { 
+        if (ViewBag.RegisterType == Himall.Model.SiteSettingsInfo.RegisterTypes.Normal.GetHashCode())//注册类型
+        {
+            <div>普通注册</div>
+        <form id="login-00-form">
+            <div class="option"><input type="text" class="form-control" placeholder="用户名" id="username" /></div>
+            <div class="option"><input type="password" class="form-control" placeholder="密码" id="password" /></div>
+            <div class="option"><input type="password" class="form-control" placeholder="重复密码" id="repeatPassword" /></div>
+            <a class="btn btn-primary btn-block" id="registBtn">注 册</a>
+            <p id="bindInfo"><i class="glyphicon glyphicon-info-sign"></i> </p>
+        </form>
+        }
+        @*手机注册*@
+        else { 
+        <form>
+            <div class="option"><input type="text" id="MemberPhone" placeholder="请输入手机号码" /></div>
+            <div class="option auth-code"><input type="text" id="code" placeholder="请输入验证码" />
+                <button class="send" type="button" id="btnAuthCode">发送验证码</button>
+                <button class="time" type="button" style="display:none">60s</button>
+            </div>
+            <div class="option"><input type="password" id="passwordMobile" placeholder="请输入登录密码" /></div>
+            <div class="option"><input type="password" id="repeatPasswordMobile" placeholder="确认登录密码" /></div>
+            <a class="btn btn-primary btn-block" id="mobileRegistBtn">注 册</a>
+        
+        </form>
+        }
+    }
+    <div id="tipInfo" class="registered-00" style="display:none">
+        <p>亲，您已是我们的老顾客</p>
+        <a id="gobacklook" class="btn btn-primary btn-block" href="/">回去看看</a>
+    </div>
+    <div class="activity-info">
+        @MvcHtmlString.Create(Model.ShareRule)
+    </div>
+</div>
+<input type="hidden" id="introducer" name="introducer" value="@ViewBag.Introducer" />
+<input type="hidden" id="IsRegist" name="isRegist" value="@ViewBag.IsRegist" />
+<style>body,html{height:100%;}</style>
+<script>
+    $(function () {
+        var count = 60;
+        var t;
+        $('#btnAuthCode').click(SendCode);//发送验证码
+        $('#gobacklook').attr("href", "/" + areaName);
+        function countDown1() {
+            $("#btnAuthCode").html(count + 's后重发');
+            if (count == 1) {
+                $("#btnAuthCode").bind('click', SendCode);
+                $("#btnAuthCode").html('重新发送');
+                $("#btnAuthCode").removeAttr("disabled");
+                count = 60;
+                return;
+            } else {
+                t = setTimeout(countDown1, 1000);
+            }
+            count--;
+        }
+        function check() {
+            var reg1 = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/,
+                str = $('#MemberPhone').val();
+            var a = reg1.test(str);
+            if (a) {
+                //$('#msg').hide();
+                return false;
+            } else {
+                $.dialog.errorTips('请填写正确的手机号');
+                return true;
+            }
+        }
+        function SendCode() {
+            if (check()) {
+                return;
+            }
+
+            $("#btnAuthCode").unbind('click');
+            var Phone = $("#MemberPhone").val();
+            $.post('SendMobileCode', { pluginId: "Himall.Plugin.Message.SMS", destination: Phone }, function (result) {
+                if (result.success) {
+                    t = setTimeout(countDown1, 1000);
+                } else {
+                    $("#btnAuthCode").bind('click', SendCode);
+                    $.dialog.errorTips('发送验证码失败,' + result.msg);
+                }
+            });
+        }
+
+        $('.login-00').height($('.container').width() * 63 / 40);
+
+        var openId = QueryString('openId');
+        var serviceProvider = QueryString('serviceProvider');
+
+        if (!openId || !serviceProvider)
+            $('#bindInfo').hide();
+
+        $('#registBtn').click(function () {
+            regist();
+        });
+        $('#mobileRegistBtn').click(function () {
+            registMobile();
+        });
+        if ($('#IsRegist').val() == 1) {
+            $('#tipInfo').show();
+        }
+        //else {
+        //    $('#login-00-form').show();
+        //}
+    });
+    function CheckMobileCode() {
+        var checkurl = '/' + areaName + '/Register/CheckMobileCode';
+        var destination = $("#MemberPhone").val();
+        var checkCode = $('#code').val()
+        if (!checkCode) {
+            $.dialog.errorTips('请填写验证码');
+            return;
+        }
+        var flag = false;
+        $.ajax({
+            type: "post",
+            url: checkurl,
+            data: { pluginId: "Himall.Plugin.Message.SMS", code: checkCode, destination: destination },
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                if (result.success) {
+                    flag = true;
+                }
+                else {
+                    $.dialog.errorTips(result.msg);
+                    flag = false;
+                }
+            }
+        });
+        return flag;
+    }
+    function regist() {
+        var username = $.trim($('#username').val());
+        var password = $.trim($('#password').val());
+        var repeatPassword = $.trim($('#repeatPassword').val());
+        var introducer = $("#introducer").val();
+
+        var destination = $("#MemberPhone").val();
+
+        var openId = QueryString('openId');
+        var serviceProvider = QueryString('serviceProvider');
+        var reg = /^([\u4E00-\u9FA5]|[A-Za-z0-9])[\u4E00-\u9FA5\A-Za-z0-9\_\-]{3,19}$/;
+        if (!openId || !serviceProvider)
+            $.dialog.errorTips('请在微信端打开！');
+        else if (!username)
+            $.dialog.errorTips('请输入用户名');
+        else if ((/^\d+$/.test(username))) {
+            $.dialog.errorTips('不可以使用纯数字用户名');
+        }
+        else if (!reg.test(username))
+            $.dialog.errorTips('用户名只能4-20位字符，暂只支持中英文、数字及"-"、"_"的组合');
+        else if (!password)
+            $.dialog.errorTips('请输入密码');
+        else if (password.length < 6 && password.length > 20)
+            $.dialog.errorTips('密码必须6-20位字符');
+        else if (!repeatPassword)
+            $.dialog.errorTips('请再次输入密码');
+        else if (password != repeatPassword)
+            $.dialog.errorTips('两次密码不一致');
+        else {
+            var loading = showLoading('请稍候', 1);
+            if ($('#IsRegist').val() == 1&&!CheckMobileCode() ) {
+                $.dialog.errorTips('手机验证码输入错误或者超时！');
+                loading.close();
+                return;
+            }
+
+            var headimgurl = QueryString('headimgurl');
+            var nickName = QueryString('nickName');
+            var unionid = QueryString('unionid');
+            $.post('/' + areaName + '/register/InviteRegist',
+            {
+                username: username,
+                password: password,
+                nickName: nickName,
+                serviceProvider: serviceProvider,
+                openId: openId,
+                unionid: unionid,
+                introducer: introducer,
+                headimgurl: headimgurl,
+                mobile: destination
+            },
+            function (result) {
+                loading.close();
+                if (result.success) {
+                    $.dialog.succeedTips('注册成功!', function () {
+                        var returnUrl = QueryString('returnUrl');
+                        if (!returnUrl)
+                            returnUrl = '/' + areaName;
+                        location.replace(decodeURIComponent(returnUrl));
+                    });
+                }
+                else
+                    $.dialog.alert('注册失败!' + result.msg);
+            });
+        }
+    }
+    function registMobile() {
+        var password = $.trim($('#passwordMobile').val());
+        var repeatPassword = $.trim($('#repeatPasswordMobile').val());
+        var introducer = $("#introducer").val();
+
+        var destination = $("#MemberPhone").val();
+
+        var openId = QueryString('openId');
+        var serviceProvider = QueryString('serviceProvider');
+        var reg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+        if (!openId || !serviceProvider)
+            $.dialog.errorTips('请在微信端打开！');
+        else if (!reg.test(destination)) {
+            $.dialog.errorTips('请正确的手机号码！');
+        }
+        else if (!password)
+            $.dialog.errorTips('请输入密码');
+        else if (password.length < 6 && password.length > 20)
+            $.dialog.errorTips('密码必须6-20位字符');
+        else if (!repeatPassword)
+            $.dialog.errorTips('请再次输入密码');
+        else if (password != repeatPassword)
+            $.dialog.errorTips('两次密码不一致');
+        else {
+            var loading = showLoading('请稍候', 1);
+            if (!CheckMobileCode()) {
+                $.dialog.errorTips('手机验证码输入错误或者超时！');
+                loading.close();
+                return;
+            }
+            var headimgurl = QueryString('headimgurl');
+            var nickName = QueryString('nickName');
+            var unionid = QueryString('unionid');
+            $.post('/' + areaName + '/register/InviteRegist',
+            {
+                username: "",
+                password: password,
+                nickName: nickName,
+                serviceProvider: serviceProvider,
+                openId: openId,
+                unionid: unionid,
+                introducer: introducer,
+                headimgurl: headimgurl,
+                mobile: destination
+            },
+            function (result) {
+                loading.close();
+                if (result.success) {
+                    $.dialog.succeedTips('注册成功!', function () {
+                        var returnUrl = QueryString('returnUrl');
+                        if (!returnUrl)
+                            returnUrl = '/' + areaName;
+                        location.replace(decodeURIComponent(returnUrl));
+                    });
+                }
+                else
+                    $.dialog.alert('注册失败!' + result.msg);
+            });
+        }
+    }
+</script>

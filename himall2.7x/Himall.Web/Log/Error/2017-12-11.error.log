@@ -1,0 +1,49 @@
+
+
+
+ 记录时间：2017-12-11 22:10:36,364 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(D:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-12-11 23:10:31,050 
+日志级别：  ERROR 
+出错类：Himall.Web.Framework.BaseController.OnException  
+错误描述：页面未捕获的异常：Area:Admin,Controller:Capital,Action:GetMemberCapitals,id:Get:post:user=&page=1&rows=15 
+
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Himall.Web.Areas.Admin.Controllers.CapitalController.<>c__DisplayClass6_0.<GetMemberCapitals>b__0(CapitalInfo e) 位置 D:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web\Areas\Admin\Controllers\CapitalController.cs:行号 61
+   在 System.Linq.Enumerable.WhereSelectListIterator`2.MoveNext()
+   在 System.Web.Script.Serialization.JavaScriptSerializer.SerializeEnumerable(IEnumerable enumerable, StringBuilder sb, Int32 depth, Hashtable objectsInUse, SerializationFormat serializationFormat)
+   在 System.Web.Script.Serialization.JavaScriptSerializer.SerializeValueInternal(Object o, StringBuilder sb, Int32 depth, Hashtable objectsInUse, SerializationFormat serializationFormat, MemberInfo currentMember)
+   在 System.Web.Script.Serialization.JavaScriptSerializer.SerializeValue(Object o, StringBuilder sb, Int32 depth, Hashtable objectsInUse, SerializationFormat serializationFormat, MemberInfo currentMember)
+   在 System.Web.Script.Serialization.JavaScriptSerializer.SerializeCustomObject(Object o, StringBuilder sb, Int32 depth, Hashtable objectsInUse, SerializationFormat serializationFormat)
+   在 System.Web.Script.Serialization.JavaScriptSerializer.SerializeValueInternal(Object o, StringBuilder sb, Int32 depth, Hashtable objectsInUse, SerializationFormat serializationFormat, MemberInfo currentMember)
+   在 System.Web.Script.Serialization.JavaScriptSerializer.SerializeValue(Object o, StringBuilder sb, Int32 depth, Hashtable objectsInUse, SerializationFormat serializationFormat, MemberInfo currentMember)
+   在 System.Web.Script.Serialization.JavaScriptSerializer.Serialize(Object obj, StringBuilder output, SerializationFormat serializationFormat)
+   在 System.Web.Script.Serialization.JavaScriptSerializer.Serialize(Object obj, SerializationFormat serializationFormat)
+   在 System.Web.Mvc.JsonResult.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+
+
+
+ 记录时间：2017-12-11 23:37:02,803 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(D:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)

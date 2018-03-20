@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "edit";
+}
+@model Himall.Web.Models.SiteSettingModel
+
+<script src="~/Areas/Admin/Scripts/AdvancePaymentEdit.js"></script>
+<div class="container">
+
+    <ul class="nav nav-tabs-custom clearfix">
+        <li type="statusTab" class="active"><a>交易参数</a></li>
+        <li type="statusTab"><a href="@(Url.Action("CustomerServicesEdit"))">客服设置</a></li>
+        <li type="statusTab"><a href="@(Url.Action("RefundReason"))">售后原因设置</a></li>
+    </ul>
+
+    @using (Html.BeginForm("Edit", "SiteSetting", FormMethod.Post))
+    {
+        <div class="form-horizontal mt0">
+            
+            <h3 class="table-hd mt0">订单参数</h3>
+            <div class="form-group">
+                <label class="col-sm-2 clear-d control-label" for="">下单后，超过</label>
+                <div class="col-sm-2 clear-d">
+                    @Html.TextBoxFor(item => item.UnpaidTimeout, new { @class = "form-control input-sm", onkeyup = "value = value.replace(/[^\\d]/g, '')" })
+                </div>
+                <div class="col-sm-3 clear-d">
+                    小时未付款，订单关闭
+                </div>
+                <div class="col-sm-4">
+                    @Html.ValidationMessageFor(item => item.UnpaidTimeout)
+                    <p class="help-default clear-d"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 clear-d control-label" for="">发货后，超过</label>
+                <div class="col-sm-2 clear-d">
+                    @Html.TextBoxFor(item => item.NoReceivingTimeout, new { @class = "form-control input-sm", onkeyup = "value = value.replace(/[^\\d]/g, '')" })
+                </div>
+
+                <div class="col-sm-3 ckear-d">
+                    天未收货，订单自动完成
+                </div>
+                <div class="col-sm-4">
+                    <p class="help-default"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 clear-d control-label" for="">收货后，超过</label>
+                <div class="col-sm-2 clear-d">
+                    @Html.TextBoxFor(item => item.OrderCommentTimeout, new { @class = "form-control input-sm", onkeyup = "value = value.replace(/[^\\d]/g, '')" })
+                </div>
+                <div class="info-cue">
+                    天未评价，关闭评价通道
+                </div>
+                <div class="col-sm-4">
+                    <p class="help-default">评价通道关闭后用户可发起追加评论</p>
+                </div>
+            </div>
+            <h3 class="table-hd">售后参数</h3>
+            <div class="form-group">
+                <label class="col-sm-2 clear-d control-label" for="">订单完成后</label>
+                <div class="col-sm-2 clear-d">
+                    @Html.TextBoxFor(item => item.SalesReturnTimeout, new { @class = "form-control input-sm", onkeyup = "value = value.replace(/[^\\d]/g, '')" })
+
+                </div>
+
+                <div class="info-cue">
+                    天后关闭售后通道
+                </div>
+                <div class="col-sm-4">
+                    <p class="help-default">会员只能在售后维权期发起退款/退货申请</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 clear-d control-label" for="">提交申请后商家/门店逾期</label>
+                <div class="col-sm-2 clear-d">
+                    @Html.TextBoxFor(item => item.AS_ShopConfirmTimeout, new { @class = "form-control input-sm", onkeyup = "value = value.replace(/[^\\d]/g, '')" })
+                </div>
+                <div class="info-cue">
+                    天未处理，流程自动进入下一环节
+                </div>
+                <div class="col-sm-4">
+                    <p class="help-default"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 clear-d control-label" for="">退货申请买家逾期</label>
+                <div class="col-sm-2 clear-d">
+                    @Html.TextBoxFor(item => item.AS_SendGoodsCloseTimeout, new { @class = "form-control input-sm", onkeyup = "value = value.replace(/[^\\d]/g, '')" })
+                </div>
+                <div class="info-cue">
+                    天未寄货，自动关闭退货流程
+                </div>
+                <div class="col-sm-4">
+                    <p class="help-default"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 clear-d control-label" for="">买家寄货后卖家逾期</label>
+                <div class="col-sm-2 clear-d">
+                    @Html.TextBoxFor(item => item.AS_ShopNoReceivingTimeout, new { @class = "form-control input-sm", onkeyup = "value = value.replace(/[^\\d]/g, '')" })
+                </div>
+
+                <div class="info-cue">
+                    天未处理，流程自动进入下一环节
+                </div>
+                <div class="col-sm-4">
+                    <p class="help-default"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="button" id="Save" class="btn btn-primary" value="保 存">
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>礼品订单详情</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">礼品订单详情</h1>
+		</header>
+		<div id="scrollDiv" class="scroll-div">
+			<div class="mui-content transparent">
+				<div id="orderList" >
+				</div>
+			</div>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/template.js"></script>
+		<script>
+			var orderId,
+				ws,
+				orderListPage,
+				userkey=himall.getState().userkey,
+				loadPage;
+			mui.init({
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				orderListPage=plus.webview.getWebviewById('integral-order.html');
+				ws=plus.webview.currentWebview();
+				orderId=ws.orderId;
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				loadPage=function(){
+					mui.ajax(URL+'api/gifts/GetOrder',{
+						data:himall.md5Data({
+							id:orderId,
+							userkey:userkey
+						}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+				            document.getElementById('orderList').innerHTML=template('initData',data);
+				            delayimg.init({content:document.getElementById('scrollDiv')});
+				            
+				            if(data.ShowExpressCompanyName){
+			            		mui.ajax(URL+'api/Gifts/GetExpressInfo',{
+			            			data:himall.md5Data({
+										orderId:orderId,
+										userkey:userkey
+									}),
+									dataType:'json',
+									type:'get',
+									timeout:10000,
+									success:function(dataE){
+										var express='运单号码：'+dataE.ExpressNum+' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 物流公司： '+dataE.ExpressCompanyName;
+										if(dataE.Success){
+											for(var i=0; i<dataE.Comment.Data.length; i++){
+												express+='<p>'+dataE.Comment.Data[i].time+'<span>'+dataE.Comment.Data[i].content +'</span></p>';
+											}
+										}else{
+											express+='<p class="red">暂无物流信息</p>';
+										}
+										document.getElementById('expressStatus').innerHTML=express;
+									}
+								});
+			            	}
+							w.close();
+							himall.removeClass(document.querySelector('.mui-content'),'transparent');
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							reloadWvLoad();
+						}
+					});
+				};
+				
+				loadPage();
+			});
+			
+			document.addEventListener('updateData', function() {
+				loadPage();
+			});
+			
+			mui('#orderList').on('tap', '.enterOrder', function() {
+				var orderId = this.parentNode.parentNode.getAttribute('data-id'),
+					btnArray = ['取消', '确认'];
+				mui.confirm('请确保您已收到礼品,再收货！', '', btnArray, function(e) {
+					if (e.index == 1) {
+				    	mui.ajax(URL+'api/gifts/ConfirmOrderOver',{
+							data:himall.md5Data({orderId:orderId,userkey:userkey}),
+							dataType:'json',
+							type:'POST',
+							timeout:10000,
+							success:function(data){
+								if(data.success){
+									plus.nativeUI.toast('确认收货成功');
+									mui.fire(orderListPage,'updateData');
+									ws.close();
+								}else{
+									plus.nativeUI.toast(data.msg);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								plus.nativeUI.toast('请求失败，请检查网络')
+							}
+						});
+					}
+				});
+			});
+			
+		</script>
+		
+		<script id="initData" type="text/html">
+	        <ul class="mui-table-view mui-table-view-chevron address-list" id="addressList">
+				<li class="mui-table-view-cell">
+					<a id="orderAddress">
+						<p><span>{{ShipTo}}</span>{{CellPhone}}</p>
+						<p><i class="mui-icon mui-icon-location"></i><span>{{RegionFullName}} {{Address}}</span></p>
+					</a>
+				</li>
+			</ul>
+			
+            <div class="order-info" data-id="{{Id}}">
+				<div class="item">
+					<div class="order-shop">
+						<a class="vshop-url"><i class="iconfont icon-bianhao"></i>{{Id}}</a>
+						<span class="mui-pull-right">{{ShowOrderStatus}} </span>
+					</div>
+				</div>
+	            <div class="item">
+                    <div class="buy-goods">
+                        <a class="goods-url goods-img"><img src="images/blank.gif" data-delay="{{Items[0].DefaultImage}}"/></a>
+                        <p><em>{{Items[0].SaleIntegral}} 积分</em><span><a class="goods-url">{{Items[0].GiftName}}</a></span></p>
+                        <h5><span>x {{Items[0].Quantity}}</span></h5>
+                    </div>
+                </div>
+	            <div class="item">
+	            	<div class="item-text">
+	                    &nbsp;<span class="mui-pull-right order-total">共{{Items[0].Quantity}}件礼品&nbsp;&nbsp; 花费积分：<em>{{TotalIntegral}} 积分</em></span>
+	            	</div>
+	            </div>
+	            {{if OrderStatus==3}}
+	            	<div class="item total-m item-btn">
+	            		<button class="mui-btn mui-btn-negative enterOrder">确认收货</button>
+	            	</div>
+	            {{/if}}
+	        </div>
+	        <div class="order-info">
+	        	<div class="item">
+	            	<div class="item-text">兑换时间：{{OrderDate.replace('T',' ')}}</div>
+	            </div>
+	        </div>
+	        
+	        {{if ShowExpressCompanyName}}
+				<div class="order-info">
+					<div class="item">
+						<div class="item-text express-box" id="expressStatus">
+							<div class="express-loading">
+								<div class="mui-pull-loading mui-spinner custom-loading"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+        	{{/if}}
+		</script>
+	</body>
+
+</html>

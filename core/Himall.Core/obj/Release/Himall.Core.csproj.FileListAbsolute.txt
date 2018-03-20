@@ -1,0 +1,14 @@
+E:\Work\2017\HiMall2.61\core\Himall.Core\bin\Release\Himall.Core.dll.config
+E:\Work\2017\HiMall2.61\core\Himall.Core\bin\Release\Himall.Core.XML
+E:\Work\2017\HiMall2.61\core\Himall.Core\bin\Release\Himall.Core.dll
+E:\Work\2017\HiMall2.61\core\Himall.Core\bin\Release\Himall.Core.pdb
+E:\Work\2017\HiMall2.61\core\Himall.Core\bin\Release\Ionic.Zip.dll
+E:\Work\2017\HiMall2.61\core\Himall.Core\bin\Release\log4net.dll
+E:\Work\2017\HiMall2.61\core\Himall.Core\bin\Release\Newtonsoft.Json.dll
+E:\Work\2017\HiMall2.61\core\Himall.Core\bin\Release\Quartz.dll
+E:\Work\2017\HiMall2.61\core\Himall.Core\bin\Release\ZipLib.dll
+E:\Work\2017\HiMall2.61\core\Himall.Core\bin\Release\zxing.dll
+E:\Work\2017\HiMall2.61\core\Himall.Core\bin\Release\Quartz.xml
+E:\Work\2017\HiMall2.61\core\Himall.Core\obj\Release\Himall.Core.csprojResolveAssemblyReference.cache
+E:\Work\2017\HiMall2.61\core\Himall.Core\obj\Release\Himall.Core.dll
+E:\Work\2017\HiMall2.61\core\Himall.Core\obj\Release\Himall.Core.pdb

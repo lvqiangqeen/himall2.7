@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no,email=no" />
+        <title>还没有参加任何团</title>
+        <link href="css/mui.min.css" rel="stylesheet" />
+        <link href="css/style.css" rel="stylesheet" />
+    </head>
+    <body>
+        <header class="mui-bar mui-bar-nav">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+            <h1 class="mui-title">我的拼团</h1>
+        </header>
+        <div class="mui-content merge-small-page merge-any">
+            <div class="merge-any-bg"></div>
+            <p>您还没有参加任何团哦，赶快去火拼吧！</p>
+            <a class="mui-btn mui-btn-danger btn-any" id="goGroupList">去火拼</a>
+        </div>
+    </body>
+    <script src="js/mui.min.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+    mui.init();
+    mui.plusReady(function() {
+        document.getElementById('goGroupList').addEventListener('tap', function() {
+            himall.openVW('merge-list.html');
+        })
+    })
+    </script>
+</html>

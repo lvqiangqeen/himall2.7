@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>查看物流</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<style type="text/css">
+			#pullrefresh{
+				overflow: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">查看物流</h1>
+		</header>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll logistics">
+				<p><span class="iconfont2 icon-fahuo"></span>	<span id="companyName"></span><span id="shipNumber"></span></p>
+				<!--<div class="goodsD-message" id="b_dingwei">
+							 <span class="iconfont2"></span>
+							 <div>
+							    <h4><label id="shipTo"></label><label id="cellPhone"></span></h4>
+							    <p id="address"></p>
+							 </div>
+				 </div>-->
+				<div class="logistics-timeLine" id="logisticsData">
+				</div>
+			</div>		 
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/mui.zoom.js"></script>
+		<script src="js/mui.previewimage.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/template.js" ></script>
+		<script>
+			var userkey=himall.getState().userkey;
+		     mui.init();
+			mui.plusReady(function(){
+				var ws=plus.webview.currentWebview();
+				document.getElementById("companyName").innerHTML=ws.expressCompanyName+":";
+				document.getElementById("shipNumber").innerHTML=ws.shipOrderNumber;
+				//var b_dingwei=document.getElementById("b_dingwei");
+				//b_dingwei.style.display="none";
+				//document.getElementById("shipTo").innerHTML=ws.shipTo;
+				//document.getElementById("cellPhone").innerHTML=(ws.shipTo?",":"")+ws.cellphone;
+				//if(ws.shipTo || ws.cellphone){
+				//b_dingwei.style.display="";					
+				//}
+				//document.getElementById("address").innerHTML=ws.address;
+				loadPage();
+				ws.setPullToRefresh({
+					support:true,
+					height:"50px",
+					range:"100px",
+					style: 'circle',
+					offset: '20px'
+				},function(){
+					setTimeout(function(){
+						loadPage();
+						ws.endPullToRefresh();
+					},300)
+				});
+				function loadPage(){
+					mui.ajax(URL+"api/ShopBranchOrder/GetLogisticsData",{
+			        	data:himall.md5Data({
+							expressCompanyName:ws.expressCompanyName,
+							shipOrderNumber:ws.shipOrderNumber,
+							userkey:userkey
+						}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							if(data.success){
+								document.getElementById("logisticsData").innerHTML=template('initData', data);
+							}
+							else{
+								document.getElementById("logisticsData").innerHTML="暂无物流信息";
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							plus.nativeUI.toast('请求失败，请检查网络重试');
+						}
+					});
+				}
+			});
+		</script>
+		<script id="initData" type="text/html">
+		{{each data as item index}}
+	  		<div class="timeLine_row {{index?'':'active'}}">
+		 	 	  <div>
+		 	 	  	 {{item.content}}<br />
+		 	 	  	 <span>{{item.time}}</span>
+		 	 	 </div>
+		 	 </div>
+	 	 {{/each}}
+		 </script>
+	</body>
+</html>

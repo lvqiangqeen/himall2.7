@@ -1,0 +1,56 @@
+<!--ApplyRefund.wxml-->
+<view class="page-section">
+  <form bindsubmit="formSubmit" report-submit="true">
+    <view class="form-group bg-white">
+      <view class="form-group-name">退款订单</view>
+      <view class="form-group-input">{{OrderId}}</view>
+    </view>
+    <view class="form-group bg-white" bindtap="ShowReason">
+      <view class="form-group-name">退款原因</view>
+      <view class="form-group-input {{ShowReasonIndex==-1?'selecttxt':''}}">{{ShowReasonIndex==-1?'请选择退款原因':ShowReasonList[ShowReasonIndex]}}</view>
+      <view class="iconfont arrow_right come-icon"></view>
+    </view>
+    <view class="form-group bg-white">
+      <view class="form-group-name">退款金额</view>
+      <view class="form-group-input">￥{{RefundMoney}}</view>
+    </view>
+    <view class="form-group bg-white" bindtap="ShowType">
+      <view class="form-group-name">退款方式</view>
+      <view class="form-group-input {{ShowRefundIndex==-1?'selecttxt':''}}">{{ShowRefundIndex==-1?'请选择退款方式':RefundTextList[ShowRefundIndex]}}</view>
+      <view class="iconfont arrow_right come-icon"></view>
+    </view>
+    <view class="form-group bg-white" hidden="{{RefundType!=2||ShowRefundIndex==-1}}">
+      <view class="form-group-name"> 开户银行</view>
+      <view class="form-group-input">
+        <input type="text" name="txtBankName" />
+      </view>
+    </view>
+    <view class="form-group bg-white" hidden="{{RefundType!=2||ShowRefundIndex==-1}}">
+      <view class="form-group-name"> 银行开户名</view>
+      <view class="form-group-input">
+        <input type="text" name="txtBankAccountName" />
+      </view>
+    </view>
+    <view class="form-group bg-white" hidden="{{RefundType!=2||ShowRefundIndex==-1}}">
+      <view class="form-group-name"> 银行账号</view>
+      <view class="form-group-input">
+        <input type="text" name="txtBankAccountNo" />
+      </view>
+    </view>
+    <view class="line">
+      <view></view>
+    </view>
+<!--
+  <view class="beizhu">
+      <view class="form-group-name">备注</view>
+    </view>
+    <view class="beizhu bg-white pb24">
+      <textarea class="group-area" placeholder="在此输入备注" bindconfirm="InputText" bindinput="InputText" data-names="Remark"></textarea>
+   </view>
+   -->
+    <view class="btn">
+      <button class="submit" form-type="submit">确定提交</button>
+      <navigator open-type="navigateBack" class="cancel">取消</navigator>
+    </view>
+  </form>
+</view>

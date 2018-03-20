@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Himall.Model.CategoryInfo>
+@{
+    ViewBag.Title = "分销市场热销店铺";
+    string skey = ViewBag.SearchKey;
+}
+<script type="text/javascript">
+    isShopPage = true;
+</script>
+
+<div class="container hot-shop">
+    <div class="hotshop-wrap">
+        <ul class="shop-datafx clearfix" id="databox"></ul>
+    </div>   
+    <div id="autoLoad" class="loading"></div> 
+</div>
+
+<script src="~/Content/Public/js/dist/underscore.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/loading.js"></script>
+
+<script id="shoptmp" type="text/template">  
+    <%_.each(datas, function(item) {%>
+    <li class="shop-frame">
+        <a class="hs-top" href="@Url.Action("ShopDetail")/<%=item.ShopId%>"><span class="shop-n"><%=item.ShopName%></span><span class="shop-tg">推广商品数：<i><%=item.ProductCount%></i></span></a>
+        <ul class="clearfix">
+            <%_.each(item.ProductList, function(sumitem) {%>
+                <li class="shop-pro"><a href="@(Url.Action("ProductDetail"))/<%=sumitem.ProductId%>"><img src="<%=sumitem.Image%>"></a><br><p>佣金<em><%=sumitem.Commission%>元</em></p></li>
+            <%});%>
+        </ul>
+    </li>
+    <%});%>
+</script>
+
+<script type="text/javascript">
+    var skey = "@(skey)";
+</script>
+
+<script src="~/Areas/Mobile/Templates/Default/Scripts/DistributionMarketHotShop.js"></script>

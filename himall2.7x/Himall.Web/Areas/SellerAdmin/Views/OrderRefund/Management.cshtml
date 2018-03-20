@@ -1,0 +1,90 @@
+﻿@{ 
+    ViewBag.Title = "OrderRefund";
+    int? showtype = (int?)ViewBag.ShowType;
+    showtype = showtype ?? 0;   //初始显示所有
+    string pagename = "所有记录";
+    switch (showtype)
+    {
+        case 1:
+            pagename = "订单退款";
+            break;
+        case 2:
+            pagename = "退款记录";
+            break;
+        case 3:
+            pagename = "退货记录";
+            break;
+        case 4:
+            pagename = "货品退款";
+            break;
+    }
+    bool isOpenStore = (bool)ViewBag.IsOpenStore;
+    var storeList = ViewBag.StoreList as List<Himall.DTO.ShopBranch>;
+   }
+@model IEnumerable<Himall.Core.Plugins.PluginInfo>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Scripts/jquery.json.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/orderRefundManagement.js"></script>
+
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+
+<input type="hidden" value="@(showtype)" id="Showty" />
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li type="statusTab" class="active"><a>@(pagename)</a></li>
+        <li value="1" type="statusTab"><a>待处理</a></li>
+        
+    </ul>
+
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">开始日期</label>
+                <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text" >
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">结束日期</label>
+                <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text" >
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">订单编号</label>
+                <input class="form-control input-ssm input-number" type="text" id="txtOrderId">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">商品名称</label>
+                <input class="form-control input-ssm" type="text" id="txtProductName">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">买家</label>
+                <input class="form-control input-ssm" type="text" id="txtUserName">
+            </div>
+            @if (isOpenStore)
+            {
+                <div class="form-group">
+                    <label class="label-inline w75" for="">门店名称</label>
+                    <select id="shopBranchId" class="form-control input-ssm">
+                        <option value="0">全部</option>
+                        @foreach (var item in storeList)
+                        {
+                            <option value="@item.Id">@item.ShopBranchName</option>
+                        }
+                    </select>
+                </div>
+            }
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table id="list" class="table"></table>
+    <div class="cover"></div>
+    <div class="preview-img"><img src="" /></div>
+</div>
+@Html.Hidden("isOpenStore", isOpenStore)

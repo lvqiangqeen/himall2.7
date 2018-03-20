@@ -1,0 +1,191 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "退换货服务";
+}
+@model IEnumerable<Himall.Model.OrderInfo>
+@using Himall.Core
+@using Himall.Model
+<style>
+    .tb-back tbody>tr>td{padding:15px 0;}
+</style>
+<div class="box1 lh24">
+    <div class="title bot-border">
+        <span class="title_txt"><a href="@Url.Action("List", new { showtype=2 })">我申请的退款</a></span>
+        <span class="title_txt" style="margin-left:40px;margin-top:2px;"><a href="@Url.Action("List", new { showtype = 3 })">我申请的退货</a></span>
+        <span class="title_txt curr" style="margin-left:40px;margin-top:2px;">申请售后</span>
+    </div>
+    <div class="search-area">
+        <label>关键字：</label><input class="search_order" id="txtkeyword" type="text" value="商品名称、订单编号" />
+        <button id="btnSearch" class="search_btn pointer" onclick="Search()">搜索</button>
+    </div>
+    <div class="border-box">
+
+        <table class="tb-void tb-back">
+            <colgroup>
+                <col width="150" />
+                <col width="400" />
+                <col width="100" />
+                <col width="150" />
+            </colgroup>
+            <thead>
+                <tr class="tr">
+                    <th>订单编号</th>
+                    <th>订单商品</th>
+                    <th>订单状态</th>
+                    <th>
+                        <select class="sele" id="submitDate" onchange="Query()">
+                            <option value="all">下单时间</option>
+                            <option value="threeMonth">最近三个月</option>
+                            <option value="halfyear">最近半年</option>
+                            <option value="year">最近一年</option>
+                            <option value="yearAgo">一年以前</option>
+                        </select>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() == 0)
+                {
+                    <tr><td colspan="4" class="ety"><div class="empty">暂时没有记录！</div></td></tr>
+                }
+                @foreach (var m in Model)
+                {
+                    <tr class="tr-td">
+                        <td><span class="col-blue">@m.Id @if (m.UserId != ViewBag.UserId)
+                        { <span>[子订单]</span>}</span></td>
+                        <td>
+                            <ul class="back-goods-list">
+                                @foreach (var item in m.OrderItemInfo)
+                                {
+                                    var spc = "";
+                                    if (!string.IsNullOrWhiteSpace(item.Color)) { spc += item.ColorAlias + "：" + item.Color; }
+                                    if (!string.IsNullOrWhiteSpace(item.Size)) { spc += "，" + item.SizeAlias + "：" + item.Size; }
+                                    if (!string.IsNullOrWhiteSpace(item.Version)) { spc += "，" + item.VersionAlias + "：" + item.Version; }
+                                    if (!string.IsNullOrWhiteSpace(spc)) { spc = "【" + spc + "】"; }
+                                    spc = spc.TrimStart('，');
+                                    spc = string.IsNullOrWhiteSpace(spc) ? "" : "【" + spc + "】";
+                                    <li>
+                                        <a><img width="50" height="50"  title="@item.ProductName @spc" src="@Himall.Core.HimallIO.GetProductSizeImage(item.ThumbnailsUrl, 1, (int)Himall.CommonModel.ImageSize.Size_50)" /></a>
+
+                                        @if (@item.OrderRefundInfo.Count(d=>d.RefundMode!=OrderRefundInfo.OrderRefundMode.OrderRefund) == 0 && m.UserId == ViewBag.UserId)
+                                        {
+
+                                            bool isShowRefund = false;
+                                            bool iscanRefund = false;
+                                            if (m.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.Finish)
+                                            {
+                                                isShowRefund = true;
+                                                if (m.FinishDate.Value.AddDays(ViewBag.SalesRefundTimeout) > DateTime.Now)
+                                                {
+                                                    iscanRefund = true;
+                                                }
+                                            }
+                                            if (m.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitReceiving && m.PaymentType != OrderInfo.PaymentTypes.CashOnDelivery )
+                                            {
+                                                isShowRefund = true;
+                                                iscanRefund = true;
+                                            }
+
+                                            if (isShowRefund)
+                                            {
+                                                if (iscanRefund)
+                                                {
+                                                    <span><a href=@Url.Action("RefundApply", new { orderid = @item.OrderId, itemid = @item.Id })>申请</a></span>
+                                                }
+                                                else
+                                                {
+                                                    <span><a href="#" onclick="RefundProductTip()">申请</a></span>
+                                                }
+                                            }
+                                        }
+                                        else if (m.UserId == ViewBag.UserId)
+                                        {
+                                            <span><a href=@Url.Action("Detail", new { id=item.OrderRefundInfo.FirstOrDefault(d=>d.RefundMode!=OrderRefundInfo.OrderRefundMode.OrderRefund).Id})>已申请</a></span>
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td>
+                            @(m.OrderStatus.ToDescription())
+                        </td>
+                        <td>
+                            <span class="ftx-03">@m.OrderDate</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="mt10">
+            <div id="pagin-btm" class="pagin fr" style="clear:both">
+                @{
+                    var count = ((PagingInfo)ViewBag.pageInfo).TotalPages;
+                    var curr = ((PagingInfo)ViewBag.pageInfo).CurrentPage;
+                }
+                @Html.PageLinks((PagingInfo)ViewBag.pageInfo, x => Url.Action("Index", new { pageNo = x }))
+                <span class="page-skip">
+                    <em>&nbsp;&nbsp;共 @count 页&nbsp;&nbsp;&nbsp;&nbsp;</em>
+                </span>
+            </div>
+
+            <div class="clr"></div>
+        </div>
+    </div>
+
+</div>
+<script>
+    function Query() {
+        // var keywords = $("#txtkeyword").val();
+        var orderDate = $("#submitDate").val();
+        window.location.href = "?orderDate=" + orderDate;
+    }
+
+    function Search() {
+        var keywords = $("#txtkeyword").val();
+        window.location.href = "?keywords=" + keywords;
+    }
+    function RefundProductTip() {
+        $.dialog.alert("很遗憾，该维权入口已经关闭<br/>1、交易已过退货维权受理期,您无法发起退换货<br/>2、请在帮助中心查看平台退换货流程", '', 3000);
+        return false;
+    }
+    $(function () {
+        $('#txtkeyword').keydown(function (e) {
+            if (e.keyCode == 13) {
+                Search();
+            }
+        });
+
+        $('#txtkeyword').focus(function () {
+            var a = $(this).val(),
+                b = '商品名称、订单编号';
+            if (a == b) {
+                $(this).val('');
+            }
+        }).blur(function () {
+            var a = $(this).val(),
+                b = '商品名称、订单编号';
+            if (!a) {
+                $(this).val(b);
+            }
+        });
+        var orderDate = "@Request.QueryString["orderDate"]";
+        var keywords = html_decode("@Request.QueryString["keywords"]");
+        if (orderDate != "" && orderDate != null)
+            $("#submitDate").val(orderDate);
+        if (keywords != "" && keywords != null)
+            $("#txtkeyword").val(keywords);
+    });
+
+    function html_decode(str) {
+        var s = "";
+        if (str.length == 0) return "";
+        s = str.replace(/&amp;/g, "&");
+        s = s.replace(/&lt;/g, "<");
+        s = s.replace(/&gt;/g, ">");
+        s = s.replace(/&nbsp;/g, " ");
+        s = s.replace(/&#39;/g, "\'");
+        s = s.replace(/&quot;/g, "\"");
+        s = s.replace(/<br\/>/g, "\n");
+        return s;
+    }
+</script>

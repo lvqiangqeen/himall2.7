@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>积分礼品订单</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body class="integral-order">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">积分礼品订单</h1>
+		</header>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper transparent">
+			<div class="mui-scroll">
+				<div id="orderList">
+				</div>
+			</div>
+		</div>
+		<ul class="nav-list fixed" id="fixedNav">
+			<li data-status="0">全部订单</li>
+			<li data-status="2">待发货</li>
+			<li data-status="3">待收货</li>
+			<li data-status="5">已完成</li>
+		</ul>
+		<script src="js/mui.min.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/template.js"></script>
+		<script>
+		
+			var isnodata = false,
+				page = 1,
+				orderStatus=0,
+				loadPage,
+				userkey=himall.getState().userkey,
+				w,
+				orderList=document.getElementById('orderList');
+			mui.init({
+				pullRefresh : {
+				    container:'#pullrefresh',
+				    deceleration:0.0006,
+				    up : {
+					    contentrefresh : "正在加载...",
+					    contentnomore:'已加载完全部',
+					    callback :function(){
+					      	var self=this;
+					      	if (!isnodata) {
+					      		page++;
+						        mui.ajax(URL+'api/gifts/GetMyOrderList',{
+						        	data:himall.md5Data({
+										status:orderStatus,
+										page:page,
+										userkey:userkey
+									}),
+									dataType:'json',
+									type:'get',
+									timeout:10000,
+									success:function(data){
+								        if(data.Models.length > 0) {
+								        	orderList.insertAdjacentHTML('beforeend',template('initData', data));
+								        	delayimg.render();
+								        }else{
+											isnodata = true;
+										}
+					                    if (data.Total<=page*10) {isnodata = true;}
+										self.endPullupToRefresh(isnodata);
+									},
+									error:function(xhr,type,errorThrown){
+										plus.nativeUI.toast('请求失败，请检查网络')
+									}
+								});
+						    }else{
+						    	self.endPullupToRefresh(isnodata);
+						    }
+				    	}
+				    }
+				},
+				swipeBack: true
+			});
+			
+			himall.immersedNav();
+			
+			if (mui.os.android)
+				document.getElementsByClassName('mui-scroll')[0].className='';
+			
+			mui.plusReady(function() {
+				var ws=plus.webview.currentWebview();
+				if(ws.orderStatus){
+					orderStatus=ws.orderStatus;
+				}
+				document.querySelector('li[data-status="'+orderStatus+'"]').className='active';
+				getOrderNum();
+				ws.setStyle({scrollIndicator:'none'});
+				w=plus.nativeUI.showWaiting('',{padlock:true});
+				loadPage=function(){
+					mui.ajax(URL+'api/gifts/GetMyOrderList',{
+						data:himall.md5Data({
+							status:orderStatus,
+							page:1,
+							userkey:userkey
+						}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							if (data.Total<10) {isnodata = true;}
+					        if(data.Models.length > 0) {
+					            orderList.innerHTML=template('initData', data);
+					            delayimg.init();
+					        }else{
+					        	var html='<div class="empty-show"><h4>暂无此类订单...</h4></div>';
+					        	orderList.innerHTML=html;
+					        }
+							w.close();
+							himall.removeClass(document.querySelector('.mui-content'),'transparent');
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							reloadWvLoad();
+						}
+					});
+				}
+				loadPage();
+			});
+			
+			function reloadPage(){
+				isnodata = false;
+				page = 1;
+				mui('#pullrefresh').pullRefresh().refresh(true);
+				getOrderNum();
+				loadPage();
+			}
+			function getOrderNum(){
+				mui.ajax(URL+'api/gifts/GetOrderCount',{
+					data:himall.md5Data({userkey:userkey}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						document.querySelector('li[data-status="2"]').innerText='待发货';
+						document.querySelector('li[data-status="3"]').innerText='待收货';
+						if(data.WaitDeliveryCount)
+							document.querySelector('li[data-status="2"]').innerText='待发货('+data.WaitDeliveryCount+')';
+						if(data.WaitReceivingCount)
+							document.querySelector('li[data-status="3"]').innerText='待收货('+data.WaitReceivingCount+')';
+					}
+				});
+			}
+			document.addEventListener('updateData', function(e) {
+				reloadPage();
+			});
+			
+			mui('#fixedNav').on('tap', 'li', function() {
+				w=plus.nativeUI.showWaiting('',{padlock:true});
+				orderStatus=this.getAttribute('data-status');
+				reloadPage();
+				document.getElementById("fixedNav").querySelector('.active').className='';
+				this.className='active';
+			});
+			
+			
+			mui('#orderList').on('tap', '.showOrder', function() {
+				himall.openVW('integral-order-detail.html',{orderId:this.parentNode.getAttribute('data-id')});
+			});
+			
+			
+			mui('#orderList').on('tap', '.enterOrder', function() {
+				var orderId = this.parentNode.parentNode.getAttribute('data-id'),
+					btnArray = ['取消', '确认'];
+				mui.confirm('请确保您已收到礼品,再收货！', '', btnArray, function(e) {
+					if (e.index == 1) {
+				    	mui.ajax(URL+'api/gifts/ConfirmOrderOver',{
+							data:himall.md5Data({orderId:orderId,userkey:userkey}),
+							dataType:'json',
+							type:'POST',
+							timeout:10000,
+							success:function(data){
+								if(data.success){
+									plus.nativeUI.toast('确认收货成功');
+									reloadPage();
+								}else{
+									plus.nativeUI.toast(data.msg);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								plus.nativeUI.toast('请求失败，请检查网络')
+							}
+						});
+					}
+				});
+			});
+			
+			
+		</script>
+		
+		<script id="initData" type="text/html">
+		    {{each Models}}
+			<div class="order-info" data-id="{{$value.Id}}">
+				<div class="item">
+					<div class="order-shop">
+					<a class="vshop-url"><i class="iconfont icon-bianhao"></i>{{$value.Id}}</a>
+					<span class="mui-pull-right">{{$value.ShowOrderStatus}}</span></div>
+				</div>
+                <div class="item showOrder">
+                    <div class="buy-goods">
+                        <a class="goods-url goods-img"><img src="images/blank.gif" data-delay="{{$value.Items[0].DefaultImage}}"/></a>
+                        <p><em>{{$value.Items[0].SaleIntegral}} 积分</em><span><a class="goods-url">{{$value.Items[0].GiftName}}</a></span></p>
+                        <h5><span>x {{$value.Items[0].Quantity}}</span></h5>
+                    </div>
+                </div>
+	            <div class="item showOrder">
+	            	<div class="item-text">
+	                    &nbsp;<span class="mui-pull-right order-total">共{{$value.Items[0].Quantity}}件礼品&nbsp;&nbsp; 花费积分：<em>{{$value.TotalIntegral}} 积分</em></span>
+	            	</div>
+	            </div>
+	            {{if $value.OrderStatus==3}}
+	            	<div class="item total-m item-btn">
+	            		<button class="mui-btn mui-btn-negative enterOrder">确认收货</button>
+	            	</div>
+	            {{/if}}
+	        </div>
+			{{/each}}
+
+		</script>
+		
+	</body>
+
+</html>

@@ -1,0 +1,66 @@
+<view class="coupontitle">
+  <view class="coupontitlel">
+    <view class="{{AllActive}}" data-status="0" bindtap="onTabClick">全部</view>
+  </view>
+  <view class="coupontitlel">
+    <view class="{{WaitPayActive}}" data-status="1" bindtap="onTabClick">待付款</view>
+  </view>
+  <view class="coupontitlel">
+    <view class="{{WaitSendActive}}" data-status="2" bindtap="onTabClick">待发货</view>
+  </view>
+  <view class="coupontitlel">
+    <view class="{{WaitReceiveActive}}" data-status="3" bindtap="onTabClick">待收货</view>
+  </view>
+  <view class="coupontitlel">
+    <view class="{{WaitReviewActive}}" data-status="5" bindtap="onTabClick">待评价</view>
+  </view>
+</view>
+
+<block wx:for="{{OrderList}}" wx:key="OrderId" wx:if="{{OrderList.length>0}}">
+    <view class="orderlist mt24">
+    <view class="orderlisttile padding24" data-orderid="{{item.OrderId}}"   bindtap="goToOrderDetail">
+        <view class="orderhao"><view class="iconfont dianpu"></view>{{item.shopname}}</view>
+        <view class="orderzt">{{item.StatusText}}</view>
+    </view>
+    <block wx:for="{{item.LineItems}}" wx:for-item="pro" wx:key="Id" wx:for-index="i">
+    <view class="orderlistcont {{(i+1)==item.LineItems.length?'lastitem':''}}" data-orderid="{{item.OrderId}}" bindtap="goToOrderDetail">
+        <image src="{{pro.Image}}" class="mr16"></image>
+        <view class="orderlisc">
+        <view class="ordername">{{pro.Name}}</view>
+        <view class="ordersize">
+            <block wx:if="{{pro.size}}">
+                {{pro.SizeAlias}}:{{pro.size}}
+            </block>
+            <block wx:if="{{pro.color}}">
+                {{pro.ColorAlias}}:{{pro.color}}
+            </block>
+            <block wx:if="{{pro.version}}">
+                {{pro.VersionAlias}}:{{pro.version}}
+            </block>
+        </view>
+        </view>
+        <view class="orderlistright">
+        <text>￥{{pro.Price}}</text>
+        <view><text class="iconfont icon__close icon_count"></text> {{pro.Amount}}</view>
+        <view class="orderzt" wx:if="{{pro.StatusText!=''}}" >{{pro.StatusText}}</view>
+        </view>
+    </view>
+    </block>
+    <view class="orderlistzong">共{{item.Quantity}}件商品 <text></text>  总价￥<text class="font28 price">{{item.Amount}}</text></view>
+    <view class="orderlistbt" hidden="{{item.StatusText=='交易关闭'&&!item.IsShowCreview}}">
+        <button class="qxdd" data-orderid="{{item.OrderId}}" data-money="{{item.Amount}}" bindtap="RefundOrder" hidden="{{!item.IsShowRefund}}">申请退款</button>
+     
+
+        <button class="qxdd" data-orderid="{{item.OrderId}}" bindtap="closeOrder" hidden="{{item.Status!=1}}">取消订单</button>
+        <button class="fukuan" data-orderid="{{item.OrderId}}" hidden="{{item.Status!=1}}" bindtap="orderPay">付款</button>
+        <button class="qxdd" data-orderid="{{item.OrderId}}" bindtap="showLogistics" hidden="{{item.Status==1 || item.Status==2||item.Status==-1 || item.Status==4}}">查看物流</button>
+        <button class="fukuan" data-orderid="{{item.OrderId}}" hidden="{{!item.IsShowFinishOrder}}" bindtap="orderFinish">确认收货</button>
+        <button class="fukuan" data-orderid="{{item.OrderId}}" bindtap="showReview" hidden="{{!item.IsShowCreview}}">{{item.CreviewText}}</button>
+    </view>
+    </view>
+</block>
+
+<!--无订单-->
+<view class="kong" hidden="{{isEmpty}}">
+  <view bindtap="toproduct" style="background:url({{nullOrder}}) center center no-repeat; background-size:auto 352rpx" class="bg_nullOrder"></view>
+</view>

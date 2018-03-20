@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>售后详情</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">售后详情</h1>
+		</header>
+		<div id="scrollDiv" class="scroll-div">
+			<div class="mui-content transparent">
+				<div id="refundDetail" style=" padding-left:10px; padding-right:10px; padding-bottom: 10px;">
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js"></script>
+		<script>
+			var refundId,
+				ws,
+				loadPage,
+				userkey=himall.getState().userkey;
+			mui.init({
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				ws=plus.webview.currentWebview();
+				refundId=ws.refundId;
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				loadPage=function(){
+					mui.ajax(URL+'api/OrderRefund/GetRefundDetail',{
+						data:himall.md5Data({
+							id:refundId,
+							userkey:userkey
+						}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+				            document.getElementById('refundDetail').innerHTML=template('detailInfo',data);
+							w.close();
+							himall.removeClass(document.querySelector('.mui-content'),'transparent');
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							reloadWvLoad();
+						}
+					});
+				};
+				loadPage();
+			});
+			
+			document.addEventListener('updateData', function() {
+				loadPage();
+			});
+			
+			mui('#refundDetail').on('tap', '.refundApplyBtn', function() {
+				himall.openVW('order-refund.html',{orderId:this.getAttribute('data-orderid'),itemId:this.getAttribute('data-itemid'),refundId:refundId});
+			});
+			
+			mui('#refundDetail').on('tap', '#refundLoad', function() {
+				document.getElementById('refundProcess').innerHTML='<div class="mui-pull-loading mui-spinner custom-loading"></div><div style="height: 80px;"></div>';
+				mui.ajax(URL+'api/OrderRefund/GetRefundProcessDetail',{
+					data:himall.md5Data({
+						id:refundId,
+						userkey:userkey
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+			            document.getElementById('refundProcess').innerHTML=template('processInfo',data);
+					}
+				});
+			});
+			
+		</script>
+		<script id="detailInfo" type="text/html">
+			<div class="order-info" style="padding:10px;">
+				<div class="item">
+					{{if SellerAuditStatusValue==4}}
+						<div class="item-text"><h4>{{RefundStatus}}</h4>关闭原因：{{SellerRemark}}<br/>关闭时间：{{SellerAuditDate.replace('T',' ')}}</div>
+		            	{{if !IsOrderRefundTimeOut && ResetActive}}
+		            		<button class="mui-btn mui-btn-negative refundApplyBtn" data-orderid="{{OrderId}}" data-itemid="{{RefundModeValue!=1?OrderItemId:null}}">重新激活售后</button>
+		            	{{/if}}
+		            {{else}}
+		            	<div class="item-text"><h4>{{RefundStatus}}</h4>退款金额：¥ {{Amount}}<br/>处理时间：{{LastConfirmDate.replace('T',' ')}}</div>
+		            {{/if}}
+				</div>
+	        </div>
+	        <ul class="mui-table-view refund-process" id="refundProcess">
+				<li class="mui-table-view-cell">
+					<a id="refundLoad" class="mui-navigate-right">协商详情</a>
+				</li>
+			</ul>
+	        <div class="mui-card refund-detail">
+		        <ul class="mui-table-view">
+					<li class="mui-table-view-cell">店铺名称<span>{{ShopName}}</span></li>
+				</ul>
+			</div>
+	        <div class="mui-card refund-detail">
+		        <ul class="mui-table-view">
+					<li class="mui-table-view-cell">售后类型<span>{{RefundMode}}</span></li>
+					<li class="mui-table-view-cell">退款金额<span>¥ {{Amount.toFixed(2)}}</span></li>
+					<li class="mui-table-view-cell">退款方式<span>{{RefundPayType}}</span></li>
+					<li class="mui-table-view-cell">退款原因<span>{{Reason}}</span></li>
+					<li class="mui-table-view-cell">售后单号<span>{{Id}}</span></li>
+					<li class="mui-table-view-cell">申请时间<span>{{ApplyDate.replace('T',' ')}}</span></li>
+					<li class="mui-table-view-cell">备注信息<span>{{SellerRemark}}</span></li>
+				</ul>
+			</div>
+		</script>
+		<script id="processInfo" type="text/html">
+			{{if SellerAuditStatusValue==5}}
+				<li class="mui-table-view-cell">
+	            	<p><span>{{ManagerConfirmDate.replace('T',' ')}}</span><i>平台</i></p>
+	            	<p><em>{{ManagerConfirmStatus}}</em></p>
+	            	{{if ManagerRemark}}
+	            		<h4>备注：{{ManagerRemark}}</h4>
+	            	{{/if}}
+	            </li>
+            {{/if}}
+			
+			{{if SellerConfirmArrivalDate!=null&&SellerAuditStatusValue>3}}
+				<li class="mui-table-view-cell">
+	            	<p><span>{{SellerConfirmArrivalDate.replace('T',' ')}}</span><i>商家</i></p>
+	            	<p><em>商家确认收货</em></p>
+	            </li>
+            {{/if}}
+			
+			{{if BuyerDeliverDate!=null&&SellerAuditStatusValue>2}}
+				<li class="mui-table-view-cell">
+	            	<p><span>{{BuyerDeliverDate.replace('T',' ')}}</span><i>买家</i></p>
+	            	<p><em>买家回寄商品</em></p>
+	            	<h4>备注：{{ExpressCompanyName}} &nbsp;&nbsp; {{ShipOrderNumber}}</h4>
+	            </li>
+            {{/if}}
+			
+			{{if SellerAuditStatusValue!=1}}
+				<li class="mui-table-view-cell">
+	            	<p><span>{{SellerAuditDate.replace('T',' ')}}</span><i>商家</i></p><p><em>
+	            	{{if SellerAuditStatusValue==4}}
+	            		{{SellerAuditStatus}}
+	            	{{else}}
+	            		商家同意退款{{IsDiscard?'并弃货':''}}
+	            	{{/if}}
+	            	</em></p>
+	            	<h4>{{SellerRemark}}</h4>
+	            </li>
+            {{/if}}
+			
+            <li class="mui-table-view-cell">
+            	<p><span>{{ApplyDate.replace('T',' ')}}</span><i>系统</i></p>
+            	<p><em>您的服务单已申请成功，待商家审核中</em></p>
+            </li>
+            {{each RefundLogs}}
+            	<li class="mui-table-view-cell">
+	            	<p><span>{{$value.OperateDate.replace('T',' ')}}</span><i>{{$value.Operator}}</i></p>
+	            	<p><em>{{$value.OperateContent}}</em></p>
+	            </li>
+            {{/each}}
+		</script>
+	</body>
+
+</html>

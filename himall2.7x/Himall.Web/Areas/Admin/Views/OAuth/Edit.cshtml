@@ -1,0 +1,42 @@
+﻿@model Himall.Core.Plugins.FormData
+
+<script src="~/Areas/Admin/Scripts/OAuthEdit.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li class="active"><a>编辑</a></li>
+    </ul>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">信任登录:</label>
+            <div class="col-sm-3 form-control-static">@ViewBag.Name</div>
+        </div>
+
+
+        @foreach (var item in Model.Items)
+        {
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">@item.DisplayName:</label>
+                <div class="col-sm-3">
+                    @if (item.Type == Himall.Core.Plugins.FormData.FormItemType.text)
+                    {
+                        <input formitem name="@item.Name" type="text" value="@item.Value" class="form-control input-sm" />
+                    }
+                    else
+                    {
+                        <input formitem name="@item.Name" type="checkbox" value="@item.Value" class="form-control input-sm" />
+                    }
+                </div>
+            </div>
+        }
+        <input type="hidden" id="pluginId" value="@ViewBag.Id" />
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="button" id="btn" class="btn btn-primary" value="保 存" />
+            </div>
+        </div>
+
+    </div>
+</div>
+

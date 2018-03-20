@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "帐单列表";
+}
+<style type="text/css">
+	body{
+		background-color: #212f43;
+	}
+</style>
+<div class="container billList">
+    <div class="wrapper">
+        <div class="header">
+            <p class="all active" data-state=""><span>全部订单</span></p>
+            <p class="folding" data-state="0" style="display:none">未结算订单</p>
+            <p class="folding"  data-state="1" style="display:none">已结算订单</p>
+        </div>
+        <section>
+            <ul id="databox">
+                <li class="thead"><div>订单编号</div><div>商品</div><div>佣金</div></li>
+            </ul>
+            <div id="autoLoad" class="loading"></div>
+        </section>
+    </div>
+</div>
+<script src="~/Content/Public/js/dist/underscore.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/loading.js"></script>
+
+<script id="datatmp" type="text/template">
+    <%_.each(datas, function(item) {%>
+    <li class="list-OR">
+        <div><span class="number"><%=item.OrderId%></span><br><span class="time"><%=time_string(item.OrderTime,"MM\/dd")%></span></div>
+        <div><img src="<%=item.ProductImage%>"></div>
+        <div><span class="money"><%=item.CanBrokerage%>元</span><%if(!item.IsSettled){%><br><em class="status">预计</em><%}%></div>
+    </li>
+    <li class="order-detail">
+        <h5><%=item.ProductName%></h5>
+        <p><span>实付金额</span><span>￥<%=item.OrderItemPrice%></span></p>
+        <p><span>订单状态</span><span><%=item.ShowOrderState%></span></p>
+        <p><span>下单时间</span><span><%=time_string(item.OrderTime)%></span></p>
+        <p><span>是否结算</span><span><%if(item.IsSettled){%>是<%}else{%>否<%}%></span></p>
+        <p><span>预计到账时间</span><span><%=time_string(item.LastRightsTime,"yyyy-MM-dd")%></span></p>
+        <%if(item.IsHaveRefund){%>
+        <p><span>退款金额</span><span>￥<%=item.RefundPrice%></span></p>
+        <p><span>退款时间</span><span><%=time_string(item.RefundTime)%></span></p>
+        <%}%>
+    </li>
+    <%});%>
+</script>
+<script>
+
+    var curPage = 1;       //当前页
+    var isMoreGet = true;  //是否还在数据
+    var isLoading = false;
+    var TmplCon = "";
+    var billstate = "";
+    var databox;
+    var datas;   //数据变量  不定义的话underscore会识别不到。
+    //注意，<%=%>标签中%与=之间不能有空格
+
+    $(document).ready(function () {
+
+        $(".wrapper").height($(window).height()-66);
+
+        TmplCon = $("#datatmp").html(); //获取模板内容
+        databox = $("#databox");
+        h_loading.init($("#autoLoad"));
+
+
+
+        $('#databox').on('click', '.list-OR', function () {
+            var _dt = $(this).next();
+            $(this).next().toggle();
+        });
+
+        $(".header>p").click(function () {
+            var _t = $(this);
+            billstate = _t.data("state");
+            _t.addClass("active").siblings().removeClass("active");
+            //数据初始
+            isMoreGet = true;
+            curPage = 1;
+            databox.empty();
+            getData();
+        })
+        $(".header .all").click(function(){
+            $(".folding").toggle();
+        });
+
+        getData();
+
+        $(window).scroll(function () {
+            var scrollTop = $(this).scrollTop();
+            var scrollHeight = $(document).height();
+            var windowHeight = $(this).height();
+
+            if (scrollTop + windowHeight >= scrollHeight - 30) {
+                curPage++;
+                getData();
+            }
+        });
+    });
+
+    function getData() {
+        if (isMoreGet) {
+            if(!isLoading){
+                isLoading=true;
+                h_loading.show();
+                $.post('@Url.Action("GetBilllist")', { page: curPage,state:billstate }, function (result) {
+                    isLoading=false;
+                    datas = result;
+                    if (datas.length > 0) {
+                        databox.append(_.template(TmplCon, datas));
+                        h_loading.hide();
+                    } else {
+                        isMoreGet = false;
+                        h_loading.nodata();
+                    }
+                });
+            }
+        }
+    }
+</script>

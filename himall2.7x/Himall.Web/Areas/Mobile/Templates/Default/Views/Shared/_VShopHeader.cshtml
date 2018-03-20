@@ -1,0 +1,98 @@
+﻿@using Himall.Web.Areas.Mobile.Models;
+@using Himall.Model;
+@model Himall.Model.VShopInfo
+@{
+	Layout = null;
+}
+<!--_VShopHeader start-->
+<div class="shop-banner">
+	<img class="img-responsive" src="@(Himall.Core.HimallIO.GetImagePath(Model.BackgroundImage))">
+	<div class="shop-header-wrap">
+		<div class="shop-header">
+			<div class="pull-left">
+				<div class="shop-header-logo"><img class="img-responsive" src="@(Himall.Core.HimallIO.GetImagePath(Model.WXLogo))"></div>
+				<span>@Model.Name</span>
+			</div>
+			<div class="shop-header-favorite pull-right" role="group" aria-label="...">
+				@if (ViewBag.IsFavorite)
+				{
+					<a id="favorite" class="favorited">已收藏<span class="icon-favorite"></span></a>
+				}
+				else
+				{
+					<a id="favorite">收　藏<span class="icon-favorite"></span></a>
+				}
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	var vshopId = "@(Model.Id)";
+	var shopId = "@(Model.ShopId)";
+	$(function () {
+		// var isF = QueryString('addFavorite');
+		// if (isF) {//带有addFavorite参数，说明为登录后回调此页面添加收藏
+		//     addFavorite();
+		// }
+
+		returnFavoriteHref = "/" + areaName + "/vshop/Detail/" + vshopId;
+		returnFavoriteHref = encodeURIComponent(returnFavoriteHref);
+
+		$("#favorite").click(function () {
+			checkLogin(returnFavoriteHref, function () {
+				addFavorite(shopId);
+			});
+		});
+	});
+
+	function addFavorite(shopId) {
+		var method = '';
+		var title;
+		var isAdd = $("#favorite").hasClass("favorited") ? false : true;
+		if (isAdd) {
+			method = 'AddFavorite';
+			title = '';
+		}
+		else {
+			method = 'DeleteFavorite';
+			title = '取消';
+		}
+		var loading = showLoading();
+		$.post('/' + areaName + '/DistributionMarket/' + method, { shopId: shopId }, function (result) {
+			loading.close();
+			if (result.success) {
+				$.dialog.succeedTips(title + '收藏成功!');
+				var bt_shopfav = $('#favorite');
+				bt_shopfav.html(isAdd ? '已收藏<span class="icon-favorite"></span>' : '收　藏<span class="icon-favorite"></span>');
+				if (isAdd) {
+					bt_shopfav.addClass("favorited");
+				} else {
+					bt_shopfav.removeClass("favorited");
+				}
+			}
+			else
+				$.dialog.errorTips(result.msg);
+		});
+	}
+</script>
+
+<script>
+	var loading = showLoading();
+	var winxinShareArgs = {
+		success: function () {
+			loading.close();
+		},
+		error: function () {
+			loading.close();
+			$.dialog.errorTips('注册微信接口失败，请刷新页面');
+		},
+		share: {
+			title: '@Model.Name',
+			desc: '我发现了一个不错的店铺，分享给你，快去看看吧！',
+			link: 'http://@Request.Url.Host' + "/" + areaName + "/vshop/Detail/" + vshopId,
+			imgUrl: '@Himall.Core.HimallIO.GetRomoteImagePath(Model.WXLogo)'
+		}
+	};
+</script>
+@Html.Partial("_WeiXinShare")
+<!--_VShopHeader end-->

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Himall.Model.CategoryInfo>
+@{
+    ViewBag.Title = "分销热门商品";
+    string skey = ViewBag.SearchKey;
+    int categoryId = ViewBag.categoryId;
+}
+<script src="~/Content/Public/js/dist/underscore.js"></script>
+<div class="container dis-hotPro">
+    <div class="hot-tab">
+        <span class="active" dis="7"><em>本周</em></span>
+        <span dis="6"><em>本月</em></span>
+    </div>
+    <div class="hot-pro" id="proshowbox1">
+        <ul id="databox"></ul>
+    </div>
+    <div id="autoLoad" class="loading"></div>
+</div>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/loading.js"></script>
+
+<script id="gdtmp1" type="text/template">
+    <%_.each(gddatas, function(item) {%>
+    <li>
+
+        <div class="combine-total-wrap" onclick="window.location.href='@(Url.Action("ProductDetail"))/<%=item.ProductId%>'">
+            <div class="detail-left">
+                <a href="@(Url.Action("ProductDetail"))/<%=item.ProductId%>"><img src="<%=item.Image%>" /></a>
+            </div>
+            <div class="detail-right">
+                <p class="name-pro"><a href="@(Url.Action("ProductDetail"))/<%=item.ProductId%>"><%=item.ProductName%></a></p>
+                <p class="price-pro"><i>￥</i><em><%= item.SellPrice%></em><span>累积销售<%=item.SaleNum%>笔</span></p>
+                <p class="deal-n"><span>佣金<i><%=item.Commission%></i>元</span></p>
+
+            </div>
+
+        </div>
+        <div class="detail-bottom">
+            <span class="bt_share" data-pid="<%=item.ProductId%>" data-uid="@(CurrentUser.Id)" data-title="<%=item.ProductName%>" data-img="<%=item.Image%>">转发</span>
+            <span class="bt_agent <%if(item.isHasAgent){%>disabled<%}%>" data-pid="<%= item.ProductId%>"><%if(item.isHasAgent){%>已<%}%>代理</span>
+        </div>
+    </li>
+    <%});%>
+</script>
+
+<script src="~/Areas/Mobile/Templates/Default/Scripts/DistributionMarketHotProduct.js"></script>
+<script>
+    $(function () {
+        $(".hot-tab span").click(function () {
+            $(this).addClass("active").siblings().removeClass("active");
+        })
+    })
+    skey = "@(skey)";
+    categoryId = "@(categoryId)";
+</script>
+
+@Html.Action("ShareInfo", "Distribution")

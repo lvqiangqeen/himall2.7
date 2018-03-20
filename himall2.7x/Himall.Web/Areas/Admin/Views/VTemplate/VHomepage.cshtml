@@ -1,0 +1,51 @@
+﻿@model List<Himall.Web.ManageThemeInfo>
+
+<script src="~/Areas/Admin/Scripts/WeiXinHomePageSetting.js"></script>
+
+<div class="container">
+	<ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>模板管理</a></li>
+    </ul>    
+    @{
+        var temp = ((Himall.Web.ManageThemeInfo)ViewBag.CurrentTemplate);
+        var url = ViewBag.CurUrl;
+    }
+	<form name="aspnetForm" method="post" action="" id="aspnetForm" class="form-horizontal clear-v45 pb0">
+		<h3 class="templateTitle mt0">当前使用的模板</h3>
+		<div class="set-switch clearfix">
+			<div class="usertemplate"> <img src="@temp.ThemeImgUrl"> </div>
+			<div class="usertemplateInfo">
+				<div class="qrCode"><img src="http://s.jiathis.com/qrcode.php?url=@url/m-wap"></div>
+				<p class="mb20">手机扫描此二维码，可直接在手机上访问微商城</p>
+				<p class="mb20">微商城网址：<br>
+                    @(url)/m-wap</p>
+				<p class="mb20">模板名称：@temp.Name</p>
+                <a class="btn btn-primary mt20" target="_blank" href="./EditTemplate?tName=@temp.ThemeName">编辑模板</a>
+				<div class="linkCopy">
+					<a type="button" class="btn btn-primary inputw100 mb10" style="display: block;" id="btn_show" target="_blank" href="/m-wap">预览</a>
+				</div>
+			</div>
+		</div>
+		<h3 class="templateTitle mt0">可选用的模板</h3>
+		<div class="templateList">
+			<ul class="clearfix mb0">
+                @foreach (var item in Model)
+                {
+                    <li class="">
+                        <div class="img">
+                            <div> <img src="@item.ThemeImgUrl"> </div>
+                        </div>
+                        <div class="lightBtn">
+                            <div class="enableExit">
+                                <input type="button" class="btn btn-sm btn-enableTemplate" value="启用" dataid="@item.ThemeName">
+                                <a type="button" class="btn btn-sm btn-primary" target="_blank" href="./EditTemplate?tName=@item.ThemeName">编辑</a>
+                            </div>
+                        </div>
+                        <p class="templateUser">@item.Name</p>
+                    </li>
+                }
+			</ul>
+		</div>
+	</form>
+</div>
+

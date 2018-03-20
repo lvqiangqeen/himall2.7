@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../Content/mui.min.css" rel="stylesheet" />
+		<link href="../../Content/custom.css" rel="stylesheet" />
+		<script>
+			/***这段代码是公用的，为了html跟标签设置一个rem相对值***/
+			(function(doc, win) {
+				var docEl = doc.documentElement,
+				resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+				recalc = function() {
+				var clientWidth = docEl.clientWidth;
+					if (!clientWidth) return;
+					if (clientWidth >= 750) {
+					   docEl.style.fontSize = '100px';
+					} else {
+					   docEl.style.fontSize = 200 * (clientWidth / 750) + 'px';
+					}
+				};
+				if (!doc.addEventListener) return;
+				win.addEventListener(resizeEvt, recalc, false);
+				doc.addEventListener('DOMContentLoaded', recalc, false);
+		    })(document, window);
+		</script>
+	</head>
+
+	<body style="background:#f5f5f5;max-width:6rem;margin:auto;">
+	       <header class="mui-bar mui-bar-nav Gheader ">
+	       	   <a class="mui-action-back mui-icon mui-pull-left back">返回</a>
+			   <h1 class="mui-title">店铺信息</h1>
+		   </header>
+		  <div id='company' class="G company_container">
+			<form class="mui-input-group G">
+				<div class="mui-input-row">
+					<label>店铺名称</label>
+					<input type="text" class="mui-input" value="" placeholder="请输入店铺名称">
+				</div>
+				<div class="mui-input-row Ggo">
+					<label>店铺等级</label>
+					<a href="">钻石店铺</a>
+				</div>
+				<div class="mui-input-row Ggo">
+					<label>经营类目</label>
+					<a href="">钻石店铺,钻石店铺,钻石店铺,钻石店铺,钻石店铺,钻石店铺,钻石店铺,钻石店铺</a>
+				</div>
+			</form>
+			<div class="Gbottom_btnRow">
+				  <button class="mui-btn mui-btn-block mui-pull-left gbtn-yellow">上一步</button>
+				  <button class="mui-btn mui-btn-block mui-pull-left gbtn-red">提交申请</button>
+			</div>
+		 </div>
+	</body>
+</html>

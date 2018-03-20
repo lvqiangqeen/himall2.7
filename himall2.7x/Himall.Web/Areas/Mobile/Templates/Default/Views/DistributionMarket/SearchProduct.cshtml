@@ -1,0 +1,167 @@
+﻿@model IEnumerable<Himall.Model.CategoryInfo>
+@{
+    ViewBag.Title = "分销市场首页";
+    string skey = ViewBag.SearchKey;
+    int categoryId = ViewBag.categoryId;
+}
+<script src="~/Content/Public/js/dist/underscore.js"></script>
+<div class="container yun-Market" style="background-color: #fff; padding:0!important">
+    @Html.Action("SearchBox", new { skey = skey, stype = 0 })
+
+    <!-- 默认打开页面-->
+    <div class="Mar-default">
+        <div class="share-guide"></div>
+        <div class="Mar-nav">
+            <ul>
+                <li class="datasort on" data-sort="0">默认</li>
+                <li class="datasort" data-sort="1">销量</li>
+                <li class="datasort" data-sort="3">佣金</li>
+                <li class="nav-price">
+                    <span>价格</span><span>
+                        <i class="glyphicon glyphicon-triangle-top"></i><br>
+                        <i class="glyphicon glyphicon-triangle-bottom"></i>
+                    </span>
+                </li>
+            </ul>
+            <span class="style-toggle" id="stylechange" style="float:right;margin-right:11px;"></span>
+        </div>
+    </div><!--默认打开页面结束-->
+    <div id="databox">
+        <!--商品搜索结果页-->
+        <div class="ProResult-style">
+            <div class="ProResult-toggle01 ProShowBox" id="proshowbox1" style="display: none;">
+                <!-- 样式一-->
+                <ul id="databox1"></ul>
+            </div><!--样式一结束-->
+            <div class="searchPro-result clearfix ProShowBox" id="proshowbox2" style="display: none;">
+                <!--样式二-->
+                <ul id="databox2"></ul>
+            </div><!--样式二结束-->
+        </div>
+    </div>
+
+    <div id="autoLoad" class="loading">已经没有更多了</div>
+</div>
+
+
+<script id="gdtmp1" type="text/template">
+    <%_.each(gddatas, function(item) {%>
+    <li data-pid="<%=item.ProductId%>">
+        <div class="toggle01-wrap">
+            <div class="detail-left">
+                <a href="@(Url.Action("ProductDetail"))/<%=item.ProductId%>"><img src="<%=item.Image%>"></a>
+            </div>
+            <div class="detail-right">
+                <h4><%=item.ProductName%></h4>
+                <p><span style="font-size:10px;color:#494e52;">￥<i style="font-size:14px;padding-left:3px;"><%= item.SellPrice%></i></span><em>累积销售<%=item.SaleNum%>笔</em></p>
+                <p><span style="color:#6b6c6e;">佣金<i style="color:#fe3b48;font-weight: 600;padding-left:10px;"><%=item.Commission%>元</i></span>
+            </div>
+        </div>
+        <div class="detail-bottom">
+            <span class="bt_share" data-pid="<%=item.ProductId%>" data-uid="@(CurrentUser.Id)" data-title="<%=item.ProductName%>" data-des="<%=item.ShortDescription%>" data-img="<%=item.Image%>">转发</span>
+            <span class="bt_agent <%if(item.isHasAgent){%>disabled<%}%>" data-pid="<%= item.ProductId%>"><%if(item.isHasAgent){%>已<%}%>代理</span>
+        </div>
+    </li>
+    <%});%>
+</script>
+
+<script id="gdtmp2" type="text/template">
+    <%_.each(gddatas, function(item) {%>
+    <li class="proitem" data-pid="<%=item.ProductId%>">
+        <div class="top-img"><a href="@(Url.Action("ProductDetail"))/<%=item.ProductId%>"><img src="<%=item.Image%>"></a></div>
+        <div class="pro-info">
+            <p><a href="@(Url.Action("ProductDetail"))/<%=item.ProductId%>"><%=item.ProductName%></a></p>
+            <p><span>佣金<i><%=item.Commission%>元</i></span><em class="right-show">...</em></p>
+        </div>
+        <div class="animate-info">
+            <p><span>￥<i><%= item.SellPrice%></i></span><em>累积成交数<%=item.SaleNum%></em></p>
+            <p>
+                <span class="bt_share" data-pid="<%=item.ProductId%>" data-uid="@(CurrentUser.Id)" data-title="<%=item.ProductName%>" data-des="<%=item.ShortDescription%>" data-img="<%=item.Image%>">转发</span>
+                <span class="bt_agent <%if(item.isHasAgent){%>disabled<%}%>" data-pid="<%= item.ProductId%>"><%if(item.isHasAgent){%>已<%}%>代理</span>
+            </p>
+        </div>
+    </li>
+    <%});%>
+</script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/loading.js"></script>
+<script src="/Areas/Mobile/Templates/Default/Scripts/DistributionMarket.js"></script>
+<script type="text/javascript">
+    var ShareTitle = '';
+    var ShareDesc = '';
+    var InviteLink = '';
+    var ShareIcon = '';
+    var ProductId = 0;
+</script>
+<script type="text/javascript">
+    
+    isProductPage = true;
+    skey = "@(skey)";
+    categoryId = @(categoryId);
+    function initdata() {
+        isMoreGet = true;
+        curPage = 1;
+        databox.empty();
+    }
+
+    function ShowData(isclear) {
+        isclear = isclear || false;
+        if (showType != 2) showType = 1;
+        TmplCon = $("#gdtmp1").html(); //获取模板内容
+        var showbox = $("#proshowbox1");
+        databox = $("#databox1");
+        if (showType == 2) {
+            TmplCon = $("#gdtmp2").html(); //获取模板内容
+            showbox = $("#proshowbox2");
+            databox = $("#databox2");
+        }
+        $(".ProShowBox").hide();
+        if (isclear) {
+            databox.empty();
+        }
+        databox.append(_.template(TmplCon, gddatas));
+        showbox.show();
+        if (showType == 2) {
+            showProStyle2();
+        } else {
+            showProStyle1();
+        }
+    }
+
+    $(function () {
+
+        getData();
+
+        $('#databox').on('click', '.bt_agent', function () {
+            var _t = $(this);
+
+            if (!_t.hasClass("disabled")) {
+                //可以代理
+                var pid = _t.data("pid");
+                $.post('@Url.Action("AgentProduct")', { id: pid }, function (result) {
+                    if (result.success) {
+                        pid = parseInt(pid);
+
+                        for (var item in allgddatas) {
+                            var curdata = allgddatas[item];
+                            if (curdata.ProductId == pid) {
+                                curdata.isHasAgent = true;
+                            }
+                        }
+
+                        _t.addClass("disabled").html("已代理");
+                    } else {
+                        $.dialog.errorTips(result.msg);
+                    }
+                });
+            }
+        });
+        $("#stylechange").click(function () {
+            showType++;
+            gddatas = allgddatas;
+            ShowData(true);
+        });
+
+    });
+</script>
+
+@Html.Action("ShareInfo", "Distribution")

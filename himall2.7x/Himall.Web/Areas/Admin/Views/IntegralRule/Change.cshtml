@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "积分兑换规则";
+}
+@model Himall.Model.MemberIntegralExchangeRules
+
+<script src="~/Areas/Admin/Scripts/IntegralRuleChange.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="./Management">积分获取规则</a></li>
+        <li class="active">@Html.ActionLink( "积分兑换规则" , "Change" , new
+                      {
+                          area = "admin"
+                      } )</li>   
+    </ul>
+    <h5 class="tips-top">
+        <span class="help-default"><i></i>在订单结算时，会员可直接用积分抵扣订单金额（到分）。该部分抵扣金额，由平台承担。当配置为0时，表示积分不能抵扣金额。</span>
+    </h5>
+    <form class="form-horizontal" id="v-form" method="post">
+            
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">兑换规则：</label>
+            <div class="col-sm-9">
+                每 <input class="form-control input-sm" style="display:inline-block;width:50px;" id="IntegralPerMoney" name="IntegralPerMoney" type="text" value="@(Model==null?0:Model.IntegralPerMoney)"> 积分可抵扣一元
+               
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="~/Scripts/v.js"></script>

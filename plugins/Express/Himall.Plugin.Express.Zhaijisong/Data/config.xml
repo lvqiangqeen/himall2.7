@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ExpressInfo>
+  <Name>宅急送</Name>
+  <DisplayName>宅急送</DisplayName>
+  <BackGroundImage>2010111733136.jpg</BackGroundImage>
+  <Logo>logo.png</Logo>
+  <Width>2300</Width>
+  <Height>1270</Height>
+  <TaobaoCode>ZJS</TaobaoCode>
+  <Kuaidi100Code>zhaijisong</Kuaidi100Code>
+  <KuaidiNiaoCode>ZJS</KuaidiNiaoCode>
+</ExpressInfo>

@@ -1,0 +1,42 @@
+
+<!--pages/searchresult/searchresult.wxml-->
+<view class="searchk">
+  <view class="searchl">
+    <icon type="search" size="20"/>
+    <input placeholder="{{KeyWord==''?'搜索商品':KeyWord}}" bindinput="bindKeyWordInput" value="{{KeyWord}}"  confirm-type="search" bindconfirm="onConfirmSearch" bindblur="bindBlurInput" bindfocus="gotoKeyWordPage"/>
+  </view>
+  <view class="searchr" bindtap="onSearch">搜索</view>
+</view>
+<view class="coupontitle">
+  <view class="coupontitlel">
+    <view class="{{Num==0 ?'active':''}}" data-num="0" data-sortby="ProductId" bindtap="onSortClick">默认</view>
+  </view>
+  <view class="coupontitlel">
+    <view class="jiages {{Num==1 ? 'active'+' '+SortClass:''}}" data-sortby="ShowSaleCounts" data-num="1" bindtap="onSortClick">销量</view>
+  </view>
+  <view class="coupontitlel">
+    <view class="jiages {{Num==2 ? 'active'+' '+SortClass:''}}" data-sortby="SalePrice" data-num="2" bindtap="onSortClick">价格</view>
+  </view>
+  <view class="coupontitlel">
+    <view class="jiages1s jiages {{Num==3 ? 'active'+' '+SortClass:''}}" data-sortby="VistiCounts" data-num="3" bindtap="onSortClick">浏览量</view>
+  </view>
+</view>
+<view class="goodcont">
+  <block wx:for="{{ProductList}}" wx:key="ProductId">
+    <view class="goodlis" data-productid="{{item.ProductId}}" bindtap="goToProductDetail">
+      <view class="qglistpic">
+        <image src="{{item.Pic}}"  mode="aspectFit"></image>
+      </view>
+      <view class="name">{{item.ProductName}}</view>
+      <view class="saleprice">
+      ￥<text>{{item.SalePrice}}</text>
+        <view class="xialiang">销量 {{item.SaleCounts}}</view>
+      </view>
+    </view>
+  </block>
+</view>
+<!--无订单-->
+<view class="kong" hidden="{{ProductList.length>0}}">
+  <image src="/images/xiaolian.jpg"></image>
+  <text>很抱歉，没有搜索到相关商品...</text>
+</view>

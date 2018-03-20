@@ -1,0 +1,28 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "系统发生错误";
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>@ViewBag.Title</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style>
+* { margin: 0; padding: 0; font-family: 'microsoft yahei','simsun'; }
+body {background: #fff; }
+.error-page { margin: 150px auto 0; width: 650px;overflow: hidden; }
+.error-page img{ float: left; margin-right: 15px;}
+.error-page h2 { font-size: 18px; margin-bottom: 10px; color: #020202; font-weight: normal; margin-top: 80px; }
+.error-page p { font-size: 14px; }
+.error-page a { color: #307bfb; text-decoration: none; }
+</style>
+</head>
+
+<body>
+    <div class="error-page">
+    	<img src="/Images/errors.png" />
+        <h2> @ViewData["erroMsg"]</h2>
+        <p><a href="/">返回首页</a></p>
+    </div>
+</body>
+</html>

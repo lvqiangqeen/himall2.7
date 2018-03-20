@@ -1,0 +1,151 @@
+﻿@using Himall.Model;
+@using Himall.Web.Areas.SellerAdmin.Models;
+
+@model IEnumerable<FlashSaleInfo>
+@{
+    List<SelectListItem> CateSelItem = (List<SelectListItem>)ViewBag.Cate;
+    ViewBag.Title = "限时购";
+}
+
+<div class="topic">
+    <div class="slide" id="slide">
+        <ul class="slide-items">
+            @foreach (var item in ((IEnumerable<SlideAdInfo>)ViewBag.Slide))
+            {
+                <li><a href="@item.Url" style="background-image:url(@Himall.Core.HimallIO.GetImagePath(item.ImageUrl))"></a></li>
+            }
+        </ul>
+    </div>
+
+    <div class="clr"></div>
+    <div class="cl limited-home">
+        @if (CateSelItem.Count > 0)
+        {
+            <div class="ltcatebox cl">
+                <span class="limi-img iconfont icon-xianshigou"></span>
+                <dl class="ltcate">
+
+                    <dd class="@(CateSelItem.Count(d=>d.Selected==true)==0 ? "curr" : "")"><a href="@Url.Action("Home", "LimitTimeBuy")" onclick="">全部</a><b></b></dd>
+                    @foreach (var _item in CateSelItem)
+                    {
+                        <dd class="@(_item.Selected ? "curr" : "")"><a href="@Url.Action( "Home" , "LimitTimeBuy" , new { pageNo = 1 , isStart = ViewBag.isStart , keywords = ViewBag.keywords , orderType = 2 , orderKey = 5 , catename = _item.Text } )" onclick="">@(_item.Text)</a><b></b></dd>
+                    }
+                    @if (ViewBag.isStart == 1)
+                    {
+                        <dd><a href="@Url.Action( "Home" , "LimitTimeBuy" , new { pageNo = 1 , isStart = 2 , keywords = ViewBag.keywords , orderType = 2 , orderKey = 1 , catename = ViewBag.catename } )"><span class="upcoming">【即将开始】</span></a></dd><!--新增 11.23-->
+                    }
+                    else
+                    {
+                        <dd><a href="@Url.Action( "Home" , "LimitTimeBuy" , new { pageNo = 1 , isStart = 1 , keywords = ViewBag.keywords , orderType = 2 , orderKey = 1 , catename = ViewBag.catename } )"><span class="inprogress">【正在进行】</span></a></dd>
+                    }
+                </dl>
+
+            </div>
+        }
+
+        @if (null != Model)
+        {
+            var count = ((PagingInfo)ViewBag.pageInfo).TotalPages;
+            var curr = ((PagingInfo)ViewBag.pageInfo).CurrentPage;
+
+            <div id="filter-limit">
+                <!--改了ID，原Id"fliter"-->
+                <div class="fore1">
+                    <dl class="stock-search">
+                        <dt>
+                            <input class="text-stock-search" value="@ViewBag.keywords" id="searchVal" type="text" autocomplete="off" placeholder="搜索限时购商品" />
+                        </dt>
+                        <dd>
+                            <input class="btn-stock-search" id="ex-search" type="button" />
+                        </dd>
+                    </dl>
+                    <dl class="order">
+                        <dd class="@(ViewBag.orderKey == 1 ? "curr" : "")"><a href="@Url.Action( "Home" , "LimitTimeBuy" , new { pageNo = 1 , isStart = ViewBag.isStart , keywords = ViewBag.keywords , orderType = 2 , orderKey = 1 } )" onclick="">默认</a></dd>
+                        <dd class="@(ViewBag.orderKey == 2 ? "curr" : "")"><a href="@Url.Action( "Home" , "LimitTimeBuy" , new { pageNo = 1 , isStart = ViewBag.isStart , keywords = ViewBag.keywords , orderType = 2 , orderKey = 2 } )">销量</a><b class="x1"></b></dd>
+                    </dl>
+
+                    <div class="pagin pagin-m" id="top_pagi" style="display:none"><span class="text"><i>@curr</i>/@count</span></div>
+                    <span class="clr"></span>
+                </div>
+
+            </div>
+            <div class="by-goods">
+                <div class="topic-goods time-sale">
+                    @if (ViewBag.isStart == 2)
+                    {
+                        <ul class="cl">
+                            @foreach (var item in Model)
+                            {
+                                TimeSpan flashSaleTimeSpan = item.BeginDate - DateTime.Now;
+                                //DateTime flashSaleTime = Convert.ToDateTime( flashSaleTimeSpan.ToString() );
+                                <li>
+                                    <span class="tags">@item.Title</span>
+                                    <div class="p-img">
+                                        <a href="@Url.Action("Detail",new{id=item.Id})" target="_blank" title="">
+                                            <img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetProductSizeImage(item.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_350)" />
+                                        </a>
+                                    </div>
+                                    <div class="p-name"><a href="@Url.Action("Detail",new{id=item.Id})" target="_blank" title=""><p class="pro-tit">@item.Himall_Products.ProductName</p> <p class="pro-ad">@*@item.ProductAd*@</p></a></div>
+                                    <div class="p-price"><span>￥@item.MinPrice<s>￥@item.Himall_Products.MarketPrice</s></span><a href="@Url.Action("Detail",new{id=item.Id})" target="_blank" class="limi-buy"> @((int)flashSaleTimeSpan.TotalHours)小时@(flashSaleTimeSpan.Minutes)分钟</a></div>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="cl inprogress-list">
+                            @foreach (var item in Model)
+                            {
+                                TimeSpan flashSaleTimeSpan = item.BeginDate - DateTime.Now;
+                                if (item.BeginDate > DateTime.Now)
+                                {
+                                    <li class="toStart">
+                                        <span class="tags">@item.Title</span>
+                                        <div class="p-img">
+                                            <a href="@Url.Action("Detail",new{id=item.Id})" target="_blank" title="">
+                                                <img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetProductSizeImage(item.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_350)" />
+                                            </a>
+                                        </div>
+                                        <div class="p-name"><a href="@Url.Action("Detail",new{id=item.Id})" target="_blank" title=""><p class="pro-tit">@item.Himall_Products.ProductName</p> <p class="pro-ad">@*@item.ProductAd*@</p></a></div>
+                                        <div class="p-price"><span>￥@item.MinPrice<s>￥@item.Himall_Products.MarketPrice</s></span><a href="@Url.Action("Detail",new{id=item.Id})" target="_blank" class="limi-buy"> @((int)flashSaleTimeSpan.TotalHours)小时@(flashSaleTimeSpan.Minutes)分钟</a></div>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <span class="tags">@item.Title</span>
+                                        <div class="p-img">
+                                            <a href="@Url.Action("Detail",new{id=item.Id})" target="_blank" title="">
+                                                <img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetProductSizeImage(item.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_350)" />
+                                            </a>
+                                        </div>
+                                        <div class="p-name"><a href="@Url.Action("Detail",new{id=item.Id})" target="_blank" title=""><p class="pro-tit">@item.Himall_Products.ProductName</p> <p class="pro-ad">@item.Himall_Products.ShortDescription</p></a></div>
+                                        <div class="p-price"><span>￥@item.MinPrice<s>￥@item.Himall_Products.MarketPrice</s></span><a href="@Url.Action("Detail",new{id=item.Id})" target="_blank" class="Purchased">销售量<i> @item.SaleCount </i></a></div>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+            <div class="by-bottom">
+                <div class="m clearfix" id="bottom_pager">
+                    <div id="pagin-btm" class="pagin fr">
+                        @Html.PageLinks((PagingInfo)ViewBag.pageInfo, x => Url.Action("home", new { pageNo = x, isStart = ViewBag.isStart, keywords = ViewBag.keywords, exp_keywords = ViewBag.exp_keywords, cid = ViewBag.cid, b_id = ViewBag.b_id, a_id = ViewBag.a_id, orderType = ViewBag.orderType, orderKey = ViewBag.orderKey }))<span class="page-skip">
+                            <em>&nbsp;&nbsp;共 @count 页&nbsp;&nbsp;&nbsp;&nbsp;到第</em>
+                            <input class="jumpto" type="text" value="@curr" id="jumpInput">
+                            <em>页</em>
+                            <a class="btn-skipsearch" id="pageJump_LMT" href="javascript:;">确定</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <span class="none-activity">目前没有任何限时购活动!</span>
+        }
+
+    </div>
+</div>
+<script src="~/Areas/Web/Scripts/LimitTimeBuyHome.js"></script>

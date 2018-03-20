@@ -1,0 +1,345 @@
+﻿@model Himall.DTO.WeiActivityModel
+<link href="~/Content/inner-custom.css" type="text/css" rel="stylesheet">
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+      $("#uploadImg").himallUpload(
+      {
+          title: '',
+          imageDescript: '建议上传100*100的图片',
+          displayImgSrc: $("#MIpath").val(),
+          imgFieldName: "activityUrl",
+          dataWidth:12,
+          headerWidth:0
+      });
+    });
+    $(function () {
+        $("#BrandName").focus();
+    });
+</script>
+<div class="container">
+
+    <input type="hidden" id="productId" value="@Model.Id" />
+    <ul class="choose-step step2">
+        <li class="active">
+            创建活动
+            <span class="border"></span>
+            <span class="border-n Sclear-P34"></span>
+        </li>
+        <li style="background:none;">
+            活动设置
+            <span class="border"></span>
+            <span class="border-n"></span>
+        </li>
+        <li style="background:none;">完成</li>
+    </ul>
+    <ul class="choose-step step3 dln">
+        <li class="Sclear-P33">
+            编辑活动
+            <span class="border"></span>
+            <span class="border-n Sclear-P34"></span>
+        </li>
+        <li class="Sclear-P33">
+            活动设置
+            <span class="border"></span>
+            <span class="border-n Sclear-P34"></span>
+        </li>
+        <li style="background:none;">完成</li>
+    </ul>
+    @using (Html.BeginForm("Edit", "WeiActivity", new { Area = "Admin" }, FormMethod.Post, new { id = "ActivityForm", @class = "form-horizontal  form-pt0" }))
+    {
+
+        <input type="hidden" id="harward" name="harward" value="@Model.awards.Count" />
+    <input type="hidden" id="activityId" name="activityId" value="@Model.Id" />
+                       <div class="form-horizontal  Sclear-P35" id="release-pro">
+            <div class="data-detail clearfix">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>   活动标题：</label>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(p => p.activityTitle, new { @class = "form-control input-sm", @maxlength = "15" })
+                    </div>
+                    <div class="col-sm-3"><span class="help-default">活动被分享后链接标题</span></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>  活动分享详情：</label>
+                    <div class="col-sm-4">
+                        @Html.TextAreaFor(p => p.activityDetails, 4, 40, new { @class = "form-control Sclear-P36", @maxlength = "40" })
+                    </div>
+                    <div class="col-sm-3"><span class="help-default">活动被分享后链接详情</span></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="red">*</span>分享图片：</label>
+                    <div class="col-sm-4 pl0">
+                        <div class="upload-img" id="uploadImg"></div>
+                    </div>
+                    <div class="col-sm-3"><span class="help-default">活动被分享出去的链接图标</span></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="red">*</span>开始时间：</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control input-sm start_datetime" disabled="disabled" name="beginTime" id="beginTime" value="@Model.beginTime.ToString( "yyyy-MM-dd HH:mm:dd")" />
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="red">*</span>结束时间：</label>
+                    <div class="col-sm-3">
+
+                        <input type="text" class="form-control input-sm start_datetime" name="endTime" id="endTime" value="@Model.endTime.ToString( "yyyy-MM-dd HH:mm:dd")" />
+                    </div>
+                </div>
+
+                <input type="hidden" value="0" id="cost">
+            </div><!--活动基本计息结束-->
+
+
+            <div class="Sclear-P53"><span class="btn btn-primary mt20 big-w" id="id_next">下一步</span></div>
+        </div>
+
+        <div class="form-horizontal Sclear-P54" id="release-detail">
+            <div class="data-detail clearfix">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">参与次数：</label>
+                    <div class="col-sm-5">
+                        <label>
+                           @Html.RadioButtonFor(p => p.participationType, Himall.CommonModel.WeiParticipateType.CommonCount, new { @name = "participationType", @id = "rdi1", @Checked = "checked" }) 一共
+                        </label>
+                        
+                              @if (Model.participationType == Himall.CommonModel.WeiParticipateType.CommonCount)
+                              {
+                                <input type="text" class="form-control input-inline" name="participationCount" id="CommonCount" value="@Model.participationCount" onkeyup="this.value = this.value.replace(/[^\d]/g, '') " / >
+                              }
+                              else
+                              {
+                                <input type="text" class="form-control input-inline" name="participationCount" id="CommonCount" value="" disabled="disabled" onkeyup="this.value = this.value.replace(/[^\d]/g, '') " />
+                              }
+                            次
+                               
+                              
+                        <label class="blank"></label>
+                        <label>
+                            @Html.RadioButtonFor(p => p.participationType, Himall.CommonModel.WeiParticipateType.DayCount, new { @name = "participationType", @id = "rdi2" })  一天
+                        </label>
+                        @if (Model.participationType == Himall.CommonModel.WeiParticipateType.DayCount)
+                        {
+                            <input type="text" class="form-control input-inline" name="participationCount" id="DayCount" value="@Model.participationCount" onkeyup="this.value = this.value.replace(/[^\d]/g, '') " />
+                        }
+                        else
+                        {
+                            <input type="text" class="form-control input-inline" name="participationCount" id="DayCount" value="" disabled="disabled" onkeyup="this.value = this.value.replace(/[^\d]/g, '') " />
+                        }
+                        次
+                        <label class="blank"></label>
+                        <label>@Html.RadioButtonFor(p => p.participationType, Himall.CommonModel.WeiParticipateType.Unlimited, new { @name = "participationType", @id = "rdi3" }) 无限制</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">消耗积分：</label>
+                    <div class="col-sm-4">
+                        <label>@Html.RadioButtonFor(p => p.isPoint, 0, new { @name = "isPoint", @id = "rdi4", @Checked = "checked" }) 不消耗积分</label>
+                        <label class="blank"></label>
+                        <label>
+                            @Html.RadioButtonFor(p => p.isPoint, 1, new { @name = "isPoint", @id = "rdi5" }) 消耗积分
+                        </label>
+                        @if (Model.isPoint == 0)
+                        {
+                            <input type="text" class="form-control input-inline" name="consumePoint" id="consumePoint" value="" disabled="disabled" onkeyup="this.value = this.value.replace(/[^\d]/g, '') " />
+                        }
+                        else
+                        {
+                            <input type="text" class="form-control input-inline" name="consumePoint" id="consumePoint" value="@Model.consumePoint" onkeyup="this.value = this.value.replace(/[^\d]/g, '') " />
+                        }
+                       
+                    </div>
+                    <div class="col-sm-3"><span class="help-default big-w">用户参与活动需要消耗的积分</span></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">奖品设置：</label>
+
+                    <div class="col-sm-5">
+                        <span class="help-default">
+                            1、每个奖项所设置的中奖概率之和不得大于100%<br />
+                            2、至少设置一个奖项
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+@if (Model.awards.Count > 0)
+{
+    
+    int i = 0;
+    foreach (var item in Model.awards)
+    {
+        var ReceiveType = "ReceiveType"+item.awardLevel;
+        var lable = "lable" + @item.awardLevel;
+        var coupon = "coupon" + @item.awardLevel;
+        var brand = "brand" + @item.awardLevel;
+        var lableBouns = "lableBouns" + @item.awardLevel;
+        var lableCoupn = "lableCoupn" + @item.awardLevel;
+        var awardCount = "awardCount" + @item.awardLevel;
+        var proportion = "proportion" + @item.awardLevel;
+        var integral = "integral" + @item.awardLevel;
+         <!--一等奖-->
+                        <table class="table-data" id="@item.awardLevel">
+                            <tr>
+                                
+                                   @switch (item.awardLevel)
+                                   {
+                                       case 1:  <td>一等奖 </td> ;break;
+                                       case 2:  <td>二等奖 </td> ;break;
+                                       case 3:  <td>三等奖 </td> ;break;
+                                       case 4:  <td>四等奖 </td> ;break;
+                                       case 5:  <td>五等奖 </td> ;break;
+                                       case 6:  <td>六等奖 </td> ;break;
+                                   }
+                                <td>
+                                  
+                                    @if (((int)item.awardType) == 0)
+                                    {
+                                         <label><input name=@ReceiveType type="radio" checked="checked" disabled="disabled" value="0" /> 积分</label>
+                                        <label class="blank"></label>
+                                        <label><input name=@ReceiveType type="radio" value="1" disabled="disabled" /> 红包</label>
+                                        <label class="blank"></label>
+                                        <label><input name=@ReceiveType type="radio" value="2" disabled="disabled" /> 优惠券</label>
+                                      
+                                    }
+                                    else if (((int)item.awardType) == 1)
+                                    {
+                                         <label><input name=@ReceiveType type="radio" value="0" disabled="disabled" /> 积分</label>
+                                        <label class="blank"></label>
+                                        <label><input name=@ReceiveType type="radio" checked="checked" value="1" disabled="disabled" /> 红包</label>
+                                        <label class="blank"></label>
+                                        <label><input name=@ReceiveType type="radio" value="2" disabled="disabled" /> 优惠券</label>
+                                       
+                                    }
+                                    else if (((int)item.awardType) == 2)
+                                    {
+                                         <label><input name=@ReceiveType type="radio" value="0" disabled="disabled" /> 积分</label>
+                                        <label class="blank"></label>
+                                        <label><input name=@ReceiveType type="radio" value="1" disabled="disabled" /> 红包</label>
+                                        <label class="blank"></label>
+                                        <label><input name=@ReceiveType type="radio" checked="checked" value="2" disabled="disabled" /> 优惠券</label>
+                                      
+                                    }
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td></td>
+                                <td>
+                                    @if (((int)item.awardType) == 0)
+                                    {
+                                        <label id="@lable">赠送积分：<input class="form-control input-inline" value="@item.integral" maxlength="10" type="text" name="@integral" disabled="disabled"> 分</label>
+                                    }
+                                    else if (((int)item.awardType) == 1)
+	                                    {
+		                                     <label id="@lableBouns"  >
+                                             选择红包：
+                                               <select class="form-control input-ssm" disabled>
+                                                   @{
+                                                            var Drop = (List<SelectListItem>)ViewBag.BrandDrop;
+                                                            for (int k = 0; k < Drop.Count(); k++)
+                                                            {
+                                                                if (Drop[k].Value==item.bonusId.ToString())
+                                                                {
+                                                                     <option value=@Drop[k].Value selected="selected"> @Drop[k].Text</option>
+                                                                }
+                                                                  <option value=@Drop[k].Value > @Drop[k].Text</option>
+                                                              
+                                                            }
+                                                   }
+                                               </select>
+
+
+
+                                                  @*@Html.DropDownListFor(p => item.bonusId, (IEnumerable<SelectListItem>)ViewBag.BrandDrop, new
+                                               {@class = "form-control input-ssm", id = "bonus",@name = "bonus",@disabled="aidabled" })*@
+                                             
+                                             </label>
+	                                            }
+                                    else { 
+                                    <label id="@lableCoupn" >
+                                        <input type="hidden" id=@coupon name="coupon1" value="@item.couponId" />
+                                        选择赠品：<button type="button" class="btn btn-primary btn-ssm" onclick="ChoceCoupon(@item.awardLevel)" disabled>选择优惠券</button>  &nbsp; 提示：所选优惠券类型为主动发放
+                                    </label>
+                                    }
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td>
+
+                                    <p class="form-control-static" style="width:445px">
+                                        奖品数量：<input class="form-control input-inline" value="@item.awardCount" name="@awardCount" disabled="disabled" maxlength="10" type="text"> 份
+                                    </p>
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td></td>
+                                <td>
+                                    中奖概率：<input class="form-control input-inline" value="@item.proportion" name="@proportion" disabled="disabled" maxlength="10" type="text"> %
+                                </td>
+                            </tr>
+                        </table>
+    }
+   
+}
+                   
+
+
+                    </div>
+
+                </div>
+                @*<div class="form-group">
+                    <div class="col-sm-5 col-sm-offset-2">
+                        <button type="button" class="btn btn-primary" id="">新增奖项</button>
+                    </div>
+                </div>*@
+
+            </div><!--商品详情结束-->
+
+            <div class="pro-detail-btn big-w clearfix">
+                <button type="button" class="btn btn-default" id="id_last">上一步</button>
+
+                <button type="button" class="btn btn-primary  scratch-k" id="subCate">保存设置</button>
+
+
+            </div>
+
+
+        </div>
+    }
+    <!--选择优惠券列表-->
+    <div id="choceCouponUrl" class="dln">
+        <div class="choose-search">
+            <div class="form-group">
+                <label class="label-inline clear-h" for="">名称</label>
+                <input class="form-control input-ssm" type="text" name="couponName" id="couponName">
+            </div>
+            <button type="button" class="btn btn-primary btn-ssm" id="">搜索</button>
+        </div>
+        <table id="CouponGrid" class="table table-bordered"></table>
+    </div>
+</div>
+<input type="hidden" value="@Model.activityUrl" id="MIpath" />
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script type="text/javascript" src="~/Areas/Admin/Scripts/WeiActivityAdd.js"></script>

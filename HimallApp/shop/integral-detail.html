@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>礼品详情页</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav transparent-bg">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">礼品详情</h1>
+		</header>
+		<div class="scroll-div" id="scrollDiv">
+			<div class="mui-content transparent">
+			</div>
+		</div>
+		<footer class="integral-bar transparent" id="integralBar">
+			<div class="integral-buy" id="integralBuy">我要兑换</div>
+	    </footer>
+	    <div class="goods-sku" id="choose">
+			<div class="goods-num">
+				<label>数量</label>
+				<div id="pMaxCount" class="mui-numbox" data-numbox-min="1">
+					<button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
+					<input id="porductCount" class="mui-numbox-input" type="number" value="1" />
+					<button class="mui-btn mui-numbox-btn-plus" type="button">+</button>
+				</div>
+			</div>
+			<a class="custom-btn integral-btn" id="confirmBuy">确 定</a>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/mui.zoom.js"></script>
+		<script src="js/mui.previewimage.js"></script>
+		<script src="js/swiper.min.js" ></script>
+		<script src="js/template.js" ></script>
+		<script src="js/delayimg.min.js"></script>
+		<script>
+				mui.init({swipeBack: true});
+				
+				var giftId,
+					mask,
+					LimtQuantity,
+					userkey=himall.getState().userkey,
+					integralBuy=document.getElementById('integralBuy');
+				mui.plusReady(function() {
+					var w=plus.nativeUI.showWaiting('',{padlock:true}),
+						ws=plus.webview.currentWebview();
+					giftId = ws.giftId;
+					ws.setStyle({scrollIndicator:'none'});
+					mui.ajax(URL+'api/Gifts/GetGifts',{
+						data:himall.md5Data({
+							id:giftId,
+							userkey:userkey
+						}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							
+							document.getElementsByClassName('mui-content')[0].insertAdjacentHTML('beforeend',template('productInfo', data));
+							
+							var slider=document.getElementById('slider');
+							if(data.Images.length>0){
+								slider.style.height=slider.offsetWidth+'px';
+								himall.initSwiper();
+					            mui.previewImage();
+							}
+							
+							if(!data.CanBuy){
+								integralBuy.className+=' disabled';
+								integralBuy.innerText=(data.CanNotBuyDes=='礼品已过期'?'活动已结束':data.CanNotBuyDes);
+							}
+							LimtQuantity=data.LimtQuantity;
+							mui('.mui-numbox').numbox();
+							
+							document.getElementById('ProductDescription').innerHTML=himall.parseDomImg(data.Description);
+							delayimg.init({content:document.getElementById('scrollDiv'),offset:300,throttle:0});
+							
+							himall.stopHref(mui('#ProductDescription'));
+							
+							w.close();
+							himall.removeClass(document.querySelector('.mui-content'),'transparent');
+							himall.removeClass(document.getElementById('integralBar'),'transparent');
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							reloadWvLoad();
+						}
+					});
+				});
+				
+				integralBuy.addEventListener('tap',function(){
+					if(himall.hasClass(this,'disabled')){
+						return;
+					}
+					if(himall.isLogin()){
+						if(!mask)
+							mask = mui.createMask(function(){choose.className='goods-sku';});
+						mask.show();
+						choose.className+=' active';
+					}else{
+						showLogin();
+					}
+				});
+				
+				mui.oldBack = mui.back;
+				mui.back = function(event) {
+					if(choose.className=='goods-sku active'){
+						mask.close();
+						return false;
+					}else{
+						mui.oldBack();
+					}
+				};
+				
+				document.getElementById('confirmBuy').addEventListener('tap',function(){
+					var count=document.getElementById('porductCount').value;
+					if(count>LimtQuantity&&LimtQuantity>0){
+						plus.nativeUI.toast('此礼品每人限兑'+LimtQuantity+'件');
+						return;
+					}
+					mui.ajax(URL+'api/Gifts/GetCanBuy',{
+						data:himall.md5Data({
+							id:giftId,
+							count:count,
+							userkey:userkey
+						}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							if(data.success){
+								himall.openVW('integral-submit.html',{giftId:giftId,count:count})
+							}else{
+								plus.nativeUI.toast(data.msg);
+							}
+							mask.close();
+						},
+						error:function(xhr,type,errorThrown){
+							plus.nativeUI.toast('请求超时，请检查网络');
+						}
+					});
+				});
+				
+				
+		</script>
+		
+		<script id="productInfo" type="text/html">
+			<div class="swiper-container" id="slider">
+		        <div class="swiper-wrapper">
+		        	{{each Images}}
+		            	<div class="swiper-slide "><div class="mui-zoom"><img src="{{$value}}" data-preview-src="" data-preview-group="1"></div></div>
+		            {{/each}}
+		        </div>
+		        <div class="swiper-pagination"></div>
+		   </div>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-text">
+					<div class="goods-info integral-goods">
+						<h3 id="pName">{{GiftName}}</h3>
+						<p class="p-price"><span>{{NeedIntegral}} 积分</span><s>¥{{GiftValue}}</s><span class="gradename">{{NeedGradeName?(NeedGradeName+' 专享'):''}}</span></p>
+						<h5>有效期至 ：{{EndDate.replace('T',' ')}}</h5>
+						<h5>已兑：{{SumSales}} 份</h5>
+					</div>
+				</li>
+			</ul>
+			<div class="p-detail-more"><span>拖动查看更多</span></div>
+			<div class="p-detail integral-imgtext">
+				<div class="p-detail-html" id="ProductDescription"></div>
+			</div>
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,169 @@
+﻿@model Himall.Web.Areas.SellerAdmin.Models.ShopBonusModel
+@{
+    Layout = null;
+    ViewBag.Title = "领取代金红包";
+}
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Areas/Mobile/Templates/Default/Content/custom.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/CommonJS.js"></script>
+    <script type="text/javascript">
+        $( document ).ready(
+                function ()
+                {
+                    $( '.top' ).height( $( '.container' ).width() * 497 / 320 );
+                }
+        );
+    </script>
+</head>
+<body>
+    <script>
+        var areaName = '@ViewBag.AreaName';
+        @*var MAppType = '@ViewBag.DataModel.MAppType';*@
+    </script>
+    <div class="container gift-L">
+        <input id="grant" value="@ViewBag.DataModel.GrantId" type="hidden" />
+        <div class="top">
+            <div class="img"><img src="@(ViewBag.DataModel.HeadImg)"></div>
+            <span class="coupon"><i>￥</i>@ViewBag.DataModel.Price</span>
+            <p class="coupon-N">@ViewBag.DataModel.ShopName</p>
+            <p class="tips clearfix">Sorry,小二还不认识亲，无法奉上代金券</p>
+            <div class="reg clearfix"><a href="/m-weixin/member/Center">一秒钟让我们认识您</a></div>
+            @if (Model.IsShowSyncWeiXin)
+            {
+                <div class="keep clearfix" id="addCard"><a href="/m-weixin/">先放至微信卡包</a></div>
+            }
+            <p class="name">@Model.Name</p>
+        </div>
+        <ul class="mid"></ul>
+        @*@if (ViewBag.DataModel.CopyRight == null || ((bool)ViewBag.DataModel.CopyRight))
+        {
+            <div class="bottom" onclick="javascript:window.location.href='/@ViewBag.DataModel.AreaName'" style="background-image:url(@ViewBag.DataModel.Logo)">Copyright &copy; @(ViewBag.DataModel.SiteName)版权所有</div>
+        }*@
+        @*<div id="footer"><img src="~/Areas/Mobile/Templates/Default/Images/logo.png"></div>*@
+    </div>
+</body>
+</html>
+
+<script src="~/Areas/Mobile/Templates/Default/Scripts/shopBonusOther.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+@if( Model.IsShowSyncWeiXin )
+{
+     <text>
+	wx.config({
+		debug: false,
+		appId: '@(Model.WXJSInfo.appid)',
+		timestamp: @(Model.WXJSInfo.timestamp),
+		nonceStr: '@(Model.WXJSInfo.nonceStr)',
+		signature: '@(Model.WXJSInfo.signature)',
+		jsApiList: [
+          'checkJsApi',
+          'addCard',
+          'onMenuShareTimeline' , 'onMenuShareAppMessage'
+		]
+	});
+	</text>
+}
+    else
+    {
+		var weiXinShareArgs=this.WeiXinShareArgs;
+		if (weiXinShareArgs != null)
+		{
+			<text>
+			wx.config({
+				debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+				appId: '@weiXinShareArgs.AppId', // 必填，公众号的唯一标识
+				timestamp: @weiXinShareArgs.Timestamp , // 必填，生成签名的时间戳
+				nonceStr: '@weiXinShareArgs.NonceStr', // 必填，生成签名的随机串
+				signature: '@weiXinShareArgs.Signature',// 必填，签名，见附录1
+				jsApiList: [ 'onMenuShareTimeline' , 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+			});
+			</text>
+		}
+    }
+
+	wx.ready(function () {
+		// 判断当前版本是否支持指定 JS 接口，支持批量判断
+		wx.checkJsApi({
+			jsApiList: [ 'onMenuShareTimeline' , 'onMenuShareAppMessage' ],
+			success: function (res)
+			{
+				LoadWXInfos();
+				if(res.checkResult.onMenuShareTimeline)   //朋友圈
+				{
+
+				}
+				if(res.checkResult.onMenuShareAppMessage)  //朋友
+				{
+
+				}
+			}
+		});
+
+		wx.onMenuShareAppMessage({
+			title: '@Model.ShareTitle',
+			desc: '@Model.ShareDetail',
+			link: '@ViewBag.DataModel.ShareHref',
+			imgUrl: '@Model.ShareImg',
+			type: 'link',
+			dataUrl: '',
+			success: function (res) {
+
+			},
+			cancel: function (res) {
+			}
+		});
+
+		wx.onMenuShareTimeline({
+			title: '@Model.ShareTitle',
+			link: '@ViewBag.DataModel.ShareHref',
+			imgUrl: '@Model.ShareImg',
+			success: function () {
+
+			},
+			cancel: function () {
+
+			}
+		});
+
+	});
+</script>
+
+@if (Model.IsShowSyncWeiXin)
+{
+    <script src="~/Scripts/jquery.json.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            loadingobj=showLoading("数据装载中...");
+            var geturl= '/' + areaName + '/ShopBonus/GetWXCardData/';
+            $.post(geturl,{id:'@(Model.Id)',rid:'@(Model.ReceiveId)'}, function (data, status) {
+                loadingobj.close();
+                if(data.cardId){
+                    if(data.cardId!="0"){
+                        $("#addCard").show();
+                        $('#addCard').click(function () {
+                            wx.addCard({
+                                cardList: [{
+                                    cardId: data.cardId,
+                                    cardExt: jQuery.toJSON(data.cardExt)
+                                }],
+                                success: function (res) {
+                                    $("#addCard").hide();
+                                }
+                            });
+                            $("#addCard").hide();
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,141 @@
+﻿@using Himall.Model;
+@using Himall.Core
+@model Himall.Web.Areas.SellerAdmin.Models.VshopHomeSiteViewModel
+
+
+
+@if (Model.VShop == null)
+{
+    <div class="container">
+        <ul class="nav nav-tabs-custom clearfix">
+            <li class="active"><a>未开通微店</a></li>
+        </ul>
+        <div class="form-horizontal">
+            <div class="form-group">
+                <p class="apply-primary"><span class="glyphicon glyphicon-info-sign"></span>您还未开设自己的微店，<a href="../vshop/EditVShop?shopId=@Model.ShopId">现在开设</a></p>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container Sclear-P">
+        <ul class="nav nav-tabs-custom clearfix" style="margin-bottom: 15px;">
+            
+            <li class="active"><a>店铺首页配置</a></li>
+            
+        </ul>
+
+
+        <ul class="page-tab-hd page-vshop">
+            <li class="li2"><i class="glyphicon glyphicon-pencil"></i>轮播图配置</li>
+            <li class="li4"><i class="glyphicon glyphicon-pencil"></i>首页商品配置</li>
+            <i class="arrow"></i>
+        </ul>
+        <div class="page-tab-bd">
+            @*<div class="page-item">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">页面名称：</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control input-sm" value="@Model.VShop.HomePageTitle" id="homePageTitle">
+                        </div>
+                        <div class="col-sm-5"><span class="help-default">微店页面名称</span></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" onclick="saveHomePageTitle()" class="btn btn-primary">保 存</button>
+                        </div>
+                    </div>
+                </form>
+            </div>*@
+            <div class="page-item">
+                <div class="table-top"><a class="btn btn-primary btn-xs" onclick="SaveSlideImage(null)"><i class="glyphicon glyphicon-plus"></i>新增轮播图</a></div>
+                <table id="slideImagesTable" class="table table-bordered slideImage"></table>
+            </div>
+
+            @*<div class="page-item">
+                    <div class="search-box only-line">
+                        <form class="custom-inline">
+                            <div class="form-group">
+                                <label class="label-inline" for="" style="width:84px">优惠券名称：</label>
+                                <input class="form-control input-ssm" type="text" id="inputCouponName">
+                            </div>
+                            <button type="button" class="btn btn-warning btn-ssm" id="btnSerachCoupon">搜索</button>
+                        </form>
+                    </div>
+                    <table id="tableCouponList" class="table table-bordered vshopbanner"></table>
+                    <button type="button" class="btn btn-warning btn-ssm" id="btnSubmit" style="margin-top:5px;height:30px; width:80px;">提交</button>
+                </div>*@
+
+            @*<div class="page-item">
+                <div class="table-top"><a class="btn btn-primary btn-xs" onclick="SaveVShopBanner(null)"><i class="glyphicon glyphicon-plus"></i> 添加导航</a></div>
+                <table id="vshopBannerTable" class="table table-bordered vshopbanner"></table>
+            </div>*@
+            <div class="page-item">
+                <div class="table-top"><a class="btn btn-primary btn-xs" id="addBtn"><i class="glyphicon glyphicon-plus"></i> 添加商品</a></div>
+                <div class="search-box">
+                    <form class="form-inline custom-inline">
+                        <div class="form-group">
+                            <label class="label-inline w95">商品/品牌</label>
+                            <input class="form-control input-ssm" type="text" id="productName">
+                        </div>
+                        <div class="form-group">
+                            <label class="label-inline w75" for="">分类</label>
+                            <select class="form-control input-ssm" id="category1"></select>
+                            <select class="form-control input-ssm" id="category2"></select>
+                        </div>
+                        <div class="form-group">
+                        	<button type="button" class="btn btn-primary btn-sm" id="searchBtn">搜索</button>
+                        </div>
+                        
+                    </form>
+                    <input type="hidden" id="categoryId" value="" />
+                </div>
+                <table class="table table-bordered" id="list"></table>
+            </div>
+        </div>
+        <div id="addSlideImage" class="dln">
+            <div class="dialog-form">
+                <div class="form-group">
+                    <div class="form-group upload-img clearfix" id="imgUrl" >
+                        
+                    </div>
+                </div>
+                <div class="form-group linkUrl">
+                    <label for="" class="label-inline">链接地址：</label>
+                    <input type="text" class="form-control input-sm" id="menuUrl" />
+                </div>
+            </div>
+        </div>
+        <div id="addBanner" class="dln">
+            <div class="dialog-form">
+                <div class="form-group">
+                    <label for="" class="label-inline">导航名称：</label>
+                    <input type="text" class="form-control input-sm" id="txtBannerName1">
+                    <p class="help-block">限10个字符</p>
+                </div>
+                <div class="form-group">
+                    <label for="" class="label-inline">链接对象：</label>
+                    <select id="ddlType1" onchange="Onchange($(this))" class="form-control input-sm">
+                        <option value="0">链接</option>
+                        <option value="1">全部商品</option>
+                        <option value="2">商品分类</option>
+                        <option value="3">店铺简介</option>
+                    </select>
+                </div>
+                <div class="form-group linkUrl dln" >
+                    <label for="" class="label-inline">链接地址：</label>
+                    <input type="text" class="form-control input-sm" id="bannerUrl" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/weixinSlideImage.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/VShopHomeSiteApp.js"></script>

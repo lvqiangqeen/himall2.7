@@ -1,0 +1,69 @@
+﻿@using Himall.Core
+@model Himall.Web.Areas.Mobile.Models.DistributionProductDetailShowModel
+@{
+    Layout = "../Shared/_Base.cshtml";
+    ViewBag.Title = "商品详情";
+}
+<style>.container-z{ padding-bottom: 61px; }</style>
+<div class="container container-z">
+    <div class="detail-hd">
+        <div id="slides">
+            @for (int i = 1; i < 6; i++) {
+                if ( HimallIO.ExistFile(Model.Product.RelativePath+ string.Format("/{0}.png", i))) {
+                    <img data-src="@HimallIO.GetProductSizeImage(Model.Product.RelativePath, i, (int)Himall.CommonModel.ImageSize.Size_350)" />
+                }
+            }
+        </div>
+    </div>
+    <div class="detail-bd">
+        <div class="goods-info">
+            <div class="item">
+                <h4>@Model.Product.ProductName</h4>
+                <!-- <h5 class="color">@Model.Product.ShortDescription</h5> -->
+                <h4 class="fx-price clearfix lh20">
+                    <span class="color">价格：￥@Model.Product.MinSalePrice.ToString("F2")</span>
+                    <span class="text-center color-red">佣金：￥@(Model.DistributionCommission) 起</span>
+                    <span class="text-center">累计成交： @(Model.DistributionSaleNum)</span>
+                </h4>
+            </div>
+        </div>
+        @if (ViewBag.DetailModel.VShopId != -1) {
+            <a href="/@ViewBag.AreaName/DistributionMarket/ShopDetail/@(Model.Shop.Id)">
+                <div class="item shop-wrap">
+                    <div class="shop-hd">
+                        <div class="shop-logo"><img src="@HimallIO.GetImagePath(Model.VShopLog)"></div>
+                        <h4>@Model.Shop.Name</h4>
+                        <div class="shop-hd-info">
+                            <span>推广商品<strong>@Model.ShopDistributionProductNum</strong></span>
+                            <span>关注人数<strong>@(Model.FavoriteShopCount)</strong></span>
+                        </div>
+                    </div>
+                    <ul class="shop-bd shop-bd-mb0 clearfix">
+                        <li>商品：<strong>@(((decimal)ViewBag.DetailModel.ProductAndDescription).ToString("F2"))</strong></li>
+                        <li>发货：<strong>@(((decimal)ViewBag.DetailModel.SellerDeliverySpeed).ToString("F2"))</strong></li>
+                        <li>服务：<strong>@(((decimal)ViewBag.DetailModel.SellerServiceAttitude).ToString("F2"))</strong></li>
+                    </ul>
+                </div>
+            </a>
+        }
+        <div class="item details-link">
+            <a href="#top" onclick="gotoProductImg()"><span>继续拖动，查看商品描述</span></a>
+        </div>
+        <div class="goods-img"></div>
+    </div>
+</div>
+<div class="S-bottom" id="databox">
+    <span class="code bt_share" data-pid="@(Model.Product.Id)" data-uid="@(CurrentUser.Id)" data-title="@(Model.Product.ProductName)" data-img="@( HimallIO.GetRomoteProductSizeImage(Model.Product.ImagePath,1,Himall.CommonModel.ImageSize.Size_150.GetHashCode()))">转发</span><span class="extend bt_agent @(Model.DistributionIsAgent ? "disabled" : "")" data-pid="@(Model.Product.Id)">@(Model.DistributionIsAgent ? "已" : "")代理</span>
+</div>
+<input type="hidden" id="proDesc" value="@Model.ProductDescription" />
+<input type="hidden" id="shopId" value="@Model.Shop.Id" />
+<script src="~/Areas/Mobile/Templates/Default/Scripts/DistributionMarketDetail.js"></script>
+<script src="~/Scripts/jquery.cookie.js"></script>
+<script src="~/Scripts/jquery.slides.min.js"></script>
+<a class="WX-backtop"></a>
+@Html.Action("ShareInfo", "Distribution")
+<script>
+    $(function () {
+        shareProduct(".bt_share");
+    });
+</script>

@@ -1,0 +1,19 @@
+﻿@model Himall.Model.GiftOrderInfo
+@{
+    ViewBag.Title = "兑换成功 - 礼品商城";
+    Layout = "~/Areas/Web/Views/Shared/_PayTopBar.cshtml";
+}
+<div class="w990 main">
+    <div class="m mainbody">
+        <div class="mc">
+            <s class="icon-succ04"></s>
+            <h3 class="orderinfo">礼品兑换订单提交成功！</h3>
+            <ul class="list-orderinfo">
+                    <li>订单号：@(Model.Id)</li>
+                <li class="li-last">扣除积分：<strong class="ftx-01">@(Model.TotalIntegral)</strong> 积分</li>
+            </ul>
+            <div class="btns mt20"><a class="btn-5" href="/UserIntegral/OrderList">查看积分订单</a></div>
+        </div>
+    </div>
+</div>
+

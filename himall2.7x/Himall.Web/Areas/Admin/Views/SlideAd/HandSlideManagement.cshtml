@@ -1,0 +1,234 @@
+﻿@{
+    ViewBag.Title = "HandSlideManagement";
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+
+<script type="text/javascript">
+    var addHandSlideContentHtml = '';
+    function deleteHandSlideEvent(obj, id) {
+        $.dialog.confirm('确定删除该条记录吗？', function () {
+            var loading = showLoading();
+            ajaxRequest({
+                type: 'POST',
+                url: './DeleteHandSlide',
+                cache: false,
+                param: { Id: id },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.successful == true) {
+                        $(obj).parents('tr').remove();
+                        $.dialog.succeedTips('删除成功.');
+                    }
+                    loading.close();
+                },
+                error: function (data) { $.dialog.tips('删除失败,请稍候尝试.'); }
+            });
+        });
+    }
+
+    function editHandSlideEvent(url, title, id, pic, action) {
+        Loading(id, title, pic, action, url);
+    }
+
+    function Loading(id, title, pic, action, url) {
+        $.dialog({
+            title: title,
+            lock: true,
+            id: 'addHandImg',
+            padding:'0 40px',
+            content: ['<div class="dialog-form">',
+                '<div id="HandSlidePic" class="form-group upload-img clearfix">',
+                '</div>',
+                '<div class="form-group">',
+                    '<label class="label-inline" for="">跳转链接</label>',
+                    '<input class="form-control input-sm" type="text" id="url">',
+                '</div>',
+            '</div>'].join(''),
+            okVal: '保存',
+            init: function () {
+                $("#HandSlidePic").himallUpload(
+                {
+                    title: '上传图片',
+                    imageDescript: '242*188',
+                    displayImgSrc: pic.replace(/\|/g, '/'),
+                    imgFieldName: "HandSlidePic",
+					dataWidth:8
+                });
+                if (action == 'EditHandSlideAd') {
+                    $("#url").val(url);
+                }
+            },
+            ok: function () {
+                var url = $("#url").val();
+                var pic = $("#HandSlidePic").himallUpload('getImgSrc');
+                if (url.length === 0) { $("#url").focus(); $.dialog.errorTips('链接地址不能为空.'); return valida; }
+                if (pic.length === 0) { $.dialog.errorTips('图片不能为空.'); return valida; }
+                var loading = showLoading();
+                ajaxRequest({
+                    type: 'POST',
+                    url: './' + action,
+                    cache: false,
+                    param: { url: url, pic: pic, id: id },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.successful == true) {
+                                location.href = './HandSlideManagement';
+                        }
+                        loading.close();
+                    },
+                    error: function (data) { $.dialog.errorTips('添加失败,请稍候尝试.'); }
+                });
+
+            }
+        });
+    }
+
+    function InitialArrowBtn() {
+        $(".table tbody tr").find('.glyphicon').removeClass('disabled');
+        $(".table tbody tr").first().find('.glyphicon-circle-arrow-up').addClass('disabled');
+        $(".table tbody tr").last().find('.glyphicon-circle-arrow-down').addClass('disabled');
+    }
+    function LoadTable() {
+
+
+        $("#HandSlideDatagrid").hiMallDatagrid({
+            url: "./GetHandSlideJson",
+            singleSelect: true,
+            pagination: false,
+            NoDataMsg: '没有找到符合条件的数据',
+            idField: "Id",
+            pageSize: 15,
+            pageNumber: 1,
+            queryParams: {},
+            columns:
+            [[
+
+                { field: "Id", title: "Id", hidden: true },
+                {
+                    field: "Pic", title: "图片", width: 200,
+                    formatter: function (value, row, index) {
+                        var html = '<img style="margin-left:15px;" width="100" height="60" src="' + row.Pic + '" />';
+                        return html;
+                    }
+                },
+                { field: "URL", title: "跳转地址", width: 450, 
+					formatter: function (value, row, index) {
+                        return '<span style="width:400px; word-break:break-all;">'+value+'</span>';
+                    }
+				},
+                {
+                    field: "DisplaySequence", title: "排序", width: 120, algin:"left",
+                    formatter: function (value, row, index) {
+                        return '<span class="glyphicon glyphicon-circle-arrow-up"></span> <span class="glyphicon glyphicon-circle-arrow-down"></span>';
+                    }
+                },
+                {
+                    field: "operation", operation: true, title: "操作",
+                    formatter: function (value, row, index) {
+                        var id = row.Id.toString();
+                        var html = ['<span class="btn-a">'];
+                        html.push('<a onclick="editHandSlideEvent(\'' + row.URL + '\',\'编辑轮播图片\',' + id + ',\'' + row.Pic.replace(/\//g, '|') + '\',\'EditHandSlideAd\');">编辑</a>');
+                        html.push('<a class="a-del" onclick="deleteHandSlideEvent(this,' + id + ');">删除</a>');
+                        html.push("</span>");
+                        return html.join("");
+                    }
+                }
+            ]],
+            onLoadSuccess: function () {
+                InitialArrowBtn();
+            }
+        });
+
+    };
+
+    $(function () {
+
+        LoadTable();
+
+        $('.add-hand-img').click(function () {
+            Loading(0, '新增轮播图', '', 'AddHandSlideAd', '');
+        });
+
+
+        $(".table").on("click", '.glyphicon-circle-arrow-up', function () {
+            var that = this;
+            var id = $("#HandSlideDatagrid").hiMallDatagrid('getRowByIndex', $(this).parents('tr').attr('himalldatagrid-row-index')).Id;
+            var loading = showLoading();
+            ajaxRequest({
+                type: 'POST',
+                url: './AdjustHandSlideIndex',
+                cache: false,
+                param: { id: id, direction: 1 },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.successful == true) {
+                        var p = $(that).parents('tr');
+                        var index = p.parent().find('tr').index(p);
+                        if (index == 0)
+                            return false;
+                        else {
+                            p.prev().before(p);
+                            $.dialog.succeedTips('调整顺序成功.');
+                            InitialArrowBtn();
+                        }
+                    }
+                    loading.close();
+                },
+                error: function (data) { $.dialog.errorTips('调整顺序失败,请稍候尝试.'); }
+            });
+
+        });
+        $(".table").on("click", '.glyphicon-circle-arrow-down', function () {
+            var that = this;
+            var id = $("#HandSlideDatagrid").hiMallDatagrid('getRowByIndex', $(this).parents('tr').attr('himalldatagrid-row-index')).Id;
+            var loading = showLoading();
+            ajaxRequest({
+                type: 'POST',
+                url: './AdjustHandSlideIndex',
+                cache: false,
+                param: { id: id, direction: 0 },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.successful == true) {
+                        var p = $(that).parents('tr');
+                        var count = p.parent().find('tr').length;
+                        var index = p.parent().find('tr').index(p);
+                        if (index == (count - 1))
+                            return false;
+                        else {
+                            p.next().after(p);
+
+                            $.dialog.succeedTips('调整顺序成功.');
+                            InitialArrowBtn();
+                        }
+                    }
+                    loading.close();
+                },
+                error: function (data) { $.dialog.errorTips('调整顺序失败,请稍候尝试.'); }
+            });
+        });
+        $(".table").on("click", '.glyphicon', function () {
+            $(this).parents('tbody').find('.glyphicon').removeClass('disabled');
+            $(this).parents('tbody').find('tr').first().find('.glyphicon-circle-arrow-up').addClass('disabled');
+            $(this).parents('tbody').find('tr').last().find('.glyphicon-circle-arrow-down').addClass('disabled');
+        });
+
+
+    });
+
+</script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li class="active"><a>管理</a></li>
+        <li><a class="add-hand-img">新增</a></li>
+    </ul>
+
+    <table id="HandSlideDatagrid" class="table mt20"></table>
+
+
+</div>
+
+

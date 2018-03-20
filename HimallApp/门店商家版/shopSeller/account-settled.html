@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>已结算</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header-blue2">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">已结算</h1>
+			<a class="mui-pull-right header-icon" id="search"><i class="iconfont icon-search"></i></a>
+			<a class="mui-pull-right header-icon hidden" id="orderFilter"><i class="iconfont icon-filter"></i></a>
+			<div class="header-search">
+				<div class="mui-input-row mui-search">
+					<input type="search" id="keywordsText" class="mui-input-clear" data-input-search="1"><span class="mui-icon mui-icon-clear mui-hidden"></span><span class="mui-placeholder"><span class="mui-icon mui-icon-search"></span><span>请输入订单号</span></span>
+				</div>
+				<a class="search-cancel">取消</a>
+			</div>
+		</header>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper account transparent">
+			<div class="mui-scroll">
+				<div class="top-info cl">
+					<span class="mui-pull-right" id="periodDate"></span>
+				</div>
+				<div id="detail">
+					<div class="balance">
+						<h5 class="mui-text-center"><span id="preText"></span>已结算金额(元)</h5>
+						<h3 class="money-red mui-text-center" id="PeriodSettlement"></h3>
+					</div>
+				</div>
+				<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed mart10 nosettled" id="trackList">
+			    </ul>
+			</div>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js" ></script>
+		<script>
+		    var w,
+		    	curW,
+		    	isEnd = false,
+				page = 0,
+				searchVal='',
+		    	userkey = himall.getState().userkey,
+		    	trackList = document.getElementById("trackList"),
+		    	periodDate = document.getElementById("periodDate"),
+		    	PeriodSettlement = document.getElementById("PeriodSettlement");
+			mui.init({
+				pullRefresh : {
+				    container:'#pullrefresh',
+				    deceleration:0.0006,
+				    up : {
+					    contentrefresh : "正在加载...",
+					    contentnomore:'已加载全部',
+					    callback :initTrackList
+				    },
+				    down : {
+						contentdown : "下拉可以刷新",
+						contentover : "释放立即刷新",
+						contentrefresh : "正在刷新...",
+						callback :function(){									
+							setTimeout(function(){
+								isEnd = false;
+								page = 0;
+								//start=end='';
+								initBaseData();
+								initTrackList('reset');
+								mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+								mui('#pullrefresh').pullRefresh().refresh(true);
+							},300)
+						}
+				    }
+				}
+			});
+			mui.plusReady(function() {
+				w=plus.nativeUI.showWaiting('',{padlock:true});
+				curW = plus.webview.currentWebview();
+				initBaseData();
+				initTrackList('reset');
+				if(curW.start){
+					document.getElementById('preText').innerText='上期';
+				}
+			});
+			
+			function initBaseData(){
+				mui.ajax(URL+'api/ShopSettlement/GetCurrentSettlementCycle',{
+					data:himall.md5Data({
+						userkey:userkey
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						var start = data.StartTime.substr(5,2)+"/"+data.StartTime.substr(8,2);
+							end = data.EndTime.substr(5,2)+"/"+data.EndTime.substr(8,2);
+						periodDate.innerHTML = '结算周期'+curW.period?curW.period:(start+'-'+end);
+						PeriodSettlement.innerHTML = curW.data;
+					}
+				});
+			}
+			function initTrackList(re){
+				var self=this;
+		      	if (!isEnd) {
+		      		page++;
+			        mui.ajax(URL+'api/ShopSettlement/GetSettlementOrders',{
+			        	data:himall.md5Data({
+							userKey:userkey,
+							orderId:searchVal,
+							pageno:page,
+							pagesize:20,
+							weeksettlementid:curW.WeekSettlementId||''
+						}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							if(data.rows.length <20){
+								isEnd = true;
+							}
+							if(re){
+								trackList.innerHTML=template('initTrackList', data);
+					        	mui('#pullrefresh').pullRefresh().scrollTo(0,0,20);;
+					        }else{
+				        		trackList.insertAdjacentHTML('beforeend',template('initTrackList', data));	
+					        	self.endPullupToRefresh(isEnd);
+					        }
+							if(page==1){
+								if(w){
+									w.close();
+								}
+								himall.removeClass(document.querySelector('.mui-content'),'transparent');
+								if(data.rows.length <= 0){
+									document.querySelector('.mui-pull-bottom-pocket').style.opacity=0;
+									trackList.innerHTML='';
+								}else{
+									document.querySelector('.mui-pull-bottom-pocket').style.opacity=1;
+								}
+							}else{
+								self.endPullupToRefresh(isEnd);
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							if(page!=1){
+								plus.nativeUI.toast('请求失败，请检查网络重试');
+								self.endPullupToRefresh(isEnd);
+								page--;
+							}
+							
+						}
+					});
+			    }else{
+			    	self.endPullupToRefresh(isEnd);
+			    }
+			}
+		
+		    function reloadPage() {
+                isEnd = false;
+                page = 0;
+                mui('#pullrefresh').pullRefresh().refresh(true);
+                initTrackList('reset');
+            }
+		    commonFn.search();
+		    
+		    mui('#trackList').on('tap', 'li', function(e) {
+				himall.openVW('account-detail.html', {infos: this.getAttribute('data-str')});
+			});
+		</script>
+		<script type="text/html" id="initTrackList">
+			{{each rows}}
+			<li class="mui-table-view-cell" data-str='{"strOrderId":"{{$value.OrderId}}","OrderAmount":"{{$value.OrderAmount}}","PlatCommission":"{{$value.PlatCommission}}","FreightAmount":"{{$value.FreightAmount}}","DistributorCommission":"{{$value.DistributorCommission}}","RefundAmount":"{{$value.RefundAmount}}","SettlementAmount":"{{$value.SettlementAmount}}","OrderFinshTime":"{{$value.OrderFinshTime}}","SettledTime":"{{$value.SettledTime}}","PlatCommissionReturn":"{{$value.PlatCommissionReturn}}","DistributorCommissionReturn":"{{$value.DistributorCommissionReturn}}"}'>
+	            <div class="mui-table mui-navigate-right">
+            	    <div class="mui-table-cell mui-col-xs-2 mui-text-left">
+	                    <span class="mui-h5">{{$value.OrderFinshTime.substr(5,2)}}/{{$value.OrderFinshTime.substr(8,2)}}</span>
+	                </div>
+	                <div class="mui-table-cell mui-col-xs-10">
+	                    <h4 class="mui-ellipsis">{{$value.OrderId}}</h4>
+	                    <h5>{{($value.SettlementAmount||0).toFixed(2)}}</h5>
+	                </div>
+	            </div>
+	        </li>
+	        {{/each}}
+		</script>
+	</body>
+
+</html>

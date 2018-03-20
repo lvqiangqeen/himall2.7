@@ -1,0 +1,131 @@
+﻿@using Himall.Core
+@model Himall.Model.ObsoletePageModel<Himall.Model.FlashSaleInfo>
+@{
+    ViewBag.Title = "限时购";
+    var cates = ( List<SelectListItem> )ViewBag.Cate;
+}
+<div class="container limited-home">
+    <div class="limited-nav">
+        <ul>
+            <li class="@(cates.Any( p => p.Selected ) ? "" : "active")"><a href="@Url.Action( "Home" , "LimitTimeBuy" )">全部</a></li>
+            @if( cates.Any( p => p.Selected ) ) {
+                var selectedItem = cates.FirstOrDefault( p => p.Selected );
+                <li class="active"><a href="@Url.Action( "Home" , "LimitTimeBuy" , new { catename = selectedItem.Text } )">@selectedItem.Text</a></li>
+                foreach( var item in cates.Where( p => !p.Selected ).Take( 3 ) ) {
+                    <li><a href="@Url.Action( "Home" , "LimitTimeBuy" , new { catename = item.Text} )">@item.Text</a></li>
+                }
+            }
+            else {
+                foreach( var item in cates.Take( 4 ) ) {
+                    <li><a href="@Url.Action( "Home" , "LimitTimeBuy" , new { catename = item.Text} )">@item.Text</a></li>
+                }
+            }
+        </ul>
+        <span class="glyphicon glyphicon-menu-down" id="limi-menu"></span>
+        <div class="limi-hide-menu">
+            <ul>
+                @foreach( var item in cates ) {
+                    <li class="@(item.Selected ? "active" : "")"><a href="@Url.Action( "Home" , "LimitTimeBuy" , new { catename = item.Text} )">@item.Text</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="limited-content">
+        <ul>
+            @foreach( var item in Model.Models.ToList() ) {
+                TimeSpan endTimeSpan = item.EndDate - DateTime.Now;
+                if( endTimeSpan < new TimeSpan( 1 , 0 , 0 ) ) { 
+                    <li class="limited-frame">
+                        <a href="./Detail/@item.Id">
+                            <img src="@HimallIO.GetProductSizeImage(item.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_350)">
+                            <div class="limi-cover">
+                                <div class="limi-con">
+                                    <p>@item.Himall_Products.ProductName</p>
+                                    <p><span class="L-price">@item.MinPrice</span><span class="L-notice"><i class="glyphicon glyphicon-time"></i>即将结束</span></p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                }
+                else { 
+                    <li class="limited-frame">
+                        <a href="./Detail/@item.Id">
+                            <img src="@HimallIO.GetProductSizeImage(item.ImagePath,1,350)">
+                            <div class="limi-cover">
+                                <div class="limi-con">
+                                    <p>@item.Himall_Products.ProductName</p>
+                                    <p><span class="L-price">@item.MinPrice</span>
+                                    @if(item.BeginDate>DateTime.Now) {
+                                        <span class="L-notice"><i class="glyphicon glyphicon-time"></i>即将开始</span>
+                                    }</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+</div>
+<div class="loading hide" id="autoLoad"><span></span></div>
+<script>
+    var page = 1;
+    var totalCount = @Model.Total;
+    var pagesize = 10;
+    var isLoad = false;
+    $(window).scroll(function() {
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        
+        if (scrollTop + windowHeight >= scrollHeight - 30) {
+            totalPage = (totalCount  +  pagesize  - 1) / pagesize;
+            totalPage = parseInt(totalPage);
+            if(totalPage <= page || isLoad)
+            {
+                return;
+            }
+            isLoad = true;
+            $("#autoLoad").removeClass("hide");
+            var cname = $(".limi-hide-menu li .active a").html();
+            cname = cname == "全部" || cname == null ? "" : cname; 
+            loadData(++page ,cname);
+        }
+    } );
+
+    function loadData(index, cname) {
+        $.post( "@Url.Action( "GetData" , "LimitTimeBuy" )", { index: index, size: pagesize, cname: cname }, function( result ) {
+            totalCount = result.total;
+            if ( result.rows != undefined && result.rows != null && result.rows.length > 0 ) {
+                console.log(result);
+                var html = "";
+                $.each( result.rows, function ( i , data ) {
+                    var hoursTimeSpan = checkTime(data.EndDate);
+                    var begintimespan=checkTime(data.BeginDate);
+                    html += "<li class='limited-frame' style='width: 640px; height: 640px;'>";
+                    html += "<a href='./Detail/"+data.Id+"'>";
+                    html += "<img src='"+data.ProductImg+"'>";
+                    html += "<div class='limi-cover'>";
+                    html += "<div class='limi-con'>";
+                    html += "<p>"+data.ProductName+"</p>";
+                    html += "<p><span class='L-price'>￥"+data.MinPrice+"</span>";
+                    if(hoursTimeSpan < 10) {
+                        html += "<span class='L-notice'><i class='glyphicon glyphicon-time'></i>即将结束</span>";
+                    }
+                    if(begintimespan>0){
+                        html += "<span class='L-notice'><i class='glyphicon glyphicon-time'></i>即将开始</span>";
+                    }
+                    html += "</p>"
+                    html += "</div></div></a></li>";
+                } )
+                isLoad = false;
+                $("#autoLoad").addClass("hide");
+                $( ".limited-content ul" ).append( html );
+            }
+            else {
+                $( '#autoLoad' ).html( '没有更多商品了' ).show();
+            }
+        })
+    }
+</script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/timeBuyHome.js"></script>

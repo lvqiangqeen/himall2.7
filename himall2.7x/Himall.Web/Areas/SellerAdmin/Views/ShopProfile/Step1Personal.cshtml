@@ -1,0 +1,192 @@
+﻿@using Himall.Core;
+@model Himall.Web.Areas.SellerAdmin.Models.ShopProfileStep1
+@{
+    Layout = "~/Areas/SellerAdmin/Views/Shared/_SellerAdminRegLayout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<style>
+    ul.choose-step li {
+        width: 25%;
+    }
+</style>
+<script src="~/Scripts/jquery.himall.Region.js"></script>
+<div class="container pt0">
+    <input type="hidden" id="RefuseReason" value="@ViewBag.RefuseReason" />
+
+    <script type="text/javascript">
+        var refusereason = $("#RefuseReason").val();
+    </script>
+    <ul class="choose-step step2">
+        <li class="active">
+            基本信息
+            <span class="border"></span>
+            <span class="border-n Sclear-P34"></span>
+        </li>
+        <li style="background:none;">
+            账户信息
+            <span class="border"></span>
+            <span class="border-n"></span>
+        </li>
+        <li style="background:none;">
+            店铺信息
+            <span class="border"></span>
+            <span class="border-n"></span>
+        </li>
+        <li style="background:none;">审核状态</li>
+    </ul>
+    <form class="form-horizontal form-pt0" role="form" id="form_step1">
+        <h3 class="table-hd">个人信息</h3>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>姓名：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(item => item.CompanyName, new { @class = "form-control input-sm" })
+            </div>
+            <div class="col-sm-3">
+                @Html.ValidationMessageFor(item => item.CompanyName)
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>住址：</label>
+            <div id="regionSelector">
+            </div>
+            <div class="col-sm-3">
+                @Html.ValidationMessageFor(item => item.CityRegionId)
+            </div>
+            @Html.TextBoxFor(item => item.CityRegionId, new { style = "width:0px;height:0px;border-width:0px;" })
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>详细地址：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(item => item.Address, new { @class = "form-control input-sm" })
+            </div>
+            <div class="col-sm-3">
+                @Html.ValidationMessageFor(item => item.Address)
+            </div>
+        </div>
+
+        <h3 class="table-hd">身份信息</h3>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>身份证号码：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(item => item.BusinessLicenceNumber, new { @class = "form-control input-sm" })
+            </div>
+            <div class="col-sm-3">
+                @Html.ValidationMessageFor(item => item.BusinessLicenceNumber)
+            </div>
+        </div>
+
+        <div class="form-group upload-img " id="identificationCard"></div>
+
+        <h3 class="table-hd">一般纳税人证明 <span class="cor-red">注：所属企业具有一般纳税人证明时，此项为必填。</span></h3>
+        <div class="form-group upload-img " id="generalTaxpayerPhoto"></div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <a class="btn btn-primary btn-sm color-f" id="nextStep" href="javascript:;">下 一 步</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+@*<script src="~/Scripts/jquery.himallUpload.js"></script>*@
+<script src="~/Scripts/jquery.hishopUpload.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/autoNumeric.js"></script>
+<script type="text/javascript">
+    $(function () {
+        if (refusereason.length > 0) {
+            $.dialog({
+                title: '申请被拒绝，原因如下',
+                lock: true,
+                id: 'refusertips',
+                width: '400px',
+                content: '<div style="font-size:14px;color:red;">' + refusereason + '</div>',
+                padding: '0 40px',
+                ok: function () { }
+            });
+        }
+
+        $('#nextStep').click(function () {
+            var form = $('#form_step1');
+            if (form.valid()) {
+                var identificationCard = $('#identificationCard').hishopUpload('getImgSrc');
+                if (!isSelectAddr($('#companyLocationProvince'), $('#companyLocationCity'), $('#companyLocationDistrict')))
+                    $.dialog.errorTips('请选择公司所在地');
+                else {
+                    var data = form.serialize();
+
+                    var loading = showLoading();
+                    $.post('EditProfile1', data, function (result) {
+                        loading.close();
+                        if (result.success)
+                            window.top.location.href = '@(Url.Action("EditProfile2"))';
+                        else
+                            $.dialog.errorTips('保存失败！' + result.msg);
+                    });
+                }
+
+            }
+        });
+
+
+        $('#identificationCard').hishopUpload({
+            title: '<b>*</b>上传身份证照：',
+            imageDescript: '请确保图片清晰，能看清身份证信息。',
+            displayImgSrc: '@HimallIO.GetImagePath(Model.BusinessLicenceNumberPhoto)',
+            imgFieldName: "businessLicenceNumberPhoto",
+            dataWidth: 6
+        });
+
+
+
+        $("#regionSelector").RegionSelector({
+            selectClass: "form-control input-sm select-sort",
+            valueHidden: "#CityRegionId"
+        });
+
+
+
+    });
+
+    var isSelectAddr = function (p, c, t) {
+        if (!p || !c || !t)
+            return false;
+        var haveProvince = false;
+        var haveCity = false;
+        var haveTown = false;
+        p.children().each(function (i, e) {
+            s = e.selected;
+            if (s == true && i > 0) {
+                haveProvince = true;
+                return;
+            }
+        });
+        if (haveProvince) {
+            c.children().each(function (i, e) {
+                s = e.selected;
+                v = e.value;
+                if (s == true && v != "") {
+                    haveCity = true;
+                    return;
+                }
+            });
+            if (haveCity) {
+                var idx = 0;
+                t.children().each(function (i, e) {
+                    s = e.selected;
+                    v = e.value;
+                    idx = i;
+                    if (s == true && v != "") {
+                        haveTown = true;
+                        return;
+                    }
+                });
+                haveTown = idx > 0 ? haveTown : true;
+            }
+        }
+        return haveProvince && haveCity && haveTown;
+    };
+</script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>

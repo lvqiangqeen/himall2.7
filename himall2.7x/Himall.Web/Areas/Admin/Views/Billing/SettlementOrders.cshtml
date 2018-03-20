@@ -1,0 +1,59 @@
+﻿<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="~/Areas/Admin/Scripts/SettlementOrders.js"></script>
+@model Himall.DTO.SettlementStatistics
+<div class="container">
+    <ul class="breadcrumb clearfix">
+        <li><a href="@Url.Action("SettlementList")">已结算列表</a></li>
+        <li><a>已结算订单</a></li>
+    </ul>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w95" for="">订单完成时间</label>
+                <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text">
+                <label class="label-inline-line">-</label>
+                <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">结算时间</label>
+                <input id="BillingStartDate" class="form-control input-ssm start_datetime" type="text">
+                <label class="label-inline-line">-</label>
+                <input id="BillingEndDate" class="form-control input-ssm end_datetime" type="text">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w95" for="">订单编号</label>
+                <input class="form-control input-ssm input-number" type="text" id="txtOrderId">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">支付方式</label>
+                <select id="payment" class="form-control input-ssm">
+                    <option value="">全部</option>
+                    @foreach (var pay in ViewBag.Payments)
+                    {
+                        <option value="@pay">@pay</option>
+                    }
+                    <option value="平台线下收款">平台线下收款</option>
+                    <option value="货到付款">货到付款</option>
+                    <option value="预付款支付">预付款支付</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <div class="tips-top-single mt5">
+        <span class="tips-top-single-icon">结算合计：@Model.SettlementAmount ， 入账合计：@(Model.SettlementAmount + Model.DistributorCommission + Model.PlatCommission). ， 入账金额 = 平台佣金 + 分销佣金 + 结算金额</span>
+    </div>
+    <table class="table" id="list"></table>
+	<div class="tabel-operate" id="operationButtons">
+		<a class="btn-export" href='@Url.Action("ExportSettlementOrders")' onclick="ExportExecl.call(this);">导出EXCEL</a>
+	</div>
+</div>

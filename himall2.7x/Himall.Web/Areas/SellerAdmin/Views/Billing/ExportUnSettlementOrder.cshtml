@@ -1,0 +1,61 @@
+﻿@model List<Himall.DTO.PendingSettlementOrders>
+@{
+	Layout = null;
+}
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+	<thead>
+		<tr>
+			<th>订单ID</th>
+			<th>
+				订单状态
+			</th>
+			<th>
+				店铺名称
+			</th>
+			<th>
+				支付方式
+			</th>
+			<th>
+				订单金额
+			</th>
+			<th>
+				平台佣金
+			</th>
+			<th>
+				分销佣金
+			</th>
+			<th>
+				平台佣金退款
+			</th>
+			<th>
+				分销佣金退款
+			</th>
+			<th>
+				退款金额
+			</th>
+			<th>
+				商家结算金额
+			</th>
+			<th>订单完成时间</th>
+		</tr>
+	</thead>
+	<tbody id="list-table-body">
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td  style='vnd.ms-excel.numberformat:@Html.Raw("@")'>@item.OrderId.ToString()</td>
+				<td >@item.Status</td>
+				<td >@item.ShopName</td>
+				<td >@item.PaymentTypeName</td>
+				<td >@item.OrderAmount.ToString("F2")</td>
+				<td >@item.PlatCommission.ToString("F2")</td>
+				<td >@item.DistributorCommission.ToString("F2")</td>
+				<td >@item.PlatCommissionReturn.ToString("F2")</td>
+				<td >@item.DistributorCommissionReturn.ToString("F2") </td>
+				<td >@item.RefundAmount.ToString("F2")</td>
+				<td >@item.SettlementAmount.ToString("F2")</td>
+				<td >@item.OrderFinshTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+			</tr>
+		}
+	</tbody>
+</table>

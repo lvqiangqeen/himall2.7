@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Himall.Model.BannerInfo>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Areas/Admin/Scripts/navigationManagement.js"></script>
+<link href="~/Content/jquery.onoff.css.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.onoff.min.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li class="active"><a>管理</a></li>
+        <li><a class="add-nav-link">新增</a></li>
+    </ul>
+    <table class="table" id="list">
+        <thead>
+            <tr>
+
+                <th style="width:300px;text-align:center">导航名称</th>
+                <th style="width:420px;text-align:center">跳转地址</th>
+                <th style="width:150px;text-align:center">排序</th>
+                <th style="width:80px;">开关</th>
+                <th class="td-operate">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr swapid="@item.Id" style="text-align:center">
+                    <td>@item.Name</td>
+                    <td>@item.Url</td>
+                    <td><span class="glyphicon glyphicon-circle-arrow-up"></span> <span class="glyphicon glyphicon-circle-arrow-down"></span></td>
+                    <td> <input type="checkbox" pluginid="@item.Id" class="pluginCheck" @(item.STATUS == 1 ? "checked" : "")></td>
+                    <td class="td-operate">
+                        <span class="btn-a">
+                            <a onclick="Edit(this,@item.EnableDelete)">编辑</a>
+                            @if (item.EnableDelete == 1)
+                            {<a class="a-del" onclick="Delete('@item.Id')">删除</a>}
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="dialog-form" id="dialog-form" style="display:none">
+    <div class="form-group">
+        <label class="label-inline fl" for="">导航名称</label>
+        <input class="form-control input-sm" type="text" name="txtNavName" id="txtNavName">
+    </div>
+    <div class="form-group" id="divNavUr">
+        <label class="label-inline fl" for="">跳转链接</label>
+        <input class="form-control input-sm" type="text" name="txtNavUrl" id="txtNavUrl">
+    </div>
+</div>
+<script>
+    $(function () {
+        $('input[type="checkbox"]').onoff();
+
+
+        $('input.pluginCheck').change(function () {
+            var _this = $(this),
+                state = _this[0].checked,
+                pluginId = $(this).attr('pluginid'),
+                loading = showLoading();
+            $.post('./OpenOrClose', { Id: pluginId, status: state }, function (result) {
+                loading.close();
+                if (!result.success) {
+                    $.dialog.errorTips(result.msg);
+                }
+            }, "json");
+        })
+    });
+</script>

@@ -1,0 +1,292 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "礼品兑换管理";
+    var status = Request["status"];
+    var skey = Request["skey"];
+    var jsonconfig = new Newtonsoft.Json.JsonSerializerSettings();
+    jsonconfig.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+}
+@model IEnumerable<Himall.Model.GiftOrderInfo>
+@using Himall.Core;
+<script src="~/Scripts/datetimeCustom.js"></script>
+<script src="~/Scripts/jquery.json.js"></script>
+
+<div class="box1 lh24">
+    <div class="title bot-border">
+        <span class="title_txt curr">礼品兑换管理</span>
+        <span class="title_txt" style="margin-left:40px;margin-top:2px;"><a href="@Url.Action("Index")">我的积分</a></span>
+       
+    </div>
+    <div class="search-area">
+        <label>关键字：</label>
+        <input class="search_order" id="txtkeyword" type="text" placeholder="商品名称、订单编号" />
+        <button class="search_btn pointer" onclick="Search()">搜索</button>
+    </div>
+
+    <div class="border-box">
+
+        <table class="tb-void">
+            <colgroup>
+                <col width="1" />
+                <col width="330" />
+                <col width="90" />
+                <col width="120" />
+                <col width="140" />
+                <col width="120" />
+                <col width="150" />
+                <col width="1" />
+            </colgroup>
+            <thead>
+                <tr class="tr">
+                    <th colspan="2">订单信息</th>
+                    <th>收货人</th>
+                    <th>花费积分</th>
+                    <th>兑换时间</th>
+                    <th>
+                        @Html.DropDownList("status", @Himall.Model.GiftOrderInfo.GiftOrderStatus.WaitReceiving.ToSelectList(), new { onchange = "Query()" })
+                    </th>
+                    <th colspan="2">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() == 0)
+                {
+                    <tr><td colspan="8"><div class="empty">暂时没有任何的订单信息！</div></td></tr>
+                }
+                @foreach (var m in Model)
+                {
+                    <tr class="sep-row"><td colspan="8"></td></tr>
+                    <tr class="tr-th">
+                        <td class="sep-col"></td>
+                        <td class="tr-th-text" colspan="6">
+                            <span class="tcol1 pl10">
+                                订单编号:@(m.Id)
+                            </span>
+                        </td>
+                        <td class="sep-col"></td>
+                    </tr>
+                    <tr class="tr-td">
+                        <td class="sep-col l"></td>
+                        <td>
+                            <div class="img-list pl20">
+                                @foreach (var item in m.Himall_GiftOrderItem)
+                                {
+                                    <div>
+                                        <a target="_blank" class="img-box" href="@Url.Action("Detail", "Gift", new { id = @item.GiftId})" style=" margin-right: 10px;">
+                                            <img width="50" height="50" title="@item.GiftName" src="@(HimallIO.GetProductSizeImage(item.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_100))" class="err-product fl mr10" />
+                                        </a>
+                                        <p class="inline-block lh50 pl60">
+                                            <p class="ftx-04">@item.GiftName</p>
+                                            <span>x @item.Quantity</span>
+                                        </p>
+                                    </div>
+                                }
+                            </div>
+                        </td>
+                        <td><div class="u-name">@m.ShipTo</div></td>
+                        <td>
+                            <span class="ftx-04"> @(m.TotalIntegral)积分 </span>
+                        </td>
+                        <td>
+                            <span class="ftx-03">@m.OrderDate</span>
+                            <input type="hidden" value="@m.OrderDate" />
+                        </td>
+                        <td class="td-01">
+                            <strong state="ddfk" class="ftx-04 order-statu">@m.OrderStatus.ToDescription()</strong>
+                        </td>
+
+                        <td width="100" class="order-doi">
+                            <input type="hidden" name="rowdata" id="rowdata-@(m.Id)" value='@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(m, jsonconfig))'>
+                            @if (m.OrderStatus == Himall.Model.GiftOrderInfo.GiftOrderStatus.WaitReceiving)
+                            {
+                                <a href="javascript:;" onclick="ConfirmOrder('@m.Id')" class="btn btn-4">确认收货</a><br />
+                            }
+                            <a href="javascript:vieworder(@(m.Id))">查看详情</a>
+                        </td>
+                        <td class="sep-col r"></td>
+                    </tr>
+                }
+
+
+            </tbody>
+
+        </table>
+
+        <div class="clearfix mt10" id="bottom_pager">
+            <div id="pagin-btm" class="pagin fr" style="clear:both">
+                @{
+                    var count = ((PagingInfo)ViewBag.pageInfo).TotalPages;
+                    var curr = ((PagingInfo)ViewBag.pageInfo).CurrentPage;
+                }
+                @Html.PageLinks((PagingInfo)ViewBag.pageInfo, x => Url.Action("OrderList", new { page = x, status = status, skey = skey }))
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function Query() {
+        var orderStatus = $("#status").val();
+        window.location.href = "?status=" + orderStatus;
+    }
+
+
+    function ConfirmOrder(orderId) {
+        $.dialog.confirm("你确定收到货了吗？", function () { Confirm(orderId); });
+    }
+
+    function Confirm(orderId) {
+        var loading = showLoading();
+        $.ajax({
+            type: 'post',
+            url: "@Url.Action("ConfirmOrder")",
+            dataType: 'json',
+            data: { id: orderId },
+            success: function (d) {
+                loading.close();
+                if (d.success) {
+                    $.dialog.succeedTips("确认成功！", function () {
+                        window.location.href = window.location.href;
+                    }, 1);
+                }
+                else {
+                    $.dialog.errorTips("确认失败！", '', 2);
+                }
+            }
+        });
+    }
+
+    function Search() {
+        var keywords = $("#txtkeyword").val();
+        if (keywords == "商品名称、订单编号")
+            keywords = "";
+        window.location.href = "?skey=" + keywords;
+    }
+
+
+
+    $(function () {
+        document.onkeydown = function (e) {
+            var ev = document.all ? window.event : e;
+            if (ev.keyCode == 13) {
+                Search();
+            }
+        }
+
+        $('#txtkeyword').focus(function () {
+            var a = $(this).val(),
+                b = '商品名称、订单编号';
+            if (a == b) {
+                $(this).val('').css('color', '#333');
+            }
+        }).blur(function () {
+            var a = $(this).val(),
+                b = '商品名称、订单编号';
+            if (!a) {
+                $(this).val(b).css('color', '#999');
+            }
+        });
+        var orderStatus = "@status";
+        var keywords = html_decode("@skey");
+        if (orderStatus != "" && orderStatus != null)
+            $("#status").val(orderStatus);
+        if (keywords != "" && keywords != null)
+            $("#txtkeyword").val(keywords);
+    });
+
+    function html_decode(str) {
+        var s = "";
+        if (str.length == 0) return "";
+        s = str.replace(/&amp;/g, "&");
+        s = s.replace(/&lt;/g, "<");
+        s = s.replace(/&gt;/g, ">");
+        s = s.replace(/&nbsp;/g, " ");
+        s = s.replace(/&#39;/g, "\'");
+        s = s.replace(/&quot;/g, "\"");
+        s = s.replace(/<br\/>/g, "\n");
+        return s;
+    }
+
+    function vieworder(id) {
+        var dobj = $("#rowdata-" + id);
+        var data = jQuery.parseJSON(dobj.val());
+        var expinfo = "";
+        var ExpressCompanyName = data.ShowExpressCompanyName || "";
+        var ShipOrderNumber = data.ShipOrderNumber || "";
+        var arrcontent = ['<div class="dialog-form">',
+                '<div class="form-group">',
+                    '<label class="label-inline fl">收货人</label>',
+                    '<p class="help-top">' + data.ShipTo.replace(/>/g, '&gt;').replace(/</g, '&lt;') + '&nbsp;</p>',
+                '</div>',
+                '<div class="form-group">',
+                    '<label class="label-inline fl">联系电话</label>',
+                    '<p class="help-top">' + data.CellPhone + '&nbsp;</p>',
+                '</div>',
+                 '<div class="form-group">',
+                    '<label class="label-inline fl">收货地址</label>',
+                    '<p class="help-top">' + data.RegionFullName.replace(/>/g, '&gt;').replace(/</g, '&lt;') + " " + data.Address + '&nbsp;</p>',
+               ' </div>'];
+
+        if (ExpressCompanyName != "" & ShipOrderNumber != "") {
+
+            arrcontent = arrcontent.concat(['<div class="form-group">',
+                        '<label class="label-inline fl">快递公司</label>',
+                        '<p class="help-top" id="expselp">' + ExpressCompanyName + '&nbsp;</p>',
+                   ' </div>',
+                     '<div class="form-group">',
+                        '<label class="label-inline fl">快递单号</label>',
+                        '<p class="help-top">' + ShipOrderNumber + '&nbsp;</p>',
+                   ' </div>']);
+
+            var loading = showLoading();
+            // 物流信息
+            // 物流信息
+            $.post('/Common/ExpressData/Search', { expressCompanyName: data.ExpressCompanyName, shipOrderNumber: ShipOrderNumber }, function (result) {
+                loading.close();
+                var html = "";
+                html += "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">";
+                html += "<tbody id=\"tbody_track\">";
+                html += "<tr><th width=\"25%\"><strong>处理时间</strong></th><th width=\"50%\"><strong>处理信息</strong></th><th width=\"15%\"><strong>操作人</strong></th></tr>"
+                html += "</tbody>";
+                html += "<tbody id=\"tbExpressData\">";
+                var obj = result;
+                if (obj.success) {
+                    var data = obj.data;
+                    for (var i = data.length - 1; i >= 0; i--) {
+                        html += '<tr><td>' + data[i].time + '</td>\
+                             <td>' + data[i].content + '</td>';
+                        html += '<td></td></tr>';
+                    }
+                }
+                else {
+                    html += '<tr><td colspan="3">该单号暂无物流进展，请稍后再试，或检查公司和单号是否有误。</td></tr>';
+                }
+
+                html += '<tr><td colspan="3"><a href="http://www.kuaidi100.com" target="_blank" id="power" runat="server" style="color:Red;">此物流信息由快递100提供</a></td></tr>';
+                html += "<\/tbody><\/table>";
+                expinfo = html;
+                $("#expshowbox").append(expinfo);
+            });
+        }
+        arrcontent = arrcontent.concat(['<div class="form-group" id="expshowbox">',
+            ' </div>',
+            '</div>']);
+
+        $.dialog({
+            title: data.Id + ' 订单查看',
+            width: 500,
+            lock: true,
+            id: 'dlgsendgift',
+            content: arrcontent.join(''),
+            padding: '10px',
+            init: function () { $("#txtRefundRemark").focus(); },
+            button: [
+            {
+                name: '关闭',
+                focus: true
+            }
+            ]
+        });
+    }
+</script>

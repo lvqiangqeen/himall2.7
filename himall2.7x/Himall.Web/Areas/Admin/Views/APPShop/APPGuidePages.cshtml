@@ -1,0 +1,205 @@
+﻿@model List<Himall.DTO.SlideAdModel>
+@section Scripts
+{
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+}
+<style>
+    .upload_pic {
+        width: 100px;
+        height: 100px;
+        background-size: cover;
+        border: 1px solid gray;
+        display: inline-block;
+    }
+
+    .has-error.pics {
+        border: 1px solid red;
+    }
+
+    .has-error.des {
+        border: 1px solid red;
+    }
+
+    .product.pic {
+        display: inline-block;
+        border: 1px dashed #cbcacf;
+        position: relative;
+        padding: 5px;
+        margin-right: 10px;
+    }
+
+        .product.pic .upload_pic {
+            border: none;
+            display: block;
+            overflow: hidden;
+        }
+
+        .product.pic .upload.pic.btn {
+            position: absolute;
+            left: 10%;
+            top: 30%;
+            background-color: rgba(0,0,0,.25);
+            color: #fff;
+        }
+
+        .product.pic .del {
+            position: absolute;
+            top: 0;
+            right: 0;
+            color: red;
+            background-color: rgba(0,0,0,.25);
+            display: block;
+            width: 10px;
+            height: 10px;
+            line-height: 7px;
+            text-align: center;
+            cursor: pointer;
+        }
+</style>
+<div class="container">
+    <ul class="breadcrumb clearfix">
+        <li><a href="management">设置APP引导页</a></li>
+    </ul>
+    <div style="margin-top: 20px;">注： 用户完成APP下载后，首次打开APP的引导页面</div>
+    <form class="form-horizontal" id="appGuideForm" role="form" method="post">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>引导页图：</label>
+            <div class="col-sm-10 pics">
+                @{
+                    Func<int, string> getImagePath = i =>
+                    {
+                        if (i > Model.Count - 1)
+                            return null;
+                        else if (@Model != null && !string.IsNullOrEmpty(Model[i].ImageUrl))
+                            return HimallIO.GetImagePath(Model[i].ImageUrl);
+                        else
+                            return null;
+                    };
+                }
+                <div class="product pic"><div class="upload_pic" style="background-image:url('@getImagePath(0)')"><input type="hidden" name="Pics[0]" value="@getImagePath(0)" /></div><span class="upload pic btn">上传图片</span><i class="del hide">x</i></div>
+                <div class="product pic"><div class="upload_pic" style="background-image:url('@getImagePath(1)')"><input type="hidden" name="Pics[1]" value="@getImagePath(1)" /></div><span class="upload pic btn">上传图片</span><i class="del hide">x</i></div>
+                <div class="product pic"><div class="upload_pic" style="background-image:url('@getImagePath(2)')"><input type="hidden" name="Pics[2]" value="@getImagePath(2)" /></div><span class="upload pic btn">上传图片</span><i class="del hide">x</i></div>
+                <div class="product pic"><div class="upload_pic" style="background-image:url('@getImagePath(3)')"><input type="hidden" name="Pics[3]" value="@getImagePath(3)" /></div><span class="upload pic btn">上传图片</span><i class="del hide">x</i></div>
+                <div class="product pic"><div class="upload_pic" style="background-image:url('@getImagePath(4)')"><input type="hidden" name="Pics[4]" value="@getImagePath(4)" /></div><span class="upload pic btn">上传图片</span><i class="del hide">x</i></div>
+
+                <input name="picsValid" picrequired="true" style="width:0;border:0;padding:0" @*用于验证*@ />
+                <div class="Sclear-P66"><i class="light-0"></i>建议尺寸：750*1300，支持gif、png、jpg、jpeg格式，大小不超过1M</div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10" style="margin-top: 20px;padding-left: 30px;">
+                    <input type="button" id="Save" class="btn btn-primary" value="保 存">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    var $form = $('form:first');
+    $(function () {
+        //上传图片按钮
+        $('body').on('click', '.upload.pic', function () {
+            var me = $(this);
+            var div = me.parent().find('.upload_pic');
+            var resetBtn = me.parent().find('.reset.pic');
+            var delBtn = me.parent().find('.del');
+
+            $.uploadImage({
+                url: '/common/publicOperation/UploadPic',
+                maxSize: 2,
+                success: function (result) {
+                    if (result) {
+                        resetBtn.removeClass('hidden');
+                        delBtn.removeClass('hide');
+                        div.css('background-image', 'url("' + result + '")').find('input:hidden').val(result).change();
+                    }
+                },
+                error: function () {
+                    $.dialog.alertTips('图片上传出错,请重新上传！');
+                }
+            }).upload();
+        });
+        $('.product.pic .upload_pic input:hidden').each(function () {
+            var url = $(this).val();
+            if (url == null || url.length == 0)
+                return;
+            var img = $('<img src="{0}" style="margin-top:100%"/>'.format($(this).val()));
+            img.load(function () {
+                $(this).closest('.product.pic').find('.del').removeClass('hide');
+            }).appendTo(this);
+        });
+
+        $('.product.pic .del').click(function () {
+            var parent = $(this).addClass('hide').closest('.product.pic');
+            parent.find('.upload_pic input:hidden').val('').parent().css('background-image', '');
+        });
+        ////更改错误显示
+        //var validate = $form.validate();
+        ////覆盖默认的验证成功和验证失败事件
+        //if (validate) {
+        //    validate.settings.success = function (label, element) {
+        //        $(element).parent().removeClass('has-error');
+        //        label.remove();
+        //    };
+
+        //    validate.settings.errorPlacement = function (error, element) {
+        //        element.parent().addClass('has-error');
+        //    };
+        //}
+
+        ////添加自定义验证方法
+        //$.validator.addMethod('picrequired', function (value, element, param) {
+        //    var result = false;
+
+        //    $(element).parent().find('.upload_pic').each(function () {
+        //        if ($.notNullOrEmpty($('input', this).val()))
+        //            result = true;
+        //    });
+
+        //    return result;
+        //}, '请至少上传一张引导图片');
+    });
+
+
+    function CheckForm() {
+        var result = false;
+        $('.upload_pic').each(function () {
+            if ($.notNullOrEmpty($('input', this).val()))
+                result = true;
+        });
+        return result;
+    }
+
+
+
+
+
+    $("#Save").click(function () {
+
+        if (!CheckForm()) {
+            $.dialog.errorTips("请至少上传一张引导图片");
+            return false;
+        }
+        var params = $form.serialize();
+        var loading = showLoading();
+        $.ajax({
+            type: "POST",
+            url: "APPGuidePages",
+            data: params,
+            success: function (data) {
+                loading.close();
+                if (data.success == true) {
+                    $.dialog.succeedTips('操作成功！');
+                } else {
+                    $.dialog.errorTips(data.message);
+                }
+            },
+            error: function (data) {
+                loading.close();
+                $.dialog.errorTips('操作失败！');
+            }
+        });
+    })
+
+</script>

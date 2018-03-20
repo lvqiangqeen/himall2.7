@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="format-detection" content="telephone=no, address=no">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+	<title>Himall首页</title>
+	<script>
+		(function() {
+			var baseFontSize = 100;
+			var baseWidth = 320;
+			var clientWidth = document.documentElement.clientWidth || window.innerWidth;
+			var innerWidth = Math.max(Math.min(clientWidth, 480), 320);
+
+			var rem = 100;
+
+			if (innerWidth > 362 && innerWidth <= 375) {
+				rem = Math.floor(innerWidth / baseWidth * baseFontSize);
+				//rem = Math.floor(innerWidth / baseWidth * baseFontSize * 0.9);
+			}
+
+			if (innerWidth > 375) {
+				rem = Math.floor(innerWidth / baseWidth * baseFontSize);
+				//rem = Math.floor(innerWidth / baseWidth * baseFontSize * 0.84);
+			}
+
+			window.__baseREM = rem;
+			document.querySelector('html').style.fontSize = rem + 'px';
+		}());
+	</script>
+	<link rel="stylesheet" href="/Content/bootstrap.min.css">
+	<link rel="stylesheet" href="/Areas/Mobile/Templates/Default/Content/custom.css">
+	
+	<script src="/Scripts/jquery-1.7.1.min.js"></script>
+	<script src="/Scripts/CommonJS.js"></script>
+	<script src="/Areas/Mobile/Templates/Default/Scripts/custom.js"></script>
+	<script src="/Areas/Mobile/Templates/Default/Scripts/buylib.js"></script>
+	<script src="/Scripts/imitateRequire.js"></script>
+	<script>
+		imitateRequireJS.addJsFile([{
+			group: 'common',
+			fileNames: [
+				{ nickName: 'jquery.artDialog', fileName: 'jquery.artDialog.js' },
+				{ nickName: 'artDialog', fileName: 'artDialog.iframeTools.js', depends: ['jquery.artDialog'] },
+			]
+		}]);
+	</script>
+</head>
+<body>
+	<!--_Base start-->
+	<script>
+		var areaName = 'm-wap';
+		var MAppType = '0';
+	</script>
+	
+
+<div class="container">
+<!--_SearchBox start-->
+<header>
+    <div class="search search-bor-none">
+        <input id="searchBox" type="text" name="" value="" placeholder="搜索全部商品..." />
+        <i class="glyphicon glyphicon-search" id="searchBtn"></i>
+    </div>
+</header>
+<script src="/Areas/Mobile/Templates/Default/Scripts/searchBox.js"></script>
+<!--_SearchBox end-->
+
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="/Areas/Mobile/Templates/Default/Scripts/WeiXinShare.js"></script>
+<script src="/Areas/Mobile/Templates/Default/Scripts/IndexShare.js"></script>
+<link rel="stylesheet" href="/Content/PublicMob/css/style.css" />
+<link rel="stylesheet" href="/Areas/Admin/templates/common/style/css.css" rev="stylesheet" type="text/css">
+<link rel="stylesheet" href="/Areas/Admin/templates/common/style/mycss.css" rev="stylesheet" type="text/css">
+<link rel="stylesheet" href="/Areas/Admin/templates/common/style/main.css" rev="stylesheet" type="text/css">
+<link rel="stylesheet" href="/Areas/Admin/templates/common/style/head.css">
+
+        <div class="members_con" style="margin:10px auto">
+            
+            <section class="members_flash j-swipe" id="mySwipe">
+                <ul class="clearfix">
+                    
+                        
+                            <li>
+                                <a href="" title=" ">
+                                    
+                                    
+                                    <img src="http://zesion-test.img-cn-qingdao.aliyuncs.com/Storage/template/0/20160512/6359865967498374901974913.png" width="100%" />
+                                    
+                                    
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="/m-wap/vshop/CouponInfo/22" title="测试的新优惠券">
+                                    
+                                    
+                                    <img src="/temp/image/20170204/6362182358480666529128886.jpg" width="100%" />
+                                    
+                                    
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="" title=" ">
+                                    
+                                    
+                                    <img src="/temp/image/20170204/6362182146678577613262396.jpg" width="100%" />
+                                    
+                                    
+                                </a>
+                            </li>
+                        
+                    
+                </ul>
+                <section class="members_flash_time">
+                    
+                    
+                    <span class="cur" ></span>
+                    
+                    <span  ></span>
+                    
+                    <span  ></span>
+                    
+                    
+                </section>
+            </section>
+            
+        </div>
+     <script type="text/javascript">
+                    $(function () {
+                        $('html').css({
+                            'height':'100%',
+                            'width':'100%'
+                        })
+                        $('body').css({
+                            'height':'100%',
+                            'width':'100%',
+                            'background':'url(undefined) no-repeat',
+                            'backgroundSize':'cover'
+                        })
+                    })
+                </script><!--_4ButtonsFoot start-->
+<div class="footerempty"></div>
+<footer class="clearfix">
+    <div class="current">
+        <a href="/m-wap/">
+            <i class="home"></i>
+            <p>首页</p>
+        </a>
+    </div>
+    <div class="">
+        <a href="/m-wap/VShop">
+            <i class="vshop"></i>
+            <p>微店</p>
+        </a>
+    </div>
+    <div class="">
+        <a href="/m-wap/Category">
+            <i class="classify"></i>
+            <p>分类</p>
+        </a>
+    </div>
+	<div class="">
+        <a href="/m-wap/Cart/Cart">
+            <i class="f-cart"></i>
+            <p>购物车</p>
+            <span class="plus-one">1</span>
+        </a>
+    </div>
+    <div class="">
+        <a href="/m-wap/Member/Center">
+            <i class="user"></i>
+            <p>个人中心</p>
+        </a>
+    </div>
+</footer>
+<!--_4ButtonsFoot end-->
+</div>
+<a class="WX-backtop"></a>
+<script src="/Areas/Mobile/Templates/Default/Scripts/home.js"></script>
+ <script src="/Scripts/swipe-template.js"></script>
+
+<script src="/Areas/Mobile/Templates/Default/Scripts/_Aside.js"></script>
+<div id="customServices"></div>
+	<div class="wx_aside">
+            <!-- 返回顶部 -->
+			<a href="javascript:;" class="btn_top"></a>
+	</div>
+<!--_Aside end-->
+
+	<script src="/Scripts/jquery.nicescroll.min.js"></script>
+	<script src="/Areas/Mobile/Templates/Default/Scripts/_Base.js"></script>
+	<link rel="stylesheet" href="/Areas/Mobile/Templates/Default/Content/artdialog.css">
+	<script src="/Scripts/jquery.artDialog.js"></script>
+	<script src="/Scripts/artDialog.iframeTools.js"></script>
+	<script src="/Scripts/jquery.cookie.js"></script>
+	<script src="/Scripts/jquery.scrollLoading.min.js"></script>
+
+		
+
+		<script>
+		(function () {
+			var data= null;
+			if (data) {
+				var callback;
+				if (data.goBack == true)
+					callback = function () { history.go(-1); };
+				var fun;
+				if (data.type == -1)
+					fun='errorTips';
+				else if(data.type==0)
+					fun='alert';
+				else if (data.type == 1)
+					fun='alertTips';
+				else if (data.type == 2)
+					fun='succeedTips';
+				if(fun)
+					$.dialog[fun](data.message,callback,data.time);
+			}
+		})();
+</script>
+	<!--_Base end-->
+</body>
+</html>

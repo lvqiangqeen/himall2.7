@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MessageStatus>
+  <OrderCreated>1</OrderCreated>
+  <OrderPay>1</OrderPay>
+  <OrderShipping>1</OrderShipping>
+  <OrderRefund>1</OrderRefund>
+  <RefundDeliver>1</RefundDeliver>
+  <FindPassWord>1</FindPassWord>
+  <ShopAudited>1</ShopAudited>
+  <ShopHaveNewOrder>3</ShopHaveNewOrder>
+  <ReceiveBonus>3</ReceiveBonus>
+  <LimitTimeBuy>3</LimitTimeBuy>
+  <SubscribeLimitTimeBuy>3</SubscribeLimitTimeBuy>
+  <FightGroupOpenSuccess>3</FightGroupOpenSuccess>
+  <FightGroupJoinSuccess>3</FightGroupJoinSuccess>
+  <FightGroupNewJoin>3</FightGroupNewJoin>
+  <FightGroupFailed>3</FightGroupFailed>
+  <FightGroupSuccess>3</FightGroupSuccess>
+  <SendCouponSuccess>1</SendCouponSuccess>
+</MessageStatus>

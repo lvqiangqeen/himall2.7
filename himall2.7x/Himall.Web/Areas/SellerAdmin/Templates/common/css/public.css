@@ -1,0 +1,47 @@
+/* CSS Document */
+body, h1, h2, h3, h4, h5, h6, hr, p , a , blockquote, /* structural elements 结构元素 */
+ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+fieldset, lengend, button, input, textarea, /* form elements 表单元素 */
+th, td { /* table elements 表格元素 */
+    margin: 0;
+    padding: 0;
+}
+h1,h2,h3,h4,h5,h6{font-weight: normal;font-family: "microsoft yahei";}
+h1 { font-size: 18px; /* 18px / 12px = 1.5 */ }
+h2 { font-size: 16px; }
+h3 { font-size: 14px; }
+h4, h5, h6 { font-size: 100%; }
+
+/* 重置列表元素 */
+ul, ol { list-style: none; }
+
+/* 重置文本格式元素 */
+a,button{ text-decoration: none; cursor:pointer; outline:none;color: #666;}
+a:link {outline:none;}		/* 未访问的链接 */
+a:visited {outline:none;}	/* 已访问的链接 */
+a:hover {text-decoration: none;}	/* 鼠标移动到链接上 */
+a:active {outline:none;}	/* 选定的链接 */
+
+img { border: none; } /* img 搭车：让链接里的 img 无边框 */
+/* 注：optgroup 无法扶正 */
+button, input, select, textarea {
+    font-size: 100%; /* 使得表单元素在 ie 下能继承字体大小 */
+}
+address, cite, dfn, em, var { font-style: normal; } /* 将斜体扶正 */
+
+/* 重置表格元素 */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* 让非ie浏览器默认也显示垂直滚动条，防止因滚动条引起的闪烁 */
+input{outline:none;}
+
+body{font-size:12px; word-wrap:break-word;font-family:12px/150% Arial,Verdana,"\5b8b\4f53";overflow-x:hidden; }
+textarea,input,select{font-family:"Hiragino Sans GB","Microsoft YaHei","微软雅黑",tahoma,arial,simsun,"宋体";font-size:12px;}
+.clearfix:after{content:"";clear:both;display:block;height:0;}
+.clearfix{zoom:1;}
+.fl{float: left;}
+.fr{float: right;}

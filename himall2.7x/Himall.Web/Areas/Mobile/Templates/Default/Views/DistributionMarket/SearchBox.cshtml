@@ -1,0 +1,47 @@
+﻿@{
+    Layout = null;
+
+    string skey=ViewBag.SearchBoxKey;
+    int stype=(int)ViewBag.SearchBoxType;
+    List<string> hkeys = (List<string>)ViewBag.HistorySearchKey;
+    string seltext = "商品", noseltext = "店铺";
+    if (stype==0)
+    {
+        seltext = "商品";
+        noseltext = "店铺";
+    }
+    else
+    {
+        seltext = "店铺";
+        noseltext = "商品";        
+    }
+}
+
+
+    <div class="Mar-top">
+        <div class="top-wraper">
+            <div class="M-left"><i></i><br><a href="@(Url.Action("ShopManagement", "Distribution"))">店铺</a></div>
+            <div class="M-middle">
+                <label><i></i><input class="Mar-search" id="skey" type="search" value="@(skey)" placeholder="请输入关键字"></lable>
+                <div class="select">
+                    <div class="tab-text"><span class="toggle-target">@(seltext)</span> <span class="glyphicon glyphicon-triangle-bottom"></span></div>
+                    <ul class="tab-nav">
+                        <li id="toggle-shop"><span class="litxt icon1" style="width:100%;">@(noseltext)</span><span class="glyphicon glyphicon-triangle-top" style="position:absolute;color:rgba(73, 78, 82, 0.7);font-size:16px;top:-11px;right:28px;"></span></li>
+                         <li id="toggle-shop"><span class="sptxt icon2" style="width:100%;">商品</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="M-right Mar-sbtn">搜索</div>
+        </div>
+    </div>
+
+    <div class="Mar-history" style="display:none">
+        <!--商品搜索页-->
+        <h5>历史搜索</h5>
+        @foreach (var item in hkeys)
+        {
+        <p>@(item)</p>
+        }
+    </div>
+
+<script src="/Areas/Mobile/Templates/Default/Scripts/DistributionMarketSearch.js"></script>

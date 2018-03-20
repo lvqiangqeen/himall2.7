@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Himall.Model.SlideAdInfo>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/slideAds.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li class="active"><a>管理</a></li>
+        <li><a class="add-auto-img" id="addSlideAd">新增</a></li>
+    </ul>
+
+    <table class="table mt20">
+        <thead>
+            <tr>
+                <th class="tac">图片</th>
+                <th class="tac">跳转地址</th>
+                <th class="tac">排序</th>
+                <th class="td-operate tac">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var slideAd in Model)
+            {
+                var image=Himall.Core.HimallIO.GetImagePath(slideAd.ImageUrl);
+                <tr swapid="@slideAd.Id" class="tac">
+                    <td><img width="134" height="48" slideid="@slideAd.Id" src="@image"></td>
+                    <td><label class="Sclear-J3" slideid="@slideAd.Id">@slideAd.Url</label></td>
+                    <td><span class="glyphicon glyphicon-circle-arrow-up"></span> <span class="glyphicon glyphicon-circle-arrow-down"></span></td>
+                    <td class="td-operate"><span class="btn-a"><a btntype="edit" pic="@image" url="@slideAd.Url" slideid="@slideAd.Id">编辑</a><a btntype="delete" slideid="@slideAd.Id" class="a-del">删除</a></span></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+</div>

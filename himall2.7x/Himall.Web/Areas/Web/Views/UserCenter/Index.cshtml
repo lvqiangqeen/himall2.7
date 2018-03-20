@@ -1,0 +1,163 @@
+﻿@model Himall.Web.Areas.Web.Models.UserCenterHomeModel
+@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "个人中心";
+}
+@using Himall.Core;
+<link href="~/Areas/Web/Content/home.css" rel="stylesheet" />
+<div class="box1">
+    <div class="home-box cl" style="width:1018px;">
+        <div class="ht-box1">
+            <div class="user-info">
+                @if (String.IsNullOrEmpty(Model.Logo))
+                {
+                    <img src="/Areas/Web/images/avatar.png" />
+                }
+                else
+                {
+                    <img src="@HimallIO.GetImagePath(Model.Logo)" />
+                }
+                <p class="user-name">@Model.UserName<span>(@Model.userCenterModel.GradeName)</span></p>
+                @if (Model.memberAccountSafety.AccountSafetyLevel == 1)
+                {
+                    <p class="user-secu"><a href="AccountSafety"><em>账户安全：</em><progress value="33" max="100"></progress><span>低</span></a></p>
+                }
+                else if (Model.memberAccountSafety.AccountSafetyLevel == 4)
+                {
+                    <p class="user-secu"> <a href="AccountSafety"><em>账户安全：</em><progress value="100" max="100"></progress><span>高</span></a></p>
+                }
+                else
+                {
+                    <p class="user-secu"><a href="AccountSafety"><em>账户安全：</em><progress value="66" max="100"></progress><span>中</span></a></p>
+                }
+                <p class="test-icon">
+                    @foreach (var messagePlugin in @Model.BindContactInfo)
+                    {
+                        var info = messagePlugin.PluginId.IndexOf("SMS") > 0 ? "mobile" : "email";
+                        if (messagePlugin.IsBind)
+                        {
+                            <a href="/UserInfo" title="@{@messagePlugin.ShortName}已验证"><i class="ident-@info active"></i></a>
+
+                        }
+                        else if (@messagePlugin.IsSettingsValid)
+                        {
+                            <a href="/UserCenter/Bind?pluginId=@(messagePlugin.PluginId)" title="@{@messagePlugin.ShortName}验证"><i class="ident-@info"></i></a>
+                        }
+                    }
+
+                </p>
+
+            </div>
+
+            <ul class="user-manage manage-2">
+                <li><a href="@Url.Action("index", "userintegral")"><p><i class="icon5"></i><em>积分</em></p><p><span>@(Model.userCenterModel.Intergral)分</span></p></a></li>
+                <li class="manage-line"><a href="@Url.Action("index", "usercoupon")"><p><i class="icon6"></i><em>优惠券</em></p><p><span>@(Model.userCenterModel.UserCoupon)张</span></p></a></li>
+                <li><a href="@Url.Action("Index", "usercapital")"><p><i class="icon7"></i><em>余额</em></p><p><span>@(Model.Balance)元</span></p></a></li>
+            </ul>
+        </div>
+
+
+        <ul class="order-total">
+            <li><a href="@Url.Action("index", "UserOrder" , new { orderstatus=(int)Himall.Model.OrderInfo.OrderOperateStatus.WaitPay })"><p>待付款<span>@Model.userCenterModel.WaitPayOrders</span></p></a></li>
+            <li><a href="@Url.Action("index", "UserOrder" , new { orderstatus=(int)Himall.Model.OrderInfo.OrderOperateStatus.WaitReceiving })"><p>待收货<span style="color:#e3393c">@Model.userCenterModel.WaitReceivingOrders</span></p></a></li>
+            <li><a href="/UserOrder?orderDate=all&orderStatus=7"><p>待评价<span>@Model.userCenterModel.WaitEvaluationOrders</span></p></a></li>
+            <li><a href="@Url.Action("List", "orderrefund")"><p>售后中<span style="color:#e3393c;">@Model.userCenterModel.RefundCount</span></p></a></li>
+        </ul>
+    </div>
+
+    <div class="list-mod cl clearfix">
+        <div class="list-left clearfix">
+            @{var showFollwProducts = Model.userCenterModel.FollwProducts.Count > 0 ? "" : "empty-show";}
+            <div class="home-box ms-myfav @showFollwProducts">
+                <h3><a href="/productConcern/">收藏的商品</a><a href="/productConcern/index" class="more">更多>></a></h3>
+                <ul>
+
+                    @foreach (var p in Model.userCenterModel.FollwProducts)
+                    {
+                        <li>
+                            <a href="@Url.Action("detail", "Product" , new { id=@p.ProductId})" title="@p.ProductName" target="_blank">
+                                <img width="182" height="182" src="@HimallIO.GetProductSizeImage(p.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_100)" />
+
+                            </a>
+                            <p><a>@p.ProductName</a></p>
+                        </li>
+                    }
+                </ul>
+            </div>
+            @{var showFollowShops = Model.userCenterModel.FollowShopsCount > 0 ? "" : "empty-show";}
+            <div class="home-box ms-myfavShop @showFollowShops">
+                <h3><a href="/shopConcern">收藏的店铺</a><a href="/shopConcern/Index" class="more">更多>></a></h3>
+                <ul>
+                    @foreach (var shop in Model.userCenterModel.FollowShops)
+                    {
+                        <li>
+                            <a href="@Url.Action("home", "shop" , new { id=@shop.ShopID})" target="_blank">
+                                <img width="182" height="182" src="@HimallIO.GetImagePath(shop.Logo)" />
+
+                            </a>
+                            <p><a href="@Url.Action("home", "shop" , new { id=@shop.ShopID})" target="_blank">@shop.ShopName</a></p>
+                        </li>
+
+                    }
+                </ul>
+            </div>
+
+            @* @{var showUnEvaluatProducts = @Model.userCenterModel.FollowShopCartsCount > 0 ? "" : "empty-show";}
+                <div class="home-box ms-mycomment @showUnEvaluatProducts">
+                    <h3><a target="_blank" href="@Url.Action("cart", "Cart" )">购物车</a><a href="@Url.Action("cart", "Cart" )" target="_blank" class="more">查看购物车 ></a></h3>
+                    <ul>
+                        @foreach (var p in @Model.userCenterModel.FollowShopCarts)
+                        {
+                            <li>
+                                <a title="@p.ProductName" href="@Url.Action("cart", "Cart" )" target="_blank">
+                                    <img width="90" height="90" src="@p.ImagePath/1_100.png" />
+                                    <i></i>
+                                </a>
+                                <p><a href="@Url.Action("detail", "Product" , new { id=@p.ProductId })" target="_blank"><span>@p.ProductName</span></a></p>
+                            </li>
+                        }
+                    </ul>
+                </div>*@
+
+            <div class="home-box ms-recommend">
+                <h3><a href="#">商品推荐</a></h3>
+                <ul class="clearfix">
+                    @if (Model.Top3RecommendProducts != null)
+                    {
+                        foreach (var p in Model.Top3RecommendProducts)
+                        {
+                            <li>
+                                <a title="@p.ProductName" href="@Url.Action("detail", "Product" , new { id=@p.Id})" target="_blank">
+                                    <img width="182" height="182" src="@(HimallIO.GetProductSizeImage(p.RelativePath, 1, (int)Himall.CommonModel.ImageSize.Size_150))" />
+
+                                </a>
+                                <p><a href="@Url.Action("detail", "Product" , new { id=@p.Id})" target="_blank">@p.ProductName</a></p>
+                            </li>
+                        }
+                    }
+
+                </ul>
+            </div>
+        </div>
+        <div class="list-right">
+            @{var showBrowsingProducts = Model.BrowsingProducts.Count > 0 ? "" : "empty-show";}
+            <div class="home-box ms-myhistory @showBrowsingProducts">
+                <h3><a href="#">浏览记录</a></h3>
+                <ul>
+                    @foreach (var p in Model.BrowsingProducts)
+                    {
+                        <li>
+                            <a href="@Url.Action("detail", "Product" , new { id=@p.ProductId })" title="@p.ProductName" target="_blank">
+                                <img width="120" height="120" src="@p.ImagePath" /><!--后台方法-->
+
+                            </a>
+                            <p><a href="@Url.Action("detail", "Product" , new { id=@p.ProductId })" target="_blank">@p.ProductName</a></p>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+</div>

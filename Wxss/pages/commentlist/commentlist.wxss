@@ -1,0 +1,30 @@
+/* pages/commentlist/commentlist.wxss */
+page{background: #f5f5f5;}
+.coupontitlels,.commentlisttopt,.commentlist_ctrtilex,.commentlist_ctrtile{ display: flex;}
+.coupontitlel{ width: 25%; text-align: center; font-size:28rpx;}
+.coupontitlel .active{color: #ff5722}
+.commentlisttop{ background: #fff; overflow: hidden;}
+.commentlisleft{width:485rpx;height: 50rpx;line-height: 50rpx;white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-right: 20rpx;}
+.commentlisright{float: right; width: 200rpx; text-align: right; color: #747474;line-height: 50rpx;}
+.proportion{ color: #ff5722; padding-left: 10rpx;  display:inline-block; }
+.commentlisttopt{font-size: 28rpx;border-top:1rpx solid #e0e0e0; padding-left: 24rpx;padding-right: 24rpx; padding-top: 24rpx; line-height: 48rpx;}
+.commentlisttopc{margin-top: 24rpx;border-top:1rpx solid #e0e0e0; padding-left: 24rpx;padding-right: 24rpx;padding-top: 16rpx; padding-bottom: 16rpx;border-bottom: 1rpx solid #e0e0e0;}
+.commentlist{ margin-top: 24rpx; background: #fff; overflow: hidden;}
+.commentlist_ctl image{width: 70rpx; height: 70rpx; border-radius: 50%;}
+.commentlist_ctr{ margin: 20rpx 10rpx 20rpx 20rpx;}
+.commentlist_ctl{ margin-left: 24rpx; margin-top: 24rpx;}
+.commentlist_ctrsize,.commentlist_ctrtiler{ font-size:24rpx; color: #bdbdbd; margin-top: 16rpx;}
+.commentlist_ctrtext{font-size: 24rpx; line-height: 40rpx; margin-top: 24rpx;}
+.commentlist_ctrpic image{ width: 135rpx; height: 135rpx; margin-top: 24rpx; margin-right: 16rpx;}
+.commentlist_ctrpic{ display: flex;}
+.commentlist_ctrtilex image{width:30rpx; height: 30rpx; margin-right:10rpx;}
+.commentlist_ctrtilel{ width: 480rpx;}
+.shangjiahuif{ padding-left: 104rpx; background: #f9f9f9; overflow: hidden;padding-right:24rpx;clear: both; padding-top: 24rpx; padding-bottom: 24rpx;}
+.Replyshangjia{ float: left; color: #ff5722; font-size: 24rpx;} 
+.ReplyText{ float: right; color: #bdbdbd; font-size: 24rpx;}
+.commentlist_clear{ clear: both; width: 750rpx; overflow: hidden; display: flex;}
+.shangjiahuifc{ margin-top: 16rpx; overflow: hidden; font-size: 24rpx;}
+.shangjiahuift{ width: 100%; overflow: hidden;}
+.kong{ width:750rpx; min-height: 1005rpx; padding-top: 200rpx; background: #fff;border-top:1rpx solid #e0e0e0; text-align: center;}
+.kong image{width: 192rpx; height: 192rpx; display: inline-block;}
+.kong view{ font-size: 28rpx; color: #747474;}

@@ -1,0 +1,489 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "满意度评价";
+}
+@model IEnumerable<Himall.Model.ProductEvaluation>
+           
+<style>
+    .after-service-img img {
+        width: 50px;
+        height: 50px;
+        margin-right: 5px;
+        z-index:99999;
+    }
+
+     .tb-line ul{padding:15px 0;}
+   .comment-box{padding:15px 30px 30px}
+   .comment-box .item span.label{width:80px;text-align:right;font-family:SimSun;font-size:14px;color:#384751;padding:0;line-height:26px;}
+   .after-service-img{margin-top:10px;}
+</style>
+
+<div class="box1 lh24">
+    <div class="title">
+        <span class="title_txt curr">查看订单评价</span>
+    </div>
+    <div class="border-box">
+        <div class="tb-void tb-line">
+            <table width="100%" cellspacing="0" cellpadding="0" border="0" id="product-comments">
+                <colgroup>
+                    <col width="530">
+                    <col width="200">
+                    <col width="200">
+                    <col>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>商品信息</th>
+                        <th>购买时间</th>
+                        <th>评价</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count() == 0)
+                    {
+                        <tr><td colspan="4"><div class="empty">暂时没有记录！</div></td></tr>
+                    }
+                    @{var i = 0;}
+                    @foreach (var m in @Model)
+                    {
+                        i++;
+                        <tr>
+                            <td colspan="4">
+                                <ul oid="1622972656" class="pro-info">
+                                    <li class="fore1">
+                                        <div class="p-info clearfix">
+                                            <div class="p-img fl">
+                                                <a href="@Url.Action("Detail", "Product", new { id = @m.ProductId })" target="_blank">
+                                                    <img width="80" height="80" data-img="1" title="@m.ProductName" src="@Himall.Core.HimallIO.GetProductSizeImage(m.ThumbnailsUrl, 1, (int)Himall.CommonModel.ImageSize.Size_100)" class="err-product">
+                                                </a>
+                                            </div>
+                                            <div class="p-name fl">
+                                                @{
+                                                    var sp = "";
+                                                    if (!string.IsNullOrWhiteSpace(m.Color)) { sp += string.Format("[{0}：{1}]", m.ColorAlias, m.Color); }
+                                                    if (!string.IsNullOrWhiteSpace(m.Size)) { sp += string.Format("[{0}：{1}]", m.SizeAlias, m.Size); }
+                                                    if (!string.IsNullOrWhiteSpace(m.Version)) { sp += string.Format("[{0}：{1}]", m.VersionAlias, m.Version); }
+                                                }
+                                                <a href="@Url.Action("Detail", "Product", new { id = @m.ProductId })" target="_blank">@m.ProductName @sp</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="fore2"><span class="ftx03">@m.BuyTime</span></li>
+                                    <li class="fore3 forem">
+                                        <a catethird="@m.Id" title="发评价" class="pj" href="#none">
+                                            展开/收缩<b class="icon-show"></b>
+                                        </a><br />
+                                    </li>
+
+                                </ul>
+                                <div class="clr"></div>
+
+                                <div class="comment-box prompt01" id="@m.Id" style=" display:block;">
+                                    <div class="form">
+                                        <div class="item">
+                                            <span class="label">
+                                                评分：
+                                            </span>
+                                            <input type="hidden" name="EvaluationRank" value="@m.EvaluationRank" />
+                                            <div class="fl">
+                                                <span class="commstar">
+                                                    <a data-t="1" class="star1" href="javascript:;"></a>
+                                                    <a data-t="2" class="star2" href="javascript:;"></a>
+                                                    <a data-t="3" class="star3" href="javascript:;"></a>
+                                                    <a data-t="4" class="star4" href="javascript:;"></a>
+                                                    <a data-t="5" class="star5" href="javascript:;"></a>
+                                                </span>
+                                                <div class="clr"></div>
+                                            </div>
+                                            <span class="id_star msg-error-01 ml10 hide" style="display:none">你的评分是偶们前进的动力</span>
+                                            <div class="clr"></div>
+                                        </div>
+                                        <div class="item item01">
+                                            <span class="label">初评：</span>
+                                            <div class="cont">
+                                                <span id="cont_txt" name="cont_txt">@m.EvaluationContent</span>
+                                                <p class="after-service-img">
+                                                    @foreach (var img in @m.CommentImages.Where(a => a.CommentType == 0))
+                                                    {
+                                                        <img height="60" width="60" src="@Himall.Core.HimallIO.GetImagePath(img.CommentImage)" />
+                                                    }
+                                                </p>
+                                            </div>
+                                            
+
+                                            @if (m.ReplyTime.HasValue)
+                                            {
+                                                <span>初次回复: @m.ReplyContent</span>
+                                            }
+                                            <div class="clr"></div>
+                                        </div>
+
+                                        @if (@m.AppendTime.HasValue)
+                                        {
+                                            <div class="item item01" >
+                                                <span class="label">追加评论：</span>
+                                                <div class="cont">
+                                                    <span id="cont_txt" name="cont_txt">@m.AppendContent</span>
+                                                    <p class="after-service-img">
+                                                        @foreach (var img in @m.CommentImages.Where(a => a.CommentType == 1))
+                                                        {
+                                                            <img height="60" width="60" src="@Himall.Core.HimallIO.GetImagePath(img.CommentImage)" />
+                                                        }
+                                                    </p>
+                                                </div>
+                                               
+                                                @if (@m.ReplyAppendTime.HasValue)
+                                                {
+                                                    <span>追加回复: @m.ReplyAppendContent</span>
+                                                }
+                                                <div class="clr"></div>
+                                            </div>
+                                        }
+                                        @*<div class="item item02">
+    <input type="hidden" name="orderItemId" value="@m.Id" />
+    <div class="fl">
+            <a class="btn btn-5 mr20 id_sub" style="color:#fff;" href="#none" data="@m.Id">
+                <span>评价</span>
+            </a>
+            <div class="msg-text"></div>
+        </div>
+                                            <div class="clr"></div>
+                                        </div>*@
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @if (!ViewBag.IsSellerAdminProdcut)
+    {
+        <h3 class="sub-title">满意度评价</h3>
+        <div class="border-box" style=" border-top:1px solid #e4e4e4;" id="orderComment">
+            <div class="service-rcol" style="display:block; height:134px;">
+                <div class="score-cont">
+                    <div class="score">
+                        <input type="hidden" value="1622972656" name="oid">
+                        <input type="hidden" value="69" name="gid">
+                        <input type="hidden" value="549656" name="sid">
+                        <dl class="ev-list">
+                            <dt>商品包装满意度</dt>
+                            <dd>
+                                <span class="commstar" id="id_a">
+                                    <a data-t="1" class="star1" href="javascript:;"></a>
+                                    <a data-t="2" class="star2" href="javascript:;"></a>
+                                    <a data-t="3" class="star3" href="javascript:;"></a>
+                                    <a data-t="4" class="star4" href="javascript:;"></a>
+                                    <a data-t="5" class="star5" href="javascript:;"></a>
+                                </span>
+                                <input type="hidden" name="ro1827" value="1827A2">
+                                <span style="display:none;" class="d1 degree-text" id="id_a_txt"></span>
+                            </dd>
+                        </dl>
+                        <dl class="ev-list">
+                            <dt>送货速度满意度</dt>
+                            <dd>
+                                <span class="commstar" id="id_b">
+                                    <a data-t="1" class="star1" href="javascript:;"></a>
+                                    <a data-t="2" class="star2" href="javascript:;"></a>
+                                    <a data-t="3" class="star3" href="javascript:;"></a>
+                                    <a data-t="4" class="star4" href="javascript:;"></a>
+                                    <a data-t="5" class="star5" href="javascript:;"></a>
+                                </span>
+                                <input type="hidden" name="ro1828">
+                                <span style="display:none;" class="degree-text" id="id_b_txt"></span>
+                            </dd>
+                        </dl>
+                        <dl class="ev-list">
+                            <dt>配送服务满意度</dt>
+                            <dd>
+                                <span class="commstar" id="id_c">
+                                    <a data-t="1" class="star1" href="javascript:;"></a>
+                                    <a data-t="2" class="star2" href="javascript:;"></a>
+                                    <a data-t="3" class="star3" href="javascript:;"></a>
+                                    <a data-t="4" class="star4" href="javascript:;"></a>
+                                    <a data-t="5" class="star5" href="javascript:;"></a>
+                                </span>
+                                <input type="hidden" name="ro1829">
+                                <span style="display:none;" class="degree-text" id="id_c_txt"></span>
+                            </dd>
+                        </dl>
+
+                    </div>
+                </div>
+            </div>
+            <div class="score-succ hide">
+                <span class="s_pf">您的评分：</span><span class="s-star"></span>
+                <h3 class="ftx02"><s class="icon-02"></s>感谢您的评分</h3>
+            </div>
+            <div class="clr"></div>
+
+        </div>
+    }
+        <div class="cover"></div>
+        <div class="preview-img"><img src="" /></div>
+</div>
+<script>
+    $(function () {
+        @*$(".after-service-img img").toggle(function () {
+            $(this).clone(true).insertAfter(this).addClass("scale-img");
+            $(".cover").show();
+        }, function () {
+            $('.scale-img').remove();
+            $(".cover").hide();
+        });
+        $(".cover").click(function () {
+            $('.scale-img').remove();
+            $(this).hide()
+        });
+        $(".scale-img").click(function () {
+
+                $(".cover").hide();
+
+        });*@
+        $(".after-service-img img").click(function () {
+            $(".preview-img").show();
+            $(".preview-img img").attr("src", $(this).attr("src"));
+            $(".cover").show();
+        });
+        $(".preview-img").click(function () {
+            $(this).hide()
+            $(".cover").hide();
+        });
+        $(".cover").click(function () {
+            $(".preview-img").hide();
+            $(".cover").hide();
+        })
+    });
+
+
+    //满意度评价
+    var PackMark = "@ViewBag.PackMark";
+    var DeliveryMark = "@ViewBag.DeliveryMark";
+    var ServiceMark = "@ViewBag.ServiceMark";
+    ; (function ($) {
+        var star = '',
+            uid = '862',
+            cont = '',
+            star1 = '',
+            star2 = '',
+            star3 = '';
+        $('.commstar').children().each(function (i, e) {
+            var obj = $(e);
+            obj.bind('click', function () {
+                obj.siblings().removeClass('active');
+                obj.addClass('active');
+                var a = obj.attr('data');
+                if (a != uid) {
+                    cont = '';
+                    star = '';
+                    uid = a;
+                }
+                star = obj.attr('data-t');
+                obj.parent().attr('data', star);
+            });
+        });
+        $('.id_cont_txt').each(function (i, e) {
+            //$(e).focus(function () {
+            //    $(e).val('');
+            //    $(e).css('color', '#333');
+            //}).blur(function () {
+            //    var a = $(e).attr('data');
+            //    if (a != uid) {
+            //        cont = '';
+            //        star = '';
+            //        uid = a;
+            //    }
+            //    cont = $(e).val();
+            //    if ($(e).val()) {
+            //        //
+            //    } else {
+            //        $(e).val('商品是否给力？快分享你的购买心得吧~');
+            //        $(e).css('color', '#333');
+            //    }
+            //});
+        });
+
+        $('.id_sub').each(function (i, e) {
+            $(e).bind('click', function () {
+                var uid = $(e).attr('data'),
+                    star = $('#' + uid + ' .commstar').attr('data'),
+                    cont = $('#' + uid + ' .id_cont_txt').val();
+                if (cont == '商品是否给力？快分享你的购买心得吧~') {
+                    cont = false;
+                }
+                if (!star) {
+                    $('#' + uid + ' .id_star').show();
+                }
+                if (!cont || (cont.length >= 150)) {
+                    $('#' + uid + ' .id_cont').show();
+                    return;
+                }
+                if (star && cont) {
+                    var loading = showLoading();
+                    $.ajax({
+                        type: 'post',
+                        url: "@Url.Action("AddComment", "UserComment")",
+                        data: { star: star, content: cont, suborderid: uid },
+                        dataType: "json",
+                        success: function (data) {
+                            loading.close();
+                            $('#' + uid).hide('200');
+                            $('.pj').each(function (i, e) {
+                                if ($(e).attr('catethird') == uid) {
+                                    $(e).html('已评价');
+                                    $(e).attr('catethird', 0);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+        $('.pj').each(function (i, e) {
+            $(e).bind('click', function () {
+                var id = $(e).attr('catethird');
+                uid = id;
+                if ($('#' + id).css('display') == 'block') {
+                    $('#' + id).slideUp(100);
+                } else {
+                    $('#' + id).slideDown(100);
+                }
+            });
+        });
+        $('#id_a').children().each(function (i, e) {
+            var obj = $(e);
+            obj.bind('click', function () {
+                obj.addClass('active');
+                star1 = obj.attr('data-t');
+                if (star == 1) {
+                    $('#id_a_txt').show().removeClass().addClass('d1 degree-text').html('不满');
+                } else if (star == 2) {
+                    $('#id_a_txt').show().removeClass().addClass('d1 degree-text').html('不满');
+                } else if (star == 3) {
+                    $('#id_a_txt').show().removeClass().addClass('d3 degree-text').html('一般');
+                } else if (star == 4) {
+                    $('#id_a_txt').show().removeClass().addClass('d3 degree-text').html('满意');
+                } else if (star == 5) {
+                    $('#id_a_txt').show().removeClass().addClass('d5 degree-text').html('赞一个');
+                }
+            });
+        });
+        $('#id_b').children().each(function (i, e) {
+            var obj = $(e);
+            obj.bind('click', function () {
+                obj.addClass('active');
+                star2 = obj.attr('data-t');
+                if (star == 1) {
+                    $('#id_b_txt').show().removeClass().addClass('d1 degree-text').html('不满');
+                } else if (star == 2) {
+                    $('#id_b_txt').show().removeClass().addClass('d1 degree-text').html('不满');
+                } else if (star == 3) {
+                    $('#id_b_txt').show().removeClass().addClass('d3 degree-text').html('一般');
+                } else if (star == 4) {
+                    $('#id_b_txt').show().removeClass().addClass('d3 degree-text').html('满意');
+                } else if (star == 5) {
+                    $('#id_b_txt').show().removeClass().addClass('d5 degree-text').html('赞一个');
+                }
+            });
+        });
+        $('#id_c').children().each(function (i, e) {
+            var obj = $(e);
+            obj.bind('click', function () {
+                obj.addClass('active');
+                star3 = obj.attr('data-t');
+                if (star == 1) {
+                    $('#id_c_txt').show().removeClass().addClass('d1 degree-text').html('不满');
+                } else if (star == 2) {
+                    $('#id_c_txt').show().removeClass().addClass('d1 degree-text').html('不满');
+                } else if (star == 3) {
+                    $('#id_c_txt').show().removeClass().addClass('d3 degree-text').html('一般');
+                } else if (star == 4) {
+                    $('#id_c_txt').show().removeClass().addClass('d3 degree-text').html('满意');
+                } else if (star == 5) {
+                    $('#id_c_txt').show().removeClass().addClass('d5 degree-text').html('赞一个');
+                }
+            });
+        });
+        $('#id_btn_x').bind('click', function () {
+            var jsonArray = eval("[{'subOrderId':'','star':1,'content':''}]");
+            jsonArray.splice(0, 1);
+            $("#product-comments tr:gt(0)").each(function () {
+                var uid = $("[name=orderItemId]", this).val();
+                var star = 0;
+                $(".commstar a", this).each(function () {
+                    if ($(this).hasClass("active")) {
+                        star = $(this).attr('data-t');
+                    }
+                });
+                var cont = $("[name=cont_txt]", this).val() == "商品是否给力？快分享你的购买心得吧~" ? "" : $("[name=cont_txt]", this).val();
+                var arr = {
+                    "subOrderId": uid,
+                    "star": star,
+                    "content": cont
+                };
+                jsonArray.push(arr);
+            });
+            //检测内容不超过500个字
+            for (var i = 0; i < jsonArray.length; i++) {
+                if (jsonArray[i].content.length > 500) {
+                    return false;
+                }
+            }
+
+            if (star1 && star2 && star3) {
+                var average = parseInt((+star1 + (+star2) + (+star3)) / 3, 10);
+                $('.service-rcol').hide();
+                $('.score-succ').show().children('.s-star').addClass('st' + average);
+                var loading = showLoading();
+                $.ajax({
+                    type: 'post',
+                    url: "/OrderEvaluation/AddOrderEvaluationAndComment",
+                    data: { PackMark: star1, DeliveryMark: star2, ServiceMark: star3, OrderId: $("#OrderId").val(), productCommentsJSON: JSON.stringify(jsonArray) },
+                    dataType: "json",
+                    success: function (data) {
+                        loading.close();
+                        if (data.success) {
+                            window.location = "/userComment";
+                        }
+
+                    }
+                });
+            }
+        });
+
+    }(jQuery));
+
+
+    $(function () {
+        //商品包装满意度
+        $("#orderComment dl:eq(0) .commstar a:eq(" + PackMark + ")").trigger("click");
+        $("#orderComment dl:eq(0) .commstar a:eq(" + PackMark + ")").nextAll().each(function () {
+            $(this).removeAttr("class");
+        });
+        //送货速度满意度
+        $("#orderComment dl:eq(1) .commstar a:eq(" + DeliveryMark + ")").trigger("click");
+        $("#orderComment dl:eq(1) .commstar a:eq(" + DeliveryMark + ")").nextAll().each(function () {
+            $(this).removeAttr("class");
+        });
+        //配送服务满意度
+        $("#orderComment dl:eq(2) .commstar a:eq(" + ServiceMark + ")").trigger("click");
+        $("#orderComment dl:eq(2) .commstar a:eq(" + ServiceMark + ")").nextAll().each(function () {
+            $(this).removeAttr("class");
+        });
+        //评分
+        $("#product-comments tr:gt(0)").each(function () {
+            var rank = $("[name=EvaluationRank]", this).val();
+            $(".commstar a:eq(" + rank + ")", this).trigger("click");
+            $(".commstar a:eq(" + rank + ")", this).nextAll().each(function () {
+                $(this).removeAttr("class");
+            });
+        });
+        $(".commstar a").each(function () {
+            $(this).unbind();
+        });
+    })
+
+</script>

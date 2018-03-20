@@ -1,0 +1,61 @@
+﻿@model Himall.Model.ShopOpenApiSettingInfo
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li class="active"><a>开放平台管理</a></li>
+
+    </ul>
+
+    @Html.Hidden("appkey", Model.AppKey)
+    @Html.Hidden("appsecreat", Model.AppSecreat)
+    @Html.Hidden("routeaddress", Request.Url.Scheme + "://" + Request.Url.Authority)
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">APPKEY：</label>
+            <div class="col-sm-3 form-control-static">@(Model.AppKey)</div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">APPSECREAT：</label>
+            <div class="col-sm-3 form-control-static">@(Model.AppSecreat)</div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">申请时间：</label>
+            <div class="col-sm-3 form-control-static">@(Model.AddDate.Value.ToString("yyyy-MM-dd HH:mm:ss"))</div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">重置时间：</label>
+            <div class="col-sm-3 form-control-static">@(Model.LastEditDate.Value.ToString("yyyy-MM-dd HH:mm:ss"))</div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">注册ERP：</label>
+            <div class="col-sm-3 form-control-static">
+                @if (Model.IsRegistered)
+            {
+                <span>注册成功</span>
+            }
+            else {
+                <a class="btn btn-default" id="btnReg" data-flag="true" href="javascript:;">注册</a>
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="">当前状态：</label>
+        <div class="col-sm-3 form-control-static">@Html.Raw(Model.IsEnable ? "<span style='color:green'>已开启</span>" : "<span style='color:red'>未开启</span>")</div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="">&nbsp;</label>
+        <div class="col-sm-6 form-control-static">
+            @if (Model.IsEnable)
+            {
+            <a class="btn btn-default" id="btnClose" data-flag="true" href="javascript:;">关闭</a>
+        }
+        else {
+            <a class="btn btn-primary" id="btnOpen" data-flag="true" href="javascript:;">开启</a>
+        }
+    </div>
+</div>
+</div>
+
+</div>
+<script src="~/Areas/SellerAdmin/Scripts/OpenApiIndex.js"></script>

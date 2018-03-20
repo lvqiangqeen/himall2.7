@@ -1,0 +1,34 @@
+﻿@model Himall.Web.Areas.Admin.Models.Market.BonusModel
+    @{Layout = null;}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>红包领取</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Areas/Mobile/Templates/Default/Content/custom.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript">
+        $( function ()
+        {
+            $( '.bonus' ).height( $( '.bonus' ).width() * 39 / 28 )
+        } );
+    </script>
+    <style>
+        body, html, .container {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="b-cover"></div>
+        <div class="bonus">
+            <img src="@Model.ImagePath" />
+            <h3>@Model.MerchantsName</h3>
+            <h5>当前活动已过期</h5>
+        </div>
+    </div>
+</body>
+
+</html>

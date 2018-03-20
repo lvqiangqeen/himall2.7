@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "入驻协议";
+    var isSeller = ViewBag.IsSeller;
+    var waitAudit = ViewBag.WaitAudit;
+    var msg = "";
+    if (isSeller!=null&& (bool)isSeller)
+    {
+        msg = "您已是卖家";
+    }
+    else if (waitAudit!=null&&(bool)waitAudit) {
+        msg = "您的申请正在审核中，请耐心等待";
+    }
+}
+<link href="~/Areas/Mobile/Templates/Default/Content/mui.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/custom.css" />
+<script>
+    /***这段代码是公用的，为了html跟标签设置一个rem相对值***/
+  
+</script>
+@*<header class="mui-bar mui-bar-nav Gheader ">
+    <h1 class="mui-title">入驻协议</h1>
+</header>*@
+<div class="agreement_container">
+    <div class="artice_box">
+        @MvcHtmlString.Create(ViewBag.SellerAdminAgreement)
+    </div>
+    <div class="bottom_agreement">
+        <form>
+            <input id="agree" name="agree" type="radio" value="" />
+            <em class="select_input"></em>
+            <span>我已阅读并同意此协议</span>
+            <button type="button" class="submit" onclick="return CheckAgree()">同意</button>
+        </form>
+    </div>
+</div>
+<script>
+    $(function () {
+        if ('@msg'!='') {
+            $.dialog.tips('@msg', function () {
+                var returnUrl = '/' + areaName + '/home/index';
+                location.replace(decodeURIComponent(returnUrl));
+            },3)
+        }
+    });
+    function CheckAgree() {
+        var id = '@((int)Model.BusinessType)';
+        if (id == 0) {
+            $.post("Agreement", { agree: "on", BusinessType: 0 }, function () {
+                location.href = "step3";//如果根据入驻设置，只能入驻企业或者只能个人，则post后，直接跳第三步填写个人/公司信息，否则跳到入驻类型选择页面。
+            });
+        } else if (id == 1) {
+            $.post("Agreement", { agree: "on", BusinessType: 1 }, function () {
+                location.href = "step3";
+            });
+        }
+        else {
+            location.href = "step2";//既能企业也能个人，所以要跳到该页面，来选择
+        }
+    }
+</script>

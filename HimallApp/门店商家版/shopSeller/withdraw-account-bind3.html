@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>绑定提现账户</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">绑定提现账户</h1>
+		</header>
+		<div class="mui-content">
+			<div class="success-content">
+				<img src="images/success.png" width="200" height="200"/>
+				<h3>绑定成功</h3>
+			</div>
+            <div class="mui-content-padded">
+				<button id='submit' class="mui-btn mui-btn-block mui-btn-blue pad10 mart30">确定</button>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				document.getElementById('submit').addEventListener('tap',function(){
+					var page1 = plus.webview.getWebviewById('withdraw-apply') || plus.webview.getWebviewById('withdraw-apply.html');
+					mui.fire(page1,"refreshData");
+					var page2 = plus.webview.getWebviewById('account-manage') || plus.webview.getWebviewById('account-manage.html');
+					mui.fire(page2,"refreshData");
+					plus.webview.getWebviewById('withdraw-account-bind1.html').close('none');
+					plus.webview.getWebviewById('withdraw-account-bind2.html').close('none');
+			    	plus.webview.currentWebview().close('none');
+				});
+			});
+		</script>
+	</body>
+</html>

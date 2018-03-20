@@ -1,0 +1,158 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "商品关注";
+}
+@model IEnumerable<Himall.Model.FavoriteInfo>
+
+<style>
+    .i-option .id_follow s{margin-left: 10px;margin-right: 10px;position: relative;top: 3px;}
+</style>
+<div class="box1 lh24">
+    <div class="title bot-border">
+        <h3 class="title_txt cur">商品关注</h3>
+    </div>
+    <div class="border-box" >
+        <div class="tb-void follow-tb">
+            <table width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top:20px;">
+                <tbody>
+                    <tr style="height:32px;">
+                        <th width="10" style="font-size:14px">&nbsp;</th>
+                        <th width="500" style="font-size:14px;text-align: left;padding-left: 42px;">商品</th>
+                        <th width="120" style="font-size:14px">价格</th>
+                        <th width="120" style="font-size:14px">库存状态</th>
+                        <th width="120" style="font-size:14px">操作</th>
+                    </tr>
+                </tbody>
+
+                <tbody id="follow_table">
+                    @if (Model.Count() == 0)
+                    {
+                        <tr><td colspan="5" class="ety"><div class="empty">您还没有关注任何商品，<a href="/" target="_blank" style="color:#78a1c1">去首页！</a></div></td></tr>
+                    }
+                    @foreach (var m in Model)
+                    {
+                        <tr id="tr_@m.Id">
+                            <td>
+                                <input type="checkbox" class="check" value="@m.Id" name="r">
+                            </td>
+                            <td class="tb01">
+                                <div class="p-img">
+                                    <a href="@Url.Action("Detail", "Product", new { id = m.ProductId })" target="_blank">
+                                        <img width="80" height="80" data-img="1" alt="@m.ProductInfo.ProductName" src="@m.ProductInfo.GetImage(Himall.CommonModel.ImageSize.Size_100)">
+                                    </a>
+                                </div>
+                                <div class="p-name">
+                                    <a target="_blank" href="@Url.Action("Detail", "Product", new { id = m.ProductId })">@m.ProductInfo.ProductName</a>
+                                </div>
+                                <div class="p-evel">
+                                    @{var mark = Math.Round(m.ProductInfo.Himall_ProductComments.Average(a => (double?)a.ReviewMark).GetValueOrDefault()); var star = "sa" + (mark == 0 ? 5 : mark);}
+                                    <span id="star10999671" class="star @star">@m.ProductInfo.Himall_ProductComments.Average(a => (decimal?)a.ReviewMark).GetValueOrDefault()</span>
+                                    <a target="_blank" href="@Url.Action("Detail", "Product", new { id = m.ProductId })#comments-list"><span id="pj10999671" class="p-s-n">@m.ProductInfo.Himall_ProductComments.Count()</span>评价</a>
+                                </div>
+                                <div class="ftag">
+                                    <div style="display:none" pid="10999671" class="prompt-01"></div>
+                                </div>
+                                <div class="date">加关注时间：@m.Date.ToShortDateString()</div>
+                            </td>
+                            <td>
+                                <div id="price_10999671" class="p-price">
+                                    <span class="ftx-04">￥@m.ProductInfo.MinSalePrice.ToString("f2")</span>
+                                    <div class="prompt-01 prompt02">
+                                        <div class="pc"></div>
+                                        <div class="pb pb-l">
+                                            <b class="b1"></b>
+                                            <b class="b2"></b>
+                                            <b class="b3"></b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="p-state"><div class="ac" id="f_10999671">@{var stock = m.ProductInfo.SKUInfo.Sum(a => a.Stock) > 5 ? "现货" : "库存紧张";} @stock</div></div>
+
+                            </td>
+                            <td>
+                                <ul class="operating">
+
+                                    <li>
+                                        <a class="id_follow" data="@m.Id"><s></s></a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @{
+            var count = ((PagingInfo)ViewBag.pageInfo).TotalPages;
+            var curr = ((PagingInfo)ViewBag.pageInfo).CurrentPage;
+        }
+        @if (count > 0)
+        {
+            <div class="cl mt10">
+                <div class="i-option">
+                    <label for="checkall"><input type="checkbox" class="check checkall" id="checkall" value="" name="">全选</label>
+                    <a href="javascript:;" class="id_follow"><s></s>取消关注</a>
+                </div>
+                <div id="pagin-btm" class="pagin fr" style="margin-top:20px;">
+                    @Html.PageLinks((PagingInfo)ViewBag.pageInfo, x => Url.Action("Index", new { pageNo = x }))   
+                </div>
+
+            </div>
+        }
+    </div>
+
+</div>
+<script>
+    (function ($) {
+        $('.checkall').each(function (n, r) {
+            $(r).change(function (e) {
+                var b = e.target.checked;
+                if (b) {
+                    $('input[name=r]').each(function (i, s) {
+                        s.checked = true;
+                    });
+                } else {
+                    $('input[name=r]').each(function (i, s) {
+                        //console.log(s)
+                        s.checked = false;
+                    });
+                }
+            });
+        });
+        $('.id_follow').each(function () {
+            var obj = $(this),
+                bool = obj.attr('data') || '';
+            obj.bind('click', function () {
+                $.dialog.confirm('您确定要取消关注吗？', function () {
+                    if (bool==''){
+                        var arr = [];
+                        $("input:checkbox[name='r']:checked").each(function (i, e) {
+                            arr.push($(e).val());
+                        });
+                        if (arr.length == 0) {
+                            $.dialog.errorTips("没有选择任何的商品！");
+                            return;
+                        }
+                        bool = arr.join(',');
+                    }
+                    var loading = showLoading();
+                    $.ajax({
+                        type: 'post',
+                        url: "@Url.Action("CancelConcernProducts")",
+                        data: { ids: bool },
+                        dataType: "json",
+                        success: function (data) {
+                            loading.close();
+                            if (data.success) {
+                                window.location.href = window.location.href;
+                            }
+                        }
+                    });
+                });
+                
+            });
+        });
+    }(jQuery));
+</script>

@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "随机红包购买记录";
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Areas/Admin/Scripts/ShopBonusManagement.js"></script>
+
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a href="./Management">代金红包购买列表</a></li>
+        <li><a href="./ServiceSetting">服务费用设置</a></li>
+    </ul>
+
+    <div class="search-box" id="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">店铺名称</label>
+                <input class="form-control input-ssm" type="text" id="txtShopName">
+            </div>
+            <div class="form-group"><button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button></div>
+        </form>
+    </div>
+
+    <table id="list" class="table clear-v27"></table>
+</div>
+
+
+

@@ -1,0 +1,59 @@
+﻿
+<link href="~/Content/jquery.onoff.css.css" rel="stylesheet"/>
+<script src="~/Scripts/jquery.onoff.min.js"></script>
+<script src="~/Areas/Admin/Scripts/PaymentMangement.js"></script>
+
+<div class="container clear-q7">
+    <!--<ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>支付方式</a></li>
+    </ul>-->
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="clear-i2">线上支付</th>
+                <th>开关</th>
+                <th class="td-operate clear-i2">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @{
+                    string controller, action;
+
+                }
+                @foreach (var paymentPlugin in Model)
+                {
+                <tr>
+                    <td class="clear-i2">@paymentPlugin.name</td>
+                    <td width="100px">
+                        @*<div class="switch switch-mini"><input class="bootstrapSwitch" type="checkbox" data-size="mini" data-on-text="开启" data-off-text="关闭"  /></div>*@
+                        <input type="checkbox" pluginid="@paymentPlugin.pluginId" class="pluginCheck" @(paymentPlugin.enable ? "checked" : "")>
+
+                    </td>
+                    <td class="td-operate clear-i2"><span class="btn-a"><a href="edit?pluginId=@(paymentPlugin.pluginId)">编辑</a></span></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+    <table class="table clear-q8">
+        <thead>
+            <tr>
+                <th>线下支付</th>
+                <th></th>
+                <th class="td-operate"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>货到付款 (仅官方自营店可用)</td>
+                <td width="100px">
+                    @*<div class="switch switch-mini"><input class="bootstrapSwitch2" type="checkbox" data-size="mini" data-on-text="开启" data-off-text="关闭"  /></div>*@
+                    <input type="checkbox" class="payWayCheck" @( ViewBag.IsReceivingAddress ? "checked" : "")>
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+

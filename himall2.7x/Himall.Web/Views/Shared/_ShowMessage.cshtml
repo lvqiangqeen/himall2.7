@@ -1,0 +1,21 @@
+﻿<script>
+		(function () {
+			var data= @(Html.Raw(TempData["__Message__"]??"null"));
+			if (data) {
+				var callback;
+				if (data.goBack == true)
+					callback = function () { history.go(-1); };
+				var fun;
+				if (data.type == -1)
+					fun='errorTips';
+				else if(data.type==0)
+					fun='alert';
+				else if (data.type == 1)
+					fun='alertTips';
+				else if (data.type == 2)
+					fun='succeedTips';
+				if(fun)
+					$.dialog[fun](data.message,callback,data.time);
+			}
+		})();
+</script>

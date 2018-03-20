@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "经营类目申请列表";
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Areas/Admin/Scripts/ShopApplyList.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="./Management">店铺管理</a></li>
+        <li><a href="./Management?type=Auditing">入驻审核</a></li>
+        <li class="active"><a href="./Applylist">经营类目审核</a></li>
+    </ul>
+    <div id="shopToolBar">
+        <div class="search-box">
+            <form class="form-inline custom-inline">
+                <div class="form-group">
+                    <label class="label-inline w75" for="">店铺名称</label>
+                    <input class="form-control input-ssm" type="text" id="shopName">
+                </div>
+                <div class="form-group">
+                    <label class="label-inline w75" for="">店铺状态</label>
+                    <select class="sele form-control input-ssm" id="status">
+                        <option value="">审核状态</option>
+                        @foreach (var d in Himall.Core.EnumHelper.ToDescriptionDictionary<Himall.Model.BusinessCategoriesApplyInfo.BusinessCateApplyStatus>())
+                        {
+                            <option value="@d.Key">@d.Value</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary btn-sm" id="searchBtn" value="搜 索">
+                </div>
+            </form>
+        </div>
+    </div>
+    <table class="table" id="list"></table>
+</div>

@@ -1,0 +1,13 @@
+﻿@model long
+@{
+    Layout = null;
+}
+    <div class="item details-link">
+        <a href="javascript:void(0)" id="showmoreprodesc"><span>查看更多详情</span></a>
+    </div>
+    <div class="goods-img" id="prodesccon"></div>
+    <div id="autoLoad" class="loading"></div>
+@Html.Hidden("gid_desc", Model)
+<script src="~/Areas/Mobile/Templates/Default/Scripts/ProductShowProductDescription.js"></script>
+<script src="~/Scripts/jquery.scrollLoading.min.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/loading.js"></script>

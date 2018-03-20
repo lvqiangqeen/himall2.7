@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit|ie-stand">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width" />
+	<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+	<link href="~/Content/artdialog.css" rel="stylesheet" />
+	<link href="~/Content/inner-custom.css" rel="stylesheet" />
+	<link href="~/Areas/SellerAdmin/Content/business.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+	<script src="~/Scripts/jquery.form.js"></script>
+	<script src="~/Scripts/jquery.artDialog.js"></script>
+	<script src="~/Scripts/artDialog.iframeTools.js"></script>
+	<!--[if lt IE 9]>
+	<script src="/Scripts/respond.min.js"></script>
+	<![endif]-->
+	<script src="~/Scripts/jquery.nicescroll.min.js"></script>
+	<script src="~/Scripts/inner-custom.js"></script>
+	<script src="~/Scripts/CommonJS.js"></script>
+	<title>卖家中心</title>
+	@RenderSection("Styles", false)
+</head>
+<body>
+	<div>
+		@RenderBody()
+	</div>
+	@RenderSection("Scripts", false)
+
+	@Html.Partial("_ShowMessage")
+</body>
+</html>

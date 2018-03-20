@@ -1,0 +1,157 @@
+﻿@model Himall.Web.Areas.Mobile.Models.DistributionShopShowModel
+@{
+    ViewBag.Title = "分销聚合页";
+}
+
+<div class="container combine-detail">
+    <div class="share-guide"></div>
+    <div class="combine-top">
+        <img src="@(Himall.Core.HimallIO.GetImagePath(Model.ShopLogo))">
+        <p><span class="cnam">@(Model.ShopName)</span><span class="add bt_shopfav @(Model.isFavorite ? "favorited" : "")" shopid="@(Model.ShopId)">@(Model.isFavorite ? "已收藏" : "收　藏")<i></i></span></p>
+    </div>
+    <div class="sell-nav">
+        <ul>
+            <li class="datasort on" data-sort="0">默认</li>
+            <li class="datasort" data-sort="1">销量</li>
+            <li class="datasort" data-sort="3">佣金</li>
+            <li class="datasort" data-sort="6">代理数</li>
+        </ul>
+        <span class="switch-class"></span>
+    </div>
+    <div class="combine-detail-list">
+        <ul id="databox"></ul>
+    </div>
+    <div class="combine-detail-bottom" onclick="ShopShare()">
+        <span>一键分享</span>
+    </div>
+</div>
+<script src="~/Content/Public/js/dist/underscore.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/loading.js"></script>
+
+<script id="gdtmp" type="text/template">
+    <%_.each(gddatas, function(item) {%>
+    <li>
+        <div class="combine-total-wrap">
+            <div class="detail-left">
+                <a href="@(Url.Action("ProductDetail"))/<%=item.ProductId%>"><img src="<%=item.Image%>"></a>
+            </div>
+            <div class="detail-right" data-pid="<%=item.ProductId%>">
+                <h4><a href="@(Url.Action("ProductDetail"))/<%=item.ProductId%>"><%=item.ProductName%></a></h4>
+                <p><span>价格</span><em>￥<%= item.SellPrice%></em><span>佣金</span><i>￥<%=item.Commission%></i></p>
+                <p><span>成交数</span><em><%=item.SaleNum%></em></p>
+                <p><span>代理数</span><em><%=item.AgentNum%></em></p>
+            </div>
+        </div>
+        <div class="detail-bottom">
+            <span class="bt_share" data-pid="<%=item.ProductId%>" data-uid="@(Model.UserId)" data-des="<%=item.ShortDescription%>" data-title="<%=item.ProductName%>" data-img="<%=item.Image%>">转发</span>
+            <span class="bt_agent <%if(item.isHasAgent){%>disabled<%}%>" data-pid="<%= item.ProductId%>"><%if(item.isHasAgent){%>已<%}%>代理</span>
+        </div>
+    </li>
+    <%});%>
+</script>
+
+
+<script src="~/Areas/Mobile/Templates/Default/Scripts/DistributionMarketShop.js"></script>
+
+<script>
+    skey = "@(Model.SearchKey)";
+    shopid = "@(Model.ShopId)";
+
+    $(document).ready(function () {
+        $(".out-frame").width($('.container').width() * 93 / 100);
+        $(".out-frame").height($('.container').width() * 93 / 100);
+
+        $(".shop-se").width($('.container').width() * 93 / 100);
+        $(".shop-se").height($('.container').width() * 97 / 1000);
+        var M_lineh = $('.container').width() * 97 / 1000;
+        $(".M-searchbtn ").css("line-height", M_lineh + "px");
+
+        var SM_lineh = $(".S-cover").height() * 1 / 2;
+        $(".S-money ").css("line-height", SM_lineh + "px");
+
+        $(".M-searchbtn ").one("focus", function () {
+            $(this).width($('.shop-se').width() * 177 / 200);
+            $(this).val("").addClass("focus-d");
+            $(this).after("<span id=\"bt_search\">搜索</span>")
+            $(this).next().css("line-height", M_lineh + "px");
+        });
+
+        $('.shop-se').on('click', '#bt_search', function () {
+            skey = $("#skey").val();
+            if (skey == "搜索") {
+                skey = "";
+            }
+            databox.empty();
+            curPage = 1;
+            getData();
+        });
+
+        $('#databox').on('click', '.bt_agent', function () {
+            var _t = $(this);
+            if (!_t.hasClass("disabled")) {
+                //可以代理
+                var pid = _t.data("pid");
+                $.post('@Url.Action("AgentProduct")', { id: pid }, function (result) {
+                    if (result.success) {
+                        _t.addClass("disabled").html("已代理");
+                    } else {
+                        alert(result.msg);
+                    }
+                });
+            } else {
+                alert("您已代理此商品！");
+            }
+        });
+
+        $('#databox').on('click', '.detail-right', function () {
+            var _t = $(this);
+            var pid = _t.data("pid");
+            var _url = "@Url.Action("ProductDetail", new { id = "#id#" })";
+            _url = _url.replace("%23id%23", pid);
+            window.location.href = _url;
+        });
+    });
+
+
+    function showData() {
+        $(".combine-total-wrap").height($(".container").width() * 143 / 320);
+        $(".detail-left").width($(".container").width() * 11 / 32);
+        $(".detail-left").height($(".container").width() * 11 / 32);
+        $(".detail-right").width($(".container").width() * 21 / 32 - 38);
+        $(".detail-right").height($(".container").width() * 11 / 32);
+    }
+</script>
+
+@Html.Action("ShareInfo", "Distribution")
+
+<script type="text/javascript">
+    function ShopShare() {
+        var ShopTitle = '@Model.ShopShareTitle';
+        var ShopDesc = '@Model.ShopShareDesc';
+        var ShopIcon = '@Model.ShopShareLogo';
+        var link = '@Url.Action("Shop", "DistributionShop", new { id = @Model.ShopId, partnerid = @Model.UserId })';
+        link = 'http://' + window.location.host + link;
+        if (ShopTitle == '') {
+            ShopTitle = '@Model.ShopName';
+        }
+        if (ShopDesc == '') {
+            ShopDesc = '@Model.ShopName';
+        }
+        if (ShopIcon == '') {
+            ShopIcon = '@Model.ShopLogo';
+        }
+    	winxinShareArgs.share = $.extend(winxinShareArgs.share, {
+    		link: link,
+    		title: ShopTitle,
+    		desc: ShopDesc,
+    		imgUrl: ShopIcon
+    	});
+
+    	$(".share-guide").show();
+    	initWinxin(winxinShareArgs);
+    }
+    $(".share-guide").click(function () {
+        var _t = $(this);
+        _t.hide();
+    });
+</script>

@@ -1,0 +1,58 @@
+﻿<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/brandManagement.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        
+        <li class="active"><a>申请列表</a></li>
+        <li><a href="./Add">新增申请</a></li>
+        
+    </ul>
+    <table class="table Sclear-D" id="list"></table>
+</div>
+<div id="id_band" class="dln">
+    <div class="Sclear-D1">
+        <form role="form" class="form-horizontal" id="brandform">
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-6">
+                    
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">品牌名称：</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control input-sm" id="band_name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">品牌Logo：</label>
+                <div class="col-sm-6"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">品牌授权证书：</label>
+                <div class="col-sm-6"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">简介：</label>
+                <div class="col-sm-9"><textarea rows="4" cols="50" class="form-control" id="band_des"></textarea></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">备注：</label>
+                <div class="col-sm-9"><textarea rows="4" cols="50" class="form-control" id="band_remark"></textarea></div>
+            </div>
+            
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        query();
+    });
+</script>

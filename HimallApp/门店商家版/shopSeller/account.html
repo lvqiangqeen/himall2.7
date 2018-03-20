@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>结算</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header-blue2">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">结算</h1>
+		</header>
+		<div class="mui-content account transparent">
+			<div id="detail">
+				
+			</div>
+			<ul class="mui-table-view table-view-iconlist mart10 main-page">
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" data-href="account-inout.html">
+						<span class="iconbg icon-sz"></span>
+						收支明细
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" data-href="account-history.html">
+						<span class="iconbg icon-history"></span>
+						历史账单
+					</a>
+				</li>
+			</ul>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js" ></script>
+		<script>
+			var userkey = himall.getState().userkey;
+			mui.init({
+                swipeBack: true
+            });
+            function initData(){
+            	mui.ajax(URL+'API/ShopSettlement/GetShopAccount',{
+					data:himall.md5Data({
+						userkey:userkey
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						document.getElementById('detail').innerHTML = template('initData', data);
+						himall.removeClass(document.querySelector('.mui-content'),' transparent');
+					},
+					error:function(){
+						reloadWvLoad();
+					}
+				});
+            }
+            mui.plusReady(function() {
+            	initData();
+            	
+            	var ws=plus.webview.currentWebview();
+            	ws.setPullToRefresh({
+					support:true,
+					height:"50px",
+					range:"100px",
+					style: 'circle',
+					offset: '20px'
+				},function(){
+					setTimeout(function(){
+						initData();
+						ws.endPullToRefresh();
+					},300)
+				});
+            });
+            
+            mui('#detail').on('tap', '.withdraw-btn', function() {
+            	himall.openVW('withdraw-apply.html');
+            })
+            mui('.account').on('tap', '.mui-table-view-cell a', function(e) {
+				himall.openVW(this.getAttribute('data-href'));
+			});
+			mui('#detail').on('tap', '.info div', function() {
+            	himall.openVW(this.getAttribute('data-href'),{WeekSettlementId:this.getAttribute('data-id'),data:this.getAttribute('data-num'),period:this.getAttribute('data-period')});
+            })
+		</script>
+		<script type="text/html" id="initData">
+			<div class="balance borBottom">
+				<h5>账户余额</h5>
+				<h3 class="money-red">{{Balance}}</h3>
+			</div>
+			<div class="info cl">
+				<div class="left" data-href="account-nosettled.html" data-num="{{PeriodSettlement}}">
+					<span>待结算</span>
+					<span class="money-red">{{PeriodSettlement}}</span>
+				</div>
+				<div class="right" data-href="account-settled.html" data-num="{{LastSettlement}}" data-id="{{LastSettlementModel.AccountId}}" data-period="{{LastSettlementModel.BillingCycleStr}}" >
+					<span>上期已结算</span>
+					<span class="money-red">{{LastSettlement}}</span>
+				</div>
+			</div>
+			<div class="withdraw-btn">
+				<button type="button" class="mui-btn mui-btn-primary mui-btn-outlined borSurround">
+					提现
+				</button>
+			</div>
+		</script>
+	</body>
+
+</html>

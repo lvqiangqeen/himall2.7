@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Himall.Web.Areas.Admin.Models.ArticleCategoryModel>
+
+<script src="~/Areas/Admin/Scripts/articleCategoryManagement.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>管理</a></li>
+        <li><a class="add-article-sort" id="addArticleCategory">新增</a></li>
+
+    </ul>
+    <table class="table category_table mt20">
+        <thead>
+            <tr>
+                <th class="clear-i2"  width="500">分类名称</th>
+                <th class="td-operate clear-i1" width="200">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (null == Model)
+            {
+                <tr >
+                    <td class="tac" colspan="3"><h2  class="clear-i">没有任何分类</h2></td>
+                </tr>
+            }
+            else
+            {
+                foreach (var category in Model)
+                {
+                    <tr class="level-1">
+                        <td class="clear-i2">
+                            <span class="glyphicon glyphicon-plus-sign @(category.HasChild ? "" : "disabled")" articlecategoryid="@category.Id"></span>
+                            <input type="hidden" class="hidden_id" value="@category.Id" />
+                            <input class="text-name" maxlength="5" @(category.IsDefault ? "disabled" : "") type="text" value="@category.Name" isdefault="@category.IsDefault.ToString()" orivalue="@category.Name" />
+                            @*<input class="text-order" type="text" value="@category.DisplaySequence" orivalue="@category.DisplaySequence" />*@
+                        </td>
+                        <td class="td-operate clear-i1">
+                            <span class="btn-a">
+                                <a onclick="edit(null,@category.Id)" href="javascript:;">新增下级</a>
+                                @if (!@category.IsDefault)
+                                {<a onclick="edit(@category.Id)" href="javascript:;">编辑</a><a class="delete-classify" href="javascript:;" onclick="del(@category.Id)">删除</a>}
+
+                            </span>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <div class="table-bt clearfix">
+        <div class="tabel-operate">
+		 &nbsp;
+        </div>
+    </div>
+</div>

@@ -1,0 +1,163 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="dialog-simple" id="PhoneBind">
+    <a class="close">×</a>
+   
+    <ul class="choose-step">
+        <li class="active">
+            验证管理员身份
+            <span class="border"></span>
+            <span class="border-n Sclear-P34"></span>
+        </li>
+        <li>
+            输入新账户信息
+            <span class="border"></span>
+            <span class="border-n"></span>
+        </li>
+        <li>绑定成功</li>
+    </ul>
+    <div class="form-horizontal weixin-bind">
+        <!--第一步-->
+        <div class="Phone-step-1">
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-9 form-control-static">
+                    短信验证将发送至商户绑定的手机 @ViewBag.MemberPhone &nbsp;
+                    <input type="hidden" id="pluginId_Phone" value="Himall.Plugin.Message.SMS" />
+                    <input type="hidden" id="destination_Phone" value="@ViewBag.MemberPhone">
+                    <a href="javascript:;" id="sendCode_Phone">发送验证码</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-9 form-control-static">请联系你的商户管理员获取验证码</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-2 control-label col-sm-offset-1" style="text-align:left">验证码：</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-sm" id="code_Phone">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-5 col-sm-offset-5">
+                    <a class="btn btn-primary" id="Phone_next" href="javascript:;">下 一 步</a>
+                </div>
+            </div>
+        </div>
+
+        <!--第二步-->
+        <div class="Phone-step-2" style="display:none;">
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label"><b>*</b>新手机：</label>
+                <div class="col-sm-7 send-code">
+                    <input class="form-control input-sm" id="new_phone" type="text"><span><a href="javascript:;" id="sendCode_newPhone">发送验证码</a></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label"><b>*</b>验证码：</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-sm" id="new_phoneCode" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-5 col-sm-offset-5">
+                    <a class="btn btn-primary" href="javascript:;" id="btn_Phonestep2">提交</a>
+                </div>
+            </div>
+        </div>
+
+        <!--第三步-->
+        <div class="Phone-step-3" style="display:none;">
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-6 form-control-static"><span class="glyphicon glyphicon-ok-sign"></span> 绑定手机成功</div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-5 col-sm-offset-5">
+                    <a class="btn btn-primary btn_fi" href="javascript:;">完成</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="dialog-simple" id="EmaliBind">
+    <a class="close">×</a>
+    <ul class="choose-step">
+        <li class="active">
+            验证管理员身份
+            <span class="border"></span>
+            <span class="border-n Sclear-P34"></span>
+        </li>
+        <li>
+            输入新账户信息
+            <span class="border"></span>
+            <span class="border-n"></span>
+        </li>
+        <li>绑定成功</li>
+    </ul>
+    <div class="form-horizontal weixin-bind">
+        <!--第一步-->
+        <div class="Emali-step-1">
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-9 form-control-static">
+                    短信验证将发送至商户绑定的邮箱 @ViewBag.MemberEmail &nbsp;
+                    <input type="hidden" id="pluginId_Emali" value="Himall.Plugin.Message.Email" />
+                    <input type="hidden" id="destination_Emali" value="@ViewBag.MemberEmail">
+                    <a href="javascript:;" id="sendCode_Emali">发送验证码</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-9 form-control-static">请联系你的商户管理员获取验证码</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-2 control-label col-sm-offset-1" style="text-align:left">验证码：</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-sm" id="code_Emali">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-5 col-sm-offset-5">
+                    <a class="btn btn-primary" id="Emali_next" href="javascript:;">下 一 步</a>
+                </div>
+            </div>
+        </div>
+
+        <!--第二步-->
+        <div class="Emali-step-2" style="display:none;">
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label"><b>*</b>新邮箱：</label>
+                <div class="col-sm-7 send-code">
+                    <input class="form-control input-sm" id="new_Emali" type="text"><span><a href="javascript:;" id="sendCode_newEmali">发送验证码</a></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label"><b>*</b>验证码：</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-sm" id="new_EmaliCode" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-5 col-sm-offset-5">
+                    <a class="btn btn-primary" href="javascript:;" id="btn_Emalistep2">提交</a>
+                </div>
+            </div>
+        </div>
+
+        <!--第三步-->
+        <div class="Emali-step-3" style="display:none;">
+            <div class="form-group">
+                <div class="col-sm-offset-5 col-sm-6 form-control-static"><span class="glyphicon glyphicon-ok-sign"></span> 绑定邮件成功</div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-5 col-sm-offset-5">
+                    <a class="btn btn-primary btn_fi" href="javascript:;">完成</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="~/Areas/SellerAdmin/Scripts/AccountSettingsAuthenticate.js"></script>

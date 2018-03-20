@@ -1,0 +1,44 @@
+﻿@{
+    Layout = null;
+}
+@model Himall.Model.ProductCommentInfo
+
+
+<div class="dialog-form clear-p">
+    <div class="form-group">
+        <label class="label-inline fl" >初次评价</label>
+        <p class="only-text">@Model.ReviewContent</p>
+        <p class="after-service-img">
+            @foreach (var img in @Model.Himall_ProductCommentsImages.Where(a => a.CommentType == 0))
+            {
+                <img height="50" width="50" src="@img.CommentImage" />
+            }
+        </p>
+        
+        @if (Model.ReplyDate.HasValue)
+        {
+            <label class="label-inline clear-p1 fl"> 初次回复</label>
+            <p class="only-text">@Model.ReplyContent</p>
+        }
+        @if (@Model.AppendDate.HasValue)
+        {
+
+            <label class="label-inline clear-p1 fl">追加评论</label>
+                <p class="only-text">@Model.AppendContent</p>
+    <p class="after-service-img">
+        @foreach (var img in @Model.Himall_ProductCommentsImages.Where(a => a.CommentType == 1))
+        {
+            <img height="50" width="50" src="@img.CommentImage" />
+        }
+    </p>
+
+
+            if (Model.ReplyAppendDate.HasValue)
+            {
+                <label class="label-inline clear-p1 fl">追加回复</label>
+                <p class="only-text">@Model.ReplyAppendContent</p>
+            }
+        }
+    </div>
+
+</div>

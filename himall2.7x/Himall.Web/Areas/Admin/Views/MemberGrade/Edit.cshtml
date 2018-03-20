@@ -1,0 +1,51 @@
+﻿@model Himall.Model.MemberGrade
+@{
+    ViewBag.Title = "会员等级修改";
+}
+<div class="container">
+    <ul class="breadcrumb clearfix">
+        <li><a href="@Url.Action("Management")">等级管理</a></li>
+        <li>编辑会员等级</li>
+    </ul>
+    <h5 class="tips-top"><span class="help-default"><i></i>注意事项： 请谨慎设置会员等级；建议设置第一级别所需积分为0； 级别逐层递增，如二级比一级所需的积分更高； 等级名称与需要的积分不能重复。</span></h5>
+    
+    <form class="form-horizontal" id="v-form" method="post">
+		
+        <div class="form-group">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <label for="" class="col-sm-2 control-label">等级名称：</label>
+            <div class="col-sm-8">
+                <input class="form-control input-sm input-half" id="GradeName" name="GradeName" type="text" value="@Model.GradeName">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">需要积分：</label>
+            <div class="col-sm-8">
+                <input class="form-control input-sm input-half" id="Integral" name="Integral" type="text" value="@Model.Integral">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">可享受折扣率：</label>
+            <div class="col-sm-2">
+                <input class="form-control input-sm input-half" id="Discount" name="Discount" type="text" value="@Model.Discount"> 折
+            </div>
+            <div class="col-sm-6">
+                <p class="help-default">会员购买商品时，满足会员等级享受的折扣（仅适用官方自营店）</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">备注(选填)：</label>
+            <div class="col-sm-8">
+                <textarea class="form-control input-sm input-half" id="Remark" name="Remark" rows="5">@Model.Remark</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" class="btn btn-primary" value="保 存" />
+            </div>
+        </div>
+    </form>
+</div>
+<script src="~/Scripts/v.js"></script>
+<script>var Management = "@Url.Action("management","MemberGrade")";</script>
+<script src="~/Areas/Admin/Scripts/MemberGradeManagement.js"></script>

@@ -1,0 +1,1485 @@
+{
+	"@platforms": ["android", "iPhone"],
+	"id": "H5F563BDD",/*应用的标识，创建应用时自动生成，勿手动修改*/
+	"name": "HiMall",/*应用名称，程序桌面图标名称*/
+	"version": {
+		"name": "2.6",/*应用版本名称*/
+		"code": "97"
+	},
+	"description": "hishop多用户商城系统-HiMall",/*应用描述信息*/
+	"icons": {
+		"72": "icon.png"
+	},
+	"launch_path": "index.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
+	"developer": {
+		"name": "hishop-xielingxiao",/*开发者名称*/
+		"email": "673921852@qq.com",/*开发者邮箱地址*/
+		"url": "http://www.hishop.com.cn"
+	},
+	"permissions": {
+		"Cache": {
+			"description": "管理应用缓存"
+		},
+		
+		"Console": {
+			"description": "跟踪调试输出日志"
+		},
+		"Events": {
+			"description": "应用扩展事件"
+		},
+		"File": {
+			"description": "访问本地文件系统"
+		},
+		"Invocation": {
+			"description": "使用Native.js能力"
+		},
+		"Storage": {
+			"description": "管理应用本地数据"
+		},
+		
+		"Runtime": {
+			"description": "访问运行期环境"
+		},
+		"XMLHttpRequest": {
+			"description": "跨域网络访问"
+		},
+		"Webview": {
+			"description": "窗口管理"
+		},
+		"NativeUI": {
+			"description": "原生UI控件"
+		},
+		
+		"NativeObj": {},"OAuth":{},"Share":{},"Payment":{},"Navigator":{},"Device":{},"Camera":{},"Gallery":{},"Uploader":{},"Push":{},"Barcode":{},"Geolocation":{},"Maps":{}
+	},
+	"plus": {
+		"splashscreen": {
+			"autoclose": false,/*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
+			"waiting": true,
+			"delay": "3"
+		},
+		"runmode": "liberate",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
+		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
+		"distribute": {
+			"plugins": {"maps":{"baidu":{"appkey_ios":"TCOenzT0b8pWqR3dXBvFLn5cs3LBcSel","appkey_android":"huOGMtIh9c2ykOkNWvrNcNkjCyAwmglv","appkey":"","description":""}},"push":{"igexin":{"appid":"1524151983","appkey":"has2f5zbd4","appsecret":"64b0ac1ce0029b16c2ed536b5fd13b13"}},"payment":{"weixin":{"description":"微信支付","appid":"wxfbbf216366781865"},"alipay":{"description":"阿里支付","scheme":""}},"share":{"weixin":{"appid":"wxfbbf216366781865","appsecret":"94a31c9579b1891311cab914ad9381e2","description":"可选，微信分享"},"qq":{"appid":"1104698183","description":"QQ分享"}},
+				"oauth": {"weixin":{"appid":"wxfbbf216366781865","appsecret":"94a31c9579b1891311cab914ad9381e2"},"qq":{"appid":"1104698183"}
+					
+				}
+			},
+			"apple": {
+				"appid": "",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
+				"mobileprovision": "",/*iOS应用打包配置文件*/
+				"password": "",/*iOS应用打包个人证书导入密码*/
+				"p12": "",/*iOS应用打包个人证书，打包配置文件关联的个人证书*/
+				"devices": "universal",/*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
+				"UIReserveStatusbarOffset":false,
+				"frameworks": []
+			},
+			"google": {
+				"ImmersedStatusbar":true,
+				"packagename": "",/*Android应用包名，如io.dcloud.HelloH5*/
+				"keystore": "",/*Android应用打包使用的密钥库文件*/
+				"password": "",/*Android应用打包使用密钥库中证书的密码*/
+				"aliasname": "",/*Android应用打包使用密钥库中证书的别名*/
+				"permissions": ["<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>","<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>","<uses-permission android:name=\"android.permission.GET_TASKS\"/>","<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>","<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.VIBRATE\"/>","<uses-permission android:name=\"android.permission.READ_LOGS\"/>","<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>","<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>","<uses-permission android:name=\"android.permission.CALL_PHONE\"/>","<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>","<uses-feature android:name=\"android.hardware.camera.autofocus\"/>","<uses-feature android:name=\"android.hardware.camera\"/>","<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>","<uses-permission android:name=\"android.permission.RECEIVE_USER_PRESENT\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>","<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>","<uses-permission android:name=\"android.permission.CAMERA\"/>"]
+			},
+			"orientation": ["portrait-primary"],/*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/
+			"icons": {
+				"ios": {
+					"prerendered": true, /*应用图标是否已经高亮处理，在iOS6及以下设备上有效*/
+					"auto": "", /*应用图标，分辨率：512x512，用于自动生成各种尺寸程序图标*/
+					"iphone": {
+						"normal": "unpackage/res/icons/57x57.png",/*iPhone普通屏幕程序图标，分辨率：57x57*/
+						"retina": "unpackage/res/icons/114x114.png",/*iPhone高分屏程序图标，分辨率：114x114*/
+						"retina7": "unpackage/res/icons/120x120.png",/*iPhone iOS7高分屏程序图标，分辨率：120x120*/
+						"spotlight-normal": "unpackage/res/icons/29x29.png", /*iPhone Spotlight搜索程序图标，分辨率：29x29*/
+						"spotlight-retina": "unpackage/res/icons/58x58.png", /*iPhone高分屏Spotlight搜索程序图标，分辨率：58x58*/
+						"spotlight-retina7": "unpackage/res/icons/80x80.png",/*iPhone iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+						"settings-normal": "unpackage/res/icons/29x29.png", /*iPhone设置页面程序图标，分辨率：29x29*/
+						"settings-retina": "unpackage/res/icons/58x58.png",
+						"retina8": "unpackage/res/icons/180x180.png",
+						"settings-retina8": "unpackage/res/icons/87x87.png"
+					},
+					"ipad": {
+						"normal": "unpackage/res/icons/72x72.png", /*iPad普通屏幕程序图标，分辨率：72x72*/
+						"retina": "unpackage/res/icons/144x144.png", /*iPad高分屏程序图标，分辨率：144x144*/
+						"normal7": "unpackage/res/icons/76x76.png", /*iPad iOS7程序图标，分辨率：76x76*/
+						"retina7": "unpackage/res/icons/152x152.png", /*iPad iOS7高分屏程序图标，分辨率：152x152*/
+						"spotlight-normal": "unpackage/res/icons/50x50.png", /*iPad Spotlight搜索程序图标，分辨率：50x50*/
+						"spotlight-retina": "unpackage/res/icons/100x100.png", /*iPad高分屏Spotlight搜索程序图标，分辨率：100x100*/
+						"spotlight-normal7": "unpackage/res/icons/40x40.png",/*iPad iOS7 Spotlight搜索程序图标，分辨率：40x40*/
+						"spotlight-retina7": "unpackage/res/icons/80x80.png",/*iPad iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+						"settings-normal": "unpackage/res/icons/29x29.png",/*iPad设置页面程序图标，分辨率：29x29*/
+						"settings-retina": "unpackage/res/icons/58x58.png"
+					}
+				},
+				"android": {
+					"mdpi": "unpackage/res/icons/48x48.png", /*普通屏程序图标，分辨率：48x48*/
+					"ldpi": "unpackage/res/icons/48x48.png", /*大屏程序图标，分辨率：48x48*/
+					"hdpi": "unpackage/res/icons/72x72.png", /*高分屏程序图标，分辨率：72x72*/
+					"xhdpi": "unpackage/res/icons/96x96.png",/*720P高分屏程序图标，分辨率：96x96*/
+					"xxhdpi": "unpackage/res/icons/144x144.png","xxxhdpi":"unpackage/res/icons/192x192.png"
+				}
+			},
+			"splashscreen": {
+				"ios": {
+					"iphone": {"retina55":"F:/Himall/himall打包用/启动图/启动图/Himall5.png","retina47":"F:/Himall/himall打包用/启动图/启动图/Himall4.png","retina40":"F:/Himall/himall打包用/启动图/启动图/Himall3.png","retina35":"F:/Himall/himall打包用/启动图/启动图/Himall2.png"}
+				},
+				"android": {
+					"hdpi": "unpackage/res/splashscreen/Himall3.png", /*高分屏启动图片，分辨率：480x762*/
+					"xhdpi": "unpackage/res/splashscreen/Himall4.png", /*720P高分屏启动图片，分辨率：720x1242*/
+					"xxhdpi": "unpackage/res/splashscreen/Himall5.png"
+				}
+			}
+		}
+	},"fullscreen":false,
+	"unpackage":[
+		"js/delayimg.js",
+		"js/mui.js",
+		"js/update.js"
+	],
+	"dependencies": {
+		"pages": {
+			"usercenter.html": {
+				"resources": [
+					"css/account.css",
+					"images/default-photo.png",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/md5.js"
+				],
+				"refer": [
+					"login.html",
+					"user-coupon.html",
+					"integral-use.html",
+					"user-history.html",
+					"merge-personal-list.html",
+					"aboutus.html",
+					"user-account.html",
+					"user-invite.html",
+					"user-favshop.html",
+					"user-favproduct.html",
+					"address.html",
+					"order-list.html",
+					"order-refund-list.html",
+					"merge-any.html"
+				],
+				"priority": 0
+			},
+			"home.html": {
+				"resources": [
+					"images/index-icon1.png",
+					"images/border.png",
+					"images/index-icon2.png",
+					"images/index-icon3.png",
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/mui.ttf",
+					"images/logo-bg.png",
+					"images/index-icon4.png",
+					"js/swiper.min.js",
+					"js/template.js",
+					"js/md5.js",
+					"fonts/iconfont.ttf",
+					"images/meiqia_icon.png",
+					"images/qq_icon.png",
+					"images/online_btn_03.png"
+				],
+				"refer": [
+					"product-detail.html",
+					"topic-detail.html",
+					"category.html",
+					"history.html",
+					"login.html",
+					"vshop-detail.html",
+					"topic.html",
+					"limitbuy-list.html",
+					"merge-list.html",
+					"integral-home.html",
+					"integral-detail.html",
+					"around-stores.html",
+					"meiqia.html",
+					"special.html"
+				],
+				"priority": 0
+			},
+			"index.html": {
+				"resources": [
+					"usercenter.html",
+					"home.html",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"vshop.html",
+					"js/md5.js",
+					"js/template.js",
+					"images/meiqia_icon.png",
+					"images/qq_icon.png"
+				],
+				"refer": [
+					"search.html",
+					"login.html",
+					"cart-box.html",
+					"vshop-detail.html",
+					"product-detail.html",
+					"topic-detail.html",
+					"vshop-list.html",
+					"product-detail.html",
+					"guide.html",
+					"order-list.html",
+					"special.html",
+					"merge-call.html"
+				],
+				"priority": 0
+			},
+			"vshop.html": {
+				"resources": [
+					"js/delayimg.min.js",
+					"images/blank.gif",
+					"js/template.js",
+					"images/logo-bg.png",
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/md5.js",
+					"fonts/iconfont.ttf"
+				],
+				"refer": [
+					"vshop-detail.html"
+				],
+				"priority": 0
+			},
+			"search.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"images/logo-bg.png",
+					"js/md5.js",
+					"js/template.js"
+				],
+				"refer": [
+					"product-detail.html"
+				],
+				"priority": 0
+			},
+			"login.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"images/sinaweibo.png",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"images/weixin.png",
+					"images/qq.png",
+					"css/account.css",
+					"js/md5.js"
+				],
+				"refer": [
+					"password-forget.html",
+					"reg.html",
+					"bind-login.html",
+					"address.html",
+					"user-coupon.html",
+					"order-list.html",
+					"cart-box.html",
+					"user-account.html",
+					"order-refund-list.html",
+					"user-favproduct.html",
+					"history.html",
+					"web-show.html",
+					"user-favshop.html",
+					"login-bind.html"
+				],
+				"priority": 0
+			},
+			"vshop-list.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/blank.gif",
+					"images/logo-bg.png",
+					"js/md5.js"
+				],
+				"refer": [
+					"vshop-detail.html",
+					"login.html",
+					"product-detail.html",
+					"topic-detail.html"
+				],
+				"priority": 0
+			},
+			"product-detail.html": {
+				"resources": [
+					"js/mui.zoom.js",
+					"js/mui.previewimage.js",
+					"images/blank.gif",
+					"js/delayimg.min.js",
+					"js/swiper.min.js",
+					"js/template.js",
+					"images/logo.png",
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/md5.js",
+					"fonts/mui.ttf",
+					"fonts/iconfont.ttf",
+					"images/logo-bg.png",
+					"images/ic_arrow.png",
+					"images/ic_clear.png",
+					"images/icon_fx.png",
+					"js/jquery-1.12.0.min.js",
+					"images/ic_locate2.png",
+					"images/meiqia_icon.png",
+					"images/qq_icon.png"
+				],
+				"refer": [
+					"order-submit.html",
+					"vshop-coupon.html",
+					"product-comment.html",
+					"login.html",
+					"merge-detail.html",
+					"cart-box.html",
+					"shop-index.html",
+					"vshop-detail.html",
+					"meiqia.html",
+					"cart-box.html",
+					"shop-index.html",
+					"cart-box.html",
+					"around-stores.html"
+				],
+				"priority": 0
+			},
+			"vshop-detail.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/flow.png",
+					"images/blank.gif",
+					"images/logo-bg.png",
+					"js/md5.js",
+					"js/template.js",
+					"js/swiper.min.js"
+				],
+				"refer": [
+					"product-detail.html",
+					"login.html",
+					"topic-detail.html",
+					"vshop-category.html",
+					"vshop-intro.html",
+					"vshop-search.html"
+				],
+				"priority": 0
+			},
+			"topic-detail.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"images/logo-bg.png",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [
+					"product-detail.html"
+				],
+				"priority": 0
+			},
+			"order-submit.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/delayimg.min.js",
+					"images/blank.gif",
+					"fonts/iconfont.ttf",
+					"js/md5.js",
+					"js/CommonJS.js",
+					"js/jquery-1.12.0.min.js",
+					"images/ok-black.png",
+					"images/ok-check.png"
+				],
+				"refer": [
+					"order-list.html",
+					"login.html",
+					"vshop-detail.html",
+					"product-detail.html",
+					"topic-detail.html",
+					"order-submit.html",
+					"address.html",
+					"cart.html",
+					"choseshopbranch.html"
+				],
+				"priority": 0
+			},
+			"cart.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/delayimg.min.js",
+					"images/blank.gif",
+					"fonts/iconfont.ttf",
+					"js/md5.js",
+					"js/template.js"
+				],
+				"refer": [
+					"order-submit.html",
+					"product-detail.html",
+					"vshop-detail.html"
+				],
+				"priority": 0
+			},
+			"cart-box.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"cart.html",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/md5.js",
+					"fonts/iconfont.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"user-coupon.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/md5.js"
+				],
+				"refer": [
+					"vshop-detail.html"
+				],
+				"priority": 0
+			},
+			"vshop-coupon.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/md5.js"
+				],
+				"refer": [
+					"login.html",
+					"vshop-detail.html",
+					"product-detail.html",
+					"topic-detail.html"
+				],
+				"priority": 0
+			},
+			"reg.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"css/account.css",
+					"images/blank.gif",
+					"js/md5.js"
+				],
+				"refer": [
+					"login.html",
+					"vshop-detail.html",
+					"product-detail.html",
+					"topic-detail.html"
+				],
+				"priority": 0
+			},
+			"order-list.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/delayimg.min.js",
+					"images/blank.gif",
+					"fonts/iconfont.ttf",
+					"images/bonus-box.png",
+					"js/template.js",
+					"js/md5.js",
+					"js/swiper.min.js"
+				],
+				"refer": [
+					"order-detail.html",
+					"product-detail.html",
+					"vshop-detail.html",
+					"order-evaluate.html",
+					"order-evaluate-append.html",
+					"orderShare.html",
+					"order-refund.html",
+					"express-info.html",
+					"pickupGoods.html"
+				],
+				"priority": 0
+			},
+			"address-edit.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"js/mui.poppicker.js",
+					"js/mui.listpicker.js",
+					"fonts/mui.ttf",
+					"css/mui.listpicker.css",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/Region.js",
+					"css/mui.poppicker.css",
+					"js/mui.picker.js",
+					"css/mui.picker.min.css",
+					"js/md5.js",
+					"images/ic_clear.png",
+					"js/jquery-1.12.0.min.js",
+					"fonts/iconfont.ttf"
+				],
+				"refer": [
+					"address.html",
+					"login.html",
+					"product-detail.html",
+					"topic-detail.html"
+				],
+				"priority": 0
+			},
+			"address.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/md5.js"
+				],
+				"refer": [
+					"address-edit.html",
+					"address-add.html"
+				],
+				"priority": 0
+			},
+			"order-detail.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/delayimg.min.js",
+					"images/blank.gif",
+					"fonts/iconfont.ttf",
+					"images/bonus.png",
+					"js/template.js",
+					"js/md5.js",
+					"images/meiqia_icon.png",
+					"images/qq_icon.png"
+				],
+				"refer": [
+					"usercenter.html",
+					"login.html",
+					"vshop-detail.html",
+					"product-detail.html",
+					"topic-detail.html",
+					"order-list.html",
+					"order-refund.html",
+					"order-evaluate-append.html",
+					"order-detail2.html",
+					"meiqia.html",
+					"orderShare.html"
+				],
+				"priority": 0
+			},
+			"aboutus.html": {
+				"resources": [
+					"js/app.js",
+					"images/a1.png",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"images/a2.png",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"category.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/delayimg.min.js",
+					"images/default.png",
+					"js/md5.js"
+				],
+				"refer": [
+					"search.html",
+					"login.html",
+					"vshop-detail.html",
+					"product-detail.html",
+					"topic-detail.html"
+				],
+				"priority": 0
+			},
+			"history.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"images/logo-bg.png",
+					"js/md5.js"
+				],
+				"refer": [
+					"product-detail.html"
+				],
+				"priority": 0
+			},
+			"bind-login.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"css/account.css",
+					"js/md5.js"
+				],
+				"refer": [
+					"usercenter.html",
+					"login.html",
+					"vshop-detail.html",
+					"product-detail.html",
+					"topic-detail.html"
+				],
+				"priority": 0
+			},
+			"vshop-category.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/md5.js",
+					"js/template.js"
+				],
+				"refer": [
+					"vshop-search.html",
+					"vshop-detail.html",
+					"login.html",
+					"product-detail.html",
+					"topic-detail.html"
+				],
+				"priority": 0
+			},
+			"vshop-search.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"images/logo-bg.png",
+					"js/md5.js",
+					"js/template.js"
+				],
+				"refer": [
+					"product-detail.html"
+				],
+				"priority": 0
+			},
+			"address-add.html": {
+				"href": "address-add.html",
+				"resources": [
+					"js/mui.listpicker.js",
+					"css/mui.listpicker.css",
+					"css/mui.poppicker.css",
+					"js/mui.min.js",
+					"js/mui.poppicker.js",
+					"js/app.js",
+					"js/Region.js",
+					"css/style.css",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"js/md5.js",
+					"fonts/iconfont.ttf",
+					"images/ic_clear.png",
+					"js/jquery-1.12.0.min.js"
+				],
+				"refer": [
+					"address.html",
+					"login.html",
+					"product-detail.html",
+					"topic-detail.html"
+				],
+				"priority": 13
+			},
+			"vshop-intro.html": {
+				"href": "vshop-intro.html",
+				"resources": [
+					"js/mui.min.js",
+					"js/app.js",
+					"css/style.css",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"fonts/iconfont.ttf",
+					"js/md5.js",
+					"js/template.js"
+				],
+				"refer": [
+					"vshop-detail.html",
+					"login.html",
+					"product-detail.html",
+					"topic-detail.html"
+				],
+				"priority": 2
+			},
+			"user-favshop.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/md5.js",
+					"images/logo-bg.png"
+				],
+				"refer": [
+					"vshop-list.html"
+				],
+				"priority": 0
+			},
+			"user-favproduct.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"images/logo-bg.png",
+					"js/md5.js"
+				],
+				"refer": [
+					"index.html"
+				],
+				"priority": 0
+			},
+			"topic.html": {
+				"href": "topic.html",
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"js/delayimg.min.js",
+					"css/style.css",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"images/blank.gif",
+					"js/md5.js"
+				],
+				"refer": [
+					"login.html",
+					"vshop-detail.html",
+					"product-detail.html",
+					"topic-detail.html"
+				],
+				"priority": 13
+			},
+			"user-invite.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"images/invite_bg.png",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"order-evaluate.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/lrz.bundle.js",
+					"js/2.chunk.js",
+					"js/md5.js"
+				],
+				"refer": [
+					"product-detail.html"
+				],
+				"priority": 0
+			},
+			"order-evaluate-append.html": {
+				"resources": [
+					"js/lrz.bundle.js",
+					"js/2.chunk.js",
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/mui.ttf",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"product-comment.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.zoom.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/mui.previewimage.js",
+					"css/style.css",
+					"images/blank.gif",
+					"js/md5.js",
+					"js/template.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"order-refund.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/mui.ttf",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"order-refund-list.html": {
+				"resources": [
+					"js/delayimg.min.js",
+					"images/blank.gif",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/md5.js"
+				],
+				"refer": [
+					"vshop-detail.html",
+					"order-refund-detail.html"
+				],
+				"priority": 0
+			},
+			"order-refund-detail.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					null,
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [
+					"order-refund.html"
+				],
+				"priority": 0
+			},
+			"user-account.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css"
+				],
+				"refer": [
+					"password-change.html",
+					"bind-phone.html"
+				],
+				"priority": 0
+			},
+			"password-change.html": {
+				"resources": [
+					"css/account.css",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/app.js",
+					"js/mui.min.js",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"bind-phone.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/account.css",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"limitbuy-list.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/delayimg.min.js",
+					"images/logo-bg.png",
+					"js/md5.js"
+				],
+				"refer": [
+					"product-detail.html"
+				],
+				"priority": 0
+			},
+			"mindex_child.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"merge-list.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"images/merge.png",
+					"js/delayimg.min.js",
+					"images/merge-list-thumb-mask.png",
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"images/merge-not.jpg",
+					"js/md5.js"
+				],
+				"refer": [
+					"merge-detail.html"
+				],
+				"priority": 0
+			},
+			"merge-detail.html": {
+				"resources": [
+					"js/mui.zoom.js",
+					"js/mui.previewimage.js",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"images/merge.png",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/swiper.min.js",
+					"js/md5.js",
+					"images/blank.gif",
+					"/images/blank.gif",
+					"js/delayimg.min.js",
+					"/images/logo.png",
+					"images/logo-bg.png"
+				],
+				"refer": [
+					"order-submit.html",
+					"login.html",
+					"vshop-detail.html",
+					"product-detail.html",
+					"product-comment.html"
+				],
+				"priority": 0
+			},
+			"merge-personal-list.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"images/merge.png",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/md5.js"
+				],
+				"refer": [
+					"merge-personal-detail.html"
+				],
+				"priority": 0
+			},
+			"merge-personal-detail.html": {
+				"resources": [
+					"images/merge-personal-detail-line.png",
+					"images/blank.gif",
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/md5.js",
+					"images/merge.png",
+					"images/logo-bg.png"
+				],
+				"refer": [
+					"product-comment.html"
+				],
+				"priority": 0
+			},
+			"password-forget.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/account.css",
+					"css/mui.min.css",
+					"css/style.css",
+					"images/blank.gif",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"merge-any.html": {
+				"resources": [
+					"images/merge-any.jpg",
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"integral-home.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"js/swiper.min.js",
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"fonts/iconfont.ttf",
+					"images/logo-bg.png",
+					"images/integral1.png",
+					"images/integral2.png",
+					"images/inte-icon.png",
+					"images/blank.gif",
+					"js/md5.js"
+				],
+				"refer": [
+					"integral-gift.html",
+					"integral-coupon.html",
+					"integral-detail.html",
+					"integral-order.html",
+					"integral-use.html",
+					"login.html",
+					"web-show.html"
+				],
+				"priority": 0
+			},
+			"integral-gift.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"fonts/iconfont.ttf",
+					"images/logo-bg.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"integral-coupon.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"images/logo-bg.png",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"integral-detail.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.zoom.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/mui.previewimage.js",
+					"css/style.css",
+					"js/template.js",
+					"js/swiper.min.js",
+					"js/md5.js",
+					"images/blank.gif"
+				],
+				"refer": [
+					"login.html",
+					"integral-submit.html"
+				],
+				"priority": 0
+			},
+			"integral-submit.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [
+					"address.html",
+					"integral-order.html"
+				],
+				"priority": 0
+			},
+			"integral-order.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"fonts/iconfont.ttf",
+					"js/md5.js",
+					"images/blank.gif"
+				],
+				"refer": [
+					"integral-order-detail.html"
+				],
+				"priority": 0
+			},
+			"integral-order-detail.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"fonts/iconfont.ttf",
+					"js/md5.js",
+					"images/blank.gif"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"integral-use.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [
+					"integral-order.html"
+				],
+				"priority": 0
+			},
+			"web-show.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"user-history.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"images/logo-bg.png",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"guide.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"images/welcome_test2.jpg",
+					"images/welcome_test1.jpg",
+					"js/app.js",
+					"js/md5.js"
+				],
+				"refer": [
+					"index.html"
+				],
+				"priority": 0
+			},
+			"order-detail2.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/delayimg.min.js",
+					"js/template.js",
+					"js/md5.js",
+					"fonts/iconfont.ttf",
+					"images/blank.gif",
+					"images/bonus.png"
+				],
+				"refer": [
+					"order-refund.html"
+				],
+				"priority": 0
+			},
+			"orderShare.html": {
+				"resources": [
+					"images/fenxiang.png",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/mui.previewimage.js",
+					"js/swiper.min.js",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/template.js",
+					"js/md5.js",
+					"js/delayimg.min.js",
+					"js/mui.zoom.js",
+					"images/jd_07.jpg",
+					"js/jquery-1.12.0.min.js"
+				],
+				"refer": [
+					"vshop-detail.html"
+				],
+				"priority": 0
+			},
+			"choseshopbranch.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"js/CommonJS.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"js/md5.js",
+					"js/jquery-1.12.0.min.js",
+					"images/ok-black.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"around-stores.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"js/md5.js",
+					"fonts/iconfont.ttf",
+					"images/locating.gif"
+				],
+				"refer": [
+					"shop-index.html"
+				],
+				"priority": 0
+			},
+			"shop-index.html": {
+				"resources": [
+					"images/index-banner.png",
+					"js/delayimg.min.js",
+					"images/ic_locate.png",
+					"js/jquery-1.12.0.min.js",
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"js/md5.js",
+					"fonts/mui.ttf",
+					"/images/index-banner.png",
+					"images/ic_phone.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"special.html": {
+				"resources": [
+					"css/mui.min.css",
+					"css/style.css",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"fonts/iconfont.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wx-page.html": {
+				"resources": [
+					"css/mui.min.css",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"meiqia.html": {
+				"resources": [
+					"css/mui.min.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/style.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"express-info.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pickupGoods.html": {
+				"resources": [
+					"images/bonus.png",
+					"images/bonus-box.png",
+					"js/swiper.min.js",
+					"js/jquery-1.12.0.min.js",
+					"js/app.js",
+					"js/mui.min.js",
+					"images/pickup.png",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"js/md5.js",
+					"fonts/mui.ttf",
+					"js/jquery-barcode.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"merge-call.html": {
+				"resources": [
+					"images/merge-call.jpg",
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"js/delayimg.js"
+			]
+		}
+	}
+}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>申请提现</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">申请提现</h1>
+		</header>
+		<div class="mui-content">
+			<div class="user-title">提现信息</div>
+            <ul class="table-widthdraw-data withdraw-info">
+            	<li class="m-line checkCode">
+					<label>提现金额</label>
+					<input type="number" placeholder="输入提现金额" id="amount"/>
+					<a id="getAllMoney">全部提现</a>
+				</li>
+                <li class="m-line checkCode">
+					<label>验证码</label>
+					<input type="text" placeholder="输入短信验证码" id="code"/>
+					<a id="getCode">发送验证码</a>
+				</li>
+            </ul>
+            <div class="user-title" id="account-title">账号信息</div>
+            <ul class="mui-table-view withdraw-info" id="account-info">
+                
+            </ul>
+            <a href="javascript:;" id="addAccount" class="hidden">新增提现账户</a>
+            <div class="mui-content-padded mart30">
+				<button id='submit' class="mui-btn mui-btn-block mui-btn-blue pad10">提交</button>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js"></script>
+		<script>
+			var w,
+			    baseInfo,
+			    userkey = himall.getState().userkey,
+			    amount = document.getElementById('amount'),
+			    code = document.getElementById('code'),
+			    getCodeHtml = document.getElementById('getCode'),
+			    canSendCode = true;
+		    
+			mui.init({
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				
+				var ws = plus.webview.currentWebview();
+				ws.setStyle({scrollIndicator:'none'});
+				function getBaseInfo(){
+					mui.ajax(URL + 'api/ShopWithDraw/GetWithdraw', {
+	                    data:himall.md5Data({
+	                        userkey: userkey
+	                    }),
+	                    dataType: 'json',
+	                    type: 'get',
+	                    timeout: 10000,
+	                    success: function(data) {
+	                    	baseInfo = data;
+	                    	if(data.IsBindBank){
+	                    		document.getElementById('account-info').innerHTML = template('initData', data);
+	                    		document.getElementById('addAccount').className+=' hidden';
+	                    		himall.removeClass(document.getElementById('account-title'),'hidden');
+	                    		himall.removeClass(document.getElementById('account-info'),'hidden');
+	                    	}else{
+	                    		document.getElementById('account-title').className+=' hidden';
+	                    		document.getElementById('account-info').className+=' hidden';
+	                    		himall.removeClass(document.getElementById('addAccount'),'hidden');
+	                    	}
+	                    },
+	                    error: function(xhr, type, errorThrown) {
+	                        plus.nativeUI.toast('请求失败，请检查网络重试');
+	                    }
+	                });
+				}
+				getBaseInfo();
+				function getCode(){
+					if(!canSendCode){
+						return;
+					}
+					canSendCode = false;
+					mui.ajax(URL + 'api/ShopWithDraw/GetPhoneOrEmailCheckCode', {
+	                    data:himall.md5Data({
+	                        userkey: userkey,
+	                        contact: baseInfo.Phone
+	                    }),
+	                    dataType: 'json',
+	                    type: 'get',
+	                    timeout: 10000,
+	                    success: function(data) {
+	                    	if(data.success){
+	                    		myIntervalFunction();
+	                    	}else{
+	                    		canSendCode = true;
+	                    		plus.nativeUI.toast(data.msg);
+	                    	}
+	                    },
+	                    error: function(xhr, type, errorThrown) {
+	                    	console.log(JSON.stringify(xhr))
+	                    	canSendCode = true;
+	                        plus.nativeUI.toast('请求失败，请检查网络重试');
+	                    }
+	                });
+				}
+				//定时器
+				function myIntervalFunction(){
+					var countdown = 120;
+	                cancelRefresh = setTimeout(function startCountDown() {
+	                    countdown--;
+	                    getCodeHtml.innerHTML = countdown + "秒后重发";
+	                    cancelRefresh = setTimeout(startCountDown, 1000);
+	                    if(countdown<=0){
+	                        getCodeHtml.innerHTML = "重新发送";
+	                        clearTimeout(cancelRefresh);
+	                        canSendCode = true;
+	                    }
+	                },1000);
+				}
+				//提交申请
+		        function submitApply(){
+		        	if(!baseInfo.IsBindBank){
+		        		plus.nativeUI.toast('请先绑定银行账号');
+						return;
+		        	}
+		        	if(!amount.value||isNaN(amount.value)){
+		        		plus.nativeUI.toast('请填写正确的提现金额');
+						return;
+		        	}
+		        	if(!code.value){
+		        		plus.nativeUI.toast('请填写短信验证码');
+						return;
+		        	}
+		        	var w=plus.nativeUI.showWaiting('',{padlock:true});
+		        	
+		        	mui.ajax(URL + 'api/ShopWithDraw/GetCheckPhoneOrEmailCheckCode', {
+	                    data:himall.md5Data({
+	                        userkey: userkey,
+	                        contact:baseInfo.Phone,
+	                        checkCode: code.value,
+	                    }),
+	                    dataType: 'json',
+	                    type: 'get',
+	                    timeout: 10000,
+	                    success: function(data) {
+	                    	if(data.success){
+	                    		mui.ajax(URL + 'api/ShopWithDraw/ApplyWithDrawSubmit', {
+				                    data:himall.md5Data({
+				                        userkey: userkey,
+				                        certificate: data.certificate,
+				                        amount: amount.value
+				                    }),
+				                    dataType: 'json',
+				                    type: 'post',
+				                    timeout: 10000,
+				                    success: function(result) {
+				                    	w.close();
+				                    	if(result.success){
+				                    		plus.nativeUI.toast('申请提现成功');
+											setTimeout(function(){
+												plus.webview.currentWebview().close();
+											},1000);
+				                    	}else{
+				                    		plus.nativeUI.toast(result.msg);
+				                    	}
+				                    },
+				                    error: function(xhr, type, errorThrown) {
+				                    	w.close();
+				                        plus.nativeUI.toast('请求失败，请检查网络重试');
+				                    }
+				                });
+	                    	}else{
+	                    		plus.nativeUI.toast(data.msg);
+	                    	}
+	                    }
+	                });
+		        	
+		        }
+				document.getElementById('getAllMoney').addEventListener('tap',function(){
+					amount.value = baseInfo.Balance;
+				});
+				document.getElementById('getCode').addEventListener('tap',function(){
+					getCode();
+				});
+				document.getElementById('submit').addEventListener('tap',function(){
+					submitApply();
+				});
+				document.getElementById('addAccount').addEventListener('tap',function(){
+					himall.openVW('withdraw-account-bind1.html', {isNew:true,data:baseInfo});
+				});
+			    mui('#account-info').on('tap', 'a', function(e) {
+					himall.openVW('withdraw-account-bind1.html', {isNew:false,data:baseInfo});
+				});
+				window.addEventListener('refreshData',function(event){
+					getBaseInfo();
+				});
+			});
+		</script>
+		<script id="initData" type="text/html">
+			<li class="mui-table-view-cell">提现账户<a href="javascript:;" class="mui-pull-right">修改提现账户</a></li>
+            <li class="mui-table-view-cell">银行<span class="mui-pull-right">{{BankName}}</span></li>
+            <li class="mui-table-view-cell">银行开户名<span class="mui-pull-right">{{BankAccountName}}</span></li>
+            <li class="mui-table-view-cell">开户支行完整名<span class="mui-pull-right">{{BankBranch}}</span></li>
+            <li class="mui-table-view-cell">银行账户<span class="mui-pull-right">{{BankAccountNumber}}</span></li>
+		</script>
+	</body>
+</html>

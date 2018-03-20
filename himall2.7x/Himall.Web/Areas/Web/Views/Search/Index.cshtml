@@ -1,0 +1,338 @@
+﻿@using Himall.Model;
+@using Himall.Web.Areas.SellerAdmin.Models;
+
+@model IEnumerable<ProductInfo>
+@{
+    ViewBag.Title = ViewBag.keywords + "  商品搜索";
+    List<FlashSalePrice> FlashSalePriceList = ViewBag.FlashSalePriceList;
+    PagingInfo CurPageInfo = (PagingInfo)ViewBag.pageInfo;
+}
+<style>
+    .nav-bar{display:none;}
+    .search .hot-search{display:none;}
+</style>
+<div class="w main">
+    @if (null != Model && Model.Count() != 0)
+    {
+        <div class="crumb">
+            <div class="crumb-content left"><strong>全部结果&nbsp;&gt;&nbsp;</strong><em id="searchKeywords">@ViewBag.keywords</em></div>
+            <!--搜索结果-->
+            <ul class="select-value left">
+                @if (ViewBag.b_id != 0)
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "Search", new{pageNo=1,keywords = ViewBag.keywords,exp_keywords = ViewBag.exp_keywords,cid = ViewBag.cid,b_id = 0,a_id = ViewBag.a_id,orderType = ViewBag.orderType,orderKey = ViewBag.orderKey})" title="@ViewBag.BrandName">品牌：<strong>@ViewBag.BrandName</strong><b></b></a>
+                    </li>
+                }
+                @if (!string.IsNullOrWhiteSpace(ViewBag.a_id))
+                {
+                    if (((Dictionary<string, string>)ViewBag.AttrDic).Count() == 1)
+                    {
+                        var dic = (Dictionary<string, string>)ViewBag.AttrDic;
+                        <li>
+                            <a href="@Url.Action("Index", "Search", new{pageNo=1,keywords = ViewBag.keywords,exp_keywords = ViewBag.exp_keywords,cid = ViewBag.cid,b_id = ViewBag.b_id,orderType = ViewBag.orderType,orderKey = ViewBag.orderKey})" title="">@dic.ElementAt(0).Key.Split(':')[0]：<strong>@dic.ElementAt(0).Key.Split(':')[1]</strong><b></b></a>
+                        </li>
+                    }
+                    else
+                    {
+                        foreach (var item in (Dictionary<string, string>)ViewBag.AttrDic)
+                        {
+                            <li>
+                                <a href="@Url.Action("Index", "Search", new{pageNo=1,keywords = ViewBag.keywords,exp_keywords = ViewBag.exp_keywords,cid = ViewBag.cid,b_id = ViewBag.b_id,a_id = item.Value,orderType = ViewBag.orderType,orderKey = ViewBag.orderKey})" title="">@item.Key.Split(':')[0]：<strong>@item.Key.Split(':')[1]</strong><b></b></a>
+                            </li>
+                        }
+                    }
+                }
+            </ul>
+            <span class="total-p">共<strong id="res_count">@(CurPageInfo.TotalItems)</strong>个商品</span>
+        </div>
+        
+        <div class="S-content-b">
+            <div class="left">
+                <div class="m" id="refilter">
+                    <div class="mt">
+                        <h2>所有类目</h2>
+                    </div>
+                    <div class="mc">
+                        @{
+        if (null != ViewBag.Category)
+        {
+            foreach (var item in ((List<Himall.Web.Areas.SellerAdmin.Models.CategoryJsonModel>)ViewBag.Category))
+            {
+                <div class="item fore hover">
+                    <h3>
+                        <b></b>
+                        <a href="@Url.Action("Index", "Search", new{pageNo=1,keywords = ViewBag.keywords,exp_keywords = ViewBag.exp_keywords,cid = item.Id,b_id = ViewBag.b_id,a_id = ViewBag.a_id,orderType = ViewBag.orderType,orderKey = ViewBag.orderKey})" class="@(item.Id == ViewBag.cid.ToString()?"curr":"")">@item.Name</a>
+                    </h3>
+                    <ul>
+                        @foreach (var sub in item.SubCategory)
+                        {
+
+                            <li class="@(sub.Id == ViewBag.cid.ToString() ? "curr" : "")">
+                                <a href="@Url.Action("Index", "Search", new{pageNo=1,keywords = ViewBag.keywords,exp_keywords = ViewBag.exp_keywords,cid = sub.Id,b_id = ViewBag.b_id,a_id = ViewBag.a_id,orderType = ViewBag.orderType,orderKey = ViewBag.orderKey})">@sub.Name</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="right-extra">
+                <div class="clr"></div>
+                <div class="RC-top">
+                    <div class="m" id="select">
+                        @if (ViewBag.b_id == 0)
+                        {
+                            if (null != ViewBag.Brands && ((List<BrandInfo>)ViewBag.Brands).Count() > 0)
+                            {
+                                <div class="brand-attr">
+                                    <div class="attr">
+                                        <div class="a-key">品牌：</div>
+                                        <div class="a-values">
+                                            <div class="v-fold">
+                                                <ul class="f-list">
+                                                    @foreach(var brand in ((List<BrandInfo>)ViewBag.Brands))
+                                                    { 
+                                                    <li><a href="@Url.Action("Index", "Search", new{pageNo=1,keywords = ViewBag.keywords,exp_keywords = ViewBag.exp_keywords,cid = ViewBag.cid,b_id = brand.Id,a_id = ViewBag.a_id,orderType = ViewBag.orderType,orderKey = ViewBag.orderKey})" title="@brand.Name"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(brand.Logo)" width="108" height="36" alt="@brand.Name" /></a></li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                            <div class="v-option">
+                                                <span class="o-more"><b></b></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        <div class="mc attr">
+                           
+                            <div class="prop-attrs">
+                                @{if (null != ViewBag.Attrs)
+                                {
+                                    foreach (var attr in ((List<TypeAttributesModel>)ViewBag.Attrs))
+                                    {
+                                        bool isbreak = false;
+                                        foreach (var val in ((Dictionary<string, string>)ViewBag.AttrDic).Values)
+                                        {
+                                            var ids = val.Replace('@', '_').Split('_');
+                                            if (ids.Contains(attr.AttrId.ToString()))
+                                            {
+                                                isbreak = true;
+                                                break;
+                                            }
+                                        }
+                                        if (isbreak) { continue; }
+                                        <div class="attr">
+                                            <div class="a-key">@attr.Name：</div>
+                                            <div class="a-values">
+                                                <div class="v-fold v-unfold">
+                                                    <ul class="f-list">
+                                                        @foreach (var attrV in attr.AttrValues)
+                                                        {
+                                                            <li>
+                                                                <a href="@Url.Action("Index", "Search", new{pageNo=1,keywords = ViewBag.keywords,exp_keywords = ViewBag.exp_keywords,cid = ViewBag.cid,b_id = ViewBag.b_Id,a_id = attr.AttrId+"_"+attrV.Id+"@"+ (string)ViewBag.a_id,orderType = ViewBag.orderType,orderKey = ViewBag.orderKey})">@attrV.Name</a>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                                <div class="v-option">
+                                                    <span class="o-more"><b></b></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                }
+                            </div>
+                            <div class="clr"></div>
+                        </div>
+                        @*<div class="mb" id="advanced">
+                <div class="attr-extra"><div>更多选项（肤质，价格）<b></b></div></div>
+            </div>*@
+                    </div>
+                    @{
+                                var count = (CurPageInfo).TotalPages;
+                                var curr = (CurPageInfo).CurrentPage;
+                    }
+                </div>
+               
+                <!--显示已选条件及属性-->
+                <div class="clr"></div>
+                <div id="filter">
+                    <div class="fore1">
+                        <dl class="order">
+                            <dd class="@(ViewBag.orderKey==1?"curr":"")"><a href="@Url.Action("Index", "Search", new{pageNo=1,keywords = ViewBag.keywords,exp_keywords = ViewBag.exp_keywords,cid = ViewBag.cid,b_id = ViewBag.b_Id,a_id =ViewBag.a_id,orderType = 2,orderKey = 1})" onclick="">默认</a><b></b></dd>
+                            <dd class="@(ViewBag.orderKey==2?"curr":"")">
+                                <a href="@Url.Action("Index", "Search", new{pageNo=1,keywords = ViewBag.keywords,exp_keywords = ViewBag.exp_keywords,cid = ViewBag.cid,b_id = ViewBag.b_Id,a_id =ViewBag.a_id,orderType = 2,orderKey = 2})">成交量</a><b></b>
+                            </dd>
+                            <dd class="@(ViewBag.orderKey==3?"curr":"")">
+                                <a href="@Url.Action("Index", "Search", new{pageNo=1,keywords = ViewBag.keywords,exp_keywords = ViewBag.exp_keywords,cid = ViewBag.cid,b_id = ViewBag.b_Id,a_id =ViewBag.a_id,orderType = ((int)ViewBag.orderType) == 2 ? 1 : 2,orderKey = 3})">价格</a><b></b>
+                            </dd>
+                            <dd class="@(ViewBag.orderKey==4?"curr":"")">
+                                <a href="@Url.Action("Index", "Search", new{pageNo=1,keywords = ViewBag.keywords,exp_keywords = ViewBag.exp_keywords,cid = ViewBag.cid,b_id = ViewBag.b_Id,a_id =ViewBag.a_id,orderType = 2,orderKey = 4})">评论数</a><b></b>
+                            </dd>
+                            <dd class="@(ViewBag.orderKey==5?"curr":"")">
+                                <a href="@Url.Action("Index", "Search", new{pageNo=1,keywords = ViewBag.keywords,exp_keywords = ViewBag.exp_keywords,cid = ViewBag.cid,b_id = ViewBag.b_Id,a_id =ViewBag.a_id,orderType = 2,orderKey = 5})">上架时间</a><b></b>
+                            </dd>
+                        </dl>
+                        <dl class="stock-search">
+                            <dt>
+                                <input class="text-stock-search" id="text-stock-search" type="text" autocomplete="off" title="在结果中搜索" value="@ViewBag.exp_keywords">
+                            </dt>
+                            <dd>
+                                <input class="btn-stock-search" id="btn-stock-search" type="button" value="确定">
+                            </dd>
+                        </dl>
+                        <div class="pagin pagin-m" id="top_pagi">
+                            <span class="text"><i>@curr</i>/@count</span>
+                        </div>
+                        <span class="clr"></span>
+                    </div>
+
+                </div>
+
+                <div class="m psearch prebuy plist-n7 no-preview" id="plist">
+                    <ul class="list-h cl">
+                        @foreach (var product in Model ?? new List<ProductInfo>())
+                        {
+
+                            <li>
+                                <div class="lh-wrap">
+                                    <div class="p-img">
+                                        <a target="_blank" href="@Url.Action("Detail", "Product", new { id = product.Id })">
+                                            <img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetProductSizeImage(product.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_220)">
+                                        </a>
+                                        <div shop_id="0"></div>
+                                    </div>
+                                    <div class="p-price">
+                                        @if (FlashSalePriceList.Any(p => p.ProductId == product.Id))
+                                        {
+                                            <strong>￥@FlashSalePriceList.FirstOrDefault(p => p.ProductId == product.Id).MinPrice.ToString("f2")</strong>
+                                        }
+                                        else
+                                        {
+                                            <strong>￥@product.MinSalePrice.ToString("f2")</strong>
+                                        }
+
+                                        <label style="float:right" id="lblOrderCount_@product.Id">成交 <b> @product.SaleCounts </b>笔</label>
+                                    </div>
+                                    <div class="p-name">
+                                        <a target="_blank" href="@Url.Action("Detail", "Product", new { id = product.Id })">
+                                            @if (!string.IsNullOrWhiteSpace(ViewBag.keywords))
+                                            {
+                                                string newProductName = string.Empty;
+                                                string[] keywords = ((string)ViewBag.keywords).Replace("\t", " ").Replace("　", " ").Split(' ');
+                                                bool found = false;
+                                                for (var i = 0; i < product.ProductName.Length; i++)
+                                                {
+                                                    found = false;
+                                                    foreach (var keyword in keywords)
+                                                    {
+                                                        if (!string.IsNullOrWhiteSpace(keyword))
+                                                        {
+                                                            if (product.ProductName.Substring(i).ToUpper().StartsWith(keyword.ToUpper()))
+                                                            {
+                                                                newProductName += "<font class='keycolor'>" + product.ProductName.Substring(i, keyword.Length) + "</font>";
+                                                                i += keyword.Length - 1;
+                                                                found = true;
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                    if (!found)
+                                                    {
+                                                        newProductName += product.ProductName[i];
+                                                    }
+                                                }
+                                                @MvcHtmlString.Create(newProductName);
+                                            }
+                                            else
+                                            {
+                                               @product.ProductName
+                                            }
+                                        </a>
+                                    </div>
+
+                                    <div class="p-price">
+                                        <label style="float:left;width:125px;" id="lblShopName_@product.Id">@product.ShopName</label>
+                                        <label style="float:right;" id="lblShopAddress_@product.Id">@product.Address</label>
+                                    </div>
+
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="m clearfix" id="bottom_pager">
+                    <div id="pagin-btm" class="pagin fr">
+                        @Html.PageLinks((PagingInfo)ViewBag.pageInfo, x => Url.Action("Index", new { pageNo = x, keywords = ViewBag.keywords, exp_keywords = ViewBag.exp_keywords, cid = ViewBag.cid, b_id = ViewBag.b_id, a_id = ViewBag.a_id, orderType = ViewBag.orderType, orderKey = ViewBag.orderKey }))<span class="page-skip">
+                            <em>&nbsp;&nbsp;共 </em><em id="pageCount">@count</em><em>&nbsp;页&nbsp;&nbsp;&nbsp;&nbsp;到第</em>
+                            <input class="jumpto" type="text" value="@curr" id="jumpInput">
+                            <em>页</em>
+                            <a class="btn-skipsearch" id="pageJump" href="javascript:;">确定</a>
+                        </span>
+                    </div>
+                </div>
+                <div id="re-search" class="m">
+                    <dl>
+                        <dt>重新搜索</dt>
+                        <dd>
+                            <input type="text" class="text" id="key-re-search" value="@ViewBag.keywords">
+                            <input type="button" class="button" id="btn-re-search" value="搜&nbsp;索">
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <span class="clr"></span>
+        </div>
+        
+    }
+    else
+    {
+        <div class="w main">
+            <div class="notice-search">
+                <span class="ns-icon"></span>
+                <div class="ns-content">
+                    <span>抱歉，没有找到与“<em>@(ViewBag.keywords + (string.IsNullOrWhiteSpace(ViewBag.exp_keywords) ? "" : "_" + ViewBag.exp_keywords))</em>”相关的商品</span>
+                </div>
+            </div>
+        </div>
+        <div class="w footmark">
+
+            <div class="m recent-view">
+                <div class="mt">
+                    <h2 class="title">最近浏览</h2>
+
+                </div>
+                <div class="mc">
+                    <ul class="recent-view-list clearfix">
+                        @if (null != ViewBag.BrowsedHistory)
+                        {
+                            foreach (var item in (List<Himall.Web.Areas.Web.Models.ProductBrowsedHistoryModel>)ViewBag.BrowsedHistory)
+                            {
+                                if (item != null)
+                                {
+                                    <li>
+                                        <div class="p-img">
+                                            <a href="@Url.Action("Detail", "Product", new { id = item.ProductId })" title="" target="_blank">
+                                                <img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetProductSizeImage(item.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_150)" alt="" width="70" height="70" />
+                                            </a>
+                                        </div>
+                                        <div class="p-price">￥@item.ProductPrice.ToString("f2")</div>
+                                    </li>
+                                }
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+
+    <input type="hidden" id="logined" value="@ViewBag.Logined" />
+</div>
+<script src="~/Areas/Web/Scripts/productSearch.js"></script>

@@ -1,0 +1,33 @@
+﻿@{ ViewBag.Title = "OrderComplaint";}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<div class="container">
+    <!--<ul class="nav nav-tabs-custom clearfix">
+        <strong>结算</strong>
+    </ul>-->
+    <ul class="nav nav-tabs-custom clearfix">
+        @foreach (var d in Himall.Core.EnumHelper.ToDescriptionDictionary<Himall.Model.AccountInfo.AccountStatus>()) {
+            <li value="@d.Key" type="statusTab"><a onclick="InitData(@d.Key)">@d.Value</a></li>
+        }
+    </ul>
+    <table id="list" class="table"></table>
+</div>
+<script src="~/Scripts/LodopFuncs.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/accountManagement.js"></script>
+<!--<script type="text/javascript">
+    $(function () {
+        var status = "@Request.QueryString["status"]";
+        if (status != "" && status != null) {
+            Query(status);
+        }
+        else {
+            //默认查询全部
+            Query('0');
+        }
+
+    });
+</script>-->
+

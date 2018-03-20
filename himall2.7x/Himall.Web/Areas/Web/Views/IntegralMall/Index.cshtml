@@ -1,0 +1,251 @@
+﻿@model Himall.Web.Areas.Web.Models.IntegralMallPageModel
+@{
+    ViewBag.Title = "积分商城";
+    bool isLogin = (CurrentUser != null);
+    string logo = ViewBag.Logo;
+}
+<script type="text/javascript">
+    var couponmaxpage=@(Model.CouponMaxPage);
+    var giftmaxpage=@(Model.GiftMaxPage);
+</script>
+<div class="integra-top">
+    <div class="warp">
+        <div class="integra-left">
+            @if (isLogin)
+            {
+                <div class="inte-user-info">
+                    <h3>亲爱的<span>@(CurrentUser.UserName)</span>,欢迎回来！</h3>
+                    <p>我的积分：<span>@(Model.MemberAvailableIntegrals)分</span></p>
+                    <h1>@(Model.MemberGradeName)</h1>
+                </div>
+            }
+            else
+            {
+                <div class="inte-user-info">
+                    <br />
+                    <h3>您还没有会员账号！</h3>
+                    <p>请<a href="@Url.Action("Index", "Login", new { returnUrl = @"/IntegralMall" })">登录</a> 或 <a href="@Url.Action("index", "register")">免费注册</a></p>
+                </div>
+            }
+            <ul>
+                <li class="fore1"><i class="iconfont icon-chakanjifen"></i><a href="/userIntegral/Index" target="_blank">查看积分明细</a></li>
+                <li class="fore2"><i class="iconfont icon-chakanyouhuiquan"></i><a href="#tag-coupon">兑换优惠劵</a></li>
+                <li class="fore3"><i class="iconfont icon-chakanlibao"></i><a href="#tag-gift">兑换礼品</a></li>
+            </ul>
+        </div>
+        <div class="inte-slide">
+            <a href=""><img src="~/Areas/Web/Images/IntegralMall.jpg" alt=""></a>
+        </div>
+    </div>
+</div>
+
+<div class="integra-coupon">
+    <div class="warp">
+        <div class="inte-coupon-hd cl">
+            <span name="tag-coupon" id="tag-coupon">热门优惠券</span>
+            <a href="@Url.Action("Coupon")" class="more">更多 ></a>
+        </div>
+        <ul class="cl" id="couponbox">
+            @foreach (var item in Model.CouponList)
+            {
+                string shopname = item.Himall_Shops.ShopName; <!--图片后台已处理-->
+                string cover = item.ShowIntegralCover;
+                <li>
+                    <a href="@(Url.Action("Home", "shop", new { id=item.ShopId }))" target="_blank" class="shop-logo"><img src="@(cover.Equals("") ?  Himall.Core.HimallIO.GetImagePath(logo):cover)" alt=""></a>
+                    <div>
+                        <h3><a href="@(Url.Action("Home", "shop", new { id=item.ShopId }))" target="_blank">@(shopname)</a></h3>
+                        <p><span class="couponprice">￥@(item.Price)</span><span class="uselimt">@(item.OrderAmount > 0 ? "满" + item.OrderAmount + "可用" : "满" + item.Price + "可用")</span></p>
+                        <p>有效期：@(item.StartTime.ToString("yyyy.MM.dd"))至@(item.EndTime.ToString("yyyy.MM.dd"))</p>
+                        <p><a class="@((CurrentUser==null || Model.MemberAvailableIntegrals >= item.NeedIntegral )? "btnexchange" : "disabled")" data-shopid="@(item.ShopId)" data-id="@(item.Id)" data-jztime="@(item.EndTime.ToString("yyyy.MM.dd"))" data-needjf="@(item.NeedIntegral)" data-shopname="@(shopname)" data-price="@(item.Price)">@(item.NeedIntegral)积分兑换</a></p>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+<div class="integra-gift">
+    <div class="warp">
+        <div class="inte-gift-hd">
+            <span name="tag-gift" id="tag-gift">热门礼品</span>
+        </div>
+        <ul class="cl" id="giftbox">
+            @foreach (var item in Model.GiftList)
+            {
+                <li>
+                    <!--Controller做处理-->
+                    <a href="@Url.Action("Detail", "Gift", new { id=item.Id })" target="_blank"><img src="@(Himall.Core.HimallIO.GetProductSizeImage(item.ShowImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_350))" alt=""></a>
+                    <h3><a href="@Url.Action("Detail", "Gift", new { id=item.Id })" target="_blank">@(item.GiftName)</a></h3>
+                    <p><span>@(item.NeedIntegral)分</span><s>￥@(item.GiftValue)</s><em>@(item.NeedGradeName)</em></p>
+                    <p>已兑换@(item.SumSales)件</p>
+                    <a class="btn-buy @(item.StockQuantity < 0 ? "disabled" : "")" href="@Url.Action("Detail", "Gift", new { id=item.Id })" target="_blank">@(item.StockQuantity > 0 ? "去兑换" : "无库存")</a>
+                </li>
+            }
+        </ul>
+        <div class="loading" id="autoLoad"><span></span></div>
+    </div>
+
+</div>
+<style>
+    .d {
+        position: absolute;
+    }
+</style>
+<script src="~/Scripts/jquery.fly.js"></script>
+<!--[if lte IE 10]>
+<script src="~/Scripts/requestAnimationFrame.js"></script>
+<![endif]-->
+<script type="text/javascript">
+    var isNeedJump = "@(isLogin?"1":"1")";
+    $('#couponbox').on('click', '.btnexchange', function (e) {
+        var _t = $(this);
+        var couponid = _t.data('id');
+        var shopid = _t.data('shopid');
+        var needjf = _t.data('needjf');
+        var posturl = '/shop/ReceiveCoupons';
+        checkLogin(function () {
+            $.post(posturl, { couponId: couponid, shopId: shopid }, function (data) {
+                if (data.success) {
+                    //成功
+
+                    var cartOffset = $("#right_asset").offset(),
+                        h=$(document).scrollTop();
+                    flySrc = _t.parents('li').find('img')[0].src,
+                    flyer = $('<img class="cart-flyer" src="'+flySrc+'"/>');
+                    flyer.fly({
+                        start: {
+                            left: e.pageX,
+                            top: e.pageY-h-30
+                        },
+                        end: {
+                            left: cartOffset.left,
+                            top: cartOffset.top-h,
+                            width: 20,
+                            height: 20
+                        },
+                        onEnd: function(){
+                            this.destory(); //移除dom
+                            //数据准备
+                            var dshopid=_t.data("shopid");
+                            var dshopname=_t.data("shopname");
+                            var djztime=_t.data("jztime");
+                            var dprice=_t.data("price");
+                            var _tpp=_t.parent().parent();
+                            var duselimt=$(".uselimt",_tpp).html();
+                            cls="";
+                            if (dprice >= 100) { cls = "coupon-lg"; }
+                            if (dprice <= 50) { cls = "coupon-sm"; }
+
+                            //html准备
+                            var htmlcont='<li class="'+cls+'">';
+                            htmlcont+='<a href="/Shop/Home/'+dshopid+'" target="_blank">';
+                            htmlcont+='<h5>'+dshopname+'</h5>';
+                            htmlcont+='<h3><span>￥'+dprice+'</span>'+duselimt+'</h3>';
+                            htmlcont+='<p>截止'+djztime+'</p>';
+                            htmlcont+='</a>';
+                            htmlcont+='</li>';
+                            $('.side-asset-list ul').prepend(htmlcont);
+
+                            var cpcount=$("#mycouponcount").html();
+                            cpcount=parseInt(cpcount);
+                            cpcount=cpcount+1;
+                            $("#mycouponcount").html(cpcount);
+
+                            $.dialog.succeedTips('领取成功!');
+
+                            if(isNeedJump=="1"){
+                                window.location.reload();
+                            }
+                        }
+                    });
+
+                } else {
+                    if (data.status!=-1) {
+                        _t.removeClass("btnexchange").addClass("disabled");
+                    }
+                    //失效
+                    var isshowerr = true;
+                    switch (data.status) {
+                        case -2:
+                            isshowerr = false;
+                            _t.html("已过期");
+                            break;
+                        case -3:
+                            _t.html("不可领");
+                            break;
+                        case -4:
+                            isshowerr = false;
+                            _t.html("积分不足");
+                            break;
+                    }
+                    if (isshowerr) {
+                        $.dialog.errorTips(data.msg, 3);
+                    }
+                }
+            });
+        });
+
+    });
+
+    var giftpage = 1;
+    var ismoredata = true;
+    var autoloading=$("#autoLoad");
+    $(window).scroll(function () {
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+
+        if (scrollTop + windowHeight >= scrollHeight - 300) {
+            giftpage++;
+            if(giftpage>giftmaxpage){
+                ismoredata=false;
+                giftpage=giftmaxpage;
+            }
+            if(ismoredata){
+                LoadGift(giftpage);
+            }else{
+                if(giftpage>1){
+                    autoloading.html('没有积分礼品');
+                }else{
+                    autoloading.html("");
+                }
+            }
+        }
+    });
+
+    (function ($) {
+        var li = $('#giftbox').find('li');
+        if (li.length == 0) {
+            ismoredata=false;
+            autoloading.html('没有积分礼品');
+        }
+    })($);
+
+    function LoadGift(page) {
+        var url = '@(Url.Action("GiftList"))';
+        if (ismoredata) {
+            //打开loading
+            autoloading.html("<span></span>");
+            $.post(url, { page: page, rows: '@(Model.GiftPageSize)' }, function (result) {
+                var html = '';
+                if (result.length > 0) {
+                    $.each(result, function (i, rows) {
+                        html += '<li>';
+                        html += '<a href="/Gift/Detail/' + rows.Id + '"><img src="' +  rows.ShowImagePath + '")" alt=""></a>';
+                        html += '<h3><a href="/Gift/Detail/' + rows.Id + '">' + rows.GiftName + '</a></h3>';
+                        html += '<p><span>' + rows.NeedIntegral + '分</span><s>￥' + rows.GiftValue + '</s><em>'+rows.NeedGradeName+'</em></p>';
+                        html += '<p>' + rows.SumSales + '人已经兑换</p>';
+                        html += '<a href="/Gift/Detail/' + rows.Id + '" class="btn-buy ' + (rows.StockQuantity > 0 ? 'canchange' : 'nostock') + '" href="" target="_blank">' + (rows.StockQuantity > 0 ? '去兑换' : '无库存') + '</a>';
+                        html += '</li>';
+                    });
+                    $('#giftbox').append(html);
+                    //关闭loading
+                    autoloading.html("");
+                }else {
+                    ismoredata = false;
+                    autoloading.html('没有更多积分礼品了');
+                }
+            });
+        }
+    }
+</script>

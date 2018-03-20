@@ -1,0 +1,71 @@
+﻿@{
+    Layout = null;
+    
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8" />
+    <title>商家入驻</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/custom.css" />
+    <style>
+		.logo { background-image: url(@ViewBag.Logo);  margin:0;}
+		.aside,.content{ top:30px;}
+    </style>
+    <script type="text/javascript" src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //下拉菜单
+            $('.dropdown').hover(function () {
+                $(this).toggleClass('hover');
+            });
+        });
+    </script>
+</head>
+<body>
+    @{
+        var manager = ViewBag.Manager as Himall.Model.UserMemberInfo;
+    }
+
+    @{Html.RenderAction("TopInfo", "ProductPartial", new {Area="Web" });}
+        @RenderBody()
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/custom.js"></script>
+    <script src="~/Scripts/jquery.cookie.js"></script>
+    <script src="~/Scripts/CommonJS.js"></script>
+    <!--[if lt IE 9]>
+    <script src="/Scripts/respond.min.js"></script>
+    <![endif]-->
+    <script>
+    $(function () {
+        if (top.location != self.location) {
+            parent.location = self.location;
+        }
+    });
+    </script>
+
+    <script type="text/javascript">
+    $(function () {
+        $('.aside-list li').click(function (e) {
+            e ? e.stopPropagation() : event.cancelBubble = true;
+        });
+		
+		$('.content,.aside').height($(window).height()-30);
+		$(window).resize(function() {
+			$('.content,.aside').height($(window).height()-30);
+		});
+    });
+
+
+    function logout() {
+        $.removeCookie('Himall-User', { path: '/' });
+        $.removeCookie('Himall-SellerManager', { path: "/" });
+        location.reload();
+    }
+
+    </script>
+</body>
+</html>

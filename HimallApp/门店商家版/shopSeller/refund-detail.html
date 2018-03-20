@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>售后详情</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">售后详情</h1>
+			<div class="has-border-bt"></div>
+		</header>
+		<div id="scrollDiv" class="scroll-div">
+			<div class="mui-content">
+				<div id="refundDetail" class="mb10">
+					<div class="pull-loading"><div class="mui-icon mui-spinner"></div>正在加载...</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/template.js"></script>
+		<script src="js/mui.zoom.js"></script>
+		<script src="js/mui.previewimage.js"></script>
+		
+		<script>
+			var refundId,
+				isJoin=himall.isJoin(),
+				userkey=himall.getState().userkey;
+			var ajaxUrl='api/ShopBranchOrderRefund/GetRefundInfo';
+			if(isJoin){
+				ajaxUrl='api/ShopOrderRefund/GetRefundInfo';
+			}
+			mui.init({
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				var ws=plus.webview.currentWebview();
+				ws.setStyle({scrollIndicator:'none'});
+				refundId=ws.refundId;
+				reloadPage();
+			});
+			
+			mui('#refundDetail').on('tap','#refundProcess',function(){
+				himall.openVW('refund-logs.html',{refundId:refundId});
+			});
+			
+			mui('#refundDetail').on('tap','#refundBtn button',function(){
+				var type=this.getAttribute('data-type');
+				mui.prompt('请填写审核备注：', '', '', ['取消', '确定'], function(e) {
+					if (e.index == 1) {
+						var remarkText=e.value;
+						if(type=='4'&&remarkText.length<1){
+							plus.nativeUI.toast('请填写拒绝理由');
+							return;
+						}
+				    	mui.ajax(URL+'api/ShopBranchOrderRefund/PostReply',{
+							data:himall.md5Data({
+								refundId:refundId,
+								sellerRemark:remarkText,
+								auditStatus:type,
+								userkey:userkey
+							}),
+							dataType:'json',
+							type:'POST',
+							timeout:10000,
+							success:function(data){
+								plus.nativeUI.toast('审核成功');
+								reloadPage();
+							},
+							error:function(xhr,type,errorThrown){
+								plus.nativeUI.toast('请求失败，请检查网络')
+							}
+						});
+					}
+				});
+			});
+			
+			function reloadPage(){
+				mui.ajax(URL+ajaxUrl,{
+		        	data:himall.md5Data({
+						refundId:refundId,
+						userkey:userkey
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						document.getElementById('refundDetail').innerHTML=template('initData',data);
+						delayimg.init();
+						mui.previewImage();
+					    var btnb=document.getElementById("refundBtn");
+						if(!isJoin && btnb){
+			            	btnb.style.display="";
+			            }
+					},
+					error:function(){
+						reloadWvLoad();
+					}
+				});
+			}
+			
+		</script>
+		
+		<script type="text/html" id="initData">
+			<ul class="mui-table-view refund-process mt10 mb10">
+				<li class="mui-table-view-cell">
+					<a>售后状态：  <span class="{{if Status==4}}red{{else if Status!=7}}green{{/if}}"> {{StatusDescription}}</span></a>
+				</li>
+			</ul>
+			<div class="service-info">
+				<div class="item border-bot border-top">
+					<div class="order-shop">订单号: {{OrderItem.OrderId}}</div>
+				</div>
+				<div class="item item-goods">
+					<div class="buy-goods">
+						<a class="goods-img" ><img src="images/blank.gif" data-delay="{{OrderItem.ThumbnailsUrl}}"></a>
+						<p><span><a>{{OrderItem.ProductName}}</a></span></p>
+						<h5>
+							{{if OrderItem.Size}}
+								{{OrderItem.SizeAlias}}：{{OrderItem.Size}}&nbsp;&nbsp;
+							{{/if}}
+							{{if OrderItem.Color}}
+								{{OrderItem.ColorAlias}}：{{OrderItem.Color}}&nbsp;&nbsp;
+							{{/if}}
+							{{if OrderItem.Version}}
+								{{OrderItem.VersionAlias}}：{{OrderItem.Version}}
+							{{/if}}
+						</h5>
+					</div>
+				</div>
+				<div class="total-m border-top  border-bot">商品实付：¥ {{(OrderItem.RealTotalPrice-OrderItem.CouponDiscount).toFixed(2)}}</div>
+			</div>
+			<ul class="mui-table-view refund-process" id="refundProcess">
+				<li class="mui-table-view-cell">
+					<a id="refundLoad" class="mui-navigate-right">查看售后记录详情</a>
+				</li>
+			</ul>
+	        <div class="mui-card refund-detail">
+		        <ul class="mui-table-view">
+					<li class="mui-table-view-cell">售后类型<span>{{RefundModelDescription}}</span></li>
+					<li class="mui-table-view-cell">退款金额<span class="money-red">¥ {{Amount}}</span></li>
+					{{if ReturnQuantity}}
+						<li class="mui-table-view-cell">退货数量<span>{{ReturnQuantity}}</span></li>
+					{{/if}}
+					<li class="mui-table-view-cell">申请时间<span>{{ApplyDate.replace('T',' ')}}</span></li>
+					<li class="mui-table-view-cell">退款原因<span>{{ReasonDetail}}</span></li>
+					<li class="mui-table-view-cell">联系人 &nbsp;&nbsp; <span>{{UserName}}</span></li>
+					<li class="mui-table-view-cell">联系方式<span>{{ContactCellPhone||'无'}}</span></li>
+					<li class="mui-table-view-cell">退款方式<span>{{RefundPayTypeDescription}}</span></li>
+					<li class="mui-table-view-cell">退款凭证
+						<span style="vertical-align: top;">
+							{{each CertPics}}
+								{{if $value}}
+									<a class="mui-zoom"><img src="{{$value}}" data-preview-src="" data-preview-group="1" style="width: 50px; height: 50px; margin-right:6px ; display: inline-block;" /></a>
+								{{/if}}
+							{{/each}}
+						</span>
+					</li>
+				</ul>
+			</div>
+			{{if SellerRemark &&(Status==1||Status==3||Status==4)}}
+				<div class="refuse-reason cl">
+					<i></i>
+					<label>门店拒绝</label>
+					<p>{{SellerRemark}}</p>
+				</div>
+			{{/if}}
+			{{if Status==1}}
+				<div class="bottom-btn mt10" id="refundBtn" style="display: none;">
+					<button type="button" class="mui-btn mui-btn-block" data-type="4">拒绝售后</button>
+					<button type="button" class="mui-btn mui-btn-primary mui-btn-block" data-type="{{RefundMode==3?'3':'5'}}">同意售后</button>
+				</div>
+			{{else if Status==3}}
+				<div class="bottom-btn mt10" id="refundBtn" style="display: none;">
+					<button type="button" class="mui-btn mui-btn-block" data-type="4">拒绝售后</button>
+					<button type="button" class="mui-btn mui-btn-primary mui-btn-block" data-type="5">确认收货</button>
+				</div>
+			{{/if}}
+		</script>
+		
+	</body>
+
+</html>

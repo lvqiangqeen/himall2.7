@@ -1,0 +1,124 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>注册页面</title>
+    <link href="~/Areas/Web/Content/register.css" rel="stylesheet" />
+    <link href="~/Areas/Web/Content/artdilog.css" rel="stylesheet" />
+</head>
+ 
+<body>
+    <div class="top">
+        <div class="w cl">
+            <span class="favorite"><i></i><a href="javascript:AddFavorite('/','商城')">收藏商城</a></span>
+            <ul class="quick_list">
+                <li class="loginbar">您好！欢迎来到商城！<a href="/login">[登录]</a>&nbsp;<a href="javascript:regist()">[免费注册]</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="w">
+        <div id="logo"><a href="/"><img src="@Himall.Core.HimallIO.GetImagePath(ViewBag.Logo)" alt="商城" height="60"></a><b></b></div>
+    </div>
+
+    <div class="w" id="regist">
+        <div class="mt">
+            <ul class="tab">
+                <li class="line"><a href="/register">个人用户</a></li>
+                <li class="curr">商家注册</li>
+            </ul>
+            <div class="extra"><span>我已经注册，现在就&nbsp;<a href="/selleradmin/login" class="flk13">登录</a></span></div>
+        </div>
+        <div class="mc">
+            <form id="personRegForm" method="POST" onsubmit="return false;">
+                <input type="hidden" name="regType" id="regType" value="person">
+                <input type="hidden" name="uuid" id="uuid" value="9e4da8d0-1b3e-45c7-b3bd-928fd09f3f97">
+
+                <div class="form">
+                    <div class="item" id="select-regName">
+                        <span class="label"><b class="ftx04">*</b>管理员账号：</span>
+
+                        <div class="fl item-ifo">
+                            <div class="o-intelligent-regName">
+                                <input type="text" id="regName" name="regName" class="text" tabindex="1" autocomplete="off" onpaste="return false;" value="用户名" onfocus="if(this.value=='用户名') this.value='';this.style.color='#333'" onblur="if(this.value=='') {this.value='用户名';this.style.color='#999999'}" style="color: rgb(153, 153, 153);">
+                                <i class="i-name"></i>
+                                <label id="regName_succeed" class="blank"></label>
+                                <label id="regName_info" style="display:none;" class="focus">4-20位字符，支持中英文、数字及"-"、"_"的组合</label>
+                                <label id="regName_error" style="display:none;" class="error">请输入用户名</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="o-password">
+                        <div class="item">
+                            <span class="label"><b class="ftx04">*</b>管理员密码：</span>
+
+                            <div class="fl item-ifo">
+                                <input type="password" id="pwd" name="pwd" class="text" tabindex="2" style="ime-mode:disabled;" onpaste="return  false" autocomplete="off">
+                                <i class="i-pass"></i>
+                                <label id="pwd_succeed" class="blank"></label>
+                                <label id="pwd_info" class="focus" style="display:none;"><span>6-20位字符，可使用字母、数字或符号的组合，不建议使用纯字母、纯数字、纯符号</span></label>
+                                <label id="pwd_error" class="focus" style="display:none;"><span>密码长度只能在6-20位字符之间</span></label>
+                                <span class="clr"></span>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <span class="label"><b class="ftx04">*</b>请确认密码：</span>
+
+                            <div class="fl item-ifo">
+                                <input type="password" id="pwdRepeat" name="pwdRepeat" class="text" tabindex="3" onpaste="return  false" autocomplete="off">
+                                <i class="i-pass"></i>
+                                <label id="pwdRepeat_succeed" class="blank"></label>
+                                <label id="pwdRepeat_info" class="focus" style="display:none;"><span>请再次输入密码</span></label>
+                                <label id="pwdRepeat_error" class="error" style="display:none"><span>两次输入密码不一致</span></label>
+                            </div>
+                        </div>
+                        <div class="item" id="authcodeDiv">
+                            <span class="label"><b class="ftx04">*</b>验证码：</span>
+                            <div class="fl item-ifo" style="width:272px;">
+                                <input type="text" id="checkCode" name="authcode" class="text text-1" tabindex="6" autocomplete="off" maxlength="4">
+                                <label class="img">
+                                    <img id="checkCodeImg" src="/Register/GetCheckCode" style="cursor:pointer" onclick="reloadImg()">
+                                </label>
+                                
+                                @*<label class="ftx23">&nbsp;看不清？<a href="javascript:void(0)" class="flk13" id="checkCodeChangeBtn">换一张</a></label>*@
+                                <label id="checkCode_error" class="error" style="display:none"><span>请输入验证码</span></label>
+                                <span class="clr"></span>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="item item-new">
+                        <span class="label">&nbsp;</span>
+                        <div class="fl item-ifo">
+                            <label><input type="checkbox" class="checkbox" checked="checked" id="readme">我已阅读并同意<a href="#" class="ftx13" id="protocol">《用户注册协议》</a></label>
+                            <span class="clr"></span>
+                        </div>
+                    </div>*@
+                    <div class="item">
+                        <span class="label">&nbsp;</span>
+                        <input type="button" class="btn-img btn-regist" id="registsubmit" style="cursor:pointer" value="立即注册" tabindex="8">
+                    </div>
+                </div>
+                <span class="clr"></span>
+            </form>
+        </div>
+    </div>
+    <div class="w">
+        <div id="footer">
+          
+        </div>
+    </div>
+
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.cookie.js"></script>
+    <script src="~/Scripts/jquery.artDialog.js"></script>
+    <script src="~/Areas/Web/Scripts/artDialog.iframeTools.js"></script>
+    <script src="~/Scripts/CommonJS.js"></script>
+    <script src="~/Areas/Web/Scripts/businessRegister.js"></script>
+</body>
+</html>
+
+

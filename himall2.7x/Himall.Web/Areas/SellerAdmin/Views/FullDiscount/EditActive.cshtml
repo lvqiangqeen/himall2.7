@@ -1,0 +1,187 @@
+﻿@model Himall.Web.Areas.SellerAdmin.Models.FullDiscountActiveModel
+@{
+    ViewBag.Title = "活动详情";
+    var curnum = 0;
+}
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<style type="text/css">
+    .form-control.input-validation-error, .text-order.input-validation-error { border: #f00 1px solid; }
+    .form-control.rule-v-error,.text-order.rule-v-error { border: #f00 1px solid; }
+    #btnAddRule { margin-top: 20px; display: inline-block; }
+    .selectedbox { border: #333 1px solid; padding-bottom: 15px; }
+    .selectedtitle { line-height: 30px; font-size: 14px; background: #eeeeee; padding: 5px; margin-bottom: 10px; }
+    .seltblbox { padding: 0 15px 0 5px; }
+    .qw_r_empty { height: 40px; line-height: 40px; text-align: center; border: #ddd 1px solid; border-top: none; }
+    .qw_r_loading { height: 40px; line-height: 40px; text-align: center; border: #ddd 1px solid; border-top: none; }
+    .toptips { font-size:14px;padding:20px;background:#F9F9F9;margin:20px 0 40px 0;}
+</style>
+
+<div class="container clear-v20">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class=""><a href="@Url.Action("Index")">活动列表</a></li>
+        <li class="active"><a>新增满额减</a></li>
+        <li class=""><a href="@Url.Action("BuyMarketService")">购买服务</a></li>
+    </ul>
+
+    <div class="form-group">
+        <div class="col-sm-12 toptips"><span class="help-default">注：同一商品只能参加一个满额减活动且不能再参加满额减活动。若商品已参加了某个满减活动，则该商品在选择商品列表中排除。保存活动时，若已选择商品列表中商品参加了其他满额减活动或者商品下架，则标红此商品且活动不能被保存。</span></div>
+    </div>
+
+    @using (Ajax.BeginForm("EditActive", "FullDiscount", null
+                                , new AjaxOptions { HttpMethod = "post", OnBegin = "beginpost", OnSuccess = "successpost", OnFailure="failpost" }
+                                , new { @class = "form-horizontal", id = "addform" }))
+    {
+        @Html.HiddenFor(m => m.Id)
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>活动名称：</label>
+            <div class="col-sm-3">@Html.TextBoxFor(m => m.ActiveName, new { @class = "form-control input-sm" })</div>
+            <div class="col-sm-3">@Html.ValidationMessageFor(m => m.ActiveName)</div>
+            <div class="col-sm-7"><span class="help-default">活动名称是对满减活动的别名，用于区分相同类型活动，例：“满200减50、满200送礼品。</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>开始时间：</label>
+            <div class="col-sm-3">@Html.TextBoxFor(m => m.StartTime, new { Value = Model.StartTime.ToString("yyyy-MM-dd HH:mm:ss"), @class = "form-control input-sm", @readonly = true })</div>
+            <div class="col-sm-3">
+                @Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "help-default cor-red" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>结束时间：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.EndTime, new { Value = Model.EndTime.ToString("yyyy-MM-dd HH:mm:ss"), @class = "form-control input-sm" })
+            </div>
+            <div class="col-sm-3"><span class="help-default">结束时间必须晚于开始时间</span></div>
+            <div class="col-sm-3">
+                @Html.ValidationMessageFor(m => m.EndTime, "", new { @class = "help-default cor-red" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>优惠条件：</label>
+            <div class="col-sm-3"><span class="help-default">可设置阶梯优惠，最多5个阶梯等级</span></div>
+            <div class="col-sm-3"></div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""></label>
+            <div class="col-sm-9">
+                <table id="rule" class="table add-coupon">
+                    <thead>
+                        <tr>
+                            <th width="100" style="text-align:center">层级</th>
+                            <th width="250" style="text-align:center">优惠门槛</th>
+                            <th width="300" style="text-align:center">优惠方式</th>
+                            <th width="100" style="text-align:center">操作</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr class="hidden template" style="text-align:center">
+                            <td><span class="level">0</span></td>
+                            <td>满<input class="text-order txt-num" name="Quota" type="text" />元</td>
+                            <td style="text-align:center">
+                                减<input class="text-order txt-num" name="Discount" type="text" />元
+                            </td>
+                            <td><a href="javascript:void(0);" class="remove-rule">移除</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                @Html.HiddenFor(d => d.RuleJSON)
+                <a href="javascript:void(0);" id="btnAddRule">新增一级优惠</a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>参与活动商品：</label>
+            <div class="col-sm-3">
+                <label for="rdi1">@Html.RadioButton("IsAllProduct", "True") 全部商品</label><br />
+                <label for="rdi1">@Html.RadioButton("IsAllProduct", "False") 部份商品</label>
+                <span class="help-default">己选商品(<span id="s-selnum">0</span>)个</span>
+                @Html.HiddenFor(d => d.ProductIds)
+                <a href="###" id="a-selpro" style="@(Model.IsAllProduct?"display:none;":"")">选择商品</a>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+        <div class="form-group" id="proselbox" style="@(Model.IsAllProduct?"display:none;":"")">
+            <label class="col-sm-2 control-label" for=""></label>
+            <div class="col-sm-9">
+                <div class="selectedbox">
+                    <div class="selectedtitle">己选商品列表</div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label class="label-inline w75" for="">商品货号</label>
+                                <input class="form-control input-ssm txt-search" type="text" id="txtproductcode">
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label class="label-inline w75" for="">商品名称</label>
+                                <input class="form-control input-ssm txt-search" type="text" id="txtproductname">
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="form-group"><button type="button" class="btn btn-default btn-sm" id="searchButton">搜 索</button></div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="seltblbox">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:50px">选择</th>
+                                            <th style="width:300px">商品名称</th>
+                                            <th style="width:100px">售价</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="prodatabox"><tr style="height:60px"><td colspan="3">无商品</td></tr></tbody>
+                                </table>
+
+                                <script id="datatmp" type="text/html">
+                                    <%_.each(rows, function(item, index, obj) {%>
+                                    <tr data-id="<%=item.Id%>" style="<%=item.IsException?" color:red;":""%>"><td><input type="checkbox" name="procheck" value="<%=item.Id%>"></td><td><%=item.Name%></td><td>￥<%=item.Price.toFixed(2)%></td></tr>
+                                    <%});%>
+                                </script>
+                            </div>
+
+                            <div class="table-bt clearfix">
+                                <div class="tabel-operate">
+                                    <div class="checkbox inline-block"><label><input name="" class="check-all" type="checkbox">全选</label></div>
+                                    <a class="btn btn-danger btn-ssm" id="batchDelete">批量移除</a>
+                                </div>
+                                <div class="pager" id="showpage"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" id="btsubmit" class="btn btn-primary">保 存</button>
+            </div>
+        </div>
+    }
+
+
+</div>
+@Html.Hidden("endsertime", Model.EndServerTime.ToString("yyyy-MM-dd HH:mm:ss"))
+@Html.Hidden("mgurl", Url.Action("Index"))
+@Html.Hidden("getprourl", Url.Action("GetProductsByIds"))
+
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/FullDiscount.ProductSelect.js"></script>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Content/Public/js/dist/underscore.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/QW.Paginator.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/QW.Repeater.js"></script>
+
+<script src="~/Areas/SellerAdmin/Scripts/JQuery.FullDiscountRules.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/FullDiscountActive.js"></script>

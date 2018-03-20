@@ -1,0 +1,53 @@
+﻿@using Himall.Web.Areas.SellerAdmin.Models
+@using Himall.Model
+@{
+    ViewBag.Title = "文章分类";
+}
+
+<div class="w help cl">
+    <div class="m breadcrumb"><strong><a href="#" target="_self">@ViewBag.FirstPath</a></strong>&gt;<a href="#" target="_self">@ViewBag.SecondPath</a></div>
+
+    <div class="left">
+        <div class="help_side">
+            @foreach (var cate in ((List<CategoryJsonModel>)ViewBag.Cate))
+            {
+                <div class="current">
+                    <h4><a href="@Url.Action("Category", "Article", new { id=cate.Id})" target="_self">@cate.Name</a></h4>
+                    <ul>
+                        @foreach (var item in cate.SubCategory)
+                        {
+                            <li class="@(ViewBag.ArticleCateId.ToString() == item.Id ? "current" : "")"><b></b><a href="@Url.Action("Category", "Article", new { id=item.Id})" target="_self">@item.Name</a></li>
+                        }
+                    </ul>
+                </div>
+            }
+
+        </div>
+    </div>
+    <div class="right">
+        <div class="news-show">
+            <div class="mc">
+                <h5><span>发表时间</span>标题</h5>
+
+                <ul>
+                    @foreach (var item in ((List<ArticleInfo>)ViewBag.Articles))
+                    {
+                        <li>
+                            <div><a href="@Url.Action("Details", "Article", new { id=item.Id}) ">@item.Title </a></div>
+                            <span>@item.AddDate.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+            
+        </div>
+		<div id="pagin-btm" class="pagin fr">
+            @Html.PageLinks((PagingInfo)ViewBag.pageInfo, x => Url.Action("Category", new { id=ViewBag.ArticleCateId, pageNo = x,}))
+            
+        </div>
+    </div>
+    <div class="clr"></div>
+
+        
+</div>
+

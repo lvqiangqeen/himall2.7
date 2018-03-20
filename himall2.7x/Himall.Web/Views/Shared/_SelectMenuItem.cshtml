@@ -1,0 +1,63 @@
+﻿<script>
+    //选择菜单
+    var localStorageKey = "SelectmenuItem-LocalStorageKey";
+    if (window.localStorage) {
+        $(document).on('click', '.nav.navbar-nav .dropdown-menu a,.aside .aside-list a', function (e) {
+            window.localStorage.setItem(localStorageKey, $(e.target).attr('href'));
+        });
+    }
+
+    var url = location.href;
+
+    var headimgurl = QueryString('displayUrl');
+    if (headimgurl)
+        url = headimgurl;
+
+    var dropdownMenu = findMenuItem(url);
+    if (dropdownMenu == null && window.localStorage) {
+        var value = window.localStorage.getItem(localStorageKey);
+        if (value)
+            dropdownMenu = findMenuItem(value);
+    }
+    else {
+        window.localStorage.setItem(localStorageKey, location.pathname);
+    }
+    if (dropdownMenu) {
+        $('ul.aside-list').append(dropdownMenu.children('li').clone());
+    }
+    rendStyle();
+    function findMenuItem(url) {
+        var dropdownMenu;
+        $('.nav.navbar-nav .dropdown-menu a').each(function () {
+            if (dropdownMenu)
+                return;
+            var a = $(this);
+            var href = a.attr('href');
+            if (url.indexOf("?") < 0) {
+                href = href.split("?")[0];
+            }
+            var index = url.toLowerCase().indexOf(href.toLowerCase());
+            if (url.toLowerCase() == href.toLowerCase() || index >= 0 && index + href.length == url.length) {//判断地址栏的地址是否以a的href结尾
+                var dm = a.closest('.dropdown-menu');
+                if (dm.length > 0) {
+                    var li = dm.closest('li');
+                    if (li.length > 0) {
+                        li.addClass('active');
+                        a.closest('li').addClass('current');
+                        dropdownMenu = dm;
+                    }
+                }
+            }
+        });
+
+        return dropdownMenu;
+    }
+    function rendStyle() {
+        var OrderId = GetQueryString('orderid');
+        var showtype = $("#Showty").val();
+        if (Number(OrderId) > 0 && Number(showtype) > 0) {
+            var _id = showtype == 2 ? 3002 : 3003;
+            $('ul.aside-list').find("#" + _id).parent().addClass("current").siblings().removeClass("current");
+        }
+    }
+</script>

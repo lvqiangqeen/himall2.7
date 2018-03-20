@@ -1,0 +1,175 @@
+
+/*新增图文消息*/
+
+/*左边区域*/
+.edit-wrap{width:100%;padding-left:20px;background-color:#fff;margin-top:10px;position: relative;}
+.edit-wrap label{margin:0;height:32px;font-weight: normal;cursor: pointer;}
+.edit-wrap i{font-weight: normal;font-style: normal;}
+.edit-wrap .WX-edit{width:250px;float:left;background-color:#f8f8f8;}
+.edit-wrap .WX-edit .item-wrapper{height:130px;padding:10px;border:1px solid #e7e7eb;position: relative; }
+.edit-wrap .WX-item{ display:none;}
+.edit-wrap .item:first-child .WX-item{ display:block;}
+.edit-wrap .item:first-child .WX-edted{ display:none;}
+.edit-wrap .item:first-child .glyphicon-arrow-up{ display:none;}
+.edit-wrap .WX-edit .item-wrapper img {width:230px;height:110px;}
+.edit-wrap .WX-edit .item-wrapper .WX-edted img {width:60px;height:62px; }
+.edit-wrap .WX-edit .edit-cover{width:230px;height:45px;background-color:rgba(0,0,0,0.5);position: absolute;bottom: 0;font-size:23px;line-height:45px;padding:0 10px;color:#fff;display: none;}
+.edit-wrap .WX-edit .edit-cover span{color:#fff!important;cursor: pointer;}
+.edit-wrap .WX-edit .edit-cover .glyphicon.glyphicon-trash{float:right;line-height:45px;}
+.edit-wrap .WX-edit .WX-item .item-img{width:100%;background-color:#ececec;color:#c0c0c0;font-size:16px;text-align: center;line-height:100px;position: relative;}
+.edit-wrap .WX-edit .WX-item .item-title{height:30px;width:208px;background-color:#5e5e5e;display:block;position:absolute;bottom: 8px;padding-left:20px;line-height: 30px;color:#fff;}
+.edit-wrap .WX-edit .WX-edted{padding:10px;height:80px;color:#c0c0c0;}
+.edit-wrap .WX-edit .WX-edted i{font-style: normal;width:60px;height:60px;text-align: center;line-height:60px;background-color:#ececec;float:right;}
+.edit-wrap .WX-edit .item-wrapper02{height:100px;padding:10px;border-width: 0 1px 1px 1px ;border-style: solid;border-color:#e7e7eb;position: relative;}
+.edit-wrap .WX-edit .item-wrapper02 span{color:#666;}
+.edit-wrap .WX-edit .item-wrapper03{border-width: 0 2px 2px 2px ;border-style: dotted;border-color:#e7e7eb;padding:10px;cursor: pointer;}
+.edit-wrap .WX-edit .WX-item-add{height:100px;}
+.edit-wrap .WX-edit .WX-item-add span{font-size:50px;line-height:100px;text-align: center;color:#c0c0c0;width:100%}
+.wrap-border{border:2px solid #44b549!important;}
+/*右边区域*/
+.edit-wrap .WXinput-area{width:720px;float:right;padding:20px;position:relative;padding-top:0;background-color:#fff;}
+.edit-wrap .WXinput-area h3{font-size:14px;color:#333;line-height:30px;margin:0;}
+.edit-wrap .WXinput-area h3 em{color:#999;font-style: normal;}
+.edit-wrap .WXinput-area label{position: relative;}
+.edit-wrap .WXinput-area .input-title input{height:30px;width:660px;border:1px solid #e7e7eb;padding-left:20px;}
+.edit-wrap .WXinput-area .input-title label i{position: relative;float:right;top:-25px;right:31px;color:#999;}
+.edit-wrap .WXinput-area .author i{top:6px!important;}
+.edit-wrap .WXinput-area .upload-wrap span{height:30px;line-height: 30px;padding:0 20px;border:1px solid #e7e7eb;background:#fff;display: inline-block;float:left;margin-right: 20px;}
+.edit-wrap .WXinput-area .upload-wrap .checkload{/*margin-top:10px;*/color:#999;}
+.edit-wrap .WXinput-area .upload-wrap .checkload input{margin-right:5px;}
+.edit-wrap .WXinput-area .abstract textarea{width:660px;border:1px solid #e7e7eb;}
+.edit-wrap .WXinput-area .abstract i{float:right;margin-right:20px;margin-top:10px;color:#999;}
+.edit-wrap .WXinput-area .input-title,.edit-wrap .WXinput-area .upload-wrap,.edit-wrap .WXinput-area .abstract,.edit-wrap .WXinput-area .text-body{margin-bottom: 10px;}
+.edit-wrap .WXinput-area .WX-bottom p label{margin-right:20px;line-height: 30px;}
+.edit-wrap .WXinput-area .WX-bottom p label input{margin-right:5px;margin-top:9px;}
+.edit-wrap .WXinput-area .WX-bottom .href{width:530px;border:1px solid #e7e7eb;height:30px;}
+.edit-wrap .WXinput-area .WX-footer{margin:0 auto;width:100%;}
+.edit-wrap .WXinput-area .WX-footer span{width:80px;height:35px;text-align: center;line-height:35px;background-color: #e3393c;color:#fff;display:inline-block;border-radius: 5px;margin:0 auto;margin-top:20px;margin-left:300px;font-size:16px;}
+
+/*素材管理页面*/
+.source-manage{padding:20px;background-color:#fff;}
+.source-manage .top-search{width:310px;height:30px;}
+.source-manage .top-search input{width:270px;border:1px solid #e7e7eb;padding-left:20px;float:left;line-height:28px;height:28px;}
+.source-manage .top-search span{float:left;border-width: 1px 1px 1px 0;border-style: solid;border-color:#e7e7eb;width:30px;height:28px;line-height:28px;text-align: center;margin-top:-1px;color: #e7e7eb;cursor: pointer; }
+.source-manage .source-content{margin-top:10px;}
+.source-manage .source-content .title{color:#333;font-size:14px;line-height:40px;}
+.source-manage .source-content .title input{margin-left:15px;}
+.source-manage .source-content .con-frame{border-top:1px solid #e7e7eb;width:100%;min-height: 135px;padding:15px 0;list-style-type: none;}
+.source-manage .source-content .con-frame .source-l{float:left;width:60%;height:100%;}
+.source-manage .source-content .con-frame .source-l span{width:100px;height:100px;float:left;}
+.source-manage .source-content .con-frame .source-l img{height:100px;width:100px;}
+.source-manage .source-content .con-frame .source-l ol{float:left;padding-left:40px;}
+.source-manage .source-content .con-frame .source-l ol li{line-height:24px;}
+.source-manage .source-content .con-frame .source-M{float:left;text-align: center;width:20%;color:#8d8d8d;}
+.source-manage .source-content .con-frame .source-R{float:left;width:20%;text-align: center;}
+.source-manage .source-content .con-frame .source-R a{padding-right:20px;cursor: pointer;}
+.source-content .btnpage{line-height:19px;}
+
+/*会员营销*/
+.VIP-Marketing{padding:5px 50px 0 50px;background-color:#fff;}
+.VIP-Marketing li{list-style-type: none;}
+.VIP-Marketing i{font-style: normal;}
+.VIP-Marketing h4{color:#8d8d8d;font-size:14px;line-height:30px;}
+.VIP-Marketing .VIP-choice .object,.VIP-Marketing .VIP-choice .VIP-sex,.VIP-Marketing .VIP-choice .VIP-area{display:inline-block;float:left;width:30%;height:60px;}
+.VIP-Marketing .VIP-choice .VIP-sex,.VIP-Marketing .VIP-choice .VIP-area{height:40px!important;position: relative;top:25px;}
+.VIP-Marketing .VIP-choice .object label{line-height:40px;margin-right:20px;display:inline-block;font-weight: normal;}
+.VIP-Marketing .VIP-choice .object i{font-weight: 700;margin-bottom: 5px;}
+.VIP-Marketing .VIP-choice .object em{font-style: normal;color:#459ae9;padding-left:20px;cursor: pointer;}
+.VIP-Marketing .VIP-choice .object input{margin-right:5px;margin-top:13px;}
+.VIP-Marketing .VIP-choice .form-control{width:100px;height:28px;padding:0 12px;}
+.email-all .dialog-tag{top:77px!important;}
+.VIP-Marketing .VIP-choice .dialog-tag,.email-all .dialog-tag{position: absolute;width:640px;border:1px solid #cdcdcd;background-color:#fff;z-index: 1000;left:364px;top:80px;display: none;box-shadow: 0 0 4px #b6b6b6;}
+.VIP-Marketing .VIP-choice .dialog-tag h3,.VIP-Marketing .sucai-library h5,.email-all .dialog-tag h3{background-color:#efefef;border-bottom: 1px solid #e5e5e5;height:45px;width:100%;line-height: 50px;text-align:left;color:#4c5a5f;font-weight:bold;font-size:15px;margin:0;padding:0 20px;text-shadow: 0 1px 0 #fff;}
+.dialog-tag h3 .glyphicon,.VIP-Marketing .sucai-library .glyphicon-remove,.email-all .dialog-tag .glyphicon-remove{color:#68767b;float: right;top:17px;font-size: 12px;cursor: pointer}
+.dialog-tag h3 .glyphicon:hover,.VIP-Marketing .sucai-library .glyphicon-remove:hover,.email-all .dialog-tag .glyphicon-remove:hover{color:#4aa3df;}
+.VIP-Marketing .VIP-choice .dialog-tag p{padding:30px 0 30px 30px;}
+.VIP-Marketing .VIP-choice .dialog-tag p label {margin: 10px;width: 150px;height: 20px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+.VIP-Marketing .VIP-choice .dialog-tag h5,.VIP-Marketing .sucai-library .submit,.email-all .dialog-tag h5{background: #f5f5f5;border-top:1px solid #e5e5e5;height:53px;padding:10px 40px 0 10px;text-align: right;margin:0;}
+.VIP-Marketing .VIP-choice .dialog-tag h5 span,.VIP-Marketing .sucai-library .submit a{border:1px solid #b7b6b6;background-color:#f8f6f6;border-radius:3px;color:#494e52;display: inline-block;font-size:14px;line-height:14px;margin-left: 60px;padding:8px 16px;}
+.VIP-Marketing .VIP-choice .dialog-tag h5 span:first-child,.VIP-Marketing .sucai-library .submit a:first-child{background-color:#3480c1;border-color:#3480c1;color:#fff;}
+.VIP-Marketing .sucai-library .submit a:hover{text-decoration: none;}
+.VIP-Marketing .sucai-library .submit a{cursor: pointer}
+.VIP-Marketing .tag-area span{height:24px;line-height:24px;padding:0 5px;margin-right:10px;border:1px solid #459ae9;display:inline-block;border-radius: 3px;color:#8d8d8d;margin-bottom: 5px;}
+.VIP-Marketing .msg-tab{width: 100%;/*height:300px*/border:1px solid #e7e7eb;margin-top:10px;}
+.VIP-Marketing .msg-tab ul{border-bottom:1px solid #e7e7eb;height:50px;width:100%; padding:0 20px;}
+.VIP-Marketing .msg-tab ul li{float:left;width: 10%;text-align: center;line-height:50px;font-size:16px;color:#8d8d8d;cursor: pointer;}
+.VIP-Marketing .msg-tab ul li span{margin-right:5px;}
+.VIP-Marketing .msg-tab ul li.active{color:#222;}
+.VIP-Marketing .Area-inner .tab-content textarea{width:100%;min-height:180px;}
+.VIP-Marketing .msg-tab .Area-inner{width:100%;/*height:250px;*/padding:30px 20px; }
+.VIP-Marketing .msg-tab .create_access{display: inline-block;width:400px;height:188px;border:2px dotted #e7e7eb;margin-right:30px;}
+.VIP-Marketing .msg-tab .create_access a{text-align: center;display: inline-block;width:100%;color:#949494;margin-top:50px;cursor: pointer;}
+.VIP-Marketing .msg-tab .create_access a i{font-size:50px;}
+.VIP-Marketing .mess-texting-btn{background-color: #e3393c;border-radius: 5px;color: #fff;display: inline-block;height: 35px;line-height: 35px;text-align: center;width: 80px;margin-top:25px;margin-left:400px;}
+.VIP-Marketing .sucai-library{position: absolute;width:740px;left:28%;top:10%;background-color:#fff;z-index: 999;display: none;}
+.VIP-Marketing .library-box ul{border:none;}
+.VIP-Marketing .library-box ul li{border-bottom:1px solid #e7e7eb;width:100%;padding:10px 5%;list-style-type: none;position: relative;}
+.coverage{position:fixed; height:100%; width: 100%; background-color:rgba(0,0,0,.1); top:0; left:0;display: none;}
+.VIP-Marketing .library-box ul li .source-l{float:left;width:70%;height:100%;}
+.VIP-Marketing .library-box ul li .source-l span{width:70px;height:70px;float:left;}
+.VIP-Marketing .library-box ul li .source-l img{height:70px;width:70px;}
+.VIP-Marketing .library-box ul li .source-l ol{float:left;text-align: left;width:40%;}
+.VIP-Marketing .library-box ul li .source-l ol li{line-height:24px;border:none;margin:0;height:24px!important;padding:0;text-align: left;}
+.VIP-Marketing .library-box ul li .source-M{float:left;text-align: center;width:30%;color:#8d8d8d;font-size:14px;}
+.VIP-Marketing .library-box ul li .source-R{float:left;width:20%;text-align: center;}
+.VIP-Marketing .library-box ul li .source-R a{padding-right:20px;cursor: pointer;}
+.SCover{position:absolute; height:100%; width: 100%; z-index:888; background-color:rgba(0,0,0,.5); top:0; left:0;display:none;}
+.VIP-Marketing .library-box ul li.con-frame{cursor: pointer;}
+#mediaSelect > div{border: 1px solid #e7e7eb;overflow: hidden;padding: 5px;width: 400px;}
+#mediaDetail > span{color: #999;display: inline-block;font-size: 14px;line-height: 25px;}
+#mediaDetail .item{overflow: hidden;width:100%;}
+#mediaDetail .item .item-img img{height:150px;width:100%;}
+#mediaDetail .item .item-title{background-color: #000;color: #fff;display: block;font-size: 14px;height: 30px;line-height: 30px;opacity: 0.7;padding: 0 10px;}
+#mediaDetail #divChild{margin:10px 0;}
+#mediaDetail #divChild .item img{height:80px;width:80px;float:right;}
+#mediaDetail #divChild .item span{display:inline-block;float:left;margin-top:30px;font-size:14px;}
+.VIP-Marketing .library-box{margin: 0;overflow-y:scroll;position: relative;background-color:#fff;height:350px;}
+.VIP-Marketing .con-frame .glyphicon-ok{font-size: 35px;color: #fff;z-index: 99999;left: 48%;position: absolute;display: block;width: 50px;height: 50px;top: 36%;display: none;}
+
+/*群发邮件*/
+.email-all{padding:20px 35px;background-color:#fff;}
+.email-all .tag-choice{font-style: normal;color:#459ae9;padding-left:20px;cursor: pointer;}
+.email-all .tag-area{height:auto;width:100%;}
+.email-all .tag-area span{height:24px;line-height:24px;padding:0 5px;margin-right:10px;border:1px solid #459ae9;display:inline-block;border-radius: 3px;color:#8d8d8d;margin-bottom: 5px;}
+.email-all .dialog-tag p{padding:10px 60px;}
+.email-all .dialog-tag p label{margin: 10px;width: 150px;float: left;border: none;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+.email-all .dialog-tag h5 span{background-color: #f8f6f6;border: 1px solid #b7b6b6;border-radius: 3px;color: #494e52;display: inline-block;font-size: 14px;line-height: 14px;margin-left: 60px;padding: 8px 16px;}
+.email-all .dialog-tag h5 span:first-child{background-color:#3480c1;border-color:#3480c1;color:#fff;}
+.email-all h4{color:#8d8d8d;font-size:14px;line-height:30px;}
+.email-all .object-choice p{margin:0;}
+.email-all .object-choice i{font-style: normal;line-height:25px;font-size:14px;}
+.email-all.coupon .object-choice i{font-weight:bold;}
+
+
+.email-all .object-choice label{margin-right:40px;line-height:30px;font-weight: normal}
+.email-all .object-choice label input{margin-right:10px;margin-top:9px;}
+.email-all .email-content h5{line-height:25px;}
+.email-all .email-content input{height:50px;width:80%;border:1px solid #ddd;}
+.email-all .email-submit{background-color: #e3393c;border-radius: 5px;color: #fff;display: inline-block;height: 35px;line-height: 35px;margin: 0 auto;text-align: center;width: 80px;margin-top:20px;margin-left:400px;}
+.rules-detail p{line-height:25px;font-size:14px;}
+.rules-detail img{max-width: 990px;margin:10px 0;}
+
+
+/*微信自动回复*/
+.container.weixin-autoreply{min-height:650px;}
+.weixin-autoreply .auto-reply {width: 400px;border: 1px solid #ccc;height: 30px;margin-top: 20px;border-radius: 5px;margin-bottom: 30px;}
+.weixin-autoreply .auto-reply li {float: left;width: 33%;border-right: 1px solid #ccc;height: 100%;}
+.weixin-autoreply .auto-reply li:last-child {border-right: none;}
+.weixin-autoreply .auto-reply li a {display: inline-block;text-align: center;width: 100%;height: 100%;color: #494e52;line-height: 30px;}
+.weixin-autoreply .auto-reply li.active a {font-weight: bold;}
+.weixin-autoreply .table#list thead > tr > th {text-align: center;}
+.weixin-autoreply .table#list > tr.tr_li > td {text-align: center;}
+.weixin-autoreply .VIP-Marketing {padding: 0 !important;}
+.weixin-autoreply .focus-reply .on-off label {margin-right: 30px;}
+.weixin-autoreply .focus-reply .on-off {margin-bottom: 20px;}
+.weixin-autoreply .focus-reply .on-off label input {margin-right: 5px;}
+.weixin-autoreply .clear-u3 {margin: 25px 0 0 415px;letter-spacing: 5px;}
+.weixin-autoreply #imginput .create_access {margin-left: 230px !important;}
+.weixin-autoreply #imginput input {width: 400px;height: 188px;opacity: 0;position: absolute;left: 230px;top: 0px;}
+.weixin-autoreply #imginput {position: relative;}
+/*.weixin-autoreply .VIP-Marketing .sucai-library{left:20%;display: block;width:910px;max-height:550px;overflow-y:scroll;overflow-x:hidden}*/
+.weixin-autoreply .VIP-Marketing .sucai-library{left:20%;display: block;width:910px;overflow-y:auto;overflow-x:hidden}
+.weixin-autoreply .rules-same .msg-tab{width:90%;margin:0 auto}
+.weixin-autoreply .rules-same .msg-tab .create_access{width:370px;}
+.weixin-autoreply .rules-same .msg-tab .create_access:last-child{margin-right:0;}
+.weixin-autoreply .VIP-Marketing.rules-dialog{width:910px;height:auto}

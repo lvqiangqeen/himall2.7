@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "商品评论";
+}
+<div class="container pb0">
+	<div class="comment-hd comment-head">
+        <div class="col-xs-6">评价数 <span class="c-gray">( @(ViewBag.allComment) )</span></div>
+        <div class="col-xs-6 text-right c-red fs14">好评率 @((int)ViewBag.allComment == 0 ? "100" : Math.Round((Double)ViewBag.goodComment * 100 / ViewBag.allComment))%</div>
+    </div>
+    <div class="comment">
+        <div class="row comment-tab">
+            <span class="col-xs-3"><a class="active" onclick="returnComment(0)">全部</a></span>
+            <span class="col-xs-3"><a onclick="returnComment(1)"><em>好评</em>(@(ViewBag.goodComment))</a></span>
+            <span class="col-xs-3"><a onclick="returnComment(2)"><em>中评</em>(@(ViewBag.mediumComment))</a></span>
+            <span class="col-xs-3"><a onclick="returnComment(3)"><em>差评</em>(@(ViewBag.bedComment))</a></span>
+            <span class="col-xs-3"><a onclick="returnComment(4)"><em>有图</em>(@(ViewBag.hasImages))</a></span>
+            <span class="col-xs-3"><a onclick="returnComment(5)"><em>追加</em>(@(ViewBag.hasAppend))</a></span>
+        </div>
+        <ul id="productComment"></ul>
+        <div class="loading hide" id="autoLoad"><span></span></div>
+    </div>
+    <div class="comment-popup">
+        <div class="comment-popup-container">
+            <div class="comment-popup-header" id="title"></div>
+            <div class="comment-popup-body" id="div1">
+                <ul id="ul1"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/Areas/Mobile/Templates/Default/Scripts/ProductComment.js"></script>
+<script src="/Areas/Mobile/Templates/Default/Scripts/move.js"></script>

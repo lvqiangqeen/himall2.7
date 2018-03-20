@@ -1,0 +1,106 @@
+﻿@model Himall.Web.Areas.Mobile.Models.VshopCouponInfoModel
+@{
+    ViewBag.Title = Model.CouponData.CouponName + " 优惠券";
+}
+<div class="container">
+    <div class="coupon" style="display:none;">
+        <div class="logo00"><a href=""><img class="logo" src="@(Himall.Core.HimallIO.GetImagePath(ViewBag.ShopLogo))" /></a></div>
+        <div class="coupon-view">
+            <h3>@Model.CouponData.CouponName</h3>
+            <p>￥@Model.CouponData.Price.ToString("f2")</p>
+        </div>
+        <div class="coupon-info">
+            <p class="time"><i></i>有效日期：@Model.CouponData.StartTime.ToString("yyyy-MM-dd") 至 @Model.CouponData.EndTime.ToString("yyyy-MM-dd")</p>
+            <p>使用限制：订单满<span>@Model.CouponData.OrderAmount.ToString("f2")元</span>可使用<span>（不含运费）</span></p>
+        </div>
+        <div class="coupon-btn" id="divAccept"><a class="btn btn-block btn-lg" data-show="@(Model.CouponData.ReceiveType == Himall.Model.CouponInfo.CouponReceiveType.IntegralExchange ? Model.CouponData.NeedIntegral.ToString() + "分兑换" : "立即领取")">@(Model.CouponData.ReceiveType == Himall.Model.CouponInfo.CouponReceiveType.IntegralExchange ? Model.CouponData.NeedIntegral.ToString() + "积分兑换" : "立即领取")</a></div>
+    </div>
+    @{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_4ButtonsFoot_fav.cshtml");}
+    <script>
+        var acceptId = "@Model.AcceptId";
+        var couponid = "@Model.CouponId";
+        var couponname = "@Model.CouponData.CouponName";
+        var couponstatus = "@Model.CouponStatus";
+        var vshopid = "@Model.VShopid";
+        var acpbtn = $('#divAccept a').eq(0);
+        $(function () {
+            
+        /*HBUILDE SRART*/
+          document.addEventListener('plusready',function(){
+                  $("footer").hide();
+          });
+        /*HBUILDER END*/
+
+            if (couponname == '') {
+                $.dialog.tips("此优惠券不存在！", function () { window.location.href = '/' + areaName + '/vshop'; });
+            }
+            couponstatus = couponstatus || 0;
+            vshopid = vshopid || 0;
+            var btnText = acpbtn.data("show");
+            switch (parseInt(couponstatus)) {
+                case 2:
+                    btnText = '优惠券已过期';
+                    break;
+                case 3:
+                    btnText = '领取成功，去使用';
+                    $('#divAccept').click(function () {
+                        if (vshopid == 0) {
+                            window.location.href = '/' + areaName;
+                        }
+                        else {
+                            window.location.href = '/' + areaName + '/VShop/detail/' + vshopid;
+                        }
+                    });
+                    break;
+                case 4:
+                    btnText = '优惠券已领完';
+                    break;
+                case 5:
+                    btnText = '积分不足 ' + "@(Model.CouponData.NeedIntegral.ToString())";
+                    break;
+                default:
+                    var returnUrl = '/' + areaName + '/vshop/couponinfo/' + couponid + '?accept=1';
+                    var loginUrl = '/' + areaName + '/Login/Entrance?returnUrl=' + encodeURIComponent(returnUrl);
+                    $('#divAccept').click(function () {
+                        checkLogin(returnUrl, function () {
+                            $.post('/' + areaName + '/vshop/AcceptCoupon', { vshopid: 0, couponid: couponid }, function (result) {
+                                if (result.status == 1) {
+                                    window.location.href = loginUrl;
+                                    return;
+                                }
+                                else {
+                                    if (result.status == 0) {
+                                        window.location.href = '/' + areaName + '/VShop/GetCouponSuccess/' + result.crid;
+                                    }
+                                    else {
+                                        $.dialog.tips(result.msg, function () {
+                                            window.location.reload();
+                                        });
+                                    }
+                                    return;
+                                }
+                            });
+                        }, vshopid);
+                    });
+                    //acceptId = parseInt(acceptId || 0);
+                    //if (acceptId > 0) {
+                    //    $.post('/' + areaName + '/vshop/AcceptCoupon', { vshopid: 0, couponid: couponid }, function (result) {
+                    //        if (result.status == 1) {
+                    //            window.location.href = loginUrl;
+                    //            return;
+                    //        }
+                    //        else {
+                    //            $.dialog.tips(result.msg, function () { window.location.reload(); });
+                    //            return;
+                    //        }
+                    //    });
+                    //}
+                    break;
+            }
+            acpbtn.text(btnText);
+            $('.coupon').show(); // 显示优惠券，默认是不显示
+        });
+
+    </script>
+
+</div>

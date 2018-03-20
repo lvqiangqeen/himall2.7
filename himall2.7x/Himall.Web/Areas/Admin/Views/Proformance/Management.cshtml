@@ -1,0 +1,27 @@
+﻿<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+@using Himall.Core;
+@model Himall.Model.PromoterStatistics
+<div class="container">
+   <ul class="nav nav-tabs-custom clearfix">
+        <li><a>分销业绩管理</a></li>
+    </ul>
+    <div class="search-box" id="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w95" for="">销售员帐号</label>
+                <input class="form-control input-ssm" type="text" id="autoTextBox" autocomplete="off">
+            </div>
+            <div class="form-group"><button type="button" class="btn btn-primary btn-sm" id="searchBtn">搜 索</button></div>
+            <div class="form-group pull-right">
+                <span data-day="30" class="daySpan">近三十天</span>
+                <span data-day="7" class="daySpan">近七天</span>
+                <span data-day="3" class="daySpan">近三天</span>
+            </div>
+        </form>
+    </div>
+    <table id="list" class="table"></table>
+</div>
+<script src="~/Areas/Admin/Scripts/ProformanceManagement.js"></script>

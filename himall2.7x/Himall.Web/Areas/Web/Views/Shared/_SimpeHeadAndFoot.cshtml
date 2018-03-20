@@ -1,0 +1,31 @@
+﻿@{
+    Layout = null;
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Areas/Web/Content/findpassword1.css" rel="stylesheet" type="text/css">
+    <link href="~/Areas/Web/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/CommonJS.js"></script>
+    <script src="~/Scripts/v.js"></script>
+    <script src="~/Scripts/jquery.artDialog.js"></script>
+    <script src="~/Scripts/artDialog.iframeTools.js"></script>
+</head>
+<body>
+	<!--_SimpeHeadAndFoot start-->
+    <div class="w" style="position:relative;margin-left:-450px;left:50%;">
+        <div id="logo"><a href="/"><img src="@{Html.RenderAction("Logo", "ProductPartial");} " alt=" himall" height="60"></a></div>
+    </div>
+
+
+    @RenderBody()
+
+    <div class="w" style="position:relative;margin-left:-450px;left:50%;">
+        <div id="footer">
+        </div>
+    </div>
+	<!--_SimpeHeadAndFoot end-->
+</body>
+</html>

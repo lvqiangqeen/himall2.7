@@ -1,0 +1,111 @@
+﻿@{
+    Layout = null;
+}
+@model Himall.Model.ProductInfo
+<div class="right">
+    <div id="product-detail" class="m m2">
+        <div class="float-nav-wrap">
+            <div class="mt">
+                <ul class="tab">
+                    <li class="curr goods-li"><span><a href="javascript:;" class="toggle-link">商品介绍<b></b></a></span></li>
+                    <li class="comment-li"><a href="javascript:;" class="toggle-link">商品评价<b></b><span id="CommentsU" class="hl_blue"> 0 </span></a></li>
+                    <li class="consult-li"><a href="javascript:;" class="toggle-link">商品咨询<b></b><span id="ConsU" class="hl_blue"> 0 </span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="mc" id="product-detail-1">
+            <ul class="detail-list" id="detail-list">
+                <li title="">商品名称：@Model.ProductName</li>
+                @if (!string.IsNullOrWhiteSpace(Model.ProductCode))
+                {
+                <li>商品货号：@Model.ProductCode</li>}
+                @if (!string.IsNullOrWhiteSpace(Model.BrandName))
+                {
+                <li>品牌：@Model.BrandName</li>}
+     
+            </ul>
+            <div id="product-html" style="position:relative"></div>
+        </div>
+    </div>
+    <!--product-detail end-->
+    <div id="comment" class="m m1">
+        <div class="mt">
+            <h2>商品评价</h2>
+        </div>
+        <div class="mc">
+            <div id="i-comment">
+                <div class="rate">
+                    <strong>100%</strong> <br />
+                    <span>好评度</span>
+                </div>
+                <div class="percent">
+                    <dl>
+                        <dt>好评<span>(100%)</span></dt>
+                        <dd>
+                            <div style="width: 100px;"></div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>中评<span>(0%)</span></dt>
+                        <dd class="d1">
+                            <div style="width: 0%;"> </div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>差评<span>(0%)</span></dt>
+                        <dd class="d1">
+                            <div style="width: 0%;"> </div>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--comment end-->
+
+    <div id="comments-list" class="m">
+        <ul class="tab" id="id_comment_btn">
+            <li class="active"><a href="javascript:;">全部评价<em id="totalComment"></em></a></li>
+            <li><a href="javascript:;">好评<em id="goodComment"></em></a></li>
+            <li><a href="javascript:;">中评<em id=""></em></a></li>
+            <li><a href="javascript:;">差评<em id="badComment"></em></a></li>
+            <li><a href="javascript:;">有图<em id="hasImages"></em></a></li>
+            <li><a href="javascript:;">追加评论<em id="hasAppend"></em></a></li>
+            <li class="tab-last"></li>
+        </ul>
+    </div>
+
+    <!--comment end-->
+    <div id="consult" class="m m2">
+        <div class="mt">
+            <ul class="tab">
+                <li class="curr"><a href="javascript:;">商品咨询</a></li>
+            </ul>
+            <div class="consult-pub"> <a href="@Url.Action("index", "ProductConsultation" , new { id=Model.Id})#ConsultForm" class="css3-btn" target="_blank">发表咨询</a> </div>
+        </div>
+        <div id="consult-search">
+            <div class="prompt"> <strong>温馨提示:</strong>因厂家更改产品包装、产地或者更换随机附件等没有任何提前通知，且每位咨询者购买情况、提问时间等不同，为此以下回复仅对提问者3天内有效，其他网友仅供参考！若由此给您带来不便请多多谅解，谢谢！ </div>
+        </div>
+        <!--consult-search end-->
+        <div id="consult-0" class="mc tabcon" data-widget="tab-content">
+        </div>
+    </div>
+    <!--consult end-->
+    
+    <!-- 相关商品 -->
+    <div class="clearfix" style="display:none;">
+        <div class="relation-title" style="margin-top: 30px;">猜你喜欢</div>
+        <div id="relationProducts">
+            <template>
+                <a class="relation-pro" href="@Url.Action("detail",new { id=(object)null})/{{id}}">
+                    <div class="relation-pro-img">
+                        <img src="{{imagePath}}" />
+                    </div>                    
+                    <p class="relation-pro-price"><i>￥</i>{{minSalePrice}}</p>
+                    <p class="relation-pro-name">{{productName}}</p>
+                </a>                
+            </template>
+        </div>
+    </div>
+    
+</div>

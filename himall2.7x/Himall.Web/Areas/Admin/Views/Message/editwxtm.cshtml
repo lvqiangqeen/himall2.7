@@ -1,0 +1,65 @@
+﻿@model List<Himall.Model.WeiXinMsgTemplateInfo>
+
+<script src="~/Areas/Admin/Scripts/MessageEditWeixin.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix clear-v16">
+        <li value=""><a href="@Url.Action("management","message")">管理</a></li>
+        @foreach (var messagePlugin in @ViewBag.messagePlugins)
+        {
+            <li><a href="edit?pluginId=@(messagePlugin.pluginId)">@{@messagePlugin.name}配置</a></li>
+        }
+        <li class="active"><a href="@Url.Action("editwxtm")">微信模板消息配置</a></li>
+
+    </ul>
+    <h5 class="tips-top"><span class="help-default"><i></i>提示：(仅认证服务号可以使用模板消息)点击获取模板消息ID，系统将自动为您填写行业及对应的模板消息ID；
+        获取前请先确认您已获得微信模板消息的使用权限，获取后请不要到微信公众号后台删除相应的模板消息，否则将影响模板消息的正常使用</span></h5>
+    
+
+    <div class="form-horizontal pd0">
+        <div class="form-group">
+            <div class="col-sm-3"><input type="button" id="btn_industry" class="btn btn-default" title="所属行业一个月仅可更改一次，请不要频繁执行重置操作" value="获取行业ID" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" id="btn_tmplate" class="btn btn-primary btn_resettmpl" value="获取模板ID" data-msgtype="" / style="margin-top:0;"></div>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th width="160" class="tac">消息类型</th>
+                <th width="260" class="tac">模板短编号</th>
+                <th class="tac">模板ID</th>
+                <th width="120" class="tac">更新时间</th>
+                <th  width="120" class="tac">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                Himall.Core.Plugins.Message.MessageTypeEnum curmsgtype = ((Himall.Core.Plugins.Message.MessageTypeEnum)item.MessageType.Value);
+                <tr style="text-align:center">
+                    <td align="center">
+                        @(curmsgtype.ToDescription())
+                    </td>
+                    <td align="center">
+                        @(item.TemplateNum)
+                    </td>
+                    <td align="center">
+                        @(item.TemplateId)
+                    </td>
+                    <td align="center">
+                        @(item.UpdateDate)
+                    </td>
+                    <td align="center">
+                        <input type="button" class="btn btn-default btn_resettmpl" data-msgtype="@(item.MessageType)" value="重置模板" />
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+
+
+
+

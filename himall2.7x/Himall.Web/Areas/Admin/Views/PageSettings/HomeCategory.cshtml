@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Himall.Web.Areas.Admin.Models.HomeCategory>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Areas/Admin/Scripts/pageSettings-category.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>商城分类</a></li>
+    </ul>
+    <table class="table mt20">
+        <thead>
+            <tr>
+                <th style="text-align:center">分类</th>
+                <th style="text-align:center">排序</th>
+                <th class="td-operate" style="text-align:center">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{var rowNumber=1;}
+            @foreach (var item in Model)
+            {
+                 var names = string.Join(",",item.TopCategoryNames);
+                <tr rowNumber="@rowNumber" style="text-align:center">
+                    <td type="names">@(string.IsNullOrWhiteSpace(names)?"未设置":names)</td>
+                    <td width="217px"><span class="glyphicon glyphicon-circle-arrow-up"></span> <span class="glyphicon glyphicon-circle-arrow-down"></span></td>
+                    <td class="td-operate">
+                        <span class="btn-a">
+                            <a class="categorys-edit" rowNumber="@(rowNumber++)" categoryIds="@(string.Join(",",item.AllCategoryIds))">编辑</a>
+                            @*<a class="topic-choose" rownumber="@(rowNumber++)">设置专题</a>*@
+                        </span>
+                    </td>
+                </tr> 
+            }
+        </tbody>
+    </table>
+</div>

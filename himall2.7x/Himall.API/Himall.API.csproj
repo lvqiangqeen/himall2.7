@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E7DA9AD3-8722-404F-B0FE-C4D727EB04AE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Himall.API</RootNamespace>
+    <AssemblyName>Himall.API</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Himall.Web\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Himall.Web\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=3.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4, Version=3.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core">
+      <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Himall.Core, Version=2.5.6300.24900, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Himall.Core\Himall.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz, Version=2.4.0.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Quartz.2.4.0\lib\net40\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.1.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="zxing, Version=1.0.4727.18517, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.2.1.1\lib\net20\zxing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\ApiErrorCode.cs" />
+    <Compile Include="Base\ApiExceptionFilterAttribute.cs" />
+    <Compile Include="Base\BaseApiController.cs" />
+    <Compile Include="Base\HimallApiActionFilter.cs" />
+    <Compile Include="Base\HimallApiException.cs" />
+    <Compile Include="CartController.cs" />
+    <Compile Include="CategoryController.cs" />
+    <Compile Include="CommentController.cs" />
+    <Compile Include="CouponController.cs" />
+    <Compile Include="FightGroupController.cs" />
+    <Compile Include="GiftsController.cs" />
+    <Compile Include="Helper\ApiHelper.cs" />
+    <Compile Include="Helper\AppBaseInfoHelper.cs" />
+    <Compile Include="Helper\BrowseHistrory.cs" />
+    <Compile Include="Helper\CartHelper.cs" />
+    <Compile Include="Helper\OrderHelper.cs" />
+    <Compile Include="Helper\ShopbranchHelper.cs" />
+    <Compile Include="Helper\ShopServiceMark.cs" />
+    <Compile Include="HomeController.cs" />
+    <Compile Include="LimitTimeBuyController.cs" />
+    <Compile Include="LoginController.cs" />
+    <Compile Include="MemberOrderController.cs" />
+    <Compile Include="Model\BonuModel.cs" />
+    <Compile Include="Model\CartItemModel.cs" />
+    <Compile Include="Model\CartProductModel.cs" />
+    <Compile Include="Model\CategoryJsonModel.cs" />
+    <Compile Include="Model\CategoryModel.cs" />
+    <Compile Include="Model\DataGridModel.cs" />
+    <Compile Include="Model\CollectionSKU.cs" />
+    <Compile Include="Model\CommentModel.cs" />
+    <Compile Include="Model\CouponGetIntegralCouponModel.cs" />
+    <Compile Include="Model\GiftConfirmOrder.cs" />
+    <Compile Include="Model\GiftOrderConfirmPageModel.cs" />
+    <Compile Include="Model\GiftOrderItemDtoModel.cs" />
+    <Compile Include="Model\GiftsDetailModel.cs" />
+    <Compile Include="Model\GiftsListModel.cs" />
+    <Compile Include="Model\GiftsOrderAggregateDataModel.cs" />
+    <Compile Include="Model\GiftsOrderDtoModel.cs" />
+    <Compile Include="Model\GiftsOrderItemDtoModel.cs" />
+    <Compile Include="Model\HomeModel.cs" />
+    <Compile Include="Model\HomeSlideAdsModel.cs" />
+    <Compile Include="Model\MemberOrderGetStatusModel.cs" />
+    <Compile Include="Model\FightGroupGetFightGroupOrderByUserModel.cs" />
+    <Compile Include="Model\OrderIntegralModel.cs" />
+    <Compile Include="Model\OrderRefundModel.cs" />
+    <Compile Include="Model\ParamsModel\OrderDeliveryModel.cs" />
+    <Compile Include="Model\ParamsModel\CartAddProductToCartModel.cs" />
+    <Compile Include="Model\ParamsModel\CartUpdateCartItemModel.cs" />
+    <Compile Include="Model\ParamsModel\CartDeleteCartProductModel.cs" />
+    <Compile Include="Model\ParamsModel\CommentAddCommentModel.cs" />
+    <Compile Include="Model\ParamsModel\CommentAppendCommentModel.cs" />
+    <Compile Include="Model\ParamsModel\CouponAcceptCouponModel.cs" />
+    <Compile Include="Model\ParamsModel\OrderShareAddIntegralModel.cs" />
+    <Compile Include="Model\ParamsModel\ShopAppReadMessageModel.cs" />
+    <Compile Include="Model\ParamsModel\ShopWithDrawApiModel.cs" />
+    <Compile Include="Model\ParamsModel\LoginModPwdModel.cs" />
+    <Compile Include="Model\ParamsModel\MemberOrderCloseOrderModel.cs" />
+    <Compile Include="Model\ParamsModel\MemberOrderConfirmOrderModel.cs" />
+    <Compile Include="Model\ParamsModel\OrderRefundApplyModel.cs" />
+    <Compile Include="Model\ParamsModel\OrderRefundSellerSendGoodsModel.cs" />
+    <Compile Include="Model\ParamsModel\OrderSubmitFightGroupOrderModel.cs" />
+    <Compile Include="Model\ParamsModel\OrderSubmitOrderByCartModel.cs" />
+    <Compile Include="Model\ParamsModel\OrderSubmitOrderModel.cs" />
+    <Compile Include="Model\ParamsModel\ProductAddFavoriteProductModel.cs" />
+    <Compile Include="Model\ParamsModel\PublicOperationUploadPicModel.cs" />
+    <Compile Include="Model\ParamsModel\SetStockModel.cs" />
+    <Compile Include="Model\ParamsModel\RegisterUserModel.cs" />
+    <Compile Include="Model\ParamsModel\ShippingAddressAddModel.cs" />
+    <Compile Include="Model\ParamsModel\ShippingAddressDeleteModel.cs" />
+    <Compile Include="Model\ParamsModel\ShippingAddressEditModel.cs" />
+    <Compile Include="Model\ParamsModel\ShippingAddressSetDefaultModel.cs" />
+    <Compile Include="Model\ParamsModel\UserCenterChangePasswordModel.cs" />
+    <Compile Include="Model\ParamsModel\UserCenterCheckCodeModel.cs" />
+    <Compile Include="Model\ParamsModel\UserCenterSendCodeModel.cs" />
+    <Compile Include="Model\ParamsModel\VShopAddFavoriteShopModel.cs" />
+    <Compile Include="Model\ProductBrowsedHistoryModel.cs" />
+    <Compile Include="Model\ProductCommentShowModel.cs" />
+    <Compile Include="Model\ProductDetailCommentModel.cs" />
+    <Compile Include="Model\ProductDetailModel.cs" />
+    <Compile Include="Model\ProductItem.cs" />
+    <Compile Include="Model\ProductShowSkuInfoModel.cs" />
+    <Compile Include="Model\ProductSKUModel.cs" />
+    <Compile Include="Model\ShippingAddressDtoModel.cs" />
+    <Compile Include="Model\ShopAccountModel.cs" />
+    <Compile Include="Model\ShopBranchOrderRefundModel.cs" />
+    <Compile Include="Model\ShopCartItemModel.cs" />
+    <Compile Include="Model\ShopServiceMarkModel.cs" />
+    <Compile Include="Model\TopicModel.cs" />
+    <Compile Include="Model\TopShopModel.cs" />
+    <Compile Include="Model\UserCenterGetIntegralRecordModel.cs" />
+    <Compile Include="Model\VShopShowPromotionModel.cs" />
+    <Compile Include="Model\VShopShowShopScoreModel.cs" />
+    <Compile Include="OrderRefundController.cs" />
+    <Compile Include="PaymentController.cs" />
+    <Compile Include="ProductController.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublicOperationController.cs" />
+    <Compile Include="RegisterController.cs" />
+    <Compile Include="OrderController.cs" />
+    <Compile Include="SearchController.cs" />
+    <Compile Include="ShippingAddressController.cs" />
+    <Compile Include="ShopBranch\Base\BaseShopBranchApiController.cs" />
+    <Compile Include="ShopBranch\ShopBranchBilityController.cs" />
+    <Compile Include="ShopBranch\ShopBranchHomeController.cs" />
+    <Compile Include="ShopBranch\ShopBranchListController.cs" />
+    <Compile Include="ShopBranch\ShopBranchLoginController.cs" />
+    <Compile Include="ShopBranch\ShopBranchOrderController.cs" />
+    <Compile Include="ShopBranch\ShopBranchOrderRefundController.cs" />
+    <Compile Include="ShopBranch\ShopBranchProductController.cs" />
+    <Compile Include="ShopBranch\ShopBranchMessageController.cs" />
+    <Compile Include="Shop\Base\BaseShopApiController.cs" />
+    <Compile Include="Shop\ShopBilityController.cs" />
+    <Compile Include="Shop\ShopCenterController.cs" />
+    <Compile Include="Shop\ShopMessageController.cs" />
+    <Compile Include="Shop\ShopHomeController.cs" />
+    <Compile Include="Shop\ShopOrderRefundController.cs" />
+    <Compile Include="Shop\ShopProductController.cs" />
+    <Compile Include="Shop\ShopBindContactController.cs" />
+    <Compile Include="Shop\ShopWithDrawController.cs" />
+    <Compile Include="Shop\ShopOrderController.cs" />
+    <Compile Include="Shop\ShopSettlementController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Test.cs" />
+    <Compile Include="TopicController.cs" />
+    <Compile Include="UserCenterController.cs" />
+    <Compile Include="UserInviteController.cs" />
+    <Compile Include="VShopController.cs" />
+    <Compile Include="VShopHomeController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Himall.Application\Himall.Application.csproj">
+      <Project>{3853b062-24b6-44ff-b088-cd80fddfac37}</Project>
+      <Name>Himall.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Himall.CommonModel\Himall.CommonModel.csproj">
+      <Project>{9378bfdf-a45e-416a-afba-5abc792f2613}</Project>
+      <Name>Himall.CommonModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Himall.DTO\Himall.DTO.csproj">
+      <Project>{8e003825-40af-44fc-b3a2-edf867b0c050}</Project>
+      <Name>Himall.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Himall.IService\Himall.IServices.csproj">
+      <Project>{cc035ca9-a8cf-4068-8271-9fa02b69d9e8}</Project>
+      <Name>Himall.IServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Himall.Model\Himall.Model.csproj">
+      <Project>{e607d04d-3b11-409b-b832-e95bb4e9a84e}</Project>
+      <Name>Himall.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Himall.ServiceProvider\Himall.ServiceProvider.csproj">
+      <Project>{d8a97225-4720-41ff-8235-bae0bf16cc4d}</Project>
+      <Name>Himall.ServiceProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Himall.Service\Himall.Service.csproj">
+      <Project>{361a90eb-3bbe-405a-826a-33c0d0acabf7}</Project>
+      <Name>Himall.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Himall.Web.Framework\Himall.Web.Framework.csproj">
+      <Project>{cad920d8-3b70-4d9d-ad02-677dd789964d}</Project>
+      <Name>Himall.Web.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。启用“NuGet 程序包还原”可下载这些程序包。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

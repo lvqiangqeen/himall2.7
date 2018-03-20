@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>商品详情页</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav transparent-bg">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">商品详情</h1>
+			<span id="goodsShare" class="goods-share iconfont icon-fenxiang mui-pull-right"></span>
+		</header>
+		<div class="mui-content padb50"></div>
+		<div class="cart-bottom product-bottom detail-pro-bottom" id="bottomCheck">
+			
+		</div>
+		<div class="popItem-box hidden" id="showShareBox">
+			<div class="line" id="qqLink" data-id="qq"><img src="images/icon_qq.png" width="68" height="69"/>分享给QQ好友</div>
+			<div class="line" id="wxLink" data-id="weixin" data-ex="WXSceneSession"><img src="images/icon_wx.png" width="68" height="69"/>分享给微信好友</div>
+			<div class="line" id="wxpLink" data-id="weixin" data-ex="WXSceneTimeline"><img src="images/icon_wxp.png" width="68" height="69"/>分享到微信朋友圈</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/swiper.min.js"></script>
+		<script src="js/mui.zoom.js"></script>
+		<script src="js/mui.previewimage.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/template.js" ></script>
+		<script>
+			mui.init({
+				swipeBack: true
+			});
+			
+			var productId,
+				w,
+				loadPage,
+				userkey,
+				imgpath,
+				productName,
+				hideShare = false,
+				isJoin = himall.isJoin(),
+				content=document.querySelector('.mui-content'),
+				showShareBox = document.getElementById('showShareBox'),
+				qqLink = document.getElementById('qqLink'),
+				wxLink = document.getElementById("wxLink"),
+				wxpLink = document.getElementById("wxpLink"),
+				pwdMask=mui.createMask(function(){showShareBox.className+=' hidden'});
+			var unSaleUrl='api/ShopBranchProduct/GetUnSaleProduct',
+				onSaleUrl='api/ShopBranchProduct/GetOnSaleProduct';
+			if(isJoin){
+				unSaleUrl='api/ShopProduct/GetUnSaleProduct';
+				onSaleUrl='api/ShopProduct/GetOnSaleProduct';
+			}
+			mui.plusReady(function() {
+				userkey=himall.getState().userkey;
+				plus.webview.currentWebview().setStyle({scrollIndicator:'none'});
+				if (himall.ios()) {
+					if (!himall.isQQInstalled()&&!himall.isWXInstalled()){
+						hideShare=true; //不显示分享图标
+					}
+				}
+				document.getElementById("bottomCheck").innerHTML=template('btnArea', {status:plus.webview.currentWebview().status,hideShare:hideShare});
+				productId = plus.webview.currentWebview().productId;
+				function loadPage(){
+					w=plus.nativeUI.showWaiting('',{padlock:true});
+					mui.ajax(URL+'api/product/GetProductDetail',{
+						data:himall.md5Data({
+							id:productId,
+							userkey:userkey
+						}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							if(data.Success=='true'){
+								imgpath = data.Product.ImagePath.length>0?data.Product.ImagePath[0]:'';
+								productName = data.Product.ProductName;
+								content.innerHTML=template('productInfo', data);
+								var slider=document.getElementById('slider');
+								if(data.Product.ImagePath.length>0){
+									slider.style.height=slider.offsetWidth+'px';
+									himall.initSwiper();
+						            mui.previewImage();
+								}
+								//图片延时加载处理
+								document.getElementById('ProductDescription').innerHTML=himall.parseDomImg(data.Product.ProductDescription);
+								delayimg.init({offset:300,throttle:0});
+								
+								w.close();
+								himall.removeClass(content,'transparent');
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							reloadWvLoad();
+						}
+					});
+				}
+				
+				
+				loadPage();
+			});
+			function doBatchUnSale(ids,num){
+				var btnArray = ['取消', '确认'];
+				mui.confirm('您确定要下架这'+(num?num:'')+'个商品吗?', '', btnArray, function(e) {
+					if (e.index == 1) {
+						mui.ajax(URL+unSaleUrl,{
+				        	data:himall.md5Data({
+				        		userkey:userkey,
+								pids:ids
+							}),
+							dataType:'json',
+							type:'get',
+							timeout:10000,
+							success:function(data){
+			      				if(data.success){
+			      					mui.fire(plus.webview.getWebviewById('product.html'),'updateData');
+									mui.fire(plus.webview.getWebviewById('seller-product.html'),'updateData');
+									document.getElementById("bottomCheck").innerHTML=template('btnArea', {status:'1',hideShare:hideShare});
+			      					if(num){
+			      						plus.nativeUI.toast(num+'个商品已下架');
+			      					}else{
+			      						plus.nativeUI.toast('该商品已下架');
+			      					}
+			      				}else{
+			      					plus.nativeUI.toast(error_response.sub_msg);
+			      				}
+							},
+							error:function(xhr,type,errorThrown){
+								plus.nativeUI.toast('请求失败，请检查网络重试');
+							}
+						});
+					}
+				});
+			}
+			function doOnSalePro(ids,num){
+				var btnArray = ['取消', '确认'];
+				mui.confirm('您确定要上架这'+(num?num:'')+'个商品吗?', '', btnArray, function(e) {
+					mui.ajax(URL+onSaleUrl,{
+			        	data:himall.md5Data({
+			        		userkey:userkey,
+							pids:ids
+						}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+		      				if(data.success){
+		      					mui.fire(plus.webview.getWebviewById('product.html'),'updateData');
+								mui.fire(plus.webview.getWebviewById('seller-product.html'),'updateData');
+								document.getElementById("bottomCheck").innerHTML=template('btnArea', {status:'0',hideShare:hideShare});
+		      					if(num){
+		      						plus.nativeUI.toast(num+'个商品已上架');
+		      					}else{
+		      						plus.nativeUI.toast('该商品已上架');
+		      					}
+		      					
+		      				}else{
+		      					plus.nativeUI.toast(error_response.sub_msg);
+		      				}
+						},
+						error:function(xhr,type,errorThrown){
+							plus.nativeUI.toast('请求失败，请检查网络重试');
+						}
+					});
+				});
+			}
+			mui('#bottomCheck').on('tap', 'a', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+		        var type=this.getAttribute('data-type');
+				if(type=='setStock'){
+					himall.openVW('setRepertory.html',{pid:productId,img:imgpath,name:productName});
+				}else if(type=='setUnSale'){
+					doBatchUnSale(productId);
+				}else if(type=='setOnSale'){
+					doOnSalePro(productId);
+				}else{
+					himall.removeClass(showShareBox,'hidden');
+		    		pwdMask.show();
+				}
+		    });
+			function shareProduct(id,ex,params){
+		    	var shares=initShare();
+		    	setTimeout(function(){
+		    		var share = shares[id];
+			    	if (share.authenticated) {
+						shareMessage(share, ex, params);
+					} else {
+						share.authorize(function() {
+							shareMessage(share, ex, params);
+						}, function(e) {
+							plus.nativeUI.toast("认证授权失败!");
+						});
+					}
+		    	},500);
+		    }
+		    qqLink.addEventListener('tap',function(e){
+		    	var s_id = this.getAttribute("data-id");
+		    	var ex = this.getAttribute("data-ex");
+				var params = {
+					title:productName,
+					href:URL+'product/detail/'+productId,
+					productImg:imgpath
+				};
+				shareProduct(s_id,ex,params);
+		    });
+		    wxLink.addEventListener('tap',function(e){
+		    	var s_id = this.getAttribute("data-id");
+		    	var ex = this.getAttribute("data-ex");
+				var params = {
+					title:productName,
+					href:URL+'product/detail/'+productId,
+					productImg:imgpath
+				};
+				shareProduct(s_id,ex,params);
+		    });
+		    wxpLink.addEventListener('tap',function(e){
+		    	var s_id = this.getAttribute("data-id");
+		    	var ex = this.getAttribute("data-ex");
+				var params = {
+					title:productName,
+					href:URL+'product/detail/'+productId,
+					productImg:imgpath
+				};
+				shareProduct(s_id,ex,params);
+		    });
+		</script>
+		
+		<script id="productInfo" type="text/html">
+			<div class="swiper-container" id="slider">
+		        <div class="swiper-wrapper">
+		        	{{each Product.ImagePath}}
+		            	<div class="swiper-slide "><div class="mui-zoom"><img src="{{$value}}" data-preview-src="" data-preview-group="1"></div></div>
+		            {{/each}}
+		        </div>
+		        <div class="swiper-pagination"></div>
+		   </div>
+			<ul class="mui-table-view table-goods-box">
+				<li class="mui-table-view-text">
+					<div class="goods-info">
+						<p class="p-price"><span>¥ {{Product.MinSalePrice}}</span><s>¥{{Product.MarketPrice}}</s></p>
+						<h3 id="pName">{{Product.ProductName}}</h3>
+						{{if Product.ShortDescription!=""}}
+							<h4 id="pShortName">{{Product.ShortDescription}}</h4>
+						{{/if}}
+					</div>
+				</li>
+			</ul>
+			<div class="p-detail-more"><span>拖动查看详情</span></div>
+			<div class="p-detail mt10">
+				<h4>商品图文详情</h4>
+				<div class="p-detail-html" id="ProductDescription"></div>
+			</div>
+		</script>
+		
+		<script id="btnArea" type="text/html">
+			<a data-type="setStock" id="batchSetStock" class="{{status=='1'||status=='2'||status=='3'||hideShare?'hidden':''}}">设置库存</a>
+			<a data-type="share" id="share" class="{{status=='1'||status=='2'||status=='3'?'hidden':''}}">分享</a>
+			<a data-type="setUnSale" id="batchUnSale" class="{{status=='1'||status=='3'?'hidden':''}}">下架</a>
+			<a data-type="setOnSale" id="batchOnSale" class="{{status=='0'||status=='2'?'hidden':''}}">上架</a>
+		</script>
+	</body>
+
+</html>

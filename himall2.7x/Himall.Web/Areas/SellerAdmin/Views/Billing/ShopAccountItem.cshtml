@@ -1,0 +1,44 @@
+﻿<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Scripts/jquery.json.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/ShopAccountItem.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("index")">财务总览</a></li>
+        <li><a href="@Url.Action("PendingSettlementOrders")">待结算订单</a></li>
+		<li><a href="@Url.Action("SettlementList")">已结算列表</a></li>
+        <li class="active"><a href="@Url.Action("ShopAccountItem")">收支明细</a></li>
+        <li><a href="@Url.Action("Management","ShopAccount")">提现明细</a></li>
+    </ul>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">时间</label>
+                <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text">
+                <label class="label-inline-line">-</label>
+                <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">类型</label>
+                <select id="type" name="type" class="form-control input-ssm">
+                    <option value="">全部</option>
+                    @foreach (var d in Himall.Core.EnumHelper.ToDescriptionDictionary<Himall.CommonModel.ShopAccountType>()) {
+                        <option value="@d.Key">@d.Value</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table id="list" class="table"></table>
+	<div class="tabel-operate" id="operationButtons">
+		<a class="btn-export" href='@Url.Action("ExportShopAccountItemlist")' onclick="ExportExecl.call(this);">导出EXCEL</a>
+	</div>
+</div>

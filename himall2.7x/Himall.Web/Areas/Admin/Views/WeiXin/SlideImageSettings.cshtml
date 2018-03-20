@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Himall.Web.Areas.Admin.Models.SlideAdModel>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+       
+        <li class="active"><a href="SlideImageSettings">轮播图管理</a></li>
+        <li><a href="SaveSlideImage">添加轮播图</a></li>
+    </ul>
+
+    <div>
+        <table class="table mt20">
+            <thead>
+                <tr>
+                    <th style="text-align:center">缩略图</th>
+                    <th style="text-align:center">描述</th>
+                    <th width="80" style="text-align:center">跳转链接</th>
+                    <th width="200" style="text-align:center">排序</th>
+                    <th class="td-operate">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var slideImage in Model)
+                    {
+                        <tr rownumber="@slideImage.DisplaySequence" floorid="@slideImage.ID">
+                            <td width="230"><div style="text-align:center;" class="hiMallDatagrid-cell "><img width="100" height="24" src="@(Himall.Core.HimallIO.GetImagePath( slideImage.imgUrl))" /></div></td>
+                            <td>@slideImage.Description</td>
+                            <td>@slideImage.Url</td>
+                            <td width="100px"><span class="glyphicon glyphicon-circle-arrow-up"></span> <span class="glyphicon glyphicon-circle-arrow-down"></span></td>
+                            <td>
+                                <span class="btn-a">
+                                    <a class="good-check" href="SaveSlideImage?id=@slideImage.ID">编辑</a> <a class="good-check" onclick="DeleteSlideImage(@slideImage.ID)">删除</a>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <div class="form-group">
+            <div class="col-sm-3">
+                <p class="help-default">注：可最多添加5个轮播图</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,123 @@
+﻿@model Himall.Model.ImageAdInfo[]
+
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script type="text/javascript">
+    var logo = "@(HimallIO.GetImagePath(ViewBag.Logo))";
+    var keyword = "@ViewBag.Keyword";
+    var hotkeywords = "@ViewBag.Hotkeywords";
+    var setlogoUrl = '@Url.Action("setlogo")';
+    var setkeyWords = '@Url.Action("SetKeyWords")';
+    var bottompic = "@(HimallIO.GetImagePath(ViewBag.BottomPic))";
+	var setbottompicUrl = '@Url.Action("setBottomPic")';
+	var setAdvertisementUrl = '@Url.Action("SetAdvertisement")';
+</script>
+
+<script src="~/Areas/Admin/Scripts/pageSettings-index.js"></script>
+<div class="container clear-v12">
+    <!--<ul class="nav nav-tabs-custom clearfix">
+        <strong>首页设置</strong>
+        <em class="primary-btn">
+            <span class="glyphicon glyphicon-question-sign"></span>
+            <div class="primary">
+                <h3>温馨提示：</h3>
+                <span>*</span><p>可通过可视化编辑设置商城首页</p>
+            </div>
+        </em>
+    </ul>-->
+
+    <div class="vis-view-area clearfix">
+    	<div class="top-area">
+    		<a id="advertisement" title="广告设置" dir="1920*90" pic="@HimallIO.GetImagePath(ViewBag.AdvertisementImagePath)" url="@ViewBag.AdvertisementUrl" state="@(ViewBag.AdvertisementState?"open":"close")"></a>
+    	</div>
+        <div class="head-area">
+            <a class="logo-area" title="logo设置"></a>
+            <a class="search-area" title="热门关键字设置"></a>
+            <a class="head-a-area imageAdRecommend" title="头部广告图" dir="170*76" pic="@HimallIO.GetImagePath(ViewBag.HeadAds[0].ImageUrl)" url="@ViewBag.HeadAds[0].Url" value="@ViewBag.HeadAds[0].Id"></a>
+        </div>
+        <div class="nav-area">
+            <a href="@Url.Action("management", "Navigation",new {area="Admin"})" title="导航条设置"></a>
+        </div>
+        <div class="first-screen-area">
+            <a href="@Url.Action("HomeCategory", "PageSettings", new { area = "Admin" })" class="categorys-area" title="商城分类设置"></a>
+            <div class="scroll-area">
+                <a href="./SlideAd/SlideManagement" class="auto-scroll-area" title="自动轮播设置"></a>
+            </div>
+            <div class="first-right-area">
+                <a class="article-area imageAdRecommend" dir="200*243" title="小banner图一" pic="@HimallIO.GetImagePath(ViewBag.ImageAdsTop[0].ImageUrl)" url="@ViewBag.ImageAdsTop[ 0 ].Url" value="@ViewBag.ImageAdsTop[0].Id"></a>
+                <a class="article-area imageAdRecommend" dir="200*243" title="小banner图二" pic="@HimallIO.GetImagePath(ViewBag.ImageAdsTop[1].ImageUrl)" url="@ViewBag.ImageAdsTop[1].Url" value="@ViewBag.ImageAdsTop[1].Id"></a>
+            </div>
+        </div>
+
+        <div class="head-topic-area">
+            <a title="自定义广告" class="imageAdRecommend" dir="240*160" pic="@HimallIO.GetImagePath(ViewBag.CenterAds[0].ImageUrl)" url="@ViewBag.CenterAds[0].Url" value="@ViewBag.CenterAds[0].Id"></a>
+            <a title="自定义广告" class="imageAdRecommend" dir="516*160" pic="@HimallIO.GetImagePath(ViewBag.CenterAds[1].ImageUrl)" url="@ViewBag.CenterAds[1].Url" value="@ViewBag.CenterAds[1].Id"></a>
+            <a title="自定义广告" class="imageAdRecommend" dir="430*160" pic="@HimallIO.GetImagePath(ViewBag.CenterAds[2].ImageUrl)" url="@ViewBag.CenterAds[2].Url" value="@ViewBag.CenterAds[2].Id"></a>
+        </div>
+
+        <div class="limit-buy-area">
+            <a title="限时购开启设置" href="@Url.Action("Limittime", "PageSettings")"></a>
+        </div>
+
+        <div class="hand-goods-area">
+            <a class="goods-1-area imageAdRecommend first-child" dir="390*220" pic="@(Model.Length>=1?HimallIO.GetImagePath(Model[0].ImageUrl):"")"
+               url="@(Model.Length>=1?Model[0].Url:"")" value="@Model[0].Id"></a>
+            <a class="goods-2-area imageAdRecommend" dir="310*220" pic="@(Model.Length>=2?HimallIO.GetImagePath(Model[1].ImageUrl):"")"
+               url="@(Model.Length>=2?Model[1].Url:"")" value="@Model[1].Id"></a>
+            <a class="goods-3-area imageAdRecommend" dir="230*220" pic="@(Model.Length>=3?HimallIO.GetImagePath(Model[2].ImageUrl):"")"
+               url="@(Model.Length>=3?Model[2].Url:"")" value="@Model[2].Id"></a>
+            <a class="goods-4-area imageAdRecommend" dir="230*220" pic="@(Model.Length>=4?HimallIO.GetImagePath(Model[3].ImageUrl):"")"
+               url="@(Model.Length>=4?Model[3].Url:"")" value="@Model[3].Id"></a>
+        </div>
+        <div class="hand-goods-area">
+
+            <a class="goods-5-area imageAdRecommend" dir="230*220" pic="@(Model.Length>=5?HimallIO.GetImagePath(Model[4].ImageUrl):"")"
+               url="@(Model.Length>=5?Model[4].Url:"")" value="@Model[4].Id"></a>
+            <a class="goods-6-area imageAdRecommend" dir="230*220" pic="@(Model.Length>=6?HimallIO.GetImagePath(Model[5].ImageUrl):"")"
+               url="@(Model.Length>=6?Model[5].Url:"")" value="@Model[5].Id"></a>
+            <a class="goods-7-area imageAdRecommend" dir="310*220" pic="@(Model.Length>=7?HimallIO.GetImagePath(Model[6].ImageUrl):"")"
+               url="@(Model.Length>=7?Model[6].Url:"")" value="@Model[6].Id"></a>
+            <a class="goods-8-area imageAdRecommend last-child" dir="390*220" pic="@(Model.Length>=8?HimallIO.GetImagePath(Model[7].ImageUrl):"")"
+               url="@(Model.Length>=8?Model[7].Url:"")" value="@Model[7].Id"></a>
+        </div>
+        <div class="floors-area">
+            <a title="楼层编辑" href="@Url.Action("HomeFloor", "PageSettings", new { area = "Admin" })"></a>
+        </div>
+        <div class="banner-area">
+            <a title="品牌推荐" class="imageAdRecommend" dir="280*350" pic="@HimallIO.GetImagePath(ViewBag.ShopAds[0].ImageUrl)" url="@ViewBag.ShopAds[0].Url" value="@ViewBag.ShopAds[0].Id"></a>
+            <a title="品牌推荐" class="imageAdRecommend" dir="280*350" pic="@HimallIO.GetImagePath(ViewBag.ShopAds[1].ImageUrl)" url="@ViewBag.ShopAds[1].Url" value="@ViewBag.ShopAds[1].Id"></a>
+        </div>
+        <a class="bottompic-area" title="底部服务图片"></a>
+        <div class="service-area">
+            <a href="@Url.Action("Management", "Article", new { area = "Admin" })" title="服务编辑"></a>
+        </div>
+        <div class="bottom-area">
+            <a id="pageFootBtn" href="@Url.Action("SetPageFoot", "PageSettings", new { area = "Admin" })" title="页脚信息编辑"></a>
+        </div>
+    </div>
+</div>
+
+<div class="dialog-form dln" id="logosetting">
+    <div class="form-group upload-img clearfix" id="uploadImg">
+    </div>
+</div>
+
+<div class="dialog-form dln" id="areasetting">
+    <div class="form-group upload-img clearfix" id="uploadAreaImg">
+    </div>
+</div>
+
+<div class="dialog-form dln" id="bottompicbox">
+    <div class="form-group upload-img clearfix" id="uploadBotPic">
+    </div>
+</div>
+
+<div class="dialog-form dln" id="keywordsSettting">
+    <div class="form-group">
+        <label class="label-inline fl" for="">输入框关键字</label>
+        <input class="form-control input-sm input-no-sp" type="text" id="txtkeyword">
+    </div>
+    <div class="form-group">
+        <label class="label-inline fl" for="">热门关键字</label>
+        <input class="form-control input-sm input-no-sp" type="text" id="txthotkeywords">
+    </div>
+</div>

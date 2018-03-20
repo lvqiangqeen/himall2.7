@@ -1,0 +1,211 @@
+﻿
+@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "提现";
+}
+<style>
+    .aside{font-family:"微软雅黑"}
+</style>
+
+<script src="~/Areas/Web/Scripts/ApplyWithDraw.js"></script>
+<div class="box1 lh24" style="margin-bottom:0; padding-bottom:0;display:none;" id="stepnav" >
+    <div class="step-list">
+        <div name="step2" class="step-u active">
+            <em>1</em>
+            用收款微信扫描二维码
+            <span class="tail tail2"></span>
+            <span class="tail"></span>
+        </div>
+
+        <div name="step3" class="step-u todo">
+            <em>2</em>
+            输入提现金额，提交提现申请
+            <span class="tail tail2"></span>
+            <span class="tail"></span>
+        </div>
+        <div name="step4" class="step-u  todo">
+            <em>3</em>
+            等待平台确认
+        </div>
+    </div>
+</div>
+
+<div class="box1 lh24" id="step1" name="stepname">
+    <div class="title bot-border">
+        <h3 class="title_txt cur">提现支付密码设置</h3>
+    </div>
+    <div class="border-box">
+        <div class="user-set userset-lcol">
+            <div class="form">
+                <div class="item">
+                    <span class="label">请设置密码：</span>
+                    <div class="fl">
+                        <input type="password" value="" id="new" name="userVo.realName" maxlength="20" class="itxt fl">
+                        <span id="new_msg" class="prompt-06" style="padding-left:10px;"></span><span>6-20位字符，可使用字母、数字或符号的组合</span>
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="label">请确认密码：</span>
+                    <div class="fl">
+                        <input type="password" value="" id="confirm" name="userVo.realName" maxlength="20" class="itxt fl">
+                        <span class="prompt-06" id="confirm_msg" style="padding-left:10px;"></span>
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="label">&nbsp;</span>
+                    <div class="fl">
+                        <a id="submitPwd" class="btn-5" href="javascript:;">提交</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="box1 lh24" style="display:none;" id="step2" name="stepname">
+    <div class="title bot-border">
+        <h3 class="title_txt cur">扫码提现</h3>
+    </div>
+    <div class="border-box">
+		<div class="user-set userset-lcol">
+            <div class="form">
+                <div class="item">
+                    <span class="label">提现二维码：</span>
+                    <div class="fl">
+                        <img width="300" height="300" src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=@ViewBag.ticket" id="sceneQR" />
+						<span class="red">注：请使用本人微信扫描该二维码，您提现的金额将进入到自动转入该微信账户</span>
+                    </div>
+					
+                </div>
+			</div>
+		</div>
+    </div>
+</div>
+
+<div class="box1 lh24" style="display:none;" id="step3" name="stepname">
+    <div class="border-box">
+        <div class="user-set userset-lcol">
+            <div class="form">
+                <div class="item">
+                    <span class="label">可提现金额：</span>
+                    <div class="fl">
+                        <span>@ViewBag.ApplyWithMoney</span>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="label">收款微信昵称：</span>
+                    <div class="fl">
+                        <span id="nikename"></span>
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="label">提现金额：</span>
+                    <div class="fl">
+                        <input value="" id="inputMoney" name="userVo.realName" maxlength="20" class="itxt fl">
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="label">支付密码：</span>
+                    <div class="fl">
+                        <input type="password" value="" id="payPwd" name="userVo.realName" maxlength="20" class="itxt fl">
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="label">&nbsp;</span>
+                    <div class="fl">
+                        <a id="submitApply" class="btn-5" href="javascript:;">提交</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="box1 lh24" style="display:none;" id="step4" name="stepname">
+    <div class="title bot-border">
+        <h3 class="title_txt cur">提现状态</h3>
+    </div>
+    <div class="border-box">
+        <p style="font-size:22px; text-align:center; padding:50px 0">正在审核...</p>
+    </div>
+
+</div>
+<input type="hidden" value="@ViewBag.WithDrawMinimum" id="inputWithDrawMinimum" />
+<input type="hidden" value="@ViewBag.WithDrawMaximum" id="inputWithDrawMaximum" />
+<script>
+        var sceneid = '@ViewBag.Sceneid';
+    var pwdflag = '@ViewBag.IsSetPwd';
+    var balance = '@ViewBag.ApplyWithMoney';
+        (function ($) {
+            $("#old").focus();
+            var stae1, stae2, stae3,
+                handle = function (dom, data, msg, d) {
+                    if (data) {
+                        stae1 = $('#' + dom).val();
+                    } else {
+                        $('#' + dom).css({ borderColor: '#f60' });
+                        $('#' + dom + '_msg').css({ color: '#f60' }).html(msg);
+                        stae1 = '';
+                    }
+                };
+
+            $('#new').blur(function () {
+                var d = $(this).val();
+                if (d.length < 6) {
+                    $('#new').css({ borderColor: '#f60' });
+                    $('#new_msg').css({ color: '#f60' }).html('密码不能少于6位!');
+                    stae2 = '';
+                } else {
+                    $('#new').css({ borderColor: '#ccc' });
+                    $('#new_msg').css({ color: '#ccc' }).html('');
+                    stae2 = d;
+                    if ($('#confirm').val() != '' && $('#confirm').val() == $('#new').val()) {
+                        $('#confirm').css({ borderColor: '#ccc' });
+                        $('#confirm_msg').css({ color: '#ccc' }).html('');
+                        stae3 = d;
+                    }
+                }
+            });
+            $('#confirm').blur(function () {
+                var d = $(this).val();
+                if (d == $('#new').val()) {
+                    $('#confirm').css({ borderColor: '#ccc' });
+                    $('#confirm_msg').css({ color: '#ccc' }).html('');
+                    stae3 = d;
+                } else {
+                    $('#confirm').css({ borderColor: '#f60' });
+                    $('#confirm_msg').css({ color: '#f60' }).html('两次密码不一致!');
+                    stae3 = '';
+                }
+            });
+            $('#submitPwd').bind('click', function () {
+                //console.log(stae1)
+                if (!stae2) {
+                    $('#new').css({ borderColor: '#f60' });
+                    $('#new_msg').css({ color: '#f60' }).html('密码不能少于6位!');
+                }
+                if (!stae3) {
+                    $('#confirm').css({ borderColor: '#f60' });
+                    $('#confirm_msg').css({ color: '#f60' }).html('两次密码不一致!');
+                }
+                if (stae2 && stae3) {
+                    var loading = showLoading();
+                    $.ajax({
+                        type: 'post',
+                        url: '@Url.Action("SavePayPwd")',
+                        data: { "pwd": stae3 },
+                        dataType: "json",
+                        success: function (data) {
+                            loading.close();
+                            if (data.success) {
+                                $.dialog.succeedTips('设置成功！');
+                                JumpStep(2);
+                                checkScanState();
+                            }
+                        }
+                    });
+                }
+            });
+        }(jQuery))
+    </script>

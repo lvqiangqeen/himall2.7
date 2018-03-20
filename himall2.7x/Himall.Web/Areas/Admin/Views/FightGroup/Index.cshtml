@@ -1,0 +1,216 @@
+﻿@{
+    ViewBag.Title = "活动列表";
+}
+<div class="container clear-v20">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>活动列表</a></li>
+        <li><a href="@Url.Action("BoughtList")">服务购买列表</a></li>
+        <li><a href="@Url.Action("ServiceSetting")">服务费用设置</a></li>
+    </ul>
+    <div class="search-box" id="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">商品名称</label>
+                <input class="form-control input-ssm" type="text" id="txtproductname">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">活动状态</label>
+                <select id="selactivestatus" class="form-control input-ssm">
+                    <option value="">请选择</option>
+                    <option value="0">正在进行</option>
+                    <option value="1">即将开始</option>
+                    <option value="-1">已结束</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">店铺名称</label>
+                <input class="form-control input-ssm" type="text" id="txtshopname">
+            </div>
+            <div class="form-group"><button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button></div>
+        </form>
+    </div>
+
+    <table id="list" class="table"></table>
+</div>
+@Html.Hidden("dataurl", Url.Action("PostActiveList"))
+
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.json.js"></script>
+
+<script type="text/javascript">
+    var isposting = false;
+    $(function () {
+        $("#list").hiMallDatagrid({
+            url: $("#dataurl").val(),
+            singleSelect: true,
+            pagination: true,
+            NoDataMsg: '没有找到符合条件的数据',
+            idField: "Id",
+            pageSize: 15,
+            pageNumber: 1,
+            queryParams: {},
+            columns:
+            [[
+
+                { field: "Id", title: "Id", hidden: true },
+                { field: "ProductName", title: "商品名称", width: 400, align: "left" },
+                { field: "ShowActiveStatus", title: "活动状态", width: 260 },
+                { field: "ShopName", title: "店铺名称", width: 260 },
+                {
+                    field: "StartTime", title: "开始时间", width: 160, formatter: function (value, row, index) {
+                        return time_string(value);
+                    }
+                },
+                {
+                    field: "EndTime", title: "结束时间", width: 160, formatter: function (value, row, index) {
+                        var html = time_string(value);
+                        if (row.FightGroupManageAuditStatus == -1)
+                        {
+                            html = "--";
+                        }
+                        return html;
+                    }
+                },
+                { field: "OkGroupCount", title: "成团次数", width: 120 },
+                {
+                    field: "operation", title: "操作", width: 300, formatter: function (value, row, index) {
+                        var id = row.Id;
+                        var html = [""];
+                        if (row.ActiveStatus != -1) {
+                            html.push("<span class=\"btn-a\"><a class=\"bt-cancel\" href=\"###\" data-id=\"" + id + "\">下架</a></span>");
+                        }
+
+                        html.push("<span class=\"btn-a\"><a class=\"bt-view\" href=\"/Admin/FightGroup/ViewActive/" + id + "\">查看</a></span>");
+
+                        if (row.ActiveStatus != 1) {
+                            html.push("<span class=\"btn-a\"><a class=\"bt-viewgroup\" href=\"/Admin/FightGroup/ViewGroupList/" + id + "\">组团详情</a></span>");
+                        }
+                        if (row.FightGroupManageAuditStatus == -1) {
+                            var mtime = time_string(row.ManageDate);
+                            var mdes = row.ManageRemark;
+                            html.push("<span class=\"btn-a\"><a class=\"bt-saltoutdes\" href=\"###\" data-mdes=\"" + mdes + "\" data-mtime=\"" + mtime + "\"}\">下架原因</a></span>");
+                        }
+                        return html.join("");
+                    }
+                },
+            ]]
+        });
+        $('#searchButton').click(function (e) {
+            searchClose(e);
+            ReloadGrid(1);
+        });
+
+        //取消
+        $("#list").on("click", ".bt-cancel", function () {
+            var _t = $(this);
+            var id = _t.data("id");
+
+            dlgcontent = ['<div class="dialog-form">'];
+            dlgcontent = dlgcontent.concat([
+                    '<div class="form-group">',
+                        '<p>下架后该商品将从拼团活动列表中下架，是否确认下架？</p>',
+                    '</div>'
+            ]);
+            dlgcontent = dlgcontent.concat([
+                    '<div class="form-group">',
+                        '<textarea class="form-control" type="text" name="txtRemark" id="txtRemark" rows="4" placeholder="下架原因" />',
+                    '</div>'
+            ]);
+
+            var dlgbt = [{
+                name: '下架活动',
+                callback: function () {
+                    mremark = $('#txtRemark').val();
+                    if (mremark.length < 1) {
+                        art.dialog.alert('请输入下架原因！');
+                        return false;
+                    }
+
+                    if (!isposting) {
+                        var loading = showLoading();
+                        isposting = true;
+                        $.post('/Admin/FightGroup/CancelActive', { id: id, mremark: mremark }, function (result) {
+                            loading.close();
+                            isposting = false;
+                            if (result.success) {
+                                loading.close();
+                                $.dialog.tips('下架活动成功!', function () {
+                                    ReloadGrid();
+                                });
+                            }
+                            else {
+                                $.dialog.errorTips(result.msg);
+                            }
+                        });
+                    }
+                },
+                focus: true
+            }];
+
+            dlgbt.push({
+                name: '放弃操作'
+            });
+
+            $.dialog({
+                title: '下架活动',
+                lock: true,
+                id: 'saltoutdlg',
+                width: '500px',
+                content: dlgcontent.join(''),
+                padding: '0 40px',
+                init: function () { $("#txtRemark").focus(); },
+                button: dlgbt
+            });
+
+        });
+
+        //下架原因
+        $("#list").on("click", ".bt-saltoutdes", function () {
+            var _t = $(this);
+            var mdes = _t.data("mdes");
+            var mtime = _t.data("mtime");
+            dlgcontent = ['<div class="dialog-form">'];
+            dlgcontent = dlgcontent.concat([
+                    '<div class="form-group">',
+                '<label class="label-inline fl">平台下架原因</label>',
+                '<p class="only-text">'+mdes+'</p>',
+                    '</div>',
+                    '<div class="form-group">',
+                '<label class="label-inline fl">平台操作时间</label>',
+                '<p class="only-text">' + mtime + '</p>',
+                    '</div>'
+            ]);
+
+            var dlgbt = [{
+                name: '关闭',
+                focus: true
+            }];
+
+            $.dialog({
+                title: '下架原因查看',
+                lock: true,
+                id: 'saltoutdesdlg',
+                width: '500px',
+                content: dlgcontent.join(''),
+                padding: '0 40px',
+                button: dlgbt
+            });
+
+        });
+    });
+
+    //重载数据
+    function ReloadGrid(page) {
+        var pageNo = page || $("#list").hiMallDatagrid('options').pageNumber;
+        var proname = $.trim($('#txtproductname').val());
+        var actstatus = $('#selactivestatus').val();
+        var shopname = $('#txtshopname').val();
+        $("#list").hiMallDatagrid('reload',
+            {
+                shopName: shopname,
+                productName: proname,
+                activeStatus: actstatus,
+                pageNumber: pageNo
+            });
+    }
+</script>

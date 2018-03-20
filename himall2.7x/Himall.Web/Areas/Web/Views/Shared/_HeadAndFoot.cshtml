@@ -1,0 +1,62 @@
+﻿@{
+	Layout = null;
+}
+<!DOCTYPE html>
+<html xmlns:wb="http://open.weibo.com/wb">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="renderer" content="webkit|ie-stand" />
+	<meta charset="utf-8" />
+	<meta name="keywords" content="@this.SiteSetting.Site_SEOKeywords" />
+	<meta name="description" content="@this.SiteSetting.Site_SEODescription" />
+	<meta name="viewport" content="width=device-width" />
+	<meta property="wb:webmaster" content="13b21966c78f011e" />
+    <meta property="Generator" content="@(this.Generator)" />
+	<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+	@if (ViewBag.OAuthValidateContents != null)
+	{
+		var contents = (IEnumerable<string>)ViewBag.OAuthValidateContents;
+		foreach (var content in contents)
+		{
+			@(new HtmlString(content))
+		}
+	}
+
+	<title>@ViewBag.Title</title>
+
+	<link href="~/Areas/Web/Content/common.css" rel="stylesheet" />
+	@RenderSection("Style", false)
+
+	<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+	<script src="~/Areas/Web/Scripts/web.js"></script>
+	<script src="~/Scripts/CommonJS.js"></script>
+	@RenderSection("Script", false)
+</head>
+<body>
+	<!--_HeadAndFoot start-->
+	@if (IsSectionDefined("Header"))
+	{
+		@RenderSection("header")
+	}
+	else
+	{
+		Html.RenderAction("Header", "ProductPartial");
+	}
+
+	@RenderBody()
+
+	@if (IsSectionDefined("Foot"))
+	{
+		@RenderSection("Foot")
+	}
+	else
+	{
+		Html.RenderAction("Foot", "ProductPartial");
+	}
+
+	@RenderSection("ScriptLast", false)
+	
+	@Html.Partial("_ShowMessage")
+	<!--_HeadAndFoot end-->
+</body>
+</html>

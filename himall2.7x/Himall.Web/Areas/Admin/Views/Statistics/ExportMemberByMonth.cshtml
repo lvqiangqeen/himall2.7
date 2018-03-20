@@ -1,0 +1,30 @@
+﻿@model Himall.Model.LineChartDataModel<int>
+@{
+    object Title = new object();
+    ViewData.TryGetValue("Title", out Title);
+    var totalCount = Model.SeriesData[0].Data.Sum();
+    var MaxCount = Model.SeriesData[0].Data.Max();
+}
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+    <thead>
+        <tr>
+            <th colspan="2">@((string)Title)</th>
+        </tr>
+        <tr>
+            <th>日期</th>
+            <th>会员人数</th>
+        </tr>
+    </thead>
+    <tbody id="list-table-body">
+        @for (int i = 0; i < Model.XAxisData.Length; i++)
+        {
+            <tr>
+                <td>@Model.XAxisData[i]</td>
+                <td>@Model.SeriesData[0].Data[i]</td>
+            </tr>
+        }
+        <tr>
+            <td colspan="2">该月新增会员：@totalCount 人，最多人数：@MaxCount 人</td>
+        </tr>
+    </tbody>
+</table>

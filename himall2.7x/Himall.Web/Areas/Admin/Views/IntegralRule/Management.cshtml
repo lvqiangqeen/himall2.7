@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "积分获取规则";
+}
+@model Himall.Web.Areas.Admin.Models.IntegralRule
+
+<script src="~/Areas/Admin/Scripts/IntegralRuleManagement.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li class="active"><a href="./Management">积分获取规则</a></li>
+        <li>@Html.ActionLink("积分兑换规则", "Change", new { area = "admin" })</li>
+
+    </ul>
+    <form id="v-form" class="form-horizontal" method="post">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">规则配置：</label>
+            <div class="col-sm-9">
+                <table class="table table-bordered typeTable">
+                    <thead>
+                        <tr>
+                            <th>项目</th>
+                            <th>积分(+)</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>绑定手机邮箱</td>
+                            <td><input class="text-order no-m" type="text" name="Reg" id="Reg" value="@Model.Reg"></td>
+                            <td>注册会员绑定手机和邮箱</td>
+                        </tr>
+                        <tr>
+                            <td>绑定微信公众号</td>
+                            <td><input class="text-order no-m" type="text" name="BindWX" id="BindWX" value="@Model.BindWX"></td>
+                            <td>会员在微信端绑定个人账号赠送的积分</td>
+                        </tr>
+                        <tr>
+                            <td>每日登录</td>
+                            <td><input class="text-order no-m" type="text" name="Login" id="Login" value="@Model.Login"></td>
+                            <td>会员每日登录赠送的积分，每天仅第一次登录可获得积分</td>
+                        </tr>
+                        <tr>
+                            <td>商品评论</td>
+                            <td><input class="text-order no-m" type="text" name="Comment" id="Comment" value="@Model.Comment"></td>
+                            <td>会员每次发布商品评论赠送的积分</td>
+                        </tr>
+                        <tr>
+                            <td>晒订单</td>
+                            <td><input class="text-order no-m" type="text" name="Share" id="Share" value="@Model.Share"></td>
+                            <td>会员每个订单首次晒单赠送的积分</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="help-block">注：当配置为0时，则表示该项不获得积分</p>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">其它：</label>
+            <div class="info-cue" style="padding-top:0;">
+                每消费
+                <input class="form-control input-sm clear-u5" id="MoneyPerIntegral" name="MoneyPerIntegral" type="text" value="@Model.MoneyPerIntegral">
+                元可获1积分
+            </div>
+            <div class="col-sm-5"><span class="help-default">&nbsp;&nbsp;&nbsp;金额不足1积分部分将自动省去</span></div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" class="btn btn-primary" value="提 交">
+            </div>
+        </div>
+    </form>
+</div>
+<script src="~/Scripts/v.js"></script>

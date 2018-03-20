@@ -1,0 +1,54 @@
+﻿@model Himall.Web.Areas.Mobile.Models.FightGroupOrderOkModel
+@{
+	ViewBag.Title = "参团成功";
+	int neednum = Model.LimitedNumber - Model.JoinNumber;
+	neednum = neednum < 0 ? 0 : neednum;
+}
+<style>
+	html, body {
+		height: 100%;
+	}
+</style>
+<div class="merge-mask hide">
+	<div class="text-tip"></div>
+</div>
+<div class="container merge-small-page merge-call">
+	<div class="merge-call-bg"></div>
+	<a class="btn btn-danger btn-call" href="###" id="bt_invite">去呼唤朋友</a>
+	<p>您已@(Model.isFirst ? "开" : "参")团成功，@(neednum > 0 ? "再邀请 " + neednum.ToString() + "  人就可以组团成功了!" : "加油开启新的火拼团")</p>
+</div>
+<script type="text/javascript">
+	$(function () {
+		$("#bt_invite").on("click", function () {
+			$(".merge-mask").removeClass("hide");
+		});
+
+		$(".merge-mask").on("click", function () {
+			var _t = $(this);
+			_t.addClass("hide");
+		});
+	});
+</script>
+
+<script>
+	var loading = showLoading();
+	var winxinShareArgs = {
+		success: function () {
+			loading.close();
+		},
+		error: function () {
+			loading.close();
+			$.dialog.errorTips('注册微信接口失败，请刷新页面');
+		},
+		share: {
+			title: '@Model.ShareTitle',
+			desc: '@Model.ShareDesc',
+			link: '@Model.ShareUrl',
+			imgUrl: '@Model.ShareImage',
+			success: function () {
+				$(".merge-mask").addClass("hide");
+			}
+		}
+	};
+</script>
+@Html.Partial("_WeiXinShare")

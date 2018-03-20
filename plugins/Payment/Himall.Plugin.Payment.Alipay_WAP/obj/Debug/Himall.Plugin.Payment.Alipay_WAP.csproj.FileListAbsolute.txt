@@ -1,0 +1,15 @@
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_WAP\bin\Debug\logo.gif
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_WAP\bin\Debug\plugin.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_WAP\bin\Debug\alipay.gif
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_WAP\bin\Debug\data.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_WAP\bin\Debug\Himall.Plugin.Payment.Alipay_WAP.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_WAP\bin\Debug\Himall.Plugin.Payment.Alipay_WAP.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_WAP\bin\Debug\Himall.Core.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_WAP\bin\Debug\Himall.PaymentPlugin.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_WAP\bin\Debug\Himall.Plugin.Payment.Alipay.Base.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_WAP\bin\Debug\Himall.PaymentPlugin.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_WAP\bin\Debug\Himall.Plugin.Payment.Alipay.Base.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_WAP\bin\Debug\Himall.Core.xml
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_WAP\obj\Debug\Himall.Plugin.Payment.Alipay_WAP.csprojResolveAssemblyReference.cache
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_WAP\obj\Debug\Himall.Plugin.Payment.Alipay_WAP.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_WAP\obj\Debug\Himall.Plugin.Payment.Alipay_WAP.pdb

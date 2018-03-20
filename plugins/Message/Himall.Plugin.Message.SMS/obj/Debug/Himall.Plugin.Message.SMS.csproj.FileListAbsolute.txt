@@ -1,0 +1,11 @@
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.SMS\bin\Debug\plugin.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.SMS\bin\Debug\Data\SMS.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.SMS\bin\Debug\Himall.Plugin.Message.SMS.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.SMS\bin\Debug\Himall.Plugin.Message.SMS.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.SMS\bin\Debug\Himall.Core.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.SMS\bin\Debug\Himall.MessagePlugin.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.SMS\bin\Debug\Himall.MessagePlugin.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.SMS\bin\Debug\Himall.Core.xml
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.SMS\obj\Debug\Himall.Plugin.Message.SMS.csprojResolveAssemblyReference.cache
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.SMS\obj\Debug\Himall.Plugin.Message.SMS.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.SMS\obj\Debug\Himall.Plugin.Message.SMS.pdb

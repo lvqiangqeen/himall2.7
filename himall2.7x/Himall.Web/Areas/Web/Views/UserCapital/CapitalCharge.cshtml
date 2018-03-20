@@ -1,0 +1,100 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "预付款充值";
+}
+@model Himall.Model.CapitalInfo
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+
+<div class="box1 lh24">
+    <div class="title bot-border">
+		
+        <a class="title_txt cur">预付款充值</a>
+        <a class="title_txt" href="../UserCapital" style="margin-left:40px;margin-top:2px;">账户管理</a>
+    </div>
+    <div class="border-box">
+        <div class="user-set userset-lcol">
+            <div class="form">
+                <div class="item">
+                    <span class="label">可用金额：</span>
+                    <div class="fl">
+                         @(Model == null ? 0 : Model.Balance.Value) 元
+                    </div>
+                </div>
+				<div class="item">
+                    <span class="label">充值金额：</span>
+                    <div class="fl">
+						<input class="itxt fl" onkeyup="" onblur="" id="balance" type="text" /> 元
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="label">&nbsp;</span>
+                    <div class="fl">
+                        <a class="btn-5" href="javascript:;" onclick="Pay()">提交</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="" id="payMent" style="display:none">
+    <h5 class="subtit">请选择支付方式</h5>
+    <ul></ul>
+</div>
+<style>
+    #payMent ul {
+        margin-left: 20px;
+    }
+
+    #payMent li {
+        padding-top: 10px;
+    }
+
+    #payMent input[type="radio"] {
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+</style>
+
+
+<script>
+
+    function Pay() {
+        var reg =new RegExp('^[0-9]+([.]{1}[0-9]{1,2})?$');
+        if ($("#balance").val() == "") {
+            $.dialog.tips("请输入要充值金额");
+            return false;
+        }
+        if (!reg.test($("#balance").val()))
+        {
+            $.dialog.errorTips("金额格式不对");
+            return false;
+        }
+        if (parseFloat($("#balance").val()) <= 0) {
+            $.dialog.errorTips("充值金额必需大于零");
+            return false;
+        }
+        if (parseFloat($("#balance").val()) > 5000) {
+            $.dialog.errorTips("充值金额最大不能超过5000");
+            return false;
+        }
+        var loading = showLoading();
+        $.post("ChargeSubmit", { amount: parseFloat($("#balance").val()) }, function (result) {
+            var html = '';
+            if (result.success)
+            {
+                window.top.open("/Order/ChargePay?orderIds=" + result.msg, "_self");
+            }
+            else {
+                loading.close();
+                $.dialog.errorTips(result.msg);
+            }
+        });
+    }
+    
+</script>

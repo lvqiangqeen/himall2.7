@@ -1,0 +1,126 @@
+﻿@model Himall.Model.DistributionShareSetting
+@{
+	Layout = null;
+}
+<!--ShareInfo start-->
+<script>
+	var shareTitle = '';
+	var shareDesc = '';
+	var shareIcon = '';
+	var shopTitle = '';
+	var shopDesc = '';
+	var shopIcon = '';
+	var disShareTitle = '';
+	var disShareDesc = '';
+	var disShareIcon = '';
+
+	var shareLink = '@Url.Action("Detail", "Product", new { id = "#id#", partnerid="#uid#" })';
+	var updateUrl = '@Url.Action("UpdateShareNum","DistributionMarket")';
+</script>
+
+@{
+	var shareInfo = Model;
+	
+	if (shareInfo != null)
+	{
+		shareInfo.ProShareLogo = (string.IsNullOrWhiteSpace(shareInfo.ProShareLogo)) ? "" : Himall.Core.HimallIO.GetRomoteImagePath(shareInfo.ProShareLogo);//图片地址转换
+		shareInfo.DisShareLogo = (string.IsNullOrWhiteSpace(shareInfo.DisShareLogo)) ? "" : Himall.Core.HimallIO.GetRomoteImagePath(shareInfo.DisShareLogo);
+		shareInfo.ShopShareLogo = (string.IsNullOrWhiteSpace(shareInfo.ShopShareLogo)) ? "" : Himall.Core.HimallIO.GetRomoteImagePath(shareInfo.ShopShareLogo);
+		<script>
+			shareTitle = '@shareInfo.ProShareTitle';
+			shareDesc = '@shareInfo.ProShareDesc';
+			shareIcon = '@shareInfo.ProShareLogo';
+			shopTitle = '@shareInfo.ShopShareTitle';
+			shopDesc = '@shareInfo.ShopShareDesc';
+			shopIcon = '@shareInfo.ShopShareLogo';
+			disShareTitle = '@shareInfo.DisShareTitle';
+			disShareDesc = '@shareInfo.DisShareDesc';
+			disShareIcon = '@shareInfo.DisShareLogo';
+		</script>
+	}
+}
+
+
+
+<script>
+	$(function () {
+		var shareguide = $(".share-guide");
+		if (shareguide.length < 1) {
+			$("body").append("<div class=\"share-guide\"></div>");
+		}
+		$(".share-guide").click(function () {
+			$(this).hide();
+		});
+		$('#databox').on('click', '.bt_share', function () {
+			shareProduct($(this), true);
+		});
+	});
+
+	function shareProduct(obj, show) {
+		var productId = 0;
+		var pid = obj.data("pid");
+		var uid = obj.data("uid");
+		var _url = shareLink;
+		_url = _url.replace("%23id%23", pid);
+		_url = _url.replace("%23uid%23", uid);
+		var hosturl = 'http://' + window.location.host
+		var newlink = hosturl + _url;
+		productId = pid;
+		var _stitle = shareTitle;
+		var _sdesc = shareDesc;
+		var _sicon = shareIcon;
+		if (_stitle == '')
+		    _stitle = obj.data("title");
+
+		if (_sdesc == '') {
+		    _sdesc = obj.data("des");
+		    if (_sdesc == '') {
+		        _sdesc = _stitle;
+		    }
+		}
+		if (_sicon == '')
+		    _sicon = hosturl + obj.data("img");
+
+		if (show) {
+			$(".share-guide").show();
+		}
+
+		winxinShareArgs.share = $.extend(winxinShareArgs.share, {
+			link: newlink,
+			title: _stitle,
+			desc: _sdesc,
+			imgUrl: _sicon,
+			success: function () {
+				if (productId) {
+					$.post(updateUrl, { productId: productId });
+				}
+			}
+		});
+		initWinxin(winxinShareArgs);
+	}
+</script>
+
+<script>
+	var loading = showLoading();
+	var winxinShareArgs = {
+		success: function () {
+			loading.close();
+		},
+		error: function () {
+			loading.close();
+			imitateRequireJS.load('artDialog', function () {
+				$.dialog.errorTips('注册微信接口失败，请刷新页面');
+			});
+		},
+		share: {
+			title: shareTitle,
+			desc: shareDesc,
+			link: '',
+			imgUrl: shareIcon,
+			success: null
+		}
+	};
+</script>
+
+@Html.Partial("_WeiXinShare")
+<!--ShareInfo end-->

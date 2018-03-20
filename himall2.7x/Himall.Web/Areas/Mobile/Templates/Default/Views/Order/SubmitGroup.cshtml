@@ -1,0 +1,347 @@
+﻿@model Himall.Web.Areas.Mobile.Models.OrderSubmitGroupModel
+@{
+    ViewBag.Title = "订单提交";
+    long GroupActionId = Model.GroupActionId;
+    long? GroupId = Model.GroupId;
+}
+<link rel="stylesheet" href="/Areas/Mobile/Templates/Default/Content/bootstrap-switch.css">
+<script src="~/Areas/Mobile/Templates/Default/Scripts/bootstrap-switch.min.js"></script>
+<input id="icod" type="hidden" value="@Model.ConfirmModel.IsCashOnDelivery.ToString()" />
+<input id="total" type="hidden" value="@Model.ConfirmModel.orderAmount.ToString( "F2" )" />
+@{var products = (IEnumerable<Himall.DTO.MobileShopCartItemModel>)Model.ConfirmModel.products;}
+
+<div class="container submit-cart">
+    @if (Model.ConfirmModel.Address != null)
+    {
+        var defaultAddress = (Himall.Model.ShippingAddressInfo)Model.ConfirmModel.Address;
+        <a href="#" class="well" id="choiceAddr">
+            <p id="selectedAddress">收货人：@defaultAddress.ShipTo <i class="glyphicon glyphicon-menu-right"></i><span>@defaultAddress.Phone</span></p>
+            <p class="address"><i></i>@defaultAddress.RegionFullName &nbsp; &nbsp;@defaultAddress.Address&nbsp;</p>
+        </a>
+    }
+    else
+    {
+        <div class="well" id="addaddr">
+            <p>您还没有填写收货地址<a style="color:red">去新增</a></p>
+        </div>
+    }
+
+    @{
+        var zyShop = products.Where(p => p.shopId == 1).FirstOrDefault();
+        var otherShops = products.Where(p => p.shopId != 1).ToList();
+    }
+    @if (Model.ConfirmModel.IsCashOnDelivery && zyShop != null && zyShop.CartItemModels.Count > 0)
+    {
+        <div id="payment_m" class="payment_m">
+            <span>支付方式</span>
+            <i class="glyphicon glyphicon-menu-right"></i>
+            <span class="payment-c"><a href="#">在线支付 </a></span>
+        </div>
+    }
+    else
+    {
+        <div id="payment_m">
+            <span>支付方式</span>
+            <span class="payment-c"><a href="#">在线支付</a></span>
+        </div>
+    }
+
+    @foreach (var shop in products)
+    {
+        <div class="goods-info mb10" id="@shop.shopId">
+            @if (shop.VshopId != 0)
+            {
+                <div class="item">
+                    <a href="/@(ViewBag.AreaName)/vshop/detail/@shop.VshopId">
+                        <div class="goods-shop">
+                            @shop.ShopName
+                            <i class="glyphicon glyphicon-menu-right"></i>
+                        </div>
+                    </a>
+                </div>
+            }
+            else
+            {
+                <a>
+
+                    <div class="item">
+                        <div class="goods-shop">
+                            @shop.ShopName
+                        </div>
+                    </div>
+                </a>
+            }
+
+
+            @foreach (var product in shop.CartItemModels)
+            {
+                <div class="item">
+                    <div class="buy-goods">
+                        <img src="@product.imgUrl" />
+                        <h6><span><a href="/@(ViewBag.AreaName)/product/detail/@product.id">@product.name</a></span><em>¥ @product.price.ToString("F2")</em></h6>
+                        <h5>
+                            <p class="gray">
+
+                                @if (!string.IsNullOrEmpty(product.size))
+                                {
+                                    <label>@product.SizeAlias：@product.size &nbsp;&nbsp;</label>
+                                }
+                                @if (!string.IsNullOrEmpty(product.color))
+                                {
+                                    <label>@product.ColorAlias：@product.color &nbsp;&nbsp;</label>
+                                }
+                                @if (!string.IsNullOrEmpty(product.version))
+                                {
+                                    <label>@product.VersionAlias：@product.version</label>
+                                }
+                                &nbsp;
+                            </p>
+                            <p class="gray text-right">x @product.count</p>
+                        </h5>
+                    </div>
+                </div>
+            }
+            @if (shop.OneCoupons != null)
+            {
+                <div class="item">
+                    <div class="detail-anchor">优惠券<span class="pull-right">抵扣  @shop.OneCoupons.BasePrice 元</span></div>
+                    <input type="hidden" data-type="@((int)shop.OneCoupons.BaseType)" name="couponIds" value="@shop.OneCoupons.BaseId" />
+                </div>
+            }
+            @if (shop.FullDiscount > 0)
+            {
+                <div class="item">
+                    <div class="detail-anchor">满减优惠<span class="pull-right">- @shop.FullDiscount</span></div>
+                </div>
+            }
+            <div class="item">
+                <div class="detail-anchor divider">
+                    <span>配送方式</span>
+                    <span class="pull-right">快递 &nbsp;@(shop.IsFreeFreight ? "免邮" : shop.Freight.ToString("F2") + "元")</span>
+                </div>
+            </div>
+            <!--留言字段添加6-12-->
+            <div class="item">
+                <div class="leave-message divider">
+                    <label>给卖家留言：</label>
+                    <div class="leave-message-inner"><input type="text" class="orderRemarks" placeholder="选填" /> </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="detail-anchor total-m">
+                    <a href="#"><span class="pay">在线支付</span></a>
+                    &nbsp;<span class="pull-right total">微店合计<em>￥@((shop.CartItemModels.Sum(item => item.price * item.count) + shop.Freight - (shop.OneCoupons == null ? 0 : shop.OneCoupons.BasePrice)).ToString("F2"))</em></span>
+                </div>
+            </div>
+        </div>
+    }
+    @if (Model.ConfirmModel.userIntegrals > 0)
+    {
+        <div class="goods-info mb11">
+            <div class="item">
+                <div class="detail-anchor">
+                    <input type="hidden" id="userIntegrals" value="@Model.ConfirmModel.userIntegrals" />
+                    <span class="pull-left score"><label>可用@(Model.ConfirmModel.userIntegrals)积分抵扣<em>￥@(Model.ConfirmModel.integralPerMoney)</em></label></span>
+                    <span class="pull-right">
+                        <div class="switch switch-mini"><input class="bootstrapSwitch2" type="checkbox" data-size="mini" data-on-text="ON" data-off-text="OFF" /></div>
+                        @*<div class="switch switch-mini" data-on="info" data-off="success"><input class="bootstrapSwitch" type="checkbox" data-size="mini" checked data-on-text="yesd" data-off-text="nddo" id="userIntegrals" value="@(Model.ConfirmModel.userIntegrals)" /></div>*@
+                    </span>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="bill">
+        <span>发票信息</span>
+        <i class="glyphicon glyphicon-menu-right"></i>
+        <span class="bill-detail">
+            <a href="#">不需要发票</a>
+        </span>
+    </div>
+    <div class="bill-Cart">
+        <div class="bill-C00">
+            <div class="top-bill">
+                <h3>发票抬头</h3>
+                <p><span class="active bill-check" aria-hidden="true"></span>个人</p>
+                <p><span class="bill-check" aria-hidden="true"></span>公司<input type="text" placeholder="公司全称" /></p>
+            </div>
+            <div class="content-bill">
+                <h3>发票内容</h3>
+                @foreach (var item in Model.ConfirmModel.InvoiceContext)
+                {
+                    <p><span class="bill-check"></span>@item.Name</p>
+                }
+            </div>
+            <a id="bill-submit" class="clearfix">
+                确定
+            </a>
+        </div>
+    </div>
+
+    <div class="custom-dialog" id="paymentsChooser"></div>
+
+    <!--支付方式弹框页-->
+
+    <div class="payment-way">
+        @if (zyShop != null && zyShop.CartItemModels.Count > 0)
+        {
+            <div class="way-01">
+                <h3>
+                    <span>支持在线支付和货到付款</span><em>共<span id="unpay_pro_t">@zyShop.CartItemModels.Count</span>件</em>
+                </h3>
+                <div class="pro-mid">
+                    <div class="pro-list">
+                        <div class="pro-wrap">
+                            <div class="pro-img">
+                                <ul>
+                                    @foreach (var product in zyShop.CartItemModels)
+                                    {
+                                        <li><a><img src="@product.imgUrl"></a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="way-detail">
+                        <a class="online active">在线支付</a>
+                        @if (Model.ConfirmModel.IsCashOnDelivery && zyShop != null && zyShop.CartItemModels.Count > 0)
+                        {
+                            <a class="offline">货到付款</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (otherShops != null && otherShops.Count > 0)
+        {
+            <div class="way-02">
+                <h3>
+                    <span>仅支持在线支付</span><em>共<span id="unpay_pro_t">@otherShops.Sum(p => p.CartItemModels.Count)</span>件</em>
+                </h3>
+                <div class="pro-mid">
+                    <div class="pro-list">
+                        <div class="pro-wrap">
+                            <div class="pro-img">
+                                <ul>
+                                    @foreach (var shop in otherShops)
+                                    {
+                                        foreach (var product in shop.CartItemModels)
+                                        {
+                                            <li><a><img src="@product.imgUrl"></a></li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="way-detail">
+                        <a class="online active">在线支付</a>
+                    </div>
+                </div>
+            </div>
+        }
+        <a id="pay-submit">
+            确定
+        </a>
+    </div>
+    <div class="cover" style="display:none;"></div>
+
+</div>
+
+<script>
+    var sku = "@Model.ConfirmModel.Sku";
+    var counts = "@Model.ConfirmModel.Count";
+    var isLimitTimeBuy = "false";
+    var isFightGroup = true;
+    var isWeiXin=@(Model.IsWeiXin?"false":"true");
+</script>
+<input type="hidden" id="shippingAddressId" value="@(Model.ConfirmModel.Address != null ? ((Himall.Model.ShippingAddressInfo)Model.ConfirmModel.Address).Id.ToString() : "")" />
+<input type="hidden" id="integralPerMoney" value="@(Model.ConfirmModel.integralPerMoney)" />
+
+@Html.Hidden("gaid", GroupActionId)
+@Html.Hidden("gpid", GroupId)
+
+<footer class="clearfix footer-cart">
+    <em class="cart-total cart-total-lg">
+        总金额<a id="allTotal">¥@Model.ConfirmModel.orderAmount.ToString("F2")</a>
+    </em>
+    <a id="submit-order" class="cart-pay">提交</a>
+</footer>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/SubmitOrderGroup.js"></script>
+<script type="text/javascript">
+    var isintegral = false;
+    $(document).ready(function () {
+
+        @if (Model.ConfirmModel.integralPerMoney>0)
+         {
+             <text>
+        $(".bootstrapSwitch2").bootstrapSwitch(
+         {
+             onSwitchChange: function (event, state) {
+                 isintegral = state;
+                 oldTotal = $("#allTotal").html().replace('¥', '');
+                 if (isintegral) {
+                     $("#allTotal").html('¥' + parseInt((+parseFloat(oldTotal) - parseFloat($("#integralPerMoney").val())) * 100) / 100);
+                 }
+                 else {
+                     $("#allTotal").html('¥' + parseInt((+parseFloat(oldTotal) + parseFloat($("#integralPerMoney").val())) * 100) / 100);
+                 }
+             }
+         });
+        </text>
+         }
+
+        $(".bill-Cart .content-bill .bill-check").eq(0).addClass("active");
+
+
+        //支付方式选择
+        $(".way-detail>a").click(function () {
+            $(this).addClass("active").siblings().removeClass("active");
+        });
+
+        //发票选择
+        $(".top-bill>p").click(function () {
+            $(".top-bill>p>span").removeClass("active");
+            $("span", this).addClass("active");
+        });
+        $(".content-bill>p").click(function () {
+            $(".content-bill>p>span").removeClass("active");
+            $("span", this).addClass("active");
+        });
+
+        //支付方式弹框动画
+        $('#payment_m').click(function () {
+            //不可以货到付款
+            //document.title = "支付方式";
+            //$( '.payment-way').css('right',0);
+        });
+
+        $('#pay-submit').click(function () {
+            $("#payment_m .payment-c a").html("在线支付");
+            $("#1 .total-m .pay").html("在线支付");
+            $('.payment-way').css('right', '-100%');
+            document.title = "订单提交";
+        });
+
+        //发票弹框动画
+        $('.bill').click(function () {
+            $('.bill-Cart').show();
+        });
+        $('#bill-submit').click(function () {
+            var s = $(".bill-Cart .top-bill .active ").parent().text();
+            if (s == "公司") {
+                s = $(".bill-Cart .top-bill .active ").parent().find("input").val();
+                if ($.trim(s) == "") {
+                    $.dialog.errorTips('公司名必填！');
+                    return;
+                }
+            }
+            $(".bill a").html(s);
+            $('.bill-Cart').hide();
+        });
+
+        ////bootstrap开关
+        //  $(".bootstrapSwitch").bootstrapSwitch();
+    })
+</script>

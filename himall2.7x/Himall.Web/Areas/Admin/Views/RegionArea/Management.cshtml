@@ -1,0 +1,431 @@
+﻿<style>
+    .region_list ul li input:focus{outline:none;width: 120px;}
+</style>
+<div class="container">
+    @*<ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>区域管理</a></li> 
+    </ul>*@
+    <div class="search-area-wrap clearfix">
+        <div class="searcharea clearfix">
+            <h3 class="mt0">区域管理（双击地区可编辑）</h3>
+            @*<a class="btn btn-primary pull-right" href="javascript:;" onclick="ReSetRegionData();">恢复默认设置</a>*@
+        </div>
+        <div class="region_head clearfix mt20">
+            <span>省/自治区/直辖市</span>
+            <span>地级市</span>
+            <span>市辖区/县（县级市）</span>
+            <span>乡/镇/街道</span>
+        </div>
+        <div class="region_list clearfix">
+            <div class="region_list_1">
+                <ul></ul>
+                <a class="btn_add" href="javascript:;" onclick="addRegionControl('region_list_1',1)">+</a>
+            </div>
+            <div class="region_list_2">
+                <ul></ul>
+                <a class="btn_add" href="javascript:;" onclick="addRegionControl('region_list_2',2);">+</a>
+            </div>
+            <div class="region_list_3">
+                <ul></ul>
+                <a class="btn_add" href="javascript:;" onclick="addRegionControl('region_list_3',3);">+</a>
+            </div>
+            <div class="region_list_4 bd_0">
+                <ul></ul>
+                <a class="btn_add" href="javascript:;" onclick="addRegionControl('region_list_4',4);">+</a>
+            </div>
+        </div>
+
+    </div>
+    
+    <div id="delregions" style="display: none;">
+        <div class="frame-content">
+            <p>
+                <em>确定删除？</em>
+            </p>
+        </div>
+    </div>
+
+   
+</div>
+<script type="text/javascript">
+        var parentId = 0;
+        function loadProvince() {
+            var loading = showLoading();
+            $.ajax({
+                url: "/common/RegionAPI/GetSubRegion",
+                type: 'post', dataType: 'json', timeout: 10000,
+                data: { parent: parentId },
+                success: function (resultData) {
+                    $(".region_list_1 ul").html("");
+                    var regions = resultData;
+                    $.each(regions, function (index, ele) {
+                       // var liContent = '<input type="text" value=' + ele.Name + ' disabled /><a href="javascript:;" class="save" onclick="editRegion(' + ele.Id + ')">保存</a><a href="javascript:;" class="cancel"  onclick="delRegion(' + ele.Id + ')">删除</a> ';
+                        var liContent = '<input type="text" value=' + ele.Name + ' disabled /><a href="javascript:;" class="save" onclick="editRegion(' + ele.Id + ')">保存</a><a href="javascript:;" class="cancel">取消</a>';
+                        var li = "<li RegionId=" + ele.Id + ">" + liContent + "</li>";
+                        $(".region_list_1 ul").append(li);
+                    });
+                    $(".region_list_1 .btn_add").show();
+                    prevent();
+                    $(".region_list_1 ul li").click(function () {
+                        $(this).addClass("region_active");
+                        $(this).siblings().removeClass("region_active");
+                        $(this).siblings().removeClass("li_border");
+                        $(this).siblings().children("a").hide();
+                        $(this).siblings().children("input").attr("disabled", true);
+                        $(this).siblings().children("input").css("pointer-events", "none");
+                        $(".li_border").addClass("region_active");
+                        $(this).parent().parent().siblings().children("ul").children("li").removeClass("li_border");
+                        $(this).parent().parent().siblings().children("ul").children("li").children("a").hide();
+                        $(this).parent().parent().siblings().children("ul").children("li").children("input").attr("disabled", true);
+                        $(this).parent().parent().siblings().children("ul").children("li").children("input").css("pointer-events", "none");
+                        parentId = $(this).attr("RegionId");
+                        $(".region_list_2 .btn_add").show();
+                        $(".region_list_3 ul,.region_list_4 ul").html("");
+                        $(".region_list_3 .btn_add,.region_list_4 .btn_add").hide();
+                        loadCity();
+                        dbclick();
+                       // event.stopPropagation();
+                    });
+                    loading.close();
+                }
+            });
+        }
+
+        function loadCity() {
+            var loading = showLoading();
+            $.ajax({
+                url: "/common/RegionAPI/GetSubRegion",
+                type: 'post', dataType: 'json', timeout: 10000,
+                data: { parent: parentId },
+                success: function (resultData) {
+                    var regions = resultData;
+                    $(".region_list_2 ul").empty();
+                    $.each(regions, function (index, ele) {
+                        //var liContent = '<input type="text" value=' + ele.Name + ' disabled /><a href="javascript:;" class="save" onclick="editRegion(' + ele.Id + ')">保存</a><a href="javascript:;" onclick="delRegion(' + ele.Id + ')">删除</a>';
+                        var liContent = '<input type="text" value=' + ele.Name + ' disabled /><a href="javascript:;" class="save" onclick="editRegion(' + ele.Id + ')">保存</a><a href="javascript:;" class="cancel">取消</a>';
+                        var li = "<li RegionId=" + ele.Id + ">" + liContent + "</li>"
+                        $(".region_list_2 ul").append(li);
+                    });
+                    prevent();
+                    $(".region_list_2 ul li").click(function () {
+                        $(this).addClass("region_active");
+                        $(this).siblings().removeClass("region_active");
+                        $(this).siblings().removeClass("li_border");
+                        $(this).siblings().children("a").hide();
+                        $(this).siblings().children("input").attr("disabled", true);
+                        $(this).siblings().children("input").css("pointer-events", "none");
+                        $(".li_border").addClass("region_active");
+                        $(this).parent().parent().siblings().children("ul").children("li").removeClass("li_border");
+                        $(this).parent().parent().siblings().children("ul").children("li").children("a").hide();
+                        $(this).parent().parent().siblings().children("ul").children("li").children("input").attr("disabled", true);
+                        $(this).parent().parent().siblings().children("ul").children("li").children("input").css("pointer-events", "none");
+                        parentId = $(this).attr("RegionId");
+                        $(".region_list_3 .btn_add").show();
+                        $(".region_list_4 .btn_add").hide();
+                        $(".region_list_4 ul").html("");
+                        loadArea();
+                        dbclick();
+                       // event.stopPropagation();
+                    });
+                    loading.close();
+                }
+            });
+        }
+
+        function loadArea() {
+            var loading = showLoading();
+            $.ajax({
+                url: "/common/RegionAPI/GetSubRegion",
+                type: 'post',
+                dataType: 'json',
+                timeout: 10000,
+                data: { parent: parentId },
+                success: function (resultData) {
+                    var regions = resultData;
+                    $(".region_list_3 ul").empty();
+                    $.each(regions, function (index, ele) {
+                       // var liContent = '<input type="text" value=' + ele.Name + '  disabled  /><a href="javascript:;" class="save"  onclick="editRegion(' + ele.Id + ')">保存</a><a href="javascript:;"  onclick="delRegion(' + ele.Id + ')">删除</a>';
+                        var liContent = '<input type="text" value=' + ele.Name + ' disabled /><a href="javascript:;" class="save" onclick="editRegion(' + ele.Id + ')">保存</a><a href="javascript:;" class="cancel">取消</a>';
+                        var li = "<li RegionId=" + ele.Id + ">" + liContent + "</li>"
+                        $(".region_list_3 ul").append(li);
+                    });
+                    prevent();
+                    $(".region_list_3 ul li").click(function () {
+                        $(this).addClass("region_active");
+                        $(this).siblings().removeClass("region_active");
+                        $(this).siblings().removeClass("li_border");
+                        $(this).siblings().children("a").hide();
+                        $(this).siblings().children("input").attr("disabled", true);
+                        $(this).siblings().children("input").css("pointer-events", "none");
+                        $(".li_border").addClass("region_active");
+                        $(this).parent().parent().siblings().children("ul").children("li").removeClass("li_border");
+                        $(this).parent().parent().siblings().children("ul").children("li").children("a").hide();
+                        $(this).parent().parent().siblings().children("ul").children("li").children("input").attr("disabled", true);
+                        $(this).parent().parent().siblings().children("ul").children("li").children("input").css("pointer-events", "none");
+                        parentId = $(this).attr("RegionId");
+                        $(".region_list_4 .btn_add").show();
+                        $(".region_list_4 ul").html("");
+                        dbclick();
+                        loadCountry();
+                     //   event.stopPropagation();
+                    });
+                    loading.close();
+                }
+            });
+        }
+
+        function loadCountry() {
+            var loading = showLoading();
+            $.ajax({
+                url: "/common/RegionAPI/GetSubRegion",
+                type: 'post',
+                dataType: 'json',
+                timeout: 10000,
+                data: { parent: parentId },
+                success: function (resultData) {
+                    var regions = resultData;
+                    $(".region_list_4 ul").empty();
+                    $.each(regions, function (index, ele) {
+                      //  var liContent = '<input type="text" value=' + ele.Name + ' disabled /><a href="javascript:;" class="save" onclick = "editRegion(' + ele.Id + ')">保存</a><a href="javascript:;" class="cancel"  onclick="delRegion1(' + ele.Id + ')">删除</a>';
+                        var liContent = '<input type="text" value=' + ele.Name + ' disabled /><a href="javascript:;" class="save" onclick="editRegion(' + ele.Id + ')">保存</a><a href="javascript:;" class="cancel">取消</a>';
+                        var li = "<li RegionId=" + ele.Id + ">" + liContent + "</li>"
+                        $(".region_list_4 ul").append(li);
+                    });
+                    prevent();
+                    $(".region_list_4 ul li").click(function () {
+                        $(this).addClass("region_active");
+                        $(this).siblings().removeClass("region_active");
+                        $(this).siblings().removeClass("li_border");
+                        $(this).siblings().children("a").hide();
+                        $(this).siblings().children("input").attr("disabled", true);
+                        $(this).siblings().children("input").css("pointer-events", "none");
+                        $(".li_border").addClass("region_active");
+                        $(this).parent().parent().siblings().children("ul").children("li").removeClass("li_border");
+                        $(this).parent().parent().siblings().children("ul").children("li").children("a").hide();
+                        $(this).parent().parent().siblings().children("ul").children("li").children("input").attr("disabled", true);
+                        $(this).parent().parent().siblings().children("ul").children("li").children("input").css("pointer-events", "none");
+                        dbclick();
+                      //  event.stopPropagation();
+                    });
+                    loading.close();
+                }
+            });
+        }
+
+
+        //删除（这个暂时不做删除）
+        function delRegion(regionId) {
+            /*
+           {\"Status\":\"true\"} ，
+            status为0，表示参数错误，
+            status为false，表示删除失败
+            */
+            $.dialog.confirm('你确认删除吗？', function () {
+                $.ajax({
+                    url: "DelRegion",
+                    type: 'post',
+                    dataType: 'json',
+                    timeout: 1000000,
+                    data: { action: "DelRegion", RegionId: regionId },
+                    success: function (resultData) {
+                        if (resultData.success) {
+                            $.dialog.succeedTips('删除成功！', function () {
+                                $(".region_list_4 ul .region_active, .region_list_4 ul .li_border").remove();
+                            });
+                        } else {
+                            $.dialog.errorTips('删除失败！' + result.msg);
+                        }
+                    }
+                });
+            })
+        }
+
+        function editRegion(regionId) {
+            var regionName = $("li[regionid=" + regionId + "] input[type=text]").val();
+            var loading = showLoading();
+            $.ajax({
+                url: "EditRegion",
+                type: 'post',
+                dataType: 'json',
+                timeout: 10000,
+                data: { RegionId: regionId, RegionName: regionName },
+                success: function (resultData) {
+                    loading.close();
+                    if (resultData.success) {
+                        $.dialog.succeedTips('保存成功！', function () {
+                            $(".region_active").removeClass("li_border ");
+                            $(".region_active input").attr("disabled", true);
+                            $(".region_active a").hide();
+                        });
+                    }
+                    else {
+                        $.dialog.errorTips('保存失败！' + result.msg);
+                    }
+                }
+            });
+        }
+
+
+        function addRegion(depth, ele) {
+            var info = {};
+            info.RegionName = $(ele).prev().val();   //名称
+            if (info.RegionName == "" || info.RegionName == null)
+            {
+                $.dialog.errorTips('地区名称不能为空！');
+                $(".li_border input").focus();
+                return;
+            }
+
+            info.Depth = depth;  //层级，1=省份，2=市，3=区，4=街道
+           // info.IsLast = depth == 4;  //是否最后一级
+            switch (depth) {
+                case 1:
+                    info.ParentRegionId = 0;
+                    info.FullRegionPath = 0;
+                    break;
+                case 2:
+                    info.ParentRegionId = $("div.region_list_1 ul li.region_active").attr("regionid");
+                    info.FullRegionPath = $("div.region_list_1 ul li.region_active").attr("regionid");
+                    break;
+                case 3:
+                    info.ParentRegionId = $("div.region_list_2 ul li.region_active").attr("regionid");
+                    info.FullRegionPath = $("div.region_list_1 ul li.region_active").attr("regionid");
+                    info.FullRegionPath += "," + $("div.region_list_2 ul li.region_active").attr("regionid");
+                    break;
+                case 4:
+                    info.ParentRegionId = $("div.region_list_3 ul li.region_active").attr("regionid");
+                    info.FullRegionPath = $("div.region_list_1 ul li.region_active").attr("regionid");
+                    info.FullRegionPath += "," + $("div.region_list_2 ul li.region_active").attr("regionid");
+                    info.FullRegionPath += "," + $("div.region_list_3 ul li.region_active").attr("regionid");
+                    break;
+            }
+            //  var jsonStr = JSON.stringify(info);
+            var loading = showLoading();
+            $.ajax({
+                url: "AddRegion",
+                type: 'post',
+                dataType: 'json',
+                timeout: 10000,
+                data: { regionName: info.RegionName, level: info.Depth, path: info.FullRegionPath, ParentId: info.ParentRegionId},
+                success: function (resultData) {
+                    loading.close();
+                    if (resultData.success) {
+                        $.dialog.succeedTips('保存成功！', function () {
+                          
+                            if(info.Depth==1)
+                            {
+                                loadProvince();
+                            }
+                            else
+                            {
+                                $("div.region_list_"+(info.Depth-1)+" ul li.region_active").click();
+                            }
+
+                           // $(".li_border").addClass("region_active");
+                           // $(".li_border a").hide();
+                           // $(".li_border").attr("regionid", resultData.Id);
+                           // $(".li_border").removeClass("li_border ");   
+                          //  $(".li_border input").attr("disabled", true);
+                            // location.reload();
+                            //var liContent = '<input type="text" value=' + info.RegionName + ' disabled /><a href="javascript:;" class="save" onclick="editRegion(' + resultData.Id + ')">保存</a>';
+                            //var li = "<li RegionId=" + resultData.Id + ">" + liContent + "</li>"
+                            //$(".li_border").parent().append(li);
+                            //$(".li_border").remove();
+                        });
+
+                    }
+                    else {
+                        $.dialog.errorTips('保存失败！' + resultData.msg);
+                    }
+                }
+            });
+        }
+
+        function addRegionControl(className, dept) {
+            var addli = "<li regionid='0' class='li_border' id='addli'><input type='text' value='' /><a style='display:block' href='javascript:;'  onclick='addRegion(" + dept + ",this)'   class='save'>保存</a><a href='javascript:;' class='cancel' style='display:block' delRegion(' + ele.Id + ')>取消</a></li>";
+            $("div." + className + " ul").append(addli);
+            $(".cancel").click(function () {
+                $(this).parent().remove();
+            })
+            $("#addli input").focus();
+            dbclick();
+        }
+
+
+        ///重置地区数据
+        function ReSetRegionData() {
+            $.dialog.confirm('你确认进行重置操作吗？', function () {
+                var loading = showLoading();
+                $.ajax({
+                    url: "ReSetRegions",
+                    type: 'post', dataType: 'json', timeout: 1000000,
+                    data: {},
+                    success: function (resultData) {
+                        loading.close();
+                        if (resultData.success) {
+                        
+                            $.dialog.succeedTips('保存成功！', function () { location.reload(); });
+
+                        } else {
+                            $.dialog.errorTips('保存失败！' + result.msg);
+                        }
+                    }
+                })
+            });
+        }
+
+
+
+        $(function () {
+            loadProvince();
+        })
+
+        function prevent() {
+            $(".region_list ul li input").click(function () {
+                event.stopPropagation();
+            })
+        }
+
+        function dbclick() {
+            $(".region_list ul li").dblclick(function () {
+                $(this).children("a").show();
+                $(this).addClass("li_border");
+                $(this).siblings("li").removeClass("li_border");
+                $(this).parent().parent().siblings().children("ul").children("li").removeClass("li_border");
+                $(this).parent().parent().siblings().children("ul").children("li").children("a").hide();
+                $(this).parent().parent().siblings().children("ul").children("li").children("input").attr("disabled", true);
+                $(this).parent().parent().siblings().children("ul").children("li").children("input").css("pointer-events", "none");
+                $(this).siblings("li").children("a").hide(0, function () {
+                    $(this).siblings("input").attr("disabled", true);
+                    $(this).siblings("input").css("pointer-events", "none");
+                });
+                $(this).children("input").attr("disabled", false);
+                $(this).children("input").css("pointer-events", "all");
+                $(this).children("input").focus();
+                $(this).removeClass("region_active");
+            });
+
+            $(".cancel").click(function () {
+                $(this).parent("li").removeClass("li_border");
+                $(this).parent().children("a").hide();
+                $(this).siblings("input").attr("disabled", true);
+                $(this).siblings("input").css("pointer-events", "none");
+            })
+            try {
+                event.stopPropagation();
+            } catch (e) {
+                console.log(e);
+            }
+
+
+        }
+
+        //function regionactive() {
+        //    $("").click(function () {
+        //        $(this).addClass("region_active");
+        //        $(this).siblings().removeClass("region_active");
+        //    })
+        //}
+
+
+</script>

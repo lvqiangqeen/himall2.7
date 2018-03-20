@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html class="white-bg">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>售后记录详情</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body class="white-bg">
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">售后记录详情</h1>
+			<div class="has-border-bt"></div>
+		</header>
+		<div class="mui-content">
+			<div id="historyDetail">
+				<div class="pull-loading"><div class="mui-icon mui-spinner"></div>正在加载...</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		
+		<script>
+			var refundId,
+				isJoin=himall.isJoin(),
+				userkey=himall.getState().userkey;
+			var ajaxUrl='api/ShopBranchOrderRefund/GetRefundLogs';
+			if(isJoin){
+				ajaxUrl='api/ShopOrderRefund/GetRefundLogs';
+			}
+			mui.init({
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				var ws=plus.webview.currentWebview();
+				ws.setStyle({scrollIndicator:'none'});
+				refundId=ws.refundId;
+				
+				mui.ajax(URL+ajaxUrl,{
+		        	data:himall.md5Data({
+						refundId:refundId,
+						userkey:userkey
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						document.getElementById('historyDetail').innerHTML=template('initData',data);
+						delayimg.init();
+					},
+					error:function(){
+						reloadWvLoad();
+					}
+				});
+				
+			});
+		</script>
+		
+		<script type="text/html" id="initData">
+			{{each Logs as item i}}
+				<div class="history-item">
+					<div class="row title">
+						<label>
+							{{if item.Role==0}}
+								买家
+							{{else if item.Role==1}}
+								门店
+							{{else}}
+								平台
+							{{/if}}
+						</label>
+						<span>{{item.OperateDate.replace('T',' ')}}</span>
+					</div>
+					<div class="row">
+						<label>状态</label>
+						<span>
+							{{if item.Step==1}}
+								待门店审核
+							{{else if item.Step==2}}
+								待买家寄货
+							{{else if item.Step==3}}
+								待门店收货
+							{{else if item.Step==4}}
+								门店拒绝
+							{{else if item.Step==5}}
+								待平台确认
+							{{else}}
+								退款成功
+							{{/if}}
+						</span>
+					</div>
+					{{if item.Role==0}}
+						<div class="row">
+							<label>退款类型</label>
+							<span>{{Refund.RefundModelDescription}}</span>
+						</div>
+						<div class="row">
+							<label>退款金额</label>
+							<span>¥ {{Refund.Amount.toFixed(2)}}</span>
+						</div>
+						{{if Refund.ReturnQuantity}}
+							<div class="row">
+								<label>退货数量</label>
+								<span>{{Refund.ReturnQuantity}}</span>
+							</div>
+						{{/if}}
+						<div class="row">
+							<label>退款方式</label>
+							<span>{{Refund.RefundPayTypeDescription}}</span>
+						</div>
+					{{else}}
+						<div class="row">
+							<label>回复</label>
+							<span>{{item.Remark||'无'}}</span>
+						</div>
+					{{/if}}
+				</div>
+			{{/each}}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,165 @@
+﻿
+@{
+    ViewBag.Title = "会员详情";
+}
+@model Himall.Web.Areas.Admin.Models.Member.MemberViewModels.MemberDetail
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<style>
+    /*会员详情页*/
+.user-detail{margin-top:24px;padding-bottom:50px;}
+.user-detail .vip-info{width:100%;height:200px;background-color:#fbfbfb;border:1px dotted #eaeaea;border-bottom-left-radius:100px;border-top-left-radius:100px;}
+.user-detail .vip-info .vipinfo-left{width:40%;float:left;height:100%;}
+.user-detail .vip-info .vipinfo-right{width:60%;float:left;padding-left:40px;padding-right:60px;padding-top:20px;}
+.user-detail .vip-info .vip-icon{width:43%;float:left;}
+.user-detail .vip-info .vip-icon img{width:105px;height:105px;border-radius:50%;position:relative;left:35px;top:44px}
+.user-detail .vip-info .vipinfo-a{width:57%;float:right}
+.vip-info .vipinfo-a h4{margin-top:20px;font-size:16px;color:#2b2c2e;font-weight:bold;line-height:25px;margin-bottom:0;}
+.vip-info .vipinfo-a p.grade span{height:30px;line-height:30px;font-size:13px;color:#f6b20e;font-weight:bold;}
+.vip-info .vipinfo-a p.grade span em{color:#3b3b3b;font-size:20px;padding-left:6px;padding-right:9px;}
+.vip-info .vipinfo-a p.card{font-size:13px;color:#6b6c6e;height:25px;line-height:25px;}
+.vip-info .vipinfo-a p.card em{color:#494e52;}
+.vip-info .vipinfo-a p.tag{max-height:85px;overflow:hidden;}
+.vip-info .vipinfo-a p.tag label{height:22px;padding:0 10px;line-height:22px;display:inline-block;background-color:#ff9696;font-size:12px;color:#fff;margin-bottom:6px;}
+.user-detail .vip-info .vipinfo-right p{width:50%;float:left;height:28px;line-height:28px;font-size:14px;margin:0;}
+.user-detail .vip-info .vipinfo-right p span{color:#6b6c6e}
+.user-detail .vip-info .vipinfo-right p i{color:#494e52;}
+.user-detail .nav-tabs-custom{width:109px;margin-top:50px;margin-bottom:30px;}
+.user-detail #buyRecord .data3{height:86px;width:100%;background-color:#fbfbfb;border:1px dashed #eaeaea;border-radius:5px;}
+.user-detail #buyRecord .data3 span{line-height:84px;width:33.3%;float:left;padding-left:80px;font-size:14px;color:#2b2c2e;}
+.user-detail #buyRecord .data3 span em{font-size:16px;color:#ff434c;}
+.user-detail #buyRecord .vipinfo-search{margin-top:60px;margin-bottom:30px;}
+#buyRecord .vipinfo-search label{width:65px;text-align:right;padding-right:15px;font-size:13px;color:#494e52;}
+#buyRecordList td{text-align:center;}
+
+#assignShop .label-inline{width:90px;}
+#assignShop #shopList{margin-top:30px;}
+
+</style>
+
+<div class="container">
+    <ul class="breadcrumb clearfix">
+        <li><a href="@Url.Action("management")">会员列表</a></li>
+        <li class="active"><a>会员详情</a></li>
+    </ul>
+    
+    <form class="custom-inline" role="form">
+        <div class="user-detail">
+            <div class="vip-info">
+                <div class="vipinfo-left">
+                    <div class="vip-icon">
+                        @if (String.IsNullOrEmpty(Model.Photo))
+                        {
+                            <img src="/Areas/Web/images/avatar.png" />
+                        }
+                        else
+                        {
+                            <img src="@(Himall.Core.HimallIO.GetImagePath(Model.Photo))" />
+                        }
+                    </div>
+
+                    <div class="vipinfo-a">
+                        <h4>@(string.IsNullOrWhiteSpace(Model.RealName) ? Model.UserName : Model.RealName)</h4>
+                        <p class="grade"><span>V<em>.</em>@Model.GradeName</span></p>
+                        <p class="tag">
+                            @if (Model.MemberLabels != null)
+                            {
+                                foreach (var label in Model.MemberLabels)
+                                {
+                                    <label>
+                                        @label.LabelName
+                                    </label>
+                                }
+                            }
+                        </p>
+                    </div>
+                </div>
+                <div class="vipinfo-right">
+                    <p><span>微信昵称：</span><i>@Model.Nick</i></p>
+                    <p><span>QQ：</span><i>@Model.QQ</i></p>
+                    <p><span>性别：</span><i>@Model.Sex.ToDescription()</i></p>
+                    <p><span>邮箱：</span><i>@Model.Email</i></p>
+                    <p><span>职业：</span><i>@(Model.Occupation)</i></p>
+                    <p><span>是否为销售员：</span><i>@(Model.IsPromoter ? "是" : "否")</i></p>
+                    <p><span>生日：</span><i>@(Model.BirthDay.HasValue ? Model.BirthDay.Value.ToString("yyyy-MM-dd") : string.Empty)</i></p>
+                    <p><span>注册时间：</span><i>@(Model.CreateDate.ToString("yyyy-MM-dd"))</i></p>
+                    <p><span>手机：</span><i>@Model.CellPhone</i></p>
+                    <p><span>最后登录时间：</span><i>@(Model.LastLoginDate.ToString("yyyy-MM-dd"))</i></p>
+                </div>
+            </div>
+            
+            <ul class="nav nav-tabs-custom clearfix">
+                <li class="active" id="liBuyRecord"><a>购买记录</a></li>
+            </ul>
+            <div id="buyRecord">
+                <div class="data3">
+                    <span>近3个月消费次数：<em><label id="buyCount"></label>次</em></span>
+                    <span>近3个月净消费金额：<em><label id="buyAmount"></label> 元</em></span>
+                    <span>休眠时间：<em id="noBuyDay"> 天</em></span>
+                </div>
+
+
+                <div class="vipinfo-search">
+                    <label>时间</label>
+                    <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text">
+                    <label class="label-inline" for="" style="width:10px;margin-left:8px;">-</label>
+                    <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text">
+                    <button type="button" class="btn btn-primary btn-sm btn-sm-m" id="searchButton">搜 索</button>
+                </div>
+                <div id="buyRecordList">
+                    <table id="recordTable" class="table">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center;width:20%">订单号</th>
+                                <th style="text-align:center;width:20%">下单门店</th>
+                                <th style="text-align:center;width:20%">下单时间</th>
+                                <th style="text-align:center;width:20%">订单实付金额</th>
+                                <th style="text-align:center;width:20%">订单实收金额</th>
+                            </tr>
+                            
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2016091275318736</td>
+                                <td>门店名称门店名称</td>
+                                <td>2016-08-30 14:08:16</td>
+                                <td>¥20.00</td>
+                                <td>¥20.00</td>
+                            </tr>
+                            <tr>
+                                <td>2016091275318736</td>
+                                <td>门店名称门店名称</td>
+                                <td>2016-08-30 14:08:16</td>
+                                <td>¥20.00</td>
+                                <td>¥20.00</td>
+                            </tr>
+                            <tr>
+                                <td>2016091275318736</td>
+                                <td>门店名称门店名称</td>
+                                <td>2016-08-30 14:08:16</td>
+                                <td>¥20.00</td>
+                                <td>¥20.00</td>
+                            </tr>
+                            <tr>
+                                <td>2016091275318736</td>
+                                <td>门店名称门店名称</td>
+                                <td>2016-08-30 14:08:16</td>
+                                <td>¥20.00</td>
+                                <td>¥20.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>        
+        </div>
+    </form>
+</div>
+
+<input type="hidden" value="@Model.Id" id="memberId"/>
+<script src="~/Areas/Admin/Scripts/memberDetail.js"></script>

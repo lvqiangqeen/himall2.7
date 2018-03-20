@@ -1,0 +1,134 @@
+﻿@model Himall.Model.ProductInfo
+@{
+    ViewBag.Title = Model.ProductName + "商品咨询";
+}
+@section Style{
+    <link href="~/Areas/Web/Content/WebAlertPlug.css" rel="stylesheet" />
+    }
+<div class="w">
+    @MVCHelpers.CategoryPath(Model.CategoryPath, Model.ProductName)
+</div>
+<div class="w">
+    <div class="right">
+        <input type="hidden" id="gid" value="@Model.Id" />
+        <div id="consult" class="m m2">
+            <div class="mt">
+                <ul class="tab">
+                    <li class="curr"><a href="javascript:;">商品咨询</a></li>
+                </ul>
+                <div class="consult-pub"></div>
+            </div>
+            <div id="consult-search">
+                <div class="prompt"> <strong>温馨提示:</strong>因厂家更改产品包装、产地或者更换随机附件等没有任何提前通知，且每位咨询者购买情况、提问时间等不同，为此以下回复仅对提问者3天内有效，其他网友仅供参考！若由此给您带来不便请多多谅解，谢谢！ </div>
+            </div>
+            <!--consult-search end-->
+            <div id="consult-0" class="mc tabcon" data-widget="tab-content">
+
+
+            </div>
+        </div>
+        <!--consult end-->
+        <div class="Review_Form">
+            <a name="ConsultForm" id="ConsultForm"></a>
+            <h5>发表咨询：</h5>
+            <div class="Re_Explain">声明：您可在购买前对产品包装、颜色、运输、库存等方面进行咨询，我们有专人进行回复！因厂家随时会更改一些产品的包装、颜色、产地等参数，所以该回复仅在当时对提问者有效，其他网友仅供参考！咨询回复的工作时间为：周一至周五，9:00至18:00，请耐心等待工作人员回复。</div>
+            <ul>
+                <li>
+                    <span>咨询内容：</span>
+                    <textarea id="ConsultContent" name="ConsultContent" class="area1"></textarea>
+                </li>
+
+                <li class="buttons">
+                    <a href="#none" onclick="AddConsult()" class="getRefer">提交咨询</a>
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+    <!--right end-->
+
+    <div class="left product-left">
+        <div class="m m2" id="product-info">
+            <div class="mt"><h2>商品信息</h2></div>
+            <div class="mc">
+                <ul>
+                    <li class="p-img ac"><a href="@Url.Action("Detail", "Product", new { id = @Model.Id })" target="_blank"> <img alt="" src="@Model.GetImage(Himall.CommonModel.ImageSize.Size_100)"> </a></li>
+
+                    <li class="p-name">商品名称：<a href="@Url.Action("Detail", "Product", new { id = @Model.Id })" target="_blank">@Model.ProductName</a></li>
+                    <li class="p-price">
+                        <div class="dt">&nbsp;&nbsp;价格：</div>
+                        <strong class="c-J_975101">￥@Model.MinSalePrice.ToString("F2")</strong>
+                    </li>
+                    <li class="p-grade">
+                        <div class="dt">商品评分：</div>
+                        <div class="fl dd">
+                            <span id="product_star" class="star sa@(((int)ViewBag.productMark==0?5:(int)(ViewBag.productMark)))"></span>
+                            (<span id="product_star_score">@(((Decimal)ViewBag.productMark == 0 ? 5 : (Decimal)ViewBag.productMark).ToString("F1"))</span>分)
+                        </div>
+                    </li>
+                    <li class="p-count">
+                        <div class="dt">评&nbsp;&nbsp;价&nbsp;&nbsp;数：</div>
+                        <div id="p-num-comment" class="dd">@{@Model.Himall_ProductComments.Count}条</div>
+                    </li>
+
+                    <li class="p-btn">
+                        <a class="btn-goshop" href="@Url.Action("Detail", "Product", new { id = @Model.Id })">去购买<b>></b></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div><!--left end-->
+    <span class="clr"></span>
+</div>
+<script src="~/Areas/Web/Scripts/ProductConsultation.js"></script>
+<script src="~/Scripts/jquery.cookie.js"></script>
+<script type="text/javascript">
+
+
+    $(function () {
+        $("#ConsultContent").bind("focus", function () { SendConsultation(); });
+    });
+    function SendConsultation() {
+        var memberId = $.cookie('Himall-User');
+        if (memberId) {
+        }
+        else {
+            $.fn.login({}, function () {
+                location.href = '/ProductConsultation/index/' + $("#gid").val() + '#ConsultForm';
+            }, '', '', '/Login/Login');
+        }
+    }
+
+    function AddConsult() {
+        if ( $( "#ConsultContent" ).val().trim() == '' )
+        {
+            $.dialog.tips("请输入咨询内容！");
+            return false;
+        }
+        if ($("#ConsultContent").val().length > 500)
+        {
+            $.dialog.tips("咨询内容不能超过500个字符！");
+            return false;
+        }
+        SendConsultation();
+        var content = $("#ConsultContent").val();
+        var loading = showLoading();
+        $.ajax({
+            type: 'post',
+            url: "@Url.Action("AddConsultation", "ProductConsultation")",
+            data: { Content: content, productId: $("#gid").val() },
+            dataType: "json",
+            success: function (data) {
+                loading.close();
+                if (data.success) {
+					$.dialog.succeedTips("咨询成功！", function () {location.reload();}, 2);
+                }
+                else {
+					$.dialog.errorTips("咨询失败！"+ data.msg);
+                }
+            }
+        });
+    }
+</script>

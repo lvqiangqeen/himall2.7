@@ -1,0 +1,18 @@
+﻿@model Himall.Web.Areas.Web.Models.HomeFloorModel
+
+<!--楼层样式1-->
+<div class="floorB floor">
+    <div class="floorB-hd">
+        <h3>@Model.Name</h3>
+    </div>
+    <div class="floor-show-area">
+        <div class="t-show"><a href="@Model.Products.ElementAt(0).Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(Model.Products.ElementAt(0).ImageUrl)" /></a></div>
+        <div class="b-show clearfix">
+            <a href="@Model.Products.ElementAt(1).Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(Model.Products.ElementAt(1).ImageUrl)" /></a>
+            <a href="@Model.Products.ElementAt(2).Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(Model.Products.ElementAt(2).ImageUrl)" /></a>
+            <a href="@Model.Products.ElementAt(3).Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(Model.Products.ElementAt(3).ImageUrl)" /></a>
+            <a href="@Model.Products.ElementAt(4).Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(Model.Products.ElementAt(4).ImageUrl)" /></a>
+            <a href="@Model.Products.ElementAt(5).Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(Model.Products.ElementAt(5).ImageUrl)" /></a>
+        </div>
+    </div>
+</div>

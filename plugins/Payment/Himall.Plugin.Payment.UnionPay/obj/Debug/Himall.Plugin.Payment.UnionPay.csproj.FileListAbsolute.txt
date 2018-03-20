@@ -1,0 +1,12 @@
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.UnionPay\bin\Debug\data.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.UnionPay\bin\Debug\index_logo.gif
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.UnionPay\bin\Debug\plugin.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.UnionPay\bin\Debug\Himall.Plugin.Payment.UnionPay.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.UnionPay\bin\Debug\Himall.Plugin.Payment.UnionPay.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.UnionPay\bin\Debug\Himall.Core.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.UnionPay\bin\Debug\Himall.PaymentPlugin.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.UnionPay\bin\Debug\Himall.PaymentPlugin.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.UnionPay\bin\Debug\Himall.Core.xml
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.UnionPay\obj\Debug\Himall.Plugin.Payment.UnionPay.csprojResolveAssemblyReference.cache
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.UnionPay\obj\Debug\Himall.Plugin.Payment.UnionPay.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.UnionPay\obj\Debug\Himall.Plugin.Payment.UnionPay.pdb

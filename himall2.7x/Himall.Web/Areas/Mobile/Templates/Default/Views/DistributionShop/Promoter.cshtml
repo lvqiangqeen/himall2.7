@@ -1,0 +1,135 @@
+﻿@model Himall.Web.Areas.Mobile.Models.DistributionShopShowModel
+@{
+
+    ViewBag.Title = Model.ShopName+"";
+}
+
+<script src="~/Content/Public/js/dist/underscore.js"></script>
+<div class="container shop-Man my-shop">
+    <div class="top">
+        <h3>@(Model.ShopName)</h3>
+        <p><i></i>认证销售员</p>
+    </div>
+    <div class="shop-se">
+        <input class="M-searchbtn M-search-default" id="skey" value="搜索" />
+    </div>
+    <div class="S-section">
+        <ul id="databox"></ul>
+    </div>
+    <div id="autoLoad" class="loading"></div>
+</div>
+
+<script id="gdtmp" type="text/template">
+    <%_.each(gddatas, function(item) {%>
+    <li class="out-frame">
+        <img src="<%=item.Image%>">
+        <div class="S-cover">
+        <div class="fli-blur" style="background-image:url(<%=item.Image%>)"></div>
+            <div class="left">
+                <h5 class="S-title"><%=item.ProductName%> </h5>
+                <span class="S-money">￥<%= item.SellPrice%></span>
+            </div>
+            <div class="right" data-pid="<%=item.ProductId%>" data-uid="@(Model.UserId)" data-title="<%=item.ProductName%>" data-img="<%=item.Image%>">
+                <i class="go"></i>
+                <span>去看看</span>
+            </div>
+        </div>
+    </li>
+    <%});%>
+</script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/loading.js"></script>
+<script>
+
+    var curPage = 1;       //当前页
+    var isMoreGet = true;  //是否还在数据
+    var isLoading=false;
+    var TmplCon = "";
+    var skey = "@(Model.SearchKey)";
+    var databox;
+    var gddatas;   //数据变量  不定义的话underscore会识别不到。
+    //注意，<%=%>标签中%与=之间不能有空格
+
+    $(document).ready(function () {
+
+        TmplCon = $("#gdtmp").html(); //获取模板内容
+        databox=$("#databox");
+        h_loading.init($("#autoLoad"));
+
+        $(".shop-se").width($('.container').width()*93/100);
+        $(".shop-se").height($('.container').width()*97/1000);
+        var M_lineh =$('.container').width()*97/1000;
+        $(".M-searchbtn ").css("line-height",M_lineh+"px");
+
+        $(".fli-blur").width($('.container').width() * 93 / 100);
+        $(".fli-blur").height($('.container').width() * 93 / 100);
+
+        $(".M-searchbtn ").one("focus",function(){
+            $(this).width($('.shop-se').width()*177/200);
+            $(this).val("").addClass("focus-d");
+            $(this).after("<span id=\"bt_search\">搜索</span>")
+            $(this).next().css("line-height",M_lineh+"px");
+        });
+
+        $('.shop-se').on('click', '#bt_search', function () {
+            skey=$("#skey").val();
+            if(skey=="搜索"){
+                skey="";
+            }
+            databox.empty();
+            curPage=1;
+            isMoreGet=true;
+            getData();
+        });
+
+        $('#databox').on('click', '.right', function () {
+            var _t=$(this);
+            var pid = _t.data("pid");
+            var uid = _t.data("uid");
+            var _url="@Url.Action("Detail", "Product", new { id = "#id#", partnerid="#uid#" })";
+            _url=_url.replace("%23id%23",pid);
+            _url=_url.replace("%23uid%23",uid);
+            window.location.href=_url;
+        });
+
+        getData();
+
+        $(window).scroll(function () {
+            var scrollTop = $(this).scrollTop();
+            var scrollHeight = $(document).height();
+            var windowHeight = $(this).height();
+
+            if (scrollTop + windowHeight >= scrollHeight - 30) {
+                curPage++;
+                getData();
+            }
+        });
+    });
+
+    function getData() {
+        if (isMoreGet) {
+            //loading = showLoading();
+            if(!isLoading){
+                isLoading=true;
+                h_loading.show();
+                $.post('@Url.Action("ProductList", "DistributionShop")', { id:@(Model.UserId),skey: skey, page: curPage }, function (result) {
+                    //loading.close();
+                    isLoading=false;
+                    gddatas = result;
+                    if (gddatas.length > 0) {
+                        databox.append(_.template(TmplCon, gddatas));
+
+                        $(".out-frame").width($('.container').width()*93/100);
+                        $(".out-frame").height($('.container').width()*93/100);
+
+                        var SM_lineh=$(".S-cover").height()*1/2;
+                        $(".S-money ").css("line-height",SM_lineh+"px");
+                        h_loading.hide();
+                    } else {
+                        isMoreGet = false;
+                        h_loading.nodata();
+                    }
+                });
+            }
+        }
+    }
+</script>

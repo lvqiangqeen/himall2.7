@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Himall.Web.Areas.Admin.Models.HomeFloor>
+<script type="text/javascript">
+    var LimittimeUrl = '@Url.Action("SetLimittime")';
+</script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>限时购设置</a></li>
+    </ul>
+    <div class="form-group">
+
+        <table class="table category_table">
+            <tr>
+                <td style="border:0;">
+                    说明：系统将选取当前正在参加限时购且销量最高的五件商品出现在首页
+                </td>
+            </tr>
+            <tr>
+                <td style="border:0;">
+                    <label><input type="radio" name="Limittime" @((bool)ViewBag.Limittime ? "checked=checked" : "") id="Limittime1" /> 显示 </label>&nbsp;&nbsp;
+                    <label><input type="radio" name="Limittime" id="Limittime2" @((bool)ViewBag.Limittime ? " " : "checked=checked") /> 不显示 </label>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <button type="button" class="btn btn-primary" id="btn_save">保存</button>
+</div>
+
+<script src="~/Areas/Admin/Scripts/pageSettings-Limittime.js"></script>

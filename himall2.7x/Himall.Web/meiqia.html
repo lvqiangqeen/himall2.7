@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="Scripts/jquery-1.11.1.min.js"></script> 
+    <script type="text/javascript">
+
+     document.addEventListener('plusready',function(){
+     	 var ac=plus.webview.currentWebview().ac;
+     	 plus.na
+     	 callMeiQiaCS(ac);
+     })     
+var initMeiQia = false;
+function callMeiQiaCS(entId, token, metadata) {
+	if (initMeiQia != true) {
+		if (typeof (token) == 'object') {
+			metadata = token;
+			token = null;
+		}
+		(function (m, ei, q, i, a, j, s) {
+			m[i] = m[i] || function () {
+				(m[i].a = m[i].a || []).push(arguments)
+			};
+			j = ei.createElement(q);
+			s = ei.getElementsByTagName(q)[0];
+			j.async = true;
+			j.charset = 'UTF-8';   
+			j.src = '//static.meiqia.com/dist/meiqia.js';
+			s.parentNode.insertBefore(j, s); 
+		})(window, document, 'script', '_MEIQIA');
+		_MEIQIA('entId', entId);
+		initMeiQia = true;
+		//阻止自动初始化
+		//_MEIQIA('manualInit');
+		//手动初始化
+		//_MEIQIA('init')
+
+		if (metadata) {
+			_MEIQIA('metadata', metadata);
+		}
+
+		if (token)
+			_MEIQIA('showPanel', { groupToken: token });
+		else
+			_MEIQIA('showPanel');
+
+		//获取聊天窗口可见性
+		_MEIQIA('getPanelVisibility', function (visibility) {
+			if (visibility === 'visible') {
+				plus.nativeUI.closeWaiting();    
+			} else {
+				//console.log('聊天窗口处于隐藏状态');
+				$('#MEIQIA-BTN-HOLDER').hide().addClass('hide');
+			}
+		});
+	} else
+		_MEIQIA('showPanel');
+}
+
+    </script>
+</head>   
+<body>    
+</body>
+</html>   

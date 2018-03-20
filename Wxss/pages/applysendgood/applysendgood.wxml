@@ -1,0 +1,48 @@
+<!--applysendgood.wxml-->
+<view class="applysendgood">
+       <form bindsubmit="formSubmit" report-submit="true">
+      <view class="applysendgood-con">
+            <view class="bd">
+                <view class="title">退货订单</view>
+                <view class="con font-arial">{{ApplySendGood.OrderId}}</view>
+            </view> 
+
+            <view class="bd">
+                <view class="title">退货商品</view>
+                <view class="con">{{ApplySendGood.ProductInfo[0].ProductName}}</view>
+            </view> 
+
+            <view class="bd" hidden="true">
+                <view class="title">退货地址</view>
+                <view class="con">
+                    <view class="address">{{ApplySendGood.ShipAddress}}</view>
+                    <view class="contact">{{ApplySendGood.ShipTo}}，<text class="font-arial">{{ApplySendGood.Cellphone}}</text></view>
+                </view>
+                
+            </view> 
+
+            <view class="bd">
+                <view class="title">物流公司</view>
+                <view class="con">
+                <picker bindchange="bindPickerChange" value="{{index}}" range="{{ExpressList}}">
+                    <view class="picker">{{express}}<text class="iconfont arrow_right font24"></text></view>
+                    
+                </picker>
+<view class="iconfont icon-right come-icon"></view>
+                </view> 
+            </view>
+
+            <view class="bd">
+                <view class="title">快递单号</view>
+                <view class="con">
+                    <input  type="text" placeholder="请填写快递单号" name="txtshipOrderNumber" />
+                </view> 
+            </view> 
+      </view>
+
+      <view class="applysendgood-btn">
+             <button type="default" class="btn-confirm" form-type="submit">确认发货</button>
+             <navigator open-type="navigateBack" class="cancel">取消</navigator>
+      </view>
+</form>
+</view>

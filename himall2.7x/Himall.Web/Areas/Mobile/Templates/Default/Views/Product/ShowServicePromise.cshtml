@@ -1,0 +1,20 @@
+﻿@model Himall.Model.CashDepositsObligation
+@{
+	Layout = null;
+}
+<ul class="ensary j_ensary">
+    @if (Model.IsCustomerSecurity || Model.IsSevenDayNoReasonReturn || Model.IsTimelyShip || Model.CanSelfTake)
+    {
+        if (Model.IsCustomerSecurity)
+        {
+            <li class="flex-center"><i>消费者保障</i></li> }
+        if (Model.IsSevenDayNoReasonReturn)
+        {
+            <li class="flex-center"><i>七天无理由</i></li> }
+        if (Model.IsTimelyShip)
+        {
+            <li class="flex-center"><i>及时发货</i></li> }
+    }
+</ul>
+@Html.Hidden("shopId", (long)ViewBag.ShopId)
+@Html.Hidden("productId", (long)ViewBag.ProductId)

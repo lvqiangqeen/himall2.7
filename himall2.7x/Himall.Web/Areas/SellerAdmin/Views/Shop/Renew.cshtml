@@ -1,0 +1,86 @@
+﻿@using Himall.Core;
+@model Himall.Web.Areas.SellerAdmin.Models.ShopRenewModel
+@{
+    ViewBag.Title = "Renew";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<div class="container Sclear-K">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>店铺续费</a></li>
+        <li><a href="ShopDetail">店铺信息</a></li>
+    </ul>
+    <form class="form-horizontal" id="from_Save" role="form">
+        <ul class="shop1-info clearfix">
+            <li class="clearfix">
+                <label class="col-xs-4"><span>店铺有效期：</span> <span>@Model.ShopEndTime</span></label>
+                <label class="col-xs-4"><span>当前套餐：</span> <span>@Model.GradeName</span></label>
+                <label class="col-xs-4"><span>可发布商品数：</span> <span>@Model.ProductLimit</span></label>
+            </li>
+            <li class="clearfix">
+                <label class="col-xs-4"><span>可使用图片空间：</span> <span>@Model.ImageLimit</span> M</label>
+                <label class="col-xs-4"><span>入驻时间：</span> <span>@Model.ShopCreateTime</span></label>
+                <label class="col-xs-4"><a href="ShopRenewRecords">查询续费记录</a></label>
+            </li>
+        </ul>
+        <h3 class="add-money">续费</h3>
+        <div class="add-detail">
+            <div class="clearfix">
+                <label class=" control-label" for="">类型：</label>
+                <div class="col-sm-2">
+                    <input class="control-label" type="radio" name="reNewType" value="1" checked="checked" /><span class="control-label">续费当前套餐</span>
+                </div>
+                <div class="col-sm-2" style="@(ViewBag.HasOver?"display:none":"")">
+                    <input class="control-label" type="radio" name="reNewType" value="2" /><span class="control-label">升级套餐</span>
+                </div>
+            </div>
+            <div class="clearfix" id="reNewTypeA">
+                <label class="control-label" for="">时长：</label>
+                <div class="col-sm-2">
+                    @Html.DropDownList("timelist", (IEnumerable<SelectListItem>)ViewBag.YearList, new
+                                        {
+                                            @class = "form-control input-sm",
+                                            id = "timeSelect",
+                                            style = "width:250px"
+                                        })
+                </div>
+            </div>
+
+            <div class="clearfix" id="reNewTypeB">
+                <label class="control-label" for="">套餐：</label>
+                <div class="col-sm-3" style="width: auto;">
+                    @Html.DropDownList("grade", (IEnumerable<SelectListItem>)ViewBag.GradeList, new
+                                        {
+                                            @class = "form-control input-sm",
+                                            id = "gradeSelect",
+                                            style = "width:250px"
+                                        })
+                </div>
+                <span class="col-sm-3 control-label" id="lblGradeTip"></span>
+            </div>
+
+            <div class="clearfix">
+                <label class="control-label Sclear-K1" for="">应缴金额：</label>
+                <span class="control-label Sclear-K2"  id="lblAmount"></span>
+                <span class="control-label" id="lblRenewTimeTip">续费后有效期至<span class="red" id="lblRenewTime"></span>,@Model.GradeName</span>
+            </div>
+        </div>
+        <div class="Sclear-K3">
+            <div class="col-sm-offset-2 col-sm-10">
+                <a class="btn btn-primary" id="RenewPay" data-flag="true" href="javascript:;">提 交</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="dln" id="payMent">
+    <h5 class="subtit">请选择支付方式</h5>
+    <ul></ul>
+</div>
+
+
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/autoNumeric.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/ShopRenew.js"></script>

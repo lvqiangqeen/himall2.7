@@ -1,0 +1,75 @@
+﻿@model Himall.Model.DistributionUserPerformanceSetModel
+@{
+
+    ViewBag.Title = "分销业绩";
+    bool isCanAgent = (ViewBag.isCanAgent==true);
+}
+
+<div class="container distribution">
+    <div class="income">
+        <a href="Billlist" class="ck-b">查看账单</a>
+        <div class="check"><p class="balance">¥<span id="bal-num">@(Model.Day7SumIncome.ToString("F2"))</span></p></div>
+        <p class="total-bill">近七天总收益</p>
+        <div class="tb-detail"><span><em>已结算<br></em><em>@(Model.Day7Settled.ToString("F2"))</em></span><i></i><span><em>未结算<br></em><em>@(Model.Day7NoSettled.ToString("F2"))</em></span></div>
+        <div class="dis-cover"></div>
+    </div>
+    <div class="income-list">
+        <div class="bill-list">
+            <span class="line"><em>累积收益</em><br><em>@(Model.SumIncome.ToString("F2"))</em><i>元</i></span>
+            <span class="line"><em>累积未结</em><br><em>@(Model.SumNoSettled.ToString("F2"))</em><i>元</i></span>
+            <span><em>本月收益</em><br><em>@(Model.MonthSumIncome.ToString("F2"))</em><i>元</i></span>
+        </div>
+        <hr>
+        <div class="current-deal">
+            <span class="line"><em>本月成交</em><br><em>@(Model.MonthSumOrderCount)</em><i>笔</i></span>
+            <span class="line"><em>本月新客户</em><br><em>@(Model.MonthNewCustomer)</em><i>人</i></span>
+            <span><em>累积客户</em><br><em>@(Model.SumCustomer)</em><i>人</i></span>
+        </div>
+    </div>
+    <div class="market-rule">
+        <a href="@Url.Action("RateDetail")" style="width:100%;height:100%;display:inline-block"><span>查看分销市场规则</span><i class="glyphicon glyphicon-menu-right"></i></a>
+    </div>
+
+    <footer>
+        <a href="@(isCanAgent?Url.Action("Index", "DistributionMarket"):"#")" class="stock @(isCanAgent ? "" : "disabled")">去进货</a>
+    </footer>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+        var a = 0.0;
+        var c = parseFloat($("#bal-num").html());
+
+        var intervalIdForDis = setInterval(function () {
+            a = a + 1.0;
+            $("#bal-num").html(a);
+            if (a >= c) {
+                $("#bal-num").html(c);
+                clearInterval(intervalIdForDis);
+            }
+        }, 10);
+
+    });
+</script>
+
+@if (ViewBag.NotAvailable)
+{
+    <script>
+        $(function () {
+            $.dialog({
+                title: '清退提示',
+                lock: true,
+                width: '400px',
+                padding: '20px',
+                content: ['<div class="dialog-form">您已被平台从推广员计划中清退，后续您的分享及推广均不再计入到个人业绩。</div>'].join(''),
+                button: [
+                {
+                    name: '关闭',
+                }]
+
+            });
+        });
+    </script>
+}

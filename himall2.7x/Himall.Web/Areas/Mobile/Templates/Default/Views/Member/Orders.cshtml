@@ -1,0 +1,105 @@
+﻿@using Himall.Model;
+@{
+	ViewBag.Title = "我的订单";
+	Dictionary<long, ShopBonusInfo> bonusGrant = null;
+	if (ViewBag.BonusGrantIds != null)
+	{
+		bonusGrant = (Dictionary<long, ShopBonusInfo>)ViewBag.BonusGrantIds;
+	}
+}
+<div class="container myorder-L">
+	<div class="my_menu">
+		<ul class="clearfix">
+			<li><a onclick="userOrders(0)">全部订单@*@(ViewBag.AllOrders == 0 ? "" : "(" + ViewBag.AllOrders + ")")*@</a></li>
+			<li><a onclick="userOrders(1)">待付款@(ViewBag.WaitingForPay == 0 ? "" : "(" + ViewBag.WaitingForPay + ")")</a></li>
+			<li><a onclick="userOrders(2)">待发货@(ViewBag.WaitingForDelivery == 0 ? "" : "(" + ViewBag.WaitingForDelivery + ")")</a></li>
+			<li><a onclick="userOrders(3)">待收货@(ViewBag.WaitingForRecieve == 0 ? "" : "(" + ViewBag.WaitingForRecieve + ")")</a></li>
+			<li><a onclick="userOrders(5)">待评价@(ViewBag.WaitingForComments == 0 ? "" : "(" + ViewBag.WaitingForComments + ")")</a></li>
+		</ul>
+	</div>
+	<ul class="order-list"></ul>
+	@if (bonusGrant != null && bonusGrant.Count == 1)
+	{
+		KeyValuePair<long, ShopBonusInfo> bonus = new KeyValuePair<long, ShopBonusInfo>();
+		foreach (var b in bonusGrant)
+		{
+			bonus = b;
+			break;
+		}
+		<div class="custom-dialog orderL" id="paymentsChooser01">
+			<span class="glyphicon glyphicon-remove close" aria-hidden="true"></span>
+			<h3>恭喜你获得<span>@bonus.Value.Count</span>个红包</h3>
+			<span class="share">把他分享给好友吧</span>
+			<p class="bg"><img src="~/Areas/Mobile/Templates/Default/Images/dialog.png"></p>
+			<p><a class="btn" href="#" type="button">分享给好友</a></p>
+		</div>
+		<div class="cover-d"></div>
+		<div class="share-guide"></div>
+		<div class="loading hide" id="autoLoad"><span></span></div>
+	}
+	else if (bonusGrant != null && bonusGrant.Count > 0)
+	{
+		<div class="custom-dialog  orderL" id="paymentsChooser02">
+			<div class="close"><span class="glyphicon glyphicon-remove " aria-hidden="true"></span></div>
+			<h3>恭喜你获得<span>@bonusGrant.Count</span>个店家红包</h3>
+			<span class="share">把他分享给好友吧</span>
+			<p class="bg"><img src="~/Areas/Mobile/Templates/Default/Images/dialog.png"></p>
+			@foreach (var bonus in bonusGrant)
+			{
+				<p class="pname">@bonus.Value.Himall_Shops.ShopName<a class="bn" onclick="grant('@bonus.Key' , '@bonus.Value.ShareTitle', '@bonus.Value.ShareDetail', '@bonus.Value.ShareImg')">我要发红包>></a></p>
+			}
+		</div>
+		<div class="cover-d"></div>
+		<div class="share-guide"></div>
+		<div class="loading hide" id="autoLoad"><span></span></div>
+	}
+	<div class="custom-dialog" id="paymentsChooser"></div>
+	<div class="cover" style="display:none;"></div>
+</div>
+@if (bonusGrant != null && bonusGrant.Count > 0)
+{
+	var bonus = bonusGrant.First();
+	<script>
+		var loading = showLoading();
+		var winxinShareArgs = {
+			success: function () {
+				loading.close();
+				LoadBody();
+			},
+			error: function () {
+				loading.close();
+				$.dialog.errorTips('注册微信接口失败，请刷新页面');
+			},
+			share: {
+				title: '@bonus.Value.ShareTitle',
+				desc: '@bonus.Value.ShareDetail',
+				link: '@ViewBag.Path' + '@bonus.Key',
+				imgUrl: '@ViewBag.BaseAddress' + '@bonus.Value.ShareImg',
+				success: function (res) {
+					$(".share-guide").hide();
+				}
+			}
+		};
+	</script>
+	@Html.Partial("_WeiXinShare")
+	<script>
+
+		function LoadBody() {
+			$("#paymentsChooser01 .btn").click(function () {
+				$(".share-guide").show();
+			})
+			$(".share-guide").click(function () {
+				$(this).hide();
+			})
+
+			$(".cover-d").addClass("cover");
+			$("#paymentsChooser01").show();
+			$("#paymentsChooser01").css("display", "block");
+			$(".close").click(function () {
+				$("#paymentsChooser01").hide();
+				$(".cover-d").removeClass("cover");
+			});
+		}
+	</script>
+}
+<script src="~/Areas/Mobile/Templates/Default/Scripts/memberOrders.js"></script>

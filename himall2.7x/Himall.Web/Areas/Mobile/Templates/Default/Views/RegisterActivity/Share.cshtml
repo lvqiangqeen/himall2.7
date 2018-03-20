@@ -1,0 +1,52 @@
+﻿@{
+	ViewBag.CopyRight = false;
+	ViewBag.Title = "活动老用户";
+}
+
+<style>
+	html, body {
+		height: 100%;
+	}
+</style>
+<div class="container register-share-page">
+	<div class="half flex-center">
+		<p>您已是我们的老用户！</p>
+	</div>
+	<div class="half flex-center">
+		<a class="btn btn-danger" id="guideShare">邀请新会员赚取佣金</a>
+	</div>
+	<div class="cover"><img src="~/Areas/Mobile/Templates/Default/Images/share-guide.png" /></div>
+</div>
+
+<script>
+	$(function () {
+		$("#guideShare").click(function () {
+			$(".cover").show();
+		})
+		$(".cover").click(function () {
+			$(this).hide()
+		})
+	})
+</script>
+@if (Model.Item2 != null)
+{
+	<script>
+		var loading = showLoading();
+		var winxinShareArgs = {
+			success: function () {
+				loading.close();
+			},
+			error: function () {
+				loading.close();
+				$.dialog.errorTips('注册微信接口失败，请刷新页面');
+			},
+			share: {
+				title: '@Model.Item2.ShareTitle',
+				desc: '@Model.Item2.ShareDesc',
+				link: '@Model.Item1.InviteLink',
+				imgUrl: '@Model.Item2.ShareIcon'
+			}
+		};
+	</script>
+	@Html.Partial("_WeiXinShare")
+}

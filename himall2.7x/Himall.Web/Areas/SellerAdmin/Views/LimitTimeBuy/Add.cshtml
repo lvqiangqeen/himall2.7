@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Add";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/LimitTimeBuyAdd.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        
+        <li><a href="./Management">活动管理</a></li>
+        <li class="active"><a>新增限时购</a></li>
+        <li class=""><a href="./BuyService">购买服务</a></li>
+        
+    </ul>
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">活动标题：</label>
+            <div class="col-sm-3"><input id="txtTitle" type="text" value="限时折扣" class="form-control input-sm" maxlength="5" /></div>
+            <div class="col-sm-7"><span class="help-default">活动标题是商家对限时折扣活动的别名操作，请使用例如“新品打折”、“月末折扣”类短语表现，限5个字；非必填选项，默认显示“限时折扣”字样。</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>活动商品：</label>
+            <div class="col-sm-3"><input id="txtProductName" type="text" class="form-control input-sm" readonly="readonly" /></div>
+            <div class="col-sm-3"><a class="btn btn-primary btn-sm" id="SelectProduct"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp; 选择商品</a></div>
+            <input type="hidden" id="txtProductId" name="ProductId" value="" />
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>商品详情：</label>
+            <div class="col-sm-9">
+                <table id="tbl" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td>主商品</td>
+                            <td>规格</td>
+                            <td>原价</td>
+                            <td>限时价</td>
+                            <td>库存</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="5" align="center">请先选择商品</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>活动分类：</label>
+            <div class="col-sm-3">@Html.GenerateSelectHtml( ( List<SelectListItem> )ViewBag.Cate , "txtCategoryName" )</div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>开始时间：</label>
+            <div class="col-sm-3"><input id="txtBeginDate" type="text" class="form-control input-sm start_datetime" /></div>
+            <div class="col-sm-5"><span class="help-default">建议开始时间晚于当前时间，用于预留审核时间及活动预热时间</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>结束时间：</label>
+            <div class="col-sm-3"><input id="txtEndDate" type="text" class="form-control input-sm end_datetime" /></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>购买限制：</label>
+            <div class="col-sm-3"><input id="txtCount" type="text" maxlength="5" class="form-control input-sm input-int-num" /></div>
+            <div class="col-sm-5"><span class="help-default">单个ID最多购买数量</span></div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" id="submit" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" value="@Url.Action("Management")" id="UAm" />
+    <input type="hidden" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm"):00" id="DNT0" />
+    <input type="hidden" value="@ViewBag.EndTime" id="VBET" />
+    <script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+    <script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+    <script src="~/Scripts/jquery.productSelector.js"></script>

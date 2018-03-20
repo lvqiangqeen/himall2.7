@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>申请售后</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">申请售后</h1>
+		</header>
+		<div id="scrollDiv" class="scroll-div">
+			<div class="mui-content transparent">
+				<div id="orderRefund" class="order-refund">
+				</div>
+			</div>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js" ></script>
+		<script>
+			var orderId,
+				itemId,
+				refundId,
+				ws,
+				orderDetail,
+				orderList,
+				num,
+				ReturnQuantity,
+				userkey=himall.getState().userkey;
+				var maxnum,maxprice,refgdprice;
+			mui.init({
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				ws=plus.webview.currentWebview();
+				orderId=ws.orderId;
+				itemId=ws.itemId;
+				refundId=ws.refundId;
+				orderDetail=plus.webview.getWebviewById('order-detail.html');
+				orderList=plus.webview.getWebviewById('order-list.html');
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				mui.ajax(URL+'api/OrderRefund/GetOrderRefundModel',{
+					data:himall.md5Data({
+						id:orderId,
+						itemId:itemId,
+						refundId:refundId,
+						userkey:userkey
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(data.Success){
+				            document.getElementById('orderRefund').innerHTML=template('initData',data);
+				            num=data.RefundMode.MaxRGDNumber;
+				            maxnum=data.RefundMode.MaxRGDNumber;
+				            maxprice=data.RefundMode.MaxRefundAmount;
+				            refgdprice=data.RefundMode.RefundGoodsPrice;
+				            ReturnQuantity=document.getElementById('ReturnQuantity')
+				            delayimg.init({content:document.getElementById('scrollDiv')});
+				            
+							w.close();
+							himall.removeClass(document.querySelector('.mui-content'),'transparent');
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						reloadWvLoad();
+					}
+				});
+			});
+			
+			mui('#orderRefund').on('change', 'input[name="rtype"][data-type="2"]', function() {
+				if(this.checked){
+					document.getElementsByClassName('num-box')[0].style.display='block';
+					ReturnQuantity.value=num;
+				}
+			});
+			mui('#orderRefund').on('change', '#ReturnQuantity', function() {
+	            var refGoodsPrice = refgdprice
+	            var rnum = document.getElementById("ReturnQuantity").value;
+	            if (refGoodsPrice && rnum && refGoodsPrice > 0 && rnum > 0) {
+	            	refGoodsPrice = parseFloat(refGoodsPrice);
+	            	rnum = parseInt(rnum);
+	            	maxNumber = parseInt(maxnum);
+	                var ram = (rnum * refGoodsPrice).toFixed(2);
+	                ram = parseFloat(ram);
+	                maxPrice = parseFloat(maxprice);
+	                if (rnum >= maxNumber) {
+	                    ram = maxPrice;
+	                }
+	                if (ram > maxPrice) {
+	                    ram = maxPrice;
+	                }
+	                document.getElementById("Amount").value=ram;
+	            }
+			});
+			mui('#orderRefund').on('change', 'input[name="rtype"][data-type="1"]', function() {
+				if(this.checked){
+					document.getElementsByClassName('num-box')[0].style.display='none';
+					ReturnQuantity.value=0;
+				}
+			});
+			
+			mui('#orderRefund').on('tap', '#submitRefund', function() {
+				
+				var ContactCellPhone=document.getElementById('ContactCellPhone').value,
+					ContactPerson=document.getElementById('ContactPerson').value;
+				if(ContactCellPhone.length!=11){
+					plus.nativeUI.toast('请填写11位联系电话');
+					return;
+				}
+				if(ContactPerson==''){
+					plus.nativeUI.toast('请填写联系人');
+					return;
+				}
+				var focus=document.querySelector(':focus');
+				if(focus)
+					focus.blur();
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				var refundData={
+					orderid:orderId,
+					refundid:refundId,
+					orderitemId:itemId,
+					refundtype:document.querySelector('input[name="rtype"]:checked').getAttribute('data-type'),
+					returnquantity:ReturnQuantity.value,
+					amount:document.getElementById('Amount').value,
+					reason:himall.selectValue(document.getElementById('Reason')),
+					contactperson:ContactPerson,
+					contactcellPhone:ContactCellPhone,
+					refundpaytype:document.querySelector('input[name="ptype"]:checked').getAttribute('data-type'),
+					userkey:userkey
+				}
+		    	mui.ajax(URL+'api/OrderRefund/PostRefundApply',{
+					data:himall.md5Data(refundData),
+					dataType:'json',
+					type:'POST',
+					timeout:10000,
+					success:function(data){
+						w.close();
+						if(data.success){
+							plus.nativeUI.toast(data.msg);
+							if(orderList||orderDetail){
+								mui.fire(orderDetail,'updateData');
+								mui.fire(orderList,'updateData');
+							}else{
+								mui.fire(plus.webview.getWebviewById('order-refund-detail.html'),'updateData');
+								mui.fire(plus.webview.getWebviewById('order-refund-list.html'),'updateData');
+							}
+							
+							setTimeout(function(){mui.fire(plus.webview.getWebviewById('usercenter.html'),'updateData');ws.close();},1000);
+							
+						}else{
+							plus.nativeUI.toast(data.msg)
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						plus.nativeUI.toast('申请售后失败，请检查网络');
+					}
+				});
+			});
+			
+		</script>
+		<script id="initData" type="text/html">
+			<ul>
+				<li>售后类型：
+					<div class="mui-input-group">
+						<div class="mui-input-row mui-radio">
+							<label>仅退款</label>
+							<input name="rtype" type="radio" checked data-type="1">
+						</div>
+						{{if !RefundMode.IsRefundOrder}}
+							<div class="mui-input-row mui-radio">
+								<label>退款退货</label>
+								<input name="rtype" type="radio" data-type="2">
+							</div>
+						{{/if}}
+					</div>
+				</li>
+				<li style="display:none" class="num-box">退货数量：<input id="ReturnQuantity" type="number" value="0" placeholder="数量"/></li>
+				<li>退款金额：<input id="Amount" type="number" value="{{RefundMode.MaxRefundAmount}}" placeholder="申请金额" {{RefundMode.IsRefundOrder?'disabled':''}}/></li>
+				<li>退款理由：<select id="Reason">
+					{{each RefundMode.RefundReasons}}
+						<option value="{{$value.AfterSalesText}}">{{$value.AfterSalesText}}</option>
+					{{/each}}
+					</select>
+					<span class="mui-icon mui-icon-arrowdown"></span>
+				</li>
+				<li>联&nbsp; 系 &nbsp;人：<input id="ContactPerson" type="text" value="{{RefundMode.ContactPerson}}" placeholder="联系人"/></li>
+				<li>联系电话：<input id="ContactCellPhone" type="number" value="{{RefundMode.ContactCellPhone||''}}" placeholder="电话号码"/></li>
+				<li>退款方式：
+					<div class="mui-input-group">
+						{{if RefundMode.BackOut}}
+							<div class="mui-input-row mui-radio">
+								<label>原路返回</label>
+								<input name="ptype" type="radio" data-type="1">
+							</div>
+						{{/if}}
+						<div class="mui-input-row mui-radio">
+							<label>退到预付款</label>
+							<input name="ptype" type="radio" checked data-type="3">
+						</div>
+					</div>
+				</li>
+				<li><a class="custom-btn" id="submitRefund">提 交</a></li>
+			</ul>
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,91 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "商品咨询";
+}
+@model  IEnumerable<Himall.Web.Models.ProductConsultationModel>
+<style>
+    .tb-goods td{padding:25px 15px;}
+    .tb-void a{color:#6b6c6e;font-size:13px;}
+    .col3{padding:0;font-size:13px;color:#6b6c6e}
+
+</style>
+<div class="box1 lh24">
+    <div class="title">
+        <span class="title_txt cur">购买咨询</span>
+    </div>
+    <div class="border-box">
+        <table class="tb-void tb-goods" style="margin-top:20px;">
+            <colgroup>
+                <col width="60">
+                <col width="250">
+                <col width="400">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th style="text-align: left;padding-left: 27px;">咨询商品</th>
+                    <th>商品名称</th>
+                    <th>咨询回复</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() == 0)
+                {
+                    <tr><td colspan="4" class="ety"><div class="empty">暂时没有咨询记录！</div></td></tr>
+                }
+                @foreach (var m in Model)
+                {
+                    <tr>
+                        <td style="padding:25px 0;position:relative;left:15px;">
+                            <div class="img-list" style="text-align:left;">
+                                <a href="@Url.Action("Detail", "Product", new { id = @m.ProductId })" target="_blank">
+                                    <img width="80" height="80" src="@Himall.Core.HimallIO.GetProductSizeImage(m.ProductPic, 1, (int)Himall.CommonModel.ImageSize.Size_100)" title="">
+                                </a>
+                            </div>
+                        </td>
+                        <td style="vertical-align:top;position:relative;top:3px;padding-left:22px;padding-right:50px;">
+                            <div class="p-name">
+                                @{
+                                    var name = m.ProductName.Length > 20 ? m.ProductName.Substring(0, 20) + "..." : m.ProductName;
+                                }
+                                <a href="@Url.Action("Detail", "Product", new { id = @m.ProductId })" target="_blank">@m.ProductName</a>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="col3" style="position:relative;top:-4px;padding-right:9px;">
+                                <div class="col3q">
+                                    <span title="@m.ConsultationContent" class="fore2">
+                                        我的咨询：@m.ConsultationContent.Replace("&nbsp", "")
+                                    </span>
+                                    <span class="ftx-03 time2">@m.ConsultationDate.ToString("yyyy-MM-dd HH:mm")</span>
+                                </div>
+                                <div class="col3a mt5">
+                                    @if (!string.IsNullOrWhiteSpace(m.ReplyContent))
+                                    {
+                                        <div class="ftx04 col3a-lcol">商家回复：</div>
+                                        <div class="col3a-rcol">
+                                            @m.ReplyContent.Replace("&nbsp", "")
+                                        </div>
+                                        <span class="ftx03 time">@(m.ReplyDate.HasValue ? m.ReplyDate.Value.ToString("yyyy-MM-dd HH:mm") : "")</span>
+                                    }
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="cl mt10" id="bottom_pager">
+            <div id="pagin-btm" class="pagin fr" style="clear:both">
+                @{
+                    var count = ((PagingInfo)ViewBag.pageInfo).TotalPages;
+                    var curr = ((PagingInfo)ViewBag.pageInfo).CurrentPage;
+                }
+                @Html.PageLinks((PagingInfo)ViewBag.pageInfo, x => Url.Action("Index", new { pageNo = x }))
+                <span class="page-skip">
+                    <em>&nbsp;&nbsp;共 @count 页&nbsp;&nbsp;&nbsp;&nbsp;</em>
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>

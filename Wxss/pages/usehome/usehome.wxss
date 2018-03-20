@@ -1,0 +1,194 @@
+/* pages/usehome/usehome.wxss */
+
+.logobg {
+  width: 750rpx;
+  height: 240rpx;
+}
+
+.uselogos {
+  position: relative;
+  height: 240rpx;
+}
+
+.usetitle {
+  position: absolute;
+  top: 55rpx;
+  left: 24rpx;
+}
+
+.uselogo {
+  width: 115rpx;
+  height: 115rpx;
+  border-radius: 50%;
+  border: 5rpx solid #cc2a29;
+  float: left;
+}
+
+.userinfo {
+  margin-left: 24rpx;
+  float: left;
+  color: #fff;
+  font-size: 24rpx;
+}
+ 
+.userinfo .userinfo-b {
+  margin-top: 15rpx;
+  font-size: 24rpx;
+}
+
+.userinfo .username {
+  font-size: 32rpx;
+}
+
+.userinfo .userinfo-b .user-grade {
+  background: #d93527;
+  border-radius: 25rpx;
+  border: 1px solid #cc3125;
+  text-align: center;
+  height: 40rpx;
+  line-height: 37rpx;
+  padding: 0rpx 15rpx;
+  float: left;
+}
+
+.userinfo .userinfo-b .user-score {
+  display: flex;
+  float: left;
+  border: 1px solid #ffecb3;
+  border-radius: 25rpx;
+  background: -webkit-linear-gradient(top, #ffecb3, #ffd550); /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(bottom, #ffecb3, #ffd550); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(bottom, #ffecb3, #ffd550); /* Firefox 3.6 - 15 */
+  background: linear-gradient(to bottom, #ffecb3, #ffd550);
+  color: #f50;
+  height: 40rpx;
+  line-height: 37rpx;
+  padding: 0rpx 16rpx 0 4rpx;
+  margin-left: 24rpx;
+}
+
+.userinfo .userinfo-b .user-score text{line-height: 40rpx; font-size: 24rpx;}
+
+
+.user-score image {
+  width: 32rpx;
+  height: 32rpx;
+  margin-top: 4rpx;
+  margin-right: 10rpx;
+}
+
+.user-score text text{
+  font-weight: bold;
+}
+
+.usecd {
+  display: flex;
+  background: #fff;
+  padding: 24rpx; 
+  overflow: hidden;
+}
+
+.usecdlist {
+  width: 185rpx;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.usecdlist text {
+  font-size: 24rpx;
+  line-height: 40rpx;
+  color: #424242;
+}
+
+.usecdlist .order_num {
+  border-radius: 16rpx;
+  border: 3rpx solid #ff5252;
+  background: #fff;
+  top: -7rpx;
+  position: absolute;
+  left: 57%;
+  font-size: 20rpx;
+  line-height: 32rpx;
+  padding:0 8rpx;
+  min-width: 16rpx;
+  text-align: center;
+  height: 32rpx;
+}
+
+
+.usecdlist .order_num text{
+   color: #ff5252;
+   line-height: 32rpx;
+}
+
+.hdonglist {
+  padding: 32rpx 24rpx;
+  line-height: 40rpx;
+  font-size: 32rpx;
+  position: relative;
+  background: #fff;
+  margin-top: 24rpx;
+  border-bottom: 1rpx solid #e0e0e0;
+}
+
+.hdonglist:last-child {
+  border: none;
+}
+
+.hdonglist::after, .hdonglist::before {
+  border: 6px solid transparent;
+  border-left: 6px solid #fff;
+  width: 0;
+  position: absolute;
+  right: 10px;
+  height: 0;
+  top: 38rpx;
+  content: ' ';
+}
+
+.hdonglist::before {
+  border-left-color: #bbb;
+  right: 8px;
+}
+
+page {
+  background: #f5f5f5;
+}
+
+.producthd {
+  background: #f5f5f5;
+  overflow: hidden;
+  padding-bottom: 15rpx;
+}
+
+.hdonglist text {
+  float: right;
+  margin-right: 40rpx;
+  font-size: 28rpx;
+  color: #747474;
+  line-height: 40rpx;
+}
+
+.hdonglist.outlogin{
+  text-align: center;
+  color: #f44336;
+  border-top: 1rpx solid #e0e0e0;
+  border-bottom: 1rpx solid #e0e0e0;
+}
+
+.hdonglist.outlogin::after, .hdonglist.outlogin::before{
+  display: none;
+}
+
+.gslogo {
+  margin-top: 330rpx;
+  text-align: center;
+}
+
+.gslogo image {
+  width: 211rpx;
+  height: 108rpx;
+}

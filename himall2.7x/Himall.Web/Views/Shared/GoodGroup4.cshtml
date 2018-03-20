@@ -1,0 +1,28 @@
+﻿@{string renminbi = "￥";}
+@Html.Raw(Model.showWarp ? "<div class=\"members_con\"><section class=\"members_goodslist\"><ul id=\"" + Model.warpId + "\">" : "")
+            @if (@Model.list.Count > 0)
+            {
+                for (int i = 0; i < @Model.list.Count; i++)
+                {
+                    var goods = @Model.list[i];
+                    <li class="g-box por rebox">
+                        <section><a href="@goods.link"><img class="lazyload" data-url="@goods.pic" src="~/Areas/Mobile/Templates/Default/images/blank.gif" width="88" height="88"></a></section>
+                        <section class="g-flex">
+                            <a href="@goods.link"> @goods.title</a>
+                            <p>
+                                @renminbi @goods.price
+                                <span class="xl4">销量：<i>@goods.SaleCounts</i></span>
+                                @if (goods.is_limitbuy)
+                                {
+                                    <i class="icon_buy"><a href="@goods.link">抢购</a></i>
+                                }
+                                else
+                                {
+                                    <i class="icon_buy add-buy-btn"><a href="javascript:void(0)" onclick="buyproduct(this)" class="buyproduct" data-pid="@goods.product_id">购买</a></i>
+                                }
+                            </p>
+                        </section>
+                    </li>
+                }
+            }
+            @Html.Raw(Model.showWarp ? "</ul></section></div>" : "")

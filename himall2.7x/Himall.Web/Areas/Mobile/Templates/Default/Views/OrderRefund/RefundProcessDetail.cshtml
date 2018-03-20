@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "处理详情";
+
+}
+@using Himall.Core
+@using Himall.Model
+@model Himall.Model.OrderRefundInfo
+@{
+    //是否弃货
+    bool isDiscard = false;
+    if (Model.SellerAuditStatus == OrderRefundInfo.OrderRefundAuditStatus.Audited
+        && Model.BuyerDeliverDate == null
+        && Model.RefundMode != OrderRefundInfo.OrderRefundMode.OrderRefund
+        && Model.IsReturn == true
+        )
+    {
+        isDiscard = true;
+    }
+    //是否拒绝
+    bool isUnAudit = (Model.SellerAuditStatus == OrderRefundInfo.OrderRefundAuditStatus.UnAudit);
+    //是否退货
+    bool isReturnGoods = (Model.RefundMode == OrderRefundInfo.OrderRefundMode.ReturnGoodsRefund);
+    List<Himall.Model.OrderRefundlogsInfo> RefundLogs = (List<Himall.Model.OrderRefundlogsInfo>)ViewBag.RefundLogs;
+
+}
+<div class="container ProcessDetail">
+    <ul>
+        @if (Model.SellerAuditStatus == Himall.Model.OrderRefundInfo.OrderRefundAuditStatus.Audited)
+        {
+            <li class="clearfix">
+                <p><time>@Model.ManagerConfirmDate</time><span>【@Model.ManagerConfirmStatus.ToDescription()】@(Model.ManagerRemark)</span><em>平台</em></p>
+                <p></p>
+            </li>
+        }
+        @if (Model.SellerConfirmArrivalDate != null
+                            && (int)Model.SellerAuditStatus > (int)OrderRefundInfo.OrderRefundAuditStatus.WaitReceiving
+                            )
+        {
+            <li class="clearfix">
+                <p><time>@Model.SellerConfirmArrivalDate</time><span>【商家确认收货】</span><em>商家</em></p>
+                <p></p>
+            </li>
+        }
+        @if (Model.BuyerDeliverDate != null
+                            && (int)Model.SellerAuditStatus > (int)OrderRefundInfo.OrderRefundAuditStatus.WaitDelivery
+                            )
+        {
+            <li class="clearfix">
+                <p><time>@Model.BuyerDeliverDate</time><span>【买家回寄商品】@(Model.ExpressCompanyName) ： @(Model.ShipOrderNumber)</span><em>买家</em></p>
+                <p>
+                </p>
+            </li>
+        }
+        @if (Model.SellerAuditStatus != OrderRefundInfo.OrderRefundAuditStatus.WaitAudit)
+        {
+            <li class="clearfix">
+                <p>
+                    <time>@Model.SellerAuditDate</time><span>【
+                        @if (Model.SellerAuditStatus == OrderRefundInfo.OrderRefundAuditStatus.UnAudit)
+                        {
+                            @(Model.SellerAuditStatus.ToDescription())
+                        }
+                        else
+                        {
+                            @("商家同意退款") @(isDiscard ? "并弃货" : "")
+                        }
+                    】@(Model.SellerRemark)
+                    </span><em>商家</em>
+                </p>
+                <p></p>
+            </li>
+        }
+        <li class="clearfix">
+            <p><time>@Model.ApplyDate</time><span>您的服务单已申请成功，待商家审核中</span><em>系统</em></p>
+            <p>
+            </p>
+        </li>
+        @foreach (var item in RefundLogs)
+        {
+            <li class="clearfix">
+                <p><time>@item.OperateDate</time><span>@item.OperateContent</span><em>@item.Operator</em></p>
+                <p>
+                </p>
+            </li>
+        }
+</ul>
+</div>
+
+    <script>
+        $(document).ready(function () {
+            var e_h = $("li>p>time").height();
+            $("li>p>time").css("line-height", "e_h+'px'");
+        })
+    </script>

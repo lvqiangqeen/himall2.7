@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3853B062-24B6-44FF-B088-CD80FDDFAC37}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Himall.Application</RootNamespace>
+    <AssemblyName>Himall.Application</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Himall.Web\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Himall.Web\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="Himall.Core, Version=2.3.5947.35470, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Himall.Core\Himall.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TemplateSettingsApplication.cs" />
+    <Compile Include="WeixinAutoReplyApplication.cs" />
+    <Compile Include="CategoryApplication.cs" />
+    <Compile Include="CouponApplication.cs" />
+    <Compile Include="DistributionApplication.cs" />
+    <Compile Include="FightGroupApplication.cs" />
+    <Compile Include="MemberApplication.cs" />
+    <Compile Include="RegionApplication.cs" />
+    <Compile Include="BillingApplication.cs" />
+    <Compile Include="ShopApplication.cs" />
+    <Compile Include="WeiActivityApplication.cs" />
+    <Compile Include="WeiActivityWinApplication.cs" />
+    <Compile Include="OrderApplication.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThemeApplication.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Himall.CommonModel\Himall.CommonModel.csproj">
+      <Project>{9378bfdf-a45e-416a-afba-5abc792f2613}</Project>
+      <Name>Himall.CommonModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Himall.IService\Himall.IServices.csproj">
+      <Project>{cc035ca9-a8cf-4068-8271-9fa02b69d9e8}</Project>
+      <Name>Himall.IServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Himall.Model\Himall.Model.csproj">
+      <Project>{e607d04d-3b11-409b-b832-e95bb4e9a84e}</Project>
+      <Name>Himall.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Himall.ServiceProvider\Himall.ServiceProvider.csproj">
+      <Project>{d8a97225-4720-41ff-8235-bae0bf16cc4d}</Project>
+      <Name>Himall.ServiceProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Himall.ViewModel\Himall.DTO.csproj">
+      <Project>{8e003825-40af-44fc-b3a2-edf867b0c050}</Project>
+      <Name>Himall.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Himall.Web.Framework\Himall.Web.Framework.csproj">
+      <Project>{cad920d8-3b70-4d9d-ad02-677dd789964d}</Project>
+      <Name>Himall.Web.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

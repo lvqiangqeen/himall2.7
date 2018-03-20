@@ -1,0 +1,98 @@
+<!--shopcart.wxml-->
+<view class="page-section">
+  <view hidden="{{isEmpty}}">
+    <view class="shopcart-t bg-wihte">
+      <view class="shopcart-ck" class="mt0">
+      <icon type="{{selectAllStatus?'success':'circle'}}" color="{{selectAllStatus?'#ff5722':''}}" bindtap="selectAll" class="fl mt20 line_height1"/>
+        <view class="ml16 fl">全选</view>
+      </view>
+      <view class="shopcart-edite" bindtap="SwitchEdite">{{EditeText}}</view>
+    </view>
+    <view class="shopcart-m bg-wihte">
+      <block wx:for="{{ShopCarts}}" wx:for-index="idx" wx:for-item="shop">
+      <view>
+         <view class="shopTitle">
+            <icon type="{{shopSelectAll[idx].shopSelect?'success':'circle'}}" color="{{shopSelectAll[idx].shopSelect?'#ff5722':''}}" bindtap="selectShop" data-idx="{{idx}}"/>
+            <view class="iconfont dianpu"></view>
+            <text>{{shop[0].ShopName}}</text>
+         </view>
+         <block wx:for="{{shop}}" wx:for-index="ix" wx:for-item="item">
+             <view class="shopcart-m-item {{item.IsValid?'':'shopcart-invalid'}}">
+                <view class="shopcart-ck {{item.IsValid?'':'ck-txt'}}">
+                    <view wx:if="{{item.IsValid}}">                
+                     <icon data-skuid="{{item.SkuId}}" data-idx="{{ix}}" data-sidx="{{idx}}" type="{{item.selected?'success':'circle'}}" color="{{item.selected?'#ff5722':''}}" bindtap="selectList"/>
+                    </view>
+                    <view style="font-size:20rpx;margin-top:16rpx;" wx:else>失效</view>
+                </view>
+                <view class="shopcart-item-pic " data-productid="{{item.Id}}" bindtap="goToProductDetail" >
+                    <image mode="aspectFill " src="{{item.ImgUrl}} " />
+                </view>
+
+                <view class="shpcart-item-txt " data-productid="{{item.Id}}" bindtap="goToProductDetail" hidden="{{isEdite&&item.IsValid}}">
+                    <view class="shopcart-txt-t ">
+                    <view class="shopcart-txt-name ">{{item.Name}}</view>
+                    <view class="shopcart-txt-saleprice " hidden="{{isEdite}}">
+                        <text>¥ {{item.Price}}</text>
+                        <view class="shopcart-item-num ">
+                        <view class="txt "><text class="iconfont icon__close"></text>{{item.Count}}</view>
+                        </view>
+                    </view>
+                    </view>
+                    <view class="shopcart-txt-b ">
+                        <view class="shpcart-item-skuname">
+                            <block wx:if="{{item.Size}}">
+                                {{item.SizeAlias}}:{{item.Size}}
+                            </block>
+                            <block wx:if="{{item.Color}}">
+                                {{item.ColorAlias}}:{{item.Color}}
+                            </block>
+                            <block wx:if="{{item.Version}}">
+                                {{item.VersionAlias}}:{{item.Version}}
+                            </block>
+                        </view>
+                    </view>
+                </view>
+
+                <view class=" shpcart-item-txt shopcart-item-edite " hidden="{{!isEdite}}">
+                    <view class="shopcart-item-edite-l " hidden="{{!item.IsValid}}">
+                    <view class="shpcart-item-edite-num ">               
+                        <text class="iconfont minus_regular fl" data-dotype="minus" bindtap="countNum" data-idx="{{ix}}" data-sidx="{{idx}}"></text>
+                        <input class="m" value="{{item.Count}}" type="number" data-idx="{{ix}}" data-sidx="{{idx}}"bindblur="bindblurNum" />
+                        <text class="iconfont plus_regular fr" data-dotype="add"  bindtap="countNum" data-idx="{{ix}}" data-sidx="{{idx}}"></text>
+                    </view>
+                    <view class="shpcart-item-skuname ">{{item.SkuContent}}</view>
+                    </view>
+                    <view class="shopcart-item-edite-r " bindtap="DelCarts" data-index="{{index}}" data-skuid="{{item.SkuId}}">
+                    <text class="iconfont icon__trash"></text>
+                    </view>
+                </view>
+            </view>
+         </block>
+         </view>
+      </block>
+    </view>
+    <view class="shopcart-b bg-wihte ">
+      <view class="shopcart-total ">
+        <view class="shopcart-total-txt ">总价: </view>
+        <view class="shopcart-total-p ">
+          <text class="saleprice ">¥{{TotalPrice}} </text>
+        </view>
+        (不含运费)
+      </view>
+      <view class="shopcart-buy" bindtap="SettlementShopCart">
+        <text>{{SettlementText}}</text>
+      </view>
+    </view>
+  </view>
+  <view class="shopcart-no" hidden="{{!isEmpty}}">
+    <view class="shopcart-no-item">
+      <view class="pic">
+        <image src="../../images/shopcart-empty.jpg"></image>
+      </view>
+      <view class="mt24 mb24 line_height48 font32">购物车空空如也~</view>
+      <view class="btn">
+        <navigator open-type="switchTab" url="../productcategory/productcategory" class="btn_go">去逛逛</navigator>
+      </view>
+    </view>
+  </view>
+</view>

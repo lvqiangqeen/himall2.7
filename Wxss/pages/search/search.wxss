@@ -1,0 +1,15 @@
+/* pages/search/search.wxss */
+.searchl input{color: #212121;}
+.searls{ display: flex; border-bottom: 1rpx #e0e0e0 solid;}
+.searlsr{width: 540rpx; text-align: right;}
+.searlsr image{width: 40rpx; height: 40rpx;}
+.searchlslist{clear: both; overflow: hidden; border-bottom: 1rpx #e0e0e0 solid;}
+.searchlslist button::after{ border: none;}
+.searchlslist button {float: left; margin-right: 15rpx; font-size: 28rpx; line-height: 48rpx;  background: #fff; width: 662rpx; text-align: left; padding-left: 0; top: 0; color: #212121; min-height: 1rpx;}
+.search_btn{ color: #9E9E9E; opacity:0.8;filter:alpha(opacity=80); width: 44rpx; height: 44rpx; font-size: 44rpx; padding-top: 23rpx;}
+.searchlslist  text{ color: #BDBDBD; width: 24rpx; height: 24rpx; line-height: 48rpx; text-align: right;}
+.searclibut{position: relative; border-bottom: 1rpx #e0e0e0 solid;}
+.searchlslist .searclibut:last-child{ border-bottom: none;}
+.searchlslistq{ clear: both; overflow: hidden; width:330rpx; margin: 0 auto;}
+.searchlslistq button.qkls{margin: 0 auto; border-radius:8rpx; color: #424242;background: #FBFAFC; float: none; font-size: 28rpx; line-height: 40rpx; padding: 16rpx 32rpx;}
+.searlsl{font-size: 28rpx; line-height: 40rpx; color: #747474;}

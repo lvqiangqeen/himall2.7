@@ -1,0 +1,27 @@
+<!--coupondetail.wxml-->
+<view class="page-section">
+  <view class="counp">
+    <view class="pic" style="background:url({{coupimg}}); background-size:100% 100%">
+      <view class="counpinfo">
+        <view class="counp-title line_height40" style="background:url({{coupimgLine}}) repeat-x; background-size:100% 100%;">
+          <text>{{CouponName}}</text>
+        </view>
+        <view class="counp-price">
+          <view class="price-icon">￥</view>
+          <text>{{Price}}</text>
+        </view>
+        <view class="counp-area line_height32">{{CanUseProducts}}</view>
+      </view>
+    </view>
+
+
+    <view class="counp-des">
+      <view class="coupon-txt line_height32">{{LimitText}}</view>
+      <view class="coupon-txt line_height32">{{CouponsDate}}</view>
+    </view>
+  </view>
+
+  <view class="btn">
+    <button type="default" class="btn_coup" bindtap="GetCoupon">领取优惠券</button>
+  </view>
+</view>

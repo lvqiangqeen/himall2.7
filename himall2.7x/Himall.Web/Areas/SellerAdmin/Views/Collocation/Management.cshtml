@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "Management";
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+       
+        <li class="active"><a>所有组合购</a></li>
+        @if (!ViewBag.Expire)
+        {
+            <li><a href="@Url.Action("Add")">新增组合购</a></li>
+        }
+        <li class=""><a href="@Url.Action("BuyService")">服务购买</a></li>
+        
+    </ul>
+    @if (!ViewBag.Expire)
+    {
+        <div class="search-box">
+            <form class="form-inline custom-inline">
+                <div class="form-group">
+                    <label class="label-inline w75" for="">搜组合购</label>
+                    <input type="text" id="CollName" class="form-control input-ssm">
+                </div>
+                <div class="form-group">
+                    <button id="searchBtn" class="btn btn-primary btn-sm" type="button">搜 索</button>
+                </div>
+            </form>
+        </div>
+        <div>
+            <table class="table" id="list"></table>
+        </div>
+    }
+    else
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                <p class="apply-primary"><span class="glyphicon glyphicon-info-sign"></span>您还未购买组合购服务或者服务已到期，<a href="./BuyService">现在购买</a></p>
+            </div>
+        </div>
+    }
+</div>
+<input type="hidden" value="@DateTime.Now.Date" id="dtnd" />
+<script type="text/javascript">
+    function query() {
+        //订单表格
+        $("#list").hiMallDatagrid({
+            url: './List',
+            nowrap: false,
+            rownumbers: true,
+            NoDataMsg: '没有找到符合条件的组合购',
+            border: false,
+            fit: true,
+            fitColumns: true,
+            pagination: true,
+            idField: "Id",
+            pageSize: 15,
+            pagePosition: 'bottom',
+            pageNumber: 1,
+            queryParams: {},
+            columns:
+            [[
+                { field: "Id", title: 'Id', hidden: true, width: 150 },
+                {
+                    field: "Title", title: "活动名称", width: 250, align: "center",
+                    formatter: function (value, row, index) {
+                        var html = "<a target='_blank' href='/Product/Detail/" + row.ProductId + "'>"+row.Title+"</a>";
+                        return html;
+                    }
+                },
+               { field: "ShopName", title: "店铺", width: 250, align: "center" },
+                { field: "StartTime", title: "开始时间", width: 100, align: "center" },
+                { field: "EndTime", title: "结束时间", align: "center", width: 100 },
+                { field: "Status", title: "状态", width: 90, align: "center" },
+            {
+                field: "operation", operation: true, title: "操作", width: 220,
+                formatter: function (value, row, index) {
+                    var id = row.Id.toString();
+                    var now = $("#dtnd").val().replace(/-/g, '/');
+                    var html = ["<span class=\"btn-a\">"];
+                    if (new Date(row.EndTime) > new Date(now)) {
+                        html.push("<a class=\"good-check\" href=\"./Edit/" + id + "\">编辑</a>");
+                        html.push("<a class=\"good-check\" onclick=\"Cancel(" + id + ")\">使失效</a>");
+                    }
+                    html.push("</span>");
+                    return html.join("");
+                }
+            }
+            ]]
+        });
+    }
+
+    $(function () {
+        query();
+        $('#searchBtn').click(function (e) {
+            searchClose(e);
+            var Title = $.trim($('#CollName').val());
+            $("#list").hiMallDatagrid('reload',
+                {
+                    CollName: Title,
+                });
+        });
+    });
+
+    function Cancel(id) {
+        $.dialog.confirm('确定使该组合购失效吗？', function () {
+            var loading = showLoading();
+            $.post("./Cancel", { id: id }, function (data) { loading.close(); $.dialog.tips(data.msg); query(); });
+        });
+    }
+</script>

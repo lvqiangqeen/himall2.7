@@ -1,0 +1,34 @@
+
+<!--pages/logistics/logistics.wxml-->
+<view class="xuanzhed">
+  <view class="hdonglist hdonglist1">
+    <text class="iconfont icon__delivery"></text>
+    <view class="classnames">
+      <text class="yhname">{{ExpressCompanyName}}: {{ShipOrderNumber}}</text>
+    </view>
+  </view>
+</view>
+
+<!--地址信息-->
+<view class="address-info">
+  <view class="address-outer">
+    <text class="iconfont icon__locate"></text>
+    <view class="infos">
+      <text class="name">{{ShipTo}}{{CellPhone?', ':''}} {{CellPhone}}</text>
+      <text class="address"> {{Address}}</text>
+    </view>
+  </view>
+  <view class="addr-xuanbg">
+    <image src="/images/order_06.jpg"></image>
+  </view>
+</view>
+
+<view class="xuanzhed1 mt24">
+  <view class="ddgzcont">
+    <block wx:for="{{LogisticsData}}" wx:key="acceptTime">
+        <view class="wllist {{index==0?'active':''}}">{{item.acceptStation}}
+          <view class="acceptTime">{{item.acceptTime}}</view>
+        </view>
+    </block>
+  </view>
+</view>

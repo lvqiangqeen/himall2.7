@@ -1,0 +1,25 @@
+﻿@model Himall.Web.Areas.Mobile.Models.VShopShowShopScoreModel
+@{
+    Layout = null;
+}
+<div class="item shop-wrap">
+    <div class="shop-hd">
+        <div class="shop-logo"><img src="@(Model.VShopLog)"></div>
+        <h4>@(Model.ShopName)</h4>
+        <div class="shop-hd-info">
+            <span>宝贝数<strong>@(Model.ProductNum)</strong></span>
+            <span>关注人数<strong>@(Model.FavoriteShopCount)</strong></span>
+        </div>
+    </div>
+    <ul class="shop-bd clearfix">
+        <li>商品：<strong>@(((decimal)Model.ProductAndDescription).ToString("F2"))</strong></li>
+        <li>发货：<strong>@(((decimal)Model.SellerDeliverySpeed).ToString("F2"))</strong></li>
+        <li>服务：<strong>@(((decimal)Model.SellerServiceAttitude).ToString("F2"))</strong></li>
+    </ul>
+    <div class="shop-ft clearfix">
+        <span><a class="btn btn-default" id="bt_govshop" href="/@ViewBag.AreaName/vshop/detail/@Model.VShopId" vshopid="@Model.VShopId">进入店铺</a></span>
+        <span><a class="btn btn-default @(Model.IsFavoriteShop ? "fav-yes" : "")" id="addShopFavorite" shopid="@Model.ShopId">@(Model.IsFavoriteShop?"已":"")关注</a></span>
+    </div>
+</div>
+
+<script src="~/Areas/Mobile/Templates/Default/Scripts/ShowShopScore.js"></script>

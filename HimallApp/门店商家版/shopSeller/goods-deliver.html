@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>订单发货</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<style>
+		.mui-bar.mui-bar-nav:before {background:none;}
+		.mui-table-view:before,.mui-table-view:after{ height: 0px;}
+ 		.input-width{ width: 60%;}
+	</style>
+	
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background:#fff;">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">订单发货</h1>
+		</header>
+		<div class="mui-content goods-deliver" style="top:13px;margin-bottom:50px; background: #f5f5f5; position: relative;">
+			<div id="content"></div>
+			 	<ul class="mui-table-view  goods-deliver-list2">
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right  select_himall">
+							配送方式  <span class="mui-pull-right" data-list="快递配送,店员配送" id="ps">快递配送</span>
+						</a>
+					</li>
+					
+					<li class="mui-table-view-cell" id="companyList">
+						<!--这个是自定义选择器，选项写在data-list里面，逗号隔开，可以加载页面后用js写入 a标签class select_himall 是必写的，id必须填一个-->
+						<a class="mui-navigate-right select_himall">
+							快递公司  <span class="mui-pull-right" data-list="顺丰快递,申通快递,圆通快递,韵达快递,天天快递,德邦快递,啥子快递"  id="kd">快递公司</span>
+						</a>
+					</li>
+					<li class="mui-table-view-cell" id="shipNumber">
+						<a class="mui-navigate-right sm">
+							快递单号  <input type="text"  id="qrcode" placeholder="请输入快递号或扫码" class="input-width mui-pull-right">
+							<a  onclick="himall.openVW('qrcode.html')" class="goCode"></a>  
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="bottom_fixedBtn">
+				 <button class='blue_btn mui-btn' id="btnDelivery">确定发货</button>
+			</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/mui.zoom.js"></script>
+		<script src="js/mui.previewimage.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/template.js" ></script>
+		<script>
+			var userkey=himall.getState().userkey;
+			var content = document.getElementById("content");
+		    mui.init();
+			mui.plusReady(function(){
+				var ws=plus.webview.currentWebview();
+				loadPage();
+				LoadExpress();
+				function loadPage(){
+				var ajaxUrl = 'api/ShopBranchOrder/GetOrderInfo';
+					mui.ajax(URL+ajaxUrl,{
+				        	data:himall.md5Data({
+								orderId:ws.orderId,
+								userkey:userkey
+							}),
+							dataType:'json',
+							type:'get',
+							timeout:10000,
+							success:function(data){
+								console.log(JSON.stringify(data));
+								content.innerHTML=template('initData', data);
+							},
+							error:function(xhr,type,errorThrown){
+								plus.nativeUI.toast('请求失败，请检查网络重试');
+							}
+						});
+				}
+				function LoadExpress(){
+					var ajaxUrl = 'api/ShopBranchOrder/GetAllExpress';
+					mui.ajax(URL+ajaxUrl,{
+				        	data:himall.md5Data({
+								userkey:userkey
+							}),
+							dataType:'text',
+							type:'get',
+							timeout:10000,
+							success:function(data){
+								var str=data.replace(/^"+/,"").replace(/"+$/,"");
+								console.log(JSON.stringify(str));
+								document.getElementById("kd").setAttribute("data-list",str);
+							},
+							error:function(xhr,type,errorThrown){
+								plus.nativeUI.toast('请求失败，请检查网络重试');
+							}
+						});
+				}
+				function OrderDelivery(deliveryType,companyName,shipOrderNumber){
+					mui.ajax(URL+'api/ShopBranchOrder/PostShopSendGood',{
+						data:himall.md5Data({
+							orderId:ws.orderId,
+							deliveryType:deliveryType,
+							companyName:companyName,
+							shipOrderNumber:shipOrderNumber,
+							userkey:userkey
+						}),
+						dataType:'json',
+						type:'post',
+						timeout:10000,
+						success:function(data){
+							console.log(JSON.stringify(data));
+							if(data.success){
+								plus.nativeUI.toast(data.msg);
+								mui.fire(plus.webview.getWebviewById('order-list.html'),"reloadPage");
+								mui.fire(plus.webview.getWebviewById('order-details.html'),"updateData");
+								setTimeout(function(){
+									mui.back();
+								},1000);
+								
+								//himall.openVW('order-list.html');
+							}else{
+								plus.nativeUI.toast("发货失败");
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							plus.nativeUI.toast('提交快递信息失败，请检查网络')
+						}
+					});
+				}
+				mui('.bottom_fixedBtn').on('tap','#btnDelivery',function(){
+				 	var deliveryType = document.getElementById("ps").innerHTML;
+				 	if(deliveryType=="快递配送"){
+				 		deliveryType=0;
+				 		var companyName = document.getElementById("kd").innerHTML;
+					 	var shipOrderNumber =document.getElementById("qrcode").value;
+					 	if(companyName=="快递公司"){
+					 		plus.nativeUI.toast('请选择快递公司');
+					 		return false;
+					 	}
+					 	if(shipOrderNumber==""){
+					 		plus.nativeUI.toast("请输入快递单号");
+					 		return false;
+					 	}
+				 	}
+				 	else{ 
+				 		deliveryType=2;
+				 		companyName = "";
+				 		shipOrderNumber = "";
+				 	}
+				 	mui.ajax(URL+'api/ShopBranchOrder/GetIsOrderAfterService',{
+				        	data:himall.md5Data({
+								orderId:ws.orderId,
+								userkey:userkey
+							}),
+							dataType:'json',
+							type:'get',
+							timeout:10000,
+							success:function(data){
+								if(data.isAfterService){
+									mui.confirm('订单正在申请售后，若发货将自动拒绝用户退款申请，确定发货吗？', '', ['取消', '确定'], function(e) {
+										if (e.index == 1) {
+											OrderDelivery(deliveryType,companyName,shipOrderNumber);
+										}
+									});
+								}
+								else{
+									OrderDelivery(deliveryType,companyName,shipOrderNumber);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								plus.nativeUI.toast('请求失败，请检查网络重试');
+							}
+						});
+				 	
+				});
+				document.addEventListener('updateData',function(e){
+					var deliverCode=e.detail.deliverCode;
+					document.getElementById("qrcode").value = deliverCode;
+				});
+			});
+			
+		
+		    //自定义选择器
+			var himall_actionsheet={
+				  init:function(){
+				  	   //选择器Dom
+				  	   this.div=document.createElement('div');
+				       this.div.id='forward';
+				       this.div.className='himall-popover';
+				       document.body.appendChild(this.div);
+				       this.backdrop=document.createElement('div');
+				       this.backdrop.className='mui-backdrop mui-backdrop-action mui-active';
+				       this.backdrop.id='backdrop';
+				       this.backdrop.style.display='none';
+				  	   this.backdrop.style.opacity='1';
+				       document.body.appendChild(this.backdrop);
+				       this.events();
+				  },
+				  events:function(){
+				  	     var domlist=document.getElementsByClassName('select_himall');
+				  	     var self=this;
+						 for(var i=0;i<domlist.length;i++){
+						 	    //帮点元素事件
+						 	    domlist[i].addEventListener('tap',function(){
+						 	    	  var list=this.querySelector('span').getAttribute('data-list').split(',');
+						 	    	  var id=this.querySelector('span').getAttribute('id');
+						 	    	  if(list=="") return;
+						 	    	  self.createDom(list,id);
+						 	    });
+						 }
+						 //禁止页面滚动
+						 document.getElementsByClassName('mui-backdrop')[0].addEventListener('touchmove',function(e){
+						 	    e.preventDefault();
+						 });
+						 //
+						 document.getElementsByClassName('mui-backdrop')[0].addEventListener('tap',function(e){
+						 	    self.close();
+						 });
+				  },
+				  createDom:function(list,id){
+				  	     var li="";
+				  	     var self=this;
+				  	     for(var i=0;i<list.length;i++){
+				  	     	   li+='<li class="mui-table-view-cell himall_popoverList"><a href="#forward">'+list[i]+'</a></li>';
+				  	     }
+				  	     this.div.innerHTML='<ul class="mui-table-view">'+li+'</ul><ul class="mui-table-view"><li class="mui-table-view-cell"><a id="closeHimall_ac" href="#">取消</a></li></ul>';
+				  	     this.div.style.display='block';
+				  	     this.backdrop.style.display='block';
+				  	     setTimeout(function(){
+				  	         self.backdrop.style.opacity='1';
+					  	     self.div.style.opacity="1";
+					  	     self.div.style.webkitTransform="translate3d(0,0,0)";
+				  	     },100); 
+				  	     document.getElementById('closeHimall_ac').addEventListener('tap',this.close,false);
+				  	     for(var j=0;j<list.length;j++){
+				  	          document.getElementsByClassName('himall_popoverList')[j].addEventListener('tap',function(){
+				  	          	    var text=this.querySelector('a').innerText;
+				  	          	    document.getElementById(id).innerHTML=text;
+				  	          	    if(text=="店员配送"){
+				  	          	    	document.getElementById("companyList").style.display="none";
+				  	          	    	document.getElementById("shipNumber").style.display="none";
+				  	          	    }
+				  	          	    else if(text=="快递配送"){
+				  	          	    	document.getElementById("companyList").style.display="block";
+				  	          	    	document.getElementById("shipNumber").style.display="block";
+				  	          	    }
+				  	          	    self.close();
+				  	          });
+				  	     }
+				  },
+				  close:function(){
+				  	     var backdrop=document.getElementById('backdrop');
+				  	     var forward=document.getElementById('forward');
+			  	         backdrop.style.opacity='0';
+				   	     forward.style.opacity="0";
+				  	     forward.style.webkitTransform="translate3d(0,235px,0)";
+				  	     setTimeout(function(){
+				  	     	   forward.style.display='none';
+				  	           backdrop.style.display='none';
+				  	     },300)
+				  }
+			}
+			
+			
+			
+			himall_actionsheet.init();
+		</script>
+		<script id="initData" type="text/html">
+			  <ul class="mui-table-view goods-deliver-list1">
+			  	   <li class="mui-table-view-cell">
+			  	   	   <span class="mui-pull-left" style="width:25%;" >买家留言</span>  <span style="width:75%;" class='mui-pull-right'>{{UserRemark}}</span>
+			  	   </li>
+			  	   <li class="mui-table-view-cell">
+			  	   	   <span class="mui-pull-left" style="width:25%;">订单备注</span>  <span style="width:75%;" class='mui-pull-right'>{{OrderRemarks}}</span>
+			  	   </li>
+			  </ul>
+			  <div class="goodsD-message">
+				 <span class="iconfont2 icon-dingwei"></span>
+				 <div>
+				    <h4>{{ShipTo}}, {{CellPhone}}</h4>
+				    <p>{{RegionFullName}}{{Address}}</p>
+				 </div>
+			 </div>
+		 </script>
+	</body>
+
+</html>

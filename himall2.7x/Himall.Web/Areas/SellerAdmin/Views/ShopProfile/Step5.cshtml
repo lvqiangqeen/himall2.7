@@ -1,0 +1,255 @@
+﻿@model Himall.Web.Models.ShopModel
+@{
+    Layout = "~/Areas/SellerAdmin/Views/Shared/_SellerAdminRegLayout.cshtml";
+}
+<div class="container pt0">
+    <ul class="nav nav-tabs-custom clearfix">
+		<li class="active"><a>上传付款凭证</a></li>
+        <div class="process-step">
+            <span class="odd">入驻协议</span>
+            <i class="glyphicon glyphicon-arrow-right odd"></i>
+            <span class="odd">商家信息提交</span>
+            <i class="glyphicon glyphicon-arrow-right odd"></i>
+            <span>上传付款凭证</span>
+            <i class="glyphicon glyphicon-arrow-right"></i>
+            <span>审核状态</span>
+        </div>
+    </ul>
+    
+    <h3 class="table-hd">公司及联系人信息</h3>
+    <table class="table table-bordered table-striped">
+        <colgroup>
+            <col class="col-xs-1">
+            <col class="col-xs-7">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td>公司名称</td>
+                <td>@Model.CompanyName</td>
+            </tr>
+            <tr>
+                <td>公司所在地</td>
+                <td>@Model.CompanyRegion</td>
+            </tr>
+            <tr>
+                <td>公司详细地址</td>
+                <td>@Model.CompanyAddress</td>
+            </tr>
+            <tr>
+                <td>公司电话</td>
+                <td>@Model.CompanyPhone</td>
+            </tr>
+            <tr>
+                <td>员工总数</td>
+                <td>@Model.CompanyEmployeeCount.ToDescription()</td>
+            </tr>
+            <tr>
+                <td>注册资金</td>
+                <td>@Model.CompanyRegisteredCapital 万</td>
+            </tr>
+            <tr>
+                <td>联系人姓名</td>
+                <td>@Model.ContactsName</td>
+            </tr>
+            <tr>
+                <td>联系人电话</td>
+                <td>@Model.ContactsPhone</td>
+            </tr>
+            <tr>
+                <td>电子邮箱</td>
+                <td>@Model.ContactsEmail</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h3 class="table-hd">营业执照信息（副本）</h3>
+    <table class="table table-bordered table-striped">
+        <colgroup>
+            <col class="col-xs-1">
+            <col class="col-xs-7">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td>营业执照号</td>
+                <td>@Model.BusinessLicenceNumber</td>
+            </tr>
+            <tr>
+                <td>营业执照所在地</td>
+                <td>@Model.BusinessLicenceRegionId</td>
+            </tr>
+            <tr>
+                <td>营业执照有效期</td>
+                <td>@Model.BusinessLicenceStart.Value.ToShortDateString() - @Model.BusinessLicenceEnd.Value.ToShortDateString()</td>
+            </tr>
+            <tr>
+                <td>法定经营范围</td>
+                <td>@Model.BusinessSphere</td>
+            </tr>
+            <tr>
+                <td>营业执照号<br />电子版</td>
+                <td><img src="@(Himall.Core.HimallIO.GetImagePath(Model.BusinessLicenceNumberPhoto))" alt="" /></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    
+    <h3 class="table-hd">组织机构代码证</h3>
+    <table class="table table-bordered table-striped">
+        <colgroup>
+            <col class="col-xs-1">
+            <col class="col-xs-7">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td>组织机构代码</td>
+                <td>@Model.OrganizationCode</td>
+            </tr>
+            <tr>
+                <td>组织机构代码证<br />电子版</td>
+                <td><img src="@(Himall.Core.HimallIO.GetImagePath(Model.OrganizationCodePhoto))" alt="" /></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h3 class="table-hd">一般纳税人证明</h3>
+    <table class="table table-bordered table-striped">
+        <colgroup>
+            <col class="col-xs-1">
+            <col class="col-xs-7">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td>一般纳税人证明</td>
+                <td><img src="@(Himall.Core.HimallIO.GetImagePath(Model.OrganizationCodePhoto))" alt="" /></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h3 class="table-hd">结算账号信息</h3>
+    <table class="table table-bordered table-striped">
+        <colgroup>
+            <col class="col-xs-1">
+            <col class="col-xs-7">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td>银行开户名</td>
+                <td>@Model.BankAccountName</td>
+            </tr>
+            <tr>
+                <td>公司银行账号</td>
+                <td>@Model.BankAccountNumber</td>
+            </tr>
+            <tr>
+                <td>开户银行支行名称</td>
+                <td>@Model.BankName</td>
+            </tr>
+            <tr>
+                <td>支行联行号</td>
+                <td>@Model.BankCode</td>
+            </tr>
+            <tr>
+                <td>开户银行所在地</td>
+                <td>@Model.BankRegionId</td>
+            </tr>
+            <tr>
+                <td>开户银行许可证<br />电子版</td>
+                <td><img src="@(Himall.Core.HimallIO.GetImagePath(Model.BankPhoto))" alt="" /></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h3 class="table-hd">税务登记证</h3>
+    <table class="table table-bordered table-striped">
+        <colgroup>
+            <col class="col-xs-1">
+            <col class="col-xs-7">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td>税务登记证号</td>
+                <td>@Model.TaxpayerId</td>
+            </tr>
+            <tr>
+                <td>纳税人识别号</td>
+                <td>@Model.TaxRegistrationCertificate</td>
+            </tr>
+            <tr>
+                <td>税务登记证号<br />电子版</td>
+                <td><img src="@(Himall.Core.HimallIO.GetImagePath(Model.TaxRegistrationCertificatePhoto))" alt="" /></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h3 class="table-hd">店铺经营信息</h3>
+    <table class="table table-bordered table-striped">
+        <colgroup>
+            <col class="col-xs-1">
+            <col class="col-xs-7">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td>卖家帐号</td>
+                <td>@Model.Account</td>
+            </tr>
+            <tr>
+                <td>店铺名称</td>
+                <td>@Model.Name</td>
+            </tr>
+            <tr>
+                <td>店铺等级</td>
+                <td>@Model.ShopGrade</td>
+            </tr>
+            <tr>
+                <td>经营类目</td>
+                <td>
+                    @foreach (var item in Model.BusinessCategory)
+                    {
+                        <b>@item.Name ,</b>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>付款凭证 <b class="red">*</b></td>
+                <td><div class="form-group upload-img " id="payOrderPhoto"></div></td>
+            </tr>
+            <tr>
+                <td>备注</td>
+                <td><div class="col-sm-7"><textarea id="remark" class="form-control" rows="4"></textarea></div></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="mt20">
+        <button type="button" id="submit" class="btn btn-primary">确认提交</button>
+    </div>
+</div>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script>
+
+    $('#payOrderPhoto').himallUpload({
+        title: '',
+        imageDescript: '请确保图片清晰，文字可辨并有清晰的红色公章。',
+        displayImgSrc: '',
+        imgFieldName: "bankPhoto",
+        dataWidth: 6
+    });
+
+
+    $('#submit').click(function () {
+        var payOrderPhoto = $('#payOrderPhoto').himallUpload('getImgSrc');
+        var remark = $('#remark').val();
+        if (!payOrderPhoto)
+            $.dialog.errorTips('请上传支付凭证');
+        else {
+            var loading = showLoading();
+            $.post('EditProfile4', { payOrderPhoto: payOrderPhoto, remark: remark }, function (result) {
+                loading.close();
+                if (result.success)
+                    $.dialog.tips('提交成功，请等待审核', function () { window.parent.location.reload(); });
+                else
+                    $.dialog.errorTips('提交失败！' + result.msg);
+            });
+        }
+    });
+</script>

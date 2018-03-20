@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "购物车";
+    ViewBag.ShowAside = 1;  // 显示更多按钮
+}
+<div class="container">
+    <div class="top-nav"><span id="deleteProducts">删除商品</span></div>
+    <ul class="list-group cart"></ul>
+    <footer class="clearfix footer-cart">
+        <i id="checkAll" class="check-custom"></i><label>全选</label>
+        <em class="cart-total">
+            <b>合计：<a id="totalSkuPrice">¥0</a></b>
+            <b>不含运费</b>
+        </em>
+        <a id="toSettlement" class="cart-pay">结算<b id="selectedCount">（0）</b></a>
+    </footer>
+</div>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/cartSettleAccounts.js"></script>

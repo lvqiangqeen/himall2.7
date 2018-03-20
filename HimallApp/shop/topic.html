@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>专题列表</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">精选专题</h1>
+		</header>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper transparent">
+			<div class="mui-scroll">
+				<ul class="topic-list" id="topicList">
+				</ul>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/delayimg.min.js"></script>
+		<script>
+			var isnodata = false,
+				page = 1;
+			mui.init({
+				pullRefresh : {
+				    container:'#pullrefresh',
+				    deceleration:0.0006,
+				    up : {
+					    contentrefresh : "正在加载...",
+					    contentnomore:'已加载全部专题',
+					    callback :function(){
+					      	var self=this;
+					      	if (!isnodata) {
+					      		page++;
+						        mui.ajax(URL+'api/Topic/GetTopicList',{
+						        	data:himall.md5Data({
+										pageno:page,
+										pagesize:10
+									}),
+									dataType:'json',
+									type:'get',
+									timeout:10000,
+									success:function(data){
+										if(data.Success=='true'){
+						                    var html = '';
+											document.getElementById('topicList').insertAdjacentHTML('beforeend',initData(html,data));
+											delayimg.render();
+						                    if (data.Total<=page*10) {isnodata = true;}
+											self.endPullupToRefresh(isnodata);
+					      					
+										}
+									},
+									error:function(xhr,type,errorThrown){
+										plus.nativeUI.toast('请求失败，请检查网络')
+									}
+								});
+						    }else{
+						    	self.endPullupToRefresh(isnodata);
+						    }
+				    	}
+				    }
+				},
+				swipeBack: true
+			});
+			if (mui.os.android)
+				document.getElementsByClassName('mui-scroll')[0].className='';
+			
+			mui.plusReady(function() {
+				plus.webview.currentWebview().setStyle({scrollIndicator:'none'});
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				mui.ajax(URL+'api/Topic/GetTopicList',{
+					data:himall.md5Data({
+						pageno:page,
+						pagesize:10
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(data.Success=='true'){
+							var html='';
+					        if (data.Topic.length > 0) {
+					            document.getElementById('topicList').innerHTML=initData(html,data);
+					            delayimg.init();
+					            if (data.Total<=10) {isnodata = true;}
+					        }else{
+					        	html+='<div class="empty-show"><h4>暂无任何活动专题</h4><button id="closeWv" class="mui-btn mui-btn-negative">去其他地方逛逛</button></div>';
+					        	document.getElementById('pullrefresh').innerHTML=html;
+					        }
+					        
+					        setTimeout(function(){
+								w.close();
+								himall.removeClass(document.querySelector('.mui-content'),'transparent');
+							},1000);
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						reloadWvLoad();
+					}
+				});
+			});
+			
+			function initData(html,data){
+				for(var i=0;i<data.Topic.length;i++){
+					html+='<li>'+
+						'<a data-url="'+data.Topic[i].Id+'" data-name="'+data.Topic[i].Name+'">'+
+							'<img src="images/blank.gif" data-delay="'+data.Topic[i].TopImage+'">'+
+							'<div>'+
+								'<p><span>'+data.Topic[i].Name+'</span></p>'+
+							'</div>'+
+						'</a>'+
+					'</li>';
+	            }
+				return html;
+			}
+			
+			mui('.topic-list').on('tap', 'a', function() {
+				var id = this.getAttribute('data-url');
+				var _turl=URL+ "m-wap/topic/detail/"+id;
+				himall.openVW('web-show.html',{
+						link:_turl,
+						name:this.getAttribute('data-name')
+				});
+			});
+			
+			
+		</script>
+	</body>
+
+</html>

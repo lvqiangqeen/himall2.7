@@ -1,0 +1,116 @@
+﻿@model Himall.Model.PlatConsoleModel
+<script type="text/javascript">
+$(function(){
+	var totalNum='@Model.TodaySaleAmount.Value.ToString("f0")';
+	if(totalNum.length>6){
+		totalNum=totalNum.substring(0,totalNum.length-4);
+		$('#totalNum').html(totalNum+'万').attr('title','@Model.TodaySaleAmount.Value');
+	}
+});
+</script>
+
+<div class="container">
+    <ul class="console-total clearfix">
+        <li class="fore1">
+            <i></i>
+            <div>
+                <strong id="totalNum">@Model.TodaySaleAmount.Value.ToString("f0")</strong>
+                <span>今日有效销售总额</span>
+            </div>
+        </li>
+        <li class="fore2">
+            <i></i>
+            <div>
+                <strong>@Model.TodayMemberIncrease</strong>
+                <span>今日会员新增数</span>
+            </div>
+        </li>
+        <li class="fore3">
+            <i></i>
+            <div>
+                <strong>@Model.TodayShopIncrease</strong>
+                <span>今日店铺新增数</span>
+            </div>
+        </li>
+    </ul>
+
+    <div class="ms-myorder modle-box">
+        <h3><span>商品</span><span>会员</span><span>交易</span></h3>
+        <div class="mycollect cl">
+            <dl class="clearfix">
+                <dt>待办事项</dt>
+                <dd class="first-child">
+                    <p><a href="/admin/product/management?status=1">商品待审核(@Model.WaitForAuditingProducts)</a><a href="/admin/brand/verify">品牌待审核(@Model.WaitForAuditingBrands)</a></p>
+                </dd>
+                <dd class="two-child">
+                    <p><a href="/admin/shop/management?type=Auditing&s=2">入驻待审核(@Model.WaitAuditShops)</a>@*<a>待仲裁(@Model.Complaints)</a>*@</p>
+                    @*<p><a href="/admin/shop/management?type=Auditing&s=5">入驻待确认(@Model.WaitConfirmShops)</a></p>*@
+                    <p><a href="/Admin/Capital/WithDraw?status=1&dispalyurl=/Admin/Capital/Index">待处理提现(@Model.Cash)</a></p>
+                    <p><a href="/Admin/Gift/Order?status=2">礼品待发货(@Model.GiftSend)</a></p>
+                </dd>
+                <dd style="width:300px">
+                   
+                    <p><a href="/admin/OrderComplaint/management?status=3">待仲裁(@Model.Complaints)</a>
+                    </p>
+					<p><a href="/Admin/OrderRefund/management?showtype=2&status=5">待退款(@Model.RefundTrades)</a></p>
+                    <p><a href="/Admin/OrderRefund/management?showtype=3&status=5">待退货(@Model.OrderWithRefundAndRGoods)</a></p>
+                   
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="console-detaile clearfix">
+        <div class="item shop-item">
+            <div class="item-inner">
+				<div class="item-bt">
+                    <i></i>
+                </div>
+                <div class="item-hd">店铺（个）<p>@Model.ShopNum</p></div>
+                <div class="item-bd">
+                    <p><em>@Model.TodayShopIncrease</em>今日新增</p>
+                    <p><em>@Model.YesterdayShopIncrease</em>昨日新增</p>
+                    <p><em>@Model.WaitAuditShops</em>待审核</p>
+                    <p><em>@Model.ExpiredShops</em>店铺到期</p>
+                    <p><em><a href="@Url.Action("Management","ShopWithDraw")?displayUrl=/Admin/ShopWithDraw/Management" class="color-f">@Model.ShopCashNumber</a></em>待处理提现</p>
+                </div>
+            </div>
+        </div>
+        <div class="item goods-item">
+            <div class="item-inner">
+				<div class="item-bt">
+                    <i></i>
+                </div>
+                <div class="item-hd">商品（件）<p>@Model.ProductNum</p></div>
+                <div class="item-bd">
+                    <p><em>@Model.OnSaleProducts</em>出售中</p>
+                    <p><em>@Model.WaitForAuditingProducts</em>待审核</p>
+                    <p><em>@Model.ProductConsultations</em>商品咨询</p>
+                    <p><em>@Model.ProductComments</em>商品评价</p>
+                    <p>&nbsp;</p>
+                </div>
+                
+            </div>
+        </div>
+        <div class="item order-item">
+            <div class="item-inner">
+				<div class="item-bt">
+                    <i></i>
+                </div>
+                <div class="item-hd">交易（笔）<p>@Model.OrderCounts</p></div>
+                <div class="item-bd">
+                    <p><em>@Model.WaitPayTrades</em>待付款</p>
+                    <p><em>@Model.WaitDeliveryTrades</em>待发货</p>
+                    <p><em>@Model.RefundTrades</em>退货退款</p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+

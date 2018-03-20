@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>账户管理</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">账户管理</h1>
+		</header>
+		<div class="mui-content">
+			<div class="nobind hidden" id="nobind">
+				<h3>您尚未绑定提现账户</h3>
+				<div class="mui-btn mui-btn-primary" id="goBind">
+					去绑定
+				</div>
+			</div>
+            <div class="user-title" id="account-title">账号信息</div>
+            <ul class="mui-table-view withdraw-info" id="account-info">
+                
+            </ul>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js"></script>
+		<script>
+			var w,
+			    baseInfo,
+			    userKey = himall.getState().userkey;
+		    
+		    var ajaxUrlBase = 'api/ShopWithDraw/GetWithdraw';
+		    
+			mui.init({
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				var ws = plus.webview.currentWebview();
+				ws.setStyle({scrollIndicator:'none'});
+				function getBaseInfo(){
+					mui.ajax(URL + ajaxUrlBase, {
+	                    data:himall.md5Data({
+	                        userKey: userKey
+	                    }),
+	                    dataType: 'json',
+	                    type: 'get',
+	                    timeout: 10000,
+	                    success: function(data) {
+	                    	baseInfo = data;
+	                    	if(data.IsBindBank){
+	                    		document.getElementById('account-info').innerHTML = template('initData', data);
+	                    		document.getElementById('nobind').className+=' hidden';
+	                    		himall.removeClass(document.getElementById('account-title'),'hidden');
+	                    		himall.removeClass(document.getElementById('account-info'),'hidden');
+	                    	}else{
+	                    		document.getElementById('account-title').className+=' hidden';
+	                    		document.getElementById('account-info').className+=' hidden';
+	                    		himall.removeClass(document.getElementById('nobind'),'hidden');
+	                    	}
+	                    },
+	                    error: function(xhr, type, errorThrown) {
+	                        plus.nativeUI.toast('请求失败，请检查网络重试');
+	                    }
+	                });
+				}
+				getBaseInfo();
+				document.getElementById('goBind').addEventListener('tap',function(){
+					himall.openVW('withdraw-account-bind1.html', {isNew:true,data:baseInfo});
+				});
+			    mui('#account-info').on('tap', 'a', function(e) {
+					himall.openVW('withdraw-account-bind1.html', {isNew:false,data:baseInfo});
+				});
+				window.addEventListener('refreshData',function(event){
+					getBaseInfo();
+				});
+			});
+		</script>
+		<script id="initData" type="text/html">
+			<li class="mui-table-view-cell">提现账户<a href="javascript:;" class="mui-pull-right">修改提现账户</a></li>
+            <li class="mui-table-view-cell">银行<span class="mui-pull-right">{{BankName}}</span></li>
+            <li class="mui-table-view-cell">银行开户名<span class="mui-pull-right">{{BankAccountName}}</span></li>
+            <li class="mui-table-view-cell">开户支行完整名<span class="mui-pull-right">{{BankBranch}}</span></li>
+            <li class="mui-table-view-cell">银行账户<span class="mui-pull-right">{{BankAccountNumber}}</span></li>
+		</script>
+	</body>
+</html>

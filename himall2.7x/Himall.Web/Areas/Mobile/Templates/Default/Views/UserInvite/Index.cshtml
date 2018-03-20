@@ -1,0 +1,60 @@
+﻿@model  Tuple<Himall.Model.UserInviteModel, Himall.Model.InviteRuleInfo, Himall.Model.UserMemberInfo>
+@{
+	ViewBag.WeiXinShareArgs = this.WeiXinShareArgs;
+}
+<div class="container box1 lh24 expend-reg ">
+	@if (!ViewBag.WeiXin)
+	{
+		<div class="member">成功推荐会员数：<span>@Model.Item1.InvitePersonCount</span> 个</div>
+		<div class="link">邀请注册链接：<br>@Model.Item1.InviteLink  </div>
+
+		<div class="code">专属二维码：<br><img src="@Model.Item1.QR" /></div>
+		<div class="rules">
+			<div class="p">
+				@MvcHtmlString.Create(Model.Item2.ShareRule)
+			</div>
+
+		</div>
+	}
+	else if (Model.Item2 != null)
+	{
+		<div class="container userinvite_bg">
+			<div class="userinvite02">
+				<span>邀请一个好友注册，老会员可获得@(Model.Item2.InviteIntegral.Value.ToString())积分，可用于抵扣@(ViewBag.IntergralMoney != null ? ViewBag.IntergralMoney : 0) 元订单金额；新会员可获得@(Model.Item2.RegIntegral.Value.ToString())积分，多邀请多送！</span>
+				<div class="share"></div>
+				<div class="rules">
+					<div class="p">
+						@MvcHtmlString.Create(Model.Item2.ShareRule)
+					</div>
+				</div>
+
+			</div>
+		</div>
+	}
+
+</div>
+
+
+
+@if (ViewBag.WeiXin && Model.Item2 != null)
+{
+	<script>
+		var loading = showLoading();
+		var winxinShareArgs = {
+			success: function () {
+				loading.close();
+			},
+			error: function () {
+				loading.close();
+				$.dialog.errorTips('注册微信接口失败，请刷新页面');
+			},
+			share: {
+				title: '@Model.Item2.ShareTitle',
+				desc: '@Model.Item2.ShareDesc',
+				link: '@Model.Item1.InviteLink',
+				imgUrl: '@Model.Item2.ShareIcon'
+			}
+		};
+	</script>
+	@Html.Partial("_WeiXinShare")
+}

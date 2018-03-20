@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>微店首页</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper transparent">
+			<div class="mui-scroll">
+				<h3 class="custom-title">微店推荐</h3>
+				<div id="TopVShop">
+					
+				</div>
+				<h3 class="custom-title">热门微店 </h3>
+				<div id="HotShop">
+				</div>
+			</div>
+		</div>
+		<div class="empty-show" id="emptyShow" style="display: none;"><h4>网络不给力，请检查网络！</h4><button id="fireReloadWv" class="mui-btn mui-btn-negative">重新加载</button></div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/template.js"></script>
+		<script>
+			var isnodata = false,
+				page = 1,
+				flag=false,
+				userkey=himall.getState().userkey;
+			document.addEventListener('updateData', function() {
+				if(!flag){
+					mui.init({
+						pullRefresh : {
+						    container:'#pullrefresh',
+						    deceleration:0.0006,
+						    up : {
+							    contentrefresh : "正在加载...",
+							    contentnomore:'已加载全部热门微店',
+							    callback :function(){
+							      	var self=this;
+							      	setTimeout(function() {
+								      	if (!isnodata) {
+								      		page++;
+									        mui.ajax(URL+'api/VShopHome/GetVShopHome',{
+									        	data:himall.md5Data({
+													pageno:page,
+													pagesize:10,
+													userkey:userkey
+												}),
+												dataType:'json',
+												type:'get',
+												timeout:10000,
+												success:function(data){
+													if(data.Success=='true'){
+									                    document.getElementById('HotShop').insertAdjacentHTML('beforeend',template('initHotShop',data));
+									                    delayimg.render();
+									                    if (data.Total<=page*10) {isnodata = true;}
+														self.endPullupToRefresh(isnodata);
+													}
+												},
+												error:function(xhr,type,errorThrown){
+													plus.nativeUI.toast('请求失败，请检查网络')
+												}
+											});
+									    }else{
+									    	self.endPullupToRefresh(isnodata);
+									    }
+								    },1500);
+						    	}
+						    },
+						    down : {
+								contentdown : "下拉可以刷新",
+								contentover : "释放立即刷新",
+								contentrefresh : "正在刷新...",
+								callback :function(){
+									setTimeout(function(){
+										page = 1;
+										isnodata = false;
+										loadPage();
+										mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+										mui('#pullrefresh').pullRefresh().refresh(true);
+									},300)
+								}
+						    }
+						}
+					});
+					
+					mui.plusReady(function() {
+						var w=plus.nativeUI.showWaiting('',{padlock:true});
+						loadPage=function(){
+							mui.ajax(URL+'api/VShopHome/GetVShopHome',{
+								data:himall.md5Data({
+									pageno:page,
+									pagesize:10,
+									userkey:userkey
+								}),
+								dataType:'json',
+								type:'get',
+								timeout:10000,
+								success:function(data){
+									if(data.Success=='true'){
+										if(data.TopVShop&&data.TopVShop.Success=='true'){
+											document.getElementById('TopVShop').innerHTML=template('initTopShop',data);
+										}else{
+											document.getElementsByClassName('custom-title')[0].style.display='none';
+										}
+										if (data.Total<=10) {isnodata = true;}
+										if(data.Total>0){
+											document.getElementById('HotShop').innerHTML=template('initHotShop',data);
+										}
+					                    delayimg.init();
+					                    flag=true;
+										if(w)
+											w.close();
+					                    document.getElementById('pullrefresh').style.display='block';
+										document.getElementById('emptyShow').style.display='none';
+										himall.removeClass(document.querySelector('.mui-content'),'transparent');
+									}
+								},
+								error:function(xhr,type,errorThrown){
+									flag=false;
+									if(w)
+										w.close();
+									document.getElementById('pullrefresh').style.display='none';
+									document.getElementById('emptyShow').style.display='block';
+								}
+							});
+						}
+						loadPage();
+						
+						
+						mui('body').on('tap', '#fireReloadWv', function() {
+							document.getElementById('emptyShow').style.display='none';
+							var w=plus.nativeUI.showWaiting('',{padlock:true});
+							setTimeout(function(){
+								page = 1;
+								isnodata = false;
+								loadPage();
+								mui('#pullrefresh').pullRefresh().refresh(true);
+							},300)
+						});
+						
+						mui('.mui-content').on('tap', '.goods-url', function() {
+							showProduct(this.getAttribute('data-id'));
+						});
+							
+						mui('.mui-content').on('tap', '.vshop-url', function() {
+							himall.openVW('vshop-detail.html',{vshopId:this.getAttribute('data-vshopid')});
+						});
+						
+						commonFn.favShop(himall.getState().userkey);
+						
+					});
+				}
+			});
+			
+		</script>
+		<script type="text/html" id="initTopShop">
+			<div class="vshop-info">
+				<a class="vshop-url vshop-img" data-vshopid="{{TopVShop.VShopId}}"><img src="images/blank.gif" data-delay="{{TopVShop.ShopLogo}}" height="150" /></a>
+				<div class="vshop-info-text">
+					<i data-shopid="{{TopVShop.ShopId}}" class="favShop iconfont icon-guanzhu {{TopVShop.IsFavorite?'red':''}}"></i>
+					<h3><a class="vshop-url" data-vshopid="{{TopVShop.VShopId}}">{{TopVShop.ShopName}}</a></h3>
+					<p>
+						{{if TopVShop.Tag1!=''&&TopVShop.Tag1}}
+							<span>{{TopVShop.Tag1}}</span>
+						{{/if}}
+						{{if TopVShop.Tag2!=''&&TopVShop.Tag2}}
+							&nbsp;|&nbsp;<span>{{TopVShop.Tag2}}</span>
+						{{/if}}
+					</p>
+				</div>
+			</div>
+			{{if TopVShop.Products.length>0}}
+				<ul class="mui-table-view mui-grid-view mui-clearfix vshop-product">
+				{{each TopVShop.Products}}
+					<li class="mui-table-view-cell mui-media mui-col-xs-6">
+            			<div class="vshop-product-box">
+							<a class="goods-url" data-id="{{$value.Id}}">
+								<div class="p-img"><b data-delay-background="{{$value.ImageUrl}}"></b></div>
+								<div class="mui-media-body">{{$value.Name}}</div>
+								<p class="vshop-product-price"><span>¥ {{$value.SalePrice}}</span></p>
+							</a>
+						</div>
+            		</li>
+				{{/each}}
+				</ul>
+			{{/if}}
+		</script>
+		
+		
+		<script type="text/html" id="initHotShop">
+			{{each HotShop as item}}
+				<div class="vshop-info">
+					<a class="vshop-url vshop-img" data-vshopid="{{item.VShopId}}"><img src="images/blank.gif" data-delay="{{item.ShopLogo}}" height="150" /></a>
+					<div class="vshop-info-text">
+						<i data-shopid="{{item.ShopId}}" class="favShop iconfont icon-guanzhu {{item.IsFavorite?'red':''}}"></i>
+						<h3><a class="vshop-url" data-vshopid="{{item.VShopId}}">{{item.ShopName}}</a></h3><p>
+						{{if item.Tag1!=''&&item.Tag1}}
+							<span>{{item.Tag1}}</span>
+						{{/if}}
+						{{if item.Tag2!=''&&item.Tag2}}
+							&nbsp;|&nbsp;<span>{{item.Tag2}}</span>
+						{{/if}}
+						</p>
+					</div>
+				</div>
+				{{if item.Products.length>0}}
+					<ul class="mui-table-view mui-grid-view mui-clearfix vshop-product">
+					{{each item.Products}}
+						<li class="mui-table-view-cell mui-media mui-col-xs-6">
+                			<div class="vshop-product-box">
+								<a class="goods-url" data-id="{{$value.Id}}">
+									<div class="p-img"><b data-delay-background="{{$value.ImageUrl}}"></b></div>
+									<div class="mui-media-body">{{$value.Name}}</div>
+									<p class="vshop-product-price"><span>¥ {{$value.SalePrice}}</span></p>
+								</a>
+							</div>
+	            		</li>
+					{{/each}}
+					</ul>
+				{{/if}}
+			{{/each}}
+		</script>
+	</body>
+
+</html>

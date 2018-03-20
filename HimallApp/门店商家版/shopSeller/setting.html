@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>设置</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">设置</h1>
+		</header>
+		<div class="mui-content setting">
+			<div class="mui-table-view-cell white-bg mb10 none-left">当前用户账号：<span id="curUserName"></span></div>
+			<ul class="mui-table-view table-view-iconlist">
+				<li class="mui-table-view-cell" id="change">
+					<a class="mui-navigate-right">修改密码</a>
+				</li>
+				<li class="mui-table-view-cell" id="info">
+					<a class="mui-navigate-right">修改门店信息</a>
+				</li>
+				<li class="mui-table-view-cell hidden" id="accountMng">
+					<a class="mui-navigate-right">账户管理</a>
+				</li>
+				<li class="mui-table-view-cell hidden" id="bindPhone">
+					<a class="mui-navigate-right">绑定手机</a>
+				</li>
+				<li class="mui-table-view-cell" id="quit">
+					<a class="mui-navigate-right">退出当前账号</a>
+				</li>
+			</ul>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script>
+			mui.init({swipeBack: true});
+			document.getElementById('curUserName').innerHTML=localStorage.getItem('curUserName');
+			if(himall.isJoin()){
+				himall.removeClass(document.getElementById('accountMng'),'hidden');
+				himall.removeClass(document.getElementById('bindPhone'),'hidden');
+				document.getElementById('info').className+=' hidden';
+			}else{
+				himall.removeClass(document.getElementById('info'),'hidden');
+				document.getElementById('accountMng').className+=' hidden';
+			}
+			document.getElementById('change').addEventListener('tap',function(){
+				himall.openVW('change-password.html');
+			});
+			document.getElementById('info').addEventListener('tap',function(){
+				himall.openVW('shop-info.html');
+			});
+			document.getElementById('accountMng').addEventListener('tap',function(){
+				himall.openVW('account-manage.html');
+			});
+			document.getElementById('bindPhone').addEventListener('tap',function(){
+				himall.openVW('bind-phone.html');
+			});
+			
+			document.getElementById('quit').addEventListener('tap',function(){
+				himall.setState();
+				showLogin();
+				mui.fire(plus.webview.getWebviewById(plus.runtime.appid),'reloadData');
+				var arr = plus.webview.all();
+				setTimeout(function(){
+					var arr = plus.webview.all();
+		            for (var i = 0; i < arr.length; i++) {
+		                if (arr[i].id == 'login'||arr[i].id == 'login.html' || arr[i] == plus.webview.getLaunchWebview()) continue;
+		                arr[i].close('none');
+		            }
+				},1000);
+			})
+			
+		</script>
+	</body>
+
+</html>

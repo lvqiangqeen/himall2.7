@@ -1,0 +1,349 @@
+﻿@{
+	ViewBag.Title = "新增";
+}
+@using Himall.Web.Areas.SellerAdmin.Models
+@using Himall.CommonModel;
+
+@model Himall.DTO.FreightTemplate
+<script src="http://cdn.jsdelivr.net/vue/1.0.7/vue.min.js"></script>
+<script src="~/Scripts/jquery.himall.Region.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/FreightTemplateAdd.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/inner-custom.css" />
+<style>
+	.province {
+		width: 670px;
+		display: none;
+		position: relative;
+	}
+
+		.province li {
+			float: left;
+			width: 150px;
+			margin: 5px 0;
+		}
+
+			.province li label {
+				margin: 0;
+			}
+
+	.city, .county, .town, .village {
+		padding: 6px 15px 6px 6px;
+		border: 1px solid #ddd;
+		box-shadow: 0 2px 3px #ddd;
+		background-color: #fff;
+		margin-top: -5px;
+	}
+
+		.city li {
+			float: left;
+			width: auto;
+			padding: 5px;
+		}
+
+		.city .colse {
+			position: absolute;
+			top: -4px;
+			right: 1px;
+			font-size: 14px;
+			line-height: 14px;
+			padding: 0 3px;
+			background-color: #333;
+			color: #fff;
+			font-style: normal;
+			cursor: pointer;
+		}
+
+	.province {
+		padding-left: 30px;
+		margin: 0;
+	}
+
+		.province li div {
+			display: none;
+			z-index: 9999;
+			position: absolute;
+			background: #efefef;
+			left: 0;
+			top: 0;
+			width: 100%;
+		}
+
+		.province li b {
+			font-weight: normal;
+			cursor: pointer;
+			margin-left: 5px;
+		}
+
+		.province li input {
+			margin-right: 3px;
+		}
+
+	.spCount {
+		color: red;
+	}
+
+	.table-area-freight, .table-area-freight th {
+		text-align: center;
+	}
+
+		.table-area-freight .btn-a {
+			min-width: 50px;
+			text-align: center;
+		}
+
+		.table-area-freight td span {
+			float: left;
+			text-align: left;
+		}
+
+			.table-area-freight td span b {
+				font-weight: normal;
+			}
+
+		.table-area-freight td input {
+			width: 50px;
+			text-align: center;
+			display: inline-block;
+		}
+
+	.editArea {
+		cursor: pointer;
+	}
+
+	.form-control.input-xs.error {
+		border: 1px solid #fa5858;
+	}
+</style>
+<div class="container Sclear-J">
+	<ul class="nav nav-tabs-custom clearfix" id="ulMenu">
+		<strong>运费模版设置</strong>
+		<li><a id="btnManage" href="Index">管理</a></li>
+		<li class="active"><a>@(Model.Id == 0 ? "新增" : "编辑")</a></li>
+	</ul>
+	<div class="form-horizontal">
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="">物流模板名称：</label>
+			<div class="col-sm-4">
+				<input id="inputTempName" type="text" value="@Model.Name" class="form-control input-sm" />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="">商品地址：</label>
+			<div class="col-sm-10 ">
+				<div id="regionSelector" class="fl"></div>
+				<div class="clr"></div>
+				@Html.HiddenFor(p => p.SourceAddress)
+				<div class="clr"></div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="">是否包邮：</label>
+			<div class="col-sm-10 form-control-static">
+				<input name="isfree" @(Model.IsFree == FreightTemplateType.Free ? "" : "checked=\"checked\"") value="0" type="radio" id="radioSelfDef"><label for="radioSelfDef">自定义运费</label>
+				<input name="isfree" @(Model.IsFree == FreightTemplateType.Free ? "checked=\"checked\"" : "") value="1" type="radio" id="radioSellerDef"><label for="radioSellerDef">卖家承担运费</label>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="">发货时间：</label>
+			<div class="col-sm-4">
+				<select id="selsendtime" class="form-control input-ssm">
+					<option value="">选择发货时间</option>
+					@foreach (var item in Enum.GetValues(typeof(SendTimeEnum)))
+                    {
+                        var isselect = (((int)item).ToString() == Model.SendTime);
+					<option value="@((int)item)" @(isselect ? "selected" : "")>@(((SendTimeEnum)item).ToDescription())</option>
+                    }
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="">计价方式：</label>
+			<div class="col-sm-10 form-control-static">
+				<input name="valuationMethod" @(Model.ValuationMethod == ValuationMethodType.Piece ? "checked=\"checked\"" : "") value="0" type="radio" id="radioPiece"><label for="radioPiece">按件数</label>
+				<input name="valuationMethod" @(Model.ValuationMethod == ValuationMethodType.Weight ? "checked=\"checked\"" : "") value="1" type="radio" id="radioWeight"><label for="radioWeight">按重量</label>
+				<input name="valuationMethod" @(Model.ValuationMethod == ValuationMethodType.Bulk ? "checked=\"checked\"" : "") value="2" type="radio" id="radioBulk"><label for="radioBulk">按体积</label>
+				<label id="valuationMethodTip" class="red"></label>
+			</div>
+		</div>
+		<div class="form-group" id="divContent">
+			<label for="" class="col-sm-2 control-label">运送方式：</label>
+			<div class="col-sm-9">
+				<div class="col-sm-10">
+					<span>默认运费：</span> <input id="inputDefFirstUnit" type="text" class="form-control input-xs" value="" style="width: 80px;display: inline-block;"><span name="ValuationUnit">件</span>内,
+					<input id="inputDefFirstUnitMonry" type="text" class="form-control input-xs" value="" style="width: 60px;display: inline-block;"><span>元,</span>
+					<span>每增加</span><input id="inputDefAccumulationUnit" type="text" class="form-control input-xs" value="" style="width: 80px;display: inline-block;"><span name="ValuationUnit">件</span><span>,</span>
+					<span>增加运费</span><input id="inputDefAccumulationUnitMoney" type="text" class="form-control input-xs" value="" style="width: 80px;display: inline-block;"><span>元</span>
+				</div>
+				<br />
+				<br />
+				<table class="table table-bordered table-area-freight">
+					<thead>
+						<tr>
+							<th>运送到</th>
+							<th>首<span name="ValuationUnitDesc">件</span>（<span name="ValuationUnit">件</span>）</th>
+							<th>首费（元）</th>
+							<th>续<span name="ValuationUnitDesc">件</span>（<span name="ValuationUnit">件</span>）</th>
+							<th>续费（元）</th>
+						</tr>
+					</thead>
+					<tbody style="display:none">
+						<tr v-if="freightDetails.length>0" v-for="(index,item) in freightDetails">
+							<td>
+								<span class="chooseArea" v-if="item.showSelectData.length>0">
+									<span v-for="(ii,select) in item.showSelectData">
+										<span v-if="select.deep==0"><!--选择了省-->
+										{{select.name}}
+										</span>
+										<span v-else> <!--深度为3表示选到了镇级，显示格式为:市名（县名1，县名2）-->
+											<template v-for="(i,city) in select.childrens">
+												{{city.name}}
+												<template v-if="city.childrens.length>0">
+													(
+												</template>
+												<template v-for="(j,county) in city.childrens">
+													{{county.name}}
+													<template v-if="county.childrens.length>0">
+														[
+													</template>
+													<template v-for="(k,town) in county.childrens">
+														{{town.name}}
+														<template v-if="k<county.childrens.length-1">
+															,
+														</template>
+													</template>
+													<template v-if="county.childrens.length>0">
+														]
+													</template>
+													<template v-if="j<city.childrens.length-1">
+														,
+													</template>
+												</template>
+												<template v-if="city.childrens.length>0">
+													)
+												</template>
+												<template v-if="i<select.childrens.length-1">
+													,
+												</template>
+											</template>
+										</span>
+										<template v-if="ii<item.showSelectData.length-1">
+											,
+										</template>
+									</span>
+								</span>
+								<span class="chooseArea" v-else>未添加地区</span>
+
+								<a class="editArea" v-on:click="remove(index)" style="margin-left:5px">删除</a>
+								<a class="editArea" v-on:click="edit(index)">编辑</a>
+							</td>
+							<td><input type="text" class="form-control input-xs firstUnit" v-model="item.firstUnit" /></td>
+							<td><input type="text" class="form-control input-xs firstUnitMonry" v-model="item.firstUnitMonry" /></td>
+							<td><input type="text" class="form-control input-xs accumulationUnit" v-model="item.accumulationUnit" /></td>
+							<td><input type="text" class="form-control input-xs accumulationUnitMoney" v-model="item.accumulationUnitMoney" /></td>
+						</tr>
+					</tbody>
+				</table>
+				<a class="add-atrr" id="addCityFreight"><span class="glyphicon glyphicon-plus-sign"></span>指定可配送区域和运费</a>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<input type="button" class="btn btn-primary" id="btnSave" value="保 存">
+			</div>
+		</div>
+	</div>
+
+	<div id='ulArea' class='province clearfix'>
+		<div class="addr_inner">
+			<div class="title">可选省、市、区</div>
+			<ul class="ul_first unused">
+				<li v-for="item in leftProvince" id="{{item.Id}}">
+					<span onclick="freightTemplateAddJs.openChildren.call(this,{{item.Id}})" class="icon_sele" v-bind:class="{ active: item.showChildren }"></span>
+					<label onclick="freightTemplateAddJs.selectItem.call(this, event, {{item.Id}})">{{item.Name}}</label>
+					<ul class="ul_second" v-bind:class="[item.showChildren?'':'hidden']">
+						<li v-for="city in item.childrens" id="{{city.Id}}">
+							<span onclick="freightTemplateAddJs.openChildren.call(this,{{city.Id}})" class="icon_sele" v-bind:class="{ active: city.showChildren }"></span>
+							<label onclick="freightTemplateAddJs.selectItem.call(this,event,{{city.Id}})">{{city.Name}}</label>
+							<ul class="ul_third" v-bind:class="[city.showChildren?'':'hidden']">
+								<li v-for="county in city.childrens" id="{{county.Id}}">
+									<span onclick="freightTemplateAddJs.openChildren.call(this,{{county.Id}})" class="icon_sele" v-bind:class="{ active: county.showChildren }"></span>
+									<label onclick="freightTemplateAddJs.selectItem.call(this,event,{{county.Id}})">{{county.Name}}</label>
+									<ul class="ul_forth" v-bind:class="[county.showChildren?'':'hidden']">
+										<li v-for="town in county.childrens" id="{{town.Id}}">
+											<span class="icon_sele active"></span>
+											<label onclick="freightTemplateAddJs.selectItem.call(this,event,{{town.Id}})">{{town.Name}}</label>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<!--<li>
+					<span class="icon_sele minus">-</span>
+					湖北省
+					<ul class="ul_second">
+						<li>武汉市</li>
+						<li>武汉市</li>
+					</ul>
+				</li>-->
+			</ul>
+		</div>
+		<div class="add_btn">
+			<div onclick="freightTemplateAddJs.addItem()"><button>添加</button></div>
+			<div onclick="freightTemplateAddJs.removeItem()"><button>移除</button></div>
+		</div>
+		<div class="addr_inner">
+			<div class="title">已选省、市、区</div>
+			<ul class="ul_first used">
+				<li v-for="item in currentRightProvice" id="{{item.Id}}">
+					<span onclick="freightTemplateAddJs.openChildren.call(this,{{item.Id}})" class="icon_sele" v-bind:class="{ active: item.showChildren }"></span>
+					<label onclick="freightTemplateAddJs.selectItem.call(this,event,{{item.Id}})">{{item.Name}}</label>
+					<ul class="ul_second" v-bind:class="[item.showChildren?'':'hidden']">
+						<li v-for="city in item.childrens" id="{{city.Id}}">
+							<span onclick="freightTemplateAddJs.openChildren.call(this,{{city.Id}})" class="icon_sele" v-bind:class="{ active: city.showChildren }"></span>
+							<label onclick="freightTemplateAddJs.selectItem.call(this,event,{{city.Id}})">{{city.Name}}</label>
+							<ul class="ul_third" v-bind:class="[city.showChildren?'':'hidden']">
+								<li v-for="county in city.childrens" id="{{county.Id}}">
+									<span onclick="freightTemplateAddJs.openChildren.call(this,{{county.Id}})" class="icon_sele" v-bind:class="{ active: county.showChildren }"></span>
+									<label onclick="freightTemplateAddJs.selectItem.call(this,event,{{county.Id}})">{{county.Name}}</label>
+									<ul class="ul_forth" v-bind:class="[county.showChildren?'':'hidden']">
+										<li v-for="town in county.childrens" id="{{town.Id}}">
+											<span class="icon_sele active"></span>
+											<label onclick="freightTemplateAddJs.selectItem.call(this,event,{{town.Id}})">{{town.Name}}</label>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<!--<li>
+					<span class="icon_sele minus">-</span>
+					湖北省
+					<ul class="ul_second">
+						<li>武汉市</li>
+						<li>武汉市</li>
+					</ul>
+				</li>-->
+			</ul>
+		</div>
+	</div>
+</div>
+@Html.HiddenFor(p=>p.Id)
+<script type="text/javascript">
+	var tempid = '@Model.Id';
+	var shopid = '@Model.ShopID';
+	var IsUsed = '@ViewBag.IsUsed';
+	@{
+        var defFreightContent = Model.FreightArea.Where(e => e.IsDefault == 1).FirstOrDefault() ?? new  Himall.DTO.FreightArea() { AccumulationUnit = 1, AccumulationUnitMoney = 0, FirstUnitMonry = 0, FirstUnit = 1 };
+    }
+	var initDefFirst = '@defFreightContent.FirstUnit.Value',
+		initDefFirstMoney = '@defFreightContent.FirstUnitMonry.Value',
+		initDefAccumulationUnit = '@defFreightContent.AccumulationUnit.Value',
+		initDefAccumulationUnitMoney = '@defFreightContent.AccumulationUnitMoney.Value';
+</script>

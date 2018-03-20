@@ -1,0 +1,103 @@
+﻿<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li class="active"><a>管理</a></li>
+        <li><a href="addpage">新增</a></li>
+    </ul>
+    
+
+    <table id="list" class="table"></table>
+</div>
+
+<script type="text/javascript">
+    $( function ()
+    {
+        loadGrid();
+    } )
+
+    function loadGrid()
+    {
+        $( "#list" ).hiMallDatagrid( {
+            url: './PageList',
+            nowrap: false,
+            rownumbers: true,
+            NoDataMsg: '没有找到符合条件的数据',
+            border: false,
+            fit: true,
+            fitColumns: true,
+            pagination: true,
+            idField: "page_id",
+            pageSize: 15,
+            pagePosition: 'bottom',
+            pageNumber: 1,
+            queryParams: {},
+            operationButtons: "#orderOperate",
+            columns:
+            [[
+                { field: "title", title: '主标题', width: 100, align: "center" },
+                { field: "description", title: '副标题', width: 100, align: "center" },
+                {
+                    field: "icon_url", title: '图片', width: 100, align: "center", formatter: function ( value, row, index )
+                    {
+                        html = "";
+                        html += '<img src="' + row.icon_url + '" style="width:50px;" />';
+                        return html;
+                    }
+                },
+                {
+                    field: "page_url", title: '页面地址', width: 100, align: "center", formatter: function ( value, row, index )
+                    {
+                        if ( row.page_url.indexOf( "http" ) >= 0 )
+                        {
+                            return '<a target="_blank" href="' + row.page_url + '" title="' + row.page_url + '">页面链接</a>';
+                        }
+                        else
+                        {
+                            return '<a target="_blank" href="http://' + row.page_url + '" title="' + row.page_url + '">页面链接</a>';
+                        }
+                        
+                    }
+                },
+                {
+                    field: "operation", title: '操作', width: 150, align: "center", formatter: function ( value, row, index )
+                    {
+                        var html = '<span class="btn-a">';
+                        html += '<a class="good-check" href="EditPage/' + row.page_id + '">编辑</a>';
+                        html += '<a class="good-check" onclick="del('+row.page_id+')">删除</a>';
+                        html += '</span>';
+                        return html;
+                    }
+                }
+            ]]
+        } )
+    }
+
+    function del(id)
+    {
+        $.dialog.confirm( '确定删除该条记录吗？', function ()
+        {
+            var loading = showLoading();
+            $.post( '/SellerAdmin/ShakeAround/DeletePage', { id: id }, function ( result )
+            {
+                loading.close();
+                if ( result.success )
+                {
+                    $.dialog.tips( '删除成功' );
+                    $( "#list" ).hiMallDatagrid( 'reload', { pageNumber: 1 } );
+                }
+                else
+                    $.dialog.errorTips( '删除失败！' + result.msg );
+            } );
+        } );
+
+        
+    }
+</script>

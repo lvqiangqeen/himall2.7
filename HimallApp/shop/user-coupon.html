@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>我的优惠券</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的优惠券</h1>
+		</header>
+		<div id="scrollDiv" class="scroll-div">
+			<div class="mui-content transparent">
+				<div class="coupon-list">
+					<ul id="couponNav" class="nav-list"><li class="active" id="spanEnable"></li><li id="spanDisable"></li></ul>
+					<div class="coupon-bd">
+		            </div>
+	            </div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js"></script>
+		<script>
+			mui.init({swipeBack: true});
+			var couponBd=document.getElementsByClassName('coupon-bd')[0];
+			mui.plusReady(function() {
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				mui.ajax(URL+'api/coupon/GetUserCounponList',{
+					data:himall.md5Data({userkey:himall.getState().userkey}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(data.Success=='true'){
+							document.getElementById('spanEnable').innerText='可用优惠券 ('+data.NoUseCount+')';
+							document.getElementById('spanDisable').innerText='不可用优惠券 ('+data.UserCount+')';
+							var enableC='',
+								disableC='',
+								nowTime=new Date(),
+								endTime;
+
+							for(var i=0; i<data.Coupon.length; i++){
+								if(data.Coupon[i].VShop==null){
+									data.Coupon[i].VShop={VShopLogo:'images/logo.png',VShopId:0};
+								}
+								endTime=data.Coupon[i].EndTime;
+								if(data.Coupon[i].UseStatus==1){
+									disableC+='<li class="disabled">'+
+		                                '<div class="cou-card">'+
+//		                                    '<div><a><img src="'+data.Coupon[i].VShop.VShopLogo+'"></a></div>'+
+		                                    '<h3>'+data.Coupon[i].ShopName+'</h3>'+
+		                                    '<p>使用期限至 '+(data.Coupon[i].EndTime).split(' ')[0].replace(/\//g,'-')+'</p>'+
+		                                '</div>'+
+		                                '<div class="cou-text">'+
+											'<div class="cou-price">'+
+												'<h3><i>¥</i>'+data.Coupon[i].Price+'</h3>'+
+												'<p>已使用</p>'+
+											'</div>'+
+		                                '</div>'+
+		                            '</li>';
+								}else if(nowTime > Date.parse(new Date(endTime))){
+									disableC+='<li class="disabled">'+
+										'<div class="cou-card">'+
+//		                                    '<div><a><img src="'+data.Coupon[i].VShop.VShopLogo+'"></a></div>'+
+		                                    '<h3>'+data.Coupon[i].ShopName+'</h3>'+
+		                                    '<p>使用期限至 '+(data.Coupon[i].EndTime).split(' ')[0].replace(/\//g,'-')+'</p>'+
+		                                '</div>'+
+		                                '<div class="cou-text">'+
+											'<div class="cou-price">'+
+												'<h3><i>¥</i>'+data.Coupon[i].Price+'</h3>'+
+												'<p>已过期</p>'+
+											'</div>'+
+		                                '</div>'+
+		                            '</li>';
+								}else{
+									var color;
+									if(data.Coupon[i].Price<50)
+										color='coupon-blue';
+									else if(data.Coupon[i].Price>=100)
+										color='coupon-gold';
+									else
+										color='coupon-red';
+									enableC+='<li class="userCoupon" data-id="'+data.Coupon[i].VShop.VShopId+'">'+
+										'<div class="cou-card">'+
+//		                                    '<div><a><img src="'+data.Coupon[i].VShop.VShopLogo+'"></a></div>'+
+		                                    '<h3>'+data.Coupon[i].ShopName+'</h3>'+
+		                                    '<p>使用期限至 '+(data.Coupon[i].EndTime).split(' ')[0].replace(/\//g,'-')+'</p>'+
+		                                '</div>'+
+		                                '<div class="cou-text">'+
+											'<div class="cou-price '+color+'">'+
+												'<h3><i>¥</i>'+data.Coupon[i].Price+'</h3>'+
+												'<p>满'+data.Coupon[i].OrderAmount+'元使用</p>'+
+											'</div>'+
+		                                '</div>'+
+		                            '</li>';
+								}
+                           	}
+							
+							for(var i=0; i<data.Bonus.length; i++){
+								if(!data.Bonus[i].Logo){
+									data.Bonus[i].Logo='images/logo.png';
+								}
+								if(data.Bonus[i].State==2){
+									disableC+='<li class="disabled">'+
+		                                '<div class="cou-card">'+
+//		                                    '<div><a><img src="'+data.Bonus[i].Logo+'"></a></div>'+
+		                                    '<h3>'+data.Bonus[i].ShopName+'</h3>'+
+		                                    '<p>使用期限至 '+data.Bonus[i].BonusDateEnd+'</p>'+
+		                                '</div>'+
+		                                '<div class="cou-text">'+
+											'<div class="cou-price">'+
+												'<h3><i>¥</i>'+data.Bonus[i].Price+'</h3>'+
+												'<p>已使用</p>'+
+											'</div>'+
+		                                '</div>'+
+		                            '</li>';
+								}else if(data.Bonus[i].State==3){
+									disableC+='<li class="disabled">'+
+										'<div class="cou-card">'+
+//		                                    '<div><a><img src="'+data.Bonus[i].Logo+'"></a></div>'+
+		                                    '<h3>'+data.Bonus[i].ShopName+'</h3>'+
+		                                    '<p>使用期限至 '+data.Bonus[i].BonusDateEnd+'</p>'+
+		                                '</div>'+
+		                                '<div class="cou-text">'+
+											'<div class="cou-price">'+
+												'<h3><i>¥</i>'+data.Bonus[i].Price+'</h3>'+
+												'<p>已过期</p>'+
+											'</div>'+
+		                                '</div>'+
+		                            '</li>';
+								}else{
+									var color;
+									if(data.Bonus[i].Price<50)
+										color='coupon-blue';
+									else if(data.Bonus[i].Price>=100)
+										color='coupon-gold';
+									else
+										color='coupon-red';
+									enableC+='<li class="userCoupon" data-id="'+data.Bonus[i].VShopId+'">'+
+										'<div class="cou-card">'+
+//		                                    '<div><a><img src="'+data.Bonus[i].Logo+'"></a></div>'+
+		                                    '<h3>'+data.Bonus[i].ShopName+'</h3>'+
+		                                    '<p>使用期限至 '+data.Bonus[i].BonusDateEnd+'</p>'+
+		                                '</div>'+
+		                                '<div class="cou-text">'+
+											'<div class="cou-price '+color+'">'+
+												'<h3><i>¥</i>'+data.Bonus[i].Price+'</h3>'+
+												'<p>满'+data.Bonus[i].ShowOrderAmount+'元使用</p>'+
+											'</div>'+
+		                                '</div>'+
+		                            '</li>';
+								}
+                           	}
+							
+							if(!enableC){
+								enableC='<li class="empty">暂无此类优惠券</li>'
+							}
+							
+							if(!disableC){
+								disableC='<li class="empty">暂无此类优惠券</li>'
+							}
+							couponBd.innerHTML='<ul style="display:block;">'+enableC+'</ul><ul>'+disableC+'</ul>';
+							mui('#couponNav').on('tap','li',function(){
+								document.getElementsByClassName('active')[0].className='';
+								this.className='active';
+								for(var i=0; i<2; i++){
+									if(i==getIndex(this))
+										couponBd.getElementsByTagName('ul')[i].style.display='block';
+									else
+										couponBd.getElementsByTagName('ul')[i].style.display='none';
+								}
+							});
+							
+				            w.close();
+				            himall.removeClass(document.querySelector('.mui-content'),'transparent');
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						reloadWvLoad();
+					}
+				});
+			});
+			
+			mui('.coupon-list').on('tap', '.userCoupon', function() {
+				var vshopid = this.getAttribute('data-id');
+				if(vshopid>0){
+					himall.openVW('vshop-detail.html',{vshopId:vshopid});
+				}else{
+					plus.nativeUI.toast('暂未开通微店，下单自动使用');
+				}
+			});
+			
+		</script>
+	</body>
+
+</html>

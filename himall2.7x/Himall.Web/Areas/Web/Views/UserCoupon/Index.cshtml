@@ -1,0 +1,161 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "我的优惠券";
+}
+@model  IEnumerable<Himall.Model.CouponRecordInfo>
+@using Himall.Model;
+@using Himall.Core;
+@{
+    var Status = Request.QueryString["Status"];
+    if (string.IsNullOrEmpty(Status))
+    {
+        Status = "0";
+    }
+    List<ShopBonusReceiveInfo> bonus = (List<ShopBonusReceiveInfo>)ViewBag.Bonus;
+}
+<div class="box1 lh24">
+    <div class="title">
+        <span class="title_txt cur">我的优惠券</span>
+
+    </div>
+    <ul class="two-title" id="ulstatus">
+        <li><a href="?Status=0">未使用</a></li>
+        <li><a href="?Status=1">已使用</a></li>
+        <li><a href="?Status=2">已过期</a></li>
+    </ul>
+    <div class="border-box">
+        <table class="tb-void tb-goods">
+            <thead>
+                <tr class="tr-td">
+                    <th>面值</th>
+                    <th>
+                        状态
+                    </th>
+                    @*<th>领取时间</th>*@
+                    <th>店铺名称</th>
+                    <th>有效期</th>
+                    <th>使用条件</th>
+                    @if (@Status == "1")
+                    {
+                        <th>使用的订单</th>
+                        <th>使用时间</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() == 0 && bonus.Count() == 0)
+                {
+                    <tr><td colspan="8" class="ety"><div class="empty">您暂时没有优惠券！<br /></div></td></tr>
+                }
+                @foreach (var m in Model)
+                {
+                    var showOrderAmount = (m.Himall_Coupon.OrderAmount > 0 ? m.Himall_Coupon.OrderAmount : m.Himall_Coupon.Price);
+                    <tr class="tr-td">
+                        <td>￥@m.Himall_Coupon.Price</td>
+                        @if (m.CounponStatus == CouponRecordInfo.CounponStatuses.Unuse)
+                        {
+                            if (m.Himall_Coupon.EndTime < DateTime.Now)
+                            {
+                                <td>已过期</td>
+                            }
+                            else
+                            {
+                                <td>@m.CounponStatus.ToDescription()</td>
+                            }
+                        }
+                        else
+                        {
+                            <td>@m.CounponStatus.ToDescription()</td>
+                        }
+                        <td><a target="_blank" href="~/Shop/Home/@m.ShopId">@m.ShopName</a></td>
+                        @*<td>@m.CounponTime.ToShortDateString()</td>*@
+                        <td>@m.Himall_Coupon.StartTime.ToShortDateString()--@m.Himall_Coupon.EndTime.ToShortDateString()</td>
+                        <td>
+
+                            @if (m.Himall_Coupon.OrderAmount > 0)
+                            {
+                                <span>满@{@(showOrderAmount.ToString("f2"))}元</span>
+                            }
+                            else
+                            {
+                            <span>无限制</span>
+                            }
+                            </td>
+                            @if (m.CounponStatus == CouponRecordInfo.CounponStatuses.Used)
+                            {
+                                <td>@m.OrderId</td>
+                                <td>@m.UsedTime</td>
+                            }
+</tr>
+                }
+
+                @foreach (var m in bonus)
+                {
+                    var showUsrStatePrice = (m.Himall_ShopBonusGrant.Himall_ShopBonus.UsrStatePrice > 0 ? m.Himall_ShopBonusGrant.Himall_ShopBonus.UsrStatePrice : m.Price.Value);
+                    <tr class="tr-td">
+                        <td>￥@m.Price</td>
+                        @if (ViewBag.State == 0)
+                        {
+                            <td>未使用</td>
+                        }
+                        else if (ViewBag.State == 1)
+                        {
+                            <td>已使用</td>
+                        }
+                        else if (ViewBag.State == 2)
+                        {
+                            <td>已过期</td>
+                        }
+                        <td><a target="_blank" href="~/Shop/Home/@m.Himall_ShopBonusGrant.Himall_ShopBonus.ShopId">@m.Himall_ShopBonusGrant.Himall_ShopBonus.Himall_Shops.ShopName</a></td>
+                        <td>@m.Himall_ShopBonusGrant.Himall_ShopBonus.BonusDateStart.ToShortDateString()--@m.Himall_ShopBonusGrant.Himall_ShopBonus.BonusDateEnd.ToShortDateString()</td>
+                        @if (m.Himall_ShopBonusGrant.Himall_ShopBonus.UseState == ShopBonusInfo.UseStateType.FilledSend)
+                        {
+                            <td>满@{@(showUsrStatePrice.ToString("f2"))}元</td>
+                        }
+                        else
+                        {
+                            <td>无限制</td>
+                        }
+                        @if (m.State == ShopBonusReceiveInfo.ReceiveState.Use)
+                        {
+                            <td>@m.UsedOrderId</td>
+                            <td>@m.UsedTime</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="clearfix mt10" id="bottom_pager">
+            <div id="pagin-btm" class="pagin fr" style="clear:both">
+                @{
+                    var count = ((PagingInfo)ViewBag.pageInfo).TotalPages;
+                    var curr = ((PagingInfo)ViewBag.pageInfo).CurrentPage;
+                }
+                @Html.PageLinks((PagingInfo)ViewBag.pageInfo, x => Url.Action("Index", new { pageNo = x, Status = Status }))
+                <span class="page-skip">
+                    <em>&nbsp;&nbsp;共 @count 页&nbsp;&nbsp;&nbsp;&nbsp;</em>
+                </span>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+<script>
+
+    var status = "@Status";
+    if (status == "") {
+        $("#ulstatus li").eq(0).attr("class", "active");
+    }
+    else {
+        $("#ulstatus li").eq(parseInt(status)).attr("class", "active");
+    }
+
+    @*function Query() {
+        var Status = $("#dpStatus").val();
+        window.location.href = "?Status=" + Status;
+    }
+    var orderStatus = "@Request.QueryString["Status"]";
+    $("#dpStatus").val(orderStatus);*@
+</script>

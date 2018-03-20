@@ -1,0 +1,193 @@
+﻿@using Senparc.Weixin.MP.AdvancedAPIs.Poi;
+@{
+   
+}
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li><a href="/SellerAdmin/Poi/Index">管理</a></li>
+        <li class="active"><a>编辑</a></li>
+    </ul>
+
+
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>所在地区</label>
+            <div class="col-sm-4">
+                <span>@Model.province</span>
+                <span>@Model.city</span>
+                <span>@Model.district</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>详细地址</label>
+            <div class="col-sm-4">
+                <input disabled class="form-control input-sm" value="@Model.address" name="address" maxlength="50" type="text" id="address">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>门店名</label>
+            <div class="col-sm-4">
+                <input disabled class="form-control input-sm" name="business_name" value="@Model.business_name" maxlength="50" type="text" id="business_name">
+            </div>
+            <div class="col-sm-4"><span class="help-default">不得含有区域地址信息（如，北京市XXX公司）</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>分店名</label>
+            <div class="col-sm-4">
+                <input disabled class="form-control input-sm" value="@Model.branch_name" name="branch_name" maxlength="50" type="text" id="branch_name">
+            </div>
+            <div class="col-sm-4"><span class="help-default">不得含有区域地址信息（如，“北京国贸店”中的“北京”）</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>类目</label>
+            <div class="col-sm-4">
+                <span>
+                @if( Model.categories.Length >= 1 )
+                {
+                    foreach( string str in Model.categories )
+                    {
+                        <text>@str</text>   
+                    }
+                }
+                </span>
+               
+            </div>
+        </div>
+
+
+
+        
+        <div class="form-group upload-img" name="photo_list" id="photo_list"></div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>电话</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm" value="@Model.telephone" name="telephone" maxlength="50" type="text" id="telephone">
+            </div>
+            <div class="col-sm-4"><span class="help-default">固定电话需加区号；区号、分机号均用“-”连接</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>人均价格</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm" value="@Model.avg_price" name="avg_price" maxlength="50" type="text" id="avg_price">
+            </div>
+            <div class="col-sm-4"><span class="help-default">大于零的整数，须如实填写，默认单位为人民币</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>营业时间</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm" value="@Model.open_time" name="open_time" maxlength="50" type="text" id="open_time">
+            </div>
+            <div class="col-sm-4"><span class="help-default">如，10:00-21:00</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>推荐</label>
+            <div class="col-sm-4">
+                <textarea class="form-control input-sm" value="@Model.recommend" name="recommend" maxlength="50" type="text" id="recommend"></textarea>
+            </div>
+            <div class="col-sm-4"><span class="help-default">如，推荐菜，推荐景点，推荐房间</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>特色服务</label>
+            <div class="col-sm-4">
+                <textarea class="form-control input-sm" value="@Model.special" name="special" maxlength="50" type="text" id="special"></textarea>
+            </div>
+            <div class="col-sm-4"><span class="help-default">如，免费停车，WiFi</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>简介</label>
+            <div class="col-sm-4">
+                <textarea class="form-control input-sm" value="@Model.introduction" name="introduction" maxlength="50" type="text" id="introduction"></textarea>
+            </div>
+            <div class="col-sm-4"><span class="help-default">对品牌或门店的简要介绍</span></div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="button" id="Save" class="btn btn-primary" value="保 存">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $( function ()
+    {
+      
+        @{
+            string defaultImg = "";
+            if( Model.photo_list.Count > 0 )
+            {
+                defaultImg = Model.photo_list[ 0 ].photo_url;
+            }    
+        }
+
+        $( '#photo_list' ).himallUpload( {
+            title: '<span class="red">*</span>门店图片',
+            imageDescript: '640*340 ',
+            displayImgSrc: '@defaultImg',
+            imgFieldName: "photo_listx",
+            dataWidth: 8
+        } );
+
+        $( '#Save' ).click( function ()
+        {
+            var s = {};
+            s.id = 99;
+            s.poi_id = "@ViewBag.Id";
+            s.photo_list = $( "input[type=hidden][name=photo_listx]" ).val();
+            s.introduction = $( "#introduction" ).val();
+            s.special = $( "#special" ).val();
+            s.telephone = $( "#telephone" ).val();
+            s.recommend = $( "#recommend" ).val();
+            s.avg_price = $( "#avg_price" ).val();
+            s.open_time = $( "#open_time" ).val();
+            
+            if ( !Verification( s ) )
+            {
+                return;
+            }
+            var loading = showLoading();
+            $.post( '/SellerAdmin/Poi/Save', s, function ( result )
+            {
+                loading.close();
+                if ( result.success )
+                {
+                    $.dialog.tips( '保存成功' );
+                    window.location.href = "/SellerAdmin/Poi/Index";
+                }
+                else
+                    $.dialog.errorTips( '保存失败！' + result.msg );
+            } );
+        } );
+
+    } )
+
+    function Verification( obj )
+    {
+        for ( var i in obj )
+        {
+            if ( obj[i] == null || obj[i] === "" )
+            {
+                    $.dialog.errorTips( '请将资料填写完整！' );
+                    return false;
+            }
+        }
+        return true;
+    }
+</script>

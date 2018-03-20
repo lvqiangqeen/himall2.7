@@ -1,0 +1,117 @@
+﻿@model Himall.Model.ProductTypeInfo
+
+@using Himall.Model
+@using Himall.Web.Areas.Admin.Helper
+@{
+    ViewBag.Title = "Edit";
+
+}
+
+<script src="~/Areas/Admin/Scripts/ProductType.js"></script>
+
+<div class="container clear-o">
+    <ul class="breadcrumb clearfix">
+
+        <li><a>类型列表</a></li>
+        <li><a>@(Model.Id==0?"添加": "编辑")类型</a></li>
+
+    </ul>
+    <form action="./SaveModel" method="post" class="form-horizontal" id="typeForm" role="form">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">类型名称：</label>
+            <div class="col-sm-7">
+                <input type="text" value="@Model.Name" name="Name" id="typeName" class="form-control input-sm" maxlength="40" />
+                <span class="field-validation-error" id="typeNameTip"></span>
+                <span style="display:none;" id="nameErrorMsg" class="help-default cor-red"><span>名称不能为空</span></span>
+                <input type="hidden" name="Id" value="@Model.Id" id="Id"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">关联品牌：</label>
+            <div class="col-sm-9 brand-letter" id="id_tab">
+              
+            </div>
+            <div class="col-sm-9 brand-group">
+                <div class="checkbox-group">
+                </div>
+                <div id="id_s" class="choose-brand">
+                	<span>已选择：</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">属性：</label>
+            <div class="col-sm-9">
+                <table class="table table-bordered typeTable">
+                    <thead>
+                        <tr>
+                            <th width="30%">属性名</th>
+                            <th width="50%">属性值</th>
+                            <th width="20%" class="td-operate">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.AttributeInfo == null || 0 == Model.AttributeInfo.Count())
+                        {
+                            <tr id="nonDataContainer">
+                                <td width="100%" class="text-center" colspan="3">
+                                    <h6>没有任何属性信息</h6>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            int index = 0;
+                            foreach (var item in Model.AttributeInfo)
+                            {
+                                var attrName = "Attributes[" + index.ToString() + "].Name";
+                                var attrValue = "Attributes[" + index.ToString() + "].Value";
+                                var attrId = "Attributes[" + index.ToString() + "].Id";
+                                var attrIsMulti = "Attributes[" + index.ToString() + "].IsMulti";
+                                index++;
+                                <tr class="currentRow">
+                                    <td width="30%">
+                                        <input class="attrId" type="hidden" value="@item.Id" name="@attrId" />
+                                        <input class="attrIsMulti" name="@attrIsMulti" type="hidden" value="@item.IsMulti.ToString()" />
+                                        <input class="attrName" name="@attrName" type="hidden" value="@item.Name" />
+                                        <span class="spanAttrName">@item.Name</span>
+                                    </td>
+                                    <td width="50%">
+                                        <input class="attrValue" name="@attrValue" type="hidden" value="@item.AttrValue" />
+                                        <span class="spanAttrValue clearo1 overflow-ellipsis" title="@item.AttrValue">@item.AttrValue</span>
+                                    </td>
+                                    <td width="20%" class="td-operate"><span class="btn-a"><a class="attrEdit">编辑</a><a class="attrDelete">删除</a></span></td>
+                                </tr>
+
+                            }
+                        }
+
+                    </tbody>
+                </table>
+                <a class="add-atrr"><span class="glyphicon glyphicon-plus-sign"></span>新增一个属性</a>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">规格：</label>
+            <div class="col-sm-9 type">
+                <div class="type-list" id="divColor">
+                    @Html.GenerateSpecification(Model, SpecificationType.Color)
+                </div>
+                <div class="type-list" id="divSize">
+                    @Html.GenerateSpecification(Model, SpecificationType.Size)
+                </div>
+                <div class="type-list" id="divVersion">
+                    @Html.GenerateSpecification(Model, SpecificationType.Version)
+                </div>
+                <p class="help-block">您可勾选该类型下会用到的规格，并为其设定默认值，商家可修改规格值名称（不会影响平台数据）。</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="button" onclick="subForm();" class="btn btn-primary" value="保 存" />
+            </div>
+        </div>
+    </form>
+</div>

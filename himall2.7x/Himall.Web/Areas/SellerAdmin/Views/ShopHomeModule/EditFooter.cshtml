@@ -1,0 +1,52 @@
+﻿<script src="~/Scripts/ueditor/ueditor.config.js"></script>
+<script src="~/Scripts/ueditor/ueditor.all.min.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>页脚编辑</a></li>
+    </ul>
+
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            
+            <div class="col-sm-3 form-control-static">
+                <textarea style="width:600px; margin-left:10px;" maxlength="500" id="Footer" name="Footer">@ViewBag.Footer</textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-3 form-control-static" style="margin-left:10px;">
+                <button type="button" id="submit" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    $( function ()
+    {
+        editor = UE.getEditor( 'Footer' );
+        editor.addListener( 'contentChange', function ()
+        {
+            $( '#contentError' ).hide();
+        } );
+
+        $( "#submit" ).click( function ()
+        {
+            var loading = showLoading();
+            var footer = UE.getEditor( "Footer" ).getContent();
+            $.post( "./EditFooter", { footer: footer }, function ( data ) 
+            {
+                if ( data.success )
+                {
+                    $.dialog.succeedTips( "保存成功" )
+                }
+                else
+                {
+                    $.dialog.errorTips( '保存失败！' );
+                }
+                loading.close();
+            } )
+        } )
+    } )
+</script>

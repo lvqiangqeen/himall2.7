@@ -1,0 +1,135 @@
+﻿@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>店铺信息</title>
+<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../css/inner-custom.css">
+<link rel="stylesheet" type="text/css" href="../css/artdialog.css">
+<script type="text/javascript" src="../js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="../js/jquery.artDialog.js"></script>
+<script type="text/javascript" src="../js/inner-custom.js"></script>
+<!--[if lt IE 9]>
+  <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script type="text/javascript" src="../js/jquery.nicescroll.min.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	$('.add-business').click(function(){
+		$.dialog({
+			title:'新增经营类目',
+			lock: true,
+			id:'addBusiness',
+			content:['<div class="dialog-form">',
+				'<div class="form-group">',
+					'<label class="label-inline" for="">经营类目</label>',
+					'<select class="form-control input-sm select-sort"><option></option></select>',
+					'<select class="form-control input-sm select-sort"><option></option></select>',
+					'<select class="form-control input-sm select-sort"><option></option></select>',
+				'</div>',
+			'</div>'].join(''),
+			padding:'20px 10px',
+			okVal: '确认',
+			ok:function(){
+				//location.reload();
+			}
+		});
+	});
+});
+</script>
+
+</head>
+<body>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+    	
+        <div class="process-step">
+        	<span class="odd">公司信息</span>
+            <i class="glyphicon glyphicon-arrow-right odd"></i>
+            <span class="odd">财务信息</span>
+            <i class="glyphicon glyphicon-arrow-right odd"></i>
+            <span class="odd">店铺信息</span>
+            <i class="glyphicon glyphicon-arrow-right"></i>
+            <span>审核状态</span>
+        </div>
+    </ul>
+    <form class="form-horizontal" role="form">
+    	<h3 class="table-hd">店铺经营信息</h3>
+        <div class="form-group">
+        	<label for="" class="col-sm-2 control-label"><b>*</b>商家帐号：</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control input-sm" />
+            </div>
+            <div class="col-sm-6">
+            	<span class="help-default cor-red">此帐号为日后登录并管理商家中心时使用，注册后不可修改，请牢记。</span>
+            </div>
+        </div>
+        <div class="form-group">
+        	<label for="" class="col-sm-2 control-label"><b>*</b>店铺名称：</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control input-sm" />
+            </div>
+            <div class="col-sm-6">
+            	<span class="help-default cor-red">店铺名称注册后不可修改，请认真填写。</span>
+            </div>
+        </div>
+        <div class="form-group">
+        	<label for="" class="col-sm-2 control-label"><b>*</b>店铺等级：</label>
+            <div class="col-sm-3">
+                <select class="form-control input-sm"><option></option></select>
+            </div>
+            <div class="col-sm-6">
+            	<span class="help-default">商品数：不限 模板数：6 收费标准：1000 附加功能：富文本编辑器</span>
+            </div>
+        </div>
+        <div class="form-group">
+        	<label for="" class="col-sm-2 control-label"><b>*</b>店铺分类：</label>
+            <div class="col-sm-3">
+                <select class="form-control input-sm"><option></option></select>
+                
+            </div>
+            <div class="col-sm-6">
+            	<span class="help-default cor-red">请根据您所经营的内容认真选择店铺分类，注册后商家不可自行修改。</span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+        	<label for="" class="col-sm-2 control-label"><b>*</b>经营类目：</label>
+            <div class="col-sm-10">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>经营类目</th>
+                      <th class="td-operate">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>数码 > 电脑 > DIY</td>
+                      <td class="td-operate"><span class="btn-a"><a class="a-del">删除</a></span></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <a class="add-business"><span class="glyphicon glyphicon-plus-sign"></span>新增经营类目</a>
+            </div>
+        </div>
+        
+        
+        
+        
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+            	<button type="submit" class="btn btn-primary">提交申请</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "ProductSaleRanking";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="~/Scripts/echarts-plain-map.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/ProductSaleRanking.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="./ShopSale">店铺总销量</a></li>
+        <li class="active"><a>商品销量排行</a></li>
+    </ul>
+    <form class="form-inline custom-inline count-search mt20">
+        <div class="form-group">
+            <select id="queryType" class="form-control input-sm w95">
+                <option value="0">按天统计</option>
+                <option value="1">按周统计</option>
+                <option value="2">按月统计</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input id="inputStartDate" class="form-control input-sm start_datetime" value="@DateTime.Now.ToString("yyyy-MM-dd")" type="text" >
+        </div>
+        <div class="form-group">
+            @Html.DropDownList("year", (List<SelectListItem>)ViewBag.YearDrop, new { @class = "form-control input-sm w75", style = "display:none;", id = "yearDrop" })
+        </div>
+        <div class="form-group">
+            @Html.DropDownList("month", (List<SelectListItem>)ViewBag.MonthDrop, new { @class = "form-control input-sm w75", style = "display:none;", id = "monthDrop" })
+        </div>
+        <div class="form-group">
+            @Html.DropDownList("week", (List<SelectListItem>)ViewBag.WeekDrop, new { @class = "form-control input-sm", style = "display:none;", id = "weekDrop" })
+        </div>
+        <div class="form-group">
+            <input type="button" class="btn btn-primary btn-sm" id="SearchBtn" value="查询" />
+        </div>
+    </form>
+    <div class="count mt5 pb0">
+        <div class="text-right form-group mb20">
+            <div class="btn-group">
+                <button type="button" value="1" name="dimensionType" class="btn btn-default btn-xs active">销售量排行</button>
+                <button type="button" value="2" name="dimensionType" class="btn btn-default btn-xs">销售额排行</button>
+            </div>
+        </div>
+        <div class="count-chat">
+            <div id="main" style="height:500px;border:1px solid #ccc;padding:10px;"></div>
+        </div>
+
+
+
+    </div>
+</div>
+

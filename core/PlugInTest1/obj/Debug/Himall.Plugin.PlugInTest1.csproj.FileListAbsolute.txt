@@ -1,0 +1,17 @@
+E:\HimallFramework\HiMall2.61官网完整版\core\PlugInTest1\bin\Debug\plugin.config
+E:\HimallFramework\HiMall2.61官网完整版\core\PlugInTest1\bin\Debug\Himall.Plugin.PlugInTest1.dll
+E:\HimallFramework\HiMall2.61官网完整版\core\PlugInTest1\bin\Debug\Himall.Plugin.PlugInTest1.pdb
+E:\HimallFramework\HiMall2.61官网完整版\core\PlugInTest1\bin\Debug\Himall.Core.dll
+E:\HimallFramework\HiMall2.61官网完整版\core\PlugInTest1\bin\Debug\Himall.CoreTest.dll
+E:\HimallFramework\HiMall2.61官网完整版\core\PlugInTest1\bin\Debug\Quartz.dll
+E:\HimallFramework\HiMall2.61官网完整版\core\PlugInTest1\bin\Debug\log4net.dll
+E:\HimallFramework\HiMall2.61官网完整版\core\PlugInTest1\bin\Debug\Newtonsoft.Json.dll
+E:\HimallFramework\HiMall2.61官网完整版\core\PlugInTest1\bin\Debug\ZipLib.dll
+E:\HimallFramework\HiMall2.61官网完整版\core\PlugInTest1\bin\Debug\Ionic.Zip.dll
+E:\HimallFramework\HiMall2.61官网完整版\core\PlugInTest1\bin\Debug\zxing.dll
+E:\HimallFramework\HiMall2.61官网完整版\core\PlugInTest1\bin\Debug\Himall.CoreTest.pdb
+E:\HimallFramework\HiMall2.61官网完整版\core\PlugInTest1\bin\Debug\Himall.Core.pdb
+E:\HimallFramework\HiMall2.61官网完整版\core\PlugInTest1\bin\Debug\Quartz.xml
+E:\HimallFramework\HiMall2.61官网完整版\core\PlugInTest1\obj\Debug\Himall.Plugin.PlugInTest1.csprojResolveAssemblyReference.cache
+E:\HimallFramework\HiMall2.61官网完整版\core\PlugInTest1\obj\Debug\Himall.Plugin.PlugInTest1.dll
+E:\HimallFramework\HiMall2.61官网完整版\core\PlugInTest1\obj\Debug\Himall.Plugin.PlugInTest1.pdb

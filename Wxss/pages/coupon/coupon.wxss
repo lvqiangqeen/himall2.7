@@ -1,0 +1,117 @@
+/* pages/coupon/coupon.wxss */
+
+page{
+  background:#f5f5f5;
+}
+.page-section {
+  background: #f5f5f5;
+}
+
+.coupontitle {
+  border-bottom: 1rpx solid #dcdcdc;
+  line-height: 40rpx;
+  display: flex;
+  font-size: 32rpx;
+  position: fixed;
+  top: 0;
+  z-index: 99;
+}
+
+
+.coupontitlel {
+  width: 250rpx;
+  text-align: center;
+}
+
+.coupontitlel view {
+  border-bottom: 2rpx solid #fff;
+  width: 125rpx;
+  margin: 0 auto;
+  font-size: 32rpx;
+  line-height: 40rpx;
+  padding: 24rpx;
+}
+
+.coupontitlel view.active {
+  border-bottom: 4rpx solid #212121;
+  font-size: 32rpx;
+  line-height: 40rpx;
+}
+.mt120 {
+  margin-top: 120rpx;
+  position: relative;
+}
+
+.couponlist {
+  margin-top: 24rpx;
+}
+
+.coupon-info {
+  width: 702rpx;
+  margin: 0 auto;
+  display: block;
+  overflow: hidden;
+  border-radius:0 0 8px 8rpx;
+}
+
+.coupon-pic {
+  position:relative;
+  overflow:hidden;
+  color:#fff;
+  line-height: 40rpx;
+  padding-bottom:18rpx;
+}
+
+.coupon-pic .counpimg{ height:86rpx; padding-bottom: 0;}
+
+.coupon-money{font-size:48rpx;font-family:SFUIDisplay-Medium; font-weight:700; line-height: 64rpx; float: left;}
+
+.coupon-type{ float: right; font-size:24rpx; line-height: 40rpx;}
+
+.lqicon3 {
+  width: 702rpx;
+  height: 96rpx;
+}
+
+.coupon-des {
+  padding: 0 24rpx 16rpx 24rpx;
+  overflow: hidden;
+  font-size:24rpx;
+  }
+
+.coupon-des .coupon-txt {
+  font-size: 24rpx;
+  line-height: 32rpx;
+  color: #424242;
+  padding-bottom: 8rpx;
+}
+
+.coupon .coupon-txt:before{
+  content: "";
+  width: 10rpx;
+  height: 10rpx;
+  background: #ff5252;
+  display: inline-block;
+  margin-right: 15rpx;
+  margin-bottom:5rpx
+}
+
+.coupon-over .coupon-txt:before{
+  content: "";
+  width: 10rpx;
+  height: 10rpx;
+  background: #d4d4d4;
+  display: inline-block;
+  margin-right: 15rpx;
+  margin-bottom:5rpx
+}
+
+.coupon-use .coupon-txt:before{
+  content: "";
+  width: 10rpx;
+  height: 10rpx;
+  background: #ffcdd2;
+  display: inline-block;
+  margin-right: 15rpx;
+  margin-bottom:5rpx
+}

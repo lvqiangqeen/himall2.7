@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Management";
+}
+
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Areas/Admin/Scripts/CashDepositManagement.js"></script>
+
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>保证金管理</a></li>
+        <li><a href="CashDepositRule">保证金规则设置</a></li>
+    </ul>
+    <div id="shopToolBar">
+        <div class="search-box">
+            <form class="form-inline custom-inline">
+                <div class="form-group">
+                    <label class="label-inline w75" for="">店铺名称</label>
+                    <input class="form-control input-ssm" type="text" id="shopName">
+                </div>
+                <div class="form-group">
+                    <label class="label-inline w75" for="">缴纳状态</label>
+                    <select class="form-control input-ssm" id="searchType">
+                        <option value="0"> --- </option>
+                        <option value="1"> 正常 </option>
+                        <option value="2"> 欠费 </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary btn-sm" id="searchBtn" value="搜 索">
+                </div>
+            </form>
+        </div>
+    </div>
+    <table class="table" id="shopDatagrid"></table>
+</div>
+
+<div id="deduction" class="dln">
+    <div class="dialog-form">
+        <div class="form-group">
+            <label for="" class="label-inline fl">当前保证金：</label>
+            <p id="price"></p>
+        </div>
+        <div class="form-group">
+            <label for="" class="label-inline fl">扣除金额(元)：</label>
+            <input type="text" onkeyup="(this.v = function () { this.value = this.value.replace(/[^0-9-]+/, ''); }).call(this)" onblur="    this.v()" class="form-control input-sm" id="balance">
+        </div>
+
+        <div class="form-group">
+            <label for="" class="label-inline fl">扣除说明：</label>
+            <textarea class="form-control input-sm" id="shortDescription"></textarea>
+        </div>
+    </div>
+</div>

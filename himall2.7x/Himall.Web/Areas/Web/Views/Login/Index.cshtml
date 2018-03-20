@@ -1,0 +1,123 @@
+﻿@{
+    Layout = null;
+}
+@model IEnumerable<Himall.Web.Areas.Web.Models.OAuthInfo>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>登录</title>
+    <link href="~/Areas/Web/Content/login.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="w">
+        <div id="logo"><a href="/"><img src="@Himall.Core.HimallIO.GetImagePath(ViewBag.Logo)" alt="Himall" height="60"></a><b></b></div>
+    </div>
+    <div class=" w1" id="entry">
+        <div class="mc " id="bgDiv">
+            <div id="entry-bg">
+                @if (!string.IsNullOrWhiteSpace(SiteSetting.PCLoginPic))
+                {
+                    <img src="@Himall.Core.HimallIO.GetImagePath(SiteSetting.PCLoginPic)" />
+                }
+        </div>
+        <div class="form ">
+            <div class="item fore1">
+                <div class="item-ifo">
+                    <div class="text-area">
+                        <div class="i-name ico"></div>
+                        <input type="text" id="loginname" name="loginname" class="text" placeholder="用户名/手机号" tabindex="1" autocomplete="off" sta="2">
+                    </div>
+                    
+                    
+                    <label id="loginname_succeed" class="blank invisible succeed"></label>
+                    <label id="loginname_error" class="error" style="display:none;"></label>
+                </div>
+            </div>
+            <div class="item fore2">
+                
+                <div class="item-ifo">
+                    <div class="text-area">
+                        <div class="i-pass ico"></div>
+                        <input type="password" id="password" name="password" class="text highlight2" placeholder="密码" tabindex="2" autocomplete="off" sta="2">
+                    </div>
+                    
+                    
+                    <label id="loginpwd_succeed" class="blank invisible succeed"></label>
+                    <label id="loginpwd_error" class="error" style="display:none;"></label>
+                </div>
+            </div>
+            <div class="item fore3" id="checkCodeArea" style="display:none;">
+
+
+                <div class="item-ifo">
+                    <input type="text" id="checkCodeBox" class="text text-1" name="authcode" tabindex="6" maxlength="4" style="ime-mode:disabled" sta="0" placeholder="验证码">
+                    <label class="img">
+                        <img id="checkCodeImg" src="/Login/GetCheckCode">
+                    </label>
+                    <label class="ftx23 hline">看不清？<br><a href="javascript:void(0)" id="checkCodeChange" class="flk13">换一张</a></label>
+                    <label id="authcode_succeed" class="blank invisible"></label>
+                    <label id="checkCode_error" class="error" style="display: none;"></label>
+                </div>
+            </div>
+            <input type="hidden" name="machineNet" id="machineNet" value="" class="hide">
+            <input type="hidden" name="machineCpu" id="machineCpu" value="" class="hide">
+            <input type="hidden" name="machineDisk" id="machineDisk" value="" class="hide">
+            <div class="item fore4" id="autoentry">
+                <div class="item-ifo">
+                    <label class="mar"><input type="checkbox" id="autoLogin" class="checkbox" name="">自动登录</label>
+                    <p class="fog"><a href="/findpassword">忘记密码</a></p>
+                </div>
+            </div>
+            <div class="item login-btn2013">
+                <input type="button" class="btn-img btn-entry" id="loginsubmit" value="登录">
+            </div>
+        </div>
+        
+    </div>
+        <div class="coagent">
+            <label class="ftx24">
+
+                @if (Model.Count() > 0)
+                {
+                    @("使用合作网站账号登录商城：")
+                }
+                <span class="clr"></span>
+                @foreach (var oauthPlugin in Model)
+                {<!----插件中的图片暂不处理-->
+                    <span class="btns"><a href="@oauthPlugin.Url" title="@(oauthPlugin.Name)登录"><img class="img1" src="@oauthPlugin.LogoDefault" /><img class="img2" src="@oauthPlugin.LogoHover" /></a></span>
+                }
+
+            </label>
+            <div class="free-regist">
+                <span><a href="Register">免费注册&gt;&gt;</a></span>
+            </div>
+        </div>
+</div>
+
+@*<div class="w1"><div id="mb-bg" class="mb"></div></div>*@
+<div class="w">
+    <div id="footer" style="padding-top:30px;">
+        @*<div class="links"><a>关于我们</a>|<a>联系我们</a></div>*@
+        <div class="copyright">Copyright©2004-2017&nbsp;&nbsp;@ViewBag.SiteName&nbsp;版权所有</div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.cookie.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Areas/Web/Scripts/login.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        if (top.location != location) {
+            top.location.href = location.href;
+        }
+    });
+    var sellerUrl = "@Url.Action("index", "Home", new { area = "selleradmin" })";
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "门店设置";
+}
+
+@{
+    var autoAllotOrder = ViewBag.AutoAllotOrder==true;
+}
+<script src="~/Areas/SellerAdmin/Scripts/StoreSetting.js"></script>
+
+<div class="container Sclear-B">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("Management")">门店管理</a></li>
+        <li><a href="@Url.Action("Add")">新增门店</a></li>
+        <li class="active"><a>门店设置</a></li>
+    </ul>
+    <div class="form-horizontal step step2">
+        <div class="pro-info clearfix">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">订单自动分配到门店：</label>
+                    <div class="col-sm-10">
+                        <div class="onoffswitch">
+                            @if (autoAllotOrder)
+                            {
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="ckbSpecifications" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="ckbSpecifications">
+                            }
+                            <label class="onoffswitch-label" for="ckbSpecifications">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                        <span class="open-tips Sclear-P46" style="display:inline">开启时，系统根据用户的收货地址自动将订单匹配到相应的门店<br />若关闭，则订单由商家手动匹配</span>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

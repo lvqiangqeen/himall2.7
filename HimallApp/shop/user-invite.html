@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>我要推广</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我要推广</h1>
+		</header>
+		<div id="scrollDiv" class="scroll-div">
+			<div class="mui-content transparent">
+				<div class="user-invite" id="userInvite">
+					
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js"></script>
+		<script>
+			mui.init({swipeBack: true});
+			document.getElementById('userInvite').style.minHeight=document.documentElement.clientHeight-45+'px';
+			var InviteIntegral,
+				IntergralMoney,
+				RegIntegral,
+				user=himall.getState();
+			mui.plusReady(function() {
+				
+				mui.ajax(URL+'api/UserInvite/get',{
+					data:himall.md5Data({userkey:user.userkey}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(data.Success){
+							InviteIntegral=data.InviteIntegral;
+							IntergralMoney=data.IntergralMoney;
+							RegIntegral=data.RegIntegral;
+							document.getElementById('userInvite').innerHTML='<h4>邀请一个好友注册，老会员可获得'+InviteIntegral+'积分，可用于抵扣'+IntergralMoney+' 元订单金额；新会员可获得'+RegIntegral+'积分，多邀请多送！</h4>'+
+							'<div class="invite-btn-area"><a class="custom-btn" id="inviteBtn">马上邀请得积分</a></div>'+
+							'<div class="invite-rule"><h4>活动规则</h4>'+data.ShareRule+'</div>';
+							
+							himall.removeClass(document.querySelector('.mui-content'),'transparent');
+						}
+					}
+				});
+				mui('#userInvite').on('tap','#inviteBtn',function(){
+					loadShare({
+						title:'注册得订单无门槛抵扣抵扣积分',
+						href:URL+'Register/index/'+user.userId,
+						content:'邀请一个好友注册，老会员可获得'+InviteIntegral+'积分，可用于抵扣'+IntergralMoney+' 元订单金额；新会员可获得'+RegIntegral+'积分，多邀请多送！'
+					});
+				})
+			});
+			
+			
+			
+		</script>
+	</body>
+
+</html>

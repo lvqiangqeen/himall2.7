@@ -1,0 +1,240 @@
+﻿@model Himall.DTO.ShopProfileStep3
+@{
+    Layout = "~/Areas/SellerAdmin/Views/Shared/_SellerAdminRegLayout.cshtml";
+}
+<style>
+    ul.choose-step li {
+        width: 25%;
+    }
+</style>
+
+<div class="container pt0">
+    <ul class="choose-step step2">
+        <li style="background:none;">
+            基本信息
+            <span class="border"></span>
+            <span class="border-n Sclear-P34"></span>
+        </li>
+        <li style="background:none;">
+            账户信息
+            <span class="border"></span>
+            <span class="border-n"></span>
+        </li>
+        <li style="background:none;">
+            店铺信息
+            <span class="border"></span>
+            <span class="border-n"></span>
+        </li>
+        <li class="active">审核状态</li>
+    </ul>
+    <form class="form-horizontal form-pt0" role="form">
+        <h3 class="table-hd">店铺经营信息</h3>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>商家帐号：</label>
+            <div class="col-sm-3">
+                <input type="text" value="@ViewBag.Username" disabled="disabled" class="form-control input-sm" />
+            </div>
+            <div class="col-sm-6">
+                <span class="help-default cor-red">此帐号为日后登录并管理商家中心时使用，注册后不可修改，请牢记。</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>店铺名称：</label>
+            <div class="col-sm-3">
+                <input type="text" id="shopName" class="form-control input-sm" value="@Model.ShopName" />
+            </div>
+            <div class="col-sm-6">
+                <span class="help-default cor-red">店铺名称注册后不可修改，请认真填写。</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>店铺等级：</label>
+            <div class="col-sm-3">
+
+                @{ var shopGrades = (List<Himall.DTO.ShopGrade>)ViewBag.ShopGrades;}
+                <select class="form-control input-sm" id="shopGrade">
+                    <option value="">请选择店铺等级</option>
+                    @foreach (var shopGrade in shopGrades)
+                    {
+                        if (shopGrade.Id == Model.ShopGrade)
+                        {
+                            <option value="@shopGrade.Id" productslimit="@shopGrade.ProductLimit" templatelimit="@shopGrade.TemplateLimit" imagelimit="@shopGrade.ImageLimit" charge="@shopGrade.ChargeStandard" remark="@shopGrade.Remark" selected="selected">@shopGrade.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@shopGrade.Id" productslimit="@shopGrade.ProductLimit" templatelimit="@shopGrade.TemplateLimit" imagelimit="@shopGrade.ImageLimit" charge="@shopGrade.ChargeStandard" remark="@shopGrade.Remark">@shopGrade.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-sm-6">
+                <span class="help-default" id="shopGradeDescription"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>经营类目：</label>
+            <div class="col-sm-9">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>经营类目</th>
+                            <th class="td-operate">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="businessCategories">
+                        @foreach (var item in Model.BusinessCategory)
+                        {
+                            <tr value="@item.CategoryId">
+                                <td>@item.CategoryName</td>
+                                <td class="td-operate"><span class="btn-a"><a class="a-del">删除</a></span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a class="add-business"><span class="glyphicon glyphicon-plus-sign"></span>新增经营类目</a>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" id="submit" class="btn btn-primary">提交申请</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <a id="backpre" class="btn btn-back" href="@(Url.Action("EditProfile2", new { source = "Previous" }))" target="_top">返回上一步</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var selectedCategoryId, selectedCategoryPath = [];
+
+        $('#businessCategories').on('click', 'a.a-del', function () {
+            $(this).parents('tr').remove();
+
+        });
+
+
+        $('.add-business').click(function () {
+            selectedCategoryId;
+            selectedCategoryPath = [];
+            $.dialog({
+                title: '新增经营类目',
+                lock: true,
+                id: 'addBusiness',
+                content: ['<div class="dialog-form">',
+                    '<div class="form-group">',
+                        '<label class="label-inline" for="">经营类目</label>',
+                        '<select name="businessCategories" class="form-control input-sm select-sort"></select>',
+                        '<select name="businessCategories" class="form-control input-sm select-sort"></select>',
+                        '<select name="businessCategories" class="form-control input-sm select-sort"></select>',
+                    '</div>',
+                '</div>'].join(''),
+                padding: '0 40px',
+                okVal: '确认',
+                ok: function () {
+                    if (selectedCategoryId > 0) {
+                        var trs = $('#businessCategories tr');
+                        var exist = false;
+                        $.each(trs, function (i, tr) {
+                            if ((',' + selectedCategoryId + ',').indexOf(',' + $(tr).attr('value') + ',') > -1) {
+                                exist = true;
+                            }
+                        });
+                        if (exist) {
+                            $.dialog.tips('不能重复选择相同类目');
+                            return false;
+                        }
+
+                        var html = '<tr value="' + selectedCategoryId + '">\
+                                    <td>' + selectedCategoryPath.join(' > ') + '</td>\
+                                    <td class="td-operate"><span class="btn-a"><a class="a-del">删除</a></span></td>\
+                                </tr>';
+
+                        $('#businessCategories').append(html);
+                    }
+                    else {
+                        $.dialog.tips('请至少选择一个分类');
+                        return false;
+                    }
+                }
+            });
+
+
+            $('select[name="businessCategories"]').himallLinkage({//营业执照所在地
+                url: 'GetCategories',
+                enableDefaultItem: true,
+                defaultItemsText: '请选择',
+                defaultSelectedValues: [],
+                onChange: function (level, value, text) {
+                    if (level == selectedCategoryPath.length) {
+                        selectedCategoryPath.push(text);
+                    }
+                    else {
+                        var newSelectedCategoryPath = [];
+                        for (var i = 0; i < level; i++) {
+                            newSelectedCategoryPath.push(selectedCategoryPath[i]);
+                        }
+                        selectedCategoryPath = newSelectedCategoryPath;
+                        selectedCategoryPath.push(text);
+                    }
+                    selectedCategoryId = value;
+                }
+            });
+        });
+
+        $('#shopGrade').change(function () {
+            ShowShopGrade();
+        });
+
+        function ShowShopGrade() {
+            var seldom = $("#shopGrade");
+            var item = seldom.find('option:selected');
+            if (seldom.val()) {
+                $('#shopGradeDescription').html('商品数：' + item.attr('productsLimit') +
+                    ' 可用空间：' + item.attr('imagelimit') + " M" +
+                    ' 收费标准：' + item.attr('charge') +
+                     (item.attr('remark') ? ' 附加功能：' + item.attr('remark') : ''));
+            }
+            else
+                $('#shopGradeDescription').html('');
+        }
+
+        ShowShopGrade();   //初始显示
+
+
+        $('#submit').click(function () {
+            var shopName = $('#shopName').val().replace(/(^\s*)|(\s*$)/g, '');
+            var shopGrade = $('#shopGrade').val();
+
+            if (shopName == "")
+                $.dialog.errorTips('请输入店铺名称');
+            else if (!shopGrade)
+                $.dialog.errorTips('请选择店铺等级');
+            else {
+                var categories = [];
+                var trs = $('#businessCategories tr');
+                $.each(trs, function (i, tr) {
+                    categories.push($(tr).attr('value'));
+                });
+                if (categories.length == 0)
+                    $.dialog.errorTips('请至少选择一个经营类目');
+                else {
+                    var obj = { shopName: shopName, shopGrade: shopGrade, categories: categories };
+                    var jsonString = JSON.stringify(obj);
+                    var loading = showLoading();
+                    $.post('EditProfile3', { shopProfileStep3: jsonString }, function (result) {
+                        loading.close();
+                        if (result.success)
+                            $.dialog.succeedTips('提交成功', function () {
+                                window.parent.location.reload();
+                            });
+                        else
+                            $.dialog.errorTips('提交失败！' + result.msg);
+                    });
+                }
+            }
+
+        });
+    });
+</script>

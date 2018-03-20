@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Management";
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Areas/Admin/Scripts/sensitivewordManagement.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+    
+        <li class="active"><a>管理</a></li>
+        <li class="add-word"><a>新增</a></li>
+        
+    </ul>
+    <div>
+        <div class="search-box only-line">
+            <form class="custom-inline" role="form">
+                <div class="form-group">
+                    <label class="label-inline" for="keywords" style="width:70px;">敏感关键词</label>
+                    <input class="form-control input-ssm" type="text" id="keywords">
+                </div>
+                <div class="form-group">
+                    <label class="label-inline" for="selectCategoryName" style="width:70px;">关键词类别</label>
+                    <select class="form-control input-ssm" id="selectCategoryName">
+
+                    </select>
+                </div>
+                <input type="button" class="btn btn-primary btn-sm" id="searchBtn" value="搜 索">               
+            </form>
+        </div>
+        <div class="search-box only-line">
+            <div class="form-group">
+                <label for="" id="lblfile"><input id="upExcel" name="upExcel" type="file" /></label>
+                <a class="btn btn-warning btn-ssm" id="importBtn">Excel导入</a>
+                <a href="~/Storage/Plat/SensitiveWord/敏感关键词导入模板.xls">导入模版下载</a>
+            </div>
+        </div>
+    </div>
+    <table class="table mt20" id="list">
+        <div class="tabel-operate" id="batchOperate">
+            <button type="button" class="btn btn-default btn-ssm" onclick="BatchDelete()">批量删除</button>
+        </div>
+    </table>
+</div>
+
+<div class="dialog-form" id="addSensitiveWordform" style="display:none">
+    <div class="form-group" id="SensitiveWordDiv">
+        <label class="label-inline" for="SensitiveWord" style="width:100px;"><em>*</em>敏感关键词：</label>
+        <input class="form-control input-sm" type="text" id="SensitiveWord" name="SensitiveWord">
+    </div>
+    <div class="form-group">
+        <label class="label-inline" for="CategoryName" style="width:100px;"><em>*</em>关键词类别：</label>
+        <input class="form-control input-sm" type="text" id="CategoryName" name="CategoryName">
+    </div>
+</div>

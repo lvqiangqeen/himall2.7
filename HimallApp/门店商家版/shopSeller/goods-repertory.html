@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html class="proShare">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-isSales-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>商品库</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body class="proShare">
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">商品库</h1>
+			<a class="mui-pull-right header-icon" id="search"><i class="iconfont icon-search"></i></a>
+			<a class="mui-pull-right header-icon hidden" id="orderFilter"><i class="iconfont icon-filter"></i></a>
+			<div class="header-search">
+				<div class="mui-input-row mui-search">
+					<input type="search" id="keywordsText" class="mui-input-clear" data-input-search="1"><span class="mui-icon mui-icon-clear mui-hidden"></span><span class="mui-placeholder"><span class="mui-icon mui-icon-search"></span><span>请输入商品名称</span></span>
+				</div>
+				<a class="search-cancel">取消</a>
+			</div>
+		</header>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper has-bot repertory">
+			<div class="mui-scroll">
+				<div class="cart-title" id="cartTitle"></div>
+				<ul class="cart-list" id="cartList"><div class="pull-loading"><div class="mui-icon mui-spinner"></div>正在加载...</div></ul>
+			</div>	
+		</div>
+		<div class="cart-bottom repertory-bottom">
+			<div class="mui-checkbox mui-left">
+				<label>全选</label>
+				<input name="checkAll" id="checkAll" type="checkbox">
+			</div>
+			<a class="submit-cart" id="submitCart">上架到门店</a>
+		</div>
+		
+		<div class="type-box" id="typebox">
+			<div class="c-top">
+				<a id="tboxQa" class="mui-icon mui-icon-left-nav mui-pull-left padt10"></a>
+				<h1 class="mui-title">商城分类</h1>
+			</div>
+			<div class="c-title" id="cTitle"></div>
+			<div class="slider-ul select1">
+				<div id="col1" class="single-col first"></div>
+				<div id="col2" class="single-col"></div>
+				<div id="col3" class="single-col"></div>
+			</div>
+			<div class="c-bottom">
+				<button id="tboxReset">重置</button>
+				<button id="tboxConfirm">确定</button>
+			</div>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js"></script>
+		<script type="text/html" id="initType">
+			<span id="t1" class="{{type1?'':'hidden'}}" data-index="0">{{type1}}</span>
+			<span id="t2" class="{{type2?'':'hidden'}}" data-index="1">{{type2}}</span>
+			<span id="t3" class="{{type3?'':'hidden'}}" data-index="2">{{type3}}</span>
+			<span id="tip" class="{{type3?'hidden':'active'}}">请选择</span>
+		</script>
+		<script>
+		
+			var isEnd = false,
+				page = 0,
+				searchVal='',
+				cid,
+				userkey=himall.getState().userkey,
+				List = document.getElementById('cartList'),
+				checkAll=document.querySelector('input[name="checkAll"]');
+			mui.init({
+				pullRefresh : {
+				    container:'#pullrefresh',
+				    deceleration:0.0006,
+				    up : {
+					    contentrefresh : "正在加载...",
+					    contentnomore:'已加载完全部',
+					    callback :loadPage
+				    }
+				},
+				swipeBack: true
+			});
+			
+			if (mui.os.android)
+				document.getElementsByClassName('mui-scroll')[0].className='';
+			
+			himall.immersedNoTop();
+			
+			mui.plusReady(function() {
+				var ws=plus.webview.currentWebview();
+				ws.setStyle({scrollIndicator:'none'});
+				loadPage('reset');
+				getType();
+				
+				document.getElementById('submitCart').addEventListener('tap',function(ev){
+					setTimeout(function(){
+						var checkPro=cartList.querySelectorAll('input[name="checkItem"]:checked');
+						if(checkPro.length>0){
+							var cartidArr=[];
+							mui('#cartList input[name="checkItem"]:checked').each(function(){
+								cartidArr.push(this.parentNode.getAttribute('data-pid'));
+							});
+							ev.detail.gesture && ev.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+							var btnArrays = ['跳过此步', '确定'],
+								setStock=0; //是否设置库存
+							mui.prompt('批量设置库存', '请输入库存数', '', btnArrays, function(e) {
+								if (e.index == 1) {
+									if(e.value==""||e.value=='请输入库存数'){
+										plus.nativeUI.toast('请输入库存数');
+										return;
+									}
+									if(isNaN(Number(e.value))){
+										plus.nativeUI.toast('请输入数字');
+										return;
+									}
+									setStock = e.value;
+									onSalePro(cartidArr.join(','),cartidArr.length,setStock);
+								}else{
+									onSalePro(cartidArr.join(','),cartidArr.length);
+								}
+							},'div')
+							
+						}else{
+							plus.nativeUI.toast('请至少选择一件商品');
+						}
+					},100)
+				});
+			});
+			
+			mui(document).on('change', 'input[name="checkAll"]', function() {
+		    	var _this=this;
+		        setTimeout(function(){
+			        var checked = _this.checked,
+			        	checkBox=cartList.querySelectorAll('input[type="checkbox"]:enabled');
+			        for(var i=0; i<checkBox.length; i++){
+			        	checkBox[i].checked=checked;
+			        }
+		        },50)
+		    });
+		    
+		    mui('#cartList').on('change', 'input[name="checkItem"]', function() {
+		    	var _this=this;
+		        setTimeout(function(){
+					var checked = _this.checked;
+			        //判断所有商品是否都选中了
+			        var allShopChecked = true;
+			        mui('#cartList input[name="checkItem"]:enabled').each(function () {
+			            if(!this.checked){
+			                allShopChecked = false;
+			            }
+			        });
+			        if(allShopChecked){
+			        	checkAll.checked=true;
+			        }else{
+			            checkAll.checked=false;
+			        }
+				},50)
+		        
+		    });
+			function onSalePro(ids,num,stock){
+				mui.ajax(URL+'api/ShopBranchProduct/GetAddProducts',{
+		        	data:himall.md5Data({
+		        		userkey:userkey,
+						pids:ids
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+	      				if(data.success){
+	      					reloadPage();
+	      					plus.nativeUI.toast(num+'个商品已加入商品列表, 请至商品管理中查看');
+	      					//批量设置库存
+	      					if(stock){
+	      						mui.ajax(URL + 'api/ShopBranchProduct/PostSetProductStock', {
+				                    data:himall.md5Data({
+				                        userkey:userkey,
+										pids:ids,
+										stock: stock,
+										optype:'0'
+				                    }),
+				                    dataType: 'json',
+				                    type: 'post',
+				                    timeout: 10000,
+				                    success: function(data) {
+				                    	if(!data.success){
+					      					plus.nativeUI.toast(error_response.sub_msg);
+					      				}
+				                    },
+				                    error: function(xhr, type, errorThrown) {
+				                        plus.nativeUI.toast('请求失败，请检查网络重试');
+				                    }
+				                });
+	      					}
+	      				}else{
+	      					plus.nativeUI.toast(error_response.sub_msg);
+	      				}
+					},
+					error:function(xhr,type,errorThrown){
+						plus.nativeUI.toast('请求失败，请检查网络重试');
+					}
+				});
+			}
+			
+			var ajaxUrl='api/ShopBranchProduct/GetProducts';
+			function loadPage(re){
+				var self=this;
+		      	if (!isEnd) {
+		      		page++;
+			        mui.ajax(URL+ajaxUrl,{
+			        	data:himall.md5Data({
+							pageno:page,
+							pagesize:10,
+							userkey:userkey,
+							keywords:searchVal,
+							cid:cid
+						}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							document.getElementById("cartTitle").innerHTML = '共 '+data.total+' 个商品<span class="sx mui-navigate-right" style="line-height:40px;height:39px;">筛选</span>';
+					        if(data.products.length <10){
+								isEnd = true;
+							}
+					        if(re){
+					        	List.innerHTML=template('initData', data);
+					        	mui('#pullrefresh').pullRefresh().scrollTo(0,0,20);
+					        }else{
+					        	List.insertAdjacentHTML('beforeend',template('initData', data));
+					        	self.endPullupToRefresh(isEnd);
+					        }
+					        
+					        if(checkAll.checked){
+					        	var checkBox=cartList.querySelectorAll('input[type="checkbox"]:enabled');
+						        for(var i=0; i<checkBox.length; i++){
+						        	checkBox[i].checked=true;
+						        }
+					        }
+					        
+							if(page==1){
+								if(data.products.length > 0){
+									delayimg.init();
+								}else{
+									List.innerHTML='<div class="empty-show"><h4>未找到任何商品...</h4></div>';
+								}
+							}else{
+								delayimg.render();
+							}
+		      					
+						},
+						error:function(xhr,type,errorThrown){
+							if(page==1){
+								reloadWvLoad();
+							}else{
+								plus.nativeUI.toast('请求失败，请检查网络重试');
+								self.endPullupToRefresh(isEnd);
+								page--;
+							}
+							
+						}
+					});
+			    }else{
+			    	self.endPullupToRefresh(isEnd);
+			    }
+			}
+			
+			function reloadPage(){
+				isEnd = false;
+				page = 0;
+				mui('#pullrefresh').pullRefresh().refresh(true);
+				loadPage('reset');
+			}
+			
+			var index=0,ctitle={type1:'',type2:'',type3:''},dataC,
+		    	index1,//一级分类索引值
+		    	index2,//二级分类索引值
+		    	index3,
+		    	mask;//三级分类索引值
+			mui('#cartTitle').on('tap','.sx',function(){
+				if(!mask){
+					mask=mui.createMask(function(){himall.removeClass(typebox,' active') });
+				}
+				mask.show();
+				typebox.className+=' active';
+			});
+			
+			mui('.single-col').on('tap','.item',function(){
+				this.className+=' active';
+				if(siblings(this,'.item.active')[0]){
+					siblings(this,'.item.active')[0].className='item';
+				}
+			});
+			
+			//点击一级分类事件
+			mui('#col1').on('tap','.item',function(){
+				ctitle.type1=this.innerHTML;
+				ctitle.type2=ctitle.type3='';
+				uploadTitle();
+				cid=this.getAttribute("data-id");
+				//获取二级分类数据
+				index1 = this.getAttribute("data-index");
+				document.getElementById("col2").innerHTML = template('initCol', dataC.Category[index1].SubCategories);
+				showCols(1);
+			});
+			
+			//点击二级分类事件
+			mui('#col2').on('tap','.item',function(){
+				ctitle.type2=this.innerHTML;
+				ctitle.type3='';
+				uploadTitle();
+				cid=this.getAttribute("data-id");
+				//获取三级分类数据
+				index2 = this.getAttribute("data-index");
+				document.getElementById("col3").innerHTML = template('initCol', dataC.Category[index1].SubCategories[index2].SubCategories);
+				showCols(2);
+			});
+			
+			//点击三级分类事件
+			mui('#col3').on('tap','.item',function(){
+				ctitle.type3=this.innerHTML;
+				uploadTitle();
+				cid=this.getAttribute("data-id");
+				document.getElementById('cTitle').querySelectorAll('span')[2].className+=' active';
+			});
+			
+			document.getElementById("tboxQa").addEventListener('tap',function(){
+				mask.close();
+			});
+			document.getElementById("tboxReset").addEventListener('tap',function(){
+				himall.removeClass(document.querySelector('.slider-ul .item.active'),' active');
+				ctitle={type1:'',type2:'',type3:''};
+				uploadTitle();
+				cid='';
+				showCols(0);
+			});
+			
+			document.getElementById("tboxConfirm").addEventListener('tap',function(){
+				reloadPage();
+				mask.close();
+			});
+			
+			mui('#cTitle').on('tap','span',function(){
+				uploadTitle();
+				if(this.id!='tip'){
+					showCols(parseInt(this.getAttribute('data-index')));
+					
+				}
+			});
+			
+			//滑到相应级别
+		    function showCols(i) {
+				typebox.querySelector('.slider-ul').className='slider-ul select'+(i+1);
+				document.getElementById('cTitle').querySelectorAll('span')[i].className+=' active';
+			}
+			//初始化右滑事件
+			function doSlider() {
+				uploadTitle();
+				showCols(0);
+			}
+			//更新标题区
+			function uploadTitle(){
+				document.getElementById('cTitle').innerHTML=template('initType', ctitle);
+			}
+			//获取分类数据
+			function getType(){
+				mui.ajax(URL+'api/Category/GetCategories',{
+					data:himall.md5Data(),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(data.Success=='True'){
+							dataC=data;  //储存分类数据
+							document.getElementById("col1").innerHTML = template('initCol', dataC.Category);
+						}
+					}
+				});
+			}
+			
+			commonFn.search();
+			doSlider();
+		</script>
+		<script type="text/html" id="initData">
+			{{each products as item}}
+				<li class="mui-input-group">
+					<div class="mui-checkbox mui-left cart-list-goods" data-pid="{{item.id}}">
+						<div class="cart-goods">
+							<a class="goods-url goods-img"><img src="images/blank.gif" data-delay="{{item.img}}"/></a>
+							<div class="cart-goods-detail">
+								<p><a class="goods-url">{{item.name}}</a></p>
+								<h5>
+										库存：{{item.stock}}&nbsp;&nbsp;
+										销量：{{item.salesCount}}
+								</h5>
+								<span class="money">¥ {{item.price}}</span>
+							</div>
+						</div>
+						<input name="checkItem" type="checkbox" />
+					</div>
+				</li>
+			{{/each}}
+		</script>
+		<script type="text/html" id="initCol">
+			{{each}}
+				<div class="item" data-id="{{$value.Id}}" data-index="{{$index}}">{{$value.Name}}</div>
+			{{/each}}
+		</script>
+	</body>
+</html>

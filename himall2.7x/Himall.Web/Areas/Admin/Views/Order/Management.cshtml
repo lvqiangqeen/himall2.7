@@ -1,0 +1,113 @@
+﻿@using Himall.Core;
+@{ ViewBag.Title = "OrderManagement";}
+
+@model IEnumerable<Himall.Model.PaymentType>
+
+@section HeadScript
+{
+    <script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+    <script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+    <script src="~/Scripts/jquery.placeholder.min.js"></script>
+    <script src="~/Scripts/bootstrap.autocomplete.js"></script>
+    <script src="~/Areas/Admin/Scripts/orderManagement.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+}
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+}
+<div class="container clear-q">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li value="0" class="active" type="statusTab"><a>所有订单</a></li>
+        <li value="1" type="statusTab"><a>待付款</a></li>
+        <li value="2" type="statusTab"><a>待发货</a></li>
+        <li value="6" type="statusTab"><a>待自提</a></li>
+        <li value="3" type="statusTab"><a>待收货</a></li>
+        <li value="5" type="statusTab"><a>交易完成</a></li>
+        <li value="4" type="statusTab"><a>已关闭</a></li>
+
+    </ul>
+
+    <div class="search-box" id="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">订单号</label>
+                <input class="form-control input-ssm input-number" type="text" id="txtOrderId">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">手机号码</label>
+                <input class="form-control input-ssm input-number" type="text" id="txtUserContact">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">买家</label>
+                <input class="form-control input-ssm" type="text" id="txtUserName">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">店铺</label>
+                <input class="form-control input-ssm" type="text" id="txtShopName">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">订单类型</label>
+                <select id="orderType" class="form-control input-ssm">
+                    <option value="">全部</option>
+                    @foreach (var item in Enum.GetValues(typeof(Himall.Core.PlatformType)))
+                    {
+                        switch ((Himall.Core.PlatformType)item)
+                        {
+                            case Himall.Core.PlatformType.IOS:
+                            case Himall.Core.PlatformType.Mobile:
+                                break;
+                            case Himall.Core.PlatformType.Android:
+                                <option value="@((int)item)">APP订单</option>
+                                break;
+                            default:
+                            <option value="@((int)item)">@(((Himall.Core.PlatformType)item).ToDescription())订单</option>
+                                break;
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">付款方式</label>
+                <select class="form-control input-ssm" id="selectPaymentTypeName">
+                    <option value="">全部</option>
+                    @foreach (var p in Model)
+                    {
+                        <option value="@p.Id">@p.DisplayName</option>
+                    }
+                </select>
+            </div>
+            @*<div class="form-group">
+                <label class="label-inline w75" for="">支付方式</label>
+                <select class="form-control input-ssm" id="selectPaymentType">
+                    <option value="0">全部</option>
+                    @foreach (var item in Enum.GetValues(typeof(Himall.Model.OrderInfo.PaymentTypes)))
+                    {
+                        Himall.Model.OrderInfo.PaymentTypes itemdata = (Himall.Model.OrderInfo.PaymentTypes)item;
+                        if ((int)itemdata != 0)
+                        {
+                            <option value="@(( int )itemdata)">@(itemdata.ToDescription())</option>
+                        }
+                    }
+                </select>
+            </div>*@
+			@*<div class="form-group">
+				<label class="label-inline w75" for="txtUserContact">联系方式</label>
+				<input class="form-control input-ssm" type="text" id="txtUserContact">
+			</div>*@
+            <div class="form-group">
+                <label class="label-inline w75" for="">订单日期</label>
+                <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text">
+                <label class="label-inline-line">-</label>
+                <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+            </div>
+        </form>
+    </div>
+
+    <table id="list" class="table product-table has-bg-table"></table>
+    
+    <div id="orderOperate"><a class="btn-export" id="aExport" href='javascript:;' onclick="ExportExecl();">导出查询结果</a></div>
+</div>

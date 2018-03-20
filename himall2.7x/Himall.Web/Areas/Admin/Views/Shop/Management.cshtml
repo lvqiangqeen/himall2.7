@@ -1,0 +1,63 @@
+﻿@model Himall.Web.Models.ShopModel
+
+@using System.Collections
+
+@{
+    ViewBag.Title = "Management";
+}
+
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Areas/Admin/Scripts/ShopManagement.js"></script>
+
+<input type="hidden" value="@(Url.Action("FreezeShop"))" id="UAF" />
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        @if (((string)ViewBag.Type).Equals("Auditing"))
+        {
+            <li><a href="./Management">店铺管理</a></li>
+            <li class="active"><a>入驻审核</a></li>
+            <li><a href="./Applylist">经营类目审核</a></li>
+        }
+        else
+        {
+            <li class="active"><a>店铺管理</a></li>
+            <li><a href="./Management?type=Auditing">入驻审核</a></li>
+            <li><a href="./Applylist">经营类目审核</a></li>
+        }
+    </ul>
+    <div id="shopToolBar">
+        <div class="search-box">
+            <form class="form-inline custom-inline">
+                <div class="form-group" style="position:relative;top:-1px;">
+                    <label class="label-inline w75" for="">店铺名称</label>
+                    <input class="form-control input-ssm" type="text" id="shopName">
+                </div>
+                @*<div class="form-group">
+                    <label class="label-inline w75" for="">店铺账号</label>
+                    <input class="form-control input-ssm" type="text" id="shopAccount">
+                </div>*@
+                <div class="form-group">
+                    <label class="label-inline w75" for="">店铺等级</label>
+                    @Html.DropDownListFor(s => s.ShopGrade, ((IEnumerable<SelectListItem>)ViewBag.Grade),
+                             new { @class = "form-control input-ssm", id = "shopGradeId" })
+                </div>
+                @if (ViewBag.Type != "Auditing")
+                {
+                    <div class="form-group">
+                        <label class="label-inline w75" for="">店铺状态</label>
+                        @Html.DropDownListFor(s => s.Status, ((SelectList)ViewBag.StatusList),
+                    new { @class = "form-control input-ssm", id = "shopStatus" })
+
+                    </div>
+                }
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary btn-sm" id="searchBtn" value="搜 索">
+                </div>
+            </form>
+        </div>
+    </div>
+    <table class="table mt5" id="shopDatagrid"></table>
+    <input type="hidden" value="@ViewBag.Type" id="type" />
+</div>

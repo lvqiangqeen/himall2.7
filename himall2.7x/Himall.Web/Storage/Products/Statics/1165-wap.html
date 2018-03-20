@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="format-detection" content="telephone=no, address=no">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+	<title>商品详情</title>
+	<script>
+		(function() {
+			var baseFontSize = 100;
+			var baseWidth = 320;
+			var clientWidth = document.documentElement.clientWidth || window.innerWidth;
+			var innerWidth = Math.max(Math.min(clientWidth, 480), 320);
+
+			var rem = 100;
+
+			if (innerWidth > 362 && innerWidth <= 375) {
+				rem = Math.floor(innerWidth / baseWidth * baseFontSize);
+				//rem = Math.floor(innerWidth / baseWidth * baseFontSize * 0.9);
+			}
+
+			if (innerWidth > 375) {
+				rem = Math.floor(innerWidth / baseWidth * baseFontSize);
+				//rem = Math.floor(innerWidth / baseWidth * baseFontSize * 0.84);
+			}
+
+			window.__baseREM = rem;
+			document.querySelector('html').style.fontSize = rem + 'px';
+		}());
+	</script>
+	<link rel="stylesheet" href="/Content/bootstrap.min.css">
+	<link rel="stylesheet" href="/Areas/Mobile/Templates/Default/Content/custom.css">
+	
+	<script src="/Scripts/jquery-1.7.1.min.js"></script>
+	<script src="/Scripts/CommonJS.js"></script>
+	<script src="/Areas/Mobile/Templates/Default/Scripts/custom.js"></script>
+	<script src="/Areas/Mobile/Templates/Default/Scripts/buylib.js"></script>
+	<script src="/Scripts/imitateRequire.js"></script>
+	<script>
+		imitateRequireJS.addJsFile([{
+			group: 'common',
+			fileNames: [
+				{ nickName: 'jquery.artDialog', fileName: 'jquery.artDialog.js' },
+				{ nickName: 'artDialog', fileName: 'artDialog.iframeTools.js', depends: ['jquery.artDialog'] },
+			]
+		}]);
+	</script>
+</head>
+<body>
+	<!--_Base start-->
+	<script>
+		var areaName = 'm-Wap';
+		var MAppType = '';
+	</script>
+	
+<input type="hidden" id="gid" value="1165" />
+<input type="hidden" id="categoryId" value="163" />
+<input type="hidden" id="has" value="1" />
+<div id="J_shop_att"></div>
+<div class="container container-z">
+    <div class="detail-hd">
+        <div id="slides">
+                    <img data-src="/Storage/Shop/347/Products/1165/1_350.png" />
+        </div>
+    </div>
+    <a class="dis-info-a bt_share" id="dis-brokerage-box" style="display:none;">赚<span id="dis-brokerage">00.00</span>元</a>
+    <div class="detail-bd">
+        <div class="goods-info">
+            <div id="preheat"></div>
+            <div class="item">
+                <div class="goods-price" id="jd-price">
+                    <span id="jd-saleprice"></span>
+                    <s>￥30.00</s>
+                </div>
+                <h4>【新天地】北京红星二锅头53度蓝瓶八年陈酿500ml</h4>
+                <h5></h5>
+            </div>
+            <div class="item promotion-wrap" id="divCoupon">
+                <div class="promotion">
+                    <ul class="promotion-list" id="showPromotion">
+                    	<li class="promotion-coupon spec-arrow" style="display:none;" onclick="showPortfolio()"><a href="javascript:;">
+                            <span id="activespan"><i class="coupon-tip">促销优惠</i></span></a>
+                        </li>
+                    </ul>
+                </div>
+              
+                    <div id="productColloCation"></div>
+                    <div class="goods-address" id="showDeportAddress">
+                    </div>
+                    
+<ul class="ensary j_ensary">
+</ul>
+<input data-val="true" data-val-number="字段 Int64 必须是一个数字。" id="shopId" name="shopId" type="hidden" value="347" />
+<input data-val="true" data-val-number="字段 Int64 必须是一个数字。" id="productId" name="productId" type="hidden" value="1165" />
+</div>
+        </div>
+         <div class="item detail-comment j_storesInfo product-store-title"  style="display:none">
+             <div class="goods-comment">
+                         <h1><b class="j_storeName"></b><span class="j_distanceUnit"></span><i class="ic-arrow"></i></h1> 
+                         <p class="j_storeAddress"></p>
+                         <a class="j_storelist btn btn-default" href="/m-wap/shopbranch/storelist?shopid=347"></a>
+             </div>
+        </div>
+        
+        <div class="item detail-comment">
+            <div class="detail-comment-hd">
+                商品评价
+                <span class="detail-comment-num">0</span>
+            </div>
+            <div id="productCommentShow">
+            </div>
+            <div class="detail-comment-ft">
+                <a class="btn btn-default" href="../ProductComment?pId=1165&commentType=0">查看全部评价</a>
+            </div>
+        </div>
+
+        
+<div class="item shop-wrap">
+    <div class="shop-hd">
+        <div class="shop-logo"><img src="/Storage/Plat/Site/wxlogo.png"></div>
+        <h4>御风飞自营店</h4>
+        <div class="shop-hd-info">
+            <span>宝贝数<strong>3</strong></span>
+            <span>关注人数<strong>0</strong></span>
+        </div>
+    </div>
+    <ul class="shop-bd clearfix">
+        <li>商品：<strong>5.00</strong></li>
+        <li>发货：<strong>5.00</strong></li>
+        <li>服务：<strong>5.00</strong></li>
+    </ul>
+    <div class="shop-ft clearfix">
+        <span><a class="btn btn-default" id="bt_govshop" href="/m-Wap/vshop/detail/-1" vshopid="-1">进入店铺</a></span>
+        <span><a class="btn btn-default " id="addShopFavorite" shopid="347">关注</a></span>
+    </div>
+</div>
+
+<script src="/Areas/Mobile/Templates/Default/Scripts/ShowShopScore.js"></script>
+
+        <div id="productColloCation">
+        </div>        
+        
+        
+    <div class="item details-link">
+        <a href="javascript:void(0)" id="showmoreprodesc"><span>查看更多详情</span></a>
+    </div>
+    <div class="goods-img" id="prodesccon"></div>
+    <div id="autoLoad" class="loading"></div>
+<input id="gid_desc" name="gid_desc" type="hidden" value="1165" />
+<script src="/Areas/Mobile/Templates/Default/Scripts/ProductShowProductDescription.js"></script>
+<script src="/Scripts/jquery.scrollLoading.min.js"></script>
+<script src="/Areas/Mobile/Templates/Default/Scripts/loading.js"></script>
+
+        <div class="right" style="display:none;background:#fff">
+            <div class="relation-title text-center"><span>猜你喜欢</span></div>
+            <div id="relationProducts" class="clearfix">
+                <template>
+                    <a class="relation-pro clearfix" href="/m-wap/Product/detail/{{id}}">
+                        <div class="relation-pro-img">
+                            <img src="{{imagePath}}" />
+                        </div>
+                        <p class="relation-pro-price"><i>￥</i>{{minSalePrice}}</p>
+                        <p class="relation-pro-name">{{productName}}</p>
+                    </a>
+                </template>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="s-actionBar-container">
+    <div id="s-actionbar" class="action-bar">
+        <div class="cell tocart icon-cart-c">
+            购物车
+            <a href="/m-Wap/Cart/Cart"></a>
+            <span class="plus-one">1</span>
+        </div>
+    </div>
+</section>
+<input type="hidden" id="proDesc" value="&lt;p style=&quot;white-space: normal;&quot;&gt;&lt;img src=&quot;/Storage/Shop/347/Products/1165/remark/3ceb084e24304f8fbdabd1a5a02a1c58.png&quot; title=&quot;2.png&quot;/&gt;&lt;/p&gt;&lt;p style=&quot;white-space: normal;&quot;&gt;&lt;img src=&quot;/Storage/Shop/347/Products/1165/remark/f4a52bd9d47c40c98b2062f0e2a7f289.png&quot; title=&quot;3.png&quot;/&gt;&lt;/p&gt;&lt;p style=&quot;white-space: normal;&quot;&gt;&lt;img src=&quot;/Storage/Shop/347/Products/1165/remark/544591798a4e42d29c319b039ac84531.png&quot; title=&quot;4.png&quot;/&gt;&lt;/p&gt;&lt;p style=&quot;white-space: normal;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;" />
+<input type="hidden" id="shopId" value="347" />
+<input type="hidden" id="couponUrl" value="/m-wap/coupon/ShopCouponList" />
+<input type="hidden" id="skuUrl" value="/m-wap/Product/GetSKUInfo" />
+    <script>
+        var winxinShareArgs = {
+            share: {
+                title: '【新天地】北京红星二锅头53度蓝瓶八年陈酿500ml',
+                desc: '【新天地】北京红星二锅头53度蓝瓶八年陈酿500ml',
+                link: location.href,
+                imgUrl: 'http://119.29.164.13:7001//Storage/Shop/347/Products/1165/1_150.png',
+                success: null,
+                cancel: null,
+                fail: null,
+                complete: null,
+                trigger: null
+            }
+        };
+    </script>
+    <!--_WeiXinShare start-->
+    <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="/Areas/Mobile/Templates/Default/Scripts/WeiXinShare.js"></script>
+    <!--_WeiXinShare end-->
+<script src="http://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+<script src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+<script src="/Areas/Mobile/Templates/Default/Scripts/ProductDetail.js"></script>
+<script src="/Areas/Mobile/Templates/Default/Scripts/ProductDistributionBrokerage.js"></script>
+<script src="/Scripts/jquery.cookie.js"></script>
+<script src="/Scripts/jquery.slides.min.js"></script>
+<a class="WX-backtop"></a>
+<div id="ShopCoupon"></div>
+<div id="portfolioCoupon">
+	<div class="modul-popup">
+	    <div class="modul-popup-container sale-popup-container">
+	        <div class="sale-popup-header"></div>
+	        <div class="sale-popup-body">
+	            <div class="modul-scroll">
+	                <table class="sale-table" width="100%">
+	                        <tbody id="activeList">
+	                    	</tbody>
+	                </table>
+                </div>
+	        </div>
+	        <div class="sale-popup-footer">
+	            <a href="javascript:" class="modul-popup-close sale-popup-close"></a>
+	        </div>
+	    </div>
+	</div>
+</div>
+
+
+
+<!--_Aside start-->
+<div id="_Aside_CustomServices">
+</div>
+<script src="/Areas/Mobile/Templates/Default/Scripts/_Aside.js"></script>
+
+	<div class="wx_aside">
+            <!-- 更多 -->
+			<a href="javascript:;" class="btn_more"></a>
+				<div class="wx_aside_item">
+					<a href="/m-Wap" class="home">首页</a>
+					<a href="/m-Wap/Vshop" class="vshop">微店</a>
+					<a href="/m-Wap/Category" class="classify">分类</a>
+					<a href="/m-Wap/Cart/Cart" class="f-cart">购物车</a>
+					<a href="/m-Wap/Member/Center" class="user">个人中心</a>
+				</div>
+	</div>
+<!--_Aside end-->
+
+	<script src="/Scripts/jquery.nicescroll.min.js"></script>
+	<script src="/Areas/Mobile/Templates/Default/Scripts/_Base.js"></script>
+	<link rel="stylesheet" href="/Areas/Mobile/Templates/Default/Content/artdialog.css">
+	<script src="/Scripts/jquery.artDialog.js"></script>
+	<script src="/Scripts/artDialog.iframeTools.js"></script>
+	<script src="/Scripts/jquery.cookie.js"></script>
+	<script src="/Scripts/jquery.scrollLoading.min.js"></script>
+
+		
+
+		<script>
+		(function () {
+			var data= null;
+			if (data) {
+				var callback;
+				if (data.goBack == true)
+					callback = function () { history.go(-1); };
+				var fun;
+				if (data.type == -1)
+					fun='errorTips';
+				else if(data.type==0)
+					fun='alert';
+				else if (data.type == 1)
+					fun='alertTips';
+				else if (data.type == 2)
+					fun='succeedTips';
+				if(fun)
+					$.dialog[fun](data.message,callback,data.time);
+			}
+		})();
+</script>
+	<!--_Base end-->
+</body>
+</html>

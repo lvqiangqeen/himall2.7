@@ -1,0 +1,86 @@
+﻿@model Himall.Web.Areas.Admin.Models.SiteSignInConfigModel
+<link href="~/Content/jquery.onoff.css.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.onoff.min.js"></script>
+<script src="~/Areas/Admin/Scripts/SignSetting.js"></script>
+
+<div class="container clear-v42">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>签到配置</a></li>
+    </ul>
+
+    @using (Ajax.BeginForm("Setting", "SignIn", null
+        , new AjaxOptions { HttpMethod = "post", OnBegin = "beginpost", OnSuccess = "successpost" }
+        , new { @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">开启签到：</label>
+            <div class="col-sm-4">
+                @Html.HiddenFor(model => model.IsEnable)
+                @*<div class="switch switch-mini"><input class="bootstrapSwitch" id="sw_IsEnable" type="checkbox" data-size="mini" data-on-text="开启" data-off-text="关闭" @(Model.IsEnable ? "checked" : "") /></div>*@
+                <input type="checkbox" id="sw_IsEnable" @(Model.IsEnable ? "checked" : "")>
+
+            </div>
+            <div class="col-sm-3">
+                @Html.ValidationMessageFor(model => model.IsEnable, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">签到链接：</label>
+            <div class="col-sm-9">
+                <span id="signlink" class="help-default">@(Request.Url.Scheme + "://" + Request.Url.Authority + "/m-wap/SignIn/")</span>
+                <a id="copylink" href="#">复制链接</a>
+            </div>
+        </div>
+
+        <div class="form-group edititem">
+            <label for="" class="col-sm-2 control-label">每日签到获得积分：</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(m => m.DayIntegral, new { @class = "input-sm w50" })
+            </div>
+            <div class="col-sm-3">
+                @Html.ValidationMessageFor(m => m.DayIntegral, "", new { @class = "help-default cor-red" })
+            </div>
+        </div>
+
+
+        <div class="form-group edititem">
+            <label for="" class="col-sm-2 control-label">连续签到：</label>
+            <div class="col-sm-4">
+                @Html.TextBoxFor(m => m.DurationCycle, new { @class = "input-sm  w50" })
+                天&nbsp;&nbsp;&nbsp;&nbsp;
+                额外奖励积分：
+                @Html.TextBoxFor(m => m.DurationReward, new { @class = "input-sm  w50" })
+            </div>
+            <div class="col-sm-3">
+                @Html.ValidationMessageFor(m => m.DurationCycle, "", new { @class = "help-default cor-red" })
+                @Html.ValidationMessageFor(m => m.DurationReward, "", new { @class = "help-default cor-red" })
+            </div>
+        </div>
+       <!-- <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-9">
+                <label style="color:red;">示例：</label><br>
+                <label>假设使用者每次签到可获得5分，第五次签到除获得每日签到的5积分外会额外获得奖励积分。</label>
+            </div>
+        </div>-->
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" id="btsubmit" class="btn btn-primary">保 存</button>
+            </div>
+        </div>
+    }
+
+</div>
+<input type="hidden" value="@Url.Action("Setting", "SignIn")"  id="UASS"/>
+<input type="hidden" value="@(Model.IsEnable.ToString().ToLower())" id="MITT" />
+@Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery.zclip.js"></script>
+
+<script>
+   
+</script>

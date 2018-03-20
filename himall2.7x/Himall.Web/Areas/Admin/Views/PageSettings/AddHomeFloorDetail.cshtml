@@ -1,0 +1,93 @@
+﻿@model Himall.Web.Areas.Admin.Models.HomeFloorDetail
+@using Himall.Web.Areas.Admin.Models;
+@using System.Linq;
+
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Areas/Admin/Scripts/pageSettings-floorDetail.js"></script>
+
+
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="./HomeFloor">管理</a></li>
+        <li class="active"><a>编辑</a></li>
+    </ul>
+
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>楼层名称：</label>
+            <div class="col-sm-3 form-control-static">
+                <input class="form-control input-xs" type="text" id="FloorName" name="FloorName" value="@ViewBag.FloorName" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">楼层小标题：</label>
+            <div class="col-sm-3 form-control-static">
+                <input class="form-control input-xs" type="text" id="SubName" name="SubName" value="@ViewBag.SubName" />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">图片：</label>
+            <div class="col-sm-9">
+                <table class="table table-bordered clear-v12">
+                    <thead>
+                        <tr>
+                            <th>
+                                区域
+                                <div class="floor-ex-img">
+                                    （<a class="ex-btn">区域划分图</a>）
+                                    <img src="/Images/floor-img1.jpg" />
+                                </div>
+                            </th>
+                            <th>图片</th>
+                            <th>跳转链接</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>广告图1</td>
+                            <td><div class="upload-img" id="one" url="@HimallIO.GetImagePath(Model.ProductLinks.ElementAt(0).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="1" name="url" value="@Model.ProductLinks.ElementAt(0).Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>广告图2</td>
+                            <td><div class="upload-img" id="two" url="@HimallIO.GetImagePath(Model.ProductLinks.ElementAt(1).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="21" name="url" value="@Model.ProductLinks.ElementAt(1).Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>广告图3</td>
+                            <td><div class="upload-img" id="three" url="@HimallIO.GetImagePath(Model.ProductLinks.ElementAt(2).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="22" name="url" value="@Model.ProductLinks.ElementAt(2).Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>广告图4</td>
+                            <td><div class="upload-img" id="four" url="@HimallIO.GetImagePath(Model.ProductLinks.ElementAt(3).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="23" name="url" value="@Model.ProductLinks.ElementAt(3).Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>广告图5</td>
+                            <td><div class="upload-img" id="five" url="@HimallIO.GetImagePath(Model.ProductLinks.ElementAt(4).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="24" name="url" value="@Model.ProductLinks.ElementAt(4).Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>广告图6</td>
+                            <td><div class="upload-img" id="six" url="@HimallIO.GetImagePath(Model.ProductLinks.ElementAt(5).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="25" name="url" value="@Model.ProductLinks.ElementAt(5).Name" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <input type="hidden" name="id" id="homeFloorId" value="@Model.Id" />
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" name="submit" class="btn btn-primary">保存楼层</button>
+            </div>
+        </div>
+    </form>
+</div>

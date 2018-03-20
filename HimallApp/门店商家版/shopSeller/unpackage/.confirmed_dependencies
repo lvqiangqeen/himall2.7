@@ -1,0 +1,1638 @@
+{
+  "user/usercenter.html": {
+    "resources": [
+      "images/default-photo.png",
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/md5.js",
+      "css/account.css"
+    ],
+    "refer": [
+      "login.html",
+      "order-list.html",
+      "user/address.html",
+      "user/user-invite.html",
+      "user/user-favproduct.html",
+      "user/user-favshop.html",
+      "order-refund-list.html",
+      "user/user-account.html",
+      "user/user-coupon.html",
+      "user/aboutus.html",
+      "user/mindex_child.html",
+      "marketing/merge-personal-list.html",
+      "user/history.html",
+      "marketing/merge-any.html",
+      "integral/integral-use.html"
+    ]
+  },
+  "home.html": {
+    "resources": [
+      "images/index-icon1.png",
+      "images/border.png",
+      "images/index-icon2.png",
+      "images/index-icon3.png",
+      "images/logo-bg.png",
+      "js/delayimg.min.js",
+      "js/app.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/mui.ttf",
+      "images/index-icon4.png",
+      "js/swiper.min.js",
+      "js/template.js",
+      "js/md5.js",
+      "fonts/iconfont.ttf"
+    ],
+    "refer": [
+      "topic.html",
+      "detail.html",
+      "limitbuy-list.html",
+      "history.html",
+      "category.html",
+      "topic-detail.html",
+      "marketing/merge-list.html",
+      "integral/integral-home.html",
+      "integral/integral-detail.html",
+      "order-list.html",
+      "user-group.html",
+      "qrcode.html",
+      "product.html",
+      "shop-guide.html",
+      "veeker.html",
+      "check-qrcode.html",
+      "refund-list.html",
+      "store-range.html",
+      "order-send.html"
+    ]
+  },
+  "index.html": {
+    "resources": [
+      "home.html",
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/md5.js",
+      "js/template.js",
+      "images/icon_refund.png",
+      "store.html",
+      "images/icon_wx.png",
+      "images/icon_wxp.png",
+      "images/icon_qq.png"
+    ],
+    "refer": [
+      "user/usercenter.html",
+      "home.html",
+      "vshop/vshop.html",
+      "login.html",
+      "cart-box.html",
+      "search.html",
+      "vshop/vshop-list.html",
+      "qrcode.html",
+      "account.html",
+      "setting.html",
+      "store.html",
+      "store-join.html",
+      "product.html",
+      "goods-repertory.html",
+      "order-list.html",
+      "check-qrcode.html",
+      "refund-list.html",
+      "product-detail.html",
+      "seller-product.html",
+      "message.html"
+    ]
+  },
+  "vshop/vshop.html": {
+    "resources": [
+      "js/delayimg.min.js",
+      "images/blank.gif",
+      "images/logo-bg.png",
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/md5.js",
+      "js/template.js"
+    ],
+    "refer": [
+      "detail.html",
+      "vshop/vshop-detail.html",
+      "vshop/vshop-list.html"
+    ]
+  },
+  "login.html": {
+    "resources": [
+      "images/weixin.png",
+      "images/qq.png",
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "css/account.css",
+      "js/md5.js"
+    ],
+    "refer": [
+      "cart-box.html",
+      "reg.html",
+      "bind-login.html",
+      "user/user-account.html",
+      "order-refund-list.html",
+      "forget-password.html",
+      "user/user-favproduct.html",
+      "user/history.html",
+      "web-show.html",
+      "index.html"
+    ]
+  },
+  "cart.html": {
+    "resources": [
+      "images/blank.gif",
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/md5.js",
+      "js/template.js"
+    ],
+    "refer": [
+      "order-submit.html",
+      "detail.html",
+      "vshop/vshop-detail.html"
+    ]
+  },
+  "cart-box.html": {
+    "resources": [
+      "cart.html",
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/md5.js"
+    ],
+    "refer": [
+      "cart.html"
+    ]
+  },
+  "order-submit.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "images/blank.gif",
+      "js/md5.js"
+    ],
+    "refer": [
+      "detail.html",
+      "order-list.html",
+      "user/address.html"
+    ]
+  },
+  "detail.html": {
+    "resources": [
+      "js/mui.zoom.js",
+      "js/mui.previewimage.js",
+      "fonts/iconfont.ttf",
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "images/logo.png",
+      "images/blank.gif",
+      "js/delayimg.min.js",
+      "js/template.js",
+      "js/md5.js",
+      "js/swiper.min.js",
+      "/images/blank.gif"
+    ],
+    "refer": [
+      "cart-box.html",
+      "order-submit.html",
+      "vshop/vshop-detail.html",
+      "product-comment.html",
+      "vshop/vshop-coupon.html",
+      "login.html",
+      "marketing/merge-detail.html"
+    ]
+  },
+  "order-list.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "images/blank.gif",
+      "images/bonus-box.png",
+      "js/template.js",
+      "js/md5.js",
+      "js/swiper.min.js"
+    ],
+    "refer": [
+      "detail.html",
+      "order-detail.html",
+      "order-evaluate.html",
+      "vshop/vshop-detail.html",
+      "order-evaluate-append.html",
+      "goods-deliver.html",
+      "order-details.html",
+      "logistics.html"
+    ]
+  },
+  "topic.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "images/blank.gif",
+      "js/md5.js"
+    ],
+    "refer": [
+      "topic-detail.html"
+    ]
+  },
+  "topic-detail.html": {
+    "resources": [
+      "images/logo-bg.png",
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css"
+    ],
+    "refer": [
+      "detail.html"
+    ]
+  },
+  "vshop/vshop-detail.html": {
+    "resources": [
+      "images/flow.png",
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "images/blank.gif",
+      "images/logo-bg.png",
+      "js/md5.js",
+      "js/template.js",
+      "js/swiper.min.js"
+    ],
+    "refer": [
+      "detail.html",
+      "vshop/vshop-search.html",
+      "vshop/vshop-category.html",
+      "vshop/vshop-intro.html",
+      "login.html"
+    ]
+  },
+  "order-evaluate.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/lrz.bundle.js",
+      "js/2.chunk.js"
+    ],
+    "refer": [
+      "detail.html"
+    ]
+  },
+  "user/user-invite.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "images/invite_bg.png",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/md5.js"
+    ],
+    "refer": []
+  },
+  "user/address.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/md5.js"
+    ],
+    "refer": [
+      "user/address-add.html",
+      "user/address-edit.html"
+    ]
+  },
+  "order-detail.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "images/blank.gif",
+      "images/bonus.png",
+      "js/template.js",
+      "js/md5.js"
+    ],
+    "refer": [
+      "detail.html",
+      "order-refund.html",
+      "vshop/vshop-detail.html",
+      "order-evaluate-append.html"
+    ]
+  },
+  "search.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "images/logo-bg.png",
+      "js/md5.js",
+      "js/template.js"
+    ],
+    "refer": [
+      "detail.html"
+    ]
+  },
+  "user/address-add.html": {
+    "resources": [
+      "js/mui.poppicker.js",
+      "js/mui.listpicker.js",
+      "css/mui.listpicker.css",
+      "js/Region.js",
+      "css/mui.poppicker.css",
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/md5.js"
+    ],
+    "refer": []
+  },
+  "user/user-favproduct.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "images/logo-bg.png",
+      "js/md5.js"
+    ],
+    "refer": [
+      "detail.html"
+    ]
+  },
+  "user/user-favshop.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/mui.ttf",
+      "images/logo-bg.png",
+      "js/md5.js"
+    ],
+    "refer": [
+      "vshop/vshop-detail.html"
+    ]
+  },
+  "vshop/vshop-list.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "images/blank.gif",
+      "images/logo-bg.png",
+      "js/md5.js"
+    ],
+    "refer": [
+      "vshop/vshop-detail.html"
+    ]
+  },
+  "order-evaluate-append.html": {
+    "resources": [
+      "js/lrz.bundle.js",
+      "js/2.chunk.js",
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/mui.ttf"
+    ],
+    "refer": []
+  },
+  "product-comment.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.zoom.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/mui.previewimage.js",
+      "css/style.css",
+      "images/blank.gif"
+    ],
+    "refer": []
+  },
+  "bind-login.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "css/account.css"
+    ],
+    "refer": []
+  },
+  "order-refund.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/mui.ttf",
+      "js/template.js"
+    ],
+    "refer": []
+  },
+  "vshop/vshop-search.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "images/logo-bg.png",
+      "js/md5.js",
+      "js/template.js"
+    ],
+    "refer": [
+      "detail.html"
+    ]
+  },
+  "order-refund-list.html": {
+    "resources": [
+      "js/delayimg.min.js",
+      "images/blank.gif",
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/md5.js"
+    ],
+    "refer": [
+      "vshop/vshop-detail.html",
+      "order-refund-detail.html"
+    ]
+  },
+  "order-refund-detail.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js"
+    ],
+    "refer": [
+      "order-refund.html"
+    ]
+  },
+  "user/user-account.html": {
+    "resources": [
+      "images/invite_bg.png",
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css"
+    ],
+    "refer": [
+      "user/change-password.html",
+      "user/bind-phone.html"
+    ]
+  },
+  "user/change-password.html": {
+    "resources": [
+      "css/account.css",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/app.js",
+      "js/mui.min.js"
+    ],
+    "refer": []
+  },
+  "user/bind-phone.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/account.css",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/md5.js"
+    ],
+    "refer": []
+  },
+  "reg.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/account.css",
+      "css/mui.min.css",
+      "css/style.css",
+      "images/blank.gif",
+      "js/md5.js"
+    ],
+    "refer": []
+  },
+  "limitbuy-list.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "js/app.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/delayimg.min.js",
+      "images/logo-bg.png",
+      "js/md5.js"
+    ],
+    "refer": [
+      "detail.html"
+    ]
+  },
+  "history.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "images/logo-bg.png"
+    ],
+    "refer": [
+      "detail.html"
+    ]
+  },
+  "vshop/vshop-coupon.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/md5.js"
+    ],
+    "refer": [
+      "login.html"
+    ]
+  },
+  "category.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "images/default.png",
+      "js/md5.js"
+    ],
+    "refer": [
+      "search.html"
+    ]
+  },
+  "user/user-coupon.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/md5.js"
+    ],
+    "refer": [
+      "vshop/vshop-detail.html"
+    ]
+  },
+  "user/address-edit.html": {
+    "resources": [
+      "js/mui.poppicker.js",
+      "js/mui.listpicker.js",
+      "css/mui.listpicker.css",
+      "js/Region.js",
+      "css/mui.poppicker.css",
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/mui.picker.js",
+      "css/mui.picker.min.css",
+      "js/md5.js"
+    ],
+    "refer": []
+  },
+  "vshop/vshop-category.html": {
+    "refer": [
+      "vshop/vshop-search.html"
+    ],
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/md5.js",
+      "js/template.js"
+    ]
+  },
+  "user/aboutus.html": {
+    "resources": [
+      "js/app.js",
+      "images/a1.png",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "images/a2.png",
+      "css/mui.min.css",
+      "css/style.css"
+    ],
+    "refer": []
+  },
+  "user/mindex_child.html": {
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/style.css"
+    ],
+    "refer": []
+  },
+  "marketing/merge-list.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "images/merge.png",
+      "js/delayimg.min.js",
+      "images/merge-list-thumb-mask.png",
+      "js/app.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/style.css",
+      "images/merge-not.jpg",
+      "js/md5.js"
+    ],
+    "refer": [
+      "marketing/merge-detail.html"
+    ]
+  },
+  "marketing/merge-detail.html": {
+    "resources": [
+      "js/mui.zoom.js",
+      "js/mui.previewimage.js",
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "images/merge.png",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/swiper.min.js",
+      "js/md5.js",
+      "images/blank.gif",
+      "/images/blank.gif",
+      "js/delayimg.min.js"
+    ],
+    "refer": [
+      "order-submit.html",
+      "login.html",
+      "vshop/vshop-detail.html",
+      "detail.html",
+      "product-comment.html"
+    ]
+  },
+  "marketing/merge-personal-list.html": {
+    "resources": [
+      "images/merge.png",
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/md5.js"
+    ],
+    "refer": [
+      "marketing/merge-personal-detail.html",
+      "order-detail.html"
+    ]
+  },
+  "marketing/merge-personal-detail.html": {
+    "resources": [
+      "images/merge-personal-detail-line.png",
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "images/merge.png",
+      "fonts/iconfont.ttf",
+      "js/md5.js",
+      "images/blank.gif"
+    ],
+    "refer": [
+      "product-comment.html"
+    ]
+  },
+  "forget-password.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/account.css",
+      "css/mui.min.css",
+      "css/style.css",
+      "images/blank.gif",
+      "js/md5.js"
+    ],
+    "refer": []
+  },
+  "user/history.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "images/logo-bg.png",
+      "js/md5.js"
+    ],
+    "refer": [
+      "detail.html"
+    ]
+  },
+  "marketing/merge-any.html": {
+    "resources": [
+      "images/merge-any.jpg",
+      "js/app.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/mui.ttf"
+    ],
+    "refer": []
+  },
+  "integral/integral-home.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "js/swiper.min.js",
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "fonts/iconfont.ttf",
+      "images/logo-bg.png",
+      "images/integral1.png",
+      "images/integral2.png",
+      "images/inte-icon.png",
+      "images/blank.gif",
+      "js/md5.js"
+    ],
+    "refer": [
+      "integral/gift-list.html",
+      "integral/integral-coupon.html",
+      "integral/integral-detail.html",
+      "integral/integral-order.html",
+      "integral/integral-use.html",
+      "login.html",
+      "web-show.html"
+    ]
+  },
+  "integral/gift-list.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "fonts/iconfont.ttf",
+      "images/logo-bg.png"
+    ],
+    "refer": []
+  },
+  "integral/integral-coupon.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "images/logo-bg.png"
+    ],
+    "refer": []
+  },
+  "integral/integral-detail.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.zoom.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/mui.previewimage.js",
+      "css/style.css",
+      "js/template.js",
+      "js/swiper.min.js"
+    ],
+    "refer": [
+      "login.html",
+      "integral/integral-submit.html"
+    ]
+  },
+  "integral/integral-submit.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js"
+    ],
+    "refer": [
+      "user/address.html",
+      "integral/integral-order.html"
+    ]
+  },
+  "integral/integral-order.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "fonts/iconfont.ttf"
+    ],
+    "refer": [
+      "integral/integral-order-detail.html"
+    ]
+  },
+  "integral/integral-order-detail.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "fonts/iconfont.ttf"
+    ],
+    "refer": []
+  },
+  "integral/integral-use.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "js/md5.js"
+    ],
+    "refer": [
+      "integral/integral-order.html"
+    ]
+  },
+  "web-show.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css"
+    ],
+    "refer": []
+  },
+  "vshop/vshop-intro.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/md5.js",
+      "js/template.js"
+    ],
+    "refer": []
+  },
+  "qrcode.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "js/app.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/style.css"
+    ],
+    "refer": [
+      "order-check.html"
+    ]
+  },
+  "user-group.html": {
+    "resources": [
+      "js/delayimg.min.js",
+      "images/blank.gif",
+      "js/app.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "js/md5.js",
+      "fonts/mui.ttf",
+      "fonts/iconfont.ttf"
+    ],
+    "refer": [
+      "user-list.html"
+    ]
+  },
+  "user-list.html": {
+    "resources": [
+      "images/default.png",
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/template.js",
+      "js/md5.js",
+      "images/user.png"
+    ],
+    "refer": [
+      "user-detail.html",
+      "shop-guide.html"
+    ]
+  },
+  "user-detail.html": {
+    "resources": [
+      "images/user.png",
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/template.js",
+      "js/md5.js"
+    ],
+    "refer": [
+      "user-data.html"
+    ]
+  },
+  "user-data.html": {
+    "resources": [
+      "images/user.png",
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/template.js",
+      "js/md5.js"
+    ],
+    "refer": []
+  },
+  "store.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/template.js",
+      "js/md5.js"
+    ],
+    "refer": []
+  },
+  "account.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "fonts/iconfont.ttf",
+      "js/template.js",
+      "js/app.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/md5.js",
+      "images/icon_sz.png",
+      "images/icon_history.png"
+    ],
+    "refer": [
+      "account-nosettled.html",
+      "account-settled.html",
+      "account-history.html",
+      "account-inout.html",
+      "withdraw-apply.html"
+    ]
+  },
+  "setting.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "js/app.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "js/md5.js",
+      "fonts/iconfont.ttf"
+    ],
+    "refer": [
+      "login.html",
+      "change-password.html",
+      "shop-info.html",
+      "account-manage.html",
+      "bind-phone.html"
+    ]
+  },
+  "order-check.html": {
+    "resources": [
+      "js/delayimg.min.js",
+      "fonts/iconfont.ttf",
+      "js/template.js",
+      "images/blank.gif",
+      "js/md5.js",
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css"
+    ],
+    "refer": []
+  },
+  "product.html": {
+    "resources": [
+      "js/delayimg.min.js",
+      "images/logo-bg.png",
+      "js/app.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "js/md5.js",
+      "fonts/mui.ttf",
+      "fonts/iconfont.ttf",
+      "images/icon_share.png",
+      "images/blank.gif",
+      "images/icon_wx.png",
+      "images/icon_wxp.png",
+      "images/icon_qq.png",
+      "js/swiper.min.js",
+      "js/jquery-1.12.0.min.js"
+    ],
+    "refer": [
+      "setRepertory.html",
+      "product-detail.html"
+    ]
+  },
+  "shop-guide.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/template.js",
+      "js/md5.js"
+    ],
+    "refer": []
+  },
+  "veeker.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "js/md5.js"
+    ],
+    "refer": [
+      "shop-guide.html"
+    ]
+  },
+  "check-qrcode.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "check-qrcode-sub.html"
+    ],
+    "refer": [
+      "check-qrcode-sub.html",
+      "check-input.html",
+      "check-order.html"
+    ]
+  },
+  "refund-list.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/template.js",
+      "images/logo-bg.png",
+      "js/md5.js",
+      "images/blank.gif"
+    ],
+    "refer": [
+      "refund-detail.html",
+      "logistics.html"
+    ]
+  },
+  "check-qrcode-sub.html": {
+    "refer": [
+      "check-input.html"
+    ],
+    "resources": []
+  },
+  "check-input.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css"
+    ],
+    "refer": [
+      "check-order.html"
+    ]
+  },
+  "check-order.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/template.js",
+      "images/blank.gif",
+      "js/md5.js"
+    ],
+    "refer": []
+  },
+  "store-join.html": {
+    "resources": [
+      "js/template.js",
+      "fonts/iconfont.ttf",
+      "js/app.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/md5.js"
+    ],
+    "refer": []
+  },
+  "store-range.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/template.js",
+      "js/md5.js"
+    ],
+    "refer": []
+  },
+  "order-send.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/template.js",
+      "images/blank.gif",
+      "js/md5.js"
+    ],
+    "refer": []
+  },
+  "change-password.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/account.css",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/md5.js"
+    ],
+    "refer": []
+  },
+  "goods-repertory.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/template.js",
+      "images/blank.gif",
+      "js/md5.js"
+    ],
+    "refer": []
+  },
+  "setRepertory.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "js/md5.js"
+    ]
+  },
+  "product-detail.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/template.js",
+      "js/md5.js",
+      "js/mui.zoom.js",
+      "js/mui.previewimage.js",
+      "js/swiper.min.js",
+      "images/icon_wx.png",
+      "images/icon_wxp.png",
+      "images/icon_qq.png"
+    ],
+    "refer": [
+      "setRepertory.html"
+    ]
+  },
+  "shop-info.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.picker.js",
+      "js/mui.min.js",
+      "js/mui.poppicker.js",
+      "fonts/mui.ttf",
+      "js/region.js",
+      "css/account.css",
+      "css/mui.min.css",
+      "css/style.css",
+      "css/mui.poppicker.css",
+      "css/mui.picker.css",
+      "js/md5.js",
+      "js/mui.listpicker.js",
+      "css/mui.listpicker.css"
+    ]
+  },
+  "account-nosettled.html": {
+    "resources": [
+      "fonts/iconfont.ttf",
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "js/md5.js"
+    ]
+  },
+  "account-settled.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/template.js",
+      "js/md5.js"
+    ],
+    "refer": [
+      "account-detail.html"
+    ]
+  },
+  "account-detail.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "js/md5.js",
+      "fonts/mui.ttf"
+    ]
+  },
+  "account-history.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "js/md5.js"
+    ],
+    "refer": [
+      "account-settled.html"
+    ]
+  },
+  "account-inout.html": {
+    "resources": [
+      "images/icon_service.png",
+      "images/icon_recharge.png",
+      "images/icon_refund.png",
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "images/icon_withdraw.png",
+      "js/template.js",
+      "images/icon_in.png",
+      "js/md5.js"
+    ]
+  },
+  "withdraw-apply.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "js/md5.js",
+      "images/blank.gif"
+    ],
+    "refer": [
+      "withdraw-account-bind1.html"
+    ]
+  },
+  "account-manage.html": {
+    "resources": [
+      "js/mui.min.js",
+      "js/template.js",
+      "js/md5.js",
+      "js/app.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css"
+    ],
+    "refer": [
+      "withdraw-account-bind1.html"
+    ]
+  },
+  "withdraw-account-bind1.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "js/md5.js",
+      "images/blank.gif",
+      "fonts/iconfont.ttf"
+    ],
+    "refer": [
+      "bind-phone.html",
+      "withdraw-account-bind2.html"
+    ]
+  },
+  "refund-detail.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "js/md5.js",
+      "images/blank.gif",
+      "js/delayimg.min.js",
+      "js/mui.zoom.js",
+      "js/mui.previewimage.js"
+    ],
+    "refer": [
+      "refund-logs.html"
+    ]
+  },
+  "refund-logs.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "js/md5.js",
+      "js/delayimg.min.js",
+      "images/icon_top.png"
+    ]
+  },
+  "seller-product.html": {
+    "resources": [
+      "js/app.js",
+      "js/delayimg.min.js",
+      "images/icon_wxp.png",
+      "fonts/mui.ttf",
+      "images/icon_qq.png",
+      "css/style.css",
+      "js/swiper.min.js",
+      "images/icon_share.png",
+      "images/icon_wx.png",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "fonts/iconfont.ttf",
+      "images/blank.gif",
+      "js/template.js",
+      "js/md5.js"
+    ],
+    "refer": [
+      "setRepertory.html",
+      "product-detail.html"
+    ]
+  },
+  "bind-phone.html": {
+    "resources": [
+      "images/blank.gif",
+      "js/md5.js",
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css"
+    ]
+  },
+  "withdraw-account-bind2.html": {
+    "refer": [
+      "withdraw-account-bind3.html"
+    ]
+  },
+  "withdraw-account-bind3.html": {
+    "resources": [
+      "images/success.png"
+    ]
+  },
+  "goods-deliver.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.zoom.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/mui.previewimage.js",
+      "css/style.css",
+      "fonts/iconfont.ttf",
+      "js/template.js",
+      "js/md5.js",
+      "fonts/iconfont_2.ttf",
+      "images/border_line.png"
+    ],
+    "refer": [
+      "qrcode.html"
+    ]
+  },
+  "logistics.html": {
+    "resources": [
+      "fonts/iconfont_2.ttf",
+      "images/border_line.png",
+      "js/mui.zoom.js",
+      "js/mui.previewimage.js",
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "js/md5.js"
+    ]
+  },
+  "order-details.html": {
+    "resources": [
+      "fonts/iconfont_2.ttf",
+      "js/app.js",
+      "js/delayimg.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/template.js",
+      "js/md5.js",
+      "images/blank.gif"
+    ],
+    "refer": [
+      "goods-deliver.html"
+    ]
+  },
+  "message.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "fonts/iconfont_2.ttf",
+      "css/style.css",
+      "js/template.js",
+      "js/md5.js"
+    ],
+    "refer": [
+      "order-details.html",
+      "refund-detail.html"
+    ]
+  }
+}

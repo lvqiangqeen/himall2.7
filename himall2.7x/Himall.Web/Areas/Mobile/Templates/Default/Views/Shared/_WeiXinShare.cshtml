@@ -1,0 +1,51 @@
+﻿@{
+	var weixinShareArgs = this.WeiXinShareArgs;
+}
+@if (weixinShareArgs != null)
+{
+	<!--_WeiXinShare start-->
+	<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script src="~/Areas/Mobile/Templates/Default/Scripts/WeiXinShare.js"></script>
+	<script>
+		(function(){
+			this.winxinShareArgs=window.winxinShareArgs;
+			if(this.winxinShareArgs){
+				this.winxinShareArgs=$.extend({
+					appId: '@weixinShareArgs.AppId',
+					timestamp: '@weixinShareArgs.Timestamp',
+					noncestr: '@weixinShareArgs.NonceStr',
+					signature: '@weixinShareArgs.Signature',
+					success: null,
+					error: null,
+					share: {
+						title: document.title,
+						desc: null,
+						link: location.href,
+						imgUrl: null,
+						success: null,
+						cancel: null,
+						fail: null,
+						complete: null,
+						trigger: null
+					}
+				},this.winxinShareArgs);
+
+				if(this.winxinShareArgs.share.imgUrl==null||this.winxinShareArgs.share.imgUrl=='')
+					this.winxinShareArgs.share.imgUrl=location.origin+'/Areas/Mobile/Templates/Default/Images/default.png';
+
+				//初始化微信分享
+				initWinxin(this.winxinShareArgs);
+			}
+		})();
+	</script>
+	<!--_WeiXinShare end-->
+}
+else
+{
+    <script>
+        if(loading)
+        {
+            loading.close();
+        }
+	</script>
+}

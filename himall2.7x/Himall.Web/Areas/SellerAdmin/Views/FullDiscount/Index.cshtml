@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "活动列表";
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<div class="container clear-v20">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>活动列表</a></li>
+        <li class=""><a href="@Url.Action("AddActive")">新增满额减</a></li>
+        <li class=""><a href="@Url.Action("BuyMarketService")">购买服务</a></li>
+    </ul>
+
+    <div class="search-box only-line" id="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">活动状态</label>
+                <select id="selactivestatus" class="form-control input-ssm">
+                    <option value="">请选择</option>
+                    <option value="@(Himall.CommonModel.FullDiscountStatus.Ongoing.GetHashCode())">进行中</option>
+                    <option value="@(Himall.CommonModel.FullDiscountStatus.WillStart.GetHashCode())">未开始</option>
+                    <option value="@(Himall.CommonModel.FullDiscountStatus.Ending.GetHashCode())">已结束</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">活动名称</label>
+                <input class="form-control input-ssm" type="text" id="txtactivename">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">开始时间</label>
+                <input id="txtStartDate" class="form-control input-ssm start_datetime" readonly type="text">
+                <label class="label-inline-line" for="">-</label>
+                <input id="txtEndDate" class="form-control input-ssm end_datetime" readonly type="text">
+            </div>
+            <div class="form-group"><button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button></div>
+        </form>
+    </div>
+
+    <table id="list" class="table"></table>
+</div>
+
+<div id="linkshowcon" class="hide">
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.TextBox("linkurl", "", new { @class = "form-control input-sm" })
+        </div>
+        <div class="col-sm-12">
+            <center><img src="#" id="linkqrpic" height="260" /></center>
+        </div>
+    </div>
+</div>
+
+@Html.Hidden("dataurl", Url.Action("PostActiveList"))
+@Html.Hidden("delurl", Url.Action("PostActiveDelete"))
+<script type="text/javascript" src="~/Areas/SellerAdmin/Scripts/FullDiscountIndex.js"></script>

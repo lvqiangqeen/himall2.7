@@ -1,0 +1,217 @@
+﻿@using Himall.Model;
+@using Himall.CommonModel;
+
+@model List<ProductView>
+@{
+    ViewBag.Title = ViewBag.keywords + "  商品搜索";
+    PagingInfo CurPageInfo = (PagingInfo)ViewBag.pageInfo;
+}
+
+<div class="w main">
+    @if (null != Model && Model.Count() != 0)
+    {
+        <div class="crumb">
+            <div class="crumb-content left"><strong>全部结果&nbsp;&nbsp;&gt;&nbsp;&nbsp;</strong><em id="searchKeywords">@ViewBag.keywords</em></div>
+            <ul class="select-value left"></ul>
+            <span class="total-p">共<strong id="res_count">@(CurPageInfo.TotalItems)</strong>个商品</span>
+        </div>
+
+        <div class="S-content-b">
+            <div class="left">
+                <div class="m" id="refilter">
+                    <div class="mt">
+                        <h2>所有类目</h2>
+                    </div>
+                    <div class="mc" id="categorylist">
+                    </div>
+                </div>
+            </div>
+            <div class="right-extra">
+                <div class="clr"></div>
+                <div class="RC-top">
+                    <div class="m" id="brandlist" style="display:none;">
+                        <div class="brand-attr">
+                            <div class="attr">
+                                <div class="a-key">品牌：</div>
+                                <div class="a-values">
+                                    <div class="v-fold">
+                                        <ul class="f-list"></ul>
+                                    </div>
+                                    <div class="v-option">
+                                        <span class="o-more"><b></b></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mc">
+                            <div class="prop-attrs" id="attrlist">
+                            </div>
+                            <div class="clr"></div>
+                        </div>
+                        <div class="mb undis" id="advanced" style="cursor:pointer;">
+                            <div class="attr-extra"><div>更多选项<b></b></div></div>
+                        </div>
+                    </div>
+                    @{
+                        var count = (CurPageInfo).TotalPages;
+                        var curr = (CurPageInfo).CurrentPage;
+                    }
+                </div>
+
+                <!--显示已选条件及属性-->
+                <div class="clr"></div>
+                <div id="filter">
+                    <div class="fore1">
+                        <dl class="order">
+                            <dd class="@(ViewBag.orderKey==1?"curr":"")"><a href="@Url.Action("SearchAd", "Search", new{pageNo=1,keywords = ViewBag.keywords,cid = ViewBag.cid,b_id = ViewBag.b_Id,a_id =ViewBag.a_id,orderType = 2,orderKey = 1})" onclick="">默认</a><b></b></dd>
+                            <dd class="@(ViewBag.orderKey==2?"curr":"") order-num">
+                                <a href="@Url.Action("SearchAd", "Search", new{pageNo=1,keywords = ViewBag.keywords,cid = ViewBag.cid,b_id = ViewBag.b_Id,a_id =ViewBag.a_id,orderType = ((int)ViewBag.orderType) == 2 ? 1 : 2,orderKey = 2})">成交量</a><b></b>
+                            </dd>
+                            <dd class="@(ViewBag.orderKey==3?"curr":"") pro-price">
+                                <a href="@Url.Action("SearchAd", "Search", new{pageNo=1,keywords = ViewBag.keywords,cid = ViewBag.cid,b_id = ViewBag.b_Id,a_id =ViewBag.a_id,orderType = ((int)ViewBag.orderType) == 2 ? 1 : 2,orderKey = 3})">价格</a><b></b>
+                            </dd>
+                            <dd class="@(ViewBag.orderKey==4?"curr":"") pro-comment">
+                                <a href="@Url.Action("SearchAd", "Search", new{pageNo=1,keywords = ViewBag.keywords,cid = ViewBag.cid,b_id = ViewBag.b_Id,a_id =ViewBag.a_id,orderType = ((int)ViewBag.orderType) == 2 ? 1 : 2,orderKey = 4})">评论数</a><b></b>
+                            </dd>
+                            <dd class="@(ViewBag.orderKey==5?"curr":"")">
+                                <a href="@Url.Action("SearchAd", "Search", new{pageNo=1,keywords = ViewBag.keywords,cid = ViewBag.cid,b_id = ViewBag.b_Id,a_id =ViewBag.a_id,orderType = 2,orderKey = 5})">上架时间</a><b></b>
+                            </dd>
+                        </dl>
+                        <div class="pagin pagin-m search-page">
+                            <span class="text">
+                            <a href="@Url.Action("SearchAd", "Search", new { pageNo = (@curr-1)==0?1:@curr-1, keywords = ViewBag.keywords, cid = ViewBag.cid, b_id = ViewBag.b_Id, a_id = ViewBag.a_id, orderType = ViewBag.orderType, orderKey = ViewBag.orderKey })"><</a>
+                            <i>@curr</i>/@count
+                            <a href="@Url.Action("SearchAd", "Search", new { pageNo = (@curr + 1) > @count ? @count : @curr + 1, keywords = ViewBag.keywords, cid = ViewBag.cid, b_id = ViewBag.b_Id, a_id = ViewBag.a_id, orderType = ViewBag.orderType, orderKey = ViewBag.orderKey })">></a>
+                            </span>
+                        </div>
+                        <span class="clr"></span>
+                    </div>
+
+                </div>
+
+                <div class="m psearch prebuy plist-n7 no-preview" id="plist">
+                    <ul class="list-h cl">
+                        @foreach (var product in Model)
+                        {
+                            <li class="clearfix">
+                                <div class="lh-wrap">
+                                    <div class="p-img">
+                                        <a target="_blank" href="~/Product/Detail/@product.ProductId">
+                                            @if (ViewBag.IsOSS)
+                                            {
+                                                <img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetProductSizeImage(product.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_220)">
+                                            }
+                                            else
+                                            {
+                                                <img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Path.Combine(product.ImagePath,"1_220.png")">
+                                            }
+                                        </a>
+                                        <div shop_id="0"></div>
+                                    </div>
+                                    <div class="p-price" shopId="@product.ShopId" productId="@product.ProductId" price="@product.SalePrice.ToString("F2")">
+                                        <strong>￥@product.SalePrice.ToString("f2")</strong>
+                                        <label style="float:right" id="lblOrderCount_@product.ProductId">成交 <b> @product.SaleCount </b>笔</label>
+                                    </div>
+                                    <div class="p-name">
+                                        <a target="_blank" href="~/Product/Detail/@product.ProductId">
+                                            @product.ProductName
+                                        </a>
+                                    </div>
+                                    <div class="p-shop-N">
+                                        <label class="SN" id="lblShopName_@product.ProductId"><a href="~/Shop/Home/@product.ShopId">@product.ShopName</a></label>
+                                        <label class="shop-cart" id="addCart_@product.ProductId"><i></i></label>
+                                    </div>
+                                </div>
+                                <div class="scale-img">
+                                    @{
+                                        int num = 0;
+                                        for (int i = 2; i < 6; i++)
+                                        {
+                                            num++;
+                                            if (ViewBag.IsOSS)
+                                            {
+                                                <a href="javascript:;"><img class="lazyload" onerror="$(this).parent().remove();" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetProductSizeImage(product.ImagePath, i, (int)Himall.CommonModel.ImageSize.Size_50)" data-url-max="@Himall.Core.HimallIO.GetProductSizeImage(product.ImagePath, i, (int)Himall.CommonModel.ImageSize.Size_220)" /></a>
+                                            }
+                                            else
+                                            {
+                                                <a href="javascript:;"><img class="lazyload" onerror="$(this).parent().remove();" src="~/Areas/Web/images/blank.gif" data-url="@Path.Combine(product.ImagePath, i.ToString() + "_50.png")" data-url-max="@Path.Combine(product.ImagePath,i.ToString() + "_220.png")" /></a>
+                                            }
+                                        }
+                                    }
+                                </div>
+                            </li>
+                       }
+                    </ul>
+                </div>
+                <div class="m clearfix" id="bottom_pager">
+                    <div id="pagin-btm" class="pagin fr">
+                        @Html.PageLinks((PagingInfo)ViewBag.pageInfo, x => Url.Action("SearchAd", new { pageNo = x, keywords = ViewBag.keywords, cid = ViewBag.cid, b_id = ViewBag.b_id, a_id = ViewBag.a_id, orderType = ViewBag.orderType, orderKey = ViewBag.orderKey }))<span class="page-skip">
+                            <em>&nbsp;&nbsp;共 </em><em id="pageCount">@count</em><em>&nbsp;页&nbsp;&nbsp;&nbsp;&nbsp;到第</em>
+                            <input class="jumpto" type="text" value="@curr" id="jumpInput">
+                            <em>页</em>
+                            <a class="btn-skipsearch" id="pageJump" href="javascript:;">确定</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <span class="clr"></span>
+        </div>
+
+                                        }
+                                        else
+                                        {
+                                            <div class="w main">
+                                                <div class="notice-search">
+                                                    <span class="ns-icon"></span>
+                                                    <div class="ns-content">
+                                                        <span>抱歉，没有找到符合条件的商品</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="w footmark">
+
+                                                <div class="m recent-view">
+                                                    <div class="mt">
+                                                        <h2 class="title">最近浏览</h2>
+
+                                                    </div>
+                                                    <div class="mc">
+                                                        <ul class="recent-view-list clearfix">
+                                                            @if (null != ViewBag.BrowsedHistory)
+                                                            {
+                                                                foreach (var item in (List<Himall.Web.Areas.Web.Models.ProductBrowsedHistoryModel>)ViewBag.BrowsedHistory)
+                                                                {
+                                                                    if (item != null)
+                                                                    {
+                                                                        <li>
+                                                                            <div class="p-img">
+                                                                                <a href="@Url.Action("Detail", "Product", new { id = item.ProductId })" title="" target="_blank">
+                                                                                    <img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetProductSizeImage(item.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_150)" alt="" width="70" height="70" />
+                                                                                </a>
+                                                                            </div>
+                                                                            <div class="p-price">￥@item.ProductPrice.ToString("f2")</div>
+                                                                        </li>
+                                                                    }
+                                                                }
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+</div>
+
+<script type="text/javascript">
+    var a_id = '@ViewBag.a_id';
+    var b_id = '@ViewBag.b_id';
+    var cid = '@ViewBag.cid';
+    var keyword = '@ViewBag.keywords';
+    var orderKey = '@ViewBag.orderKey';
+    var orderType = '@ViewBag.orderType';
+</script>
+
+<![if !(IE 8)]> 
+ <script src="/Scripts/jquery.fly.js"></script>
+<![endif]> 
+
+<script src="~/Areas/Web/Scripts/productSearch.js"></script>

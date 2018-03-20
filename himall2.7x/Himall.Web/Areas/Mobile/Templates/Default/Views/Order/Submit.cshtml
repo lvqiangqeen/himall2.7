@@ -1,0 +1,602 @@
+﻿@{
+    ViewBag.Title = "订单提交";
+    var model = (Himall.DTO.MobileOrderDetailConfirmModel)ViewBag.ConfirmModel;
+    var products = model.products;
+    //var products = (IEnumerable<Himall.DTO.MobileShopCartItemModel>)ViewBag.ConfirmModel.products;
+}
+
+<link rel="stylesheet" href="/Areas/Mobile/Templates/Default/Content/bootstrap-switch.css">
+<script src="~/Areas/Mobile/Templates/Default/Scripts/bootstrap-switch.min.js"></script>
+<input id="icod" type="hidden" value="@ViewBag.IsCashOnDelivery.ToString()" />
+<input id="total" type="hidden" value="@ViewBag.ConfirmModel.orderAmount.ToString( "F2" )" />
+
+<div class="container submit-cart">
+    @{
+        var defaultAddress = ViewBag.address as Himall.Model.ShippingAddressInfo;
+    }
+    @if (defaultAddress != null)
+    {
+        <a href="@Url.Action("ChooseShippingAddress", "Order", new { area = "mobile" })?isOrder=1" class="street-well" id="choiceAddr">
+            <p id="selectedAddress">@defaultAddress.ShipTo <i class="glyphicon glyphicon-menu-right"></i><span>@defaultAddress.Phone</span></p>
+            <p class="address">@defaultAddress.RegionFullName &nbsp; &nbsp;@defaultAddress.Address&nbsp;</p>
+            <i class="icon"></i>
+        </a>
+    }
+    else
+    {
+        <a class="street-well" id="choiceAddr" href="@Url.Action("ChooseShippingAddress", "Order", new { area = "mobile" })?isOrder=1">
+            <p>您还没有填写收货地址<spa style="color:red">去新增</spa></p>
+        </a>
+    }
+
+    @{
+        var zyShop = products.Where(p => p.shopId == 1).FirstOrDefault();
+        var otherShops = products.Where(p => p.shopId != 1).ToList();
+    }
+    @if (ViewBag.IsCashOnDelivery && zyShop != null && zyShop.CartItemModels.Count > 0)
+    {
+        <div id="payment_m" class="payment_m">
+            <span>支付方式</span>
+            <i class="glyphicon glyphicon-menu-right"></i>
+            <span class="payment-c"><a href="#">在线支付 </a></span>
+        </div>
+    }
+    else
+    {
+        <div id="payment_m">
+            <span>支付方式</span>
+            <span class="payment-c"><a href="#">在线支付</a></span>
+        </div>
+    }
+
+
+    @foreach (var shop in products)
+    {
+        <div class="goods-info mb10" id="@shop.shopId" shopid="@shop.shopId">
+            @if (shop.VshopId != 0)
+            {
+                <div class="item">
+                    <a href="/@(ViewBag.AreaName)/vshop/detail/@shop.VshopId">
+                        <div class="goods-shop">
+                            @shop.ShopName
+                            <i class="glyphicon glyphicon-menu-right"></i>
+                        </div>
+                    </a>
+                </div>}
+            else
+            {
+                <a>
+
+                    <div class="item">
+                        <div class="goods-shop">
+                            @shop.ShopName
+                        </div>
+                    </div>
+                </a>}
+
+
+            @foreach (var product in shop.CartItemModels)
+            {
+                <div class="item" pid="@product.id" skuid="@product.skuId" count="@product.count">
+                    <div class="buy-goods">
+                        <img src="@product.imgUrl" />
+                        <h6><span><a href="/@(ViewBag.AreaName)/product/detail/@product.id">@product.name</a></span><em>¥ @product.price.ToString("F2")</em></h6>
+                        <h5>
+                            <p class="gray">
+
+                                @if (!string.IsNullOrEmpty(product.size))
+                                {
+                                    <label>@product.SizeAlias：@product.size &nbsp;&nbsp;</label>
+                                }
+                                @if (!string.IsNullOrEmpty(product.color))
+                                {
+                                    <label>@product.ColorAlias：@product.color &nbsp;&nbsp;</label>
+                                }
+                                @if (!string.IsNullOrEmpty(product.version))
+                                {
+                                    <label>@product.VersionAlias：@product.version</label>
+                                }
+                                &nbsp;
+                            </p>
+                            <p class="gray text-right">x @product.count</p>
+                        </h5>
+                    </div>
+                </div>}
+            <div class="item">
+                <div class="detail-anchor divider">
+                    <span>配送方式</span>
+                    @{
+                        var pids = string.Join(",", shop.CartItemModels.Select(p => p.id));
+                    }
+                    @if (ViewBag.IsOpenStore == true)
+                    {
+                    <label class="divider-btn"><input class="selftake" type="radio" name="shop@(shop.shopId).DeliveryType" value="1" sid="@shop.shopId" pids="@pids" @(shop.ExistShopBranch ? "" : "disabled") /><span>到店自提</span></label>
+                    }
+                    <label class="divider-btn"><input class="express" type="radio" name="shop@(shop.shopId).DeliveryType" value="0" checked /><span>快递配送</span></label>
+                </div>
+            </div>
+            @{var attr = new RouteValueDictionary();
+                attr.Add("shopId", shop.shopId);
+
+                for (int i = 0; i < shop.CartItemModels.Count; i++)
+                {
+                    var item = shop.CartItemModels[i];
+                    attr.Add(string.Format("skuIds[{0}]", i), item.skuId);
+                    attr.Add(string.Format("counts[{0}]", i), item.count);
+                }
+                var choseshopbranchUrl_bak = Url.Action("ShopBranchs", attr);
+                if (defaultAddress != null)
+                {
+                    attr.Add("regionId", defaultAddress.RegionId);
+                    attr.Add("shippingAddressId", defaultAddress.Id);
+                }
+                var choseshopbranchUrl = Url.Action("ShopBranchs", attr);
+            }
+
+            <a class="item hide choseshopbranch" href="@choseshopbranchUrl">
+                <div class="detail-anchor divider">
+                    <label>选择自提门店</label>
+                    <i class="glyphicon glyphicon-menu-right" style="float:right;line-height:43px"></i>
+                    <label class="content" style="float:right"></label>
+                </div>
+            </a>
+            @if (shop.OneCoupons != null)
+            {
+                <div class="item">
+                    <div class="detail-anchor">优惠券<span class="pull-right">抵扣  @shop.OneCoupons.BasePrice 元</span></div>
+                    <input type="hidden" data-type="@((int)shop.OneCoupons.BaseType)" name="couponIds" value="@shop.OneCoupons.BaseId" />
+                </div>
+            }
+
+            @if (shop.FullDiscount > 0)
+            {
+                <div class="item">
+                    <div class="detail-anchor">满减优惠<span class="pull-right">- @shop.FullDiscount</span></div>
+                </div>
+            }
+            <div class="item">
+                <div class="detail-anchor">运费<span class="pull-right showfreight">@(shop.Freight > 0 ? (shop.Freight + "元") : "免运费") </span></div>
+            </div>
+
+            <!--留言字段添加6-12-->
+            <div class="item">
+                <div class="leave-message divider">
+                    <label>给卖家留言：</label>
+                    <div class="leave-message-inner"><input type="text" class="orderRemarks" id="remark_@shop.shopId" placeholder="选填" /></div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="detail-anchor total-m">
+                    <a href="#"><span class="pay">在线支付</span></a>
+                    @{
+                        var price = shop.ShopTotal - (shop.OneCoupons == null ? 0 : shop.OneCoupons.BasePrice);
+                    }
+                    &nbsp;<span class="pull-right total">微店合计<em class="price" data-price="@price" data-oldprice="@price" data-freeFreight="@shop.FreeFreight" data-freight="@shop.Freight">￥@(price.ToString("F2"))</em></span>
+                </div>
+            </div>
+        </div>
+                        }
+    @if (ViewBag.ConfirmModel.integralPerMoney != null && ViewBag.ConfirmModel.userIntegrals>0)
+    {
+        <div class="goods-info mb11">
+            <div class="item">
+                <div class="detail-anchor">
+                    <input type="hidden" id="userIntegrals" value="@ViewBag.ConfirmModel.userIntegrals" />
+                    <span class="pull-left score"><label>可用@(ViewBag.ConfirmModel.userIntegrals)积分抵扣<em>￥@(ViewBag.ConfirmModel.integralPerMoney)</em></label></span>
+                    <span class="pull-right">
+                        <div class="switch switch-mini"><input class="bootstrapSwitch2" type="checkbox" data-size="mini" data-on-text="ON" data-off-text="OFF" /></div>
+                        @*<div class="switch switch-mini" data-on="info" data-off="success"><input class="bootstrapSwitch" type="checkbox" data-size="mini" checked data-on-text="yesd" data-off-text="nddo" id="userIntegrals" value="@(ViewBag.ConfirmModel.userIntegrals)" /></div>*@
+                    </span>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="bill">
+        <span>发票信息</span>
+        <i class="glyphicon glyphicon-menu-right"></i>
+        <span class="bill-detail">
+            <a href="#">不需要发票</a>
+        </span>
+    </div>
+    <div class="bill-Cart">
+        <div class="bill-C00">
+            <div class="top-bill">
+                <h3>发票抬头</h3>
+                <p><span class="active bill-check" aria-hidden="true"></span>个人</p>
+                <p><span class="bill-check" aria-hidden="true"></span>公司<input type="text" placeholder="公司全称" /></p>
+            </div>
+            <div class="content-bill">
+                <h3>发票内容</h3>
+                @foreach (var item in ViewBag.InvoiceContext)
+                {
+                    <p><span class="bill-check"></span>@item.Name</p>
+                }
+            </div>
+            <a id="bill-submit" class="clearfix">
+                确定
+            </a>
+        </div>
+    </div>
+
+    <div class="custom-dialog" id="paymentsChooser"></div>
+
+    <!--支付方式弹框页-->
+
+    <div class="payment-way">
+        @if (zyShop != null && zyShop.CartItemModels.Count > 0)
+        {
+            <div class="way-01">
+                <h3>
+                    <span>支持在线支付和货到付款</span><em>共<span id="unpay_pro_t">@zyShop.CartItemModels.Count</span>件</em>
+                </h3>
+                <div class="pro-mid">
+                    <div class="pro-list">
+                        <div class="pro-wrap">
+                            <div class="pro-img">
+                                <ul>
+                                    @foreach (var product in zyShop.CartItemModels)
+                                    {
+                                        <li><a><img src="@product.imgUrl"></a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="way-detail">
+                        <a class="online active">在线支付</a>
+                        @if ((bool)ViewBag.IsCashOnDelivery && zyShop != null && zyShop.CartItemModels.Count > 0)
+                        {
+                            <a class="offline">货到付款</a>
+                        }
+
+                    </div>
+                </div>
+            </div>}
+
+        @if (otherShops != null && otherShops.Count > 0)
+        {
+            <div class="way-02">
+                <h3>
+                    <span>仅支持在线支付</span><em>共<span id="unpay_pro_t">@otherShops.Sum(p => p.CartItemModels.Count)</span>件</em>
+                </h3>
+                <div class="pro-mid">
+                    <div class="pro-list">
+                        <div class="pro-wrap">
+                            <div class="pro-img">
+                                <ul>
+                                    @foreach (var shop in otherShops)
+                                    {
+                                        foreach (var product in shop.CartItemModels)
+                                        {
+                                            <li><a><img src="@product.imgUrl"></a></li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="way-detail">
+                        <a class="online active">在线支付</a>
+                    </div>
+                </div>
+            </div>}
+        <a id="pay-submit">
+            确定
+        </a>
+    </div>
+
+</div>
+<div class="cover" style="display:none;"></div>
+<script>
+    var isLimitTimeBuy = "@ViewBag.IsLimit";
+    var isFightGroup = @(((bool?)ViewBag.IsFightGroup)==true?"true":"false");
+</script>
+<input type="hidden" id="shippingAddressId" value="@(defaultAddress != null ? defaultAddress.Id.ToString() : "")" />
+<input type="hidden" id="shippingAddressRegionId" value="@(defaultAddress != null ? defaultAddress.RegionId.ToString() : "")" />
+<input type="hidden" id="integralPerMoney" value="@(ViewBag.ConfirmModel.integralPerMoney)" />
+<input type="hidden" id="collPIds" value="@ViewBag.collpids">
+<input type="hidden" id="groupActionId" value="@ViewBag.GroupActionId">
+<input type="hidden" id="groupId" value="@ViewBag.GroupId">
+
+<footer class="clearfix footer-cart">
+    <em class="cart-total cart-total-lg">
+        总金额<a id="allTotal" data-alltotal="@ViewBag.ConfirmModel.orderAmount.ToString("F2")">¥@ViewBag.ConfirmModel.orderAmount.ToString("F2")</a>
+    </em>
+    <a id="submit-order" class="cart-pay">提交</a>
+</footer>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/submitOrder.js"></script>
+<script type="text/javascript">
+    var existShopBranchUrl='@Url.Action("ExistShopBranch")';
+    var isintegral = false;
+    var choseShopBranch = {};
+    $(function () {
+        //<!--商品滑动-->
+        $(".pro-list .pro-img").each(function () {
+            $(this).width($('li', this).length * 72);
+        });
+
+        $('input[name=$".DeliveryType"].express').change(function () {
+            if (this.checked == false)
+                return;
+
+            var goodsInfo = $(this).closest('.goods-info');
+            var shopId=goodsInfo.attr('shopid');
+            var div = goodsInfo.find('.choseshopbranch');
+            div.addClass('hide');
+
+            var priceElement = goodsInfo.find('.item .price');
+            var oldPrice = parseFloat(priceElement.data('oldprice'));
+            priceElement.html('￥' + oldPrice.toFixed(2)).data('price', oldPrice);
+
+            //运费
+            var strFreight = "免运费";
+            if (parseFloat(priceElement.data('freight')) > 0)
+                strFreight = priceElement.data('freight') + "元";
+            goodsInfo.find(".showfreight").html(strFreight);
+            $('.goods-info#{0} .price'.format(shopId)).removeAttr('selftake');
+
+            CalcPrice();
+        }).each(function(){this.checked=true;});
+
+        $('input[name=$".DeliveryType"].selftake').change(function () {
+            if (this.checked == false)
+                return;
+
+            var div = $(this).closest('.goods-info').find('.choseshopbranch');
+            if ($('#shippingAddressId').val() == '') {
+                $.dialog.errorTips('请先设置收货地址');
+                $(this).parent().parent().find('input[name$=".DeliveryType"].express').get(0).checked = true;
+                return;
+            }
+            div.removeClass('hide');
+
+            var $this = $(this);
+            if ($this.attr('sbid')) {
+                var shopId=$this.closest('.goods-info').attr('shopid');
+                freeFreight(shopId);
+                $('.goods-info#{0} .price'.format(shopId)).attr('selftake','');
+            }
+        });
+
+        var tagCacheKey='tagCacheKey';//标记，用于标记是否是从地址选择页或门店选择页返回到当前页的
+        var sbCacheKey = 'ChoseShopBranch.Value';
+        var saCacheKey = 'ChoseShippingAddress.Value';
+        var $shippingAddressId=$('#shippingAddressId');
+        var shippingAddressId=$shippingAddressId.val();
+        var $shippingAddressRegionId=$('#shippingAddressRegionId');
+        var shippingAddressRegionId=$shippingAddressRegionId.val();
+
+        var cacheValue=window.getFromLocalStorate(tagCacheKey);
+        //如果标记值为空，表示是从商品等其它页面过来的
+        if(cacheValue){
+            cacheValue = window.getFromLocalStorate(saCacheKey);
+            if ($.notNullOrEmpty(cacheValue)) {
+                if(cacheValue.isClear){
+                    shippingAddressId='';
+                    shippingAddressRegionId='';
+                    $shippingAddressId.val('');
+                    $shippingAddressRegionId.val('');
+                    $('#choiceAddr').html('<p>您还没有填写收货地址<spa style="color:red">去新增</spa></p>');
+                    return;
+                }
+                $('#choiceAddr').html(('<p id="selectedAddress">收货人：{0} <i class="glyphicon glyphicon-menu-right"></i><span>{1}</span></p>' +
+				'<p class="address">{2} &nbsp; &nbsp;{3}&nbsp;</p><i class="icon"></i>')
+					.format(cacheValue.shipTo, cacheValue.phone, cacheValue.regionFullName, cacheValue.address));
+
+                $shippingAddressId.val(cacheValue.id);
+                shippingAddressId=cacheValue.id;
+                $shippingAddressRegionId.val(cacheValue.regionId);
+                shippingAddressRegionId=cacheValue.regionId;
+
+                refreshFreight(cacheValue.regionId);//刷新运费
+
+                $('input[name=$".DeliveryType"].selftake').each(function(){
+                    var $this=$(this);
+                    var sid=$this.attr('sid');
+                    var pids=$this.attr('pids').split(',');
+                    $.ajax({
+                        url: existShopBranchUrl+'?shopId={0}&regionId={1}&productIds={2}'.format(sid, cacheValue.regionId, pids.join('&productIds=')),
+                        context: { element: $this },
+                        success: function (result) {
+                            if (result == true) {
+                                this.element.removeAttr('disabled');
+                            } else if (result == false) {
+                                this.element.attr('disabled', '');
+                            }
+                        }
+                    });
+                });
+            }
+
+            cacheValue = window.getFromLocalStorate(sbCacheKey);
+            if ($.notNullOrEmpty(cacheValue)&&$.notNullOrEmpty(shippingAddressRegionId)) {
+                for (var shopId in cacheValue) {
+                    var temp = cacheValue[shopId];
+                    if(temp.regionId!=shippingAddressRegionId){
+                        cacheValue=null;
+                        break;
+                    }
+
+                    var radio = $('input[name="shop{0}.DeliveryType"].selftake'.format(shopId));
+                    if (radio.length > 0) {
+                        radio.get(0).checked=true;
+                        radio.attr('sbid', temp.sbId);
+                        var goodsInfo = $(radio).closest('.goods-info');
+                        goodsInfo.find('.choseshopbranch').removeClass('hide').find('.content').html(temp.sbName);
+                        radio.change();
+                    }
+                }
+
+                CalcPrice();
+            }
+        }else{
+            window.localStorage.removeItem(saCacheKey);
+            window.localStorage.removeItem(sbCacheKey);
+        }
+        window.localStorage.removeItem(tagCacheKey);
+
+        $('#choiceAddr').click(function () {
+            setTag();
+            window.localStorage.removeItem(sbCacheKey);
+            setReferrer();//写入当前地址
+            setLeaveMmessage();//写入留言信息
+            location.href = "ChooseShippingAddress?returnURL=" + encodeURIComponent(location.href);
+        });
+
+        $('a.choseshopbranch').click(function(){
+            setTag();
+            setReferrer();//写入当前地址
+            setLeaveMmessage();//写入留言信息
+            //$(this).attr('href',$(this).attr('bak-href')+'&shippingAddressId='+shippingAddressId+'&regionId='+shippingAddressRegionId);
+        });
+
+        function setTag() {
+            window.saveToLocalStorage(tagCacheKey,{});
+        }
+
+        @if (ViewBag.ConfirmModel.integralPerMoney != null)
+         {
+             <text>
+        $('.bootstrapSwitch2').on({        
+            'switchChange.bootstrapSwitch': function(event, state) {
+                isintegral = state;
+                alltotal = $("#allTotal").attr('data-alltotal');
+                if (isintegral) {
+                    $("#allTotal").html('¥' + (alltotal - $("#integralPerMoney").val()).toFixed(2));
+                    $('#allTotal').attr('data-alltotal', (alltotal - $("#integralPerMoney").val()).toFixed(2));
+                }
+                else {
+                    $("#allTotal").html('¥' + alltotal);
+                    $("#allTotal").attr("data-alltotal",alltotal);
+                }
+                CalcPrice();//切换积分兑换后要重新计算价格
+            }
+        });
+        $(".bootstrapSwitch2").bootstrapSwitch({});
+        </text>
+         }
+
+        $(".bill-Cart .content-bill .bill-check").eq(0).addClass("active");
+        //$("#choiceAddr").click(function () {
+        //    location.href = "ChooseShippingAddress?returnURL=" + encodeURIComponent(location.href);
+        //})
+
+        //支付方式选择
+        $(".way-detail>a").click(function () {
+            $(this).addClass("active").siblings().removeClass("active");
+        });
+
+        //发票选择
+        $(".top-bill>p").click(function () {
+            $(".top-bill>p>span").removeClass("active");
+            $("span", this).addClass("active");
+        });
+        $(".content-bill>p").click(function () {
+            $(".content-bill>p>span").removeClass("active");
+            $("span", this).addClass("active");
+        });
+
+        //支付方式弹框动画
+        $('#payment_m').click(function () {
+            document.title = "支付方式";
+            $('.payment-way').css('right', 0);
+        });
+
+        $('#pay-submit').click(function () {
+            if ($(".way-01 .online").hasClass("active")) {
+                $("#payment_m .payment-c a").html("在线支付");
+                $("#1 .total-m .pay").html("在线支付");
+
+                $('#1[shopid=1] input[name=$".DeliveryType"].selftake').removeAttr('disabled');
+            }
+            else {
+                $(".payment_m .payment-c a").html("货到付款");
+
+                $("#1 .total-m .pay").html("货到付款");
+
+                var expressInput=$('#1[shopid=1] input[name=$".DeliveryType"].express');
+                if(expressInput.length>0)
+                {
+                    expressInput[0].checked=true;
+                    expressInput.change();
+                }
+                $('#1[shopid=1] input[name=$".DeliveryType"].selftake').attr('disabled','');
+            }
+            $('.payment-way').css('right', '-100%');
+            document.title = "订单提交";
+        });
+
+        //发票弹框动画
+        $('.bill').click(function (e) {
+        	e.stopPropagation();
+        	$('.cover').show();
+            $('.bill-Cart').show();
+        });
+ 		$(document).click(function(e){
+        	if(!($(e.target).hasClass('bill-Cart')||$(e.target).parents('.bill-Cart').length>0)){
+//        		$('.cover').hide();       
+        		$( '.bill-Cart' ).hide();
+        	}
+        });
+        $('#bill-submit').click(function () {
+            var s = $(".bill-Cart .top-bill .active ").parent().text();
+            if (s == "公司") {
+                s = $(".bill-Cart .top-bill .active ").parent().find("input").val();
+                if ($.trim(s) == "") {
+                    $.dialog.errorTips('公司名必填！');
+                    return;
+                }
+            }
+            $(".bill a").html(s);
+//            $('.cover').hide();
+            $('.bill-Cart').hide();
+            setBill(s, $(".bill-Cart .content-bill .active").parent().index());//将结果写入
+        });
+
+        var orderTag = '@ViewBag.OrderTag';
+        $.ajax({
+            url: '@Url.Action("IsSubmited", "order", new {area="mobile" })?orderTag=' + orderTag,
+            cache: false,
+            success: function (result) {
+                if (result == true)
+                    window.history.go(-1);//提交的订单不能退回
+            }
+        });
+        initLeaveMsgAndBill();
+    })
+    function setReferrer(){
+        window.sessionStorage.setItem("refer",window.location.href);
+    }
+    function setLeaveMmessage(){
+        var remarkList=[];
+        $('.goods-info[shopid]').each(function () {
+            var shopId = $(this).attr('shopid');
+            remarkList.push($('.orderRemarks#remark_' + shopId).val());
+        });
+        window.sessionStorage.setItem("remarkList",remarkList.join(',')); 
+    }
+    function setBill(invoiceTitle,contentIndex){
+        window.sessionStorage.setItem("invoiceTitle",invoiceTitle); 
+        window.sessionStorage.setItem("invoiceContext",contentIndex); 
+    }
+    function initLeaveMsgAndBill(){
+        var remarkList=window.sessionStorage.getItem("remarkList");
+        var invoiceTitle=window.sessionStorage.getItem("invoiceTitle");
+        var invoiceContext=window.sessionStorage.getItem("invoiceContext");
+        if(remarkList!=null&&remarkList.length>0){
+            var remark=remarkList.split(',');
+            $('.goods-info[shopid]').each(function (i) {
+                var shopId = $(this).attr('shopid');
+                $('.orderRemarks#remark_' + shopId).val(remark[i]);
+            });    
+            window.sessionStorage.removeItem("remarkList");
+        }
+        if(invoiceTitle!=null&&invoiceTitle!=''){
+            $(".bill a").text(invoiceTitle);
+            $(".bill-Cart .content-bill .bill-check").removeClass("active").eq(invoiceContext-1).addClass("active");
+            window.sessionStorage.removeItem("invoiceTitle");
+            window.sessionStorage.removeItem("invoiceContext");
+        }
+    }
+</script>

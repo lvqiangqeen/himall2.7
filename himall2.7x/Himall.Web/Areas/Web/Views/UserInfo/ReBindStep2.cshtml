@@ -1,0 +1,52 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "个人信息";
+}
+
+<input type="hidden" value="@{@ViewBag.ShortName}" id="name">
+<div class="box1 lh24">
+    <div class="title bot-border">
+        <h3 class="title_txt cur">验证新的@{@ViewBag.ShortName}信息</h3>
+    </div>
+    
+    <div class="border-box">
+		<div class="yanzh_pic1 off2">
+			<span class="col">获取@{@ViewBag.ShortName}验证码</span>
+			<span>验证新@{@ViewBag.ShortName}</span>
+			<span>完成</span>
+		</div>
+        <div class="user-set userset-lcol">
+            <div class="form">
+                <div class="item w300">
+                    <span class="label">请输入新@{@ViewBag.ShortName}：</span>
+                    <div class="fl">
+                        <input type="text" value="" id="destination" maxlength="20" class="itxt" onblur="check();">
+                        <div id="msg"></div>
+                        <div class="clr"></div>
+                    </div>
+                </div>
+                <div class="item w300">
+                    <span class="label"></span>
+                    <div class="fl">
+                        <input type="button" class="imput_text btn-8" id="btnAuthCode" intervaltime="60" value="获取@{@ViewBag.ShortName}验证码">
+                    </div>
+                </div>
+                <div class="item w300">
+                    <span class="label">验证码：</span>
+                    <div class="fl">
+                        <input type="text" value="" id="code" maxlength="20" class="itxt">
+                        <div class="clr"></div>
+                    </div>
+                </div>
+                <div class="item w300">
+                    <span class="label">&nbsp;</span>
+                    <div class="fl">
+                        <a id="id_btn" class="btn-5">验证</a>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="pluginId" value="@ViewBag.Id" />
+        </div>
+    </div>
+</div>
+<script src="~/Areas/Web/Scripts/userInfoBindStep2.js"></script>

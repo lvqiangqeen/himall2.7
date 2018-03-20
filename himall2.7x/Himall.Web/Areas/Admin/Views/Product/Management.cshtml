@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "ProductManagement";
+    // Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+@section HeadScript{
+
+    <script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+    <script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+    <script src="~/Scripts/jquery.placeholder.min.js"></script>
+    <script src="~/Scripts/bootstrap.autocomplete.js"></script>
+    <script src="~/Areas/Admin/Scripts/productManagement.js"></script>
+}
+<div class="container clear-l">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li type="statusTab"><a>所有商品</a></li>
+        <li value="2" type="statusTab"><a>销售中</a></li>
+        <li value="1" type="statusTab"><a>待审核</a></li>
+        <li value="4" type="statusTab"><a>违规下架</a></li>
+        <li value="5" type="audit-on-off"><a>商品审核开关</a></li>
+    </ul>
+    <div id="divList">
+        <div class="search-box">
+            <form class="form-inline custom-inline">
+                <div class="form-group">
+                    <label class="label-inline w75" for="">商品名称</label>
+                    <input class="form-control input-ssm" type="text" id="searchBox">
+                </div>
+                <div class="form-group">
+                    <label class="label-inline w75" for="">所属店铺</label>
+                    <input class="form-control input-ssm" type="text" id="shopName">
+                </div>
+                <div class="form-group">
+                    <label class="label-inline w75" for="">商品货号</label>
+                    <input class="form-control input-ssm" type="text" id="productId">
+                </div>
+                <div class="form-group">
+                    <label class="label-inline w75" for="">商品品牌</label>
+                    <input class="form-control input-ssm" type="text" id="brandBox" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label class="label-inline w75" for="">商品分类</label>
+                    <select id="category1" class="form-control input-ssm">
+                        <option>分类</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="label-inline w75" for="">二级分类</label>
+                    <select id="category2" class="form-control input-ssm">
+                        <option>分类</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="label-inline w75" for="">三级分类</label>
+                    <select id="category3" class="form-control input-ssm">
+                        <option>分类</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+                </div>
+            </form>
+        </div>
+        <table id="list" class="table"></table>
+        <div class="tabel-operate" id="saleOff" style="display:none;">
+            <button type="button" id="infractionSaleOffBtn" onclick="batchInfractionSaleOff()" class="btn btn-default btn-ssm">违规下架</button>
+            <button type="button" id="auditProductBtn" onclick="batchAuditProduct()" class="btn btn-default btn-ssm">批量审核</button>
+            <a class="btn-export" id="aExport" href='javascript:;' onclick="ExportExecl();">导出查询结果</a>
+        </div>
+    </div>
+    <div id="divAudit" class="form-horizontal dln">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">是否开启审核：</label>
+            <div class="col-sm-9 clear-l1">
+                <label><input type="radio" id="radio1" name="isradio" /> 是</label>
+                <label><input type="radio" id="radio2" name="isradio" />否</label>
+            </div>
+        </div>
+
+        <h5 class="tips-top">
+            <span class="help-default">
+                <i></i>说明：当您关闭商品审核后，商家可自由发布、编辑商品，上架商品及上架后修改商品均不再需要通过平台审核；
+                当关闭审核后，被平台违规下架的商品不可以再次上架
+            </span>
+        </h5>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10"><button type="button" id="btnSubmit" onclick="" class="btn btn-primary btn-ssm">提交</button></div>
+        </div>
+    </div>
+
+</div>
+
+<div class="mobile-dialog">
+    <iframe name="mobile-iframe" id="mobileshow" frameborder="0" scrolling="auto" src="about:blank"></iframe>
+</div>
+<div class="cover"></div>
+

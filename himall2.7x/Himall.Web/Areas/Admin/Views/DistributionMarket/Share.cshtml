@@ -1,0 +1,109 @@
+﻿@model Himall.Model.DistributionShareSetting
+
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Areas/Admin/Scripts/DistributionShare.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("Management")">分销列表</a></li>
+        <li class="active"><a href="@Url.Action("Share")">微信分享设置</a></li>
+        <li><a href="@Url.Action("Setting")">分销板块开关</a></li>
+    </ul>
+    @using (Html.BeginForm("Share", "DistributionMarket", FormMethod.Post))
+    {
+        <div class="form-horizontal form-pt0 clear-v13">
+            <h3 class="table-hd">分销市场分享设置</h3>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">分享LOGO：</label>
+                <div class="form-control-static">
+                    <div class="upload-img" id="DisShareLogo" style="margin-top:-4px"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">分享标题：</label>
+                <div class="col-sm-8 form-control-static">
+                    @Html.TextBoxFor(m => m.DisShareTitle, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">分享描述：</label>
+                <div class="col-sm-8 form-control-static">
+                    @Html.TextAreaFor(item => item.DisShareDesc, 4, 50, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+            <h3 class="table-hd">招募计划分享设置</h3>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">分享LOGO：</label>
+                <div class="form-control-static">
+                    <div class="upload-img" id="RecruitShareLogo" style="margin-top:-4px"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">分享标题：</label>
+                <div class="col-sm-8 form-control-static">
+                    @Html.TextBoxFor(m => m.RecruitShareTitle, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">分享描述：</label>
+                <div class="col-sm-8 form-control-static">
+                    @Html.TextAreaFor(item => item.RecruitShareDesc, 4, 50, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+            <h3 class="table-hd">商品分享</h3>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">分享LOGO：</label>
+                <div class="form-control-static">
+                    <div class="upload-img" id="ProShareLogo" style="margin-top:-4px"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">分享标题：</label>
+                <div class="col-sm-8 form-control-static">
+                    @Html.TextBoxFor(m => m.ProShareTitle, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">分享描述：</label>
+                <div class="col-sm-8 form-control-static">
+                    @Html.TextAreaFor(item => item.ProShareDesc, 4, 50, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+            <h3 class="table-hd">店铺分享</h3>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">分享LOGO：</label>
+                <div class="form-control-static">
+                    <div class=" upload-img" id="ShopShareLogo" style="margin-top:-4px"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">分享标题：</label>
+                <div class="col-sm-8 form-control-static">
+                    @Html.EditorFor(item => item.ShopShareTitle, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">分享描述：</label>
+                <div class="col-sm-8 form-control-static">
+                    @Html.TextAreaFor(item => item.ShopShareDesc, 4, 50, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="button" id="Save" class="btn btn-primary" onclick="Post()" value="保 存">
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+<input type="hidden" value="@(Model==null?"":Himall.Core.HimallIO.GetImagePath(Model.ProShareLogo))" id="MMpshare"/>
+<input type="hidden" value="@(Model==null?"":Himall.Core.HimallIO.GetImagePath(Model.ShopShareLogo))" id="MMsshare"/>
+<input type="hidden" value="@(Model==null?"":Himall.Core.HimallIO.GetImagePath(Model.DisShareLogo))" id="MMdshare" />
+<input type="hidden" value="@(Model==null?"":Himall.Core.HimallIO.GetImagePath(Model.RecruitShareLogo))" id="MMrshare" />

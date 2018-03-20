@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>购物车子页面</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper transparent">
+			<div class="mui-scroll">
+				<ul class="cart-list" id="cartList"></ul>
+			</div>	
+		</div>
+		<div class="cart-bottom transparent">
+			<div class="mui-checkbox mui-left">
+				<label>全选</label>
+				<input name="s-checkAll" id="s-checkAll" type="checkbox">
+			</div>
+			<div class="cart-total-price">
+				<p>合计：<span id="s-total-money">¥ 0</span></p>
+				<h5>不含邮费</h5>
+			</div>
+			<a class="submit-cart" id="submitCart">结算<span id="s-total-num"></span></a>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js" ></script>
+		<script>
+			var loadPage,
+				totalMoney=document.getElementById('s-total-money'),
+				totalNum=document.getElementById('s-total-num'),
+				checkAll=document.querySelector('input[name="s-checkAll"]'),
+				cartList=document.getElementById('cartList'),
+				userkey=himall.getState().userkey;
+			mui.init({
+				pullRefresh : {
+				    container:'#pullrefresh',
+				    deceleration:0.0006,
+				    down : {
+						contentdown : "下拉可以刷新",
+						contentover : "释放立即刷新",
+						contentrefresh : "正在刷新...",
+						callback :function(){
+							setTimeout(function(){
+								loadPage();
+								checkAll.checked=false;
+								totalMoney.innerHTML='¥ 0.00';
+								totalNum.innerHTML='';
+								mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							},300)
+						}
+				    }
+				},
+				swipeBack: true
+			});
+			mui.plusReady(function() {
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				plus.webview.currentWebview().setStyle({scrollIndicator:'none'});
+				
+				loadPage=function(){
+					mui.ajax(URL+'api/Cart/GetCartProduct',{
+						data:himall.md5Data({userkey:userkey}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							if(data.Success=='true'){
+						        if (data.Shop.length > 0) {
+						        	cartList.innerHTML=template('initData',data);
+						        	delayimg.init();
+						            mui('.mui-numbox').numbox();
+						        }else{
+						        	var html='<div class="empty-show"><h4>购物车空空如也</h4><p>去挑几件中意的商品吧</p></div>';
+						        	document.getElementsByClassName('mui-content')[0].innerHTML=html;
+						        }
+						        w.close();
+								himall.removeClass(document.querySelector('.mui-content'),'transparent');
+								himall.removeClass(document.querySelector('.cart-bottom'),'transparent');
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							reloadWvLoad();
+						}
+					});
+				}
+				
+				loadPage();
+				
+				//添加列表项的点击事件
+				mui('#cartList').on('tap', '.goods-url', function() {
+					var id = this.getAttribute('data-url');
+					if(id){
+						showProduct(id);
+					}
+				});
+				
+				mui('#cartList').on('tap', '.vshop-url', function() {
+					var vshopid = this.getAttribute('data-url');
+					if(vshopid==0){
+						plus.nativeUI.toast('该店铺暂未开通微店')
+					}else{
+						himall.openVW('vshop-detail.html',{vshopId:vshopid})
+					}
+				});
+				
+				document.getElementById('submitCart').addEventListener('tap',function(){
+					setTimeout(function(){
+						var checkPro=cartList.querySelectorAll('input[name="checkItem"]:checked');
+						if(checkPro.length>0){
+							var skuArr=[],
+								cartidArr=[],
+								data;
+							mui('#cartList input[name="checkItem"]:checked').each(function(){
+								skuArr.push({
+									skuId:this.parentNode.getAttribute('data-skuid'),
+									count:this.parentNode.querySelector('input[type="number"]').value
+								});
+								cartidArr.push(this.parentNode.getAttribute('data-cartid'));
+							});
+							mui.ajax(URL+'api/Cart/PostUpdateCartItem',{
+								data:himall.md5Data({
+									jsonStr:JSON.stringify({skus:skuArr}),
+									userkey:userkey
+								}),
+								dataType:'json',
+								type:'POST',
+								timeout:10000,
+								success:function(data){
+									if(data.Success=="true"){
+										himall.openVW('order-submit.html',{cartItemId:cartidArr.join(',')});
+									}else{
+										plus.nativeUI.toast('结算失败，请稍候重试');
+									}
+								},
+								error:function(xhr,type,errorThrown){
+									plus.nativeUI.toast('结算失败，请检查网络')
+								}
+							});
+						}else{
+							plus.nativeUI.toast('请至少选择一件宝贝')
+						}
+					},100)
+				});
+				
+			});
+			
+			document.addEventListener('updateData', function() {
+				loadPage();
+				checkAll.checked=false;
+				totalMoney.innerHTML='¥ 0.00';
+				totalNum.innerHTML='';
+			});
+			
+			mui('#cartList').on('tap','.mui-icon-trash',function(){
+		    	var _this = this,
+		    		btnArray = ['取消', '确认'];
+				mui.confirm('确认删除该条宝贝？', '', btnArray, function(e) {
+					if (e.index == 1) {
+						var skuId=_this.parentNode.getAttribute('data-skuid'),
+				    		data={skuIds:skuId,userkey:userkey};
+				    	mui.ajax(URL+'api/Cart/PostDeleteCartProduct',{
+							data:himall.md5Data(data),
+							dataType:'json',
+							type:'POST',
+							timeout:10000,
+							success:function(data){
+								if(data.Success=="true"){
+									var parentN=_this.parentNode.parentNode,
+										flag=siblings(_this,'input[name="checkItem"]')[0].checked;
+									if(parentN.querySelectorAll('.cart-list-goods').length<=1){
+										if(mui('#cartList li').length<=1)
+											document.getElementsByClassName('mui-content')[0].innerHTML='<div class="empty-show"><h4>购物车空空如也</h4><p>去挑几件中意的商品吧</p></div>';
+										else
+											parentN.parentNode.removeChild(parentN);
+									}else{
+										_this.parentNode.parentNode.removeChild(_this.parentNode);
+									}
+									if(flag)
+										getChangeShopPrice(parentN.querySelector('input[name="checkShop"]'));
+									plus.nativeUI.toast('删除宝贝成功');
+									
+								}else{
+									plus.nativeUI.toast('删除失败，请稍后重试')
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								plus.nativeUI.toast('请求失败，请检查网络')
+							}
+						});
+					}
+				});
+		    	
+		    });
+			mui('#cartList').on('tap', '.j_numbox', function() {
+				  	var skuArr=[];
+				  	skuArr.push({
+									skuId:this.getAttribute('data-skuid'),
+									count:this.parentNode.querySelector('input[type="number"]').value
+								});
+				    	mui.ajax(URL+'api/Cart/PostUpdateCartItem',{
+							data:himall.md5Data({
+								jsonStr:JSON.stringify({skus:skuArr}),
+								userkey:userkey
+							}),
+							dataType:'json',
+							type:'POST',
+							timeout:10000,
+							success:function(data){
+								if(data.Success=="true"){
+								} 
+							},
+							error:function(xhr,type,errorThrown){
+								plus.nativeUI.toast('请求失败，请检查网络')
+							}
+						});
+		    });
+			mui(document).on('change', 'input[name="s-checkAll"]', function() {
+		    	var _this=this;
+		        setTimeout(function(){
+			        var checked = _this.checked,
+			        	checkBox=cartList.querySelectorAll('input[type="checkbox"]:enabled');
+			        for(var i=0; i<checkBox.length; i++){
+			        	checkBox[i].checked=checked;
+			        }
+			        
+			        if(checked){
+			    		mui('#cartList li').each(function () {
+			    			var t = 0,
+								c=0,
+								item=this.querySelectorAll('.cart-list-goods');
+			    			for(var j=0; j<item.length; j++){
+			    				var a = item[j].querySelector('em').innerText;
+								c = item[j].querySelector('input[type="number"]').value;
+								t += (+a)*c;
+			    			}
+			    			this.getElementsByClassName('cart-shop-price')[0].innerText='¥'+t.toFixed(2)
+						})
+			    		
+			        	totalMoney.innerHTML=getCheckProductPrice();
+						totalNum.innerHTML=getCheckProductCount();
+			        }else{
+			            totalMoney.innerHTML='¥ 0.00';
+			            totalNum.innerHTML='';
+			            var shopPrice=document.getElementsByClassName('cart-shop-price');
+			            for(var k=0; k<shopPrice.length; k++){
+			            	shopPrice[k].innerText='';
+			            }
+			        }
+		        },50)
+		    });
+			
+			mui('#cartList').on('change', 'input[name="checkShop"]', function() {
+		        var _this=this;
+		        setTimeout(function(){
+		        	var checked = _this.checked,
+		        		checkBox=_this.parentNode.parentNode.querySelectorAll('input[name="checkItem"]:enabled');
+		        	for(var i=0; i<checkBox.length; i++){
+			        	checkBox[i].checked=checked;
+			        }
+		        	
+		        	var allShopChecked = true;
+			        mui('#cartList input[type="checkbox"]:enabled').each(function () {
+			            if(!this.checked) {
+			                allShopChecked = false;
+			            }
+			        });
+			        if(allShopChecked){
+			        	checkAll.checked=true;
+			        }else{
+			        	checkAll.checked=false;
+			        }
+					
+					var t = 0,
+						c=0,
+						item=siblings(_this.parentNode);
+					for(var j=0; j<item.length; j++){
+						if(item[j].querySelector('input[name="checkItem"]:checked')){
+							var a = item[j].querySelector('em').innerText;
+							c = item[j].querySelector('input[type="number"]').value;
+							t += (+a)*c;
+						}
+					}
+					if(t!=0){
+						siblings(_this)[0].querySelector('.cart-shop-price').innerHTML='¥'+t.toFixed(2);
+					}else{
+						siblings(_this)[0].querySelector('.cart-shop-price').innerHTML='';
+					}
+					
+					totalMoney.innerHTML=getCheckProductPrice();
+					totalNum.innerHTML=getCheckProductCount();
+		        },50)
+		    });
+		
+			mui('#cartList').on('change', 'input[name="checkItem"]', function() {
+		    	var _this=this;
+		        setTimeout(function(){
+					var checked = _this.checked;
+			        //判断店铺下的所有商品是否全选中
+			        var allProductChecked = true;
+			        
+					var item=_this.parentNode.parentNode.querySelectorAll('input[name="checkItem"]:enabled');
+					for(var i=0; i<item.length; i++){
+						if(!item[i].checked)
+							allProductChecked = false;
+					}
+					
+			        if (allProductChecked){
+			        	siblings(_this.parentNode)[0].querySelector('input[name="checkShop"]').checked=true;
+			        }else{
+			        	siblings(_this.parentNode)[0].querySelector('input[name="checkShop"]').checked=false;
+			        }
+			
+			        //判断所有店铺是否都选中了
+			        var allShopChecked = true;
+			        mui('#cartList input[name="checkItem"]:enabled').each(function () {
+			            if(!this.checked){
+			                allShopChecked = false;
+			            }
+			        });
+			        if(allShopChecked){
+			        	checkAll.checked=true;
+			        }else{
+			            checkAll.checked=false;
+			        }
+			
+					getChangeShopPrice(_this);
+				},50)
+		        
+		    });
+		    
+		    mui('#cartList').on('change', 'input[type="number"]', function() {
+		    	if(siblings(this.parentNode.parentNode.parentNode,'input[name="checkItem"]')[0].checked){
+		    		var that=this;
+		    		setTimeout(function(){
+		    			getChangeShopPrice(that.parentNode.parentNode.parentNode);
+		    		},50)
+			    }
+		    });
+			function getChangeShopPrice(el){
+				var t = 0,
+					c=0,
+					checkItem=el.parentNode.parentNode.querySelectorAll('input[name="checkItem"]:checked');
+	    		for(var i=0; i<checkItem.length; i++){
+	    			var a = siblings(checkItem[i])[0].querySelector('em').innerText;
+					c = siblings(checkItem[i])[0].querySelector('input[type="number"]').value;
+					t += (+a)*c;
+	    		}
+				if(t!=0){
+					el.parentNode.parentNode.querySelector('.cart-shop-price').innerText='¥'+t.toFixed(2);
+				}else{
+					el.parentNode.parentNode.querySelector('.cart-shop-price').innerText='';
+				}
+				
+				totalMoney.innerHTML=getCheckProductPrice();
+				totalNum.innerHTML=getCheckProductCount();
+			}
+			
+			
+			function getCheckProductPrice() {
+			    var t = 0,
+			    	c=0,
+			    	item=document.querySelectorAll('input[name="checkItem"]:checked');
+    			for(var i=0; i<item.length; i++){
+    				var a = siblings(item[i])[0].querySelector('em').innerText;
+					c = siblings(item[i])[0].querySelector('input[type="number"]').value;
+					t += (+a)*c;
+    			}
+			    t='¥ '+t.toFixed(2);
+			    return t;
+			}
+			
+			function getCheckProductCount() {
+			    var t = 0,
+			    	c=0,
+			    	item=document.querySelectorAll('input[name="checkItem"]:checked');
+    			for(var i=0; i<item.length; i++){
+					c = siblings(item[i])[0].querySelector('input[type="number"]').value;
+			        t += parseInt(c);
+    			}
+			    t='('+t+')';
+			    return t;
+			}
+
+			
+		</script>
+		
+		
+		<script type="text/html" id="initData">
+			{{each Shop as shop i}}
+				<li class="mui-input-group">
+					<div class="mui-checkbox mui-left cart-list-shop">
+						<div class="cart-shop"><span class="cart-shop-price"></span><a class="vshop-url" data-url = "{{shop[0].VShopId}}"><i class="iconfont icon-dianpu"></i>{{shop[0].ShopName}}</a></div>
+						<input name="checkShop" type="checkbox">
+					</div>
+					{{each shop}}
+						{{if $value.Status == 1}}
+							<div class="mui-checkbox mui-left cart-list-goods" data-skuid="{{$value.SkuId}}" data-cartid="{{$value.CartItemId}}">
+								<div class="cart-goods">
+									<a class="goods-url goods-img" data-url = "{{$value.Id}}"><img src="images/blank.gif" data-delay="{{$value.ImgUrl}}"/></a>
+									<div class="cart-goods-detail">
+										<p><span>¥<em>{{$value.Price}}</em></span><a class="goods-url" data-url="{{$value.Id}}">{{$value.Name}}</a></p><h5>
+											{{if $value.Size!=''&& $value.Size!=null}}
+												{{$value.SizeAlias}}：{{$value.Size}}&nbsp;&nbsp;
+											{{/if}}
+											{{if $value.Color!=''&& $value.Color!=null}}
+												{{$value.ColorAlias}}：{{$value.Color}}&nbsp;&nbsp;
+											{{/if}}
+											{{if $value.Version!=''&& $value.Version!=null}}
+												{{$value.VersionAlias}}：{{$value.Version}}
+											{{/if}}
+										</h5>
+										<div class="mui-numbox" data-numbox-min="1" data-numbox-max="100">
+											<button class="mui-btn mui-numbox-btn-minus j_numbox" type="button" data-skuid="{{$value.SkuId}}">-</button>
+											<input class="mui-numbox-input" id="j_number" type="number" value="{{$value.Count}}" />
+											<button class="mui-btn mui-numbox-btn-plus j_numbox" type="button"  data-skuid="{{$value.SkuId}}">+</button>
+										</div>
+									</div>
+								</div>
+								<input name="checkItem" type="checkbox" />
+								<i class="mui-icon mui-icon-trash"></i>
+							</div>
+	                    {{else}}
+	                    	<div class="mui-checkbox mui-left cart-list-goods mui-disabled" data-skuid="{{$value.SkuId}}">
+								<div class="cart-goods">
+									<a class="goods-url goods-img"><img style="opacity:0.5!important" src="images/blank.gif" data-delay="{{$value.ImgUrl}}"/></a>
+									<div class="cart-goods-detail">
+										<p><span>¥<em>{{$value.Price}}</em></span><a class="goods-url">{{$value.Name}}</a></p><h5>已失效</h5>
+										<div class="mui-numbox" data-numbox-min="0" data-numbox-max="0">
+											<button class="mui-btn mui-numbox-btn-minus j_numbox" type="button" data-skuid="{{$value.SkuId}}" disabled >-</button>
+											<input class="mui-numbox-input" id="j_number" type="number" value="0" disabled />
+											<button class="mui-btn mui-numbox-btn-plus j_numbox" type="button"  data-skuid="{{$value.SkuId}}" disabled >+</button>
+										</div>
+									</div>
+								</div>
+								<input name="checkItem" type="checkbox" disabled />
+								<i class="mui-icon mui-icon-trash"></i>
+							</div>
+	                    {{/if}}
+					{{/each}}
+				</li>
+			{{/each}}
+		</script>
+		
+	</body>
+
+</html>

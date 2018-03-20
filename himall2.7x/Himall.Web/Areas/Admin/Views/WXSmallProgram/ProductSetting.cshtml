@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "ProductSetting";
+}
+<script src="~/Areas/Admin/Scripts/WXSmallProductSetting.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script> 
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>商品管理</a></li>
+    </ul>
+    <div class="search-box">
+        <div class="col-sm-3"><a class="btn btn-primary btn-sm" id="SelectProduct"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp; 选择商品</a></div>
+    </div>
+    <table id="productList" class="table">
+        <div class="tabel-operate" id="batchOperate">
+            <button type="button" class="btn btn-default btn-ssm" onclick="DeleteList()">批量删除</button>
+        </div>
+    </table>
+    <input type="hidden" id="categoryId" value="" />
+</div>

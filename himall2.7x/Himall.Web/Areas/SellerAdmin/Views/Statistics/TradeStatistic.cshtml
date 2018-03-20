@@ -1,0 +1,115 @@
+﻿@model Himall.Model.TradeStatisticModel
+@{
+    ViewBag.Title = "交易统计";
+}
+<link href="/Content/bootstrap.min.css?v=2.4" rel="stylesheet">
+<link rel="stylesheet" type="text/css" media="all" href="/Content/daterangepicker-bs3.css" />
+
+<script type="text/javascript" src="/Scripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="/Scripts/moment.js"></script>
+<script type="text/javascript" src="/Scripts/daterangepicker.js"></script>
+<script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<script src="~/Areas/SellerAdmin/Scripts/TradeStatistic.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>交易数据</a></li>
+    </ul>
+    <a class="export-data" id="aMonthExport" href='javascript:;' onclick="ExportExecl();">导出数据</a>
+    <div class="form-inline custom-inline sdata-trade">
+        <div class="form-group pdata">
+            <a class="active" id="defaultBtn" onclick="LoadChartData('@DateTime.Now.Date.AddDays(-1).ToString("yyyy-MM-dd")','@DateTime.Now.Date.AddDays(-1).ToString("yyyy-MM-dd")')" >昨天</a>
+            <a onclick="LoadChartData('@DateTime.Now.Date.AddDays(-7).ToString("yyyy-MM-dd")','@DateTime.Now.Date.AddDays(-1).ToString("yyyy-MM-dd")')">最近7天</a>
+            <a onclick="LoadChartData('@DateTime.Now.Date.AddDays(-30).ToString("yyyy-MM-dd")','@DateTime.Now.Date.AddDays(-1).ToString("yyyy-MM-dd")')">最近30天</a>
+        </div>
+        <div class="form-group">
+            <input id="inputStartDate" class="form-control input-ssm w220 start_datetime has-dateicon" value="" placeholder="区间日期" type="text">
+            <i class="glyphicon glyphicon-calendar"></i>
+        </div>
+    </div>
+    <div class="chart_1">
+        <div id="content">
+            <div class="chart_1_1">
+                <div class="chart_list chart_list_visit">
+                    <div class="chart_list_cell">
+                        <span><i class="gd01"></i>浏览人数</span>
+                        <b id="vistiCounts">@Model.VistiCounts</b>
+                    </div>
+                </div>
+                <div class="chart_list chart_list_order">
+                    <div class="chart_list_cell">
+                        <span><i class="gd02"></i>下单人数</span>
+                        <b id="orderUserCount">@Model.OrderUserCount</b>
+                    </div>
+                    <div class="chart_list_cell">
+                        <span>订单数</span>
+                        <b id="orderCount">@Model.OrderCount</b>
+                    </div>
+                    <div class="chart_list_cell">
+                        <span>下单件数</span>
+                        <b id="orderProductCount">@Model.OrderProductCount</b>
+                    </div>
+                    <div class="chart_list_cell">
+                        <span>下单金额</span>
+                        <b id="orderAmount">@Model.OrderAmount</b>
+                    </div>
+                </div>
+                <div class="chart_list chart_list_pay">
+                    <div class="chart_list_cell">
+                        <span><i class="gd03"></i>付款人数</span>
+                        <b id="orderPayUserCount">@Model.OrderPayUserCount</b>
+                    </div>
+                    <div class="chart_list_cell">
+                        <span>付款订单数</span>
+                        <b id="orderPayCount">@Model.OrderPayCount</b>
+                    </div>
+                    <div class="chart_list_cell">
+                        <span>付款件数</span>
+                        <b id="saleCounts">@Model.SaleCounts</b>
+                    </div>
+                    <div class="chart_list_cell">
+                        <span>付款金额</span>
+                        <b id="saleAmounts">@Model.SaleAmounts</b>
+                    </div>
+                    <div class="chart_list_cell">
+                        <span>客单价</span>
+                        <b id="customPrice">@(Model.OrderPayCount > 0 ? (Math.Round(Convert.ToDecimal(Model.SaleAmounts / Model.OrderPayCount), 2)) : 0)</b>
+                    </div>
+                </div>
+                <div class="region region_1">
+                    <p>下单转化率</p>
+                    <b id="orderConversionsRates">@(Model.OrderConversionsRates)%</b>
+                </div>
+                <div class="region region_2">
+                    <p>付款转化率</p>
+                    <b id="payConversionsRates">@(Model.PayConversionsRates)%</b>
+                </div>
+                <div class="region region_3">
+                    <p>成交转化率</p>
+                    <b id="transactionConversionRate">@(Model.TransactionConversionRate)%</b>
+                </div>
+                <img src="/images/trade-an_03.png" class="chart_funnel">
+            </div>
+        </div>
+        <div class="count-chat">
+            <div id="mainChartFunnel" style="height:500px;border:1px solid #ccc;padding:10px;display:none;"></div>
+            <div id="mainChartLine" style="height:500px;padding:10px;margin-top:215px;"></div>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="~/Scripts/echarts.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script>
+    $(function () {
+
+
+        $(".sdata-trade .pdata a").click(function(){
+            $(this).addClass("active").siblings().removeClass("active")
+        })
+    });
+</script>
+

@@ -1,0 +1,333 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "订单详情";
+}
+@model Himall.DTO.OrderListModel
+@using Himall.Core
+@using Himall.Model
+@using Himall.CommonModel;
+@{
+    var createTime = true;
+    var hasPayTime = Model.PayDate.HasValue;
+    var senddate = Model.ShippingDate.HasValue;
+    var finishdate = Model.FinishDate.HasValue;
+    FightGroupOrderJoinStatus? fgojoinstate = Model.FightGroupJoinStatus;
+    bool canfgrefund = false;
+    if (Model.OrderType == Himall.Model.OrderInfo.OrderTypes.FightGroup)
+    {
+        canfgrefund = (bool)Model.FightGroupCanRefund;
+    }
+
+}
+@{var itemDis = Model.OrderItemList.Sum(i => i.DiscountAmount);}
+
+<link href="~/Areas/Web/Content/order-detail.css" rel="stylesheet" />
+<style type="text/css">
+	.order-total span i{
+	    width: 90px;
+    	text-align: right;
+    	padding-left: 0;
+	}
+	.order-total span label{
+		display: inline-block;
+		margin-bottom: 0;
+	}
+</style>
+<div class="box1 lh24">
+    <div class="title" style="float:none">
+        <span class="title_txt curr">订单详情</span>
+    </div>
+
+    <div class="process">
+        <div class="submit-order">
+            <span class="txt01">提交订单</span>
+            <time>@Model.OrderDate.ToString("yyyy/MM/dd HH:mm:ss")</time>
+            <i class="p-gray"></i>
+        </div>
+        <div class="payment-order">
+            <span class="txt01">订单支付</span>
+            <time>@(Model.PayDate.HasValue ? Model.PayDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : "")</time>
+            <i class="p-gray"></i>
+        </div>
+        @if (Model.DeliveryType== Himall.CommonModel.Enum.DeliveryType.SelfTake)
+        {
+            <div class="complete-order">
+                <span class="txt01">确认提货</span>
+                <time>@(Model.FinishDate.HasValue ? Model.FinishDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : "")</time>
+                <i class="p-gray"></i>
+            </div>
+        }
+        else
+        { 
+            <div class="shipment-order">
+                <span class="txt01">商家发货</span>
+                <time>@(Model.ShippingDate.HasValue ? Model.ShippingDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : "")</time>
+                <i class="p-gray"></i>
+            </div>
+            <div class="complete-order">
+                <span class="txt01">确认收货</span>
+                <time>@(Model.FinishDate.HasValue ? Model.FinishDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : "")</time>
+                <i class="p-gray"></i>
+            </div>
+        }
+    </div>
+
+    <div class="orderstate-detail">
+        <p>
+            <label>订单状态：</label><span style="color:#fe3a3a;">@Model.OrderStatus.ToDescription()</span>
+            @if (Model.OrderType == Himall.Model.OrderInfo.OrderTypes.FightGroup)
+            {
+                <span class="fgordstatus  fgordstatus@(fgojoinstate.GetHashCode())">@(fgojoinstate.ToDescription())</span>
+            }
+            <em style="font-size:13px;color:#acb1b9;padding-left:13px;font-family:SimSun;">@Model.CloseReason</em><span id="pay-button-1622972656"></span>
+        </p>
+        <p><label>订单单号：</label><span>@Model.Id</span></p>
+        @if (!String.IsNullOrEmpty(Model.PaymentTypeName))
+        {
+            <p style="position:relative">
+                <label>支付方式：</label><span>
+                    @if (Model.OrderTotalAmount == 0)
+                    {
+                        <span>积分支付</span>
+                    }
+                    else
+                    {
+                        @Model.PaymentTypeName @Model.PayRemark
+                    }
+                </span><a class="more">更多<i></i></a>
+            </p>
+            <div class="pay-method-detail">
+                <p>
+                    <label>流水号：</label><span>@Model.GatewayOrderId</span>
+                </p>
+                <p>
+                    <label>支付时间：</label><span>@(Model.PayDate.HasValue ? Model.PayDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : "")</span>
+                </p>
+            </div>
+        }
+        <p><label>收货人：</label><span>@Model.ShipTo &nbsp;&nbsp;@Model.CellPhone &nbsp;&nbsp;@Model.RegionFullName @Model.Address</span></p>
+        @if (Model.InvoiceType != Himall.Model.InvoiceType.None)
+        {
+            <p><label>发票抬头：</label><span>@Model.InvoiceTitle</span></p>
+            <p><label>发票内容：</label><span>@Model.InvoiceContext</span></p>
+
+        }
+    </div>
+    @if (Model.ShopBranchId>0)
+	{
+           <div class="orderstate-detail">
+            @if (Model.DeliveryType == Himall.CommonModel.Enum.DeliveryType.SelfTake && !string.IsNullOrWhiteSpace(Model.PickupCode))
+            {
+            <p><label>提货码：</label><span style="color:#fe3a3a;">@Model.PickupCode</span></p>
+            }
+            @if (Model.DeliveryType != Himall.CommonModel.Enum.DeliveryType.SelfTake)
+            {
+            <p><label>配送门店：</label><span>@Model.ShopBranchName</span></p>
+            <p><label>配送方式：</label><span>门店配送</span></p>
+            <p><label>配送时间：</label><span>@(Model.ShippingDate.HasValue ? Model.ShippingDate.Value.ToString("yyyy-MM-dd") : "任意时间")</span></p>
+            }
+            <p><label>联系电话：</label><span>@Model.ShopBranchContactPhone</span></p>
+            <p><label>门店地址：</label><span>@Model.ShopBranchAddress</span></p>
+        </div>
+    }
+    @if (!string.IsNullOrWhiteSpace(Model.ExpressCompanyName) && (!string.IsNullOrWhiteSpace(Model.ShipOrderNumber)))
+    {
+    <div class="order-delivery-detail">
+        <h3><span style="margin-right:65px;">物流公司：@Model.ExpressCompanyName</span><span>快递单号：@Model.ShipOrderNumber</span></h3>
+        <p id="tbExpressData">
+        </p>
+    </div>
+    }
+    <dl class="detail-pro-list">
+        <dt>
+            <span class="i-mt">商品清单</span>
+			<span style="vertical-align: middle;">@Html.Action("CustmerServices", new { shopId = Model.ShopId })</span>
+            <div id="couponListShow" class="prompt p-fquan">
+                <div id="couponList" class="pc"></div>
+            </div>
+            <div class="clr"></div>
+        </dt>
+        <dd class="p-list">
+            <table width="100%" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th style="text-align:left;padding-left:43px;font-weight: bold;" width="300">商品</th>
+                        <th style="text-align:center;font-weight: bold;" width="100">单价/数量</th>
+                        <th style="text-align:center;font-weight: bold;" width="100">总价</th>
+                        @if (itemDis != 0)
+                        {
+                            <th style="text-align:center;font-weight: bold;" width="100">改价</th>
+                        }
+                        <th style="text-align:center;font-weight: bold;" width="100">运费</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var items in ViewBag.freightProductGroup as  IEnumerable<IGrouping<long,OrderItemInfo>>)
+                    {
+
+                        int rows = 0;
+
+                        foreach (var orderItem in items)
+                        {
+                            rows++;
+                            <tr>
+                                <td>
+                                    <div class="img-list">
+                                        <a href="@Url.Action("Detail", "Product", new { id = @orderItem.ProductId })" target="_blank" class="img-box">
+                                            <img width="80" height="80" title="" src="@HimallIO.GetProductSizeImage(orderItem.ThumbnailsUrl, 1, (int)Himall.CommonModel.ImageSize.Size_100)">
+                                            <span>@orderItem.ProductName</span>
+                                            <br /><em>@orderItem.Color @orderItem.Size @orderItem.Version</em>
+                                        </a>
+
+                                        <div class="fl" id="coupon_1160338"></div>
+                                    </div>
+                                </td>
+                                <td>@orderItem.SalePrice.ToString("F2") * @orderItem.Quantity</td>
+                                <td><span class="ftx04"> ￥@((orderItem.SalePrice * orderItem.Quantity).ToString("F2"))</span></td>
+                                @if (itemDis != 0)
+                                {
+                                    <td>
+                                        <span>
+                                            @if (orderItem.DiscountAmount > 0)
+                                            {
+                                                <span>-@orderItem.DiscountAmount.ToString("F2")</span>
+                                            }
+                                            else
+                                            {
+                                                <span>+@Math.Abs(orderItem.DiscountAmount).ToString("F2")</span>
+                                            }
+                                        </span>
+                                    </td>
+                                }
+
+                                @if (rows == 1)
+                                {
+                                   
+                                    <td rowspan="@items.Count()" class="rowspan">
+                                        <span>@orderItem.Freight.ToString("F2")</span>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </dd>
+    </dl>
+
+    <!--条形码-->
+    <div class="barcode">
+
+        <ul class="hide" id="sn_list"></ul>
+    </div>    <!-- 商家运费险  -->
+    <input type="hidden" value="" id="venderIdListStr">
+    <div id="yunFeiXian"></div>
+
+    <!--金额-->
+    <div class="order-bottom-detail">
+        <!--留言字段添加6-12-->
+        <div class="leave-message">
+            <label>买家留言：</label>
+            <span>@Model.UserRemark</span>
+        </div>
+        <div class="order-total">
+            <span><label>商品总价 :</label><i>￥@Model.ProductTotalAmount.ToString("F2")</i></span>
+            @if (Model.FullDiscount > 0)
+            {
+                <span><label>满减优惠 :</label><i>-￥@Model.FullDiscount.ToString("F2")</i></span>
+            }
+
+            @if (Model.DiscountAmount > 0)
+            {
+
+                <span><label>优惠券抵扣金额 :</label><i>-￥@Model.DiscountAmount.ToString("F2")</i></span>
+            }
+            @if (Model.IntegralDiscount > 0)
+            {
+                <span><label>积分抵扣金额 :</label><i>-￥@Model.IntegralDiscount.ToString("F2")</i></span>
+            }
+            @if (itemDis != 0)
+            {
+                <span>
+                    <label style="position:relative;left:3px;">商家改价 :</label>
+
+                    @if (itemDis > 0)
+                    {
+                        <i>- @itemDis</i>
+                    }
+                    else
+                    {
+                        <i>+ @(-itemDis)</i>
+                    }
+                </span>
+            }
+           <span><label>运费 :</label><i> ￥@Model.Freight.ToString("F2")</i></span>
+            <span><label style="color:#fe3a3a;">订单实付金额 :</label><i style="color:#fe3a3a;"> ￥@Model.OrderTotalAmount.ToString("F2")</i></span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var ExpressCompanyName = '@Model.ExpressCompanyName';
+        var ShipOrderNumber = '@Model.ShipOrderNumber';
+        if (ExpressCompanyName != "" & ShipOrderNumber != "") {
+            // 物流信息
+            $.post('/Common/ExpressData/Search', { expressCompanyName: ExpressCompanyName, shipOrderNumber: ShipOrderNumber }, function (result) {
+                var html = '';
+                var obj = result;
+                if (obj.success) {
+                    var data = obj.data;
+                    for (var i = 0; i < data.length ; i++) {
+                        html += '<tr><td class="time"><i></i><span>' + data[i].time + '</span></td>\
+                             <td class="content">' + data[i].content + '</td>';
+                        html += '<td></td></tr>';
+                    }
+                }
+                else {
+                    html += '<tr><td colspan="3">该单号暂无物流进展，请稍后再试，或检查公司和单号是否有误。</td></tr>';
+                }
+
+                //html += '<tr><td><a href="http://www.kuaidi100.com" target="_blank" id="power" runat="server" style="color:Red;">此物流信息由快递100提供</a></td></tr>';
+                $("#tbExpressData").append(html);
+            });
+        }
+        $('#id_a').bind('click', function () {
+            $('#id_a').addClass('curr');
+            $('#id_b').removeClass('curr');
+            $($('.tabcon')[0]).show();
+            $($('.tabcon')[1]).hide();
+        });
+        $('#id_b').bind('click', function () {
+            $('#id_b').addClass('curr');
+            $('#id_a').removeClass('curr');
+            $($('.tabcon')[1]).show();
+            $($('.tabcon')[0]).hide();
+        });
+
+    });
+    $(function () {
+        $(".orderstate-detail .more").click(function () {
+            $(".pay-method-detail").toggle();
+        })
+
+        SetOrderSatus();
+    })
+
+    function SetOrderSatus() {
+        var orderStatus = "@Model.OrderStatus";
+
+        if ("@createTime" == "True") {
+            $(".submit-order i").removeClass("p-gray");
+        }
+
+        if ("@hasPayTime" == "True") {
+            $(".payment-order i").removeClass("p-gray");
+        }
+        if ("@senddate" == "True") {
+            $(".shipment-order i").removeClass("p-gray");
+        }
+        if ("@finishdate" == "True") {
+            $(".complete-order i").removeClass("p-gray");
+        }
+    }
+</script>

@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "预付款管理";
+}
+@{var type = Request.QueryString["type"];}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Areas/Admin/Scripts/Capital.js"></script>
+<style>
+
+</style>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a href=".">预付款管理</a></li>
+        <li><a href="../Capital/WithDraw">提现管理</a></li>
+        <li><a href="Setting">提现金额设置</a></li>
+    </ul>
+    <div class="search-box" id="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">会员帐号</label>
+                <input class="form-control input-ssm" type="text" id="txtMemName">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table id="list" class="table"></table>
+</div>

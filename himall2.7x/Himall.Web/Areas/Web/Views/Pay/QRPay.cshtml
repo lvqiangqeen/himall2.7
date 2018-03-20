@@ -1,0 +1,26 @@
+﻿@{
+
+    Layout = "~/Areas/Web/Views/Shared/_PayTopBar.cshtml";
+}
+<div class="bg-gray cl">
+    <div class="w990 main">
+        <div class="m pay-box">
+            <div class="qrcode-box cl">
+                <div class="p-w-hd">@(ViewBag.Name)支付</div>
+                <div class="p-w-bd">
+                    <div class="p-w-box">
+                        <div class="pw-box-hd">
+                            <img src="@ViewBag.QRCode" width="298">
+                        </div>
+                        <div class="pw-box-ft">
+                            <p>请使用@(ViewBag.Name)扫一扫</p><!--插件图片暂不处理-->
+                            <p>扫描二维码支付</p>
+                        </div>
+                    </div>
+                    <div class="p-w-sidebar" style="background-image:url(@ViewBag.HelpImage)"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Areas/Web/Scripts/QRPay.js"></script>

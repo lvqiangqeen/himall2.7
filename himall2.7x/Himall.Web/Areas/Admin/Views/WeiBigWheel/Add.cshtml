@@ -1,0 +1,515 @@
+﻿@model Himall.DTO.WeiActivityModel
+<link href="~/Content/inner-custom.css" type="text/css" rel="stylesheet">
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="~/Areas/Admin/Scripts/WeiBigWheelAdd.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+    	$("#uploadImg").himallUpload(
+      {
+      	title: '',
+      	dataWidth: 8,
+      	imageDescript: '建议上传100*100的图片',
+      	displayImgSrc: "",
+      	imgFieldName: "activityUrl",
+      	dataWidth:12,
+        headerWidth:0
+      });
+    });
+    $(function () {
+        $("#BrandName").focus();
+    });
+</script>
+<div class="container">
+
+    <input type="hidden" id="productId" value="" />
+    <ul class="choose-step step2">
+        <li class="active">
+            创建活动
+            <span class="border"></span>
+            <span class="border-n Sclear-P34"></span>
+        </li>
+        <li style="background:none;">
+            活动设置
+            <span class="border"></span>
+            <span class="border-n"></span>
+        </li>
+        <li style="background:none;">完成</li>
+    </ul>
+    <ul class="choose-step step3 dln">
+        <li class="Sclear-P33">
+            编辑活动
+            <span class="border"></span>
+            <span class="border-n Sclear-P34"></span>
+        </li>
+        <li class="Sclear-P33">
+            活动设置
+            <span class="border"></span>
+            <span class="border-n Sclear-P34"></span>
+        </li>
+        <li style="background:none;">完成</li>
+    </ul>
+    @using (Html.BeginForm("Add", "WeiBigWheel", new { Area = "Admin" }, FormMethod.Post, new { id = "WeiBigWheelForm", @class = "form-horizontal  form-pt0" }))
+    {
+
+        <input type="hidden" id="harward" name="harward" />
+
+        <div class="form-horizontal  Sclear-P35" id="release-pro">
+            <div class="data-detail clearfix">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>   活动标题：</label>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(p => p.activityTitle, new { @class = "form-control input-sm", @maxlength = "15" })
+                    </div>
+                    <div class="col-sm-4"><span class="help-default">活动被分享后链接标题</span></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>  活动分享详情：</label>
+                    <div class="col-sm-4">
+                        @Html.TextAreaFor(p => p.activityDetails, 4, 40, new { @class = "form-control Sclear-P36", @maxlength = "40" })
+                    </div>
+                    <div class="col-sm-3"><span class="help-default">活动被分享后链接详情</span></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>分享图片：</label>
+                    <div class="col-sm-4 pl0">
+                        <div class="upload-img" id="uploadImg"></div>
+                    </div>
+                    <div class="col-sm-3"><span class="help-default">活动被分享出去的链接图标</span></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="red">*</span>开始时间：</label>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(p => p.beginTime, new { @class = "form-control input-sm start_datetime" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="red">*</span>结束时间：</label>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(p => p.endTime, new { @class = "form-control input-sm end_datetime" })
+                    </div>
+                </div>
+
+                <input type="hidden" value="0" id="cost">
+            </div><!--活动基本计息结束-->
+
+
+            <div class="Sclear-P53"><span class="btn btn-primary mt20 big-w" id="id_next">下一步</span></div>
+        </div>
+
+        <div class="form-horizontal Sclear-P54" id="release-detail">
+            <div class="data-detail clearfix">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">参与次数：</label>
+                    <div class="col-sm-5">
+                        <label>
+                            @Html.RadioButtonFor(p => p.participationType, Himall.CommonModel.WeiParticipateType.CommonCount, new { @name = "participationType", @id = "rdi1", @Checked = "checked" }) 一共
+                        </label>
+                        @Html.TextBoxFor(p => p.participationCount, new { @class = "form-control input-inline", @id = "CommonCount", @onkeyup = "value=value.replace(/[^\\d]/g,'') " }) 次
+                        <label class="blank"></label>
+                        <label>
+                            @Html.RadioButtonFor(p => p.participationType, Himall.CommonModel.WeiParticipateType.DayCount, new { @name = "participationType", @id = "rdi2" })  一天
+                        </label>
+                        @Html.TextBoxFor(p => p.participationCount, new { @class = "form-control input-inline", @id = "DayCount", @onkeyup = "value=value.replace(/[^\\d]/g,'') " }) 次
+                        <label class="blank"></label>
+                        <label>@Html.RadioButtonFor(p => p.participationType, Himall.CommonModel.WeiParticipateType.Unlimited, new { @name = "participationType", @id = "rdi3" }) 无限制</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">消耗积分：</label>
+                    <div class="col-sm-4">
+                        <label>@Html.RadioButtonFor(p => p.isPoint, 0, new { @name = "CommonCount", @id = "rdi4", @Checked = "checked" }) 不消耗积分</label>
+                        <label class="blank"></label>
+                        <label>
+                            @Html.RadioButtonFor(p => p.isPoint, 1, new { @name = "CommonCount", @id = "rdi5" }) 消耗积分
+                        </label>
+                        @Html.TextBoxFor(p => p.consumePoint, new { @class = "form-control input-inline", @onkeyup = "value=value.replace(/[^\\d]/g,'') " })
+                    </div>
+                    <div class="col-sm-3"><span class="help-default big-w">用户参与活动需要消耗的积分</span></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">奖品设置：</label>
+
+                    <div class="col-sm-5">
+                        <span class="help-default">
+                            1、每个奖项所设置的中奖概率之和不得大于100%<br />
+                            2、至少设置一个奖项
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+
+                        <!--一等奖-->
+                        <table class="table-data" id="1">
+                            <tr>
+                                <td>
+                                    一等奖：
+                                </td>
+                                <td>
+                                    <label><input name="ReceiveType1" type="radio" checked="checked" value="0" /> 积分</label>
+                                    <label class="blank"></label>
+                                    <label><input name="ReceiveType1" type="radio" value="1" /> 红包</label>
+                                    <label class="blank"></label>
+                                    <label><input name="ReceiveType1" type="radio" value="2" /> 优惠券</label>
+
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td></td>
+                                <td>
+                                    <label id="lable1">赠送积分：<input class="form-control input-inline" value="" maxlength="10" type="text" id="integral1" name="integral1" onkeyup="value=value.replace(/[^\d]/g,'') "> 分</label>
+                                    <label id="lableBouns1" style="display:none;">
+                                        选择红包：
+                                        @Html.DropDownList("brand1", (IEnumerable<SelectListItem>)ViewBag.BrandDrop, new
+                                                   {
+                                                       @class = "form-control input-ssm",
+                                                       id = "brand1"
+                                                   })
+                                        提示：所选红包类型为奖品红包
+                                    </label>
+                                    <p id="lableCoupn1" style="display:none;">
+                                        <input type="hidden" id="coupon1" name="coupon1" />
+                                        选择赠品：<span class="choose-tips"></span><button type="button" class="btn btn-primary btn-ssm" onclick="ChoceCoupon(1)">选择优惠券</button>  &nbsp; 提示：所选优惠券类型为主动发放
+                                    </p>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td>
+
+                                    <p class="form-control-static" style="width:445px">
+                                        奖品数量：<input class="form-control input-inline" value="" name="awardcount1" id="awardcount1" maxlength="10" type="text" onkeyup="value=value.replace(/[^\d]/g,'') "> 份
+                                    </p>
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td></td>
+                                <td>
+                                    中奖概率：<input class="form-control input-inline" value="" name="proportion1" id="proportion1" maxlength="10" type="text" onkeyup="value=value.replace(/[^\d]/g,'') "> %
+                                </td>
+                            </tr>
+                        </table>
+                        <!--二等奖-->
+                        <table class="table-data" id="2">
+                            <tr>
+                                <td>
+                                    二等奖：
+                                </td>
+                                <td>
+
+                                    <label><input name="ReceiveType2" type="radio" checked="checked" value="0" /> 积分</label>
+                                    <label class="blank"></label>
+                                    <label><input name="ReceiveType2" type="radio" value="1" /> 红包</label>
+                                    <label class="blank"></label>
+                                    <label><input name="ReceiveType2" type="radio" value="2" /> 优惠券</label>
+
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td></td>
+                                <td>
+                                    <label id="lable2">赠送积分：<input class="form-control input-inline" value="" maxlength="10" type="text" id="integral2" name="integral2" onkeyup="value=value.replace(/[^\d]/g,'') "> 分</label>
+                                    <label id="lableBouns2" style="display:none;">
+                                        选择红包：
+                                        @Html.DropDownList("brand2", (IEnumerable<SelectListItem>)ViewBag.BrandDrop, new
+                                                   {
+                                                       @class = "form-control input-ssm",
+                                                       id = "brand2"
+                                                   })
+                                        提示：所选红包类型为奖品红包
+                                    </label>
+                                    
+                                    <p id="lableCoupn2" style="display:none;">选择赠品：<span class="choose-tips"></span><input type="hidden" id="coupon2" name="coupon2" /><button type="button" class="btn btn-primary btn-ssm" onclick="ChoceCoupon(2)">选择优惠券</button>  &nbsp; 提示：所选优惠券类型为主动发放</p>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td>
+                                    奖品数量：<input class="form-control input-inline" value="" name="awardcount2" id="awardcount2" maxlength="10" type="text" onkeyup="value=value.replace(/[^\d]/g,'') "> 份
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td></td>
+                                <td>
+                                    中奖概率：<input class="form-control input-inline" value="" name="proportion2" id="proportion2" maxlength="10" type="text" onkeyup="value=value.replace(/[^\d]/g,'') "> %
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!--三等奖-->
+                        <table class="table-data" id="3">
+                            <tr>
+                                <td>
+                                    三等奖：
+                                </td>
+                                <td>
+
+                                    <label><input name="ReceiveType3" type="radio" checked="checked" value="0" /> 积分</label>
+                                    <label class="blank"></label>
+                                    <label><input name="ReceiveType3" type="radio" value="1" /> 红包</label>
+                                    <label class="blank"></label>
+                                    <label><input name="ReceiveType3" type="radio" value="2" /> 优惠券</label>
+
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td></td>
+                                <td>
+                                    <label id="lable3">赠送积分：<input class="form-control input-inline" value="" maxlength="10" type="text" name="integral3" id="integral3" onkeyup="value=value.replace(/[^\d]/g,'') "> 分</label>
+                                    <label id="lableBouns3" style="display:none;">
+                                        选择红包：
+                                        @Html.DropDownList("brand3", (IEnumerable<SelectListItem>)ViewBag.BrandDrop, new
+                                                   {
+                                                       @class = "form-control input-ssm",
+                                                       id = "brand3"
+                                                   })
+                                        提示：所选红包类型为奖品红包
+                                    </label>
+                                    
+                                    <p id="lableCoupn3" style="display:none;">选择赠品：<span class="choose-tips"></span><input type="hidden" id="coupon3" name="coupon3" /><button type="button" class="btn btn-primary btn-ssm" onclick="ChoceCoupon(3)">选择优惠券</button>  &nbsp; 提示：所选优惠券类型为主动发放</p>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td>
+                                    奖品数量：<input class="form-control input-inline" value="" name="awardcount3" id="awardcount3" maxlength="10" type="text" onkeyup="value=value.replace(/[^\d]/g,'') "> 份
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td></td>
+                                <td>
+                                    中奖概率：<input class="form-control input-inline" value="" name="proportion3" id="proportion3" maxlength="10" type="text" onkeyup="value=value.replace(/[^\d]/g,'') "> %
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!--四等奖-->
+                        <table class="table-data" style="display:none" id="4">
+                            <tr>
+                                <td>
+                                    四等奖：
+                                </td>
+                                <td>
+
+                                    <label><input name="ReceiveType4" type="radio" checked="checked" value="0" /> 积分</label>
+                                    <label class="blank"></label>
+                                    <label><input name="ReceiveType4" type="radio" value="1" /> 红包</label>
+                                    <label class="blank"></label>
+                                    <label><input name="ReceiveType4" type="radio" value="2" /> 优惠券</label>
+                                    <label class="blank"></label>
+                                    <button type="button" class="btn btn-default btn-ssm" id="id_deleterow4" onclick="deleteRow(4)">删除奖项</button>
+
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td></td>
+                                <td>
+                                    <label id="lable4">赠送积分：<input class="form-control input-inline" value="" maxlength="10" type="text" name="integral4" id="integral4" onkeyup="value=value.replace(/[^\d]/g,'') "> 分</label>
+                                    <label id="lableBouns4" style="display:none;">
+                                        选择红包：
+                                        @Html.DropDownList("brand4", (IEnumerable<SelectListItem>)ViewBag.BrandDrop, new
+                                                   {
+                                                       @class = "form-control input-ssm",
+                                                       id = "brand4"
+                                                   })
+                                        提示：所选红包类型为奖品红包
+                                    </label>
+                                    
+                                    <p id="lableCoupn4" style="display:none;">选择赠品：<span class="choose-tips"></span><input type="hidden" id="coupon4" name="coupon4" /><button type="button" class="btn btn-primary btn-ssm" onclick="ChoceCoupon(4)">选择优惠券</button>  &nbsp; 提示：所选优惠券类型为主动发放</p>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td></td>
+                                <td>
+                                    奖品数量：<input class="form-control input-inline" value="" name="awardcount4" id="awardcount4" maxlength="10" type="text" onkeyup="value=value.replace(/[^\d]/g,'') "> 份
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td></td>
+                                <td>
+                                    中奖概率：<input class="form-control input-inline" value="" name="proportion4" id="proportion4" maxlength="10" type="text" onkeyup="value=value.replace(/[^\d]/g,'') "> %
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!--五等奖-->
+                        <table class="table-data" style="display:none" id="5">
+                            <tr>
+                                <td>
+                                    五等奖：
+                                </td>
+                                <td>
+
+                                    <label><input name="ReceiveType5" type="radio" checked="checked" value="0" /> 积分</label>
+                                    <label class="blank"></label>
+                                    <label><input name="ReceiveType5" type="radio" value="1" /> 红包</label>
+                                    <label class="blank"></label>
+                                    <label><input name="ReceiveType5" type="radio" value="2" /> 优惠券</label>
+                                    <label class="blank"></label>
+                                    <button type="button" style="display:none" class="btn btn-default btn-ssm" id="id_deleterow5" onclick="deleteRow(5)">删除奖项</button>
+
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td></td>
+                                <td>
+                                    <label id="lable5">赠送积分：<input class="form-control input-inline" value="" maxlength="10" type="text" name="integral5" id="integral5" onkeyup="value=value.replace(/[^\d]/g,'') "> 分</label>
+                                    <label id="lableBouns5" style="display:none;">
+                                        选择红包：
+                                        @Html.DropDownList("brand5", (IEnumerable<SelectListItem>)ViewBag.BrandDrop, new
+                                                   {
+                                                       @class = "form-control input-ssm",
+                                                       id = "brand5"
+                                                   })
+                                        提示：所选红包类型为奖品红包
+                                    </label>
+                                    
+                                    <p id="lableCoupn5" style="display:none;">选择赠品：<span class="choose-tips"></span><input type="hidden" id="coupon5" name="coupon5" /><button type="button" class="btn btn-primary btn-ssm" onclick="ChoceCoupon(5)">选择优惠券</button>  &nbsp; 提示：所选优惠券类型为主动发放</p>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td></td>
+                                <td>
+                                    奖品数量：<input class="form-control input-inline" value="" name="awardcount5" id="awardcount5" maxlength="10" type="text" onkeyup="value=value.replace(/[^\d]/g,'') "> 份
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td></td>
+                                <td>
+                                    中奖概率：<input class="form-control input-inline" value="" name="proportion5" id="proportion5" maxlength="10" type="text" onkeyup="value=value.replace(/[^\d]/g,'') "> %
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!--六等奖-->
+                        <table class="table-data" style="display:none" id="6">
+                            <tr>
+                                <td>
+                                    六等奖：
+                                </td>
+                                <td>
+
+                                    <label><input name="ReceiveType6" type="radio" checked="checked" value="0" /> 积分</label>
+                                    <label class="blank"></label>
+                                    <label><input name="ReceiveType6" type="radio" value="1" /> 红包</label>
+                                    <label class="blank"></label>
+                                    <label><input name="ReceiveType6" type="radio" value="2" /> 优惠券</label>
+                                    <label class="blank"></label>
+                                    <button type="button" style="display:none" class="btn btn-default btn-ssm" id="id_deleterow6" onclick="deleteRow(6)">删除奖项</button>
+
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td></td>
+                                <td>
+                                    <label id="lable6">赠送积分：<input class="form-control input-inline" value="" maxlength="10" type="text" id="integral6" name="integral6" onkeyup="value=value.replace(/[^\d]/g,'') "> 分</label>
+                                    <label id="lableBouns6" style="display:none;">
+                                        选择红包：
+                                        @Html.DropDownList("brand6", (IEnumerable<SelectListItem>)ViewBag.BrandDrop, new
+                                                   {
+                                                       @class = "form-control input-ssm",
+                                                       id = "brand6"
+                                                   })
+                                        提示：所选红包类型为奖品红包
+                                    </label>
+                                    
+                                    <p id="lableCoupn6" style="display:none;">选择赠品：<span class="choose-tips"></span><input type="hidden" id="coupon6" name="coupon6" /><button type="button" class="btn btn-primary btn-ssm" onclick="ChoceCoupon(6)">选择优惠券</button>  &nbsp; 提示：所选优惠券类型为主动发放</p>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td></td>
+                                <td>
+                                    奖品数量：<input class="form-control input-inline" value="" name="awardcount6" id="awardcount6" maxlength="10" type="text" onkeyup="value=value.replace(/[^\d]/g,'') "> 份
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td></td>
+                                <td>
+                                    中奖概率：<input class="form-control input-inline" value="" name="proportion6" id="proportion6" maxlength="10" type="text" onkeyup="value=value.replace(/[^\d]/g,'') "> %
+                                </td>
+                            </tr>
+                        </table>
+
+
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-5 col-sm-offset-2">
+                        <button type="button" class="btn btn-primary" id="id_addrow">新增奖项</button>
+                    </div>
+                </div>
+
+            </div><!--商品详情结束-->
+
+            <div class="pro-detail-btn clearfix  big-w">
+                <button type="button" class="btn btn-default" id="id_last">上一步</button>
+
+                <button type="button" class="btn btn-primary scratch-k" id="subCate">创建活动</button>
+
+
+            </div>
+
+
+        </div>
+    }
+    <input type="hidden" id="inventory1">
+    <input type="hidden" id="inventory2">
+    <input type="hidden" id="inventory3">
+    <input type="hidden" id="inventory4">
+    <input type="hidden" id="inventory5">
+    <input type="hidden" id="inventory6">
+    <!--选择优惠券列表-->
+    <div id="choceCouponUrl" class="dln">
+        <div class="choose-search">
+            <div class="form-group">
+                <label class="label-inline clear-h" for="">名称</label>
+                <input class="form-control input-ssm" type="text" name="couponName" id="couponName">
+            </div>
+            <button type="button" class="btn btn-primary btn-ssm" id="btncoupon">搜索</button>
+        </div>
+        <table id="CouponGrid" class="table table-bordered"></table>
+    </div>
+</div>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>

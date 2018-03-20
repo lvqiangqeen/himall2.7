@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Himall.Core", "Himall.Core\Himall.Core.csproj", "{D2EF2ADC-BE9C-4F4C-9D99-A31C12237EAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Himall.CoreTest", "Himall.CoreTest\Himall.CoreTest.csproj", "{1FC3B73F-19DE-4C2E-A9E5-0534C769D382}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Himall.Plugin.PlugInTest1", "PlugInTest1\Himall.Plugin.PlugInTest1.csproj", "{D14F5102-53A0-4EED-B165-1B72C7D9E966}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D2EF2ADC-BE9C-4F4C-9D99-A31C12237EAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2EF2ADC-BE9C-4F4C-9D99-A31C12237EAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2EF2ADC-BE9C-4F4C-9D99-A31C12237EAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2EF2ADC-BE9C-4F4C-9D99-A31C12237EAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FC3B73F-19DE-4C2E-A9E5-0534C769D382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FC3B73F-19DE-4C2E-A9E5-0534C769D382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FC3B73F-19DE-4C2E-A9E5-0534C769D382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FC3B73F-19DE-4C2E-A9E5-0534C769D382}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D14F5102-53A0-4EED-B165-1B72C7D9E966}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D14F5102-53A0-4EED-B165-1B72C7D9E966}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D14F5102-53A0-4EED-B165-1B72C7D9E966}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D14F5102-53A0-4EED-B165-1B72C7D9E966}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

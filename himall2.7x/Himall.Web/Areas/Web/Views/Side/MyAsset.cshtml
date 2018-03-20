@@ -1,0 +1,63 @@
+﻿@model Himall.Web.Areas.Web.Models.MyAssetViewModel
+
+@{
+    Layout = null;
+}
+<div class="side-asset-total cl">
+    <div>
+        <span>@(Model.MyMemberIntegral)</span>
+        <p>我的积分</p>
+    </div>
+    <div>
+        <span>@(Model.MyCouponCount)</span>
+        <p>优惠券</p>
+    </div>
+</div>
+<div class="side-asset-list">
+    <p>已领取的优惠券</p>
+    <ul>
+        @{var cls = "";}
+        @foreach (var item in Model.MyCoupons)
+        {
+            if (item.Price >= 100) { cls = "coupon-lg"; }
+
+            else if (item.Price <= 50) { cls = "coupon-sm"; }
+            <li class="@cls">
+                <a href="/Shop/Home/@item.ShopId" target="_blank">
+                    <h5>@item.ShopName</h5>
+                    @if (item.OrderAmount > 0)
+                    {
+                        <h3><span>￥@item.Price</span>满@{@item.OrderAmount}使用</h3>
+                    }
+                    else
+                    {
+                        <h3><span>￥@item.Price</span>无门槛(不含运费)</h3>
+                    }
+                    <p>截止：@item.EndTime.ToString("yyyy.MM.dd")</p>
+                </a>
+            </li>
+        }
+
+        @{cls = "";}
+        @foreach (var item in Model.MyShopBonus)
+        {
+            if (item.Price >= 100) { cls = "coupon-lg"; }
+
+            else if (item.Price <= 50) { cls = "coupon-sm"; }
+            <li class="@cls">
+                <a href="/Shop/Home/@item.Himall_ShopBonusGrant.Himall_ShopBonus.ShopId" target="_blank">
+                    <h5>@item.Himall_ShopBonusGrant.Himall_ShopBonus.Himall_Shops.ShopName</h5>
+                    @if (item.Himall_ShopBonusGrant.Himall_ShopBonus.UseState == Himall.Model.ShopBonusInfo.UseStateType.FilledSend)
+                    {
+                        <h3><span>￥@item.Price</span>满@{@item.Himall_ShopBonusGrant.Himall_ShopBonus.UsrStatePrice}减@{@item.Price}优惠券</h3>
+                    }
+                    else
+                    {
+                        <h3><span>￥@item.Price</span>无门槛(不含运费)</h3>
+                    }
+                    <p>有效期：@item.Himall_ShopBonusGrant.Himall_ShopBonus.BonusDateEnd.ToString("yyyy.MM.dd")</p>
+                </a>
+            </li>
+        }
+    </ul>
+</div>

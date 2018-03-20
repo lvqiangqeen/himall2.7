@@ -1,0 +1,108 @@
+<!--returndetail.wxml-->
+<view class="returndetail">
+
+  <view class="returndetail-con">
+
+    <view class="item">
+      <view class="hd">
+        <view class="num">售后编号：
+          <text class="font-arial">{{RefundInfo.ReturnId}}</text>
+        </view>
+        <view class="state">{{RefundInfo.StatusText}}</view>
+        <view  class="state" hidden="{{!(RefundInfo.CanResetActive && !RefundInfo.IsOrderRefundTimeOut && RefundInfo.Status==4)}}">
+        <navigator url="../ApplyReturns/ApplyReturns?orderid={{RefundInfo.OrderId}}&skuId={{RefundInfo.SkuId}}&pro={{RefundInfo.ProductInfo[0].ProductName}}&returnId={{RefundInfo.ReturnId}}">【激活售后】</navigator>
+         </view>
+      </view>
+      <view class="bd">
+        <block wx:for="{{RefundInfo.ProductInfo}}">
+          <view class="comm" data-productid="{{item.ProductId}}" bindtap="goToProductDetail">
+            <view class="pic">
+              <image src="{{item.ThumbnailsUrl}}"></image>
+            </view>
+            <view class="info">
+              <view class="name">{{item.ProductName}}</view>
+              <view class="para">{{item.SKUContent}}</view>
+            </view>
+            <view class="price">
+              <view class="sell">¥
+                <text class="font-arial">{{item.Price}}</text>
+              </view>
+              <view class="num">×
+                <text class="font-arial">{{item.Quantity}}</text>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="fd">
+        <view class="li">
+          <view class="title">订单编号：</view>
+          <view class="con">
+            <text class="font-arial">{{RefundInfo.OrderId}}</text>
+          </view>
+        </view>
+        <view class="li">
+          <view class="title">申请原因：</view>
+          <view class="con">{{RefundInfo.Reason}}</view>
+        </view>
+        <view class="li" hidden="{{RefundInfo.IsOnlyRefund}}">
+          <view class="title">退货数量：</view>
+          <view class="con">
+            <text class="font-arial">{{RefundInfo.Quantity}}</text>
+          </view>
+        </view>
+        <view class="li">
+          <view class="title">退款金额：</view>
+          <view class="con">¥
+            <text class="font-arial">{{RefundInfo.RefundMoney}}</text>
+          </view>
+        </view>
+        <view class="li">
+          <view class="title">退款方式：</view>
+          <view class="con">{{RefundInfo.RefundType}}</view>
+        </view>
+        <view class="li">
+          <view class="title">买家备注：</view>
+          <view class="con">{{RefundInfo.Remark}}</view>
+        </view>
+        <view class="li" hidden="{{Credentials.length<=0}}">
+          <view class="title">售后凭证：</view>
+          <view class="con"></view>
+        </view>
+        <view class="li2" wx:for="{{Credentials}}">
+          <image src="{{item}}" bindtap="prevImage" data-src="{{item}}"  />
+        </view>
+      </view>
+      <view class="fd">
+        <view class="customer" bindtap="ExpendProgress">
+          <view class="title">售后进度</view>
+          <view class="con iconfont icon-more icon__arrow_down {{!isExpend?'rotate':''}} font48">
+         
+          </view>
+        </view>
+        <view class="schedule" hidden="{{!isExpend}}">
+          <view class="dl">
+            <block wx:for="{{ProgressStatue}}">
+<view class="dd dd {{item.isactive?'active':''}}" hidden="{{item.ishidden}}">
+              <view class="lis">
+                <view class="icon">
+                  <view></view>
+                </view>
+                <view class="exp">
+                  <view class="name">{{item.isactive?item.activestatusname:item.statuename}}</view>
+                  <view class="time">{{item.isactive?item.time:""}}</view>
+                </view>
+              </view>
+              <view class="line"></view>
+            </view>
+            </block>
+          </view>
+        </view>
+      </view>
+      <view class="comment-btn" hidden="{{RefundInfo.Status!=2}}">
+        <button form-type="submit" class="btn-confirm" bindtap="SendGood" data-id="{{RefundInfo.ReturnId}}" data-skuid="{{RefundInfo.SkuId}}">退货发货</button>
+      </view>
+    </view>
+  </view>
+
+</view>

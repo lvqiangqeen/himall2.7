@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>首页父窗口</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">   
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">  
+			<h1 id="title" class="mui-title">商城首页</h1>
+			<div class="search-box" id="searchBtn">  
+				<input type="search" class="search-text" id="keywordsText" readonly="readonly" placeholder="搜索全部商品...">   
+				<i class="mui-icon mui-icon-search search-btn" style="right:6px;"></i>
+			</div>
+			<button id='moreVshop' class=" mui-pull-right mui-btn-link" style="display: none;">更多</button>
+		</header>  
+		
+		<footer>                                                                                           
+			<nav class="mui-bar mui-bar-tab">             
+				<a id="defaultTab" class="mui-tab-item   subpage-btn mui-active" data-href="home.html">
+					<span class="mui-icon iconfont icon-shouye"></span>
+					<span class="mui-tab-label">首页</span>        
+				</a>     
+				<a class="mui-tab-item subpage-btn" id="goVshop" data-href="vshop.html">
+					<span class="mui-icon iconfont icon-dianpu"></span>   
+					<span class="mui-tab-label">微店</span>  
+				</a>
+				<a class="mui-tab-item" id="goCart">
+					<span class="mui-icon iconfont icon-gouwuche"></span>       
+					<span class="mui-tab-label">购物车</span>
+				</a>
+				<a class="mui-tab-item subpage-btn" id="goUser" data-href="usercenter.html">
+					<span class="mui-icon iconfont icon-user"></span>
+					<span class="mui-tab-label">个人中心</span>
+				</a>  
+			</nav>   
+		</footer>
+		<script src="js/mui.min.js"></script>     
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script>        
+			mui.init({
+			  preloadPages:[  
+			    {
+			      url:'product-detail.html',
+			      id:'product-detail.html'
+			    }     
+			  ]                         
+			});
+			var aniShow = {};
+			mui.plusReady(function() {
+				var toGuide=plus.storage.getItem('toGuide');
+				if(toGuide==null){  
+					 mui.ajax(URL+'api/Home/GetAppGuidePages',{
+						data:himall.md5Data(),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						async:true,      
+						success:function(data){    
+							  if(data.length>0){  
+								  mui.openWindow({
+									    url:"guide.html",
+									    id:"guide.html",
+									    extras:{   
+									    	ImgList:data
+									    },
+									    show:{
+									      duration:"0",     
+	 			    					},
+								  });	  
+							  }    
+						},        
+						error:function(){}
+					})
+				}       
+				
+				   
+				 
+				var top=44;  
+			    if(plus.navigator.isImmersedStatusbar()){
+			        var immersedTop=Math.round(plus.navigator.getStatusbarHeight());
+			        top=immersedTop+top;
+			        setTimeout(function(){
+			        	document.querySelector('.mui-pull-top-pocket').style.top=immersedTop+44+'px';
+			        },2000)
+			    }
+			    if(himall.ios()){
+			    	top=64;
+			    }
+			    var subpages = ['home.html', 'vshop.html', 'usercenter.html','guide.html'],
+					subpage_style = {
+					top: top+'px',
+					bottom: '50px'
+				};
+				
+				
+				plus.navigator.setStatusBarBackground("#e3393c");
+				plus.navigator.setStatusBarStyle("UIStatusBarStyleBlackOpaque");
+					
+				var self = plus.webview.currentWebview();
+				if(self.children().length<3){
+					for (var i = 0; i < 3; i++) {
+						if(subpages[i]=='usercenter.html'){
+							subpage_style={top:0,bottom: '50px'};
+						}
+						var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
+						if (i > 0) {
+							sub.hide();
+						}
+						self.append(sub);
+					}
+				}
+				
+				var activeTab = subpages[0],
+					title = document.getElementById("title");
+				mui('.mui-bar-tab').on('tap', 'a.subpage-btn', function(e) {
+					var targetTab = this.getAttribute('data-href');
+					if (targetTab == activeTab) {
+						return;
+					}
+					title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
+					plus.webview.show(targetTab,'fade-in',100);
+					plus.webview.hide(activeTab,'fade-in',100);
+					activeTab = targetTab;
+				});
+				
+				//激活首页选项
+				window.addEventListener("shopActive", function(e) {
+
+					var targetTab = "shop/index.html";
+
+					if (targetTab == activeTab) {
+						return;
+					}
+					if (!plus.webview.getWebviewById(targetTab)) {
+						var sub = plus.webview.create(targetTab, targetTab, subpage_style);
+						self.append(sub);
+					}
+
+					//显示目标选项卡
+					if (mui.os.ios || aniShow[targetTab]) {
+						plus.webview.show(targetTab);
+					} else {
+						var temp = {};
+						temp[targetTab] = "true";
+						mui.extend(aniShow, temp);
+						plus.webview.show(targetTab, "none", 300);
+					}
+
+
+					//切换底部选项卡图片
+					var dataFlag = "s";
+					var imgarr = document.getElementsByTagName("img");
+					
+					var idx = dataFlag.charAt(0);
+					for (var i = 0, len = $scope.arr.length; i < len; i++) {
+						if ($scope.arr[i].charAt(0) == idx) continue;
+						imgarr[i].src = "img/index/" + $scope.arr[i];
+					}
+
+					for (var i = 0, len = imgarr.length; i < len; i++) {
+
+						if(imgarr[i].parentNode.getAttribute('data-url')=='s'){
+
+							imgarr[i].src = "img/index/s-active.png";
+
+							imgarr[i].parentNode.classList.add('mui-active');
+
+						}else{
+
+							imgarr[i].parentNode.classList.remove('mui-active');
+
+						}
+
+					}
+					//隐藏当前;
+					plus.webview.hide(activeTab);
+					//更改当前活跃的选项卡
+					activeTab = targetTab;
+				});
+				
+				document.getElementById('goCart').addEventListener('tap',function(e){
+					e.stopPropagation();
+					if(himall.isLogin()){
+						himall.openVW('cart-box.html');
+					}else{
+						showLogin({id:'cart-box.html'});
+					}
+				});
+				
+				document.getElementById('searchBtn').addEventListener('tap',function(){
+					himall.openVW('search.html');
+				});
+				
+				var searchBtn=document.getElementById("searchBtn"),
+					moreVshop=document.getElementById("moreVshop");
+				
+				document.getElementById("goVshop").addEventListener('tap',function () {
+					mui.fire(plus.webview.getWebviewById('vshop.html'),'updateData');
+					
+					title.style.display='block';
+					searchBtn.style.display='none';
+					moreVshop.style.display='block';
+				});
+				
+				document.getElementById("defaultTab").addEventListener('tap',function () {
+					title.style.display='none';
+					searchBtn.style.display='block';
+					moreVshop.style.display='none';
+				});
+				document.getElementById("moreVshop").addEventListener('tap',function () {
+					himall.openVW('vshop-list.html');
+				});
+				
+				document.getElementById("goUser").addEventListener('tap',function () {
+					mui.fire(plus.webview.getWebviewById('usercenter.html'),'updateData');
+				});
+				
+				himall.quitApp();
+				himall.update();
+				
+				document.addEventListener('pageActive', function(e) {
+					var targetTab = e.detail.newUrl;
+			
+					if(targetTab == activeTab) {
+						return;
+					}
+					if(!plus.webview.getWebviewById(targetTab)) {
+						var sub = plus.webview.create(targetTab, targetTab, subpage_style);
+						self.append(sub);
+					}
+			
+					//显示目标选项卡
+					if(mui.os.ios || aniShow[targetTab]) {
+						plus.webview.show(targetTab);
+					} else {
+						var temp = {};
+						temp[targetTab] = "true";
+						mui.extend(aniShow, temp);
+						plus.webview.show(targetTab, "none", 300);
+					}
+			
+					//隐藏当前;
+					plus.webview.hide(activeTab);
+					//更改当前活跃的选项卡
+					activeTab = targetTab;
+			
+					var tabs = document.getElementsByClassName('mui-tab-item');
+			
+					for(var i = 0, len = tabs.length; i < len; i++) {
+						if(tabs[i].getAttribute('data-href') == targetTab) {
+							tabs[i].classList.add('mui-active');
+						} else {
+							tabs[i].classList.remove('mui-active');
+						}
+			
+					}
+			
+				});
+			});
+		</script>
+	</body>
+
+</html>

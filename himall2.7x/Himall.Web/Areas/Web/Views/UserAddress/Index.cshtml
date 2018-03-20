@@ -1,0 +1,821 @@
+﻿@model IEnumerable<Himall.Model.ShippingAddressInfo>
+@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "收货地址管理";
+}
+<link href="~/Areas/Web/Content/base.css" rel="stylesheet" />
+<!--<link href="~/Areas/Web/Content/myjd.easebuy.css" rel="stylesheet" />-->
+<style>
+    .pd10 {
+        padding-top: 30px;
+        padding-bottom: 18px;
+        line-height: 15px;
+        font-size: 14px;
+    }
+
+        .pd10 span.al {
+            color: #494e52;
+            margin-right: 20px;
+        }
+
+        .pd10 span.ftx-03 {
+            font-size: 12px;
+            color: #acb1b9;
+        }
+
+        .pd10 a.e-btn {
+            float: right;
+            font-size: 13px;
+            color: #6799B5;
+            margin-right: 36px;
+        }
+
+            .pd10 a.e-btn:before {
+                content: "+";
+                margin-right: 5px;
+                font-size: 16px;
+            }
+
+    .tb-void tbody tr td {
+        padding-top: 26px;
+        padding-bottom: 28px;
+        font-size: 14px;
+        color: #494e52;
+    }
+
+    .easebuy-m {
+        border: none;
+        border-bottom: 1px solid #f1f1f1;
+    }
+
+    a.id_edit {
+        color: #899fb0;
+    }
+
+        a.id_edit:hover, a.del:hover {
+            text-decoration: none;
+        }
+
+        a.id_edit:after {
+            content: "|";
+            margin: 0 10px;
+            font-size: 12px;
+            color: #c2c3c4;
+        }
+
+    a.del {
+        color: #899fb0;
+    }
+
+    .default-address {
+        border: 1px solid #b7bbbd;
+        background: linear-gradient(#f9f9f9,eeefef) !important;
+        border-radius: 3px;
+        color: #6a7c86;
+        font-size: 13px;
+        width: 82px;
+        padding: 0;
+        position: relative;
+        height: 24px;
+        line-height: 24px;
+    }
+
+        .default-address:hover {
+            color: #6a7c86;
+        }
+
+    ##edit-cont {
+        padding-top: 0 !important;
+    }
+</style>
+<div class="box1 lh24">
+    <div class="title bot-border">
+        <h3 class="title_txt cur">收货地址管理</h3>
+    </div>
+    <div class="border-box">
+        <div class="mod lh24">
+            <div class="pd10">
+                <span class="al">已保存的收货地址</span>
+                <span class="ftx-03">您已创建<span id="addressNum_top">@Model.Count() </span>个收货地址，最多可创建20个</span>
+                <a href="javascript:;" class="e-btn add-btn">新增收货地址</a>
+            </div>
+            <div class="mc" id="order_box">
+
+                <table class="tb-void">
+                    <thead>
+                        <tr>
+                            <th width="100">收货人</th>
+                            <th width="150">所在地区</th>
+                            <th width="200">收货地址</th>
+                            <th width="100">电话号码</th>
+                            <th width="100">操作</th>
+                            <th width="100"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Count() == 0)
+                        {
+                            <tr><td colspan="6" class="ety"><div class="empty">暂时没有记录！</div></td></tr>
+                        }
+                        @foreach (var m in Model)
+                        {
+                            var quick = m.IsQuick;
+                            var defaultquick = quick ? "default-address" : "";
+                            bool isdefault = m.IsDefault;
+
+                            <tr id="@m.Id" class="sm easebuy-m">
+                                <td>@m.ShipTo</td>
+                                <td data="@m.RegionId">@m.RegionFullName</td>
+                                <td>@m.Address</td>
+                                <td fromlatlng="@m.Latitude,@m.Longitude">@m.Phone</td>
+                                <td><a class="id_edit" href="javascript:;" data="@m.Id">编辑</a><a class="del" href="javascript:;" data-tag="@m.Id">删除</a></td>
+                                <td>
+                                    <a class="btn-9 default-address @(isdefault?"hide":"")" href="javascript:;" data-id="@m.Id">设为默认</a>
+                                    @if (isdefault)
+                                    {
+                                        <span class="confirm-gou">默认地址</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div id="" class="thickdiv hide"></div>
+
+<div id="order_edit" class="thickbox hide" style="left: 566.5px; top: 0px;">
+    <div class="thickwrap">
+        <div id="" class="thicktitle">
+            <span>新增收货地址</span>
+        </div>
+        <div style="width:auto; padding-left: 10px; padding-right: 10px;" id="" class="thickcon">
+            <div id="addressDiagDiv">
+                <input type="hidden" value="false" id="isDefault">
+                <input type="hidden" value="0" id="update_paymentId">
+                <input type="hidden" value="0" id="update_pickId">
+                <input type="hidden" value="" id="update_pickName">
+                <div id="edit-cont" class="m">
+                    <div class="mc">
+                        <div class="form">
+                            <div class="item">
+                                <span class="label"><em>*</em>收货人：</span>
+                                <div class="fl">
+                                    <input type="text" class="text" value="" id="consigneeName">
+                                    <span class="error-msg hide" id="consigneeNameNote">请您填写收货人姓名</span>
+                                </div>
+                                <div class="clr"></div>
+                            </div>
+                            <div class="item">
+                                <span class="label"><em>*</em>所在地区：</span>
+                                <div class="fl">
+                                    <div id="area-selector"></div>
+                                    @Html.Hidden("RegionId")
+                                    <span id="areaNote" class="error-msg  hide">请您填写完整的地区信息</span>
+                                </div>
+
+                                <div class="clr"></div>
+                            </div>
+                            <div class="item" style="overflow: inherit;">
+                                <span class="label"><em>*</em>详细地址：</span>
+                                <div class="fl" id="detailaddr">
+                                    @*<span id="areaName" style="float: left;margin-right: 5px;line-height:32px;">
+                                            <span></span><span></span><span></span>
+                                        </span>*@
+                                    <input type="text" class="text text1" value="" id="consigneeAddress">
+                                    <div class="select-container" id="divAdr">
+                                        <ul id="nearAddress"></ul>
+                                        <div id="divMore" style="text-align:center; padding: 0px 15px 60px 15px;" onclick="searchKeyword(2)">
+                                        </div>
+                                    </div>
+                                </div>
+                                <span id="consigneeAddressNote" class="error-msg hide">收货人详细地址不能为空</span>
+                                <div class="clr"></div>
+                            </div>
+                            <div class="item">
+                                <div class="fl">
+                                    <span class="label"><em>*</em>手机号码：</span>
+                                    <input type="text" class="text" maxlength="20" value="" id="consigneeMobile">
+                                    <span id="consigneeMobileNote" class="error-msg hide">联系方式不能为空</span>
+                                    <span class="clr"></span>
+                                </div>
+                                <div class="clr"></div>
+                            </div>
+                            <div class="btns">
+                                <a id="id_add_order" class="e-btn btn-5 save-btn" href="javascript:;">保存收货地址</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a id="" class="thickclose" href="#">×</a>
+    </div>
+</div>
+@Html.Hidden("Longitude")
+@Html.Hidden("Latitude")
+<div id="id_del_ms" class="thickbox hide" style="left: 786.5px; top: 458px;">
+    <div class="thickwrap">
+        <div id="" class="thicktitle">
+            <span>删除</span>
+        </div>
+        <div style="width: 300px; padding-left: 10px; padding-right: 10px;" id="" class="thickcon">
+            <div class="m flexbox">
+                <div class="mc">
+                    <div class="tip-box icon-box">
+                        <span class="warn-icon m-icon"></span>
+                        <div class="item-fore">
+                            <h3 class="ftx04">您确定要删除该收货地址吗？</h3>
+                            <div class="op-btns">
+                                <a id="id_del_c" class="btn-8">确定</a>
+                                <a id="id_del_n" class="btn-9 ml10" href="javascript:void(0);">取消</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a id="" class="thickclose" href="javascript:void(0);">×</a>
+    </div>
+</div>
+<script src="~/Scripts/jquery.himall.Region.js"></script>
+<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp"></script>
+<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+
+<script>
+        (function ($) {
+            var regEmpty = /\w+/g,
+                number = ($('.easebuy-m').length),
+                checkNumber = function (n) {
+                    if (n >= 20) {
+                        return true;
+                    }
+                },
+                regTel = /([\d]{11})|(^0[\d]{2,3}-?[\d]{7,8}$)/;
+            $('#ordermethod1').bind('click', function (e) {
+                $(this).addClass('order-method-selected');
+                $(this).attr('data-tag', 1);
+                $('#ordermethod0').removeClass('order-method-selected').attr('data-tag', 0);
+            });
+            $('#ordermethod0').bind('click', function (e) {
+                $(this).addClass('order-method-selected');
+                $(this).attr('data-tag', 1);
+                $('#ordermethod1').removeClass('order-method-selected').attr('data-tag', 0);
+            });
+            $('#id_del_c').bind('click', function (e) {
+                var n = $(this).attr('data-del');
+                if (n) {
+                    $('.thickdiv').hide();
+                    $('#id_del_ms').hide();
+                    var loading = showLoading();
+                    $.ajax({
+                        type: 'post',
+                        url: "@Url.Action("DeleteShippingAddress")",
+                        dataType: 'json',
+                        data: { id: n },
+                        success: function (d) {
+                            loading.close();
+                            if (d.success) {
+                                $('#' + n).remove();
+                                $('#addressNum_top,#addressNum_bottom').html($('.easebuy-m').length);
+                                number = $('.easebuy-m').length;
+                            }
+                            else {
+                                $.dialog.errorTips('删除失败,' + d.msg);
+                            }
+                        }
+                    });
+                }
+            });
+            $('#id_del_n,.thickclose').bind('click', function (e) {
+                $('#id_del_ms').hide();
+                $('#order_edit').hide();
+                $('.thickdiv').hide();
+                data = {};
+                arr = [];
+                $('#consigneeName').val('');
+                $('#consigneeAddress').val('');
+                $('#consigneeMobile').val('');
+                $('#areaName').html('');
+                $('#id_add_order').attr('data', '');
+                $('#order_edit').hide();
+                $('.thickdiv').hide();
+            });
+            arr = [];
+            data = {};
+            $('#id_payment_c').bind('click', function (e) {
+                //
+            });
+            city = [];
+            $("#area-selector").RegionSelector({
+                selectClass: "sele",
+                valueHidden: "#RegionId"
+            });
+            $("#area-selector select").change(function () {//每次选择地址后都要将详细地址清空，防止经纬度和地区不匹配
+                $("#consigneeAddress").val("");
+            });
+            $('.add-btn').each(function (i, e) {
+                $(e).bind('click', function () {
+                    if (checkNumber(number)) {
+                        $.dialog.errorTips('最多只能创建20个收货地址！');
+                        return;
+                    }
+                    var left, top, width, height;
+                    left = $(window).width() / 2;
+                    top = $(window).height() / 2;
+                    width = $('.thickbox').width() / 2;
+                    height = $('.thickbox').height() / 2;
+                    $('.thickdiv').show();
+                    $('#order_edit .thicktitle').text('新增收货地址');
+                    $('#order_edit').css({ top: '50%', left: '50%', marginLeft: '-' + width + 'px', marginTop: '-' + height + 'px', position: 'fixed' }).show();
+                    //$("#area-selector").RegionSelector({
+                    //    selectClass: "sele",
+                    //    valueHidden: "#RegionId"
+                    //});
+                    //$("#area-selector").RegionSelector("Init");
+                    $("#consigneeName").focus();
+                });
+            });
+            var getOption = function (elem, bool) {
+                var s, t;
+                if (bool) {
+                    elem.children().each(function (i, e) {
+                        s = e.selected;
+                        if (s == true) {
+                            t = $(e).html();
+                            if (t == '请选择') {
+                                t = '';
+                            }
+                            return;
+                        }
+                    });
+                } else {
+                    elem.children().each(function (i, e) {
+                        s = e.selected;
+                        if (s == true) {
+                            t = $(e).val();
+                            return;
+                        }
+                    });
+                }
+                return t;
+            };
+
+            $('#consigneeName').blur(function () {
+                var str = $.trim($(this).val());
+                if (str) {
+                    $('#consigneeNameNote').hide();
+                } else {
+                    $('#consigneeNameNote').show();
+                }
+            });
+            $('#consigneeAddress').blur(function () {
+                var obj = $(this);
+                setTimeout(function () {
+                    $(".select-container").hide();
+                    var str = $(obj).val();
+                    if (str) {
+                        $('#consigneeAddressNote').hide();
+                    } else {
+                        $('#consigneeAddressNote').show();
+                    }
+                }, 300);
+            });
+            $('#consigneeAddress').focus(function () {
+                $(".select-container").show();
+                setTimeout(function () {
+                    if ($("#consigneeAddress").val().length > 0) {
+                        searchKeyword(1);
+                    }
+                }, 300);
+            });
+            $('.select-container li').click(function () {
+                $('#consigneeAddress').val($(this).attr('data-addr'));
+                $('#consigneeAddress').blur();
+            });
+
+            $('#consigneeMobile').blur(function () {
+                var str = $(this).val(),
+                    bool = regTel.test(str);
+                if (bool) {
+                    $('#consigneeMobileNote').hide();
+                } else {
+                    $('#consigneeMobileNote').show();
+                }
+            });
+            $('#id_add_order').bind('click', function () {
+                var consigneeName = $.trim($('#consigneeName').val()),
+                    regionId = $("#RegionId").val(),
+                    consigneeAddress = $('#consigneeAddress').val(),
+                    consigneeMobile = $('#consigneeMobile').val(),
+                    consigneePhone = $('#consigneePhone').val(),
+                    consigneeEmail = $('#consigneeEmail').val(),
+                    consigneeAlias = $('#consigneeAlias').val(),
+                    bool = ($(this).attr('data')) ? $(this).attr('data').split(',') : '',
+                    valArr = [consigneeName, "", consigneeAddress, consigneeMobile, '', ''];
+                if (consigneeName) {
+                    $('#consigneeNameNote').hide();
+                } else {
+                    $('#consigneeNameNote').show();
+                    return;
+                }
+
+                if ($.trim(consigneeName).length == 0) {
+                    $('#consigneeNameNote').show();
+                    return;
+                }
+                if ($.trim(consigneeAddress).length == 0) {
+                    $('#consigneeAddressNote').show();
+                    return;
+                }
+                if (consigneeAddress) {
+                    $('#consigneeAddressNote').hide();
+                } else {
+                    $('#consigneeAddressNote').show();
+                    return;
+                }
+
+                if ($("#RegionId").attr("isfinal") != "true") {
+                    $('#areaNote').show();
+                    return;
+                } else {
+                    $('#areaNote').hide();
+                }
+
+
+                if (!regTel.test(consigneeMobile)) {
+                    $('#consigneeMobileNote').show();
+                    return;
+                } else {
+                    $('#consigneeMobileNote').hide();
+                }
+
+                // ----------------------  添加收货地址
+                if (1 && (!bool[0])) {
+                    var loading = showLoading();
+                    $.ajax({
+                        type: 'post',
+                        url: "@Url.Action("AddShippingAddress")",
+                        dataType: 'json',
+                        data: { RegionId: regionId, Address: consigneeAddress, Phone: consigneeMobile, ShipTo: consigneeName, Latitude: $("#Latitude").val(), Longitude: $("#Longitude").val() },
+                        success: function (d) {
+                            loading.close();
+                            if (d.success) {
+                                location.reload();
+                            } else {
+                                $.dialog.errorTips('保存地址失败,' + d.msg);
+                            }
+                        }
+                    });
+
+                }
+                // ----------------------  编辑收货地址
+
+                if (1 && bool[0]) {
+                    var loading = showLoading();
+                    $.ajax({
+                        type: 'post',
+                        url: "@Url.Action("EditShippingAddress")",
+                        dataType: 'json',
+                        data: { id: bool[1], RegionId: regionId, Address: consigneeAddress, Phone: consigneeMobile, ShipTo: consigneeName, Latitude: $("#Latitude").val(), Longitude: $("#Longitude").val() },
+                        success: function (d) {
+                            loading.close();
+                            if (d.success) {
+                                location.reload();
+                            } else {
+                                $.dialog.errorTips('保存地址失败,' + d.msg);
+                            }
+                        }
+                    });
+                }
+                data = {};
+                arr = [];
+                $('#consigneeName').val('');
+                $('#consigneeAddress').val('');
+                $('#consigneeMobile').val('');
+                $('#areaName').html('<span></span>&nbsp;<span></span>&nbsp;<span></span>');
+                $('#id_add_order').attr('data', '');
+                $('#order_edit').hide();
+                $('.thickdiv').hide();
+                $("#RegionId").val(0);
+                $("#area-selector").RegionSelector({
+                    selectClass: "sele",
+                    valueHidden: "#RegionId"
+                });
+                $("#area-selector select").change(function () {//每次选择地址后都要将详细地址清空，防止经纬度和地区不匹配
+                        $("#consigneeAddress").val("");
+                });
+            });
+            $('#order_box').bind('click', function (e) {
+                var a = e.target,
+                    left, top, width, height,
+                    cla = $(a).hasClass('update-eshop'),
+                    setdefault = $(a).hasClass('default-address'),
+                    del = $(a).hasClass('del'),
+                    edit = $(a).hasClass('id_edit');
+                if (cla) {
+                    var dom = $(a),
+                    a = dom.attr('data').split(',');
+                    $('.update-eshop').each(function () {
+                        $(this).show();
+                    });
+
+                    $(e.target).hide();
+                    // ----------------------  升级轻松购
+                    var loading = showLoading();
+                    $.ajax({
+                        type: 'post',
+                        url: "@Url.Action("SetQuickShippingAddress")",
+                        data: { id: a[0] },
+                        dataType: 'json',
+                        success: function (d) {
+                            loading.close();
+                            if (d.success) {
+                                $('.update-eshop').each(function () {
+                                    $(this).show();
+                                });
+                                $('.default-address').removeClass('default-address');
+                                $('#' + a[0]).children().first().children().last().children().filter('.id_edit').attr('data-q', 1);
+                                $('#' + a[0]).addClass('default-address');
+                                $(e.target).hide();
+                            }
+                        }
+                    });
+                }
+                if (setdefault) {
+                    var dom = $(a),
+                    did = dom.data('id');
+                    $('.default-address').each(function () {
+                        $(this).css({ "display": "block", "left": "30px" });
+                    });
+
+                    $(e.target).hide();
+                    // ----------------------  升级轻松购
+                    var loading = showLoading();
+                    $.ajax({
+                        type: 'post',
+                        url: "@Url.Action("SetDefaultShippingAddress")",
+                        data: { id: did },
+                        dataType: 'json',
+                        success: function (d) {
+                            loading.close();
+                            if (d.success) {
+                                $('.default-address:visible').next("span").remove();
+                                $('.default-address').each(function () {
+                                    $(this).removeClass("hide");
+
+                                });
+                                //$('.default-address').removeClass('default-address');
+                                //$('#' + a[0]).children().first().find('h3').prepend('<span class="ftx-02 mr10" style="line-height:20px;">轻松购</span>');
+                                //$('#' + a[0]).children().first().children().last().children().filter('.id_edit').attr('data-q', 1);
+                                //$('#' + a[0]).addClass('default-address');
+                                $(e.target).after('<span class="confirm-gou">默认地址</span>');
+                                $(e.target).hide();
+
+                            }
+                        }
+                    });
+                }
+                if (del) {
+                    left = $(window).width();
+                    top = $(window).height();
+                    width = $('#id_del_ms').width();
+                    height = $('#id_del_ms').height();
+                    $('.thickdiv').show();
+                    $('#id_del_c').attr('data-del', $(a).attr('data-tag'));
+                    $('#id_del_ms').css({ top: ((top - height) / 2) + 'px', left: ((left - width) / 2) + 'px', position: 'fixed' }).show();
+                }
+                if (edit) {
+                    var dom = $(a),
+                        s = dom.attr('data'),
+                        q = dom.attr('data-q'),
+                        strArr = ['consigneeName', 'city', 'areaName', 'consigneeAddress', 'consigneeMobile', 'fromLatLng'], consigneeAlias;
+                    if (s) {
+                        consigneeAlias = $('#' + s).children().first().text();
+                        arr.push(consigneeAlias);
+                    } else {
+                        consigneeAlias = $('#' + s).children().first().text();
+                        arr.push(consigneeAlias);
+                    }
+
+                    $('#' + s + ' td').each(function (i, item) {
+                        if (i > 0 && i < 4) {
+                            if ($(item).attr('data')) {
+                                //arr.push($(this).data('data')); YZY修改
+                                arr.push($(item).attr('data'));
+                                arr.push($(item).text());
+                            } else if ($(item).attr('fromLatLng')) {
+                                arr.push($(item).text());
+                                arr.push($(item).attr('fromLatLng'));
+                            } else {
+                                arr.push($(item).text());
+                            }
+                        }
+                    });
+
+                    for (var i = 0, o, num = 0; o = arr[i];) {
+                        data[strArr[num]] = o;
+                        i++;
+                        num++;
+                        // console.log(strArr[num++]+" "+arr[i++]);
+
+                    }
+                    console.log(data)
+                    $('#consigneeName').val(data.consigneeName);
+                    $('#consigneeAddress').val(data.consigneeAddress);
+                    $('#consigneeMobile').val(data.consigneeMobile);
+                    $('#order_edit .thicktitle').text('编辑收货地址');
+                    var areaArr = data.areaName.split(' ');
+                    areaArr[2] = areaArr[2] || '';
+                    $('#areaName').html('<span>' + areaArr[0] + '&nbsp;</span>' + '<span>' + areaArr[1] + '&nbsp;</span>' + '<span>' + areaArr[2] + '&nbsp;</span>');
+                    $('#id_add_order').attr('data', 1 + ',' + s + (q ? (',' + q) : ''));
+                    var parr = data.city.split(','),
+                        pid = parr[0],
+                        cid = parr[1],
+                        cuid = parr[2];
+                    $("#RegionId").val(data.city);
+                    $("#area-selector").RegionSelector({
+                        selectClass: "sele",
+                        valueHidden: "#RegionId"
+                    });
+                    $("#area-selector select").change(function () {//每次选择地址后都要将详细地址清空，防止经纬度和地区不匹配
+                        $("#consigneeAddress").val("");
+                    });
+                    if (data.fromLatLng != null && data.fromLatLng != '') {
+                        $("#Latitude").val(data.fromLatLng.split(',')[0]);
+                        $("#Longitude").val(data.fromLatLng.split(',')[1]);
+                    }
+                    left = $(window).width() / 2;
+                    top = $(window).height() / 2;
+                    width = $('.thickbox').width() / 2;
+                    height = $('.thickbox').height() / 2;
+                    $('.thickdiv').show();
+                    $('#order_edit').css({ top: '50%', left: '50%', marginLeft: '-' + width + 'px', marginTop: '-' + height + 'px', position: 'fixed' }).show();
+                }
+            });
+        }(jQuery));
+
+</script>
+<script type="text/javascript">
+        var searchService;
+        var pageIndex = 0;
+        var pageCapacity = 1000;
+        var geocoder;
+        var hasData = true;
+        $(document).ready(function () {
+            //设置Poi检索服务，用于本地检索、周边检索
+            searchService = new qq.maps.SearchService({
+                //检索成功的回调函数
+                complete: function (results) {
+                    //设置回调函数参数
+                    var pois = results.detail.pois;
+                    if (pois == undefined) {
+                        $("#divMore").html("查询不到数据");
+                    }
+                    else {
+                        for (var i = 0, l = pois.length; i < l; i++) {
+                            var poi = pois[i];
+                            if (typeof (poi.address) != "undefined") {
+                                var parText = "\'" + poi.latLng + "\'" + "," + "\'" + poi.address + "\'" + "," + "\'" + poi.name + "\'";
+                                $("#nearAddress").append('<li data-addr=\"' + poi.name + '\" onclick="choosePosition(' + parText + ')"> <i class="ic_locate"></i><span class="addr-name">' + poi.name + '</span> ， <span class="addr-detail">' + poi.address + '</span></li>');
+                            }
+                        }
+                        if (pois.length < 10) {
+                            $("#divMore").html("附近没有更多地址了");
+                            hasData = false;
+                        }
+                        else {
+                            //$("#divMore").html("加载更多...");
+                        }
+                        pageIndex++;
+                    }
+                },
+                //若服务请求失败，则运行以下函数
+                error: function () {
+                    $("#divMore").html("查询不到数据");
+                }
+            });
+            $("#divAdr").hide();
+            $("#consigneeAddress").bind('input propertychange', function () {
+                var keyword = $("#consigneeAddress").val();
+                if (keyword != "" && keyword != null) {
+                    searchKeyword(1);
+                }
+            });
+        });
+
+        //设置搜索的范围和关键字等属性
+        function searchKeyword(index) {
+            if (!isRefresh && index == 2) {
+                isRefresh = true;
+                return;
+            }
+            //$("#container").hide();
+            $("#divAdr").show();
+            var keyword = $("#consigneeAddress").val();
+            if (keyword == "") {
+                $.dialog.tips("请输入要搜索的地址信息");
+                return;
+            }
+            var region = $("#area-selector select:eq(2)").find("option:selected").text();//优先区县
+            if (region == "请选择") {
+                region = $("#area-selector select:eq(1)").find("option:selected").text();
+            }
+            if (region == "请选择") {
+                region = '';
+            }
+            if (index == 1) {
+                pageIndex = 0;
+                hasData = true;
+                $("#nearAddress").empty();
+            }
+            else {
+                if (!hasData) {
+                    return;
+                }
+            }
+            //根据输入的城市设置搜索范围
+            searchService.setLocation(region);
+            //设置搜索页码
+            searchService.setPageIndex(pageIndex);
+            //设置每页的结果数
+            searchService.setPageCapacity(pageCapacity);
+            //根据输入的关键字在搜索范围内检索
+            searchService.search(keyword);
+        }
+        //--------滚动时，往下加载数据 start--------------
+
+        function scrollLoadData() {
+            var scrollTop = $(this).scrollTop();
+            var scrollHeight = $(this)[0].scrollHeight;
+            var windowHeight = $(this).height();
+            if (scrollTop + windowHeight >= scrollHeight) {
+                setTimeout(searchKeyword(2), 200);
+            }
+        }
+        $(window).scroll(function () {
+            if (hasData)
+                scrollLoadData();
+        });
+        var isRefresh = true;
+        var proId = 0, cityId = 0, districtId = 0, streetId = 0;
+        function choosePosition(latLng, address,name) {
+            $("#Longitude").val(latLng.split(',')[1].trim());
+            $("#Latitude").val(latLng.split(',')[0].trim());
+            isRefresh = false;
+            $("#divAdr").hide();
+            var queryData = {
+                fromLatLng: latLng.split(',')[0].trim() + ',' + latLng.split(',')[1].trim(), url: "@Url.Action("InitRegion")"
+            }
+            $.ajax({
+                type: "GET",
+                url: queryData.url,
+                data: queryData,
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    var fullPath = data.fullPath;//省，市，区，县 :1812,1813,1814,27074
+                    if (fullPath != '') {
+                        var arr = fullPath.split(',');
+                        if (arr.length >= 3) {
+                            proId = arr[0]; cityId = arr[1]; districtId = arr[2];
+                        }
+                        if (arr.length >= 4) {
+                            streetId = arr[3];
+                        }
+                    }
+                    name = getNewAddress(name, data.showCity, data.street);// 过滤掉选择地址名称中的省市区街道
+                    $("#consigneeAddress").val(name);
+                    //初始化街道组合
+                    $("#RegionId").val(streetId>0?streetId:districtId);
+                    $("#area-selector").RegionSelector({
+                        selectClass: "sele",
+                        valueHidden: "#RegionId"
+                    });
+                    $("#area-selector select").change(function () {//每次选择地址后都要将详细地址清空，防止经纬度和地区不匹配
+                        $("#consigneeAddress").val("");
+                    });
+                },
+                error: function () {
+                    $.dialog.tips("系统繁忙，请刷新重试");
+                }
+            });
+        }
+        function getNewAddress(address, showCity, street) {
+            if (showCity != '') {
+                var storeAreaArr = showCity.split(' ');
+                if (street != '') {
+                    storeAreaArr.push(street);
+                }
+                for (var i = 0; i < storeAreaArr.length; i++) {
+                    address = address.replace(storeAreaArr[i], '');
+                }
+            }
+            return address;
+        }
+</script>

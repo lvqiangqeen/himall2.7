@@ -1,0 +1,14 @@
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.WeiXinPay\bin\Debug\wx_logo.png
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.WeiXinPay\bin\Debug\plugin.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.WeiXinPay\bin\Debug\data.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.WeiXinPay\bin\Debug\Himall.Plugin.Payment.WeiXinPay.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.WeiXinPay\bin\Debug\Himall.Plugin.Payment.WeiXinPay.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.WeiXinPay\bin\Debug\Himall.Core.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.WeiXinPay\bin\Debug\Himall.PaymentPlugin.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.WeiXinPay\bin\Debug\Himall.WeixinPaymentBase.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.WeiXinPay\bin\Debug\Himall.PaymentPlugin.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.WeiXinPay\bin\Debug\Himall.WeixinPaymentBase.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.WeiXinPay\bin\Debug\Himall.Core.xml
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.WeiXinPay\obj\Debug\Himall.Plugin.Payment.WeiXinPay.csprojResolveAssemblyReference.cache
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.WeiXinPay\obj\Debug\Himall.Plugin.Payment.WeiXinPay.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.WeiXinPay\obj\Debug\Himall.Plugin.Payment.WeiXinPay.pdb

@@ -1,0 +1,179 @@
+﻿@model IEnumerable<Himall.Web.Areas.SellerAdmin.Models.ShopHomeModuleBasicModel>
+
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+@*<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/shopHomeModule.js"></script>*@
+<link href="~/Content/jquery.onoff.css.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.onoff.min.js"></script>
+<style>
+      .onoffswitch-inner:before{text-align:left;}
+</style>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li class="active"><a>管理</a></li>
+        <li><a href="/SellerAdmin/ShopHomeModule/AddFloor">新增楼层</a></li>
+    </ul>
+
+    <table id="moduleTable" class="table mt20">
+        <thead>
+            <tr>
+                <th align="center">楼层标题</th>
+                <th align="center">排序</th>
+                <th align="center"></th>
+                <th class="td-operate">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach( var shopHomeModel in Model )
+            {
+                <tr rownumber="@shopHomeModel.DisplaySequence" moduleid="@shopHomeModel.Id">
+                    <td>@shopHomeModel.Name</td>
+                    <td width="100px"><span class="glyphicon glyphicon-circle-arrow-up"></span> <span class="glyphicon glyphicon-circle-arrow-down"></span></td>
+                    @*<td width="120px" align="center"><div class="switch switch-mini"><input class="bootstrapSwitch" type="checkbox" data-size="mini" data-on-text="开启" data-off-text="关闭" @(shopHomeModel.IsEnable ? "checked" : "") /></div></td>*@
+                    <td width="120px" align="center"><input type="checkbox" @(shopHomeModel.IsEnable ? "checked" : "") /></td>
+
+                    <td class="td-operate"><span class="btn-a"><a href="./AddFloor/@shopHomeModel.Id">编辑</a><a onclick="del(@shopHomeModel.Id)">删除</a></span></td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(function () {
+        //开关
+        $('input[type="checkbox"]').onoff();
+
+        $('input').change(function () {
+            var _this = $(this),
+                id = $(this).parents('tr').attr('moduleId'),
+                state = _this[0].checked;
+            changSwitch(id, state, function (result) {
+                if (result != undefined && result.success) {
+                    _this.onoff('state', state);
+                }
+                else {
+                    _this.onoff('state', !state);
+                    $.dialog.errorTips('操作失败!失败原因：' + result.msg);
+                }
+            });
+        })
+
+
+        @*$( ".bootstrapSwitch" ).bootstrapSwitch( {
+            onSwitchChange: function ( event, state )
+            {
+                var id = $( this ).parents( 'tr' ).attr( 'moduleId' );
+                var switcher = $( this );
+                changSwitch( id, state, function ( result )
+                {
+                    if ( result != undefined && result.success )
+                    {
+                        switcher.bootstrapSwitch( 'state', state );
+                    }
+                    else
+                    {
+                        switcher.bootstrapSwitch( 'state', !state );
+                        $.dialog.errorTips( '操作失败!失败原因：' + result.msg );
+                    }
+                } );
+            }
+        } );
+        $( ".bootstrapSwitch" ).bootstrapSwitch();*@
+
+
+        //排序
+        $(".table tbody tr").first().find('.glyphicon-circle-arrow-up').addClass('disabled');
+        $(".table tbody tr").last().find('.glyphicon-circle-arrow-down').addClass('disabled');
+
+        $(".table").on("click", '.glyphicon-circle-arrow-up', function () {
+            var thisObj = this;
+            var p = $(this).parents('tr');
+            var index = p.parent().find('tr').index(p);
+            if (index == 0)
+                return false;
+            else {
+                var oriRowNumber = parseInt(p.attr('rowNumber'));
+                var newRowNumber = p.prev().attr('rowNumber');
+                changeSequence(oriRowNumber, newRowNumber, "up", function () {
+                    p.attr('rowNumber', newRowNumber);
+                    p.prev().attr('rowNumber', oriRowNumber);
+                    p.prev().before(p);
+                    reDrawArrow(thisObj);
+                });
+            }
+        });
+
+        $(".table").on("click", '.glyphicon-circle-arrow-down', function () {
+            var thisObj = this;
+            var p = $(this).parents('tr');
+            var count = p.parent().find('tr').length;
+            var index = p.parent().find('tr').index(p);
+            if (index == (count - 1))
+                return false;
+            else {
+                var oriRowNumber = parseInt(p.attr('rowNumber'));
+                var newRowNumber = p.next().attr('rowNumber');
+
+                changeSequence(oriRowNumber, newRowNumber, "down", function () {
+                    p.attr('rowNumber', newRowNumber);
+                    p.next().attr('rowNumber', oriRowNumber);
+                    p.next().after(p);
+                    reDrawArrow(thisObj);
+                });
+            }
+        });
+
+    })
+
+
+    function changSwitch(id, enable, callback) {
+        var loading = showLoading();
+        $.post("./FloorEnable", { id: id, enable: enable }, function (data) {
+            loading.close();
+            if (data.success) {
+                callback(data);
+            }
+        })
+    }
+
+    function changeSequence(oriRowNumber, newRowNumber, direction, callback) {
+        var loading = showLoading();
+        $.post("./FloorChangeSequence", { oriRowNumber: oriRowNumber, newRowNumber: newRowNumber, direction: direction }, function (data) {
+            loading.close();
+            if (!data.success) {
+                $.dialog.errorTips('调整顺序出错!' + data.msg);
+            }
+            else {
+                callback(data);
+            }
+        })
+    }
+
+    function reDrawArrow(obj) {
+        $(obj).parents('tbody').find('.glyphicon').removeClass('disabled');
+        $(obj).parents('tbody').find('tr').first().find('.glyphicon-circle-arrow-up').addClass('disabled');
+        $(obj).parents('tbody').find('tr').last().find('.glyphicon-circle-arrow-down').addClass('disabled');
+    }
+
+
+
+    function del(id) {
+        $.dialog.confirm('确定要删除楼层吗？', function () {
+            var loading = showLoading();
+            $.post("./DelFloor", { id: id }, function (data) {
+                if (data.success) {
+                    $.dialog.succeedTips('成功!');
+                    location.href = location.href;
+                }
+                else {
+                    $.dialog.errorTips('删除失败!');
+                }
+                loading.close();
+            })
+        })
+    }
+</script>

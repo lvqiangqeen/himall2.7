@@ -1,0 +1,89 @@
+﻿@model Himall.Model.SiteSettingsInfo
+@{
+    ViewBag.Title = "找回密码";
+    ViewBag.CopyRight = false;
+
+}
+<style>
+    body {
+        background-color: #fff;
+    }
+</style>
+<div class="login">
+    <div class="login" style="margin-top: .12rem;">
+        <h3 style="margin-bottom:18px">找回密码</h3>
+    </div>
+    <div class="login-bd">
+        <div class="login-input-group">
+            <div class="input-item border-0 flex-center">
+                <input class="form-control" id="code" type="text" placeholder="输入验证码">
+            </div>
+        </div>
+        <a id="bindBtn" class="flex-center">提 交</a>
+    </div>
+    <div class="input-item flex-center">
+        <input id="get-code" class="form-control" style="text-align: center;margin-top:10px;border-style: none;" value="获取验证码" type="button" />
+    </div>
+    <div class="input-item flex-center" style="font-size: 15px;position: fixed;bottom: 0px;text-align: center;">
+        <span>验证码已发送至手机或者邮箱 @ViewBag.Contact</span>
+    </div>
+</div>
+
+
+
+<script src="~/Areas/Mobile/Templates/Default/Scripts/validate.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var wait = 60;
+        function time(o) {
+            if (wait == 0) {
+                o.removeAttribute("disabled");
+                o.value = "重新发验证码";
+                wait = 60;
+
+            } else {
+                o.setAttribute("disabled", true);
+                o.value = "" + wait + "秒后将重新发送验证码";
+                wait--;
+                setTimeout(function () {
+                    time(o)
+                }, 1000)
+            }
+        }
+        time(document.getElementById("get-code"));
+        $("#get-code").click(function () {
+            var $this = this;
+            $.ajax({
+                type: "post",
+                url: "/" + areaName + "/Login/SendCode?contact=" + '@ViewBag.Contact',
+                success: function (result) {
+                    console.log(result)
+                    if (result.success == true) {
+                        time($this);
+                    }
+                }
+            });
+        });
+        $("#bindBtn").click(function () {
+            var checkCode = $('#code').val()
+            if (!checkCode) {
+                $.dialog.errorTips('请填写验证码');
+                return;
+            }
+            $.ajax({
+                type: "post",
+                url: "/" + areaName + "/Login/CheckCode",
+                data: { code: checkCode, contact: '@ViewBag.Contact' },
+                success: function (result) {
+                    console.log(result)
+                    if (result.success == true) {
+                        window.location.href = result.url + "?contact=" + '@ViewBag.Contact';
+                    }
+                    else {
+                        $.dialog.errorTips(result.msg);
+                    }
+                }
+            });
+        })
+    });
+</script>

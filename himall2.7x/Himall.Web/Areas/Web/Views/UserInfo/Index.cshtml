@@ -1,0 +1,268 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "个人信息";
+}
+@model Himall.DTO.Members
+
+<style>
+    .item .f1 a {
+        font-size: 13px;
+        color: #f1b033;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<div class="box1 lh24">
+    <div class="title bot-border">
+        <h3 class="title_txt cur">修改个人信息</h3>
+    </div>
+    <div class="border-box">
+        <div class="user-set userset-lcol">
+            <div class="form">
+                <div class="item">
+                    <span class="label">昵称</span>
+                    <div class="fl">
+                        <input type="text" value="@Model.Nick" id="nick" maxlength="20" class="itxt">
+                        <div class="clr"></div>
+                        <div id="nick_msg" class="prompt-06" style="display:none">昵称错误!</div>
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="label">邮箱</span>
+                    <div class="fl">
+                        @{var disableEmail = "";
+                            if (@ViewBag.BindEmail != null && @ViewBag.BindEmail.IsBind && @ViewBag.BindEmail.IsSettingsValid)
+                            {
+                                disableEmail = "disabled";
+                            }
+                        }
+                        <input type="text" value="@Model.Email" id="email" @disableEmail class="itxt">
+                        @{if (@ViewBag.BindEmail != null && !string.IsNullOrEmpty(disableEmail))
+                            {
+                                <a href="/UserInfo/Rebind?pluginid=Himall.Plugin.Message.Email" style="font-size:13px;color:#f1b033;">更改</a>
+                            }
+                            else if (@ViewBag.BindEmail != null)
+                            {
+                                <a href="/UserCenter/bind?pluginid=Himall.Plugin.Message.Email" style="font-size:13px;color:#f1b033;">绑定</a>
+                            }}
+                        <div class="clr"></div>
+                        <div id="email_msg" class="prompt-06" style="display:none"></div>
+
+                    </div>
+                </div>
+                <div class="item">
+                    @{var disableSMS = "";
+                        if (@ViewBag.BindSMS != null && @ViewBag.BindSMS.IsBind && @ViewBag.BindSMS.IsSettingsValid)
+                        {
+                            disableSMS = "disabled";
+                        }
+                    }
+                    <span class="label"><i class="red">* </i>手机</span>
+                    <div class="fl">
+                        <input type="text" value="@Model.CellPhone" id="cellphone" maxlength="20" @disableSMS class="itxt">
+                        @{if (@ViewBag.BindSMS != null && !string.IsNullOrEmpty(disableSMS))
+                            {
+                                <a href="/UserInfo/Rebind?pluginid=Himall.Plugin.Message.SMS" style="font-size:13px;color:#f1b033;">更改</a>
+                            }
+                            else if (@ViewBag.BindSMS != null)
+                            {
+                                <a href="/UserCenter/bind?pluginid=Himall.Plugin.Message.SMS" style="font-size:13px;color:#f1b033;">绑定</a>
+                            }}
+                        <div class="clr"></div>
+                        <div id="email_msg" class="prompt-06" style="display:none"></div>
+
+
+
+                        <div class="clr"></div>
+                        <div id="phone_msg" class="prompt-06" style="display:none"></div>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="label">QQ</span>
+                    <div class="fl">
+                        <input type="text" value="@Model.QQ" id="qq" maxlength="20" class="itxt">
+                        <div class="clr"></div>
+                        <div id="email_msg" class="prompt-06" style="display:none"></div>
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="label"><i class="red">* </i>真实姓名</span>
+                    <div class="fl">
+                        <input type="text" value="@Model.RealName" id="name1" maxlength="20" class="itxt">
+                        <div class="clr"></div>
+                        <div class="prompt-06" id="name_msg"></div>
+                    </div>
+                </div>
+
+
+                <div class="item">
+                    <span class="label">性别</span>
+                    <div class="fl infor-sex">
+                        @if (Model.Sex == Himall.CommonModel.SexType.Male)
+                        {
+                             <label><input id="RdWomen" type="radio" value="2" name="RdSex" /> 女</label>
+                             <label><input id="RdMan" type="radio" name="RdSex" value="1" checked />男</label>
+                        }
+                        else
+                        {
+                            <label><input id="RdWomen" type="radio" name="RdSex" value="2" checked /> 女</label>
+                            <label><input id="RdMan" type="radio" name="RdSex" value="1" /> 男</label> 
+                        }
+                        <div class="clr"></div>
+                        <div class="prompt-06" id="sex_msg"></div>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="label"><i class="red">* </i>生日</span>
+                    <div class="fl">
+                        @if (!Model.BirthDay.HasValue)
+                        {
+                            <input type="text" data-d-group="0" class="itxt start_datetime" id="birthDay" autocomplete="off">
+                        }
+                        else
+                        {
+                            @Model.BirthDay.Value.ToString("yyyy-MM-dd")
+                        }
+                        <div class="clr"></div>
+                        <div class="prompt-06" id="birth_msg"></div>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="label">职业</span>
+                    <div class="fl">
+                        <input type="text" value="@Model.Occupation" id="Occupation" maxlength="20" class="itxt" autocomplete="off">
+                        <div class="clr"></div>
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="label">会员等级</span>
+                    <div class="fl">
+                        @Model.GradeName
+                        <div class="clr"></div>
+                        <div id="email_msg" class="prompt-06" style="display:none"></div>
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="label">累计净消费金额</span>
+                    <div class="fl">
+                        @Model.NetAmount
+                        <div class="clr"></div>
+                        <div id="email_msg" class="prompt-06" style="display:none"></div>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="label">注册时间</span>
+                    <div class="fl">
+                        @Model.CreateDate.ToString("yyyy-MM-dd")
+                        <div class="clr"></div>
+                        <div id="email_msg" class="prompt-06" style="display:none"></div>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <span class="label">&nbsp;</span>
+                    <div class="fl" style="margin-top:16px;">
+                        <a id="id_btn" class="search_btn" style="margin-left:0;">保存</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $(function () {
+        $(".start_datetime").datetimepicker({
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            weekStart: 1,
+            minView: 2
+        });
+        $('.start_datetime').datetimepicker('setEndDate', "@DateTime.Now.ToString("yyyy-MM-dd")");
+    });
+
+    //验证
+    ; (function ($) {
+        var stae1, stae2, stae3, check, reg = /^([a-zA-Z0-9_-])+@@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+        $("#nick").focus();
+        $('#email').blur(function () {
+            var d = $(this).val();
+            check = 1;
+            if (!reg.test(d)) {
+                //$('#email').css({ borderColor: '#f60' });
+                $('#email_msg').css({ color: '#f60' }).html('邮箱格式不正确!');
+            } else {
+                $('#email').css({ borderColor: '#ccc' });
+                $('#email_msg').css({ color: '#ccc' }).html('');
+            }
+        });
+
+
+        $('#name1').blur(function () {
+            var d = $(this).val();
+            if (!d) {
+                //$('#email').css({ borderColor: '#f60' });
+                $('#name_msg').css({ color: '#f60' }).html('真实姓名不能为空!');
+            } else {
+                $('#name1').css({ borderColor: '#ccc' });
+                $('#name_msg').css({ color: '#ccc' }).html('');
+            }
+        });
+
+
+        $('#id_btn').bind('click', function () {
+            stae1 = $('#nick').val();
+            stae2 = $('#email').val();
+            stae3 = $('#name1').val();
+            stae4 = $('#qq').val();
+            stae5 = $('#cellphone').val();
+            var birthDay = "";
+            if ($("#birthDay").length > 0) {
+                birthDay = $("#birthDay").val();
+                if(birthDay.length==0)
+                {
+                    $('#birth_msg').css({ color: '#f60' }).html('生日不能为空!');
+                    return;
+                }
+            }
+            if (stae2 && (!reg.test(stae2))) {
+                //$('#email').css({ borderColor: '#f60' });
+                $('#email_msg').css({ color: '#f60' }).html('邮箱格式不正确!');
+                return;
+            }
+            if (!stae3) {
+                $('#name_msg').css({ color: '#f60' }).html('真实姓名不能为空!');
+                return;
+            }
+            if (stae3 && stae3.length > 20) {
+                $('#name_msg').css({ color: '#f60' }).html('真实姓名不能大于20个字符!');
+                return;
+            }
+            var occupation = $("#Occupation").val();
+            var sex = $("input[name='RdSex']:checked").val();
+
+                var loading = showLoading();
+                $.ajax({
+                    type: 'post',
+                    url: '@Url.Action("UpdateUserInfo")',
+                    data: { "nick": stae1, "email": stae2, "realName": stae3, "QQ": stae4, "cellPhone": stae5,birthday:birthDay,occupation:occupation,sex:sex },
+                    dataType: "json",
+                    success: function (data) {
+                        loading.close();
+                        if (data.success) {
+                            $.dialog.succeedTips("修改成功！", '', 2);
+
+                        } else {
+                            $.dialog.errorTips("修改失败，"+data.msg, '', 3);
+                        }
+                    }
+                });
+        });
+    }(jQuery));
+</script>

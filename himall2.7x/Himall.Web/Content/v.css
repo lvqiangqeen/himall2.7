@@ -1,0 +1,79 @@
+﻿<style>
+    /*表单验证提示信息样式*/
+    .input-item {
+        border: 1px solid #ccc;
+        float: left;
+        margin-right: 8px;
+        line-height: 18px;
+        padding: 5px;
+        height: 18px;
+        width: 167px;
+    }
+
+    .textarea-item {
+        border: 1px solid #ccc;
+        float: none;
+        line-height: 18px;
+        padding: 5px;
+        margin-right: 8px;
+        font-size: 12px;
+        outline: 0 none;
+    }
+
+    .tip {
+        position: relative;
+        width: 10px;
+        height: 20px;
+        display: block;
+        *display: inline;
+        *zoom: 1;
+        vertical-align: top;
+        margin: 0px 122px;
+    }
+
+        .tip span {
+            position: absolute;
+            z-index: 99;
+            width: 270px;
+            font-size: 12px;
+            color: #00be00;
+            padding: 5px 5px 5px 0;
+            line-height: 20px;
+            text-align: left;
+            overflow: hidden;
+            height: auto;
+        }
+
+            .tip span a {
+                font-weight: bold;
+                padding: 0 5px;
+                cursor: pointer;
+                color: #039;
+            }
+
+    .tip-error span {
+        color: #f60;
+    }
+
+    .item-error {
+        border: 1px solid #F60;
+    }
+
+    .tip-error span {
+        background-position: 5px 7px;
+    }
+
+    .item-pass {
+        border: 1px solid #00BE00;
+    }
+
+    .tip-pass span {
+        border: none;
+        text-indent: -99999px;
+        width: 50px;
+        height: 20px;
+    }
+
+    input .item-error {
+    }
+</style>

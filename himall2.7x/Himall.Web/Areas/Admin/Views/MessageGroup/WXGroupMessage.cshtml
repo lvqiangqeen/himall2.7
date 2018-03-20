@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewBag.Title = "WXGroupMessage";
+    List<SelectListItem> sexList = new List<SelectListItem>();
+    foreach (var item in Enum.GetValues(typeof(Himall.CommonModel.SexType)))
+    {
+        var itemdata = (Himall.CommonModel.SexType)item;
+        sexList.Add(new SelectListItem
+        {
+            Text = itemdata.ToDescription(),
+            Value = ((int)item).ToString()
+        });
+    }
+    sexList.Insert(0, new SelectListItem { Value = "-1", Text = "全部" });
+
+}
+<script src="~/Areas/Admin/Scripts/MessageGroupWXGroupMessage.js"></script>
+<link href="~/Content/WXmsg.css" rel="stylesheet" />
+ <div class="container">
+     <ul class="nav nav-tabs-custom clearfix">
+         <li class="active"><a >群发微信消息</a></li>
+         <li><a href="EMailGroupMessage">群发邮件</a></li>
+         <li><a href="PhoneGroupMessage">群发短信</a></li>
+         <li><a href="CouponGroupMessage">群发优惠券</a></li>
+         <li><a href="Management">已发送消息</a></li>
+     </ul>
+     <h5 class="tips-top"><span class="help-default"><i></i>说明：一个粉丝一个月最多接收同一个服务号群发的四条消息，若超过四条则该粉丝无法接收</span></h5>
+        <div class="VIP-Marketing">
+
+            <div class="VIP-choice">
+                <span class="object">
+                    <i>群发对象</i><br>
+                    <label><input type="radio" name="label" id="allLabel" value="1">全部</label>
+                    <label><input type="radio" name="label" value="2">按标签 <em class="tag-choice" id="selectLabel">选择</em></label>
+                </span>
+                <div class="dialog-tag">
+                    <h3>勾选标签<span class="glyphicon glyphicon-remove"></span></h3>
+                    <p class="clear-u1">
+                        @if (ViewBag.LabelInfos != null)
+                        {
+                            var labelinfos = (IEnumerable<Himall.Model.LabelInfo>)ViewBag.LabelInfos;
+                            foreach (var label in labelinfos)
+                            {
+                                <label>
+                                    @Html.CheckBox("check_Label", new { value = label.LabelName, id = "check_" + label.Id, datavalue = label.Id })
+                                    @label.LabelName
+                                </label>
+                            }
+                        }
+                    </p>
+                    <h5><span class="tag-submit cur-p">确认</span><span class="tag-back cur-p" >返回</span></h5>
+                </div>
+                <span class="VIP-sex">
+                   <div class="form-group">
+                       <label class="label-inline">性别</label>
+                       @Html.DropDownList("sexType", sexList, new { @class = "form-control input-ssm" })
+                   </div>
+                </span>
+                <span class="VIP-area">
+                    <div class="form-group">
+                        <label class="label-inline">群发地区</label>
+                        @Html.DropDownList("region", (IEnumerable<SelectListItem>)ViewBag.Regions, new { @class = "form-control input-ssm" })
+                    </div>
+                </span>
+                <div style="clear: both"></div>
+                <p class="tag-area">
+                    @*<span labelid="">新会员</span><span>80后</span>*@
+                </p>
+            </div>
+            <div class="msg-tab">
+                <ul id="msgtype">
+                    <li id="msgtype_news" class="active" value="@((int)Himall.CommonModel.WXMsgType.mpnews)"><span class="glyphicon glyphicon-list-alt"></span>图文</li>
+                    <li id="msgtype_text" value="@((int)Himall.CommonModel.WXMsgType.text)"><span class="glyphicon glyphicon-pencil"></span>文字</li>
+                </ul>
+                <div class="Area-inner">
+                    <div class="tab-content" id="mediaSelect">
+                        <span class="create_access library">
+                            <a><i class="glyphicon glyphicon-plus"></i><br><p>从素材库中选择</p></a>
+                        </span>
+                         <span class="create_access">
+                             <a href="../WeiXin/WXMsgTemplate"><i class="glyphicon glyphicon-plus"></i><br><p>新建图文消息</p></a>
+                        </span>
+                        <div id="mediaDetail" style="display:none;">
+                            <span id="mediaTime"></span>
+                            <div class="item" name="wrapperItem" >
+                                <div class="WX-item">
+                                    <div class="item-img">
+                                        <img name="wrapper"/>
+                                    </div>
+                                    <span class="item-title" name="wrapperTitle">标题</span>
+                                </div>
+                            </div>
+                            <div id="divChild"></div>
+                            @*<div class="item" name="childItem" style="display: none;">
+                                <div class="WX-edted">
+                                    <i><img /> </i>
+                                    <span name="title">标题</span>
+                                </div>
+                             </div>*@
+                        </div>
+                    </div>
+                    <div class="sucai-library">
+                        <h5>选择素材<span class="glyphicon glyphicon-remove"></span></h5>
+
+                        <div class="library-box">
+                            <ul id="list"></ul>
+                        </div>
+                        <p class="submit"><a type="submit" id="btnOk" class="clear-u2">确定</a><a type="submit" id="btnCancel">取消</a></p>
+                    </div>
+                    <div class="tab-content dln" id="txtInput" >
+                        <textarea ></textarea>
+                    </div>
+            </div>
+
+        </div>
+            <button class="btn btn-primary btn-sm clear-u3" id="btnSendWX" >群发</button>
+        <div class="coverage"></div>
+    </div>
+</div>

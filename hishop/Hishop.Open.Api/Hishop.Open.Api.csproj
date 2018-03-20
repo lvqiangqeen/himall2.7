@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>local</ProjectType>
+    <ProjectVersion>7.10.377</ProjectVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>b0bda4c4-76f7-438e-97df-cf14922a54bf</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <AssemblyName>Hishop.Open.Api</AssemblyName>
+    <OutputType>Library</OutputType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Reference Include="System" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Global.cs" />
+    <Compile Include="Hishop\Open\Api\IProduct.cs" />
+    <Compile Include="Hishop\Open\Api\ITrade.cs" />
+    <Compile Include="Hishop\Open\Api\OpenApiErrorCode.cs" />
+    <Compile Include="Hishop\Open\Api\OpenApiErrorMessage.cs" />
+    <Compile Include="Hishop\Open\Api\OpenApiSign.cs" />
+    <Compile Include="Hishop\Open\Api\product_item_model.cs" />
+    <Compile Include="Hishop\Open\Api\product_sku_model.cs" />
+    <Compile Include="Hishop\Open\Api\product_list_model.cs" />
+    <Compile Include="Hishop\Open\Api\trade_list_model.cs" />
+    <Compile Include="Hishop\Open\Api\trade_itme_model.cs" />
+  </ItemGroup>
+</Project>

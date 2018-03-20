@@ -1,0 +1,16 @@
+﻿@model  IEnumerable<Himall.Web.Areas.Web.Models.ProductBrowsedHistoryModel>
+
+<!--_ProductBrowsedHistory start-->
+<div class="story_box">
+
+    @foreach(var m in Model)
+    {
+        if (m == null) { continue; }
+     <a target="_blank" href="@Url.Action("Detail", "Product", new { id = @m.ProductId })" class="story_p">
+        <div class="c"><img width="100" height="100" style="mrb10" src="@Himall.Core.HimallIO.GetProductSizeImage(m.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_100)"/></div>
+        <span class="linebr story_des">@m.ProductName</span>
+        <span class="story_price"><b class="desc">价格: </b>￥@m.ProductPrice.ToString("f2")</span>
+    </a>
+    }
+</div>
+<!--_ProductBrowsedHistory end-->

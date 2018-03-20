@@ -1,0 +1,42 @@
+﻿@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>用户注册协议</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/inner-custom.css" />
+    <script type="text/javascript" src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="~/Scripts/jquery.nicescroll.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <form class="form-horizontal" role="form" method="post" action="JoinSeller_Step1">
+            <h3 class="art-title">用户注册协议</h3>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-1" id="divhtml">@Html.Raw(Model.AgreementContent)</div>
+            </div>
+            @*<div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-4">
+                        <label><input type="checkbox" id="agree" name="agree" /> </label>
+                    </div>
+                </div>*@
+
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-10">
+                    <button type="button" class="btn btn-primary" onclick="window.close()">我已阅读并同意以上协议</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/CommonJS.js"></script>

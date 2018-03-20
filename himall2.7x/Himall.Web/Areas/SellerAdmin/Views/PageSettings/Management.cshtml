@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Himall.Model.ImageAdInfo>
+
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script type="text/javascript">
+    var setlogoUrl = '@Url.Action("setlogo")';
+    var logo = "@(HimallIO.GetImagePath(ViewBag.Logo))";
+</script>
+<script src="~/Areas/SellerAdmin/Scripts/pageSettings.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.nicescroll.min.js"></script>
+<div class="container">
+    <!--<ul class="nav nav-tabs-custom clearfix">
+        <strong>首页设置</strong>
+        <em class="primary-btn">
+            <span class="glyphicon glyphicon-question-sign"></span>
+            <div class="primary">
+                <h3>温馨提示：</h3>
+                <span>*</span><p>可通过可视化编辑设置店铺首页</p>
+            </div>
+        </em>
+    </ul>-->
+
+    <div class="vis-view-area clearfix">
+        <div class="seller-banner-area clearfix">
+            <a type="imageAd" imagedescript="1920*128" class="banner-a" title="banner设置" value="@Model.ElementAt(0).Id" pic="@(Himall.Core.HimallIO.GetImagePath(Model.ElementAt(0).ImageUrl))" url="@(Model.ElementAt(0).Url)"></a>
+        </div>
+        <div class="nav-area clearfix">
+        <a href="../Navigation/management" title="导航条设置"></a>
+    </div>
+    <div class="focus-area clearfix">
+        <a href="SlideAds" title="focus轮播图设置"></a>
+    </div>
+    <div class="goods-area clearfix">
+        <div class="recomm-goods-area">
+            <a type="imageAd" imagedescript="1190*218" title="横条广告" value="@ViewBag.TransverseAD.Id" pic="@(Himall.Core.HimallIO.GetImagePath(ViewBag.TransverseAD.ImageUrl))" url="@(ViewBag.TransverseAD.Url)"></a>
+            <a type="imageAd" imagedescript="380*320" title="精品推荐(1)" value="@Model.ElementAt(1).Id" pic="@(Himall.Core.HimallIO.GetImagePath(Model.ElementAt(1).ImageUrl))" url="@(Model.ElementAt(1).Url)"></a>
+            <a type="imageAd" imagedescript="426*320" class="recomm-area" title="精品推荐(2)" value="@Model.ElementAt(2).Id" pic="@(Himall.Core.HimallIO.GetImagePath(Model.ElementAt(2).ImageUrl))" url="@(Model.ElementAt(2).Url)"></a>
+            <a type="imageAd" imagedescript="380*320" title="精品推荐(3)" value="@Model.ElementAt(3).Id" pic="@(Himall.Core.HimallIO.GetImagePath(Model.ElementAt(3).ImageUrl))" url="@(Model.ElementAt(3).Url)"></a>
+        </div>
+    </div>
+    <div class="shop-goood-sort"><a onclick="window.location.href = '../Category/Management?displayUrl=' + location.href"></a></div>
+    <div class="floors-area">
+        <a href="../ShopHomeModule/management" title="楼层编辑"></a>
+    </div>
+    <div class="shop-bot"><a class="shop-notice " title="页脚设置" href="../ShopHomeModule/EditFooter"></a><a class="logo-area" title="Logo设置"></a></div>
+
+
+    </div>
+
+
+</div>
+<div class="dialog-form" id="logosetting" style="display:none">
+    <div class="form-group upload-img clearfix" id="uploadImg">
+    </div>
+</div>

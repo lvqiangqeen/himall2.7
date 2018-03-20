@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "充值支付结果";
+}
+
+<script>
+    // JavaScript source code
+    $(function () {
+        $('.progress-').hide();
+    })
+
+    var secs = 5; //倒计时的秒数
+    var URL;
+    function Load(url) {
+        URL = url;
+        for (var i = secs; i >= 0; i--) {
+            window.setTimeout('doUpdate(' + i + ')', (secs - i) * 1000);
+        }
+    }
+
+    function doUpdate(num) {
+        document.getElementById("ShowDiv").innerHTML = '将在<strong><font color=red> ' + num + ' </font></strong>'+$("#HRhp").val()+'，请稍候...';
+        if (num == 0) { window.location = URL; }
+    }
+    $(function () {
+        Load("/selleradmin");
+    })
+
+</script>
+
+<div class="w Sclear-L">
+    @{
+        var errorMsg = ViewBag.Error;
+        var flag = !string.IsNullOrWhiteSpace(errorMsg) ? "fail" : "success";
+        var redirectUrl = string.IsNullOrWhiteSpace(errorMsg) ? ("/selleradmin") : "/";
+        var htmlPart = string.IsNullOrWhiteSpace(errorMsg) ? ("秒后自动跳至充值页面<a  href='/selleradmin' class='link_1'>管理后台</a>") : "";
+    }
+    <div class="tips-page pay-@flag-page" style="height:400px;width:1000px;">
+        @if (string.IsNullOrWhiteSpace(errorMsg))
+        {
+            <h2>
+                恭喜您，支付成功！
+            </h2>
+        }
+        else
+        {
+            <h2>
+                抱歉，支付失败！请重新支付！
+            </h2>
+            <div class="error_child">您可以：<a href="/selleradmin?url=/SellerAdmin/UserAccount/CapitalCharge">返回保证金支付页面</a></div>
+        }
+
+        <div id="ShowDiv"></div>
+    </div>
+
+</div>
+
+<input type="hidden" value="@Html.Raw(htmlPart)" id="HRhp"/>

@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "个人信息";
+}
+
+<div class="box1 lh24">
+    <div class="title bot-border">
+        <h3 class="title_txt cur">验证信息</h3>
+    </div>
+    
+    <div class="border-box">
+		<div class="yanzh_pic1 no">
+			<span class="col">获取@{@ViewBag.ShortName}验证码</span>
+			<span>验证新@{@ViewBag.ShortName}</span>
+			<span>完成</span>
+		</div>
+        <div class="yxyz">
+            <span class="yxyz_span1" style="margin:0 auto;width:200px;">恭喜您,更改成功！</span>
+        </div>
+    </div>
+</div>

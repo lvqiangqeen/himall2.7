@@ -1,0 +1,147 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Areas/Web/Content/login.css" rel="stylesheet" />
+    <title>用户绑定</title>
+</head>
+<body>
+    <div class="w">
+        <div id="logo"><a href=""><img src="@Himall.Core.HimallIO.GetImagePath(ViewBag.Logo)" alt="Himall" height="60" /></a><b></b></div>
+    </div>
+    <div class=" w1" id="entry">
+        <div class="mc " id="bgDiv">
+            <div id="entry-bg">@if (!string.IsNullOrWhiteSpace(SiteSetting.PCLoginPic))
+            {
+                <img src="@(@Himall.Core.HimallIO.GetImagePath(SiteSetting.PCLoginPic))" />
+            }</div>
+            <div class="form">
+                @if (ViewBag.OauthId.Contains("QQ"))
+                {
+                    <div class="login-prm">您已通过 QQ账号:<span> @(ViewBag.NickName)</span>  登录成功，建议您同时绑定商城账号避免账号意外丢失。</div>
+                }
+                else
+                {
+                    <div class="login-prm">您已使用@(ViewBag.ServiceProvider)登录，建议您同时绑定商城账号避免账号意外丢失。</div>
+                }
+                <div class="item fore1">
+                    <span class="user-name">用户名</span>
+                    <div class="item-ifo">
+                        <input type="text" id="username" class="text" tabindex="1" autocomplete="off" sta="2" />
+                        <div class="i-name ico"></div>
+                        <label id="loginname_succeed" class="blank invisible succeed"></label>
+                        <label id="loginname_error" class="error" style="display:none"></label>
+                    </div>
+                </div>
+                <div class="item fore2">
+                    <span class="pass-word">密码</span>
+                    <div class="item-ifo">
+                        <input type="password" id="password" class="text highlight2" tabindex="2" autocomplete="off" sta="2" />
+                        <input type="hidden" name="loginpwd" id="loginpwd" value="111" class="hide" sta="2" />
+                        <div class="i-pass ico"></div>
+                        <label id="password_error" class="error" style="display:none"></label>
+                    </div>
+                </div>
+                <input type="hidden" name="nickName" value="@ViewBag.NickName" />
+                <input type="hidden" name="oauthId" value="@ViewBag.OauthId" />
+                <input type="hidden" name="openId" value="@ViewBag.OpenId" />
+                <input type="hidden" name="unionid" value="@ViewBag.unionid" />
+                <input type="hidden" name="unionopenid" value="@ViewBag.unionopenid" />
+                <div class="item login-bind-btn">
+                    <input type="button" class="btn-bind-id" id="bindBtn" value="绑定账号" />
+                    <a class="ftx24" id="skip" href="javascript:;">不绑定，直接去购物&nbsp;&nbsp;&gt;&gt;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w1"><div id="mb-bg" class="mb"></div></div>
+    <div class="w">
+        <div id="footer">
+          
+        </div>
+    </div>
+
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <link href="~/Content/artdialog.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.artDialog.js"></script>
+    <script src="~/Scripts/artDialog.iframeTools.js"></script>
+    <script src="~/Scripts/CommonJS.js"></script>
+
+    <script>
+        $(function () {
+            bindBindBtn();
+            bindSkipBtn();
+
+              $('#username').focus(function(){
+                    $(".user-name").css("color","#e1e1e5")
+                });
+                $('#username').keydown(function(){
+                    $(".user-name").css("display","none")
+                });
+                $('#password').focus(function(){
+                    $(".pass-word").css("display","none")
+                });
+        });
+
+        function bindBindBtn() {
+            $('#bindBtn').click(function () {
+                var username = $('#username').val();
+                var password = $('#password').val();
+                if (!username)
+                    $('#loginname_error').html('用户名不能为空').show();
+                if(!password)
+                    $('#password_error').html('密码不能为空').show();
+
+                var oauthId = $('input[name="oauthId"]').val();
+                var openId = $('input[name="openId"]').val();
+                var unionid = $('input[name="unionid"]').val();
+                var unionopenid = $('input[name="unionopenid"]').val();
+                var loading = showLoading();
+                $.post('BindUser', { oauthId: oauthId, openId: openId, username: username, password: password, unionid: unionid, unionopenid: unionopenid }, function (result) {
+                    loading.close();
+                    if (result.success) {
+                        $.dialog.succeedTips('绑定成功', function () {
+                            location.href = "/";
+                        });
+                    }
+                    else
+                        $('#password_error').html(result.msg).show();
+
+                });
+            });
+
+            $('#username').focus(function () {
+                $('#loginname_error').hide();
+            });
+
+            $('#password').focus(function () {
+                $('#password_error').hide();
+            });
+        }
+
+        function bindSkipBtn() {
+            $('#skip').click(function () {
+                var oauthId = $('input[name="oauthId"]').val();
+                var openId = $('input[name="openId"]').val();
+                var nickName = $('input[name="nickName"]').val();
+                var unionid = $('input[name="unionid"]').val();
+                var unionopenid = $('input[name="unionopenid"]').val();
+                $.post('Skip', { oauthId: oauthId, openId: openId, nickName: nickName, unionid: unionid, unionopenid: unionopenid }, function (result) {
+                    if (result.success) {
+                            location.href = "/";
+                    }
+                    else
+                        alert(result.msg);
+                });
+            });
+        }
+    </script>
+
+</body>
+</html>

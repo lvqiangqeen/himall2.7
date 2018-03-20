@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../Content/mui.min.css" rel="stylesheet" />
+		<link href="../../Content/custom.css" rel="stylesheet" />
+		<link href="../../Content/mui.picker.css" rel="stylesheet" />
+		<link href="../../Content/mui.poppicker.css" rel="stylesheet" />
+		<script>
+			/***这段代码是公用的，为了html跟标签设置一个rem相对值***/
+			(function(doc, win) {
+				var docEl = doc.documentElement,
+				resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+				recalc = function() {
+				var clientWidth = docEl.clientWidth;
+					if (!clientWidth) return;
+					if (clientWidth >= 750) {
+					   docEl.style.fontSize = '100px';
+					} else {
+					   docEl.style.fontSize = 200 * (clientWidth / 750) + 'px';
+					}
+				};
+				if (!doc.addEventListener) return;
+				win.addEventListener(resizeEvt, recalc, false);
+				doc.addEventListener('DOMContentLoaded', recalc, false);
+		    })(document, window);
+		</script>
+	</head>
+
+	<body style="background:#f5f5f5;max-width:6rem;margin:auto;">
+	       <header class="mui-bar mui-bar-nav Gheader ">
+	       	   <a class="mui-action-back mui-icon mui-pull-left back">返回</a>
+			   <h1 class="mui-title">账户信息</h1>
+		   </header>
+		  <div id='company' class="G company_container">
+		  <div class="info_title">银行信息</div>
+			<form class="mui-input-group G">
+				<div class="mui-input-row">
+					<label>银行开户名</label>
+					<input type="text" class="mui-input" value="交通银行" placeholder="">
+				</div>
+				<div class="mui-input-row">
+					<label>银行账户</label>
+					<input type="text" class="mui-input" placeholder="">
+				</div>
+				<div class="mui-input-row">
+					<label>支行名称</label>
+					<input type="text" class="mui-input" placeholder="">
+				</div>
+				<div class="mui-input-row">
+					<label>支行联行号</label>
+					<input type="text" class="mui-input" placeholder="">
+				</div>
+				<div class="mui-input-row select-addr">
+					<label>开户行所在地</label>
+					<input id="showCity" type="text" readonly="readonly" class="mui-input" placeholder="选择省、市、区">
+			    	<div id='cityResult' class="ui-alert"></div>
+				</div>
+				<div class="mui-input-row select-addr" id="streetLine">
+					<label>街道</label>
+					<input id="showStreet" type="text" readonly="readonly" class="mui-input" placeholder="选择街道">
+				</div>
+			</form>
+			<div class="Gbottom_btnRow">
+				  <button class="mui-btn mui-btn-block mui-pull-left gbtn-yellow">上一步</button>
+				  <button class="mui-btn mui-btn-block mui-pull-left gbtn-red">下一步</button>
+			</div>
+		    <script src="../../Scripts/mui.min.js"></script>
+		    <script src="../../Scripts/mui.picker.js"></script>
+		    <script src="../../Scripts/mui.poppicker.js"></script>
+		    <script>
+		    	    mui.init();
+		    	    var cityPicker = new mui.PopPicker({
+						layer: 3
+					});
+					var cityList=[];	
+					cityPicker.setData(cityList);
+					var showCityPickerButton = document.getElementById('showCity');
+					var cityResult = document.getElementById('cityResult');
+					showCityPickerButton.addEventListener('tap', function(event) {
+						cityPicker.show(function(items) {
+						          
+						});
+					}, false);
+		    	
+		    </script>
+		 </div>
+	</body>
+</html>

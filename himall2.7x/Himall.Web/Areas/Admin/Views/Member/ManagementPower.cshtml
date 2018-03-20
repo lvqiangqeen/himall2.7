@@ -1,0 +1,232 @@
+﻿@{
+    ViewBag.Title = "会员购买力";
+    var categorys = (IEnumerable<Himall.Model.CategoryInfo>)ViewBag.categorys;
+}
+@model List<Himall.Model.LabelInfo>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<link href="~/Content/WXmsg.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    var statisticsType=@ViewBag.StatisticsType;
+</script>
+
+<style>
+    .VIP-Marketing .sucai-library{left:0;top:-5%;}
+</style>
+
+<div class="container clear-s">
+    <ul class="nav nav-tabs-custom clearfix" id="ulTitle">
+        <li><a href="@Url.Action("Management")">管理</a></li>
+        <li class="active"><a>购买力筛选</a></li>
+    </ul>
+    <div class="search-box only-line clearfix">
+        <form role="form">
+            <div class="sel menber-factor">
+                <div class="stime fac-w clearfix">
+                    <span>最近消费</span>
+                    <div class="tab-cat">
+                        <a href="javascript:;" class="con" id="time_-1">不限</a>
+                        @foreach (var item in Himall.Core.EnumHelper.ToDescriptionDictionary<Himall.CommonModel.RecentlySpentTime>())
+                        {
+                            <a href="javascript:;" id="time_@item.Key">@(item.Value)</a>
+                        }
+                        <em class="user-defined">
+                            <i>自定义</i>
+                            <span class="defined-content">
+                                <input id="Recently-st" class="form-control input-ssm StartTime" type="text">
+                                <label class="label-inline" for="" style="width:10px">-</label>
+                                <input id="Recently-et" class="form-control input-ssm EndTime" type="text">
+                                <button type="button" id="Recently-btn" class="btn btn-primary btn-sm">确定</button>
+                            </span>
+                        </em>
+                    </div>
+                </div>
+                <div class="snumber fac-w clearfix">
+                    <span>购买次数</span>
+                    <div class="tab-cat">
+                        <a href="javascript:;" class="con" id="number_-1">不限</a>
+                        @foreach (var item in Himall.Core.EnumHelper.ToDescriptionDictionary<Himall.CommonModel.Purchases>())
+                        {
+                            <a href="javascript:;" id="number_@item.Key">@(item.Value)</a>
+                        }
+                        <em class="user-defined">
+                            <i>自定义</i>
+                            <span class="defined-content">
+                                <input id="Purchases-S" class="form-control input-ssm " min="0" type="number">
+                                <label class="label-inline" for="" style="width:10px">-</label>
+                                <input id="Purchases-E" class="form-control input-ssm " min="0" type="number">
+                                <button type="button" id="Purchases-btn" class="btn btn-primary btn-sm">确定</button>
+                            </span>
+                        </em>
+                    </div>
+
+                </div>
+                <div class="scategory fac-w clearfix">
+                    <span>类目</span>
+					<div class="cat_box">
+						<div class="tab-cat">
+							<b><a href="javascript:;" class="con" id="category_-1">不限</a></b>
+							@foreach (var item in categorys)
+							{
+								<b><a href="javascript:;" id="category_@item.Id">@(item.Name)</a></b>
+							}
+						</div>
+						<div class="user-more"><i>更多</i><em></em></div>
+					</div>
+                </div>
+                <div class="smoney fac-w clearfix">
+                    <span>消费金额</span>
+                    <div class="tab-cat">
+                        <a href="javascript:;" class="con" id="money_-1">不限</a>
+                        @foreach (var item in Himall.Core.EnumHelper.ToDescriptionDictionary<Himall.CommonModel.AmountOfConsumption>())
+                        {
+                            <a href="javascript:;" id="money_@item.Key">@(item.Value)</a>
+                        }
+                        <em class="user-defined">
+                            <i>自定义</i>
+                            <span class="defined-content">
+                                <input id="Amount-S" class="form-control input-ssm" min="0" type="number">
+                                <label class="label-inline" for="" style="width:10px">-</label>
+                                <input id="Amount-E" class="form-control input-ssm" min="0" type="number">
+                                <button type="button" id="Amount-btn" class="btn btn-primary btn-sm">确定</button>
+                            </span>
+                        </em>
+                    </div>
+
+                </div>
+
+                <div class="slable fac-w clearfix">
+                    <span>会员标签</span>
+                    <div class="cat_box">
+					<div class="tab-cat">
+                        <b><a href="javascript:;" class="con" id="lable_-1">不限</a></b>
+
+                        @foreach (var lable in Model)
+                        {
+                            <b><a href="javascript:;" id="lable_@lable.Id">@lable.LabelName</a></b>
+                        }
+                    </div>
+                    <div class="user-more"><i>更多</i><em></em></div>
+					</div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <table class="table" id="list"></table>
+
+
+    <div class="tabel-operate" id="batchOperate" style="">
+        <select id="setLabel" class="form-control input-sm select-sort valid" onchange="setLabel($(this).val());$(this).val('0');">
+            <option value="0">添加标签</option>
+            <option value="check">选中添加</option>
+            <option value="result">结果添加</option>
+        </select>
+
+        <select id="sendCoupon" class="form-control input-sm select-sort valid" onchange="sendCoupon($(this).val());$(this).val('0');">
+            <option value="0">发放优惠券</option>
+            <option value="check">选中添加</option>
+            <option value="result">结果添加</option>
+        </select>
+
+        <select id="sendWei" class="form-control input-sm select-sort valid" onchange="sendWei($(this).val());$(this).val('0');">
+            <option value="0">群发微信</option>
+            <option value="check">选中群发</option>
+            <option value="result">结果群发</option>
+        </select>
+
+        <select id="sendSms" class="form-control input-sm select-sort valid" onchange="sendSms($(this).val());$(this).val('0');">
+            <option value="0">群发短信</option>
+            <option value="check">选中群发</option>
+            <option value="result">结果群发</option>
+        </select>
+    </div>
+</div>
+<div class="dialog-form" style="display:none;" id="divSetLabel">
+    @foreach (var label in Model)
+    {
+        <div class="form-group" style="width: 150px; float: left; border: none; white-space: nowrap; overflow: hidden; margin: 10px; text-overflow: ellipsis;">
+            @Html.CheckBox("check_Label", new { value = label.LabelName, id = "check_" + label.Id, datavalue = label.Id })
+            @label.LabelName
+        </div>
+    }
+</div>
+
+
+<div class="dialog-form" style="display:none;" id="divSendSms">
+    <div class="form-group" style="width: 540px; float: left; border: none; white-space: nowrap; overflow: hidden; margin: 10px; text-overflow: ellipsis;">
+        <h5>短信正文</h5>
+        <textarea id="contentDesc1" cols="60" rows="9" style="width:100%;"></textarea>
+    </div>
+</div>
+
+
+<div class="dialog-form" style="display:none;" id="divSendWei">
+    <div class="form-group VIP-Marketing" style="width: 540px; float: left; border: none; white-space: nowrap; overflow: hidden;  text-overflow: ellipsis;">
+
+        <div class="msg-tab">
+            <ul id="msgtype">
+                <li id="msgtype_news" class="active" value="@((int)Himall.CommonModel.WXMsgType.mpnews)" style="width:65px;"><span class="glyphicon glyphicon-list-alt"></span>图文</li>
+                <li id="msgtype_text" value="@((int)Himall.CommonModel.WXMsgType.text)" style="width:65px;"><span class="glyphicon glyphicon-pencil"></span>文字</li>
+            </ul>
+            <div class="Area-inner">
+                <div class="tab-content" id="mediaSelect">
+                    <span class="create_access library">
+                        <a><i class="glyphicon glyphicon-plus"></i><br><p>从素材库中选择</p></a>
+                    </span>
+                    <div id="mediaDetail" style="display:none;">
+                        <span id="mediaTime"></span>
+                        <div class="item" name="wrapperItem">
+                            <div class="WX-item">
+                                <div class="item-img">
+                                    <img name="wrapper" />
+                                </div>
+                                <span class="item-title" name="wrapperTitle">标题</span>
+                            </div>
+                        </div>
+                        <div id="divChild"></div>
+                    </div>
+                </div>
+                <div class="sucai-library">
+                    <h5>选择素材<span class="glyphicon glyphicon-remove"></span></h5>
+
+                    <div class="library-box">
+                        <ul id="list"></ul>
+                    </div>
+                    <p class="submit"><a id="btnOk" class="clear-u2">确定</a><a id="btnCancel">取消</a></p>
+                </div>
+                <div class="tab-content dln" id="txtInput">
+                    <textarea></textarea>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--选择优惠券列表-->
+<div id="choceCouponUrl" class="dln">
+    <div class="choose-search">
+        <div class="form-group">
+            <label class="label-inline clear-h" for="">名称</label>
+            <input class="form-control input-ssm" type="text" name="couponName" id="couponName">
+        </div>
+        <button type="button" class="btn btn-primary btn-ssm" id="btncoupon">搜索</button>
+    </div>
+    <table id="CouponGrid" class="table"></table>
+</div>
+
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<script src="~/Areas/Admin/Scripts/memberPowerManagement.js"></script>

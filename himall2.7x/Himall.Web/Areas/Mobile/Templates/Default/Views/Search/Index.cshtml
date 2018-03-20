@@ -1,0 +1,119 @@
+﻿@using Himall.Model;
+@using Himall.Core;
+@using Himall.CommonModel;
+@model List<ProductView>
+@{
+    ViewBag.Title = ViewBag.keywords + "  商品搜索";
+    List<FlashSalePrice> FlashSalePriceList = ViewBag.FlashSalePriceList;
+    List<Himall.DTO.FightGroupActiveModel> FightGroupSalePriceList = ViewBag.FightGroupSalePriceList;
+}
+<div class="container">
+    @{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_SearchBox.cshtml");}
+    <div class="fixed-box">
+        <div class="fixed-inner">
+            <a href="javascript:" class="no_icon selected" orderkey="1">默认<i></i></a>
+            <a href="javascript:" class="price" orderkey="3">价格<i class="icon_sort"></i></a>
+            <a href="javascript:" class="state_switch" orderkey="2">销量<i class="icon_sort_single"></i></a>
+            <a href="javascript:" class="state_switch" orderkey="4">评价数<i class="icon_sort_single"></i></a>
+            <a href="javascript:" class="switch">&nbsp;<i class="icon_switch"></i></a>
+        </div>
+    </div>
+    <div class="s_found gray">找到相关商品 <span>@ViewBag.Total</span> 件。<a class="search_screen">筛选</a></div>
+    <ul class="search-list clearfix" id="searchList" style="display:none;">
+        @foreach (var product in Model)
+        {
+            //var flashSale = FlashSalePriceList.Any(p => p.ProductId == product.Id);
+            //var fightGroupSale = FightGroupSalePriceList.Any(p => p.ProductId == product.Id);
+            <li productid="@product.ProductId" shopid="@product.ShopId" price="@product.SalePrice.ToString("F2")">
+                
+                <a class="p-img" href="~/@CurrentAreaName/Product/Detail/@product.ProductId">
+                    @if (ViewBag.IsOSS)
+                    {
+                        <img class="lazyload" src="~/Areas/Mobile/Templates/Default/images/blank.gif" data-url="@HimallIO.GetProductSizeImage(product.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_220)" alt="">
+                    }
+                    else
+                    {
+                        <img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Path.Combine(product.ImagePath,"1_220.png")">
+                    }
+                </a>
+                <h3><a href="~/Product/Detail/@product.ProductId">@product.ProductName</a></h3>
+                <p class="red">¥@product.SalePrice.ToString("F2")</p>
+                @*@if (flashSale && !fightGroupSale)
+                {
+                    <p class="red">¥@FlashSalePriceList.FirstOrDefault(p => p.ProductId == product.Id).MinPrice.ToString("f2")</p>
+                }
+                else if(!flashSale && fightGroupSale)
+                {
+                    <p class="red">¥@FightGroupSalePriceList.FirstOrDefault(p => p.ProductId == product.Id).MiniGroupPrice.ToString("f2")</p>
+                }
+                else if (!flashSale && !fightGroupSale)
+                {
+                    <p class="red">¥@product.Price.ToString("F2")</p>
+                }*@
+                <p>@(product.Comments)人评价</p>
+                <p>销量：@product.SaleCount</p>
+            </li>
+        }
+    </ul>
+    <div class="screen">
+        <div class="screen_hd clearfix">
+            <a class="btn btn-default btn-sm cancel pull-left">取消</a>筛选
+            <a class="btn btn-primary btn-sm enter pull-right" id="filterSearch">确认</a>
+        </div>
+        <div class="screen_bd">
+            <ul class="list-group">
+                <li class="list-group-item hide" id="categorylist">
+                    分类
+                    <span class="glyphicon glyphicon-menu-down"></span><em name="全部分类">全部分类</em>
+                    <ol>
+                        
+                    </ol>
+                </li>
+            </ul>
+            <ul class="list-group">
+                <li class="list-group-item hide" id="brandlist">
+                    品牌
+                    <span class="glyphicon glyphicon-menu-down"></span><em name="全部品牌">全部品牌</em>
+                    <ol>
+                      
+                    </ol>
+                </li>
+            </ul>
+
+
+            <a class="btn btn-default btn-block">清除选项</a>
+        </div>
+    </div>
+    <div class="loading" id="autoLoad">@Html.Raw(ViewBag.Total<=10? "没有更多商品了" : "<span></span>")</div>
+</div>
+<div class="wx_aside">
+    <a href="javascript:;" class="btn_top"></a>
+</div>
+<a class="WX-backtop" href="#"></a>
+@{
+	var firstProductImage = "";
+	var firstProduct = Model.FirstOrDefault();
+	if (firstProduct != null)
+	{
+        firstProductImage = HimallIO.GetRomoteProductSizeImage(firstProduct.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_150);
+	}
+}
+<script type="text/javascript">
+    var a_id = '@ViewBag.a_id';
+    var b_id = '@ViewBag.b_id';
+    var cid = '@ViewBag.cid';
+    var keyword = '@ViewBag.keywords';
+    var orderKey = '@ViewBag.orderKey';
+    var orderType = '@ViewBag.orderType';
+
+	var winxinShareArgs = {
+		share: {
+			title: '搜索到@(ViewBag.Total)件"@(ViewBag.keywords)"@(this.SiteSetting.SiteName)优质商品',
+			desc: '@(this.SiteSetting.SiteName)商品，优质好货任你挑',
+			link: location.href,
+			imgUrl: '@firstProductImage'
+		}
+	};
+</script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/productSearch.js"></script>
+@Html.Partial("_WeiXinShare")

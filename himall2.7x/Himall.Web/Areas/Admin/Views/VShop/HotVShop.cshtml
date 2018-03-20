@@ -1,0 +1,47 @@
+﻿<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="./VShopManagement">微店列表</a></li>
+        <li class="active"><a>热门微店管理</a></li>
+        <li><a href="./TopShop">主推微店管理</a></li>
+    </ul>
+    <div class="search-box" id="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">微店名称</label>
+                <input id="vshopName" class="form-control input-ssm" type="text" />
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">添加时间</label>
+                <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">结束日期</label>
+                <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+            </div>
+        </form>
+    </div>
+
+    <table id="list" class="table table-bordered align-middle"></table>
+</div>
+
+<div id="replace-HotVShop" style="display:none">
+    <div class="form-inline choose-search" style="border:none;">
+        <div class="form-group">
+            <label class="label-inline" for="">微店名称</label>
+            <input class="form-control input-ssm" type="text" id="titleKeyword">
+        </div>
+        <div class="form-group ml15">
+            <button type="button" class="btn btn-primary btn-ssm" id="searchReplaceVShopButton">搜索</button>
+        </div>
+    </div>
+    <table class="table table-choose table-bordered align-middle" id="repaceList"></table>
+</div>
+<script src="~/Areas/Admin/Scripts/HotVShop.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>

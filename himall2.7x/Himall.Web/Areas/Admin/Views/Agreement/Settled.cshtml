@@ -1,0 +1,168 @@
+﻿@model Himall.DTO.Settled
+
+<div class="container">
+
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a href="Settled">入驻参数配置</a></li>
+        <li><a href="Management">会员注册协议</a></li>
+        <li><a href="Management?type=Seller">卖家入驻协议</a></li>
+        <li><a href="SettledLink">入驻链接</a></li>
+    </ul>
+
+    <div class="form-horizontal mt0">
+        <input type="hidden" id="ID" value="@Model.ID" />
+        <h3 class="table-hd mt0">基础设置</h3>
+        <div class="form-group">
+            <label class="col-sm-2 clear-b control-label" for="">商家类型：</label>
+            <div class="col-sm-10 clear-b">
+                <input type="radio" class="check-services" name="BusinessType" value="@((int)Himall.CommonModel.BusinessType.Enterprise)" @(Model.BusinessType.Equals(Himall.CommonModel.BusinessType.Enterprise) ? "checked" : " ") />仅企业可入驻 &nbsp;
+                <input type="radio" class="check-services" name="BusinessType" value="@((int)Himall.CommonModel.BusinessType.Personal)" @(Model.BusinessType.Equals(Himall.CommonModel.BusinessType.Personal) ? "checked" : " ") />仅个人可入驻 &nbsp;
+                <input type="radio" class="check-services" name="BusinessType" value="@((int)Himall.CommonModel.BusinessType.All)" @(Model.BusinessType.Equals(Himall.CommonModel.BusinessType.All) ? "checked" : " ") />企业和个人均可
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 clear-b control-label" for="">商家结算账户：</label>
+            <div class="col-sm-10 clear-b">
+                <input type="radio" class="check-services" name="SettlementAccountType" value="@((int)Himall.CommonModel.SettleAccountsType.SettleBank)" @(Model.SettlementAccountType.Equals(Himall.CommonModel.SettleAccountsType.SettleBank) ? "checked" : " ") />仅银行账户 &nbsp;
+                <input type="radio" class="check-services" name="SettlementAccountType" value="@((int)Himall.CommonModel.SettleAccountsType.SettleWeiXin)" @(Model.SettlementAccountType.Equals(Himall.CommonModel.SettleAccountsType.SettleWeiXin) ? "checked" : " ") />仅微信账户 &nbsp;
+                <input type="radio" class="check-services" name="SettlementAccountType" value="@((int)Himall.CommonModel.SettleAccountsType.SettleAll)" @(Model.SettlementAccountType.Equals(Himall.CommonModel.SettleAccountsType.SettleAll) ? "checked" : " ") />银行账户及微信账户均可
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 clear-d control-label" for="">试用时间：</label>
+            <div class="col-sm-10 clear-d form-inline">
+                <span>商家入驻后可试用</span>
+                <input type="text" class="form-control input-sm" style="width:50px;" id="TrialDays" value="@Model.TrialDays">
+                <span>天</span>&nbsp;
+                <span class="help-default">逾期未及时续费，将自动下架商家商品并冻结后台登录账号</span>
+            </div>
+        </div>
+        <h3 class="table-hd">填写字段设置（企业）</h3>
+        <div class="form-group">
+            <label class="col-sm-2 clear-b control-label" for=""> 公司所在地：</label>
+            <div class="col-sm-10 clear-b">
+                <input type="radio" class="check-services" name="IsCity" value="@((int)Himall.CommonModel.VerificationStatus.Must)" @(Model.IsCity.Equals(Himall.CommonModel.VerificationStatus.Must) ? "checked" : " ") />必填 &nbsp;
+                <input type="radio" class="check-services" name="IsCity" value="@((int)Himall.CommonModel.VerificationStatus.NonMust)" @(Model.IsCity.Equals(Himall.CommonModel.VerificationStatus.NonMust) ? "checked" : " ") />选填
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 clear-b control-label" for=""> 员工总数：</label>
+            <div class="col-sm-10 clear-b">
+                <input type="radio" class="check-services" name="IsPeopleNumber" value="@((int)Himall.CommonModel.VerificationStatus.Must)" @(Model.IsPeopleNumber.Equals(Himall.CommonModel.VerificationStatus.Must) ? "checked" : " ") />必填 &nbsp;
+                <input type="radio" class="check-services" name="IsPeopleNumber" value="@((int)Himall.CommonModel.VerificationStatus.NonMust)" @(Model.IsPeopleNumber.Equals(Himall.CommonModel.VerificationStatus.NonMust) ? "checked" : " ") />选填
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 clear-b control-label" for=""> 详细地址：</label>
+            <div class="col-sm-10 clear-b">
+                <input type="radio" class="check-services" name="IsAddress" value="@((int)Himall.CommonModel.VerificationStatus.Must)" @(Model.IsAddress.Equals(Himall.CommonModel.VerificationStatus.Must) ? "checked" : " ") />必填 &nbsp;
+                <input type="radio" class="check-services" name="IsAddress" value="@((int)Himall.CommonModel.VerificationStatus.NonMust)" @(Model.IsAddress.Equals(Himall.CommonModel.VerificationStatus.NonMust) ? "checked" : " ") />选填
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 clear-b control-label" for=""> 营业执照号：</label>
+            <div class="col-sm-10 clear-b">
+                <input type="radio" class="check-services" name="IsBusinessLicenseCode" value="@((int)Himall.CommonModel.VerificationStatus.Must)" @(Model.IsBusinessLicenseCode.Equals(Himall.CommonModel.VerificationStatus.Must) ? "checked" : " ") />必填 &nbsp;
+                <input type="radio" class="check-services" name="IsBusinessLicenseCode" value="@((int)Himall.CommonModel.VerificationStatus.NonMust)" @(Model.IsBusinessLicenseCode.Equals(Himall.CommonModel.VerificationStatus.NonMust) ? "checked" : " ") />选填
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 clear-b control-label" for=""> 法定经营范围：</label>
+            <div class="col-sm-10 clear-b">
+                <input type="radio" class="check-services"  name="IsBusinessScope" value="@((int)Himall.CommonModel.VerificationStatus.Must)" @(Model.IsBusinessScope.Equals(Himall.CommonModel.VerificationStatus.Must) ? "checked" : " ") />必填 &nbsp;
+                <input type="radio" class="check-services"  name="IsBusinessScope" value="@((int)Himall.CommonModel.VerificationStatus.NonMust)" @(Model.IsBusinessScope.Equals(Himall.CommonModel.VerificationStatus.NonMust) ? "checked" : " ") />选填
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 clear-b control-label" for=""> 上传营业执照：</label>
+            <div class="col-sm-10 clear-b">
+                <input type="radio" class="check-services"  name="IsBusinessLicense" value="@((int)Himall.CommonModel.VerificationStatus.Must)" @(Model.IsBusinessLicense.Equals(Himall.CommonModel.VerificationStatus.Must) ? "checked" : " ") />必填 &nbsp;
+                <input type="radio" class="check-services"  name="IsBusinessLicense" value="@((int)Himall.CommonModel.VerificationStatus.NonMust)" @(Model.IsBusinessLicense.Equals(Himall.CommonModel.VerificationStatus.NonMust) ? "checked" : " ") />选填
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 clear-b control-label" for=""> 组织机构代码：</label>
+            <div class="col-sm-10 clear-b">
+                <input type="radio" class="check-services"  name="IsAgencyCode" value="@((int)Himall.CommonModel.VerificationStatus.Must)" @(Model.IsAgencyCode.Equals(Himall.CommonModel.VerificationStatus.Must) ? "checked" : " ") />必填 &nbsp;
+                <input type="radio" class="check-services"  name="IsAgencyCode" value="@((int)Himall.CommonModel.VerificationStatus.NonMust)" @(Model.IsAgencyCode.Equals(Himall.CommonModel.VerificationStatus.NonMust) ? "checked" : " ") />选填
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 clear-b control-label" for=""> 上传组织机构代码证：</label>
+            <div class="col-sm-10 clear-b">
+                <input type="radio" class="check-services"  name="IsAgencyCodeLicense" value="@((int)Himall.CommonModel.VerificationStatus.Must)" @(Model.IsAgencyCodeLicense.Equals(Himall.CommonModel.VerificationStatus.Must) ? "checked" : " ") />必填 &nbsp;
+                <input type="radio" class="check-services"  name="IsAgencyCodeLicense" value="@((int)Himall.CommonModel.VerificationStatus.NonMust)" @(Model.IsAgencyCodeLicense.Equals(Himall.CommonModel.VerificationStatus.NonMust) ? "checked" : " ") />选填
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 clear-b control-label" for=""> 一般纳税人证明：</label>
+            <div class="col-sm-10 clear-b">
+                <input type="radio" class="check-services"  name="IsTaxpayerToProve" value="@((int)Himall.CommonModel.VerificationStatus.Must)" @(Model.IsTaxpayerToProve.Equals(Himall.CommonModel.VerificationStatus.Must) ? "checked" : " ") />必填 &nbsp;
+                <input type="radio" class="check-services"  name="IsTaxpayerToProve" value="@((int)Himall.CommonModel.VerificationStatus.NonMust)" @(Model.IsTaxpayerToProve.Equals(Himall.CommonModel.VerificationStatus.NonMust) ? "checked" : " ") />选填
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 clear-d control-label" for=""> 验证：</label>
+            <div class="col-sm-10 clear-d input-middle">
+                <input type="radio" class="check-services"  name="CompanyVerificationType" value="@((int)Himall.CommonModel.VerificationType.VerifyPhone)" @(Model.CompanyVerificationType.Equals(Himall.CommonModel.VerificationType.VerifyPhone) ? "checked" : " ") />验证手机 &nbsp;
+                <input type="radio" class="check-services"  name="CompanyVerificationType" value="@((int)Himall.CommonModel.VerificationType.VerifyEmail)" @(Model.CompanyVerificationType.Equals(Himall.CommonModel.VerificationType.VerifyEmail) ? "checked" : " ") />验证邮箱&nbsp;
+                <input type="radio" class="check-services"  name="CompanyVerificationType" value="@((int)Himall.CommonModel.VerificationType.VerifyAll)" @(Model.CompanyVerificationType.Equals(Himall.CommonModel.VerificationType.VerifyAll) ? "checked" : " ") />均需验证&nbsp;
+                <span class="help-default">如需强制验证手机，请确保已正确配置短信设置</span>
+            </div>
+        </div>
+
+        <h3 class="table-hd">填写字段设置（个人）</h3>
+        <div class="form-group">
+            <label class="col-sm-2 clear-b control-label" for=""> 姓名：</label>
+            <div class="col-sm-10 clear-b">
+                <input type="radio" class="check-services"  name="IsSName" value="@((int)Himall.CommonModel.VerificationStatus.Must)" @(Model.IsSName.Equals(Himall.CommonModel.VerificationStatus.Must) ? "checked" : " ") />必填 &nbsp;
+                <input type="radio" class="check-services"  name="IsSName" value="@((int)Himall.CommonModel.VerificationStatus.NonMust)" @(Model.IsSName.Equals(Himall.CommonModel.VerificationStatus.NonMust) ? "checked" : " ") />选填
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 clear-b control-label" for=""> 住址：</label>
+            <div class="col-sm-10 clear-b">
+                <input type="radio" class="check-services"  name="IsSCity" value="@((int)Himall.CommonModel.VerificationStatus.Must)" @(Model.IsSCity.Equals(Himall.CommonModel.VerificationStatus.Must) ? "checked" : " ") />必填 &nbsp;
+                <input type="radio" class="check-services"  name="IsSCity" value="@((int)Himall.CommonModel.VerificationStatus.NonMust)" @(Model.IsSCity.Equals(Himall.CommonModel.VerificationStatus.NonMust) ? "checked" : " ") />选填
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 clear-b control-label" for=""> 详细地址：</label>
+            <div class="col-sm-10 clear-b">
+                <input type="radio" class="check-services"  name="IsSAddress" value="@((int)Himall.CommonModel.VerificationStatus.Must)" @(Model.IsSAddress.Equals(Himall.CommonModel.VerificationStatus.Must) ? "checked" : " ") />必填 &nbsp;
+                <input type="radio" class="check-services"  name="IsSAddress" value="@((int)Himall.CommonModel.VerificationStatus.NonMust)" @(Model.IsSAddress.Equals(Himall.CommonModel.VerificationStatus.NonMust) ? "checked" : " ") />选填
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 clear-b control-label" for=""> 身份证：</label>
+            <div class="col-sm-10 clear-b">
+                <input type="radio" class="check-services"  name="IsSIDCard" value="@((int)Himall.CommonModel.VerificationStatus.Must)" @(Model.IsSIDCard.Equals(Himall.CommonModel.VerificationStatus.Must) ? "checked" : " ") />必填 &nbsp;
+                <input type="radio" class="check-services"  name="IsSIDCard" value="@((int)Himall.CommonModel.VerificationStatus.NonMust)" @(Model.IsSIDCard.Equals(Himall.CommonModel.VerificationStatus.NonMust) ? "checked" : " ") />选填
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 clear-b control-label" for=""> 上传身份证：</label>
+            <div class="col-sm-10 clear-b">
+                <input type="radio" class="check-services"  name="IsSIdCardUrl" value="@((int)Himall.CommonModel.VerificationStatus.Must)" @(Model.IsSIdCardUrl.Equals(Himall.CommonModel.VerificationStatus.Must) ? "checked" : " ") />必填 &nbsp;
+                <input type="radio" class="check-services"  name="IsSIdCardUrl" value="@((int)Himall.CommonModel.VerificationStatus.NonMust)" @(Model.IsSIdCardUrl.Equals(Himall.CommonModel.VerificationStatus.NonMust) ? "checked" : " ") />选填
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 clear-d control-label" for=""> 验证：</label>
+            <div class="col-sm-10 clear-d input-middle">
+                <input type="radio" class="check-services"  name="SelfVerificationType" value="@((int)Himall.CommonModel.VerificationType.VerifyPhone)" @(Model.SelfVerificationType.Equals(Himall.CommonModel.VerificationType.VerifyPhone) ? "checked" : " ") />验证手机 &nbsp;
+                <input type="radio" class="check-services"  name="SelfVerificationType" value="@((int)Himall.CommonModel.VerificationType.VerifyEmail)" @(Model.SelfVerificationType.Equals(Himall.CommonModel.VerificationType.VerifyEmail) ? "checked" : " ") />验证邮箱 &nbsp;
+                <input type="radio" class="check-services"  name="SelfVerificationType" value="@((int)Himall.CommonModel.VerificationType.VerifyAll)" @(Model.SelfVerificationType.Equals(Himall.CommonModel.VerificationType.VerifyAll) ? "checked" : " ") />均需验证&nbsp;
+                <span class="help-default">如需强制验证手机，请确保已正确配置短信设置</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="button" id="Save" class="btn btn-primary" value="保 存">
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="~/Areas/Admin/Scripts/Settled.js"></script>

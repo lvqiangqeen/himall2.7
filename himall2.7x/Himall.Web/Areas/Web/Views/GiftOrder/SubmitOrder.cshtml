@@ -1,0 +1,165 @@
+﻿@model Himall.Web.Areas.Web.Models.GiftOrderConfirmPageModel
+@{
+    ViewBag.Title = "核对并提交订单";
+    Layout = "~/Areas/Web/Views/Shared/_OrderTopBar.cshtml";
+}
+
+<link href="~/Areas/Web/Content/base.css" rel="stylesheet">
+<!--<link href="~/Areas/Web/Content/myjd.easebuy.css" rel="stylesheet">-->
+<div class="w990 m2">
+    <div id="checkout">
+        <div class="mt">
+            <h2>填写并核对订单信息</h2>
+        </div>
+        <div id="wizard" class="checkout-steps">
+            <div id="step-1" class="step step-complete">
+                <div class="step-title">
+                    <strong id="consigneeTitleDiv">收货人信息</strong>
+                    <span class="step-action"><a href="javascript:;" id="editReciever">[修改]</a></span>
+                </div>
+                <div class="step-content">
+                    <div id="consignee" class="sbox-wrap">
+                        <div class="sbox">
+                            <div class="s-content">
+                                @if (Model.ShipAddress != null)
+                                {
+                                    <p id="selectedAddress">@Model.ShipAddress.ShipTo &nbsp;&nbsp;&nbsp; @Model.ShipAddress.Phone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />@Model.ShipAddress.RegionFullName &nbsp; &nbsp;@Model.ShipAddress.Address&nbsp;</p>
+                                }
+                                else
+                                {
+                                    <p id="selectedAddress"></p>
+                                }
+                            </div>
+                            <div class="form" id="addressListArea" style="display:none">
+                                <div id="consignee-list">
+                                </div>
+                                <div class="item" id="use-new-address">
+                                    <input type="radio" onclick="showEditArea(0)" class="hookbox" name="address" id="consignee_radio_new" />
+                                    <label for="consignee_radio_new">使用新地址 </label><span class="status error" style="display: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 当前地址数量已达上限，若要继续添加新地址，请先删除部分收货地址。</span>
+                                </div>
+                                <form style="display:none" id="addressEditArea">
+                                    <div class="consignee-form" id="consignee-form" name="consignee-form">
+                                        <div class="list message" id="name_div">
+                                            <span class="label"><em>*</em>收货人：</span>
+                                            <div class="field">
+                                                <input type="text" class="textbox" id="consignee_name" name="shipTo" maxlength="20" onblur="check_Consignee('name_div')" />
+                                            </div>
+                                            <span class="status error" id="name_div_error"></span>
+                                        </div>
+                                        <div class="list select-address" id="area_div">
+                                            <span class="label"><em>*</em>所在地区：</span>
+                                            <div class="field">
+                                                <span id="regionSelector"></span>
+                                                @Html.Hidden("NewAddressId")
+                                            </div>
+                                        </div>
+                                        <div class="list full-address" id="address_div">
+                                            <span class="label"><em>*</em>详细地址：</span>
+                                            <div class="field" id="areaName">
+                                                <span class="selected-address" name="regionFullName">
+                                                    <em>湖南省</em>
+                                                    <em>长沙市</em>
+                                                    <em>芙蓉区</em>
+                                                </span>
+                                                <input type="text" class="textbox" maxlength="50" name="address" />
+                                            </div>
+                                            <span class="status error" id="address_div_error"></span>
+                                        </div>
+                                        <div class="list" id="call_div">
+                                            <span class="label"><em>*</em>电话：</span>
+                                            <div class="field">
+                                                <div class="phone">
+                                                    <input type="text" class="textbox" name="phone" maxlength="18" />
+                                                </div>
+                                                <span class="status error" id="call_div_error"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="form-btn group">
+                                    <a href="javascript:;" class="btn-submit"><span id="saveConsigneeTitleDiv">保存收货人信息</span></a>
+                                    <div class="loading loading-1" style="display:none"><b></b>正在提交信息，请等待！</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="step-4" class="step step-complete">
+                <div class="step-title"><strong>礼品清单</strong></div>
+                <div class="step-content">
+                    <div id="part-order" class="sbox-wrap">
+                        <span class="sbox">
+                            <div id="order-cart">
+
+                                <!--礼品清单展示-->
+                                <span id="span-skulist">
+                                    <table class="review-thead">
+                                        <tbody>
+                                            <tr>
+                                                <td class="fore1">礼品名称</td>
+                                                <td width="100">礼品单价</td>
+                                                <td class="fore2">数量</td>
+                                                <td class="fore2">小计</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <!--**********礼品清单内容列表开始************-->
+
+                                    <div class="review-body">
+                                        <div class="review-tbody">
+                                            <table class="order-table">
+                                                <tbody>
+                                                    @foreach (var item in Model.GiftList)
+                                                    {
+                                                        <tr>
+                                                            <td class="fore1" style="padding:10px; width:600px;">
+                                                                <div class="p-goods">
+                                                                    <div class="p-img"><a href="@Url.Action("Detail", "Gift", new { id = item.GiftId })" target="_blank"><img alt="" src="@Himall.Core.HimallIO.GetProductSizeImage(item.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_50)" /></a></div>
+                                                                    <div class="p-detail">
+                                                                        <div class="p-name">
+                                                                            <a href="@Url.Action("Detail", "Gift", new { id = item.GiftId })" target="_blank">@item.GiftName<br /> </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="p-price"><strong>@item.SaleIntegral 分</strong></td>
+                                                            <td class="fore2">x @item.Quantity</td>
+                                                            <td class="fore2">@(item.Quantity * item.SaleIntegral) 分</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!--**********礼品清单内容列表结束************-->
+                            </div>
+                        </span>
+                        <span class="clr"></span>
+                    </div>
+
+                    <div class="checkout-buttons group">
+                        <div class="sticky-placeholder">
+                            <div class="sticky-wrap">
+                                <div class="inner">
+                                    <span class="total" style="float:left;padding-left:20px;">注：礼品一旦兑换不可退换。</span>
+                                    <button type="button" id="submit" class="btn-5 fr" style="margin-top:8px">确认兑换</button>
+                                    <span class="total">@(Model.GiftList.Sum(d => d.Quantity))</em> 件礼品，应付：<strong id="payPriceId">@(Model.TotalAmount)</strong> 积分</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Hidden("shippingAddressId", (Model.ShipAddress == null ? "" : Model.ShipAddress.Id.ToString()))
+@Html.Hidden("giftid", Model.GiftList[0].GiftId)
+@Html.Hidden("count", Model.GiftList[0].Quantity)
+
+<script src="~/Scripts/jquery.himall.Region.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Areas/Web/Scripts/submitGiftOrder.js"></script>

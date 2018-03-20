@@ -1,0 +1,24 @@
+﻿@model Himall.Model.RecruitPlanInfo
+@{
+    ViewBag.Title = "招募计划";
+}
+
+<div class="container recruit-plan">
+    <div class="recruit-content">
+        <div>
+            @if (Model != null && !string.IsNullOrWhiteSpace(Model.Content))
+            {
+                @Html.Raw(Model.Content)
+            }
+        </div>
+    </div>
+    <div class="tobe-recruit"><a href="@Url.Action("Apply","Distribution")">申请成为销售员</a></div>
+</div>
+
+<script>
+    $(function () {
+        $(".recruit-content img").width($(".container").width());
+
+    })
+
+</script>

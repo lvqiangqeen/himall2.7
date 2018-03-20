@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "CouponGroupMessage";
+}
+
+<style>
+    .divBox { width: 70px; height: 42px; }
+    .wh100 { width: 100px; }
+    .table#list thead>tr>th{text-align:center}
+    .table#list>tr.tr_li>td{text-align:center}
+    .email-all .email-content h5{margin-top:20px;font-weight:bold;}
+    .choose-search{padding:20px 0;border:none;background-color:#fff;}
+    .aui_content .choose-search .form-control{border-radius:4px;}
+    .choose-search #btncoupon{margin-left:20px;}
+</style>
+
+<link href="/Content/WXmsg.css" rel="stylesheet" />
+
+  <div class="container">
+      <ul class="nav nav-tabs-custom clearfix">
+          <li><a href="WXGroupMessage">群发微信消息</a></li>
+          <li><a href="EMailGroupMessage">群发邮件</a></li>
+          <li><a href="PhoneGroupMessage">群发短信</a></li>
+          <li class="active"><a>群发优惠券</a></li>
+          <li><a href="Management">已发送消息</a></li>
+      </ul>
+        <div class="email-all coupon">
+            <div class="coverage"></div>
+            <div class="object-choice">
+                <i>群发对象</i>
+                <p><label><input type="radio" id="allLabel" name="label" >全部会员</label>
+                <label><input checked type="radio" value="2" name="label">按标签<em class="tag-choice" id="selectLabel">选择</em></label></p>
+                <p class="tag-area">
+
+                </p>
+            </div>
+            <div class="dialog-tag">
+                <h3>勾选标签<span class="glyphicon glyphicon-remove"></span></h3>
+                <p class="clearfix">
+                    @if (ViewBag.LabelInfos != null)
+                    {
+                        var labelinfos = (IEnumerable<Himall.Model.LabelInfo>)ViewBag.LabelInfos;
+                        foreach (var label in labelinfos)
+                        {
+                            <label>
+                                @Html.CheckBox("check_Label", new { value = label.LabelName, id = "check_" + label.Id, datavalue = label.Id })
+                                @label.LabelName
+                            </label>
+                        }
+                    }
+                    <span style="clear:both"></span>
+                </p>
+
+                <h5><span class="tag-submit" style="cursor:pointer;">确认</span><span class="tag-back" style="cursor:pointer;">返回</span></h5>
+            </div>
+            <div style="clear: both"></div>
+
+            <div class="email-content">
+                 <h5>优惠券</h5>
+
+                <input type="button" value="点击选取" id="ChoceCoupon" class="btn-export" style="width:90px;height:30px;margin-bottom:10px;" />
+                        <table class="table" id="list">
+                            <thead>
+                                <tr>
+                                    <th width="20%">优惠券名称</th>
+                                    <th width="20%">商家</th>
+                                    <th width="10%">面额</th>
+                                    <th width="10%">剩余数量</th>
+                                    <th width="10%">使用条件</th>
+                                    <th width="20%">有效期</th>
+                                    <th width="10%">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="colist">
+                                <tr><td style="text-align:center;" colspan="7"><h2 style="font-size: 18px;margin-top:30px;margin-bottom:40px;color:#8e8f92;">未添加优惠券</h2></td></tr>
+                            </tbody>
+                        </table>
+            </div>
+            <button class="btn btn-primary btn-sm" id="SendMsg"  style="margin:60px 0 0 415px;font-size:14px;cursor:pointer">赠送</button>
+        </div>
+    </div>
+<!--选择优惠券列表-->
+<div id="choceCouponUrl" class="dln">
+    <div class="choose-search">
+        <div class="form-group">
+            <label class="label-inline clear-h" for="">名称</label>
+            <input class="form-control input-ssm" type="text" name="couponName" id="couponName">
+        </div>
+        <button type="button" class="btn btn-primary btn-ssm" id="btncoupon">搜索</button>
+    </div>
+    <table id="CouponGrid" class="table"></table>
+</div>
+
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Areas/Admin/Scripts/MessageGroupCoupon.js"></script>

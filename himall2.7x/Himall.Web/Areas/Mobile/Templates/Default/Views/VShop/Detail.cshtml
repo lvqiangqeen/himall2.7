@@ -1,0 +1,96 @@
+﻿@using Himall.Web.Areas.Mobile.Models;
+@using Himall.Model;
+@model Himall.Model.VShopInfo
+@{
+    ViewBag.Title = Model.HomePageTitle;
+    ViewBag.CopyRight = true;
+}
+<script src="~/Scripts/iscroll.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/vshopDetail.js"></script>
+<div class="container">
+    <header class="head-btn-bar">
+        <a class="glyphicon glyphicon-home" id="homeLink" href="/@ViewBag.AreaName"></a>
+        <div class="search">
+            <input id="searchBox" type="text" name="" value="@ViewBag.Keywords" placeholder="搜索本店商品..." />
+            <i class="glyphicon glyphicon-search" id="searchBtn"></i>
+        </div>
+    </header>
+    <div id="slides">
+        @{var slideAds = (IEnumerable<HomeSlideAdsModel>)ViewBag.SlideAds;}
+        @foreach (var slideAd in slideAds)
+        {
+            <a href="@slideAd.Url"><img src="@(Himall.Core.HimallIO.GetImagePath(slideAd.ImageUrl))" alt=""></a>
+        }
+    </div>
+    <div class="vshop-bar">
+        <div class="vshop-head">
+            <a class="v-logo"><img src="@(Himall.Core.HimallIO.GetImagePath(Model.Logo))" /><p>@Model.Name</p></a>
+            <div class="btn-group" role="group" aria-label="...">
+                <a href="@(string.IsNullOrWhiteSpace(ViewBag.FollowUrl)?"":ViewBag.FollowUrl)" class="btn btn-primary btn-sm">+关注公众号</a>
+                @if (ViewBag.IsFavorite)
+                {
+                    <a class="btn btn-primary btn-sm" id="favorite">已收藏</a>
+                }
+                else
+                {
+                    <a class="btn btn-primary btn-sm" id="favorite">收藏</a>
+                }
+            </div>
+        </div>
+        @{var banners = (List<BannerInfo>)ViewBag.Banner;}
+        <ul class="nav">
+            @foreach (var banner in banners)
+            {
+                <li><a href="@banner.Url">@banner.Name</a></li>
+            }
+        </ul>
+    </div>
+    @{
+        if (ViewBag.Coupon != null)
+        {
+            var coupons = (IEnumerable<Himall.Model.CouponInfo>)ViewBag.Coupon;
+            <div class="vshop-coupon" id="vshopCoupon">
+                <ul>
+                    @{
+            foreach (var coupon in coupons)
+            {
+                <li>
+                    <div>
+                        <h3>@coupon.ShopName</h3>
+                        <strong>¥@coupon.Price.ToString("f2")</strong>
+                        <p>满 @coupon.OrderAmount.ToString("f2")元使用</p>
+                    </div>
+                    <a class="v-coupon-btn" cpid="@coupon.Id">领取<br />优惠券</a>
+                </li>
+            }
+                    }
+                </ul>
+            </div>
+        }
+    }
+    <section class="vshop-section">
+        <h5>热销商品</h5>
+        @{var products = (IEnumerable<Himall.Web.Areas.Mobile.Models.ProductItem>)ViewBag.Products; }
+        <div class="vshop-item vshop-list">
+            <ul class="v-goods clearfix" id="products">
+                @foreach (var product in products)
+                {
+                    <li>
+                        <a class="p-img" href="/@ViewBag.AreaName/product/detail/@product.Id"><img src="@product.ImageUrl" alt=""></a>
+                        <h3><a>@product.Name</a></h3>
+                        <p><span>￥@product.SalePrice.ToString("F2")</span></p>
+                    </li>
+                }
+            </ul>
+        </div>
+    </section>
+</div>
+<div class="loading hide" id="autoLoad"><span></span></div>
+<a class="WX-backtop" href="#"></a>
+<input type="hidden" id="shopId" value="@Model.ShopId" />
+<input type="hidden" id="vshopId" value="@Model.Id" />
+<input type="hidden" id="vshopState" value="@Model.State" />
+<input type="hidden" id="vshopAcceptId" value="@ViewBag.AcceptId" />
+<input type="hidden" id="vshopBagId" value="@ViewBag.VshopId" />
+<input type="hidden" id="vshopPlatform" value="@ViewBag.IsPlatform" />
+<script src="~/Scripts/jquery.slides.min.js"></script>

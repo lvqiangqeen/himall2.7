@@ -1,0 +1,55 @@
+﻿@model  IEnumerable<Himall.Model.MemberGrade>
+@{
+    ViewBag.Title = "分类管理";
+}
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Areas/Admin/Scripts/MemberGradeManagement.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>管理</a></li>
+        <li><a href="./Add">新增</a></li>
+    </ul>
+
+    <table class="table category_table mt20">
+        <thead>
+            <tr>
+                <th class="tac">会员等级</th>
+                <th class="tac">需要积分</th>
+                <th class="tac">可享折扣率</th>
+                <th width="500" class="tac">备注</th>
+                <th class="td-operate tac">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() == 0)
+            {
+                <tr class="tac">
+                    <td class="tac clear-u6" colspan="4">没有添加任何会员等级</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var grade in Model)
+                {
+                    <tr class="tac">
+                        <td>@grade.GradeName</td>
+                        <td>
+                            @grade.Integral
+                        </td>
+                        <td>
+                            @grade.Discount
+                        </td>
+                        <td>@grade.Remark</td>
+                        <td class="td-operate">
+                            <span class="btn-a"><a href="edit/@grade.Id">编辑</a></span>
+                            <span class="btn-a"><a class="good-check candel@(grade.IsNoDelete?"0":"1")" onclick="DeleteGrade(this,@grade.Id,@(grade.IsNoDelete?"0":"1"))">删除</a></span>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+

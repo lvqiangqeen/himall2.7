@@ -1,0 +1,55 @@
+﻿@model Himall.Model.VShopInfo
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        
+        <li><a href="./VShopManagement">微店列表</a></li>
+        <li><a href="./HotVShop">热门微店管理</a></li>
+        <li class="active"><a>主推微店管理</a></li>
+    </ul>
+    <table class="table mt20" style="margin-top:20px;">
+        <thead>
+            <tr >
+                <th style="text-align:center;">微店名称</th>
+                <th style="text-align:center;">添加时间</th>
+                <th style="text-align:center;">创建时间</th>
+                <th style="text-align:center;">进店浏览量</th>
+                <th style="text-align:center;">购买量</th>
+                <th style="text-align:center;">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                <tr style="text-align:center">
+                    <td>@Model.Name</td>
+                    <td>@Model.VShopExtendInfo.FirstOrDefault().AddTime</td>
+                    <td>@Model.CreateTime</td>
+                    <td>@Model.VisitNum</td>
+                    <td>@Model.buyNum</td>
+                    <td>
+                        <span class="btn-a">
+                            <a class="good-setTopshow" onclick="ReplaceHotVShop(@Model.Id)">替换</a> <a class="good-check" onclick="DeleteTopShow(@Model.Id)">置为普通</a>
+                        </span>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr><td style="text-align:center;" colspan="6"><h2 class="none-data">没有找到符合条件的数据</h2></td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div id="replace-HotVShop" style="display:none">
+    <div class="choose-search" style="border:none">
+        <div class="form-group">
+            <label class="label-inline" for="">微店名称</label>
+            <input class="form-control input-ssm" type="text" id="titleKeyword" style="width:200px;">
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-primary btn-ssm" id="searchReplaceVShopButton">搜索</button>
+    </div>
+    <table class="table table-bordered table-choose" id="repaceList"></table>
+</div>
+<script src="~/Areas/Admin/Scripts/TopVShop.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>

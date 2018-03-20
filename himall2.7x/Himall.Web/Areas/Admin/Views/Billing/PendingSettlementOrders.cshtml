@@ -1,0 +1,47 @@
+﻿<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Areas/Admin/Scripts/PendingSettlementOrders.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+@model Himall.DTO.PlatSettlementCycle
+<div class="container">
+    <ul class="breadcrumb clearfix">
+		<li><a href="@Url.Action("PendingSettlementList")">待结算列表</a></li>
+		<li><a href="#" onclick="return false">待结算订单</a></li>
+    </ul>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w95" for="">订单完成时间</label>
+                <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text">
+                <label class="label-inline-line">-</label>
+                <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">订单编号</label>
+                <input class="form-control input-ssm input-number" type="text" id="txtOrderId">
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="label-inline w95" for="">支付方式</label>
+                <select id="payment" class="form-control input-ssm">
+                    <option value="">全部</option>
+                    @foreach (var pay in ViewBag.Payments) {
+                        <option value="@pay">@pay</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <div class="tips-top-single">
+        <span class="tips-top-single-icon">预计结算时间：@Model.EndTime ， 结算周期：@Model.BillingCycleStr ， 平台佣金总额：@Model.PlatCommission</span>
+    </div>
+    <table id="list" class="table"></table>
+	<div class="tabel-operate" id="operationButtons">
+		<a class="btn-export" href='@Url.Action("ExportPendingSettlementOrders")' onclick="ExportExecl.call(this);">导出EXCEL</a>
+	</div>
+</div>

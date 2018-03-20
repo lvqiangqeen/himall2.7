@@ -1,0 +1,215 @@
+﻿@model   Himall.DTO.PlatBillingIndex
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a href="@Url.Action("index")">财务总览</a></li>
+        <li><a href="@Url.Action("PendingSettlementList")">待结算列表</a></li>
+        <li><a href="@Url.Action("SettlementList")">已结算列表</a></li>
+        <li><a href="@Url.Action("PlatAccountItem")">结余明细</a></li>
+        <li><a href="@Url.Action("SetSettlementWeek","account")">结算周期设置</a></li>
+    </ul>
+
+
+    <div class="overview-total">
+        <ul class="overview-top">
+            <li class="account-balance">
+                <h5>总结余</h5>
+                <p><i></i><span>@Model.PlatAccout.Balance</span><a href="@Url.Action("PlatAccountItem")">结余明细</a></p>
+            </li>
+            <li class="wait-clearing">
+                <h5>待结算</h5>
+                <p><i></i><span>@Model.PlatAccout.PendingSettlement</span><a href="@Url.Action("PendingSettlementList")">待结算订单</a></p>
+            </li>
+            <li class="po-clear">
+                <h5>已结算</h5>
+                <p><i></i><span>@Model.PlatAccout.Settled</span><a href="@Url.Action("SettlementList")">已结算订单</a></p>
+            </li>
+        </ul>
+        <div class="overview-detail clearfix">
+            <div class="chart-head clearfix">
+                <h5>交易情况</h5>
+                <ul id="dimensionType">
+                    <li data="1" class="active"><a href="#">近7日</a></li>
+                    <li data="2"><a href="#">近30日</a></li>
+                    <li data="3"><a href="#">本月</a></li>
+                </ul>
+            </div>
+                <div class="text-right form-group">
+                    <div class="count-chat clear-57">
+                        <div id="main"></div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    @*<button type="button" value="1" name="dimensionType" class="btn btn-default btn-xs active">最近七天</button>*@
+                    @*<button type="button" value="2" name="dimensionType" class="btn btn-default btn-xs ">近三十天</button>
+                    <button type="button" value="3" name="dimensionType" class="btn btn-default btn-xs ">本月</button>*@
+                   
+                </div>
+            <div class="chart-footer">
+                <ul>
+                    <li><p><i class="i01"></i><span>@Model.YesterDaySaleAmount</span><br /><em>昨日交易额</em></p><b>|</b></li>
+                    <li><p><i class="i02"></i><span>@Model.YesterDayOrders</span><br /><em>昨日下单数</em></p><b>|</b></li>
+                    <li><p><i class="i03"></i><span>@Model.YesterDayPayOrders</span><br /><em>昨日付款订单数</em></p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/echarts-plain-map.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var loadingTicket;
+        var myChart;
+        var mapName;
+        option = {
+            tooltip: {
+                trigger: 'axis',
+                formatter: function (params, ticket, callback) {
+                    var html = '';
+                    var t1 = '<span style="text-align:left;">' + params[0][1] + '销售额：<b style="color:yellow;font-size:14px;">' + params[0][2] + '元</b></span>';
+                    html = ['<div style="text-align:left;">', t1, '</div>'];
+                    return html.join('');
+                }
+            },
+            legend: {
+
+                data: ['交易额走势图']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    magicType: { show: true, type: ['line', 'bar'] },
+                    restore: { show: true },
+                    saveAsImage: { show: true }
+                }
+            },
+            calculable: true,
+            xAxis: [
+                {
+                    type: 'category',
+                    data: []
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    splitArea: { show: true }
+                }
+            ],
+            series: [
+                {
+                    name: '123',
+                    type: 'line',
+                    data: [],
+                    smooth: true,
+                    symbol: 'emptyCircle',
+                    markPoint: {
+                        data: [
+                            { type: 'max', name: '最高' },
+                            { type: 'min', name: '最低' }
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            { type: 'average', name: '平均值' }
+                        ]
+                    }
+                }
+            ]
+        };
+
+
+        require.config({
+            paths: {
+                echarts: '/Scripts'
+            }
+        });
+        require(
+            [
+                'echarts',
+                'echarts/chart/bar',
+                'echarts/chart/line',
+                'echarts/chart/map'
+            ],
+            load
+        );
+
+
+        function load(echarts) {
+            myChart = echarts.init(document.getElementById('main'));
+            myChart.showLoading({
+                text: '正在加载图表...',
+                effect: 'bubble',
+                textStyle: {
+                    fontSize: 20
+                }
+            });
+            clearTimeout(loadingTicket);
+            loadingTicket = setTimeout(function () {
+                var dimension = $("#dimensionType .active").attr("data");
+
+                var myurl = "/Admin/Billing/GetSevenDaysTradeChart";
+
+                if (dimension == 1) {
+                    myurl = "/Admin/Billing/GetSevenDaysTradeChart";
+                }
+                else if (dimension == 2) {
+                    myurl = "/Admin/Billing/GetThirdtyDaysTradeChart";
+                }
+                else
+                    if (dimension == 3) {
+                        myurl = "/Admin/Billing/GetTradeChartMonthChart";
+                    }
+                var loading = showLoading();
+                ajaxRequest({
+                    type: 'Post',
+                    url: myurl,
+                    param: {},
+                    dataType: "json",
+                    success: function (data) {
+                        loading.close();
+                        if (data.successful == true) {
+                            option.series[0].data = [];
+                            option.xAxis[0].data = data.chart.XAxisData;
+                            option.series[0].data = data.chart.SeriesData[0].Data;
+                            option.series[0].name = data.chart.SeriesData[0].Name;
+                            mapName = data.chart.ExpandProp;
+                            myChart.hideLoading();
+                            myChart.setOption(option);
+                        }
+                    }, error: function () {
+                        loading.close();
+                    }
+                });
+            }, 500);
+
+
+
+            $("#SearchBtn").click(function () {
+                if (myChart && myChart.dispose) {
+                    myChart.dispose();
+                }
+                load(echarts);
+            });
+
+            $("#dimensionType li").click(function () {
+                $("#dimensionType li").each(function () {
+                    $(this).removeClass('active');
+                });
+                $(this).addClass('active');
+                load(echarts);
+            });
+
+        }
+
+    });
+
+
+
+    function ExportExeclByMonth() {
+        var year = $("#year").val();
+        var month = $("#month").val();
+        var href = "/Admin/Statistics/ExportMemberByMonth?year=" + year + "&month=" + month;
+        $("#aMonthExport").attr("href", href);
+    }
+</script>

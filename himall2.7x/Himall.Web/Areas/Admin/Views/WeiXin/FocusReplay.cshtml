@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "关注后自动回复";
+}
+
+@model Himall.Model.AutoReplyInfo
+<link href="/Content/WXmsg.css" rel="stylesheet" />
+
+<div class="container weixin-autoreply">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="#">公众号设置</a></li>
+        <li class="active"><a href="AutoReplay">公众号自动回复</a></li>
+    </ul>
+    <ul class="auto-reply mb20">
+        <li><a href="AutoReplay">关键字自动回复</a></li>
+        <li class="active"><a href="FocusReplay">关注后自动回复</a></li>
+        <li><a href="NewsReplay">消息自动回复</a></li>
+    </ul>
+
+    <div class="focus-reply VIP-Marketing clearfix">
+        <input type="hidden" id="Id" value="@Model.Id" />
+        <div class="on-off radio mt0">
+            <label class="mt5 mb5"><input type="radio" name="IsOpen" value="0" checked="@(Model.IsOpen==0)"/>开启</label>
+            <label class="mt5 mb5"><input type="radio" name="IsOpen" value="1" checked="@(!Model.IsOpen.HasValue||Model.IsOpen==1)" />关闭</label>
+        </div>
+        <div class="msg-tab">
+            <ul id="msgtype">
+                @*<li id="msgtype_news" class="active"><span class="glyphicon glyphicon-list-alt"></span>图文</li>*@
+                <li id="msgtype_text" class="active"><span class="glyphicon glyphicon-pencil"></span>文字</li>
+                @*<li id="msgtype_img"><span class="glyphicon glyphicon-picture"></span>图片</li>*@
+            </ul>
+            <div class="Area-inner">
+                @*<div class="tab-content" id="mediaSelect">
+                    <span class="create_access library">
+                        <a><i class="glyphicon glyphicon-plus"></i><br><p>从素材库中选择</p></a>
+                    </span>
+                    <span class="create_access">
+                        <a href="../WeiXin/WXMsgTemplate"><i class="glyphicon glyphicon-plus"></i><br><p>新建图文消息</p></a>
+                    </span>
+                    <div id="mediaDetail" style="display:none;">
+                            <span id="mediaTime"></span>
+                            <div class="item" name="wrapperItem">
+                                <div class="WX-item">
+                                    <div class="item-img">
+                                        <img name="wrapper">
+                                    </div>
+                                    <span class="item-title" name="wrapperTitle">标题</span>
+                                </div>
+                            </div>
+                            <div id="divChild"></div>
+
+                        </div>
+                </div>
+                <div class="sucai-library">
+                    <h5>选择素材<span class="glyphicon glyphicon-remove"></span></h5>
+
+                    <div class="library-box">
+                        <ul id="list"></ul>
+                    </div>
+                    <p class="submit"><a type="submit" id="btnOk" class="clear-u2">确定</a><a type="submit" id="btnCancel">取消</a></p>
+                </div>*@
+                <div class="tab-content" id="txtInput">
+                    <textarea id="TextReply">@Model.TextReply</textarea>
+                </div>
+                @*<div class="tab-content dln" id="imginput">
+                    <span class="create_access">
+                        <a><i class="glyphicon glyphicon-plus"></i><br><p>上传图片</p></a>
+
+                    </span>
+                    <input type="file" />
+                </div>*@
+            </div>
+
+        </div>
+        <button class="btn btn-primary btn-sm clear-u3">保存</button>
+    </div>
+
+
+    <div class="coverage" style="display:none;"></div>
+</div>
+
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script>
+    $(".btn-sm").on("click", function () {
+        var Id = $('#Id').val();
+        var IsOpen = $("input[name='IsOpen']:checked").val();
+        var TextReply = $('#TextReply').val();
+        if ($.trim(TextReply).length == 0) {
+            $.dialog.tips('请填写文字!');
+            return;
+        }
+        $('.rules-dialog').show();
+        var loading = showLoading();
+        $.ajax({
+            type: "post",
+            url: "/Admin/WeiXin/ModAutoReplay",
+            data: { Id: Id, ReplyType: 1, TextReply: TextReply, IsOpen: IsOpen },
+            dataType: "json",
+            success: function (data) {
+                loading.close();
+                if (data.success) {
+                    $.dialog.tips(data.msg, function () {
+                        
+                    });
+                }
+            }
+        });
+    });
+</script>
+<script>
+    $(function () {
+        $('#msgtype_news').click(function () {
+            $('#mediaSelect').show();
+            $('#txtInput').hide();
+            $("#imginput").hide();
+            $('#msgtype_text').removeClass('active');
+            $(this).addClass('active');
+        });
+        $('#msgtype_text').click(function () {
+            $('#txtInput').show();
+            $('#mediaSelect').hide();
+            $("#imginput").hide();
+            $('#msgtype_news').removeClass('active');
+            $(this).addClass('active');
+        });
+        $("#msgtype_img").click(function () {
+            $("#imginput").show();
+            $('#txtInput').hide();
+            $('#mediaSelect').hide();
+            $('#msgtype_news').removeClass('active');
+            $('#msgtype_text').removeClass('active');
+            $(this).addClass('active');
+        })
+
+        $(".tab-content .library").click(function () {
+            $(".sucai-library").show();
+            $(".coverage").show();
+
+        });
+        $(".sucai-library .glyphicon-remove").click(function () {
+            $(".sucai-library").hide();
+            $(".coverage").hide();
+        });
+    })
+</script>

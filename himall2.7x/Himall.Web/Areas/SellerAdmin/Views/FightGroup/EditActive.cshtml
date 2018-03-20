@@ -1,0 +1,221 @@
+﻿@model Himall.DTO.FightGroupActiveModel
+@{
+    ViewBag.Title = "活动详情";
+    var curnum = 0;
+    bool isshowpropic = true;
+    int curind = 0;
+}
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<style type="text/css">
+    .form-control.input-validation-error {
+        border: #f00 1px solid;
+    }
+</style>
+
+<div class="container clear-v20">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class=""><a href="@Url.Action("Index")">所有拼团</a></li>
+        <li class="active"><a>编辑拼团</a></li>
+        <li class=""><a href="@Url.Action("BuyMarketService")">购买服务</a></li>
+    </ul>
+
+    <div class="form-horizontal">
+
+        @using (Ajax.BeginForm("EditActive", "FightGroup", null
+                                                        , new AjaxOptions { HttpMethod = "post", OnBegin = "beginpost", OnSuccess = "successpost" }
+                                                        , new { @class = "form-horizontal", id = "editform" }))
+        {
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.ProductId)
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>活动商品：</label>
+                <div class="col-sm-7"><label class="control-label" for="">@(Model.ProductName)</label></div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>商品详情：</label><br>
+                <div class="col-sm-9">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td width="160" style='text-align:center'><img src="@Model.ProductDefaultImage" width="150" /></td>
+                            <td valign="top">
+                                <table id="tbl" class="table table-bordered">
+                                    <tr>
+                                        <td>规格</td>
+                                        <td width="15%">原价</td>
+                                        <td width="25%">活动价</td>
+                                        <td width="15%">库存</td>
+                                        <td width="25%">活动库存</td>
+                                    </tr>@for (var i = 0; i < Model.ActiveItems.Count; i++)
+                                    {
+                                        var curitem = Model.ActiveItems[i];
+                                        <tr @(Html.Raw(curitem.ProductStock <= 0 ? "style=\"display:none;\"" : ""))>
+                                            <td>@Html.HiddenFor(m => m.ActiveItems[i].Id) @Html.HiddenFor(m => m.ActiveItems[i].SkuName) @(curitem.SkuName) @Html.HiddenFor(m => m.ActiveItems[i].SkuId)</td>
+                                            <td>@(curitem.ProductPrice) @Html.HiddenFor(m => m.ActiveItems[i].ProductPrice)</td>
+                                            <td>
+                                                @Html.TextBoxFor(m => m.ActiveItems[i].ActivePrice, new Dictionary<string, object> {
+                                               { "class", "form-control input-sm" },
+                                               { "data-val-range-max",curitem.ProductPrice}
+                                           })
+                                                @Html.ValidationMessageFor(m => m.ActiveItems[i].ActivePrice, "", new { @class = "help-default cor-red" })
+                                            </td>
+                                            <td>@(curitem.ProductStock) @Html.HiddenFor(m => m.ActiveItems[i].ProductStock)</td>
+                                            <td>
+                                                @Html.TextBoxFor(m => m.ActiveItems[i].ActiveStock, new Dictionary<string, object> {
+                                               { "class", "form-control input-sm" },
+                                               { "data-val-range-max",curitem.ProductStock}
+                                           })
+                                                @Html.ValidationMessageFor(m => m.ActiveItems[i].ActiveStock, "", new { @class = "help-default cor-red" })
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+
+            @Html.HiddenFor(m => m.IconUrl)
+
+            <div class="form-group upload-img" id="IconUrlBox">
+                <div class="col-sm-3">@Html.ValidationMessageFor(m => m.IconUrl)</div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>开始时间：</label>
+                <div class="col-sm-3">@Html.TextBoxFor(m => m.StartTime, new { Value = Model.StartTime.ToString("yyyy-MM-dd HH:mm:ss"), @readonly = "true", @class = "form-control input-sm" })</div>
+
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>结束时间：</label>
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(m => m.EndTime, new { Value = Model.EndTime.ToString("yyyy-MM-dd HH:mm:ss"), @class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.ValidationMessageFor(m => m.EndTime, "", new { @class = "help-default cor-red" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>成团人数：</label>
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(m => m.LimitedNumber, new { @class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-6">
+                    @Html.ValidationMessageFor(m => m.LimitedNumber, "", new { @class = "help-default cor-red" })
+                    <span class="help-default">当未达到参团人数时，用户发起的此次拼团将失败，已支付的金额将自动退回给会员</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>成团时限：</label>
+                <div class="col-sm-3">@Html.HiddenFor(m => m.LimitedHour)<label class="control-label" for="">@(Model.LimitedHour)小时</label></div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>购买限制：</label>
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(m => m.LimitQuantity, new { @class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-6">
+                    @Html.ValidationMessageFor(m => m.LimitQuantity, "", new { @class = "help-default cor-red" })
+                    <span class="help-default">活动中每人最多的购买数</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" id="btsubmit" class="btn btn-primary">保 存</button>
+                </div>
+            </div>
+        }
+    </div>
+
+
+</div>
+@Html.Hidden("mgurl", Url.Action("Index"))
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+
+<script type="text/javascript">
+
+    $(function () {
+        stimebox = $("#StartTime");
+        etimebox = $('#EndTime');
+        etimebox.datetimepicker({
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd hh:ii:ss',
+            autoclose: true,
+            weekStart: 1,
+            minView: 0
+        });
+        etimebox.datetimepicker('setStartDate', stimebox.val());
+
+        etimebox.on('change', function () {
+            EndTimeChange();
+        });
+
+        function EndTimeChange() {
+            var _etime = new Date(etimebox.val());
+            var _stime = new Date(stimebox.val());
+            if (_etime < _stime) {
+                etimebox.val("");
+                $("#editform").valid();
+            }
+        }
+
+        $("#IconUrlBox").himallUpload(
+        {
+            title: '<b style="color:red;">*</b>活动列表图片',
+            imageDescript: '请上传640 * 400的图片',
+            displayImgSrc: $('#IconUrl').val(),
+            imgFieldName: "IconUrlPic",
+            callback: function (data) {
+                $("#IconUrl").val(data);
+            }
+        });
+
+        btsubmit = $("#btsubmit");
+
+        //提交前检测
+        $("#editform").bind("submit", function (e) {
+            var isdataok = true;
+
+            return isdataok;
+        });
+    });
+    var btsubmit;
+    var loading;
+
+    var isposting = false;
+    function beginpost() {
+        if (isposting) {
+            $.dialog.tips("数据提交中...");
+            return false;
+        }
+        isposting = true;
+        btsubmit.text("提交中...");
+        loading = showLoading();
+    }
+
+    function successpost(data) {
+        isposting = false;
+        btsubmit.text("保 存");
+        loading.close();
+        if (data.success == true) {
+            $.dialog.tips("拼团信息操作成功", function () {
+                window.location.href = $("#mgurl").val();//数据提交成功页面跳转
+            });
+        } else {
+            $.dialog.errorTips(data.msg);
+        }
+    }
+</script>

@@ -1,0 +1,49 @@
+﻿@model List<Himall.Web.Areas.SellerAdmin.Models.ShopCategoryModel>
+@{
+    ViewBag.Title = "Management";
+}
+<script src="~/Areas/SellerAdmin/Scripts/Category.js"></script>
+
+<div class="container Sclear-C">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>管理</a></li>
+        <li><a value="0" class="addCategory">新增</a></li>
+    </ul>
+
+
+    <table class="table category_table mt20">
+        <thead>
+            <tr>
+                @*<th width="1"></th>*@
+                <th class="Sclear-C2">分类名称/排序</th>
+                <th class="td-operate Sclear-C1">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (null == Model || Model.Count() == 0)
+            {
+                <tr>
+                    <td class="tac" colspan="3"><h2 class="none-data Sclear-C3" >没有任何分类</h2></td>
+                </tr>
+            }
+            else
+            {
+                foreach (var category in Model)
+                {
+                    <tr class="level-1">
+                        @*<td width="1"></td>*@
+                        <td class="Sclear-C5">
+                            <span class="glyphicon glyphicon-plus-sign"></span><input type="hidden" class="hidden_id" value="@category.Id" /><input class="text-name" type="text" value="@category.Name" />
+                            @*<input class="text-order" type="text" value="@category.DisplaySequence" />*@
+                        </td>
+                        <td class="td-operate Sclear-C4" >
+                            <span class="btn-a">
+                                <a class="addCategory" value="@category.Id">新增下级</a><a class="delete-classify">删除</a>
+                            </span>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

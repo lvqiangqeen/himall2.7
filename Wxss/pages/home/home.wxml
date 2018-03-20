@@ -1,0 +1,120 @@
+<!--pages/home/home.wxml-->
+<view class="homecont">
+ 
+  <view class="search-box">
+ 
+     <view class="search-l" hidden="true">
+           <image src="/images/default_03.jpg"></image>
+     </view>
+     <view  class="search">
+          <input class="text" type="text" placeholder-style="color:#f1c1b7" placeholder="搜索" bindinput="bindSearchInput" confirm-type="search" bindconfirm="bindConfirmSearchInput" bindblur="bindBlurInput" bindfocus="gotoKeyWordPage">
+    </input>
+    <view class="iconfont icon__search iconsearch font40"  size="16" bindtap="bindSearchAction"></view>
+     </view>
+  </view>
+
+
+
+  <import src="../common/templeates.wxml" />
+  <block wx:for="{{TopicData}}" wx:key="id">
+    <template is="{{'temp_'+item.type}}" data="{{...item,RequestUrl}}"></template>
+  </block>
+  
+
+
+  <view class="page-section merchandise">
+    <view class="page-section-title">
+      <text class="iconfont icon__thumbup"></text><text>商品精选</text>
+    </view>
+    <view class="prodcut-list">
+        <view class="prodcut-comm">
+             <block wx:for="{{choiceProducts}}" wx:for-item="item" wx:for-index="idx" wx:key="goodcont">
+
+            <view class="prodcut">
+              <view class="product-info">
+                <view class="product-pic" catchtap="bindGoodsTap" data-productid="{{item.ProductId}}" data-activeid="{{item.ActiveId}}" data-activetype="{{item.ActiveType}}">
+                  <image class="image" src="{{item.ThumbnailUrl160}}" mode="aspectFit" style="width:320rpx;height:320rpx;"></image>
+                </view>
+                <view class="product-des">
+                  <view class="product-name" catchtap="bindGoodsTap" data-productid="{{item.ProductId}}" data-activeid="{{item.ActiveId}}" data-activetype="{{item.ActiveType}}">{{item.ProductName}}</view>
+                  <view class="product-into-home">
+                   <view class="product-price">￥<text>{{item.SalePrice}}</text></view>
+
+                  <view class="product-shop">
+                    <view class="product-add" wx:if="{{item.HasSKU || (!item.HasSKU && item.CartQuantity==0)}}" catchtap="catchAddCart" data-productid="{{item.ProductId}}" data-operator="+" data-sku="{{item.SkuId}}" data-activeid="{{item.ActiveId}}" data-activetype="{{item.ActiveType}}" data-opensku="{{item.HasSKU}}">
+                      <view class="iconfont icon__plus  font48"></view>
+                      <view class="coust" hidden="{{item.CartQuantity<=0}}">{{item.CartQuantity}}</view>
+                    </view>
+                    <view class="product-buy"  wx:if="{{!item.HasSKU && item.CartQuantity>0}}">
+                      <view class="l" catchtap="catchAddCart" data-productid="{{item.ProductId}}" data-operator="-" data-sku="{{item.SkuId}}" data-opensku="{{item.HasSKU}}"> <text class="iconfont icon__minus_L font24"></text></view>
+                      <text class="m">{{item.CartQuantity}}</text>
+                      <view class="r" catchtap="catchAddCart" data-productid="{{item.ProductId}}" data-operator="+" data-sku="{{item.SkuId}}" data-opensku="{{item.HasSKU}}"><text class="iconfont icon__plus_L font24"></text></view>
+                    </view>
+                  </view>
+
+                  </view>
+                </view>
+              </view>
+            </view>
+          </block>
+        </view>
+    </view>
+  </view>
+
+
+<!--弹出规格开始-->
+<view class="mask" hidden="{{!isShowSkuSelectBox}}">
+  <view class="comm-stand">
+    <view class="comm-stand-con">
+      <view class="comm-name">
+        <view class="comm-txt">{{CurrentProduct.ProductName}}</view>
+        <view class="comm-icon" bindtap="hideSkuDOM">
+          <image src="/images/colse_03.jpg"></image>
+        </view>
+      </view>
+      <view class="comm-bd">
+        <block wx:for="{{CurrentProduct.SkuItems}}" wx:key="AttributeId" wx:for-index="i">
+          <view class="comm-item">
+            <view class="comm-title">{{item.AttributeName}}</view>
+            <view class="comm-attr">
+              <block wx:for="{{item.AttributeValue}}" wx:key="ValueId" wx:for-item="sku">
+                <text class="{{sku.UseAttributeImage=='selected'?'active':''}}" id="{{sku.ValueId}}" data-skuvalue="{{sku.Value}}" data-indexcount="{{i}}" catchtap="onSkuClick">{{sku.Value}}</text>
+              </block>
+
+              <!-- <image class="{{sku.UseAttributeImage=='selected'?'SKUSelectValueClass':'skuvalueclass'}}" wx:if="{{sku.ImageUrl!=''}}" src="{{sku.ImageUrl}}" id="{{sku.ValueId}}" data-skuvalue="{{sku.Value}}" data-indexcount="{{i}}" bindtap="onSkuClick"></image>-->
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+    <view class="comm-stand-shop">
+      <view class="product-into">
+        <view class="product-price">￥
+          <text>{{CurrentSku.SalePrice}}</text>
+        </view>
+        <view class="product-shop">
+          <view class="iconfont icon__plus" hidden="{{CurrentSku && CurrentSku.CartQuantity>0}}" catchtap="catchAddCart" data-productid="{{CurrentProduct.ProductId}}" data-operator="+" data-sku="{{CurrentSku.SkuId}}" data-opensku="false">
+            <view hidden="{{!CurrentSku || CurrentSku.CartQuantity<=0}}">{{CurrentSku.CartQuantity}}</view>
+          </view>
+          <view class="product-buy" hidden="{{!CurrentSku || CurrentSku.CartQuantity<=0}}">
+            <view class="l" catchtap="catchAddCart" data-productid="{{CurrentProduct.ProductId}}" data-operator="-" data-sku="{{CurrentSku.SkuId}}" data-opensku="false">
+              <text class="iconfont icon__minus_L font36"></text>
+            </view>
+            <text class="m">{{CurrentSku.CartQuantity}}</text>
+            <view class="r" catchtap="catchAddCart" data-productid="{{CurrentProduct.ProductId}}" data-operator="+" data-sku="{{CurrentSku.SkuId}}" data-opensku="false">
+              <text class="iconfont icon__plus_L font36"></text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+   <!--弹出规格结束-->
+
+
+<view class="shop_box" hidden="true">
+    <view class="shop_icon iconfont icon__cart font48"></view>
+    <text class="shop_num font28">{{TotalNum}}</text>
+</view>
+</view>

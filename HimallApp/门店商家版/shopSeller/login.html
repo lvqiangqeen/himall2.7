@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>登录</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<link href="css/account.css" rel="stylesheet"/>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon">&nbsp;</a>
+			<h1 class="mui-title">登录</h1>
+			<div class="has-border-bt"></div>
+		</header>
+		<div class="mui-content">
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>账号</label>
+					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+				</div>
+				<div class="mui-input-row mui-password">
+					<label>密码</label>
+					<input id='password' type="password" class="mui-input-password mui-input" placeholder="请输入密码">
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button id='login' class="mui-btn mui-btn-block mui-btn-blue">登录</button>
+			</div>
+			<div class="mui-content-padded">
+				<p id="forgetPassword" style="color: #007aff;">忘记密码？</p>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script>
+			var doc=document,
+				w;
+			mui.init();
+			mui.plusReady(function() {
+				var ws=plus.webview.currentWebview();
+				plus.navigator.closeSplashscreen();
+					//params=ws.params,
+					toMain = function() {
+						mui.fire(plus.webview.getWebviewById(plus.runtime.appid),'reloadData');
+						//mui.fire(plus.webview.getWebviewById('store.html'),'reloadData');
+						setTimeout(function(){
+							w.close();
+							ws.close();
+						},500)
+				};
+				
+				var loginButton = doc.getElementById('login');
+				var accountBox = doc.getElementById('account');
+				var passwordBox = doc.getElementById('password');
+				var forgetButton = doc.getElementById('forgetPassword');
+				accountBox.value = plus.storage.getItem('username')?plus.storage.getItem('username'):'';
+				forgetButton.addEventListener('tap', function() {
+					himall.openVW('forget-password.html');
+				}, false);
+				loginButton.addEventListener('tap', function() {
+					var loginInfo = {
+						userName: accountBox.value,
+						password: passwordBox.value
+					};
+//					if (loginInfo.userName.length < 3) {
+//						plus.nativeUI.toast('账号最短为 3个字符');
+//						return;
+//					}
+					if (loginInfo.password.length < 6) {
+						plus.nativeUI.toast('密码最短为 6 个字符');
+						return;
+					}
+					w = plus.nativeUI.showWaiting();
+					mui.ajax(URL+'api/ShopBranchLogin/GetUser',{
+						data:himall.md5Data(loginInfo),
+						dataType:'json',
+						type:'GET',
+						timeout:20000,
+						success:function(data){
+
+							if(data.UserKey){
+								plus.storage.setItem('username',''+loginInfo.userName);
+								himall.createState(data.UserId,data.UserKey,data.type,function(){
+									toMain();
+								});
+							}else{
+								plus.nativeUI.toast(data.msg);
+								w.close();
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							plus.nativeUI.toast('请求失败，请检查网络');
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+
+</html>

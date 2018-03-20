@@ -1,0 +1,300 @@
+﻿@model Himall.Model.ShopHomeModuleInfo
+
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+
+<style>
+    table td {
+        text-align: center;
+    }
+</style>
+<input type="hidden" id="MainId" value="@Model.Id" />
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li><a href="/SellerAdmin/ShopHomeModule/Management">管理</a></li>
+        <li class="active"><a>楼层编辑</a></li>
+    </ul>
+
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>楼层标题：</label>
+            <div class="col-sm-3">
+                <input class="form-control input-sm" type="text" id="FloorName" name="FloorName" value="@Model.Name" />
+            </div>
+            <div class="col-sm-5"><span class="help-default">限10个字符，必填</span></div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>楼层链接：</label>
+            <div class="col-sm-3">
+                <input class="form-control input-sm" type="text" id="FloorUrl" name="FloorUrl" value="@Model.Url" />
+            </div>
+            <div class="col-sm-5"><span class="help-default">点击楼层标题右侧跳转</span></div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">楼层轮播图：</label>
+            <div class="col-sm-3">
+                <input id="addlb" class="btn btn-primary btn-sm" type="button" value="增加轮播" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"></label>
+            <div class="col-sm-9">
+                <table id="tbllb" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td width="20%">图片</td>
+                            <td width="40%">跳转地址</td>
+                            <td width="20%">排序</td>
+                            <td width="20%">操作</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var img in Model.Himall_ShopHomeModulesTopImg.OrderBy(p => p.DisplaySequence))
+                        {
+                            <tr rownumber="@img.DisplaySequence">
+                                <td pic="@img.ImgPath"><img style="width:50px;" src="@(Himall.Core.HimallIO.GetImagePath(img.ImgPath))" /></td>
+                                <td>@img.Url</td>
+                                <td><span class="glyphicon glyphicon-circle-arrow-up"></span> <span class="glyphicon glyphicon-circle-arrow-down"></span></td>
+                                <td><a href='javascript:void(0);' onclick="cancle(this)">删除</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>商品区域：</label>
+            <div class="col-sm-3">
+                <input id="addp" class="btn btn-primary btn-sm" type="button" value="选择商品" />&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="help-default">建议选择八件商品</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"></label>
+            <div class="col-sm-9">
+                <table id="tblp" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td width="20%">商品缩略图</td>
+                            <td width="20%">排序</td>
+                            <td width="20%">操作</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model.ShopHomeModuleProductInfo.OrderBy(p => p.DisplaySequence))
+                        {
+                            <tr rownumber="@product.DisplaySequence" pid="@product.ProductId">
+                                <td><img style="width:51px;" src="@(Himall.Core.HimallIO.GetProductSizeImage(product.ProductInfo.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_50))" /></td>
+                                <td><span class="glyphicon glyphicon-circle-arrow-up"></span> <span class="glyphicon glyphicon-circle-arrow-down"></span></td>
+                                <td><a href='javascript:void(0);' onclick="cancle( this )">删除</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" id="submit" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(function () {
+        lbsort("#tbllb");
+        lbsort("#tblp");
+
+        $("#addlb").click(function () {
+            $.dialog(
+            {
+                title: '新增轮播图',
+                lock: true,
+                id: 'goodCheck',
+                content: ['<div class="dialog-form">',
+                               '<div id="HandSlidePic" class="form-group upload-img clearfix">',
+                               '</div>',
+                               '<div class="form-group clearfix">',
+                               '<label class="label-inline fl" for="" style="margin-right:18px!important">跳转链接：</label>',
+                               '<input class="form-control input-sm" type="text" id="url">',
+                               '</div>',
+                               '</div>'].join(''),
+                padding: '0 40px',
+                width: '420px',
+                init: function () {
+                    $("#HandSlidePic").himallUpload(
+                    {
+                        title: '显示图片',
+                        imageDescript: '<label class="">建议尺寸：1190*320</label>',
+                        displayImgSrc: "",
+                        imgFieldName: "HandSlidePic",
+                        dataWidth: 10
+                    });
+                },
+                ok: function () {
+                    var valida = false;
+                    var url = $("#url").val();
+                    var pic = $("#HandSlidePic").himallUpload('getImgSrc');
+                    if (url.length === 0) { $("#url").focus(); $.dialog.errorTips('链接地址不能为空.'); return valida; }
+                    if (pic.length === 0) { $.dialog.errorTips('图片不能为空.'); return valida; }
+
+                    var rownum = $("#tbllb tbody tr").length + 1;
+                    var html = "<tr rownumber='" + rownum + "'><td pic='" + pic + "'><img style='width:50px;' src='" + pic + "' /></td><td>" + url + "</td><td><span class='glyphicon glyphicon-circle-arrow-up'></span> <span class='glyphicon glyphicon-circle-arrow-down'></span></td><td><a href='javascript:void(0);' onclick='cancle(this)'>删除</a></td></tr>";
+                    $("#tbllb tbody").append(html);
+                    lbsort("#tbllb");
+                }
+
+            })
+        })  //addlb click end
+
+        $("#addp").click(function () {
+            var productids = [];
+            $("#tblp tbody tr").each(function (i, item) {
+                productids[i] = $(item).attr("pid");
+            })
+
+            $.productSelector.show(productids, function (selectedProducts) {
+                if (selectedProducts.length > 40) {
+                    $.dialog.errorTips('商品最大数不能超过40！');
+                    return;
+                }
+
+                var html = "";
+                var count = $("#tblp tbody tr").length;
+                $(selectedProducts).each(function (i, item) {
+                    var rownum = count + i + 1;
+                    html += "<tr rownumber='" + rownum + "' pid='" + item.id + "'><td><img style='width:50px;' src='" + item.imgUrl + "' /></td><td><span class='glyphicon glyphicon-circle-arrow-up'></span> <span class='glyphicon glyphicon-circle-arrow-down'></span></td><td><a href='javascript:void(0);' onclick='cancle(this)'>删除</a></td></tr>"
+                })
+                $("#tblp tbody").html(html);
+                lbsort("#tblp");
+
+            }, 'selleradmin', true);
+
+        }) //addp click end
+
+        $("#submit").click(function () {
+           
+            var send = {};
+            send.Id = $("#MainId").val();
+            send.Name = $("#FloorName").val();
+            send.Url = $("#FloorUrl").val();
+
+            send.Products = [];
+            $("#tblp tbody tr").each(function (i, item) {
+                send.Products[i] = {};
+                send.Products[i].DisplaySequence = $(item).attr("rownumber");
+                send.Products[i].ProductId = $(item).attr("pid");
+            })
+
+            send.TopImgs = [];
+            $("#tbllb tbody tr").each(function (i, item) {
+                send.TopImgs[i] = {};
+                send.TopImgs[i].DisplaySequence = $(item).attr("rownumber");
+                send.TopImgs[i].ImgPath = $(item).find("td").eq(0).attr("pic");
+                send.TopImgs[i].Url = $(item).find("td").eq(1).html();
+            })
+            if (send.Name.length == 0) {
+                $.dialog.errorTips('楼层名称不能为空！');
+                
+                return ;
+            }
+            if (send.Url.length == 0) {
+                $.dialog.errorTips('楼层链接不能为空！');
+            
+                return;
+            }
+            if (send.TopImgs.length == 0) {
+                //$.dialog.errorTips('楼层轮播图不能为空！');
+                //return;
+            }
+            if (send.Products.length == 0) {
+                $.dialog.errorTips('楼层商品不能为空！');
+
+                return;
+            }
+
+            console.log(send);
+            console.log(JSON.stringify(send));
+
+            $.post("/SellerAdmin/ShopHomeModule/AddAcion", { args: JSON.stringify(send) }, function (data) {
+                if (data.success) {
+              
+                    $.dialog.succeedTips('保存成功!', function () {
+                        window.location.href = '/SellerAdmin/ShopHomeModule/Management';
+                    });
+                }
+                else {
+                    $.dialog.errorTips('保存失败！');
+                }
+             
+            })
+        }) //submit click end
+
+    }) //$ end
+
+
+
+    //删除某一行
+    function cancle(c) {
+        var id = $(c).parents("table")[0].id;
+        $(c).parents("tr").remove();
+        lbsort("#" + id);
+    }
+
+    //轮播图排序
+    function lbsort(id) {
+        $(id + " tbody").find('.glyphicon-circle-arrow-up').removeClass("disabled");
+        $(id + " tbody").find('.glyphicon-circle-arrow-down').removeClass("disabled");
+        $(id + " tbody tr").first().find('.glyphicon-circle-arrow-up').addClass('disabled');
+        $(id + " tbody tr").last().find('.glyphicon-circle-arrow-down').addClass('disabled');
+
+        $(id + " .glyphicon-circle-arrow-up").click(function () {
+            var thisObj = this;
+            var p = $(this).parents('tr');
+            var index = p.parent().find('tr').index(p);
+            if (index == 0)
+                return false;
+            else {
+                var oriRowNumber = parseInt(p.attr('rowNumber'));
+                var newRowNumber = p.prev().attr('rowNumber');
+                p.attr('rowNumber', newRowNumber);
+                p.prev().attr('rowNumber', oriRowNumber);
+                p.prev().before(p);
+                reDrawArrow(thisObj);
+            }
+        });
+
+        $(id + " .glyphicon-circle-arrow-down").click(function () {
+            var thisObj = this;
+            var p = $(this).parents('tr');
+            var count = p.parent().find('tr').length;
+            var index = p.parent().find('tr').index(p);
+            if (index == (count - 1))
+                return false;
+            else {
+                var oriRowNumber = parseInt(p.attr('rowNumber'));
+                var newRowNumber = p.next().attr('rowNumber');
+                p.attr('rowNumber', newRowNumber);
+                p.next().attr('rowNumber', oriRowNumber);
+                p.next().after(p);
+                reDrawArrow(thisObj);
+            }
+        });
+    }
+
+    function reDrawArrow(obj) {
+        $(obj).parents('tbody').find('.glyphicon').removeClass('disabled');
+        $(obj).parents('tbody').find('tr').first().find('.glyphicon-circle-arrow-up').addClass('disabled');
+        $(obj).parents('tbody').find('tr').last().find('.glyphicon-circle-arrow-down').addClass('disabled');
+    }
+</script>

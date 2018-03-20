@@ -1,0 +1,34 @@
+﻿@model Himall.Model.SiteSettingsInfo
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="/Admin/Bonus/Management">管理</a></li>
+        <li><a href="/Admin/Bonus/Add">新增</a></li>
+        <li class="active">配置</li>
+    </ul>
+
+
+    @using (Html.BeginForm("Config", "Bonus", new { Area = "Admin" }, FormMethod.Post, new { id = "BonusForm", @class = "form-horizontal" }))
+    {
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">微信模板消息编号：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(p => p.WX_MSGGetCouponTemplateId, new { @class = "form-control input-sm", @maxlength = "60" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" id="subCate" class="btn btn-primary">保 存</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-9">
+                <label style="color:red;">温馨提示：</label><br />
+                <label>请在公众平台开通模板消息功能，并添加“领取红包通知”（OPENTM200681790）模板消息，并将模板ID填入上面“微信模板消息编号”文本框。</label>
+            </div>
+        </div>
+    }
+</div>

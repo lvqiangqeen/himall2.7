@@ -1,0 +1,338 @@
+﻿@model Himall.Web.Models.ShopModel
+@using Himall.Core;
+@{
+    ViewBag.Title = "Auditing";
+}
+
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Areas/Admin/Scripts/ShopAuditing.js"></script>
+
+<div class="container">
+    <ul class="breadcrumb clearfix">
+
+        <li><a href="./Management">店铺管理</a></li>
+        <li><a href="./Management?type=Auditing">店铺审核</a></li>
+
+    </ul>
+
+    <div @(Html.Raw(Model.BusinessType.Equals(Himall.CommonModel.ShopBusinessType.Enterprise) ? "" : "style='display:none;'"))>
+
+        <h3 class="table-hd">公司及联系人信息</h3>
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="col-xs-1">
+                <col class="col-xs-7">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>公司名称</td>
+                    <td>@Model.CompanyName</td>
+                </tr>
+                <tr>
+                    <td>公司所在地</td>
+                    <td>@Model.CompanyRegion</td>
+                </tr>
+                <tr>
+                    <td>公司详细地址</td>
+                    <td>@Model.CompanyAddress</td>
+                </tr>
+                <tr>
+                    <td>公司电话</td>
+                    <td>@Model.CompanyPhone</td>
+                </tr>
+                <tr>
+                    <td>员工总数</td>
+                    <td>@Model.CompanyEmployeeCount.ToDescription()</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 class="table-hd">营业执照信息（副本）</h3>
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="col-xs-1">
+                <col class="col-xs-7">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>营业执照号</td>
+                    <td>@Model.BusinessLicenceNumber</td>
+                </tr>
+                <tr>
+                    <td>法定经营范围</td>
+                    <td>@Model.BusinessSphere</td>
+                </tr>
+                @if (!string.IsNullOrWhiteSpace(Model.BusinessLicenceNumberPhoto) && HimallIO.ExistFile(Model.BusinessLicenceNumberPhoto))
+                {
+                    <tr>
+                        <td>营业执照号<br />电子版</td>
+                        <td><img style="max-width:700px" src="@(Himall.Core.HimallIO.GetImagePath(Model.BusinessLicenceNumberPhoto))?aaa=@(DateTime.Now.ToString())" alt="" /></td>
+                    </tr>
+                }
+                <tr>
+                    <td>组织机构代码</td>
+                    <td>@Model.OrganizationCode</td>
+                </tr>
+                @if (!string.IsNullOrWhiteSpace(Model.OrganizationCodePhoto) && HimallIO.ExistFile(Model.OrganizationCodePhoto))
+                {
+                    <tr>
+                        <td>组织机构代码证<br />电子版</td>
+                        <td><img style="max-width:700px" src="@(Himall.Core.HimallIO.GetImagePath(Model.OrganizationCodePhoto))?aaa=@(DateTime.Now.ToString())" alt="" /></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (!string.IsNullOrEmpty(Model.BusinessLicenseCert))
+        {
+            <h3 class="table-hd">经营许可类证书</h3>
+            <table class="table table-bordered table-striped">
+                <colgroup>
+                    <col class="col-xs-1">
+                    <col class="col-xs-7">
+                </colgroup>
+                <tbody>
+
+                    @for (int i = 1; i < 4; i++)
+                    {
+                        if (Himall.Core.HimallIO.ExistFile(Model.BusinessLicenseCert + string.Format("{0}.png", i)))
+                        {
+                            <tr>
+                                <td><img style="max-width:700px" src="@(Himall.Core.HimallIO.GetImagePath(Model.BusinessLicenseCert + string.Format("{0}.png", i)))?aaa=@(DateTime.Now.ToString())" alt="" /></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+        @if (!string.IsNullOrEmpty(Model.ProductCert))
+        {
+            <h3 class="table-hd">产品类证书</h3>
+            <table class="table table-bordered table-striped">
+                <colgroup>
+                    <col class="col-xs-1">
+                    <col class="col-xs-7">
+                </colgroup>
+                <tbody>
+                    @for (int i = 1; i < 4; i++)
+                    {
+                        if (Himall.Core.HimallIO.ExistFile(Model.ProductCert + string.Format("{0}.png", i)))
+                        {
+                            <tr>
+                                <td><img style="max-width:700px" src="@(Himall.Core.HimallIO.GetImagePath(Model.ProductCert + string.Format("{0}.png", i)))?aaa=@(DateTime.Now.ToString())" alt="" /></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+        @if (!string.IsNullOrEmpty(Model.OtherCert))
+        {
+            <h3 class="table-hd">其它证书</h3>
+            <table class="table table-bordered table-striped">
+                <colgroup>
+                    <col class="col-xs-1">
+                    <col class="col-xs-7">
+                </colgroup>
+                <tbody>
+                    @for (int i = 1; i < 4; i++)
+                    {
+                        if (Himall.Core.HimallIO.ExistFile(Model.OtherCert + string.Format("{0}.png", i)))
+                        {
+                            <tr>
+                                <td><img style="max-width:700px" src="@(Himall.Core.HimallIO.GetImagePath(Model.OtherCert + string.Format("{0}.png", i)))?aaa=@(DateTime.Now.ToString())" alt="" /></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.GeneralTaxpayerPhot) && HimallIO.ExistFile(Model.GeneralTaxpayerPhot))
+        {
+            <h3 class="table-hd">一般纳税人证明</h3>
+            <table class="table table-bordered table-striped">
+                <colgroup>
+                    <col class="col-xs-1">
+                    <col class="col-xs-7">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td>一般纳税人证明</td>
+                        <td><img style="max-width:700px" src="@(Himall.Core.HimallIO.GetImagePath(Model.GeneralTaxpayerPhot))?aaa=@(DateTime.Now.ToString())" alt="" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    </div>
+    <div @(Html.Raw(Model.BusinessType.Equals(Himall.CommonModel.ShopBusinessType.Enterprise) ? "style='display:none;'" : ""))>
+        <h3 class="table-hd">个人入驻信息</h3>
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="col-xs-1">
+                <col class="col-xs-7">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>姓名</td>
+                    <td>@Model.CompanyName</td>
+                </tr>
+                <tr>
+                    <td>住址</td>
+                    <td>@Model.CompanyRegion</td>
+                </tr>
+                <tr>
+                    <td>详细地址</td>
+                    <td>@Model.CompanyAddress</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3 class="table-hd">身份信息</h3>
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="col-xs-1">
+                <col class="col-xs-7">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>身份证号码</td>
+                    <td>@Model.IDCard</td>
+                </tr>
+				<tr>
+					<td>身份证</td>
+					<td >
+						@if (HimallIO.ExistFile(Model.IDCardUrl))
+						{
+							<img src="@(HimallIO.GetImagePath(Model.IDCardUrl))?aaa=@(DateTime.Now.ToString())">
+						}
+                        @if (HimallIO.ExistFile(Model.IDCardUrl2))
+                        {
+                            <img src="@(HimallIO.GetImagePath(Model.IDCardUrl2))?aaa=@(DateTime.Now.ToString())">
+                        }
+					</td>
+				</tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="table-hd">银行账户</h3>
+    <table class="table table-bordered table-striped">
+        <colgroup>
+            <col class="col-xs-1">
+            <col class="col-xs-7">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td>银行开户名</td>
+                <td>@Model.BankAccountName</td>
+            </tr>
+            <tr>
+                <td>公司银行账号</td>
+                <td>@Model.BankAccountNumber</td>
+            </tr>
+            <tr>
+                <td>开户银行支行名称</td>
+                <td>@Model.BankName</td>
+            </tr>
+            <tr>
+                <td>支行联行号</td>
+                <td>@Model.BankCode</td>
+            </tr>
+            <tr>
+                <td>开户银行所在地</td>
+                <td>@Model.BankRegionId</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div @(Html.Raw(Model.WeiXinOpenId != null && !Model.WeiXinOpenId.Equals("") ? "" : "style='display:none;'"))>
+        <h3 class="table-hd">微信账户</h3>
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="col-xs-1">
+                <col class="col-xs-7">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>收款微信昵称</td>
+                    <td>@Model.WeiXinNickName</td>
+                </tr>
+                <tr>
+                    <td>性别</td>
+                    <td>@(Model.WeiXinSex.Equals(0) ? "女" : "男")</td>
+                </tr>
+                <tr>
+                    <td>所在地区</td>
+                    <td>@Model.WeiXinAddress</td>
+                </tr>
+                <tr>
+                    <td>真实姓名</td>
+                    <td>@Model.WeiXinTrueName</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="table-hd">店铺经营信息</h3>
+    <table class="table table-bordered table-striped">
+        <colgroup>
+            <col class="col-xs-1">
+            <col class="col-xs-7">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td>卖家帐号</td>
+                <td>@Model.Account</td>
+            </tr>
+            <tr>
+                <td>店铺名称</td>
+                <td>@Model.Name</td>
+            </tr>
+            <tr>
+                <td>店铺等级</td>
+                <td>@Model.ShopGrade</td>
+            </tr>
+        </tbody>
+    </table>
+    <h3 class="table-hd">经营类目</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>商品类目</th>
+                <th>分佣比例</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.BusinessCategory)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@Math.Round(item.CommisRate, 2) %</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <div class="mt20">
+        @{
+            if (ViewBag.Status == 3)
+            {
+                @*<input type="button" disabled="disabled" class="btn btn-primary" value="通过审核" />
+                    <input type="button" disabled="disabled" class="btn btn-warning refuse-shop" value="拒绝" />*@
+            }
+            else if (ViewBag.Status == 5)
+            {
+                <input type="button" class="btn btn-primary statusBtn" status="confrimCollect" value="确认收款" />
+            }
+            else if (ViewBag.Status == 2)
+            {
+                <input type="button" class="btn btn-primary statusBtn" status="passShop" value="通过审核" />
+                <input type="button" class="btn btn-warning refuse-shop" value="拒绝" />
+            }
+        }
+    </div>
+
+
+</div>
+
+<input type="hidden" value="@ViewBag.ShopId" id="shopId" />
+<input type="hidden" value="@ViewBag.Status" id="shopStatus" />

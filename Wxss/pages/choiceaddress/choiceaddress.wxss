@@ -1,0 +1,30 @@
+/* pages/xaddress/xaddress.wxss */
+page{background: #f5f5f5; padding-bottom: 105rpx;}
+.addresslist{background: #fff; position: relative;}
+.addressname,.addresscont,.addressmor{overflow: hidden; padding-left: 0rpx; padding-right: 50rpx;}
+.addressnamel{width: 350rpx; line-height: 48rpx; font-size: 32rpx}
+
+ .addresscont{ border-bottom: 1rpx solid #dddddd; padding-bottom: 24rpx; font-size: 28rpx; line-height: 40rpx;}
+.addressmorr{width: 44rpx; height: 44rpx; float: right;}
+ 
+ 
+.btmbg{position: fixed;height: 100%; width: 100%;background: #000; zoom: 1;top: 0;left:0; opacity: 0.3;}
+.tanchu{position: fixed;top:310rpx; z-index: 2;width: 620rpx;left: 60rpx;border-radius: 20rpx;background: #fff;}
+.queshac{display: flex;border-top: 1px solid #ddd;}
+.queshac button{width: 50%; background: #dddddd;}
+.quedsccon{padding: 50rpx 40rpx;}
+.queshac button::after{display: none;}
+.queshac button.queding{background: #fff}
+.addressmorl{float:left;}
+.addressmorl text{color: #212121; font-size: 28rpx; line-height: 40rpx; padding-top: 8rpx; padding-left:8rpx}
+
+.addresslist::after,.addresslist::before{border: 6px solid transparent;
+  border-left: 6px solid #fff;
+  width: 0; position: absolute;right: 10px;
+  height: 0; top: 60rpx;
+  content: ' '}
+ .addresslist::before {
+  border-left-color: #bbbbbb;
+ right: 8px;
+ top: 60rpx;
+}

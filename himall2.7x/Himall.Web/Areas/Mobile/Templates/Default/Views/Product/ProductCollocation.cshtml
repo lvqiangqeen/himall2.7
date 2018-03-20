@@ -1,0 +1,54 @@
+﻿@{
+    Layout = "../Shared/_Base.cshtml";
+    ViewBag.Title = "组合购";
+    ViewBag.ShowAside = 1;
+}
+
+@model  List<Himall.Web.Areas.Web.Models.ProductCollocationModel>
+<div class="container container-z">
+    <div class="detail-bd">
+        <div id="productColloCation">
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var m in Model)
+                {
+                    var title = m.Name;
+                    var pros = m.Products;
+                    int i = pros.Count();
+                    int index = 0;
+                    <div class="item">
+
+                        <div class="hmui-after hmui-after-middle detail-pbuy-hd">
+                            @title
+                            <span>
+                                <a href="@Url.Action("ProductDetail", "PortfolioBuy", new { productId = m.ProductId })">最高省<em id="groupPriceMinus" style="color:red;">@m.Cheap</em>元</a>
+                            </span>
+                        </div>
+                        <ul class="detail-pbuy-bd">
+                            @foreach (var t in pros.Take(3))
+                            {
+                                i--;
+                                index++;
+                                <li>
+                                    <div class="thumb">
+                                        <a href="@Url.Action("Detail", "Product", new { id = t.ProductId })"><img src="@Himall.Core.HimallIO.GetProductSizeImage(t.Image,1,220)"></a>
+                                        @if (i >= 1)
+                                        {
+                                            <div class="icon-sum flex-center">+</div>
+                                        }
+                                    </div>
+                                    <p class="price">¥ <strong>@t.MinCollPrice</strong></p>
+                                </li>
+                                if (index < 3)
+                                {
+                                    <li></li>
+                                }
+                            }
+                        </ul>
+
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

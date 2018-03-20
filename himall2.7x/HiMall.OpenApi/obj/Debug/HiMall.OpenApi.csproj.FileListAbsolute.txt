@@ -1,0 +1,12 @@
+C:\zhaopian\chushou\Himall.Web\bin\Himall.OpenApi.dll.config
+C:\zhaopian\chushou\Himall.Web\bin\Himall.OpenApi.dll
+C:\zhaopian\chushou\Himall.Web\bin\Himall.OpenApi.pdb
+C:\zhaopian\chushou\HiMall.OpenApi\obj\Debug\HiMall.OpenApi.csprojResolveAssemblyReference.cache
+C:\zhaopian\chushou\HiMall.OpenApi\obj\Debug\Himall.OpenApi.dll
+C:\zhaopian\chushou\HiMall.OpenApi\obj\Debug\Himall.OpenApi.pdb
+E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\Himall.Web\bin\Himall.OpenApi.dll.config
+E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\Himall.Web\bin\Himall.OpenApi.dll
+E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\Himall.Web\bin\Himall.OpenApi.pdb
+E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\HiMall.OpenApi\obj\Debug\HiMall.OpenApi.csprojResolveAssemblyReference.cache
+E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\HiMall.OpenApi\obj\Debug\Himall.OpenApi.dll
+E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\HiMall.OpenApi\obj\Debug\Himall.OpenApi.pdb

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>收货地址管理</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">收货地址</h1>
+			<a class="mui-pull-right mui-btn-link addAddress">新增地址</a>
+		</header>
+		<div class="mui-content transparent">
+			<ul class="mui-table-view mui-table-view-chevron address-list" id="addressList">
+			</ul>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true
+			});
+			var ws,
+				orderTag,
+				loadPage,
+				userkey=himall.getState().userkey;
+			
+			mui.plusReady(function() {
+				ws=plus.webview.currentWebview();
+				ws.setStyle({scrollIndicator:'none'});
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				orderTag=ws.orderTag;
+				loadPage=function(){
+					mui.ajax(URL+'api/ShippingAddress/GetShippingAddressList',{
+						data:himall.md5Data({userkey:userkey}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							if(data.Success=='true'){
+								var html='';
+								if(data.ShippingAddress.length>0){
+									for(var i=0; i<data.ShippingAddress.length; i++){
+										html+='<li class="mui-table-view-cell'+(data.ShippingAddress[i].IsDefault?" active":"")+'">'+
+											'<a class="mui-navigate-right" data-id="'+data.ShippingAddress[i].Id+'">'+
+												'<p><span>'+data.ShippingAddress[i].ShipTo+'</span>'+data.ShippingAddress[i].Phone+'</p>'+
+												'<p><span>'+data.ShippingAddress[i].RegionFullName+'</span>'+data.ShippingAddress[i].Address+'</p>'+
+												'<i class="mui-icon mui-icon-compose icon-right"></i>'+
+											'</a>'+
+										'</li>';
+		                        	}
+									document.getElementById('addressList').innerHTML=html;
+								}else{
+									html+='<div class="empty-show"><h4>暂无您的专属收货地址</h4><button class="mui-btn mui-btn-negative addAddress">新增收货地址</button></div>';
+						        	document.getElementById('addressList').innerHTML=html;
+								}
+					            w.close();
+					            himall.removeClass(document.querySelector('.mui-content'),'transparent');
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							reloadWvLoad();
+						}
+					});
+				}
+				loadPage();
+			});
+			
+			document.addEventListener('updateData', function() {
+				loadPage();
+			});
+			
+			mui('#addressList').on('tap', 'a', function() {
+				var _this=this,
+					w=plus.nativeUI.showWaiting('',{padlock:true});
+				mui.ajax(URL+'api/ShippingAddress/PostSetDefaultAddress',{
+					data:himall.md5Data({
+						addId:_this.getAttribute('data-id'),
+						userkey:userkey
+					}),
+					dataType:'json',
+					type:'POST',
+					timeout:10000,
+					success:function(data){
+						w.close();
+						if(data.Success){
+							var cur=document.querySelector('li.active');
+							if(cur){
+								cur.className=cur.className.replace(/ active/g,'');
+							}
+							_this.parentNode.className+=' active';
+							if(orderTag=='orderTag'){
+								mui.fire(plus.webview.getWebviewById('order-submit.html'),'updateData');
+								setTimeout(function(){
+									ws.close();
+								},500);
+							}
+							if(orderTag=='integral'){
+								mui.fire(plus.webview.getWebviewById('integral-submit.html'),'updateData');
+								setTimeout(function(){
+									ws.close();
+								},500);
+							}
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						plus.nativeUI.toast('设为默认收货地址失败，请检查网络')
+					}
+				});
+			});
+			
+			mui('#addressList').on('tap', 'i', function(e) {
+				e.stopPropagation();
+				var adsId = this.parentNode.getAttribute('data-id');
+				himall.openVW('address-edit.html',{adsId:adsId});
+			});
+			
+			mui('body').on('tap', '.addAddress', function() {
+				himall.openVW('address-add.html');
+			});
+			
+		</script>
+	</body>
+
+</html>

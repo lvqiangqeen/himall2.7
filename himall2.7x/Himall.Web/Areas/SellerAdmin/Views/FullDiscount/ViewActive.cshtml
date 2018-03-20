@@ -1,0 +1,103 @@
+﻿@model Himall.DTO.FightGroupActiveModel
+@{
+    ViewBag.Title = "活动详情";
+    var curnum = 0;
+}
+<div class="container clear-v20">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class=""><a href="@Url.Action("Index")">所有拼团</a></li>
+        <li class=""><a href="@Url.Action("AddActive")">添加拼团</a></li>
+        <li class="active"><a>拼团详情</a></li>
+        <li class=""><a href="@Url.Action("BuyMarketService")">购买服务</a></li>
+    </ul>
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">活动商品：</label>
+            <div class="col-sm-7"><label class=" control-label" for="">@(Model.ProductName)</label></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">商品详情：</label>
+            <div class="col-sm-9">
+                <table id="tbl" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td width="32%">主商品</td>
+                            <td width="32%">规格</td>
+                            <td width="12%">原价</td>
+                            <td width="12%">限时价</td>
+                            <td width="12%">库存</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ActiveItems)
+                        {
+                            <tr>
+                            @if (curnum == 0)
+                            {
+                            <td width="32%" rowspan="@(Model.ActiveItems.Count)" class="text-center"><img src="@Model.ProductDefaultImage" /></td>
+                            }
+                                <td width="32%">@(item.SkuName)</td>
+                                <td width="12%">@(item.ProductPrice)</td>
+                                <td width="12%">@(item.ActivePrice)</td>
+                                <td width="12%">@(item.ActiveStock)</td>
+                                </tr>
+
+                                { 
+                                    curnum = curnum + 1;
+                                }
+                        }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">活动列表图片：</label>
+                <div class="col-sm-3"><a href="@(Model.IconUrl)" target="_blank"><img src="@(Model.IconUrl)" width="150" /></a></div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">开始时间：</label>
+                <div class="col-sm-3"><label class=" control-label" for="">@(Model.StartTime.ToString("yyyy-MM-dd HH:mm:ss"))</label></div>
+
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">结束时间：</label>
+                <div class="col-sm-3"><label class="control-label" for="">@(Model.EndTime.ToString("yyyy-MM-dd HH:mm:ss"))</label></div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">成团人数：</label>
+                <div class="col-sm-3"><label class="control-label" for="">@(Model.LimitedNumber)人</label></div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">成团时限：</label>
+                <div class="col-sm-3"><label class="control-label" for="">@(Model.LimitedHour)小时</label></div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">购买限制：</label>
+                <div class="col-sm-3"><label class="control-label" for="">@(Model.LimitQuantity)</label></div>
+            </div>
+
+        @if (Model.FightGroupManageAuditStatus == Himall.CommonModel.FightGroupManageAuditStatus.SoldOut)
+        {
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">下架原因：</label>
+                <div class="col-sm-3"><label class="control-label" for="">@(Model.ManageRemark)</label></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">下架时间：</label>
+                <div class="col-sm-3"><label class="control-label" for="">@(Model.ManageDate.Value.ToString("yyyy-MM-dd HH:mm:ss"))</label></div>
+            </div>
+        }
+        </div>
+
+
+    </div>

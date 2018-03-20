@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			 .mui-slider-indicator .mui-indicator{
+			 	box-shadow:none;
+			 	background:#fff;
+			 	width:8px;height:8px;
+			 	-webkit-transition:width .1s;
+			 }
+			 .mui-slider-indicator .mui-active.mui-indicator{
+			 	width:15px;
+			 	border-radius:8px;
+			 }
+			 button#close {
+				display: inline-block;
+				float: left;
+				margin: 0 auto;
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 58px;
+				width: 88px;
+				margin: auto;
+				z-index: 999;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="slider" class="mui-slider mui-fullscreen" style="background-color: #e6e6e6;">
+			<div class="mui-slider-group"></div>
+			<div class="mui-slider-indicator"></div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/app.js"></script>
+		<script>
+			var html1='',html2=''
+			mui.init();
+			mui.back = function() {};
+			mui.plusReady(function() {
+				plus.nativeUI.closeWaiting();
+				plus.navigator.setStatusBarBackground("#e3393c");
+				plus.navigator.setStatusBarStyle("UIStatusBarStyleBlackOpaque");
+				if(mui.os.ios){
+					plus.navigator.setFullscreen(true);
+				}
+				plus.navigator.closeSplashscreen();
+				var ws=plus.webview.currentWebview();
+				var data=ws.ImgList;
+				for(var i=0;i<data.length;i++){
+					var isclose=i==data.length-1?'close':'';	
+					var isshow=i==data.length-1?'inline-block':'none';	
+					html1+='<div class="mui-slider-item" >'+
+								 '<img src="'+data[i].ImageUrl+'"/>'+   
+								 '<button id="'+isclose+'" style="display:'+isshow+'" class="mui-btn mui-btn-warning mui-btn-outlined">立即体验</button>'+
+						  '</div>';
+					var active=i==0?'mui-active':'';  
+					html2+='<div class="mui-indicator '+active+'"></div>'; 
+					mui('.mui-slider-group')[0].innerHTML=html1;
+					mui('.mui-slider-indicator')[0].innerHTML=html2;  
+				}   
+				var gallery = mui('.mui-slider');
+				gallery.slider();
+			});
+			
+			mui('.mui-slider-group').on('tap','#close',function(){
+						plus.storage.setItem("toGuide", "true");
+						plus.navigator.setFullscreen(false);
+						plus.webview.currentWebview().close();
+			});   
+				
+		</script>
+	</body>
+
+</html>

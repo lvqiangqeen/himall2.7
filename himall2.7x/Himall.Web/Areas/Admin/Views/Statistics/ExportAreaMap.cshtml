@@ -1,0 +1,32 @@
+﻿@model Himall.Model.AreaMapExportModel
+@{
+    object Title = new object();
+    ViewData.TryGetValue("Title", out Title);
+}
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+    <thead>
+        <tr>
+            <th colspan="3">@((string)Title)</th>
+        </tr>
+        <tr>
+            <th>区域</th>
+            <th>下单量</th>
+            <th>下单金额</th>
+        </tr>
+    </thead>
+    <tbody id="list-table-body">
+        @foreach (var item in Model.Details)
+        {
+            <tr>
+                <td>@item.RegionName</td>
+                <td>@item.MemberCount</td>
+                <td>@item.OrderMoney.ToString("F2")</td>
+            </tr>
+        }
+        <tr>
+            <td colspan="3">
+                该月下单总量：@Model.Details.Sum(r => r.MemberCount) 个 下单总金额：@Model.Details.Sum(r => r.OrderMoney)
+            </td>
+        </tr>
+    </tbody>
+</table>

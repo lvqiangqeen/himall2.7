@@ -1,0 +1,137 @@
+﻿@using Himall.Model;
+
+@model IEnumerable<ShopInfo>
+@{
+    ViewBag.Title = ViewBag.KeyWords + "  店铺搜索";
+}
+
+
+@if( Model != null && Model.Count() > 0 )
+{
+
+    <div class="w main">
+        @*<div class="crumb">全部结果&nbsp;&gt;&nbsp;<strong>"@ViewBag.QueryModel.ShopName"</strong></div>*@
+
+        <div class="searh-shop-cate">
+            <div id="brandDiv" class="shop-cate-option cl">
+                <span>品牌</span>
+                <p class="min">
+                    @foreach( var b in ( Dictionary<long , string> )ViewBag.Brands )
+                    {
+                        if( ViewBag.QueryModel.BrandId == b.Key )
+                        {
+                    <a href="shopsearch?keywords=@ViewBag.QueryModel.ShopName&categoryId=@ViewBag.QueryModel.CategoryId&brandId=@b.Key&orderBy=@ViewBag.QueryModel.OrderBy" class="active">@b.Value</a>
+                        }
+                        else
+                        {
+                    <a href="shopsearch?keywords=@ViewBag.QueryModel.ShopName&categoryId=@ViewBag.QueryModel.CategoryId&brandId=@b.Key&orderBy=@ViewBag.QueryModel.OrderBy">@b.Value</a>
+                        }
+                    }
+                    <em class="more">MORE +</em>
+                </p>
+            </div>
+            <div id="categoryDiv" class="shop-cate-option cl">
+                <span>类目</span>
+                <p class="min">
+                    @foreach( var c in ( Dictionary<long , string> )ViewBag.Categorys )
+				{
+					if( ViewBag.QueryModel.CategoryId == c.Key )
+					{
+                    <a href="shopsearch?keywords=@ViewBag.QueryModel.ShopName&categoryId=@c.Key&brandId=@ViewBag.QueryModel.BrandId&orderBy=@ViewBag.QueryModel.OrderBy" class="active">@c.Value</a>
+					}
+					else
+					{
+                    <a href="shopsearch?keywords=@ViewBag.QueryModel.ShopName&categoryId=@c.Key&brandId=@ViewBag.QueryModel.BrandId&orderBy=@ViewBag.QueryModel.OrderBy">@c.Value</a>
+					}
+				}
+                    <em class="more">MORE +</em>
+                </p>
+            </div>
+        </div>
+
+        <div class="search-shop-count">共找到 <span>@Model.Count()</span> 家店铺</div>
+        <div class="search-shop-hd">
+            @if( ViewBag.QueryModel.OrderBy == 0 )
+            {
+                <a href="shopsearch?keywords=@ViewBag.QueryModel.ShopName&categoryId=@ViewBag.QueryModel.CategoryId&brandId=@ViewBag.QueryModel.BrandId&orderBy=0" class="active">默认</a><s></s>
+                <a href="shopsearch?keywords=@ViewBag.QueryModel.ShopName&categoryId=@ViewBag.QueryModel.CategoryId&brandId=@ViewBag.QueryModel.BrandId&orderBy=1">销量</a>
+            }
+            else
+            {
+                <a href="shopsearch?keywords=@ViewBag.QueryModel.ShopName&categoryId=@ViewBag.QueryModel.CategoryId&brandId=@ViewBag.QueryModel.BrandId&orderBy=0">默认</a><s></s>
+                <a href="shopsearch?keywords=@ViewBag.QueryModel.ShopName&categoryId=@ViewBag.QueryModel.CategoryId&brandId=@ViewBag.QueryModel.BrandId&orderBy=1" class="active">销量</a>
+            }
+
+        </div>
+
+        <div class="search-shop-result">
+            @foreach( ShopInfo item in Model )
+            {
+                <div class="search-shop-item cl">
+                    <div class="shop-info">
+                        <div class="shop-logo cl">
+                            <a target="_blank" href="/shop/home/@item.Id"><img class="J_shop_logo" src="@Himall.Core.HimallIO.GetImagePath(item.Logo)" /></a>
+                            <h3><a target="_blank" href="/shop/home/@item.Id">@item.ShopName</a></h3>
+                            <p>描述相符：<span>@item.ProductAndDescription</span></p>
+                            <p>发货速度：<span>@item.SellerDeliverySpeed</span></p>
+                            <p>服务态度：<span>@item.SellerServiceAttitude</span></p>
+                        </div>
+                        <div class="shop-data">
+                            <p><span>总销量：@item.Sales</span><span>商品数：@item.Himall_Products.Where( p => p.SaleStatus == ProductInfo.ProductSaleStatus.OnSale  && p.AuditStatus== ProductInfo.ProductAuditStatus.Audited && p.IsDeleted==false ).Count()</span></p>
+                            <div class="shop-sale-action">
+                                @if( item.FreeFreight > 0 )
+                                {
+                                    <span class="full-free-tag" title="满免 @item.FreeFreight">满免</span>
+                                }
+                                @if( item.Himall_Coupon.Count > 0 && item.Himall_Coupon.Any( a => a.EndTime > DateTime.Now ) )
+                                {
+                                    <span class="coupon-tag">优惠券</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <ul>
+                        @foreach( var pro in item.Himall_Products.Where( p => p.SaleStatus == ProductInfo.ProductSaleStatus.OnSale && p.AuditStatus == ProductInfo.ProductAuditStatus.Audited && p.IsDeleted == false).Take( 4 ) )
+                        {
+                            <li>
+                                <a target="_blank" href="/Product/Detail/@pro.Id"><img src="@pro.GetImage(Himall.CommonModel.ImageSize.Size_150)" /></a>
+                                <p>￥@pro.MinSalePrice</p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+
+        <div class="m clearfix" id="bottom_pager">
+            <div id="pagin-btm" class="pagin fr">
+                @Html.PageLinks( ( PagingInfo )ViewBag.pageInfo , x => Url.Action( "Index" , new
+               {
+                   pageNo = x ,
+                   keywords = ViewBag.QueryModel.ShopName ,
+                   categoryId = ViewBag.QueryModel.CategoryId ,
+                   brandId = ViewBag.QueryModel.BrandId ,
+                   orderBy = ViewBag.QueryModel.OrderBy
+               } ) )<span class="page-skip">
+                    <em>&nbsp;&nbsp;共 </em><em id="pageCount">@ViewBag.pageInfo.TotalPages</em><em>&nbsp;页&nbsp;&nbsp;&nbsp;&nbsp;</em>
+                </span>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="w main notice-search-margin">
+        <div class="notice-search">
+            <span class="ns-icon"></span>
+            <div class="ns-content">
+                <span>抱歉，没有找到与“<em>@ViewBag.QueryModel.ShopName</em>”相关的店铺</span>
+            </div>
+        </div>
+    </div>
+    <style>html,body{height:100%;}.footer{bottom:0;}</style>
+}
+<input type="hidden" id="shopName" value="@ViewBag.QueryModel.ShopName" />
+<input type="hidden" id="searchBid" value="@ViewBag.QueryModel.BrandId" />
+<input type="hidden" id="searchCid" value="@ViewBag.QueryModel.CategoryId" />
+<script src="~/Areas/Web/Scripts/shopSearch.js"></script>

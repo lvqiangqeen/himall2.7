@@ -1,0 +1,31 @@
+﻿<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+
+<script src="~/Areas/Admin/Scripts/brandManagement.js"></script>
+<style>
+    .table#list .hiMallDatagrid-cell img{float:none;}
+</style>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a href="./Management">管理</a></li>
+        <li><a href="./Add">新增</a></li>
+        <li><a href="./Verify">待审核</a></li>
+    </ul>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75">名称</label>
+                <input class="form-control input-ssm" type="text" id="brandBox" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <button type="button" id="searchBtn" class="btn btn-primary btn-sm">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table class="table" id="list"></table>
+</div>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>  
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">在线客服</h1>
+		</header>  
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript">
+			
+			var time=new Date()*1;
+			document.addEventListener('plusready',function(){
+				var ms=plus.webview.currentWebview();
+				var ac=ms.ac;   
+				plus.nativeUI.showWaiting('客服加载中');      
+				mui.init({
+			    	 subpages:[{
+					      url:"http://192.168.10.213:8082/meiqia.html?a="+time,
+					      id:"http://192.168.10.213:8082/meiqia.html",     
+					      styles:{
+					        top:"64px",  
+					        bottom:0   
+					      },
+					      extras:{ac:ac}
+					    }]
+			    });
+		    })
+		</script>
+	</body>
+
+</html>

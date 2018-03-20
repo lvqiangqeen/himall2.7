@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no,email=no" />
+        <title>拼团个人中心列表页</title>
+        <link href="css/mui.min.css" rel="stylesheet" />
+        <link href="css/style.css" rel="stylesheet" />
+    </head>
+    <body>
+        <header class="mui-bar mui-bar-nav">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+            <h1 class="mui-title">我的拼团</h1>
+        </header>
+        <div id="pullrefresh" class="mui-content mui-scroll-wrapper transparent">
+            <div class="mui-scroll">
+                <div class="mui-table-view merge-personal" id="mergePersonal"></div>
+            </div>
+        </div>
+        <script src="js/mui.min.js"></script>
+        <script src="js/app.js"></script>
+		<script src="js/md5.js"></script>
+        <script src="js/delayimg.min.js"></script>
+        <script>
+            mui.init({
+                swipeBack: true,
+                pullRefresh : {
+                    container: '#pullrefresh',
+                    up: {
+                        auto: true,
+                        contentrefresh: '正在加载...',
+                        contentnomore: '已加载全部拼团',
+                        callback : pullupRefresh
+                    }
+                }
+            });
+            
+            var w,
+                page = 0,
+                noMore = false,
+                content=document.getElementById('pullrefresh');
+            
+            mui.plusReady(function() {
+				w=plus.nativeUI.showWaiting('',{padlock:true});
+				plus.webview.currentWebview().setStyle({scrollIndicator:'none'});
+			});
+            
+            // 上拉加载
+            function pullupRefresh() {
+                var that = this;
+                setTimeout(function() {
+                    if ( !noMore ) {
+                        page++;
+                        mui.ajax(URL + 'api/FightGroup/GetFightGroupOrderByUser', {
+                        	data:himall.md5Data({
+                        		page:page,
+                        		userkey:himall.getState().userkey
+                        	}),
+                            dataType:'json',
+                            type:'get',
+                            timeout: 10000,
+                            success: function(data) {
+                                var html = '';
+                                if(data.orderData.length>0){
+	                                for ( var i = 0; i < data.orderData.length; i++ ) {
+	                                	var _item=data.orderData[i];
+	                                	var status=_item.BuildStatus;
+	                                    html += '<div class="list">' +
+	                                        '<div class="merge-personal-hd">' +
+	                                            '<div class="hmui-img-center thumb">' +
+	                                                '<div class="son"><img src="' + URL+_item.ProductDefaultImage + '"></div>' +
+	                                            '</div>' +
+	                                            '<div class="info">' +
+	                                                '<p class="hmui-multiple-ellipsis name">' + _item.ProductName + '</p>' +
+	                                                '<p class="price"><span>火拼价</span><em>￥</em>' + _item.GroupPrice + '</p>' +
+	                                                '<p class="time"><span class="merge-per-time">'+
+	                                                	'<i class="iconfont icon-time"></i> '+ (_item.ShowGroupEndTime)+'</span>';
+	                                                	if(status==0){
+												        	html +='后组团结束';
+												        }
+											        	if(status==1){
+															html +='成团成功';
+												        }
+												    	if(status==-1){
+												        	html +='成团失败';
+												        }
+	                                                html +='</p>' +
+	                                            '</div>' +
+	                                        '</div>' +
+	                                        '<div class="personal-list-bd">'+
+	                                        	'<div class="merge-do-tip">参团的小伙伴们';
+		                                            if (status==0) {
+		                                                html += '，还差<strong class="merge-highlight">' + _item.NeedNumber + '</strong>人';
+		                                            }
+	                                            html += '</div>'+
+	                                            '<ul class="avatar-group mui-clearfix">';
+	                                                for ( var j = 0; j < _item.UserIcons.length; j++ ) {
+	                                                    html += '<li><span class="avatar">'+
+                                                        	'<img src="' + URL+_item.UserIcons[j] + '">'+
+	                                                    '</span></li>';
+	                                                }
+	                                                if(status==0){
+		                                                for ( var j = 0; j < _item.NeedNumber; j++ ) {
+		                                                    html += '<li><span class="avatar"></span></li>';
+		                                                }
+	                                                }
+	                                            html += '</ul>' +
+	                                        '</div>' +
+	                                        '<div class="personal-list-ft">' +
+	                                            '<a class="mui-btn mui-btn-danger showOrder" data-id="'+_item.OrderId+'">查看订单</a>' +
+	                                            '<a class="mui-btn mui-btn-danger mui-btn-outlined goToMerDetail" data-id="' + _item.OrderId + '">拼团详情</a>' +
+	                                        '</div>';
+	                                        if(status==1) {
+	                                            html += '<div class="merge-do-sign"></div>';
+	                                        }
+	                                        if(status==-1){
+	                                        	html += '<div class="merge-fail-sign"></div>';
+	                                        }
+	                                    html += '</div>';
+	                                    
+	                                }
+	                                document.querySelector('#mergePersonal').insertAdjacentHTML('beforeEnd', html);
+                                }
+                                if ( data.orderData.Total <= page * 5 ) {
+                                    noMore = true;
+                                }
+                                that.endPullupToRefresh(noMore);
+                                
+                                if(w){
+	                            	w.close();
+	                            	w=null;
+	                            	himall.removeClass(content,'transparent');
+	                            }
+                                
+                                // 时间处理
+                                /*var times = document.querySelectorAll('.merge-per-time');
+                                for ( var i = 0; i < times.length; i++ ) {
+                                	var time=times[i].getAttribute('data-time');
+                                	if(time>0){
+	                                	himall.countDown(time,function(day,hour,minute){
+					                    	times[i].innerHTML = day + '天' + hour + '时' + minute + '分';
+					                    });
+				                    }
+                                } */
+                            },
+                            error: function(xhr, type, errorThrown) {
+                                plus.nativeUI.toast('请求失败，请检查网络');
+                            }
+                        });
+                    } else {
+                        that.endPullupToRefresh(noMore);
+                    }
+                }, 100);
+            }
+            
+            // 拼团详情页链接点击事件
+            mui('#mergePersonal').on('tap', '.goToMerDetail', function() {
+                himall.openVW('merge-personal-detail.html', {Id:this.getAttribute('data-id')});
+            })
+            
+            mui('#mergePersonal').on('tap', '.showOrder', function() {
+				himall.openVW('order-detail.html',{orderId:this.getAttribute('data-id')});
+			});
+            
+            himall.backTop();
+        </script>
+    </body>
+
+</html>

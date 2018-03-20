@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "BuyService";
+}
+
+<script src="~/Scripts/v.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/LimitTimeBuyBuyService.js"></script>
+
+<div class="container">
+    
+    
+    <ul class="nav nav-tabs-custom clearfix">
+
+        @if( !ViewBag.IsExpired )
+            {
+        <li class=""><a href="./Management">活动管理</a></li>
+        <li><a href="./Add">新增限时购</a></li>
+        }
+        <li class="active"><a>购买服务</a></li>
+       
+    </ul>
+    <form id="form1" action="@Url.Action("BuyService")" method="post">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @if (null != ViewBag.EndDate)
+                {
+                    <label class="col-sm-2 control-label" for="">服务到期时间：</label>
+                    <b class="pl20 lh30">@ViewBag.EndDate</b>
+                    <span class="help-default pl20 lh30">每月您需要支付<b class="red"> @ViewBag.Price.ToString("f2") </b> 元，相关费用会在店铺的账期结算中扣除</span>
+                }
+                else
+                {
+                    <label class="col-sm-2 control-label" for=""></label>
+                    <span class="red pl20">您未购买限时购服务</span>
+                    <span class="help-default pl20 lh30">每月您需要支付 @ViewBag.Price.ToString("f2") 元</span>
+                }
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">购买数量：</label>
+                <div class="col-sm-8"><input class="form-control input-sm input-int-num " type="text" id="range" name="month" data-price="@ViewBag.Price.ToString("f2")" style="width:105px; display:inline-block" /> &nbsp; 月</div>
+            </div>
+            <div class="form-group">
+                <input type="submit" style="display:none" id="submit" />
+                <div class="col-sm-3 col-sm-offset-2"><button id="btnSave" type="button" class="btn btn-primary btn-sm color-f">确认购买</button></div>
+            </div>
+        </div>
+    </form>
+</div>

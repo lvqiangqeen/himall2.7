@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>浏览记录</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的足迹</h1>
+		</header>
+		<div id="scrollDiv" class="scroll-div">
+			<div class="mui-content transparent"></div>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script>
+			mui.init({swipeBack: true});
+			mui.plusReady(function() {
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				mui.ajax(URL+'api/product/GetHistoryVisite',{
+					data:himall.md5Data({userkey:himall.getState().userkey}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(data.Success=='true'){
+							var html='';
+					        if (data.Product.length > 0) {
+					        	for(var i=0;i<data.Product.length;i++){
+									html+='<h3 class="history-hd">'+(data.Product[i].BrowseTime).replace('T',' ')+'</h3>'+
+										'<ul class="history-list mui-clearfix">'+
+								            '<li class="goods-url" data-url="'+data.Product[i].ProductId+'">'+
+								                '<a class="p-img"><b data-delay-background="'+data.Product[i].ImagePath+'"></b></a>'+
+								                '<h3><a>'+data.Product[i].ProductName+'</a></h3>'+
+								                '<p>¥ '+data.Product[i].ProductPrice+'</p>'+
+								            '</li>'+
+								        '</ul>';
+					            }
+					            document.getElementsByClassName('mui-content')[0].innerHTML=html;
+					            
+					            //图片延迟加载
+					            delayimg.init({content:document.getElementById('scrollDiv')});
+					        }else{
+					        	html+='<div class="empty-show"><h4>您还没有浏览任何商品</h4><button id="closeWv" class="mui-btn mui-btn-negative">马上去商城逛逛</button></div>';
+					        	document.getElementsByClassName('mui-content')[0].innerHTML=html;
+					        }
+					        w.close();
+					        himall.removeClass(document.querySelector('.mui-content'),'transparent');
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						reloadWvLoad();
+					}
+				});
+			});
+			
+			mui('body').on('tap', '.goods-url', function() {
+				var id = this.getAttribute('data-url');
+				showProduct(id);
+			});
+			
+			
+		</script>
+	</body>
+
+</html>

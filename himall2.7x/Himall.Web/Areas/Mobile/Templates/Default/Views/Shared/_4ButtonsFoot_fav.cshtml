@@ -1,0 +1,73 @@
+﻿<!--_4ButtonsFoot_fav start-->
+<footer class="clearfix">
+    <div name="divBtn">
+        @if (ViewBag.VShopid!=null) { 
+            <a href="/@ViewBag.AreaName/VShop/detail/@ViewBag.VShopid">
+                <i class="home"></i>
+                <p>店铺首页</p>
+            </a>
+        }
+        else {
+            <a href="/@ViewBag.AreaName">
+                <i class="home"></i>
+                <p>店铺首页</p>
+            </a>
+        }
+    </div>
+    <div name="divBtn">
+        <a href="/@ViewBag.AreaName/Member/Center">
+            <i class="user"></i>
+            <p>会员中心</p>
+        </a>
+    </div>
+    <div name="divBtn">
+        <a href="@(string.IsNullOrWhiteSpace(ViewBag.FollowUrl) ? "/" + ViewBag.AreaName : ViewBag.FollowUrl)">
+            <i class="attention"></i>
+            <p>关注商城</p>
+        </a>
+    </div>
+    <div name="divBtn">
+        <a href="#" id="addFavorite">
+            <i class="collect"></i>
+            <p id="txtFav">@ViewBag.FavText</p>
+        </a>
+    </div>
+	<div>
+        <a href="/@ViewBag.AreaName/Cart/Cart">
+            <i class="f-cart"></i>
+            <p>购物车</p>
+        </a>
+    </div>
+</footer>
+<script>
+var shopid = @ViewBag.Shopid;
+$(function() {
+    $('#addFavorite').click(function() {
+        var loading = showLoading();
+        if ($("#txtFav").text() == "收藏店铺") {
+            url = "AddFavorite";
+            value = "已收藏";
+        }
+        else {
+            url = "DeleteFavorite";
+            value = "收藏店铺";
+        }
+       
+        checkLogin(location.href, function() {
+            $.post('/' + areaName + '/vshop/' + url, { shopId: shopid }, function(result) {
+                loading.close();
+                if (result.success) {
+                    $("#txtFav").text(value);
+                    $.dialog.succeedTips(result.msg, null, 1);
+                }
+                else {
+                    $.dialog.errorTips(result.msg);
+                }
+            });
+        }, shopid);
+        $('footer div[name="divBtn"]').removeClass('current');
+        $('#addFavorite').parent().addClass('current');
+    });
+});
+</script>
+<!--_4ButtonsFoot_fav end-->

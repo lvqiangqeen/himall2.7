@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "Agreement";
+    this.Layout = null;
+}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>系统安装向导</title>
+    <link href="~/Content/installStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.nicescroll.min.js"></script>
+    <script>
+$(function(){
+	if(+[1,]){
+		$(".agreement").niceScroll({
+			cursorcolor:"#7B7C7E",
+			cursorwidth:6,
+		});
+	}
+});
+    </script>
+</head>
+
+<body>
+    <div class="warp">
+        <div class="header cl">
+            <div class="logo"><img src="/Images/installLogo.png" /></div>
+            <div class="version">2017.07.31.01</div>
+        </div>
+        <div class="proess cl">
+            <div class="cur">安装协议</div>
+            <span class="cur"></span>
+            <div>创建数据</div>
+            <span></span>
+            <div>安装完成</div>
+        </div>
+        <div class="content">
+            <div class="agreement">
+                <h3>Hishop Himall多用户商城安装向导</h3>
+                <p>尊敬的用户，欢迎您注册成为本网站用户。在注册前请您仔细阅读如下服务条款：</p>
+                <p>　　本服务协议双方为本网站与本网站用户，本服务协议具有合同效力。</p>
+                <p>　　您确认本服务协议后，本服务协议即在您和本网站之间产生法律效力。请您务必在注册之前认真阅读全部服务协议内容，如有任何疑问，可向本网站咨询。</p>
+                <p>　　无论您事实上是否在注册之前认真阅读了本服务协议，只要您点击协议正本下方的"注册"按钮并按照本网站注册程序成功注册为用户，您的行为仍然表示您同意并签署了本服务协议。</p>
+                <p>1．本网站服务条款的确认和接纳</p>
+                <p>　　本网站各项服务的所有权和运作权归本网站拥有。</p>
+                <p>2．用户必须：</p>
+                <p>　　(1)自行配备上网的所需设备， 包括个人电脑、调制解调器或其他必备上网装置。</p>
+                <p>　　(2)自行负担个人上网所支付的与此服务有关的电话费用、 网络费用。</p>
+                <p>3．用户在本网站上交易平台上不得发布下列违法信息：</p>
+                <p>(1)反对宪法所确定的基本原则的；</p>
+                <p>(2).危害国家安全，泄露国家秘密，颠覆国家政权，破坏国家统一的；</p>
+                <p>(3).损害国家荣誉和利益的；</p>
+                <p>(4).煽动民族仇恨、民族歧视，破坏民族团结的；</p>
+                <p>(5).破坏国家宗教政策，宣扬邪教和封建迷信的；</p>
+                <p>(6).散布谣言，扰乱社会秩序，破坏社会稳定的；</p>
+                <p>(7).散布淫秽、色情、赌博、暴力、凶杀、恐怖或者教唆犯罪的；</p>
+                <p>(8).侮辱或者诽谤他人，侵害他人合法权益的；</p>
+                <p>(9).含有法律、行政法规禁止的其他内容的。</p>
+                <p>4． 有关个人资料</p>
+                <p>用户同意：</p>
+                <p>(1) 提供及时、详尽及准确的个人资料。</p>
+                <p>(2).同意接收来自本网站的信息。</p>
+                <p>(3) 不断更新注册资料，符合及时、详尽准确的要求。所有原始键入的资料将引用为注册资料。</p>
+                <p>(4)本网站不公开用户的姓名、地址、电子邮箱和笔名，以下情况除外：</p>
+                <p>　　（a）用户授权本网站透露这些信息。</p>
+                <p>　　（b）相应的法律及程序要求本网站提供用户的个人资料。如果用户提供的资料包含有不正确的信息，本网站保留结束用户使用本网站信息服务资格的权利。</p>
+                <p>5.  用户在注册时应当选择稳定性及安全性相对较好的电子邮箱，并且同意接受并阅读本网站发往用户的各类电子邮件。如用户未及时从自己的电子邮箱接受电子邮件或  因用户电子邮箱或用户电子邮件接收及阅读程序本身的问题使电子邮件无法正常接收或阅读的，只要本网站成功发送了电子邮件，应当视为用户已经接收到相关的电  子邮件。电子邮件在发信服务器上所记录的发出时间视为送达时间。</p>
+                <p>6． 服务条款的修改</p>
+                <p>　　本网站有权在必要时修改服务条款，本网站服务条款一旦发生变动，将会在重要页面上提示修改内容。如果不同意所改动的内容，用户可以主动取消获得的本网站信息服务。如果用户继续享用本网站信息服务，则视为接受服务条款的变动。</p>
+            </div>
+            <div class="btn-group">
+                <a href="@Url.Action("Configuration","Installer")" class="btn">同意协议进入安装</a><a class="btn disabled">不同意</a>
+            </div>
+        </div>
+        <div class="footer">
+            <p><strong>Powered By <span>Hishop</span>【Himall】</strong></p>
+            <p>Copyright 2003 - 2017 Hishop网店系统 All Rights Reserved.</p>
+            <p>软件注册备案号：234234234</p>
+        </div>
+    </div>
+</body>
+</html>
+
+

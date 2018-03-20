@@ -1,0 +1,24 @@
+﻿/* 关注有礼 */
+.rgift-container .con { width: 1190px; margin: 0 auto; overflow: hidden; }
+.rgift-container .bd { width: 100%; height: 740px; background: #19bce5 url(../Images/rgift-bg.png) no-repeat center; border-top: 1px solid #1f1f1f; }
+.rgift-container .bd .con { text-align: center; }
+.rgift-slider { width: 930px; height: 218px; margin: 320px auto 0; background-color: #fff; background-color: rgba(255, 255, 255, .92); border: 3px solid #fff; }
+.rgift-slider-inner { position: relative; width: 810px; height: 112px; overflow: hidden; margin: 40px auto 30px; }
+.rgift-slider-inner ul { position: absolute; left: 0; overflow: hidden; height: 112px; }
+.rgift-slider-inner li { position: relative; float: left; width: 183px; height: 72px; padding: 20px 47px 20px 20px; margin: 0 10px; background: url(../Images/rgift-item.png) no-repeat center; }
+.rgift-slider-inner li em { font-style: italic; font-size: 26px; color: #f5272f; }
+.rgift-slider-inner li strong { margin-left: 8px; font-size: 42px; line-height: 50px; font-weight: normal; color: #f5272f; }
+.rgift-slider-inner li p { font-size: 14px; color: #494e52; text-align: left; }
+.rgift-slider-nav { width: 100%; text-align: center; }
+.rgift-slider-nav span { width: 14px; height: 14px; margin: 0 5px; cursor: pointer; background-color: #fff; border-radius: 100%; }
+.rgift-slider-nav .selected { background-color: #19bce5; }
+.rgift-container .register-link { position: relative; display: inline-block; height: 80px; margin-top: 16px; font-size: 32px; line-height: 80px; color: #ee2903; background: url(../Images/rgift-repeat-btn.jpg) repeat-x; }
+.rgift-container .register-link:before,
+.rgift-container .register-link:after { position: absolute; top: 0; display: block; width: 56px; height: 80px; content: ''; background: url(../Images/rgift-btn.png) no-repeat; }
+.rgift-container .register-link:before { left: -56px; background-position: 0 0; }
+.rgift-container .register-link:after { right: -56px; background-position: -56px 0; }
+.rgift-container .ft { height: 214px; padding-top: 46px; margin-top: -64px; }
+.rgift-container .rule { float: left; font-size: 15px; line-height: 26px; color: #373a40; }
+.rgift-container .rule h4 { margin-bottom: 10px; font-size: 22px; }
+.rgift-container .weixin { float: right; font-size: 14px; color: #323232; text-align: center; }
+.rgift-container .weixin strong { display: block; margin-top: 10px; font-size: 16px; }

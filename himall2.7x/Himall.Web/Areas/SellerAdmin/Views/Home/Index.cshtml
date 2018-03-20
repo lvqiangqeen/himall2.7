@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+@{
+    Layout = null;
+}
+@model Himall.Model.ManagerInfo
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit|ie-stand">
+    <meta name="viewport" content="width=device-width" />
+    <title>卖家中心</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    <link href="~/Content/artdialog.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Areas/SellerAdmin/Scripts/SelleradminHome.js"></script>
+</head>
+<body>
+    <input type="hidden" value="@ViewBag.IsSellerAdmin" id="VIseller" />
+    @*@{Html.RenderAction("TopInfo", "ProductPartial", new {area="Web" });}*@
+    <div class="top">
+        <div class="warp cl">
+            <span class="top-link">您好，欢迎来到@(ViewBag.SiteName)！ <a href="/">去@(ViewBag.SiteName)首页</a></span>
+            <ul class="quick_list">
+                <li><a href="/userCenter">@Model.UserName</a> &nbsp; <a href="javascript:logout()">[退出]</a></li>
+                <li class="sitemap dropdown">
+                    <span class="outline"></span>
+                    <span class="blank"></span>
+                    @if (Model.UserName.IndexOf(":") <= 0)
+                    {
+                        <a href="/userCenter">我的@(ViewBag.SiteName)</a>
+                        <b></b>
+
+                        <div class="dropdown-menu" style="left:5px!important;">
+                            <ol>
+                                <li><a href="/UserCenter?url=/UserOrder&tar=UserOrder">已买到的商品</a></li>
+                                <li><a href="/UserCenter?url=/productConcern&tar=productConcern">我关注的商品</a></li>
+                                <li><a href="/UserCenter?url=/shopConcern&tar=shopConcern">我关注的店铺</a></li>
+
+                            </ol>
+                        </div>
+                    }
+                    else
+                    {
+                        <a href="/sellerAdmin">我的@(ViewBag.SiteName)</a>
+                    }
+                </li>
+                <li><s></s><a href="/cart/cart" target="_blank">购物车<em>(<span id="shopping-amount"></span>)</em></a></li>
+                <li class="service dropdown">
+                    <s></s>
+                    <span class="outline"></span>
+                    <span class="blank"></span>
+                    <a href="/SellerAdmin">卖家中心</a>
+                    <b></b>
+                    <div class="dropdown-menu">
+                        <ol>
+                            <li><a href="/SellerAdmin">商家入驻</a></li>
+                            <li><a href="/SellerAdmin?url=/SellerAdmin/order/management&tar=order/management">已卖出商品</a></li>
+                            <li><a href="/SellerAdmin?url=/SellerAdmin/product/PublicStepOne&tar=PublicStepOne">发布商品</a></li>
+                            <li><a href="/SellerAdmin?url=/SellerAdmin/product/management&tar=product/management">管理商品</a></li>
+
+                        </ol>
+                    </div>
+                </li>
+                <li class="service dropdown">
+                    <s></s>
+                    <span class="outline"></span>
+                    <span class="blank"></span>
+                    <a href="javascript:void(0)">客户中心</a>
+                    <b></b>
+                    <div class="dropdown-menu" style="left:5px!important;width:73px;">
+                        <ol>
+                            <li><a href="/Article/Category">帮助中心</a></li>
+                            @if (Model.UserName.IndexOf(":") <= 0)
+                            {
+                                <li><a href="/UserCenter?url=/OrderRefund&tar=OrderRefund">售后服务</a></li>
+                                <li><a href="/UserCenter?url=/OrderComplaint&tar=OrderComplaint">投诉中心</a></li>
+                            }
+                        </ol>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+    <div class="navbar selleradmin">
+
+        @{var area = (string)ViewContext.RouteData.DataTokens["area"];}
+        <div class="container">
+            <div class="navbar-header">
+                <a href="/SellerAdmin" title="">
+                    <img src="@ViewBag.Logo" width="180" height="40" style="margin-top:6px;" />
+                </a>
+            </div>
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left" style="margin-left:20px;">
+                    <div class="block" style="width:68px!important"></div>
+                    <li class="dropdown active">
+                        <a class="dropdown-toggle" data-toggle="dropdown">首页</a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("控制台", "Console", "Home", new { area = "selleradmin" }, new { target = "iframe", id = "1001" })</li>
+                            <li>@Html.ActionLink("平台公告", "Index", "Article", new { area = "selleradmin" }, new { target = "iframe", id = "1002" })</li>
+                        </ul>
+                    </li>
+                    @foreach (var p in Himall.Web.Framework.PrivilegeHelper.SellerAdminPrivileges.Privilege)
+                    {
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown">@p.GroupName</a>
+                            <ul class="dropdown-menu id_menu">
+                                @foreach (var item in p.Items)
+                                {
+                                    if (item.PrivilegeId == 4007 && ViewBag.IsSellerAdmin)
+                                    {
+                                        continue;
+                                    }
+                                    if (item.PrivilegeId != 3007)
+                                    {
+                                        <li><a href="/@area/@item.Url" id="@item.PrivilegeId">@item.Name</a></li>
+                                    }
+                                    else  //硬编码设置支付方式菜单出现
+                                    {
+
+                                        if (ViewBag.IsSellerAdmin)
+                                        {
+                                            <li><a href="/@area/@item.Url" id="@item.PrivilegeId">@item.Name</a></li>
+                                        }
+                                    }
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="aside selleraside">
+
+        <ul class="aside-list"></ul>
+        @if (Model.UserName.IndexOf(":") <= 0)
+        {
+            <a class="btn-change-link" href="/UserCenter"><i class="glyphicon glyphicon-shopping-cart"></i>我要买</a>
+        }
+    </div>
+    <div class="content">
+        <iframe id="iframe" name="iframe" frameborder="0" scrolling="auto"></iframe>
+    </div>
+
+    <div class="dialog-simple" style="display:@(ViewBag.isPrompt==1?"block":"none");">
+        <a class="close">×</a>
+        <div class="form-horizontal shop-expired">
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-8 form-control-static">
+                    您的店铺将在<span class="cor-red"> @ViewBag.EndDate </span>日过期，届时所有商品将自动下架，
+                    且无法登录店铺，请及时续费。
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-5 col-sm-offset-5">
+                    <a class="btn btn-primary" id="next" href="/SellerAdmin/Shop/Renew" target="iframe"> 去缴费 </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cover" style="display:@(ViewBag.isPrompt==1?"block":"none");"></div>
+
+    <input type="hidden" value="@Url.Action("CheckOldPassword")" id="COP" />
+    <input type="hidden" value="@Url.Action("ChangePassword")" id="UACP" />
+
+    <script src="~/Scripts/custom.js"></script>
+    <script src="~/Scripts/CommonJS.js"></script>
+    <script src="~/Scripts/jquery.cookie.js"></script>
+    <script>
+        $(function () {
+            //iframe高度自适应
+            $('.content,.aside').height($(window).height() - 82);
+            $(window).resize(function () {
+                $('.content,.aside').height($(window).height() - 82);
+            });
+
+
+        });
+    </script>
+
+</body>
+</html>
+
+<input type="hidden" value="@ViewBag.Rights" id="VBr0"/>

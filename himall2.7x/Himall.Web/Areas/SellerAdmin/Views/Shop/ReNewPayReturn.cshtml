@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "店铺续费结果";
+}
+
+
+<script src="~/Areas/SellerAdmin/Scripts/ShopReNewPayReturn.js"></script>
+<div class="w Sclear-L">
+    @{
+        var errorMsg = ViewBag.Error;
+        var flag = !string.IsNullOrWhiteSpace(errorMsg) ? "fail" : "success";
+        var redirectUrl = string.IsNullOrWhiteSpace(errorMsg) ? ("/selleradmin?url=/selleradmin/Shop/Renew") : "/";
+        var htmlPart = string.IsNullOrWhiteSpace(errorMsg) ? ("秒后自动跳至店铺续费页面<a  href='/selleradmin?url=/selleradmin/Shop/Renew&tar=Shop' class='link_1'>店铺续费页面</a>") : "";
+    }
+    <div class="tips-page pay-@flag-page">
+        @if (string.IsNullOrWhiteSpace(errorMsg))
+        {
+            <h2>
+                恭喜您，支付成功！
+            </h2>
+        }
+        else
+        {
+            <h2>
+                抱歉，支付失败！请重新支付！
+            </h2>
+            <div class="error_child">您可以：<a href="/selleradmin?url=/selleradmin/Shop/Renew&tar=Shop">返回店铺续费支付页面</a></div>
+        }
+
+        <div id="ShowDiv"></div>
+    </div>
+
+</div>
+
+<input type="hidden" value="@Html.Raw(htmlPart)" id="HRP"/>

@@ -1,0 +1,105 @@
+﻿@model IEnumerable<Himall.DTO.FightGroupsListModel>
+@{
+    Layout = null;
+    List<Himall.DTO.FightGroupsListModel> firstlist = Model.Take(5).ToList();
+    List<Himall.DTO.FightGroupsListModel> second = new List<Himall.DTO.FightGroupsListModel>();
+    if (Model.Count() > 5)
+    {
+        second= Model.Skip(5).Take(5).ToList();
+    }
+}
+@if (Model != null && Model.Count() > 0)
+{
+    <section class="merge-go">
+        <div class="merge-go-tip">以下小伙伴正在发起拼团，您可直接参与</div>
+        <ul id="pintuan">
+            @foreach (var item in firstlist)
+            {
+                <li>
+                    <div class="info">
+                        <span class="avatar"><img src="@(item.HeadUserIcon)" width="60" height="60"></span>
+                        <span class="leader">团长</span>
+                        <span class="name">@(item.HeadUserName)</span>
+                    </div>
+                    <div class="goto">
+                        <span class="text-left">
+                            还差
+                            <strong class="merge-highlight">@(item.LimitedNumber - item.JoinedNumber)</strong>人
+                        </span>
+                        <span class="text-center">
+                            <strong>@(item.ShowHourOrMinute(item.GetEndHour))</strong>后结束
+                        </span>
+                        <span class="text-right">
+                            <a href="/@(ViewBag.AreaName)/FightGroup/GroupDetail/@(item.Id)?aid=@(item.ActiveId)">去参团 <em>>></em></a>
+                        </span>
+                    </div>
+                </li>
+            }
+            <div id="six_libox">
+                @foreach (var item in second)
+            {
+                <li>
+                    <div class="info">
+                        <span class="avatar"><img src="@(item.HeadUserIcon)" width="60" height="60"></span>
+                        <span class="leader">团长</span>
+                        <span class="name">@(item.HeadUserName)</span>
+                    </div>
+                    <div class="goto">
+                        <span class="text-left">
+                            还差
+                            <strong class="merge-highlight">@(item.LimitedNumber - item.JoinedNumber)</strong>人
+                        </span>
+                        <span class="text-center">
+                            <strong>@(item.ShowHourOrMinute(item.GetEndHour))</strong>后结束
+                        </span>
+                        <span class="text-right">
+                            <a href="/@(ViewBag.AreaName)/FightGroup/GroupDetail/@(item.Id)?aid=@(item.ActiveId)">去参团 <em>>></em></a>
+                        </span>
+                    </div>
+                </li>
+            }
+        </div>
+        <div class="up_down_btn"><span class="down">全部展开</span></div>
+
+    </ul>
+
+
+
+
+    </section>
+}
+<input type="hidden" id="activeIds" value="" />
+<style>
+    #six_libox, .up_down_btn { display: none; }
+</style>
+
+
+<script>
+    $(function () {
+        var flag = false;
+        var length = $("#six_libox").prevAll("li").length;
+        if (length >= 5) {
+            $(".up_down_btn").css("display", "block");
+            $(".up_down_btn span").click(function () {
+                var e = $("#six_libox").css('display');
+                if (e == "block") {
+                    $("#six_libox").hide(200);
+                    $(this).text("全部展开")
+                    $(this).removeClass("up").addClass("down");
+                } else {
+                    $("#six_libox").show(200);
+                    $(this).text("全部收起");
+                    $(this).removeClass("down").addClass("up");
+                }
+            })
+        }
+
+        function ShowHourOrMinute(num) {
+            var result = num.toFixed(2) + "小时";
+            if (num < 1) {
+                result = (num * 60).toFixed(2) + "分钟";
+            }
+            return result;
+        }
+    })
+</script>

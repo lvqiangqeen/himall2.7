@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>经营类目选择</title>
+    <link rel="stylesheet" href="../../Content/mui.min.css" />
+    <link rel="stylesheet" href="../../Content/custom.css" />
+	<script>
+		/***这段代码是公用的，为了html跟标签设置一个rem相对值***/
+		(function(doc, win) {
+			var docEl = doc.documentElement,
+			resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+			recalc = function() {
+			var clientWidth = docEl.clientWidth;
+				if (!clientWidth) return;
+				if (clientWidth >= 750) {
+				   docEl.style.fontSize = '100px';
+				} else {
+				   docEl.style.fontSize = 200 * (clientWidth / 750) + 'px';
+				}
+			};
+			if (!doc.addEventListener) return;
+			win.addEventListener(resizeEvt, recalc, false);
+			doc.addEventListener('DOMContentLoaded', recalc, false);
+	    })(document, window);
+	</script>
+</head>
+<body style="background:#fff;">
+<!--	       <header class="mui-bar mui-bar-nav Gheader ">
+	       	   <a class="mui-action-back mui-icon mui-pull-left back">返回</a>
+			   <h1 class="mui-title">经营类目选择</h1>
+		   </header>-->
+	 	   <div class="mui-content" style="background:#fff;">
+ 	   	    <div class="GselectClassFlex">
+ 	   	    	 <div class="GfirstClass">
+ 	   	    	 	  <ul id="firstClassList">
+ 	   	    	 	  	   <li class="GfirstClass_check">办公/文具</li>
+ 	   	    	 	  	   <li>办公/文具</li>
+ 	   	    	 	  	   <li>办公/文具</li>
+ 	   	    	 	  	   <li>办公/文具</li>
+ 	   	    	 	  	   <li>办公/文具</li>
+ 	   	    	 	  	   <li>办公/文具</li>
+ 	   	    	 	  	   <li>办公/文具</li>
+ 	   	    	 	  	   <li>办公/文具</li>
+ 	   	    	 	  	   <li>办公/文具</li>
+ 	   	    	 	  	   <li>办公/文具</li>
+ 	   	    	 	  	   <li>办公/文具</li>
+ 	   	    	 	  	   <li>办公/文具</li>
+ 	   	    	 	  	   <li>办公/文具</li>
+ 	   	    	 	  	   <li>办公/文具</li>
+ 	   	    	 	  	   <li>办公/文具</li>
+ 	   	    	 	  	   <li>办公/文具</li>
+ 	   	    	 	  </ul>
+ 	   	    	 </div>
+ 	   	    	 <div class="GtwoClass">
+ 	   	    	 	   <div class="GrowClass">
+ 	   	    	 	   	    <h2>二级分类一</h2>
+ 	   	    	 	   	    <ul>
+ 	   	    	 	   	    	<li class="GrowClass_check">分类分类</li>
+ 	   	    	 	   	    	<li>三级分类</li>
+ 	   	    	 	   	    	<li>三级分类</li>
+ 	   	    	 	   	    	<li>级分类三</li>
+ 	   	    	 	   	    	<li>三级分类分类</li>
+ 	   	    	 	   	    	<li>三级分类</li>
+ 	   	    	 	   	    	<li>三级分类</li>
+ 	   	    	 	   	    	<li>三级分类三</li>
+ 	   	    	 	   	    </ul>
+ 	   	    	 	   </div>
+ 	   	    	 	   <div class="GrowClass">
+ 	   	    	 	   	    <h2>二级分类二</h2>
+ 	   	    	 	   	    <ul>
+ 	   	    	 	   	    	<li>三级分类</li>
+ 	   	    	 	   	    	<li>三级分类</li>
+ 	   	    	 	   	    	<li>三级分类</li>
+ 	   	    	 	   	    	<li>三级分类三</li>
+ 	   	    	 	   	    	<li>三级分类分类</li>
+ 	   	    	 	   	    	<li>三级分类</li>
+ 	   	    	 	   	    	<li>三级分类</li>
+ 	   	    	 	   	    	<li>三级分类三</li>
+ 	   	    	 	   	    </ul>
+ 	   	    	 	   </div>
+ 	   	    	 	   <div class="GrowClass">
+ 	   	    	 	   	    <h2>二级分类二</h2>
+ 	   	    	 	   	    <ul>
+ 	   	    	 	   	    	<li>三级分类分类</li>
+ 	   	    	 	   	    	<li>三级分类</li>
+ 	   	    	 	   	    	<li>三级分类</li>
+ 	   	    	 	   	    	<li>三级分类三</li>
+ 	   	    	 	   	    	<li>三级分类分类</li>
+ 	   	    	 	   	    	<li>三级分类</li>
+ 	   	    	 	   	    	<li>三级分类</li>
+ 	   	    	 	   	    	<li>三级分类三</li>
+ 	   	    	 	   	    </ul>
+ 	   	    	 	   </div>
+ 	   	    	 </div>  
+ 	   	    </div> 
+ 	   	    <div class="Gbottom_btnRow" style="z-index: 3;">
+				  <button class="mui-btn GbtnList_one mui-btn-block gbtn-red">确定</button>
+			</div>
+ 	   </div>
+ 	   <script src="../../Scripts/jquery-1.7.1.min.js"></script>
+ 	   <script>
+ 	   	     $(".GfirstClass").on("click","li",function(){   //左侧分类点击
+ 	   	     	   $(".GfirstClass_check").removeClass("GfirstClass_check");
+ 	   	     	   $(this).addClass("GfirstClass_check");
+ 	   	     });
+ 	   	     
+ 	   	     $(".GtwoClass").on("click","li",function(){  //右侧分类点击
+ 	   	     	   var className=$(this).attr("class") || "";
+ 	   	     	   if(className.indexOf('GrowClass_check')==-1){
+ 	   	     	   	    $(this).addClass("GrowClass_check");
+ 	   	     	   }else{
+ 	   	     	   	    $(this).removeClass("GrowClass_check");
+ 	   	     	   }
+ 	   	     });
+ 	   </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+﻿@model Himall.Web.Areas.SellerAdmin.Models.TopicModel
+@using Newtonsoft.Json;
+<div class="container">
+    <ul class="breadcrumb clearfix">
+
+        <li><a href="/selleradmin/MobileTopic/Management">移动端专题列表</a></li>
+        <li class="active"><a href="Save">@(Model.Id > 0 ? "编辑专题" : "新增专题")</a></li>
+    </ul>
+
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">专题标题：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control input-sm" })
+            </div>
+            <div class="col-sm-3">@Html.ValidationMessageFor(item => item.Name)</div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">标签：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Tags, new { @class = "form-control input-sm" })
+            </div>
+            <div class="col-sm-3">@Html.ValidationMessageFor(item => item.Tags)</div>
+        </div>
+
+        <div class="form-group upload-img" id="topImage">
+            <div class="col-sm-3">@Html.ValidationMessageFor(item => item.TopImage)</div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">商品模块：</label>
+            <div class="col-sm-9">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>模块名称</th>
+                            <th>已选择商品数</th>
+                            <th class="td-operate">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="moduleContainer">
+                        @if (Model.TopicModuleInfo.Count > 0)
+                        {
+                            int i = 0;
+                            foreach (var item in Model.TopicModuleInfo)
+                            {
+
+                                <tr index="@i">
+                                    <td><input class="text-module" maxlength="8" type="text" value="@item.Name" placeholder="@("默认模块"+(i+1))" /></td>
+                                    <td type="selectedNumber">@item.ModuleProductInfo.Count</td>
+                                    <td class="td-operate"><span class="btn-a"><a class="choose-goods" index="@(i)">选择商品</a><a class="a-del" index="@(i)">删除</a></span></td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            <tr index="0">
+                                <td><input class="text-module" type="text" maxlength="8" value="默认模块1" placeholder="默认模块1" /></td>
+                                <td type="selectedNumber">未选择</td>
+                                <td class="td-operate"><span class="btn-a"><a class="choose-goods">选择商品</a><a class="a-del" index="0">删除</a></span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a class="add-topic-module" href="javascript:;" onclick="addModule()"><span class="glyphicon glyphicon-plus-sign"></span>新增模块</a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" onclick="submitTopic()" class="btn btn-primary">保 存</button>
+            </div>
+        </div>
+        <input type="hidden" value="@Model.Id" name="Id" />
+    </form>
+    <input type="hidden" id="topicId" value="@Model.Id" />
+    <input type="hidden" id="topImageBox" value="@Model.TopImage" />
+    <input type="hidden" id="selectedProductIds" value="@( JsonConvert.SerializeObject( Model.TopicModuleInfo.Select(item => item.ModuleProductInfo.Select(s => new { id = s.ProductId }))))" />
+</div>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/mobileTopicSave.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>

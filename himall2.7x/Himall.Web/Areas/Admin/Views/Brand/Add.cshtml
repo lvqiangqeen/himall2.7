@@ -1,0 +1,85 @@
+﻿@model Himall.Web.Models.BrandModel
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Areas/Admin/Scripts/BrandAdd.js"></script>
+
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("Management")">管理</a></li>
+        <li class="active"><a href="./Add">新增</a></li>
+        <li><a href="./Verify">待审核</a></li>
+
+    </ul>
+   @using (Html.BeginForm("Add", "Brand", FormMethod.Post, new { @class = "form-horizontal", id = "brandSubmit" }))
+   { 
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">名称：</label>
+            <div class="col-sm-3">
+                @Html.EditorFor(item => item.BrandName, new { htmlAttributes = new { @class = "form-control input-sm" } })
+            </div>
+            <div class="col-sm-3">@Html.ValidationMessageFor(item => item.BrandName)<span class="help-default">请填写品牌</span></div>
+        </div>
+        <div class="form-group upload-img" id="uploadImg"> 
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">品牌简介：</label>
+            <div class="col-sm-5">
+                @Html.TextAreaFor(item => item.BrandDesc, 4, 50,  new { @class = "form-control" })
+            </div>
+            <div class="col-sm-3">@Html.ValidationMessageFor(item => item.BrandDesc, "", new { @class = "help-default cor-red" })</div>
+        </div>
+        @*<div class="form-group">
+            <label for="" class="col-sm-2 control-label">是否推荐：</label>
+            <div class="col-sm-3">
+                <label>   @Html.CheckBoxFor(item=>item.IsRecommend)是</label>
+            </div>
+        </div>*@
+        @*<div class="form-group">
+            <label for="" class="col-sm-2 control-label">name：</label>
+            <div class="col-sm-3">
+                @Html.EditorFor(item => item.BrandEnName, new { htmlAttributes = new { @class = "form-control input-sm" } })
+            </div>
+            <div class="col-sm-5"><span class="help-default">请填写品牌的英文名或拼音</span></div>
+        </div>*@
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">title：</label>
+            <div class="col-sm-3">
+                @Html.EditorFor(item => item.MetaTitle, new { htmlAttributes = new { @class = "form-control input-sm"} })
+            </div>
+            <div class="col-sm-3">@Html.ValidationMessageFor(item => item.MetaTitle, "", new { @class = "help-default cor-red" })</div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">keywords：</label>
+            <div class="col-sm-3">
+                @Html.EditorFor(item => item.MetaKeyWord, new { htmlAttributes = new { @class = "form-control input-sm" } })
+            </div>
+            <div class="col-sm-3">@Html.ValidationMessageFor(item => item.MetaKeyWord, "", new { @class = "help-default cor-red" })</div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">description：</label>
+            <div class="col-sm-3">
+                @Html.EditorFor(item => item.MetaDescription, new { htmlAttributes = new { @class = "form-control input-sm" }})
+            </div>
+            <div class="col-sm-3">@Html.ValidationMessageFor(item => item.MetaDescription, "", new { @class = "help-default cor-red" })</div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit"class="btn btn-primary" onclick="return Check()" value="保 存" />
+            </div>
+        </div>
+   }
+    <script type="text/javascript">
+    function Check() {
+        var flag = true;
+        var img = $("input[name='BrandLogo']").val();
+        if (img == "") {
+            $.dialog.tips("请上传一张品牌图片！");
+            flag = false;
+        }
+        return flag;
+    }
+    </script>
+</div>
+<input type="hidden" value="@(Url.Action("IsExist"))" id="UAie" />

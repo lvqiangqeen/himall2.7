@@ -1,0 +1,32 @@
+﻿
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a href="Management">移动端专题列表</a></li>
+        <li><a target="_blank" href="@Url.Action("EditTemplate","VTemplate",new{ client=Himall.CommonModel.VTemplateClientTypes.WapSpecial.GetHashCode(),tName="0" })">新增专题</a></li>
+    </ul>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">标题</label>
+                <input class="form-control input-ssm" type="text" id="titleKeyword">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">标签</label>
+                <input class="form-control input-ssm" type="text" id="tagsKeyword">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table id="topicGrid" class="table mt5 clear-v43"></table>
+</div>
+
+<div class="mobile-dialog">
+    <iframe name="mobile-iframe" id="mobileshow" frameborder="0" scrolling="auto" src="about:blank"></iframe>
+</div>
+<div class="cover"></div>
+
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Areas/Admin/Scripts/mobileTopicManagement.js"></script>

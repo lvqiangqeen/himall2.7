@@ -1,0 +1,187 @@
+﻿<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>管理</a></li>
+        <li class=""><a href="#" onclick="isad( '@Url.Action("Add")' )">添加代金红包</a></li>
+        <li><a href="@Url.Action("BuyService")">服务购买</a></li>
+    </ul>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">状态</label>
+                <select class="form-control input-ssm" id="searchState">
+                    <option value="1">进行中</option>
+                    <option value="2">无效</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">名称</label>
+                <input type="text" class="form-control input-ssm" id="searchName" value=" " />
+            </div>
+            <div class="form-group">
+                <button type="button" id="btnSearch" class="btn btn-primary btn-sm">搜索</button>
+            </div>
+        </form>
+    </div>
+
+    <table class="table" id="list"></table>
+</div>
+
+
+<script type="text/javascript">
+    $( function ()
+    {
+        loadGrid();
+
+        $( "#btnSearch" ).click( function ()
+        {
+            $( "#list" ).hiMallDatagrid( 'reload', { name: $( "#searchName" ).val() , state: $( "#searchState" ).val() } )
+        } )
+    } )
+
+    function isad( href )
+    {
+        $.post( "/SellerAdmin/ShopBonus/isadd", {}, function ( data )
+        {
+            if ( data )
+            {
+                location.href = href;
+            }
+            else
+            {
+                $.dialog.tips( '一个时间段只能新增一个随机红包！' );
+            }
+        } );
+    }
+
+    function loadGrid()
+    {
+        $( "#list" ).hiMallDatagrid( {
+            url: './list',
+            nowrap: false,
+            rownumbers: true,
+            NoDataMsg: '没有找到符合条件的数据',
+            border: false,
+            fit: true,
+            fitColumns: true,
+            pagination: true,
+            idField: "Id",
+            pageSize: 20,
+            pageNumber: 1,
+            queryParams: { name: $( "#searchName" ).val() ,state: $( "#searchState" ).val()},
+            toolbar: /*"#goods-datagrid-toolbar",*/'',
+            columns:
+            [[
+                { field: "Name", title: "活动名称" },
+                {
+                    field: "RandomAmountStart", title: "随机范围", formatter: function ( value, row, index )
+                    {
+                        return row.RandomAmountStart + " - " + row.RandomAmountEnd;
+                    }
+                },
+                {
+                    field: "UseState", title: "使用条件", formatter: function ( value, row, index )
+                    {
+                        if ( row.UseState == 2 )
+                        {
+                            return "满" + row.UsrStatePrice + "元";
+                        }
+                        return "无";
+                    }
+                },
+                {
+                    field: "BonusDateEnd", title: "有效日期", formatter: function ( value, row, index )
+                    {
+                        return row.BonusDateStartStr + " - " +row.BonusDateEndStr ;
+                    }
+                },
+                {
+                    field: "DateStart", title: "活动时间", formatter: function ( value, row, index )
+                    {
+                        return row.DateStartStr + " - " + row.DateEndStr;
+                    }
+                },
+                //{ field: "ReceiveCount", title: "领取数量" },
+                {
+                    field: "IsInvalid", title: "状态", formatter: function ( value, row, index )
+                    {
+                        if($( "#searchState" ).val() == "1")
+                        {
+                            return "正在进行";
+                        }
+                        else
+                        {
+                            if(row.IsInvalid)
+                            {
+                                return "失效";
+                            }
+                            else
+                            {
+                                return "已过期";
+                            }
+                        }
+                    }
+                },
+                {
+                    field: "operation", operation: true, title: "操作", formatter: function ( value, row, index )
+                    {
+                        var html = "";
+                        html += '<span class="btn-a"><a href="/SellerAdmin/ShopBonus/Detail/' + row.Id + '">详情</a></span>';
+
+                        var str = row.DateEndStr + ' 23:59:59';
+                        str = str.replace( /-/g, "/" );
+                        var enddate = new Date( str );
+
+                        if ( new Date() > enddate )
+                        {
+                            return html;
+                        }
+
+                        if ( !row.IsInvalid || row.StartTime > new Date() )
+                        {
+                            html += '<span class="btn-a"><a href="/SellerAdmin/ShopBonus/Edit/' + row.Id + '">编辑</a></span>';
+                        }
+                        if ( !row.IsInvalid )
+                        {
+                            html += '<span class="btn-a"><a onclick="invalid(' + row.Id + ' , ' + row.IsInvalid + ');">失效</a></span>';
+                        }
+
+                        return html;
+                    }
+                }
+            ]]
+        } );
+    }
+
+    function invalid( id, isInvalid )
+    {
+        if ( isInvalid )
+        {
+            $.dialog.tips( '此活动已失效!' );
+            return;
+        }
+
+        $.dialog.confirm( '您确定要失效此活动？', function (  )
+        {
+            var loading = showLoading();
+            $.post( "/SellerAdmin/ShopBonus/Invalid", { id: id }, function ( data )
+            {
+                if ( data )
+                {
+                    $.dialog.tips( '已成功失效此活动' );
+                    var pageNo = $( "#list" ).hiMallDatagrid( 'options' ).pageNumber;
+                    $( "#list" ).hiMallDatagrid( 'reload', { pageNumber: pageNo } );
+                    loading.close();
+                }
+                else
+                {
+                    $.dialog.tips( '执行失效操作失败' );
+                }
+            } )
+        } )
+    }
+</script>

@@ -1,0 +1,355 @@
+﻿@using Himall.Core;
+@using Himall.DTO;
+@model Himall.Model.OrderInfo
+@{var itemDis = Model.OrderItemInfo.Sum(i => i.DiscountAmount); var shopBranchInfo = ViewBag.ShopBranchInfo as ShopBranch;}
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.himall.Region.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/OrderDetail.js"></script>
+
+<div class="container Sclear-H">
+    <ul class="breadcrumb clearfix">
+
+        <li><a href="/selleradmin/order/Management">订单列表</a></li>
+        @if (!string.IsNullOrEmpty(Request.QueryString["updatePrice"]))
+        {
+            <li><a>修改订单</a></li>
+        }
+        else
+        {
+            <li><a>查看订单详情</a></li>
+        }
+    </ul>
+
+    <div class="order-info col-sm-6">
+        <h3> <span></span>订单信息</h3>
+        <div class="caption">
+            <div class="form-group">
+                <label class="col-sm-4"> 订单状态：</label>
+                <div class="col-sm-5 form-control-static Sclear-H1">
+                    @Model.OrderStatus.ToDescription()
+                    <a class="good-check detail-flag" onclick="SellerRemark('@Model.Id','@Model.SellerRemark','@Model.SellerRemarkFlag')">备注</a>
+                </div>
+                @if (Model.OrderType == Himall.Model.OrderInfo.OrderTypes.FightGroup)
+                {
+                    <div class="col-sm-3 form-control-static">
+                        <span class="fgordstatus fgordstatus@(Model.FightGroupOrderJoinStatus.GetHashCode())">@(Model.FightGroupOrderJoinStatus.ToDescription())</span>
+                    </div>
+                }
+
+            </div>
+
+            @if ((int)Model.OrderStatus == 4)
+            {
+
+                <div class="form-group"><label class="col-sm-4">退款状态：</label><div class="col-sm-8 form-control-static">@Model.CloseReason</div></div>
+
+            }
+            <div class="form-group"><label class="col-sm-4">订单单号：</label><div class="col-sm-8 form-control-static">@Model.Id</div></div>
+            <div class="form-group"><label class="col-sm-4">下单会员：</label><div class="col-sm-8 form-control-static">@Model.UserName</div></div>
+
+            <div class="form-group"><label class="col-sm-4">下单时间：</label><div class="col-sm-8 form-control-static">@Model.OrderDate.ToString("yyyy-MM-dd HH:mm:ss")</div></div>
+
+            @if (Model.PayDate != null && Model.OrderStatus != Himall.Model.OrderInfo.OrderOperateStatus.WaitPay)
+            {
+                if (@Model.OrderTotalAmount == 0)
+                {
+                    <div class="form-group"><label class="col-sm-4">支付方式：</label><div class="col-sm-8 form-control-static">积分支付</div></div>
+                }
+                else if (string.IsNullOrEmpty(Model.PaymentTypeName))
+                {
+                    <div class="form-group"><label class="col-sm-4">支付方式：</label><div class="col-sm-8 form-control-static">平台确认收款 <span>【备注：@{@Model.PayRemark}】<<</span></div></div>
+    }
+    else
+    {
+        <div class="form-group"><label class="col-sm-4">支付方式：</label><div class="col-sm-8 form-control-static">@Model.PaymentTypeName @Model.PayRemark</div></div>
+        <div class="form-group"><label class="col-sm-4">支付流水号：</label><div class="col-sm-8 form-control-static">@Model.GatewayOrderId</div></div>
+        }
+    }
+            <div class="form-group"><label class="col-sm-4">支付时间：</label><div class="col-sm-8 form-control-static">@(Model.PayDate.HasValue ? Model.PayDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</div></div>
+            @if (Model.InvoiceType != Himall.Model.InvoiceType.None)
+            {
+                <div class="form-group"><label class="col-sm-4">发票抬头：</label><div class="col-sm-8 form-control-static">@Model.InvoiceTitle</div></div>
+                <div class="form-group"><label class="col-sm-4">发票内容：</label><div class="col-sm-8 form-control-static">@Model.InvoiceContext</div></div>
+
+            }
+            <div class="form-group" title="@Model.SellerRemark"><label class="col-sm-4">商家备注：</label><div class="col-sm-8 form-control-static" id="txtSellerRemark">@Model.SellerRemark</div></div>
+            @*<input id="flag" value="@Model.SellerRemarkFlag" style="display: none;"/>*@<input id="flag" value="@Model.SellerRemarkFlag" style="display: none;"/><input id="flag" value="@Model.SellerRemarkFlag" style="display: none;"/>
+        </div>
+
+    </div>
+
+    <div class="delivery-info">
+        <h3><span></span>收货信息</h3>
+        <div class="caption">
+            <div class="form-group">
+                <label class="col-sm-4">收 货 人：</label><div class="col-sm-8 form-control-static">
+                    <span id="spShipTo">@Model.ShipTo</span>
+                    @if (Model.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitPay || Model.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitDelivery)
+                    {
+                        <a class="order-info-resive Sclear-H2" href="javascript:void(0)"> 修改收货人信息</a>
+                    }
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-4">手机号码：</label><div class="col-sm-8 form-control-static"><span id="spCellPhone">@Model.CellPhone</span></div></div>
+            <div class="form-group"><label class="col-sm-4">收货地址：</label><div class="col-sm-8 form-control-static">@Model.RegionFullName <span id="spAddress" style="max-height:37px;overflow:hidden;">@Model.Address</span></div></div>
+            <input type="hidden" id="hidRegionIdPath" />
+            <input type="hidden" id="hidTopRegionId" value="@Model.TopRegionId" />
+            <input type="hidden" id="hidRegionId" value="@Model.RegionId" />
+            <input type="hidden" id="hidCityId" value="0" />
+            @if (!string.IsNullOrEmpty(Model.ExpressCompanyName))
+            {
+                <div class="form-group"><label class="col-sm-4">物流公司：</label><div class="col-sm-8 form-control-static">@Model.ShowExpressCompanyName</div></div>
+            }
+            @*@if (Model.PayDate != null && Model.OrderStatus != Himall.Model.OrderInfo.OrderOperateStatus.WaitPay && Model.OrderStatus != Himall.Model.OrderInfo.OrderOperateStatus.WaitSelfPickUp)
+            {
+                if (@Model.OrderTotalAmount == 0)
+                {
+                    <div class="form-group"><label class="col-sm-4">支付方式：</label><div class="col-sm-8 form-control-static">积分支付</div></div>
+                }
+                else if (string.IsNullOrEmpty(Model.PaymentTypeName))
+                {
+                    <div class="form-group"><label class="col-sm-4">支付方式：</label><div class="col-sm-8 form-control-static">平台确认收款<span>【备注：@{@Model.PayRemark}】</span></div></div>
+            }
+            else
+            {
+                <div class="form-group"><label class="col-sm-4">支付方式：</label><div class="col-sm-8 form-control-static">@Model.PaymentTypeName @Model.PayRemark</div></div>
+                }
+            }*@
+            @if (Model.OrderStatus != Himall.Model.OrderInfo.OrderOperateStatus.WaitSelfPickUp)
+            {
+                <div class="form-group"><label class="col-sm-4">发货时间：</label><div class="col-sm-8 form-control-static">@(Model.ShippingDate.HasValue ? Model.ShippingDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</div></div>
+            }
+            @if (!string.IsNullOrEmpty(Model.ShipOrderNumber))
+            {
+                <div class="form-group"><label class="col-sm-4">快递单号：</label><div class="col-sm-8 form-control-static">@Model.ShipOrderNumber      <a href="javascript:;" onclick="showExpress();">查看物流信息</a></div></div>
+            }
+            @if (Model.DeliveryType == Himall.CommonModel.Enum.DeliveryType.SelfTake)
+            {
+                @*<div class="orderstate-detail">
+                        <p><label>核销人：</label><span>@ViewBag.ShopBranchContactUser </span></p>
+                        <p><label>核销时间：</label><span>@(Model.FinishDate.HasValue ? Model.FinishDate.Value.ToString("yyyy-MM-dd") : string.Empty)</span></p>
+                    </div>*@<div class="orderstate-detail">
+                    <p><label></label><span></span></p>
+                    <p><label></label><span></span></p>
+                </div><div class="orderstate-detail">
+                    <p><label></label><span></span></p>
+                    <p><label></label><span></span></p>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4">核销时间：</label>
+                    <div class="col-sm-8 form-control-static">@(Model.FinishDate.HasValue ? Model.FinishDate.Value.ToString("yyyy-MM-dd") : string.Empty)</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4">核销人：</label>
+                    <div class="col-sm-8 form-control-static">@ViewBag.ShopBranchContactUser</div>
+                </div>
+            }
+            @if (shopBranchInfo != null)
+            {
+                if (Model.DeliveryType != Himall.CommonModel.Enum.DeliveryType.SelfTake)
+                {
+                <div class="form-group"><label class="col-sm-4">配送门店：</label><div class="col-sm-8 form-control-static">@shopBranchInfo.ShopBranchName</div></div>
+                <div class="form-group"><label class="col-sm-4">配送方式：</label><div class="col-sm-8 form-control-static">门店配送</div></div>
+                <div class="form-group"><label class="col-sm-4">配送时间：</label><div class="col-sm-8 form-control-static">@(Model.ShippingDate.HasValue ? Model.ShippingDate.Value.ToString("yyyy-MM-dd") : "任意时间")</div></div>
+                }
+                <div class="form-group"><label class="col-sm-4">联系方式：</label><div class="col-sm-8 form-control-static">@shopBranchInfo.ContactPhone</div></div>
+                <div class="form-group"><label class="col-sm-4">门店地址：</label><div class="col-sm-8 form-control-static">@shopBranchInfo.AddressFullName</div></div>
+            }
+        </div>
+        @*<p>买家备注：@Model.UserRemark</p>*@<p></p><p></p>
+    </div>
+
+    <div class="order-detail-list">
+        <h3><span></span>订单清单</h3>
+        <table id="tbOrderItems" class="table no-hover bgcolor-f9">
+            <thead>
+                <tr>
+                    <th class="text-center">商品</th>
+                    <th width="15%" class="text-center">单价/数量</th>
+                    <th width="15%" class="text-center">总价</th>
+                    @if ((bool)ViewBag.UpdatePrice == true || itemDis != 0)
+                    {
+                        <th width="25%" class="text-center">商家改价</th>
+                    }
+                    <th width="15%" class="text-center">运费</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    // var service = Himall.Web.Framework.ServiceHelper.Create<Himall.IServices.IProductService>();
+                    //  var regionService = Himall.Web.Framework.ServiceHelper.Create<Himall.IServices.IRegionService>();
+                    var OrderItems = Model.OrderItemInfo.Select(r =>
+                    {
+                        //  var product = service.GetProduct(r.ProductId);
+                        return new
+                        {
+                            Id = r.Id,
+                            // FreightTemplateId = product != null ? product.FreightTemplateId : 0,
+                            SalePrice = r.SalePrice,
+                            Quantity = r.Quantity,
+                            ProductId = r.ProductId,
+                            ProductName = r.ProductName,
+                            Color = r.Color,
+                            Size = r.Size,
+                            Version = r.Version,
+                            SkuId = r.SkuId,
+                            DiscountAmount = r.DiscountAmount,
+                            ThumbnailsUrl = r.ThumbnailsUrl
+                        };
+                    }
+                   );
+                    // var freightProductGroup = OrderItems.GroupBy(item => item.FreightTemplateId);
+                }
+                <Himall.IServices.IProductService>
+                    <Himall.IServices.IRegionService>
+                        <Himall.IServices.IProductService>
+                            <Himall.IServices.IRegionService>
+                                @{int row = 0;}
+                                @foreach (var orderItem in OrderItems)
+                                {
+                                    row++;
+                                    <tr class="product tac">
+                                        <td class="tal">
+                                            <a target="_blank" href="/product/detail/@orderItem.ProductId">
+                                                <img class="Sclear-H3" width="50" height="50" title="" src="@(Himall.Core.HimallIO.GetProductSizeImage(orderItem.ThumbnailsUrl, 1, (int)Himall.CommonModel.ImageSize.Size_50))"><span class="single-ellipsis lh45 w220 inlineBlock">@orderItem.ProductName</span>
+                                            </a>
+                                            <em class="Sclear-H8">@orderItem.Color @orderItem.Size @orderItem.Version</em>
+                                        </td>
+                                        <td>@orderItem.SalePrice.ToString("F2") * @orderItem.Quantity</td>
+                                        <td style="color:#ff2c40">@(orderItem.SalePrice * orderItem.Quantity - orderItem.DiscountAmount)</td>
+                                        @if ((bool)ViewBag.UpdatePrice == true || itemDis != 0)
+                                        {
+                                            <td>
+                                                @if (Model.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitPay && (bool)ViewBag.UpdatePrice == true)
+                                                {
+                                                    <select name="updateWay" class="Sclear-H5" style="padding: 0 30px 0 5px!important">
+                                                        <option value="1">减</option>
+                                                        <option value="2">增</option>
+                                                    </select>
+                                                    <input id="inputDiscount@(orderItem.Id)" onkeyup="(this.v = function () { this.value = this.value.replace(/[^\d.]/g, ''); }).call(this)" onblur="this.v()" class="text-order no-m" type="text" style="border:1px solid #c6c6c6;border-radius:0;">
+                                                    <span class="cg-b" itemid="@orderItem.Id">确认</span>
+                                                }
+                                                else
+                                                {
+                                                    if (itemDis != 0)
+                                                    {
+                                                        if (orderItem.DiscountAmount > 0)
+                                                        {
+                                                            <span>-@orderItem.DiscountAmount.ToString("F2")</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>+@Math.Abs(orderItem.DiscountAmount).ToString("F2")</span>
+                                                        }
+                                                    }
+                                                }
+                                            </td>
+                                        }
+                                        <td rowspan="@OrderItems.Count()">
+                                            @if (row == 1 && Model.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitPay && (bool)ViewBag.UpdatePrice == true)
+                                            {
+                                                <input id="freight" value="@Model.Freight.ToString("F2")" onkeyup="(this.v = function () { this.value = this.value.replace(/[^\d.]/g, ''); }).call(this)" onblur="this.v()" class="text-order no-m" type="text" style="border:1px solid #c6c6c6;border-radius:0;">
+                                                <span id="updateFreight">确认</span>
+                                            }
+                                            else if (row == 1)
+                                            {
+                                                @Model.Freight.ToString("F2")
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+            </tbody>
+        </table>
+        <div class="order-bottom-detail clearfix">
+            <!--留言字段添加6-12-->
+            <div class="leave-message">
+                <label>买家留言：</label>
+                <span>@Model.OrderRemarks</span>
+            </div>
+            <div class="order-total">
+                <span><label>商品总价：</label><i>￥@Model.ProductTotalAmount.ToString("F2")</i></span>
+                @if (Model.FullDiscount > 0)
+            {
+                    <span><label>满减优惠:</label><i>-￥@Model.FullDiscount.ToString("F2")</i></span>
+                }
+
+                @if (Model.DiscountAmount > 0)
+                {
+                    <span><label>优惠券抵扣金额:</label><i>-￥@Model.DiscountAmount.ToString("F2")</i></span>
+                }
+                @if (Model.IntegralDiscount > 0)
+                {
+                    <span><label>积分抵扣金额：</label><i> ￥@Model.IntegralDiscount.ToString("F2")</i></span>
+                }
+                @if (itemDis != 0)
+                {
+                    <span>
+                        <label class="Sclear-H7">商家改价：</label>
+                        @if (itemDis > 0)
+                        {
+                            <i>- @itemDis</i>
+                        }
+                        else
+                        {
+                            <i>+ @(-itemDis)</i>
+                        }
+                    </span>
+                }
+                <span><label>运费：</label><i>￥@Model.Freight.ToString("F2")</i></span>
+
+                <span><label class="Sclear-H6">订单实付金额：</label><i class="Sclear-H6"> ￥@Model.OrderTotalAmount.ToString("F2")</i></span>
+            </div>
+        </div>
+        <div class="delivery-detail" id="delivery-detail">
+            <p>物流详情<span class="detail-open"></span></p>
+            <div id="tbExpressData" class="dln">
+            </div>
+        </div>
+
+        <div class="order-log">
+            <p>订单操作日志<span class="list-open"></span></p>
+            <table class="table dln">
+                <thead>
+                    <tr>
+                        <th class="tac">操作者</th>
+                        <th class="tac">时间</th>
+                        <th class="tac">描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var orderOperationLog in Model.OrderOperationLogInfo)
+                    {
+                        <tr class="tac">
+                            <td>@orderOperationLog.Operator</td>
+                            <td>@orderOperationLog.OperateDate</td>
+                            <td>@orderOperationLog.OperateContent</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <input type="hidden" value="@Model.ExpressCompanyName" id="MECN" />
+    <input type="hidden" value="@Model.ShipOrderNumber" id="MSON" />
+    <input type="hidden" value="@Url.Action("UpdateItemDiscountAmount")" id="UDA" />
+    <input type="hidden" value="@Model.Id" id="MDID" />
+    <input type="hidden" value="@Url.Action("UpdateOrderFrieght")" id="UOF" />
+    <input type="hidden" value="@Url.Action("GetRegionIdPath")" id="GRIP" />
+    <input type="hidden" value="@Model.RegionId" id="MRid" />
+    <div class="dialog-form" id="remark-form" style="display:none">
+        <div class="form-group">
+            <span class="sign-t"><i class="red">*</i>&nbsp;&nbsp;标注：</span>
+            <input type="radio" name="radflag" value="1" checked /><i class="iconfont f01">&#xe630;</i>
+            <input type="radio" name="radflag" value="2" /><i class="iconfont f02">&#xe630;</i>
+            <input type="radio" name="radflag" value="3" /><i class="iconfont f03">&#xe630;</i>
+            <input type="radio" name="radflag" value="4" /><i class="iconfont f04">&#xe630;</i>
+
+        </div>
+
+        <div class="form-group">
+            @*<p class="help-top pl0">请填写您的备注内容</p>*@<p class="help-top pl0"></p><p class="help-top pl0"></p>
+            <textarea id="remarkContent" name="remarkContent" class="form-control" cols="50" rows="3" placeholder="最多可输入200个字" style="width:100%"></textarea>
+            <br />
+            <span class="field-validation-error" style="display:none" id="remarkContentTip">回复内容在200个字符以内！</span>
+        </div>
+    </div>

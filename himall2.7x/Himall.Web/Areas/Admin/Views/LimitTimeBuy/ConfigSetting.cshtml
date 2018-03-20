@@ -1,0 +1,39 @@
+﻿@{ ViewBag.Title = "ConfigSetting";}
+@model Himall.Model.FlashSaleConfigModel
+
+<script src="~/Areas/Admin/Scripts/LimitTimeBuyConfigSetting.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="./Management">活动列表</a></li>
+        <li><a href="./SetSlide">活动页面设置</a></li>
+        <li><a href="./BoughtList">服务购买列表</a></li>
+        <li><a href="./MarketCategory">活动商品分类</a></li>
+        <li><a href="./ServiceSetting">服务费用设置</a></li>
+        <li class="active"> <a href="./ConfigSetting">活动参数设置</a></li>
+
+    </ul>
+    <h5 class="tips-top"><span class="help-default"><i></i>说明：预热阶段，商品将提前出现在活动专区，在商品正常购买页提示商品在参加活动</span></h5>
+    <div class="form-horizontal" style="padding-top:0;">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">活动开始前：</label>
+            <div class="col-sm-1"><input id="Preheat" type="text" class="form-control input-sm" value="@Model.Preheat" /></div><span class="help-default">小时</span>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">预热阶段：</label>
+            <div class="col-sm-3 clear-v18">
+                <input type="radio" name="IsNormalPurchase" value="1" @if(Model.IsNormalPurchase){ <text>checked</text> }/>
+                <label for="rdi1">允许正常购买</label><br />
+                <input type="radio" name="IsNormalPurchase" value="0" @if( !Model.IsNormalPurchase ) { <text> checked </text>  } />
+                <label for="rdi2">不允许购买</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" id="submit" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>

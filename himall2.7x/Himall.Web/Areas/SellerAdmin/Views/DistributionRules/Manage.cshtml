@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Manage";
+}
+
+<div class="container Sclear-N2 ">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>分销商品设置</a></li>
+        <li><a href="@Url.Action("DefaultBrokerage")">默认佣金比例设置</a></li>
+        <li><a href="@Url.Action("AdvPageSet")">聚合页推广设置</a></li>
+    </ul>
+    <h5 class="tips-top"><span class="help-default"><i></i>  说明：被选中且佣金大于0的商品将进入到平台分销市场,<a href="@Url.Action("RateDetail")">查看分销市场佣金计算规则</a></span></h5>
+    <div class="custom-inline Sclear-N3">
+        <div class="col-sm-4" style="padding-left:0;">
+            <a class="btn btn-primary btn-sm" id="addBtn" style="margin-left:0;"><i class="glyphicon glyphicon-plus"></i>添加分销商品</a>
+            &nbsp;&nbsp;
+            <a class="btn btn-default btn-sm" id="QCodeBtn"><i class="glyphicon"></i>分销二维码</a>
+        </div>
+    </div>
+    <div class="form-inline custom-inline">
+        <div class="form-group">
+            <label class="label-inline w75" for="">名称</label>
+            <input type="text" id="skey" class="form-control input-ssm">
+        </div>
+        <div class="form-group">
+            <label class="label-inline w75" for="">类目</label>
+            <select id="category1" class="form-control input-ssm">
+                <option>分类</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <select id="category2" class="form-control input-ssm">
+                <option>分类</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <select id="category3" class="form-control input-ssm">
+                <option>分类</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button id="searchBtn" class="btn btn-primary btn-sm" type="button">搜 索</button>
+        </div>
+    </div>
+
+    <table id="list" class="table"></table>
+
+    <div class="qcover" style="display:none;">
+        <div class="qcodeinfo">
+            <p>您所有的分销商品将进入到该聚合页，该页可浏览和分享您的店铺与商品。<br><strong style="color:red;">请使用微信扫描该二维码</strong></p>
+            <img src="@(ViewBag.ShopQCode)" />
+            <p>链接地址：<a href="@(ViewBag.ShopQUrl)" target="_blank" id="qlink">@(ViewBag.ShopQUrl)</a>&nbsp;<span id="bt_copyurl">复制链接</span></p>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/DistributionProductManage.js"></script>
+<script src="~/Scripts/jquery.zclip.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/DistributionRulesManage.js"></script>

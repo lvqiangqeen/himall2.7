@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "安卓版本App下载";
+}
+<html>
+<head>
+<style>
+html,body{ height:100%;}
+.app-d{ background:url(/Areas/mobile/templates/default/Images/app-d.png) no-repeat;background-size:cover;height:100%; width:100%;}
+
+</style>
+
+</head>
+<body>
+	<div class="app-d">
+		<input id="down" type="hidden"  value="@ViewBag.DownLoadApk"/>
+	</div>
+</body>
+</html>
+
+<script type="text/javascript">
+    function downloadFile(url) {
+        try {
+            var elemIF = document.createElement("iframe");
+            elemIF.src = url;
+            elemIF.style.display = "none";
+            document.body.appendChild(elemIF);
+        } catch (e) {
+        }
+    }
+    $(function() {downloadFile($("#down").val())});
+</script>

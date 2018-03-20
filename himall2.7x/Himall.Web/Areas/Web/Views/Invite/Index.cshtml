@@ -1,0 +1,27 @@
+﻿
+@{
+    Layout = null;
+}
+@model   Himall.Model.InviteRuleInfo
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div> 
+        推广总动员
+
+        邀请一个好友注册，
+
+        会员老可获得@(Model.InviteIntegral)积分，新会员可获得(@Model.RegIntegral)积分，多邀请多送！
+
+        您还未登录，登录后即可获得您的专属邀请链接.
+
+        规则：
+        @Model.ShareRule
+    </div>
+</body>
+</html>

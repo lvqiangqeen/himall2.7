@@ -1,0 +1,141 @@
+﻿@using Himall.Model
+@model Himall.Model.ShippingAddressInfo
+@{
+    ViewBag.Title = "收货地址编辑";
+}
+
+@section Styles
+{
+<style>
+	#consignee select {
+		margin-bottom: 15px;
+	}
+</style>
+}
+<div class="container">
+    <form class="form-horizontal custom-form">
+        <h4 class="custom-title">收货地址@(ViewBag.addId==0?"新增":"编辑")
+
+        </h4>
+        <div class="form-group">
+            <input type="text" value="@Model.ShipTo" class="form-control" id="shipName" placeholder="收货人姓名">
+        </div>
+        <div class="form-group">
+            <input type="tel" value="@Model.Phone" class="form-control" id="phone" placeholder="联系电话">
+        </div>
+        <div class="form-group">
+            <div id="consignee"></div>
+            @Html.HiddenFor(p => p.RegionId)
+        </div>
+        <div class="form-group">
+            <input type="text" value="@Model.Address" id="address" class="form-control" placeholder="详细地址">
+        </div>
+        <div class="form-group">
+            <a class="btn btn-danger btn-block" id="saveConsigneeTitleDiv"> 确 认</a>
+        </div>
+    </form>
+</div>
+@section Scripts
+{
+<script src="~/Scripts/jquery.himall.Region.js"></script>
+<script>
+	var editShippingAddressUrl = '@Url.Action("EditShippingAddress","Member")';
+	var addShippingAddressUrl = '@Url.Action("AddShippingAddress", "Member")';
+	var choseShippingAddressUrl = '@Url.Action("ChooseShippingAddress")';
+
+	function saveAddress(id, regionId, shipTo, address, phone, callBack) {
+		id = (parseInt(id) == 0) ? '' : parseInt(id);
+
+		var cacheValue = {
+			id: id,
+			shipTo: shipTo,
+			phone: phone,
+			regionFullName: null,
+			address: address,
+			regionId: regionId
+		};
+
+		if (id) {
+			$.post(editShippingAddressUrl, { id: id, RegionId: regionId, Address: address, Phone: phone, ShipTo: shipTo }, function (result) {
+				if (result.success) {
+					$.dialog.tips('保存成功');
+					cacheValue.regionFullName = result.regionFullName;
+					saveAndGoBack(cacheValue);
+				}
+				else
+					$.dialog.alert('保存失败!' + result.msg);
+			});
+		}
+		else {
+			$.post(addShippingAddressUrl, { RegionId: regionId, Address: address, Phone: phone, ShipTo: shipTo }, function (result) {
+				if (result.success) {
+					$.dialog.tips('保存成功');
+					cacheValue.id = result.id;
+					cacheValue.regionFullName = result.regionFullName;
+					saveAndGoBack(cacheValue);
+				}
+				else
+					$.dialog.alert('保存失败!' + result.msg);
+			});
+		}
+	}
+
+	function saveAndGoBack(value) {
+	    window.saveToLocalStorage('ChoseShippingAddress.Value', value);
+	    var isOrder = QueryString('isOrder');
+	    if (isOrder) {
+	        history.go(-2);
+	    }
+	    else {
+	        window.location.href = choseShippingAddressUrl;
+	    }
+	}
+
+	$(function () {
+		$("#consignee").RegionSelector({
+			selectClass: "form-control",
+			valueHidden: "#RegionId"
+		});
+		$('#saveConsigneeTitleDiv').bind('click', function () {
+			indexId = QueryString("addressId");
+			var shipTo = $('#shipName').val();
+			var regword = /[\w\u4E00-\u9FA5\uF900-\uFA2D]+/;
+			var regTel = /([\d]{11}$)|(^0[\d]{2,3}-?[\d]{7,8}$)/;
+			var phone = $('#phone').val();
+			var address = $('#address').val();
+
+			var regionId = $('#RegionId').val() || '0';
+			var isfinal = $("#RegionId").attr("isfinal");
+
+			//var regionId = $('#consignee_county').val() || '0';
+
+			if (!regword.test(shipTo)) {
+				$.dialog.alert('请填写收货人');
+				return false;
+			}
+			else if (!phone) {
+				$.dialog.tips('请填写电话');
+				return false;
+			}
+			else if (!regTel.test(phone)) {
+				$.dialog.tips('请填写正确的电话');
+				return false;
+			}
+			else if (regionId == 0) {
+				$.dialog.tips('请填选择所在地区');
+				return false;
+			} else if (isfinal == "false") {
+				$.dialog.tips('请填选择完整地区');
+				return false;
+			}
+			else if (!address)
+				$.dialog.alert('请填写详细地址');
+			else {
+				regionId = regionId == '0' || isNaN(regionId) ? b : regionId;
+				saveAddress(indexId, regionId, shipTo, address, phone, function (result) { })
+			}
+		});
+	});
+</script>
+}
+

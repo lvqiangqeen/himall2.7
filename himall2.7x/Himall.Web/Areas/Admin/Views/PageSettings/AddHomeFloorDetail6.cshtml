@@ -1,0 +1,191 @@
+﻿@model Himall.Web.Areas.Admin.Models.HomeFloorDetail
+@using Himall.Web.Areas.Admin.Models;
+@using System.Linq;
+
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Areas/Admin/Scripts/pageSettings-floorDetail6.js"></script>
+
+
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="./HomeFloor">管理</a></li>
+        <li class="active"><a>编辑</a></li>
+    </ul>
+
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>楼层名称：</label>
+            <div class="col-sm-3 form-control-static">
+                <input class="form-control input-xs" type="text" id="FloorName" name="FloorName" value="@ViewBag.FloorName" />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">选项卡：</label>
+            <div class="col-sm-9">
+                <table id="tblProducts" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>已选商品数量</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody type="Products">
+                        @foreach (var tab in Model.Tabs)
+                        {
+                            <tr type="Products" name="@tab.Id">
+                                <td><input class="form-control input-xs" type="text" name="name" value="@tab.Name" /></td>
+                                <td><span ids="@tab.Ids">@tab.Count</span></td>
+                                <td class="td-operate"><span class="btn-a"><a>选择商品</a></span><span class="btn-del"><a href="#">删除</a></span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a class="add-atrr" id="addProducts"><span class="glyphicon glyphicon-plus-sign"></span>添加</a>&nbsp;<span>(最多增加4个)</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">文本模块：</label>
+            <div class="col-sm-9">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>跳转链接</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody type="textLink">
+                        @foreach (var textLink in Model.TextLinks)
+                        {
+                            <tr type="textLink" name="@textLink.Id">
+                                <td><input class="form-control input-xs" type="text" name="name" value="@textLink.Name" /></td>
+                                <td><input class="form-control input-xs" type="text" name="url" value="@textLink.Url" /></td>
+                                <td class="td-operate"><span class="btn-a"><a>删除</a></span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a class="add-atrr" id="addTextLink"><span class="glyphicon glyphicon-plus-sign"></span>添加</a>&nbsp;<span>(最多增加8个)</span>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">关联品牌：</label>
+            <div class="col-sm-10 brand-letter" id="id_tab">
+
+            </div>
+            <div class="col-sm-10 brand-group">
+                <div class="checkbox-group">
+                </div>
+                <div id="id_s" class="choose-brand">
+                    <span>已选择：</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">默认选项卡名称：</label>
+            <div class="col-sm-3 form-control-static">
+                <input class="form-control input-xs" type="text" id="DefaultTabName" name="DefaultTabName" value="@Model.DefaultTabName" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">图片：</label>
+            <div class="col-sm-9">
+                <table class="table table-bordered upload-file-btn">
+                    <thead>
+                        <tr>
+                            <th>
+                                区域
+                                <div class="floor-ex-img">
+                                    （<a class="ex-btn">区域划分图</a>）
+                                    <img src="/Images/floor-img5.jpg" />
+                                </div>
+                            </th>
+                            <th>图片</th>
+                            <th>跳转链接</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>轮播图一</td>
+                            <td><div class="upload-img" id="up29" url="@HimallIO.GetImagePath(Model.ProductLinks.ElementAt(8).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="29" name="url" value="@Model.ProductLinks.ElementAt(8).Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>轮播图二</td>
+                            <td><div class="upload-img" id="up30" url="@HimallIO.GetImagePath(@Model.ProductLinks.ElementAt(9).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="30" name="url" value="@Model.ProductLinks.ElementAt(9).Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>轮播图三</td>
+                            <td><div class="upload-img" id="up31" url="@HimallIO.GetImagePath(@Model.ProductLinks.ElementAt(10).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="31" name="url" value="@Model.ProductLinks.ElementAt(10).Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>轮播图四</td>
+                            <td><div class="upload-img" id="up32" url="@HimallIO.GetImagePath(@Model.ProductLinks.ElementAt(11).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="32" name="url" value="@Model.ProductLinks.ElementAt(11).Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>右一</td>
+                            <td><div class="upload-img" id="up21" url="@HimallIO.GetImagePath(@Model.ProductLinks.ElementAt(0).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="21" name="url" value="@Model.ProductLinks.ElementAt(0).Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>右二</td>
+                            <td><div class="upload-img" id="up22" url="@HimallIO.GetImagePath(@Model.ProductLinks.ElementAt(1).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="22" name="url" value="@Model.ProductLinks.ElementAt(1).Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>右三</td>
+                            <td><div class="upload-img" id="up23" url="@HimallIO.GetImagePath(@Model.ProductLinks.ElementAt(2).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="23" name="url" value="@Model.ProductLinks.ElementAt(2).Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>右四</td>
+                            <td><div class="upload-img" id="up24" url="@HimallIO.GetImagePath(@Model.ProductLinks.ElementAt(3).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="24" name="url" value="@Model.ProductLinks.ElementAt(3).Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>右五</td>
+                            <td><div class="upload-img" id="up25" url="@HimallIO.GetImagePath(@Model.ProductLinks.ElementAt(4).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="25" name="url" value="@Model.ProductLinks.ElementAt(4).Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>右六</td>
+                            <td><div class="upload-img" id="up26" url="@HimallIO.GetImagePath(@Model.ProductLinks.ElementAt(5).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="26" name="url" value="@Model.ProductLinks.ElementAt(5).Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>右七</td>
+                            <td><div class="upload-img" id="up27" url="@HimallIO.GetImagePath(@Model.ProductLinks.ElementAt(6).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="27" name="url" value="@Model.ProductLinks.ElementAt(6).Name" /></td>
+                        </tr>
+                        <tr>
+                            <td>右八</td>
+                            <td><div class="upload-img" id="up28" url="@HimallIO.GetImagePath(@Model.ProductLinks.ElementAt(7).Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="28" name="url" value="@Model.ProductLinks.ElementAt(7).Name" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <input type="hidden" name="id" id="homeFloorId" value="@Model.Id" />
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" name="submit" class="btn btn-primary">保存楼层</button>
+            </div>
+        </div>
+    </form>
+</div>

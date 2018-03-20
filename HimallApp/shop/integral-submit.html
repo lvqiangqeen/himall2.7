@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>礼品提交订单页</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">提交订单</h1>
+		</header>
+		<div id="scrollDiv" class="scroll-div">
+			<div class="mui-content transparent">
+				<div id="orderSubmit" class="order-submit"></div>
+			</div>
+		</div>
+        
+        <div class="cart-bottom transparent">
+			<p class="order-price-total">兑换<em id="OrderCount">1</em>件礼品，<span id="OrderAmount"></span> 积分</p>
+			<a class="submit-cart" id="submitBtn">提交订单</a>
+		</div>
+        
+        
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/template.js"></script>
+		<script>
+			mui.init({swipeBack: true});
+			var loadPage,
+				ws,
+				userkey=himall.getState().userkey;
+			mui.plusReady(function() {
+				ws=plus.webview.currentWebview();
+				giftId=ws.giftId;
+				count=ws.count;
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				loadPage=function(){
+					mui.ajax(URL+'api/Gifts/ConfirmOrder',{
+						data:himall.md5Data({id:giftId,count:count,userkey:userkey}),
+						type:'POST',
+						dataType:'json',
+						timeout:10000,
+						success:function(data){
+							document.getElementById('OrderCount').innerText=count;
+							document.getElementById('OrderAmount').innerText=data.TotalAmount;
+							document.getElementById('orderSubmit').innerHTML=template('initData',data);
+				            w.close();
+				            himall.removeClass(document.querySelector('.mui-content'),'transparent');
+				            himall.removeClass(document.querySelector('.cart-bottom'),'transparent');
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							reloadWvLoad();
+						}
+					});
+				}
+				
+				loadPage();
+			});
+			
+			
+			mui('#orderSubmit').on('tap', '#addressList', function() {
+				himall.openVW('address.html',{orderTag:'integral'});
+			});
+			
+			window.addEventListener('updateData',function(){
+				loadPage();
+			});
+			
+			document.getElementById('submitBtn').addEventListener('tap',function(){
+				var recieveAddressId=document.getElementById('addressList').getAttribute('data-id');
+				if(!recieveAddressId){
+					plus.nativeUI.toast('请设置收货地址');
+					return false;
+				}
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				
+				mui.ajax(URL+'api/Gifts/SubmitOrder',{
+					data:himall.md5Data({
+						id:giftId,
+						count:count,
+						regionId:recieveAddressId,
+						userkey:userkey
+					}),
+					dataType:'json',
+					type:'POST',
+					timeout:10000,
+					success:function(data){
+						w.close();
+						if(data.success){
+							plus.nativeUI.toast('恭喜您，礼品兑换成功');
+							setTimeout(function(){
+								ws.close('none');
+							},1500)
+							himall.openVW('integral-order.html',{orderStatus:2});
+							
+						}else{
+							plus.nativeUI.toast(data.msg);
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						plus.nativeUI.toast('提交订单失败，请检查网络');
+					}
+				});
+			});
+			
+		</script>
+		
+		<script type="text/html" id="initData">
+			{{if ShipAddress}}
+				<ul class="mui-table-view mui-table-view-chevron address-list" id="addressList" data-id="{{ShipAddress.Id}}">
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+							<p><span>{{ShipAddress.ShipTo}}</span>{{ShipAddress.Phone}}</p>
+							<p><i class="mui-icon mui-icon-location"></i><span>{{ShipAddress.RegionFullName}} {{ShipAddress.Address}}</span></p>
+						</a>
+					</li>
+				</ul>
+			{{else}}
+				<ul class="mui-table-view mui-table-view-chevron address-list" id="addressList">
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+							<p>暂未添加您的专属收货地址，去设置</p>
+						</a>
+					</li>
+				</ul>
+			{{/if}}
+            <div class="order-info">
+                <div class="item">
+                    <div class="buy-goods">
+                        <a class="goods-url goods-img"><img style="opacity: 1;" src="{{GiftList[0].DefaultImage}}"/></a>
+                        <p><em>{{GiftList[0].SaleIntegral}}积分</em><span><a class="goods-url">{{GiftList[0].GiftName}}</a></span></p>
+                        <h5><span>x {{GiftList[0].Quantity}}</span></h5>
+                    </div>
+                </div>
+	        </div>
+		</script>
+	</body>
+
+</html>

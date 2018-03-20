@@ -1,0 +1,57 @@
+﻿@model Himall.DTO.OrderListModel
+@{ 
+    ViewBag.Title = "提货码";
+}
+
+<script src="~/Areas/Mobile/Templates/Default/Scripts/swiper.min.js"></script>
+<div class="container pickup-goods">
+    <div class="pickup-list">
+        <h4>提货清单</h4>
+        <div class="pick-wrap">
+            <div class="pick-left clearfix">
+                <div class="swiper-container clearfix">
+                    <div class="swiper-wrapper clearfix">
+                        @foreach (var item in Model.OrderItemList)
+                        {
+                            <div class="swiper-slide" style="display:inline-block"><img src="@(Himall.Core.HimallIO.GetProductSizeImage(item.ThumbnailsUrl, 1, (int)Himall.CommonModel.ImageSize.Size_50))" /></div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="pick-right">
+                共<em>@Model.OrderItemList.Sum(p=>p.Quantity)</em>件
+            </div>
+        </div>
+    </div>
+    <div class="pickup-addr">
+        <h4>门店信息</h4>
+        <p><i class="pi1"></i>@Model.ShopBranchName</p>
+        <p><i class="pi2"></i><a href="tel:@Model.ShopBranchContactPhone">@Model.ShopBranchContactPhone</a></p>
+        <p class="pu-addr"><i class="pi3"></i><span>@Model.ShopBranchAddress</span></p>
+    </div>
+    <div class="pickuo-code">
+        <h4>提货码</h4>
+        <div class="pickup-img">
+            <canvas id="barcode"></canvas>
+        </div>
+        <span>请在到店后向店员出示此条码，完成提货</span>
+    </div>
+</div>
+<script src="~/Scripts/jquery-barcode.min.js"></script>
+<script>
+
+    var swiper = new Swiper('.swiper-container', {
+
+    });
+
+    $(function () {
+        var _height = $(window).height();
+
+        $(".container.pickup-goods").css("height", _height);
+
+        $("#barcode").barcode("@Model.PickupCode",'code128');
+    })
+
+
+</script>

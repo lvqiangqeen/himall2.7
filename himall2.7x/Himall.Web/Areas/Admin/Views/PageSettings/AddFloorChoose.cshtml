@@ -1,0 +1,138 @@
+﻿@model Himall.Model.HomeFloorInfo
+@using System.Linq;
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("HomeFloor", "PageSettings", new { area = "Admin" })">管理</a></li>
+        <li class="active"><a>新增楼层</a></li>
+    </ul>
+    <div class="choose-floor">
+        <div class="floor-b default" onclick="window.location.href = '@Url.Action("AddHomeFloorDetail5", "PageSettings", new { area = "Admin" })'">
+            <div style="height:63px">
+                <h3 class="clearfix">默认楼层</h3>
+                <ul class="clearfix">
+                    <li class="active">默认<s></s></li>
+                    <li>大牌</li>
+                    <li>卫衣</li>
+                    <li>短裙</li>
+                </ul>
+            </div>
+
+            <div class="img-box">
+               
+                <img src="~/Images/floor_00.png" />
+            </div>
+        </div>
+        <div class="floor-a" onclick="window.location.href = '@Url.Action("AddHomeFloorDetail", "PageSettings", new { area = "Admin" })'">
+            <h3>样式一</h3>
+            <div class="img-box">
+                
+                <img src="~/Images/floor_01.png" />
+            </div>
+        </div>
+        <div class="floor-b" onclick="window.location.href = '@Url.Action("AddHomeFloorDetail2", "PageSettings", new { area = "Admin" })'">
+            <div style="height:63px">
+                <h3 class="clearfix">样式二</h3>
+                <ul class="clearfix">
+                    <li class="active">默认标签<s></s></li>
+                    <li>选项</li>
+                    <li>选项</li>
+                    <li>选项</li>
+                </ul>
+            </div>
+            
+            <div class="img-box">
+                
+                <img src="~/Images/floor_02.png" />
+            </div>
+        </div>
+        <div class="floor-c" onclick="window.location.href = '@Url.Action("AddHomeFloorDetail3", "PageSettings", new { area = "Admin" })'">
+            <h3>样式三</h3>
+            <div class="img-box">
+                
+                <img src="~/Images/floor_03.png" />
+            </div>
+        </div>
+        <div class="floor-b" onclick="window.location.href = '@Url.Action("AddHomeFloorDetail4", "PageSettings", new { area = "Admin" })'">
+            <div style="height:63px">
+                <h3 class="clearfix">样式四</h3>
+                <ul class="clearfix">
+                    <li class="active">默认标签<s></s></li>
+                    <li>选项</li>
+                    <li>选项</li>
+                    <li>选项</li>
+                </ul>
+            </div>
+
+            <div class="img-box" style="height:500px;">
+                
+                <img src="~/Images/floor_04.jpg" />
+            </div>
+        </div>
+        <div class="floor-b" onclick="window.location.href = '@Url.Action("AddHomeFloorDetail6", "PageSettings", new { area = "Admin" })'">
+            <div style="height:63px">
+                <h3 class="clearfix">样式五</h3>
+                <ul class="clearfix">
+                    <li class="active">默认标签<s></s></li>
+                    <li>选项</li>
+                    <li>选项</li>
+                    <li>选项</li>
+                </ul>
+            </div>
+
+            <div class="img-box" style="height:500px;">
+
+                <img src="~/Images/floor_05.jpg" />
+            </div>
+        </div>
+        <div class="floor-b" onclick="window.location.href = '@Url.Action("AddHomeFloorDetail7", "PageSettings", new { area = "Admin" })'">
+            <div style="height:63px">
+                <h3 class="clearfix">样式六</h3>
+                <ul class="clearfix">
+                    <li class="active">默认标签<s></s></li>
+                    <li>选项</li>
+                    <li>选项</li>
+                    <li>选项</li>
+                </ul>
+            </div>
+
+            <div class="img-box" style="height:500px;">
+
+                <img src="~/Images/floor_06.jpg" />
+            </div>
+        </div>
+        <div class="floor-b" onclick="window.location.href = '@Url.Action("AddHomeFloorDetail8", "PageSettings", new { area = "Admin" })'">
+            <div style="height:63px">
+                <h3 class="clearfix">样式七</h3>
+                <ul class="clearfix">
+                    <li class="active">默认标签<s></s></li>
+                    <li>选项</li>
+                    <li>选项</li>
+                    <li>选项</li>
+                </ul>
+            </div>
+
+            <div class="img-box" style="height:500px;">
+                <img src="~/Images/floor_07.jpg" />
+            </div>
+        </div>
+        <div class="floor-b" onclick="window.location.href = '@Url.Action("AddHomeFloorDetail9", "PageSettings", new { area = "Admin" })'">
+            <div style="height:63px">
+                <h3 class="clearfix">样式八</h3>
+                <ul class="clearfix">
+                    <li class="active">默认标签<s></s></li>
+                    <li>选项</li>
+                    <li>选项</li>
+                    <li>选项</li>
+                </ul>
+            </div>
+
+            <div class="img-box" style="height:500px;">
+
+                <img src="~/Images/floor_08.jpg" />
+            </div>
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,91 @@
+﻿@using Himall.Core;
+@model Himall.Web.Areas.SellerAdmin.Controllers.OrderController.SendGoodMode
+
+<script src="~/Areas/SellerAdmin/Scripts/OrderSendGoods.js"></script>
+<div class="container">
+    <ul class="breadcrumb clearfix">
+
+        <li><a href="./Management">订单列表</a></li>
+        <li class="active">
+            @{var num = Model.Orders.Count();}
+            @if (num > 1)
+            {
+                <a>批量发货</a>
+            }
+            else
+            {
+                if (num > 0)
+                {
+                    if (string.IsNullOrWhiteSpace(Model.Orders[0].ShipOrderNumber))
+                    {
+                        <a>订单发货</a>
+                    }
+                    else
+                    {
+                        <a>修改运单号</a>
+                    }
+                }
+                else
+                {
+                    <a>订单发货</a>
+                }
+            }
+        </li>
+    </ul>
+
+    <table class="table">
+        <thead>
+            <tr style="text-align:center;">
+                <th>订单号</th>
+                <th>收货人</th>
+                <th>收货地址</th>
+                <th>快递</th>
+                <th>快递单号</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Orders)
+            {
+                <tr>
+                    <td class="cssOrderId" data-id="@order.Id">@order.Id</td>
+                    <td>@order.ShipTo</td>
+                    <td><span class="overflow-ellipsis" style="width:500px">@order.RegionFullName @order.Address</span></td>
+                    <td>
+                        <select class="form-control input-xs cssCompanyName">
+                            <option selected="selected">@order.ShowExpressCompanyName</option>
+                            @foreach (var logisticsCompany in Model.LogisticsCompanies)
+                            {
+                                if (logisticsCompany.Name == order.ExpressCompanyName)
+                                {
+                                    <option selected>@logisticsCompany.Name</option>
+                                }
+                                else
+                                {
+                                    <option>@logisticsCompany.Name</option>
+                                }
+                            }
+                            <option value="-1">其他</option>
+                        </select>
+                    </td>
+                    <td><input class="form-control input-xs cssShipOrderNumber" type="text" value="@order.ShipOrderNumber"></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (num > 1)
+    {
+        <button id="btnSendGood" type="button" class="btn btn-primary mt20 fr">批量发货</button>
+    }
+    else if (num > 0)
+    {
+        if (string.IsNullOrEmpty(Model.Orders.First().ShipOrderNumber))
+        {
+          <button id = "btnSendGood" type = "button" class="btn btn-primary mt20 fr">订单发货</button>
+        }
+        else
+        {
+		<button id = "btnSendGood" type="button" class="btn btn-primary mt20 fr">保存</button>
+        }
+    }
+
+</div>

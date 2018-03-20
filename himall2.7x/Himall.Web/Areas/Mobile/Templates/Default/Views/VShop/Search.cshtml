@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Himall.Web.Areas.Mobile.Models.ProductItem>
+@using Himall.Model;
+@{
+    ViewBag.Title = "商品搜索";
+}
+@using Himall.Web.Areas.SellerAdmin.Models;
+<div class="container">
+    @{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_SearchBox.cshtml");}
+    <div class="fixed-box">
+        <div class="fixed-inner">
+            <a href="javascript:" class="no_icon selected" orderkey="1">默认<i></i></a>
+            <a href="javascript:" class="price" orderkey="3">价格<i class="icon_sort"></i></a>
+            <a href="javascript:" class="state_switch" orderkey="2">销量<i class="icon_sort_single"></i></a>
+            <a href="javascript:" class="state_switch" orderkey="4">评价数<i class="icon_sort_single"></i></a>
+            <a href="javascript:" class="switch state_switch">&nbsp;<i class="icon_switch"></i></a>
+        </div>
+    </div>
+    <!-- <div class="s_found gray">找到相关商品 <b>@ViewBag.Total</b> 件。</div> -->
+    <div class="s_found gray"><a class="search_screen">分类</a></div>
+    <ul class="search-list clearfix" id="searchList">
+        @foreach (var product in Model) {
+            <li productid="@product.Id">
+                <a class="p-img" href="javascript:;"><img src="@product.ImageUrl"></a>
+                <h3><a>@product.Name</a></h3>
+                <p class="red">¥@product.SalePrice.ToString("F2")</p>
+                <p>@(product.CommentsCount)人评价</p>
+            </li>
+        }
+    </ul>
+    <div class="screen">
+        <div class="screen_hd clearfix">
+            <a class="btn btn-default btn-sm cancel pull-left">取消</a>店铺商品分类
+        </div>
+        <div class="screen_bd">
+            @{var shopCategories = (IEnumerable<Himall.Web.Areas.Mobile.CategoryModel>)ViewBag.ShopCategories;}
+            <ul class="list-group">
+                @foreach (var category in shopCategories.ToArray()) {
+                    <li class="list-group-item">
+                        <a href="@(category.SubCategories.Count() > 0 ? "javascript:;" : "/" + ViewBag.AreaName + "/vshop/search?vshopid=" + ViewBag.VShopId + "&shopCid=" + category.Id + "")">@category.Name<span class="glyphicon glyphicon-menu-right"></span></a>
+                        <ol>
+                            @foreach (var secondCategory in category.SubCategories) {
+                                <li><a href="/@ViewBag.AreaName/vshop/search?vshopid=@(ViewBag.VShopId)&shopCid=@secondCategory.Id">@secondCategory.Name</a></li>
+                            }
+                        </ol>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="loading" id="autoLoad"><span></span></div>
+    @{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_4ButtonsFoot.cshtml");}
+</div>
+<a class="WX-backtop" href="#"></a>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/vshopProductSearch.js"></script>

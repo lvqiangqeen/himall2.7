@@ -1,0 +1,73 @@
+<!--pages/commentlist/commentlist.wxml-->
+
+
+<block  wx:if="{{ReviewInfo.reviewNum>0}}">
+<view class="commentlisttop"> 
+<view class="commentlisttopt">
+<view class="commentlisleft">{{ReviewInfo.productName}}</view>
+<view class="commentlisright">好评率<view class="proportion">{{ positive!=null?positive:'100'}}%</view></view>
+</view>
+<view class="commentlisttopc">
+<view class="coupontitlels">
+    <view class="coupontitlel" bindtap="bingComment" data-typeid="0">
+      <view class="{{commentType==0?'active':''}}">全部评价<view>({{ReviewInfo.reviewNum!=null?ReviewInfo.reviewNum:'0'}})</view></view>
+    </view>
+     <view class="coupontitlel" bindtap="bingComment" data-typeid="1">
+      <view class="{{commentType==1?'active':''}}">好评<view>({{ReviewInfo.reviewNum1!=null?ReviewInfo.reviewNum1:'0'}})</view></view>
+    </view>
+    <view class="coupontitlel"  bindtap="bingComment" data-typeid="2">
+      <view class="{{commentType==2?'active':''}}">中评<view>({{ReviewInfo.reviewNum2!=null?ReviewInfo.reviewNum2:'0'}})</view></view>
+    </view>
+    <view class="coupontitlel"  bindtap="bingComment" data-typeid="3">
+      <view class="{{commentType==3?'active':''}}">差评<view>({{ReviewInfo.reviewNum3!=null?ReviewInfo.reviewNum3:'0'}})</view></view>
+    </view>
+    <view class="coupontitlel"  bindtap="bingComment" data-typeid="4">
+      <view class="{{commentType==4?'active':''}}">有图<view>({{ReviewInfo.reviewNumImg!=null?ReviewInfo.reviewNumImg:'0'}})</view></view>
+    </view>
+</view>
+</view>
+</view>
+</block>
+<block  wx:for="{{commentList}}" wx:for-item="item" wx:for-index="idx" wx:key="commentList-box">
+<view class="commentlist">
+<view class="commentlist_clear">
+<view class="commentlist_ctl"><image src="{{item.Picture}}"></image></view>
+<view class="commentlist_ctr">
+<view class="commentlist_ctrtile">
+<view class="commentlist_ctrtilel">
+<view class="commentlist_ctrtilename font24">{{item.UserName}}</view>
+<view class="commentlist_ctrtilex"><image src="/images/plun_06.jpg" hidden="{{item.Score<1}}"></image><image src="/images/plun_06.jpg" hidden="{{item.Score<2}}"></image><image src="/images/plun_06.jpg" hidden="{{item.Score<3}}"></image><image src="/images/plun_06.jpg" hidden="{{item.Score<4}}"></image><image src="/images/plun_06.jpg" hidden="{{item.Score<5}}"></image>
+<image src="/images/plun_12.jpg" hidden="{{item.Score>4}}"></image>
+<image src="/images/plun_12.jpg" hidden="{{item.Score>3}}"></image>
+<image src="/images/plun_12.jpg" hidden="{{item.Score>2}}"></image>
+<image src="/images/plun_12.jpg" hidden="{{item.Score>1}}"></image>
+
+</view>
+</view>
+<view class="commentlist_ctrtiler">{{item.ReviewDate}}</view>
+</view>
+<view class="commentlist_ctrtext">{{item.ReviewText}}</view>
+<view class="commentlist_ctrpic" hidden="{{item.ImageUrl1==''}}">
+    <image src="{{item.ImageUrl1}}" data-index="{{idx}}" bindtap="prevImage" hidden="{{item.ImageUrl1==''}}" data-src="{{item.ImageUrl1}}"></image>
+    <image bindtap="prevImage" data-index="{{idx}}" data-src="{{item.ImageUrl2}}" src="{{item.ImageUrl2}}" hidden="{{item.ImageUrl2==''}}"></image>
+    <image bindtap="prevImage"  data-src="{{item.ImageUrl3}}" data-index="{{idx}}" src="{{item.ImageUrl3}}" hidden="{{item.ImageUrl3==''}}"></image>
+    <image bindtap="prevImage" src="{{item.ImageUrl4}}" data-index="{{idx}}" data-src="{{item.ImageUrl4}}"></image>
+    <image bindtap="prevImage"  hidden="{{item.ImageUrl5==''}}" data-src="{{item.ImageUrl5}}" data-index="{{idx}}" src="{{item.ImageUrl5}}" hidden="{{item.ImageUrl5==''}}"></image>
+    </view>
+<view class="commentlist_ctrsize">{{item.SKUContent}}</view>
+</view>
+</view>
+<view class="shangjiahuif" hidden="{{item.ReplyText==null}}" >
+<view class="shangjiahuift">
+<view class="Replyshangjia">商家</view>
+<view class="ReplyText">{{item.ReplyDate}}</view>
+</view> 
+<view class="shangjiahuifc">{{item.ReplyText}}</view>
+</view>
+</view>
+</block>
+<!--无评价-->
+<view class="kong" wx:if="{{ReviewInfo.reviewNum<=0}}">
+  <image src="/images/commentk.jpg"></image>
+  <view class="mt24">此商品暂无评论~</view>
+</view>

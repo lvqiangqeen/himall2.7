@@ -1,0 +1,35 @@
+﻿@model Himall.Model.TopicInfo
+@{
+    Layout = "../Shared/_Base.cshtml";
+    ViewBag.Title = "专题-" + Model.Name;
+}
+<div class="container">
+    <div class="banner">
+        <a href="#"><img src="@Model.TopImage" alt=""></a>
+    </div>
+    <div class="fixed-box" name="fixedbox" id="fixedbox">
+        <div class="tab-hd row">
+            @foreach (var module in Model.TopicModuleInfo) {
+                <div class="col-md-3 col-xs-3 " module="@module.Id" name="module"><a href="#fixedbox" name="moduleTab" moduleid="@module.Id">@module.Name</a></div>
+            }
+        </div>
+    </div>
+    <ul class="goods-list clearfix" id="productList"></ul>
+    <div class="loading" id="autoLoad" style="display:none"><span></span></div>
+    @{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_4ButtonsFoot.cshtml");}
+</div>
+<input type="hidden" id="topicId" value="@Model.Id" />
+<input type="hidden" id="topicUrl" value="@Url.Action("Detail")" />
+<script src="~/Areas/Mobile/Templates/Default/Scripts/TopicDetail.js"></script>
+<script>
+	var winxinShareArgs = {
+		share: {
+			title: '与你分享一个很给力的@(Model.Name)',
+			desc: '超值特惠,尽在@(Model.Name)',
+			link: location.href,
+			imgUrl: '@Himall.Core.HimallIO.GetRomoteImagePath(Model.TopImage)'
+		}
+	};
+</script>
+
+@Html.Partial("_WeiXinShare")

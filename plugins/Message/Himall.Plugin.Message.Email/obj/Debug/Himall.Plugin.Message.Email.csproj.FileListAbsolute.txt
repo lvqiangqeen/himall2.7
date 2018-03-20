@@ -1,0 +1,11 @@
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.Email\bin\Debug\Data\Email.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.Email\bin\Debug\plugin.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.Email\bin\Debug\Himall.Plugin.Message.Email.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.Email\bin\Debug\Himall.Plugin.Message.Email.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.Email\bin\Debug\Himall.Core.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.Email\bin\Debug\Himall.MessagePlugin.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.Email\bin\Debug\Himall.MessagePlugin.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.Email\bin\Debug\Himall.Core.xml
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.Email\obj\Debug\Himall.Plugin.Message.Email.csprojResolveAssemblyReference.cache
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.Email\obj\Debug\Himall.Plugin.Message.Email.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Message\Himall.Plugin.Message.Email\obj\Debug\Himall.Plugin.Message.Email.pdb

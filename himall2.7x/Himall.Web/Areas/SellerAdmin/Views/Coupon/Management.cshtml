@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Management";
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/CouponManagement.js"></script>
+
+<div class="container">
+    @{var CheckService = ViewBag.Market != null;
+    var CheckDate = false;
+    if (CheckService)
+    {
+        CheckDate = ((Himall.Model.ActiveMarketServiceInfo)ViewBag.Market).MarketServiceRecordInfo.Max(a => a.EndTime) >= DateTime.Now.Date;
+    }
+    }
+    <ul class="nav nav-tabs-custom clearfix">
+        
+        <li class="active"><a>所有优惠券</a></li>
+        @if (CheckService && CheckDate)
+        {
+            <li><a href="@Url.Action("Add")">新增优惠券</a></li>
+        } 
+        <li class=""><a href="@Url.Action("BuyService")">服务购买</a></li>
+        
+    </ul>
+
+    @if (CheckService && CheckDate)
+    {
+        <div class="search-box">
+            <form class="form-inline custom-inline">
+                <div class="form-group">
+                    <label class="label-inline w75" for="">搜优惠券</label>
+                    <input type="text" id="CouponName" maxlength="20"  class="form-control input-ssm">
+                </div>
+                <div class="form-group">
+                    <button id="searchBtn" class="btn btn-primary btn-sm" type="button">搜 索</button>
+                </div>
+            </form>
+        </div>
+    }
+    @if (!CheckService || !CheckDate)
+    {	
+		<div class="form-horizontal">
+			<div class="form-group">
+				<p class="apply-primary"><span class="glyphicon glyphicon-info-sign"></span>您还未购买优惠券服务或者服务已到期，<a href="./BuyService">现在购买</a></p>
+			</div>
+		</div>
+    }
+    else
+    {
+        <div>
+            <table class="table" id="list"></table>
+        </div>
+    }
+</div>
+<input type="hidden" value="@DateTime.Now.Date" id="DTND" />

@@ -1,0 +1,117 @@
+﻿@model Himall.Web.Areas.Web.Models.ShopHomeModel
+@{
+    ViewBag.Title = Model.Shop.Name;
+    Layout = "~/Areas/Web/Views/Shared/ShopLayout.cshtml";
+    bool IsExpired = (bool)ViewBag.IsExpired;
+    bool IsFreeze = (bool)ViewBag.IsFreeze;
+}
+
+<input type="hidden" id="IsExpired" value="@(IsExpired.ToString())" />
+<input type="hidden" id="IsFreeze" value="@(IsFreeze.ToString())" />
+<div class="shop-focus">
+    <ul>
+        @{
+            foreach (var item in Model.Slides)
+            {
+                var style = Model.Slides.IndexOf(item) == 1 ? "display:block;" : "";
+                <li style="@style"><a target="_blank" href="@item.Url" style="background-image:url(@Himall.Core.HimallIO.GetImagePath(item.ImageUrl))"></a></li>
+            }
+            if (null == Model.Slides || Model.Slides.Count() == 0)
+            {
+                <li><a target="_blank" href="#" style="background-image:url(http://fakeimg.pl/1920x520)"></a></li>
+            }
+        }
+
+    </ul>
+</div>
+<div class="w shop-recommend">
+    <ul class="cl">
+        <!--TODO 此处新增一条大图片数据  @* fore@(i+1)记得改 *@ -->
+        <li class="fore1"><a href="@Model.TransverseAD.Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(Model.TransverseAD.ImageUrl)" alt="" /></a></li>
+
+        @for (int i = 1; i < Model.ImageAds.Count(); i++)
+        {
+            var _url = string.IsNullOrWhiteSpace(Model.ImageAds.ElementAt(i).ImageUrl) ? "http://fakeimg.pl/325x325" :Himall.Core.HimallIO.GetImagePath(Model.ImageAds.ElementAt(i).ImageUrl);
+            <li class="fore@(i+1)"><a target="_blank" href="@Model.ImageAds.ElementAt(i).Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(_url)" alt="" /></a></li>
+            }
+    </ul>
+</div>
+
+<!--分类-->
+
+<div class="shop-custom-list w">
+    <ul>
+        @foreach (var cate in Model.ShopCategory)
+    {
+            <li>
+                <h3><a href="@Url.Action("SearchAd", "Shop", new { cid = cate.Id, sid = Model.Shop.Id, pageNo = 1 })">@cate.Name</a></h3>
+                @foreach (var item in cate.SubCategory)
+            {
+                    <p><a href="@Url.Action("SearchAd", "shop", new { cid = item.Id ,sid=Model.Shop.Id,pageNo=1 })" target="_blank">@item.Name</a></p>
+            }
+            </li>
+    }
+    </ul>
+</div>
+
+<!--楼层-->
+<div class="w">
+
+    @foreach (var floor in Model.Floors)
+{
+	var url = floor.FloorUrl;
+	//if (!string.IsNullOrWhiteSpace(url))
+	//{
+	//	if (!(url.StartsWith("/") || url.StartsWith("http://", true, null) || url.StartsWith("https://", true, null)||url=="#"))
+	//	{
+	//		url = "//" + url;
+	//	}
+	//}
+		<div class="shop-title"><p>@floor.FloorName</p><a href="@url" target="_blank">查看更多<i>+</i></a></div>
+
+    if (floor.TopImgs.Count > 0)
+    {
+        <div class="shop-goods-slider">
+            <ul class="cl">
+                @foreach (var topimg in floor.TopImgs)
+                {
+                    <li>
+                        <a target="_blank" href="@topimg.Url">
+                            <img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(topimg.ImgPath)">
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+    <div class="shop-goods-list">
+        <ul class="cl">
+            @foreach (var product in floor.Products)
+            {
+                <li>
+                    <a target="_blank" href="@Url.Action("Detail", "Product", new { id = product.Id })">
+                        <img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetProductSizeImage(product.Pic, 1, (int)Himall.CommonModel.ImageSize.Size_350)" alt="@product.Name" />
+                    </a>
+                    <h3><a target="_blank" href="@Url.Action("Detail", "Product", new { id = product.Id })">@product.Name</a></h3>
+                    <p><em>RMB</em><span>@product.Price</span></p>
+                </li>
+            }
+
+        </ul>
+    </div>
+}
+</div>
+
+<div class="w">
+    <div class="shop-bottom cl">
+        <div class="shop-qrcode">
+            <img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="data:image/jpeg;base64,@Model.VShopQR" alt="" />
+            <p>扫描二维码  微店更优惠</p>
+        </div>
+        <div class="shop-notice">
+            <p>@Html.Raw(Model.Footer)</p>
+        </div>
+        <div class="shop-logo"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(Model.Logo)" alt="" /></div>
+    </div>
+</div>
+<script src="~/Areas/Web/Scripts/shopHome.js"></script>

@@ -1,0 +1,46 @@
+﻿@model Himall.Model.HomeFloorInfo
+@using System.Linq;
+
+
+<script src="~/Areas/Admin/Scripts/pageSettingsAddHomeFloor.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="homeFloor">管理</a></li>
+        <li class="active"><a id="mode">新增</a></li>
+
+    </ul>
+
+
+
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">楼层名称：</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control input-sm" maxlength="4" id="floorName" value="@Model.FloorName">
+            </div>
+            <div class="col-sm-5"><span class="help-default">最长4个字</span></div>
+        </div>
+        @*<div class="form-group">
+            <label for="" class="col-sm-2 control-label">选择分类：</label>
+            <div class="col-sm-9">
+                <div class="checkbox-group">
+                    @{var selectedCategoryIds =Model.FloorCategoryInfo.Select(item=>item.CategoryId);}
+                    @foreach (var category in @ViewBag.TopLevelCategories)
+                    {
+                        long categoryId = category.Id;
+                          <label class="checkbox-inline"><input type="checkbox" name="category" value="@category.Id" @(selectedCategoryIds.Contains(categoryId) ? "checked" : "")>@category.Name</label>
+                    }
+                </div>
+            </div>
+        </div>*@
+        <input type="hidden" name="id" value="@Model.Id" />
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <a href="javascript:;" class="btn btn-primary" id="saveBtn">下一步</a>
+                <a class="btn btn-warning ml15" id="floor-edit-next" style="display:none;">保存并进入模块编辑</a>
+            </div>
+        </div>
+
+    </form>
+</div>
+

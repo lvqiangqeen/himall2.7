@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>微店商品分类</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">店铺分类</h1>
+			
+		</header>
+		<div id="scrollDiv" class="scroll-div">
+			<div class="mui-content transparent"></div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/template.js"></script>
+		<script>
+			mui.init({swipeBack: true});
+			
+			var vshopid,shopId;
+			
+			mui.plusReady(function() {
+				vshopid=plus.webview.currentWebview().vshopId;
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				mui.ajax(URL+'api/VShop/GetVShopCategory',{
+					data:himall.md5Data({
+						id:vshopid
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(data.Success=='True'){
+							if(data.ShopCategories.length>0){
+								document.getElementsByClassName('mui-content')[0].innerHTML=template('initData',data);
+								shopId=data.ShopId;
+							}else{
+								var html='<div class="empty-show"><h4>该微店暂无分类</h4><button id="closeWv" class="mui-btn mui-btn-negative">去其他地方逛逛</button></div>';
+					        	document.getElementsByClassName('mui-content')[0].innerHTML=html;
+							}
+							w.close();
+							himall.removeClass(document.querySelector('.mui-content'),'transparent');
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						reloadWvLoad();
+					}
+				});
+				
+				
+				//添加列表项的点击事件
+				mui('.mui-content').on('tap', '.vshop-category', function() {
+					himall.openVW('vshop-search.html',{vshopId:vshopid,cid:this.getAttribute('data-id'),sid:shopId});
+				});
+			});
+			
+		</script>
+		
+		<script type="text/html" id="initData">
+			<ul class="mui-table-view mui-table-view-chevron"><li class="mui-table-view-cell mui-collapse">全部分类</li>
+			{{each ShopCategories as item}}
+				<li class="mui-table-view-cell mui-collapse">
+					<a class="mui-navigate-right">{{item.Name}}</a>
+					{{if item.SubCategories.length>0}}
+						<ul class="mui-table-view mui-table-view-chevron">
+						{{each item.SubCategories}}
+							<li class="mui-table-view-cell"><a class="mui-navigate-right vshop-category" data-id="{{$value.Id}}">{{$value.Name}}</a></li>
+						{{/each}}
+						</ul>
+					{{/if}}
+				</li>
+			{{/each}}	
+			</ul>
+		</script>
+	</body>
+
+</html>

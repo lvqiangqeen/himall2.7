@@ -1,0 +1,163 @@
+﻿@using Himall.Core
+@model Himall.Web.Areas.Web.Models.ProductDetailModelForWeb
+@{
+    Layout = "../Shared/_Base.cshtml";
+    ViewBag.Title = "商品详情";
+    ViewBag.ShowAside = 1;
+    var detailModel = (Himall.Web.Areas.Mobile.Models.ProductDetailModel)ViewBag.DetailModel;
+}
+<input type="hidden" id="gid" value="@Model.Product.Id" />
+<input type="hidden" id="categoryId" value="@Model.Product.CategoryId" />
+<input type="hidden" id="has" value="@(Model.Product.SKUInfo.Count() == 0 ? 0 : 1)" />
+<div id="J_shop_att"></div>
+<div class="container container-z">
+    <div class="detail-hd">
+        <div id="slides">
+            @for (int i = 1; i < 6; i++)
+            {
+                if (HimallIO.ExistFile((Model.Product.RelativePath + string.Format("/{0}.png", i))))
+                {
+                    <img data-src="@(HimallIO.GetProductSizeImage(Model.Product.RelativePath, i, (int)Himall.CommonModel.ImageSize.Size_350))" />
+                }
+            }
+        </div>
+    </div>
+    <a class="dis-info-a bt_share" id="dis-brokerage-box" style="display:none;">赚<span id="dis-brokerage">00.00</span>元</a>
+    <div class="detail-bd">
+        <div class="goods-info">
+            <div id="preheat"></div>
+            <div class="item">
+                <div class="goods-price" id="jd-price">
+                    <span id="jd-saleprice"></span>
+                    <s>￥@Model.Product.MarketPrice.ToString("F2")</s>
+                </div>
+                <h4>@Model.Product.ProductName</h4>
+                <h5>@Model.Product.ShortDescription</h5>
+            </div>
+            <div class="item promotion-wrap" id="divCoupon">
+                <div class="promotion">
+                    <ul class="promotion-list" id="showPromotion">
+                    	<li class="promotion-coupon spec-arrow" style="display:none;" onclick="showPortfolio()"><a href="javascript:;">
+                            <span id="activespan"><i class="coupon-tip">促销优惠</i></span></a>
+                        </li>
+                    </ul>
+                </div>
+              
+                    <div id="productColloCation"></div>
+                    <div class="goods-address" id="showDeportAddress">
+                    </div>
+                    @Html.Action("ShowServicePromise", "Product", new { id = Model.Product.Id, shopId = Model.Product.ShopId })
+</div>
+        </div>
+        @if (Model.Color.Count > 0 || Model.Size.Count > 0 && Model.Version.Count > 0)
+        {
+            <div class="item">
+                <a class="item-navigate-right att-popup-trigger">选择规格</a>
+            </div>
+        }
+        @*门店信息-前端调整界面样式*@
+         <div class="item detail-comment j_storesInfo product-store-title"  style="display:none">
+             <div class="goods-comment">
+                         <h1><b class="j_storeName"></b><span class="j_distanceUnit"></span><i class="ic-arrow"></i></h1> 
+                         <p class="j_storeAddress"></p>
+                         <a class="j_storelist btn btn-default" href="@Url.Action("storelist", "shopbranch", new { shopid = Model.Product.ShopId })"></a>
+             </div>
+        </div>
+        @*门店信息-前端调整界面样式*@
+        <div class="item detail-comment">
+            <div class="detail-comment-hd">
+                商品评价
+                <span class="detail-comment-num">@(detailModel.CommentCount)</span>
+            </div>
+            <div id="productCommentShow">
+            </div>
+            <div class="detail-comment-ft">
+                <a class="btn btn-default" href="../ProductComment?pId=@(Model.Product.Id)&commentType=0">查看全部评价</a>
+            </div>
+        </div>
+
+        @Html.Action("ShowShopScore", "VShop", new { id = Model.Product.ShopId })
+
+        <div id="productColloCation">
+        </div>        
+        @*<div class="item details-link">
+                <a href="#top" onclick="gotoProductImg()"><span>查看更多详情</span></a>
+            </div>
+            <div class="goods-img"></div>*@
+        @Html.Action("ShowProductDescription", "Product", new { id = Model.Product.Id })
+
+        <div class="right" style="display:none;background:#fff">
+            <div class="relation-title text-center"><span>猜你喜欢</span></div>
+            <div id="relationProducts" class="clearfix">
+                <template>
+                    <a class="relation-pro clearfix" href="@Url.Action("detail",new { id=(object)null})/{{id}}">
+                        <div class="relation-pro-img">
+                            <img src="{{imagePath}}" />
+                        </div>
+                        <p class="relation-pro-price"><i>￥</i>{{minSalePrice}}</p>
+                        <p class="relation-pro-name">{{productName}}</p>
+                    </a>
+                </template>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="s-actionBar-container">
+    <div id="s-actionbar" class="action-bar">
+        <div class="cell tocart icon-cart-c">
+            购物车
+            <a href="/@ViewBag.AreaName/Cart/Cart"></a>
+            <span class="plus-one">1</span>
+        </div>
+    </div>
+</section>
+<input type="hidden" id="proDesc" value="@Model.ProductDescription" />
+<input type="hidden" id="shopId" value="@Model.Shop.Id" />
+<input type="hidden" id="couponUrl" value="@Url.Action("ShopCouponList","coupon")" />
+<input type="hidden" id="skuUrl" value="@Url.Action("GetSKUInfo", "Product")" />
+    <script>
+        var winxinShareArgs = {
+            share: {
+                title: '@Model.Product.ProductName',
+                desc: '@(string.IsNullOrEmpty(Model.Product.ShortDescription) ? Model.Product.ProductName.Replace("\n", "") : Model.Product.ShortDescription.Replace("\n", ""))',
+                link: location.href,
+                imgUrl: '@HimallIO.GetRomoteProductSizeImage(Model.Product.RelativePath, 1, (int)Himall.CommonModel.ImageSize.Size_150)',
+                success: null,
+                cancel: null,
+                fail: null,
+                complete: null,
+                trigger: null
+            }
+        };
+    </script>
+    <!--_WeiXinShare start-->
+    <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="~/Areas/Mobile/Templates/Default/Scripts/WeiXinShare.js"></script>
+    <!--_WeiXinShare end-->
+<script src="https://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+<script src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/ProductDetail.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/ProductDistributionBrokerage.js"></script>
+<script src="~/Scripts/jquery.cookie.js"></script>
+<script src="~/Scripts/jquery.slides.min.js"></script>
+<a class="WX-backtop"></a>
+<div id="ShopCoupon"></div>
+<div id="portfolioCoupon">
+	<div class="modul-popup">
+	    <div class="modul-popup-container sale-popup-container">
+	        <div class="sale-popup-header"></div>
+	        <div class="sale-popup-body">
+	            <div class="modul-scroll">
+	                <table class="sale-table" width="100%">
+	                        <tbody id="activeList">
+	                    	</tbody>
+	                </table>
+                </div>
+	        </div>
+	        <div class="sale-popup-footer">
+	            <a href="javascript:" class="modul-popup-close sale-popup-close"></a>
+	        </div>
+	    </div>
+	</div>
+</div>
+

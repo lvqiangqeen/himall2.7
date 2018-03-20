@@ -1,0 +1,15 @@
+﻿/**
+ * onoff.css
+ * Author: http://proto.io/freebies/onoff/
+ * Author: Timmy Willison
+ */
+.onoffswitch { position: relative; width: 44px; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; float: left; margin-right: 10px; margin-top: 4px; }
+    .onoffswitch-checkbox { display: none; }
+    .onoffswitch-label { display: block; overflow: hidden; cursor: pointer; border: 1px solid #cdcdcd; border-radius: 5px; width: 44px; }
+    .onoffswitch-inner { display: block; width: 200%; margin-left: -100%; transition: margin 0.3s ease-in 0s; }
+    .onoffswitch-inner:before, .onoffswitch-inner:after { display: block; float: left; width: 50%; height: 22px; padding: 0; line-height: 22px; font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold; box-sizing: border-box; }
+    .onoffswitch-inner:before { content: "+"; padding-left: 8px; background-color: #3EBBE1; color: #FFFFFF; }
+    .onoffswitch-inner:after { content: "−"; padding-right: 8px; background-color: #CECECE; color: #fff; text-align: right; }
+    .onoffswitch-switch { display: block; width: 17px; margin: 3px; height: 18px; background: #FFFFFF; position: absolute; top: 0; bottom: 0; right: 21px; border: 1px solid #FFFFFF; border-radius: 2px; transition: all 0.3s ease-in 0s; }
+    .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner { margin-left: 0; }
+    .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch { right: 0px; }

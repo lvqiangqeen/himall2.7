@@ -1,0 +1,99 @@
+﻿@model Himall.Web.Areas.Admin.Models.Market.BonusModel
+
+@{
+	Layout = null;
+}
+<html>
+<head>
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>领取成功</title>
+	<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+	<link href="~/Areas/Mobile/Templates/Default/Content/custom.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+	<style type="text/css">
+		#register {
+		    width: 87%;
+		    height: 35px;
+		    border: 1px solid #ffc245;
+		    display: block;
+		    border-radius: 5px;
+		    text-align: center;
+		    line-height: .41rem;
+		    font-size: 18px;
+		    color: #ffc245;
+		    margin: 0 auto;
+		    margin-top: 15px;
+		}
+	</style>
+</head>
+
+<body>
+	<script>
+	var winxinShareArgs = {
+		success: function(){
+			LoadBody();
+			$('.bonus-f-hd').height($('.bonus-f-hd').width()*15/32)
+			$('#subCate').click(function() {
+				$('.share-guide').fadeIn()
+			});
+		},
+		error:function(){
+			$.dialog.errorTips('注册微信接口失败，请刷新页面');
+		},
+		share: {
+		    title: '@Model.Name',
+		    desc: '@Model.Description',
+		    link: '@Model.ReceiveHref',
+		    imgUrl: '@(Himall.Core.HimallIO.GetRomoteImagePath(Model.ImagePath))',
+		    success: function (res) {
+		        setshare();
+		    }
+		}
+	};
+	</script>
+	@Html.Partial("_WeiXinShare")
+	<script type="text/javascript">
+	function LoadBody()
+	{
+		var html = "";
+		html += '<div class="container">';
+		html += ' <div class="bonus-finish">';
+		html +='<div class="bonus-f-hd"><img src="@Model.ImagePath" /></div>';
+		html +='<p class="name">@(Model.MerchantsName)的礼包</p>';
+		html +='<p class="words">@Model.Blessing</p>';
+		html +='<h3><span>@ViewBag.Price</span> 元</h3>';
+		@if( Model.IsGuideShare )
+        {
+            <text>html +='<p><button type="button" id="subCate">我还想要红包</button></p>';</text>
+        }
+
+		html +='<p><button type="button" id="register" class="btn-invite">邀请好友注册，各得积分奖励</button></p>';
+		html +='<p class="primary">提示：现金已进入到您个人资产中心，可在资产管理处进行查看及提现</p>';
+		html += '</div>';
+		html += '<div class="share-guide"></div>';
+		html += '</div>';
+
+		$("body").html(html);
+
+		$("#register").click(function(){
+			location.href = "/m-weixin/UserInvite";
+		})
+		$(".share-guide").click(function(){
+			$(this).hide();
+		})
+	}
+
+	function setshare()
+	{
+		var id = @Model.Id;
+		var openId = '@ViewBag.OpenId';
+		$.post("/m-weixin/Bonus/SetShare",{ id : id , openId : openId },function( result ){
+			location.href = "/m-weixin/bonus/index/"+id;
+		})
+	}
+
+	</script>
+</body>
+</html>
+

@@ -1,0 +1,114 @@
+﻿@using Senparc.Weixin.MP.AdvancedAPIs.Poi;
+@{
+
+}
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+
+<div class="container Sclear-N7">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li><a href="/SellerAdmin/Poi/Index">门店管理</a></li>
+        <li class="active"><a>查看详情</a></li>
+    </ul>
+
+
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>所在地区:</label>
+            <div class="col-sm-4">
+                <span>@Model.province</span>
+                <span>@Model.city</span>
+                <span>@Model.district</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>详细地址:</label>
+            <div class="col-sm-4">
+                <p>@Model.address</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>门店名:</label>
+            <div class="col-sm-4">
+                <span>@Model.business_name</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>分店名:</label>
+            <div class="col-sm-4">
+                <span>@Model.branch_name</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>类目:</label>
+            <div class="col-sm-4">
+                <span>
+                    @if (Model.categories.Length >= 1)
+                    {
+                        foreach (string str in Model.categories[0].Split(','))
+                        {
+                            <text>@str</text>
+                        }
+                    }
+                </span>
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>电话:</label>
+            <div class="col-sm-4">
+                <span>@Model.telephone</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>人均价格:</label>
+            <div class="col-sm-4">
+                <span>@Model.avg_price</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>营业时间:</label>
+            <div class="col-sm-4">
+                <span>@Model.open_time</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>推荐:</label>
+            <div class="col-sm-4">
+                <span>@Model.recommend</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>特色服务:</label>
+            <div class="col-sm-4">
+                <span>@Model.special</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red"></span>简介:</label>
+            <div class="col-sm-4">
+                <span>@Model.introduction</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<script>        
+
+
+</script>

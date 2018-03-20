@@ -1,0 +1,93 @@
+﻿@{
+    Layout = null;
+    var controlname = ViewContext.RouteData.Values["controller"].ToString().ToLower();
+    var actionname = ViewContext.RouteData.Values["action"].ToString().ToLower();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit|ie-stand" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Areas/Web/Content/common.css" rel="stylesheet" />
+    <link href="~/Areas/Web/Content/user-center.css" rel="stylesheet" />
+    <link href="~/Areas/Web/Content/artdilog.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <title>@ViewBag.Title</title>    
+    @{Html.RenderAction("UserCenterCss", "ProductPartial");}
+</head>
+<body>
+	<!--_UserCenter start-->
+    @{Html.RenderAction("TopInfo", "ProductPartial");}
+
+    <div class="header">
+        <div class="search-bar cl">
+            <div class="logo"><a href="/"><img src="@(Himall.Core.HimallIO.GetImagePath(SiteSetting.Logo))" height="40" alt="Himall" /></a></div>
+
+            <div class="search">
+                <div class="search-form cl">
+                    <ul>
+                        <li>商品</li>
+                        <li>店铺</li>
+                    </ul>
+                    <label>商品</label>
+                    <input type="text" id="searchBox" class="text" name="" value="" placeholder="@ViewBag.Keyword" />
+                    <input type="button" id="searchBtn" class="button" value="搜索" />
+                </div>
+            </div>
+        </div>
+        <!--search end-->
+    </div>
+
+
+    <div class="aside">
+        <div class="aside-list">
+
+            <span class="user-c"><i class="iconfont icon-gerenzhongxin"></i><em></em><a href="/UserCenter/home" style="color:#2f3031">个人中心</a></span>
+            <ul class="useOrder">
+                <li class="li-lg" style="margin-top:0;"><em class="@( (controlname == "UserOrder".ToLower() || controlname == "UserConsultation".ToLower() || controlname == "UserComment".ToLower())? "big":"")"></em>订单中心</li>
+                <li class="aside-clk @(controlname == "UserOrder".ToLower()? "aside-active":"")"><a href="/UserOrder">我的订单</a></li>
+                <li class="aside-clk @(controlname == "UserConsultation".ToLower() ? "aside-active" : "")"><a href="/UserConsultation">咨询管理</a></li>
+                <li class="li-b aside-clk @(controlname == "UserComment".ToLower() ? "aside-active" : "")"><a href="/UserComment">评价管理</a></li>
+            </ul>
+            <ul class="useMoney">
+                <li class="li-lg"><em class="@( (controlname == "UserCoupon".ToLower() || controlname == "UserIntegral".ToLower() || controlname == "UserCapital".ToLower()) ? "big" : "")"></em>资产中心</li>
+                <li class="aside-clk  @(controlname == "UserCoupon".ToLower() ? "aside-active" : "")"><a href="/UserCoupon/index">我的优惠券</a></li>
+                <li class="aside-clk  @(controlname == "UserIntegral".ToLower() ? "aside-active" : "")"><a href="/UserIntegral/Index">我的积分</a></li>
+                <li class="li-b aside-clk  @(controlname == "UserCapital".ToLower() ? "aside-active" : "")"><a href="/UserCapital/Index">我的账户</a></li>
+            </ul>
+            <ul class="myFans">
+                <li class="li-lg"><em class="@( (controlname == "ProductConcern".ToLower() || controlname == "ShopConcern".ToLower()) ? "big" : "")"></em>我的关注</li>
+                <li class="aside-clk @(controlname == "ProductConcern".ToLower() ? "aside-active" : "")"><a href="/ProductConcern/index">商品关注</a></li>
+                <li class="li-b aside-clk @(controlname == "ShopConcern".ToLower() ? "aside-active" : "")"><a href="/ShopConcern/Index">店铺关注</a></li>
+            </ul>
+            <ul class="expand">
+                <li class="li-lg"><em class="@(controlname == "UserInvite".ToLower() ? "big" : "")"></em>推广</li>
+                <li class="aside-clk li-b @(controlname == "UserInvite".ToLower() ? "aside-active" : "")"><a href="/UserInvite/index">平台推广</a></li>
+            </ul>
+            <ul class="afterService">
+                <li class="li-lg"><em class="@( (controlname == "OrderRefund".ToLower() || controlname == "OrderComplaint".ToLower()) ? "big" : "")"></em>售后服务</li>
+                <li class="aside-clk @(controlname == "OrderRefund".ToLower() ? "aside-active" : "")"><a href="@Url.Action("List", "OrderRefund", new { Area = "Web", showtype =2})">退换货</a></li>
+                <li class="li-b aside-clk @(controlname == "OrderComplaint".ToLower() ? "aside-active" : "")"><a href="/OrderComplaint">投诉维权</a></li>
+            </ul>
+            <ul class="accMangement">
+                <li class="li-lg"><em class="@( (controlname == "UserAddress".ToLower() || controlname == "UserInfo".ToLower() || controlname == "UserCenter".ToLower()) ? "big" : "")"></em>帐户管理</li>
+                <li class="aside-clk @(controlname == "UserAddress".ToLower() ? "aside-active" : "")"><a href="/UserAddress">收货地址管理</a></li>
+                <li class="aside-clk @(controlname == "UserInfo".ToLower() ? "aside-active" : "")"><a href="/UserInfo/Index">个人信息</a></li>
+                <li class="aside-clk @(controlname == "UserCenter".ToLower() && actionname == "AccountSafety".ToLower() ? "aside-active" : "")"><a href="/UserCenter/AccountSafety">账户安全管理</a></li>
+            </ul>
+
+        </div>
+    </div>
+    <div class="content">
+        @RenderBody()
+    </div>
+    <script src="~/Scripts/jquery.artDialog.js"></script>
+    <script src="~/Areas/Web/Scripts/artDialog.iframeTools.js"></script>
+    <script src="~/Scripts/CommonJS.js"></script>
+    <script src="~/Scripts/jquery.cookie.js"></script>
+    <script src="~/Areas/Web/Scripts/userCenter.js"></script>
+	<!--_UserCenter end-->
+</body>
+</html>

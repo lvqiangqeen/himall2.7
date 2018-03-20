@@ -1,0 +1,11 @@
+﻿@model Himall.Model.FreightTemplateInfo
+@{
+    Layout = null;
+}
+@if (Model != null)
+{
+<div class="goods-address">
+    <span class="address-icon pull-left">@Model.DepotAddress &nbsp;</span>
+    <span class="pull-right">@(Model.IsFree == Himall.CommonModel.FreightTemplateType.Free ? "免运费" : "")</span>
+</div>
+}

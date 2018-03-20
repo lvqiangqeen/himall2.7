@@ -1,0 +1,133 @@
+﻿@using Himall.Model
+@{
+    ViewBag.Title = "经营类目选择";
+    var categories = ViewBag.Categories as List<CategoryInfo>;
+}
+<link type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.min.css" rel="stylesheet" />
+
+<div class="mui-content" style="background:#fff; padding-top:0px;">
+    <div class="GselectClassFlex">
+        <div class="GfirstClass">
+            <ul id="firstClassList">
+                @if (categories != null && categories.Count > 0)
+                {
+                    for (var index = 0; index < categories.Count; index++)
+                    {
+                        <li class="@Html.Raw(index==0?"GfirstClass_check":"")" id="@categories[index].Id">@categories[index].Name</li>
+                    }
+                }
+            </ul>
+        </div>
+        <div class="GtwoClass" id="dataBox">
+        </div>
+    </div>
+    <div class="Gbottom_btnRow" style="z-index: 3;">
+        <button class="mui-btn GbtnList_one mui-btn-block gbtn-red" onclick="Submit()">确定</button>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("body").css("background","#fff");
+        var categories = $.cookie("categories");
+        if (categories != "null" && categories != "") {
+            var _categoreis = categories.split(',');
+            for (var i = 0; i < _categoreis.length; i++) {
+                ids.push(Number(_categoreis[i]));
+            }
+        }
+        categoryId = Number($(".GfirstClass li:eq(0)").attr("id"));
+        categoryObj.LoadView(categoryId);
+    });
+    $(".GfirstClass").on("click", "li", function () {   //左侧分类点击
+        $(".GfirstClass_check").removeClass("GfirstClass_check");
+        $(this).addClass("GfirstClass_check");
+        categoryId = Number($(this).attr("id"));
+        categoryObj.LoadView(categoryId);
+    });
+
+    $(".GtwoClass").on("click", "li", function () {  //右侧分类点击
+        var className = $(this).attr("class") || "";
+        var currentId = Number($(this).attr("id"));
+        if (className.indexOf('GrowClass_check') == -1) {
+            $(this).addClass("GrowClass_check");
+            ids.push(currentId);
+        } else {
+            $(this).removeClass("GrowClass_check");
+            ids.splice($.inArray(currentId, ids), 1);
+        }
+    });
+    //加载子类
+    function GetCategories() {
+        var queryData = {
+            url: "GetCategories", key: categoryId
+        }
+        $.ajax({
+            type: "GET",
+            url: queryData.url,
+            data: queryData,
+            async: false,
+            dataType: "json",
+            success: function (data) {
+                var databox = $("#dataBox");
+                databox.empty();
+                if (data) {
+                    if (data && data.length > 0) {
+                        $.each(data, function (i, model) {
+                            var userhtm = getGetCategoriesHtml(model);
+                            databox.append(userhtm);
+                        });
+                    }
+                }
+            },
+            error: function () {
+                $.dialog.errorTips("系统繁忙，请刷新重试");
+            }
+        });
+    }
+    function getGetCategoriesHtml(obj) {
+        var arr = new Array();
+        arr.push('<div class="GrowClass">');
+        arr.push('<h2>' + obj.Name + '</h2>');
+        arr.push('<ul>');
+        if (obj.SubCategories != null) {
+            $.each(obj.SubCategories, function (i, model) {
+                var checkStatus = $.inArray(Number(model.Id), ids) != -1 ? 'class=GrowClass_check' : '';
+                arr.push('<li ' + checkStatus + ' id=' + model.Id + '>' + model.Name + '</li>');
+            });
+        }
+        arr.push('</ul>');
+        arr.push('</div>');
+        return arr.join("");
+    }
+    var categoryId;
+    var categoryObj = {
+        curView: 0,
+        LoadView: function (suff) {
+            if (categoryObj.curView == suff) {
+                return;
+            }
+            GetCategories();
+            categoryObj.curView = categoryId;
+        }
+    }
+    var ids = [];
+    function Submit() {
+        ids = ids.unique3();
+        if (ids.length <= 0) {
+            $.dialog.errorTips('请至少选择一个经营类目');
+            return;
+        }
+        location.href = '@(Url.Action("step5"))' + "?ids=" + ids.join(",");
+    }
+    Array.prototype.unique3 = function () {
+        var res = [];
+        var json = {};
+        for (var i = 0; i < this.length; i++) {
+            if (!json[this[i]]) {
+                res.push(this[i]);
+                json[this[i]] = 1;
+            }
+        }
+        return res;
+    }
+</script>

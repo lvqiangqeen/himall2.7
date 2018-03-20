@@ -1,0 +1,89 @@
+﻿<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+
+<div class="container">
+    <ul class="breadcrumb clearfix">
+
+        <li><a href="/SellerAdmin/ShopBonus/Management">代金红包管理</a></li>
+        <li class="active"><a>查看领取详情</a></li>
+    </ul>
+
+
+    <table class="table" id="list"></table>
+</div>
+
+<script type="text/javascript">
+    $( function ()
+    {
+        loadGrid();
+    } )
+
+    function loadGrid()
+    {
+        $( "#list" ).hiMallDatagrid( {
+            url: '/SellerAdmin/ShopBonus/DetailList',
+            nowrap: false,
+            rownumbers: true,
+            NoDataMsg: '没有找到符合条件的数据',
+            border: false,
+            fit: true,
+            fitColumns: true,
+            pagination: true,
+            idField: "Id",
+            pageSize: 20,
+            pageNumber: 1,
+            queryParams: { id : @ViewBag.Id },
+            toolbar: /*"#goods-datagrid-toolbar",*/'',
+            columns:
+            [[
+                { field: "OpenId", title: "OpenId" , formatter: function ( value, row, index ){
+                    if(row.OpenId == null)
+                    {
+                        return "-";
+                    }
+                    else
+                    {
+                        return row.OpenId;
+                    }
+                } },
+                { field: "Price", title: "金额" },
+                 { field: "StateStr", title: "状态" , formatter: function ( value, row, index ){
+                     return row.StateStr;
+                 } },
+                { field: "ReceiveTime", title: "领取日期" , formatter: function ( value, row, index ){
+                    if(row.ReceiveTime == null || row.ReceiveTime == "")
+                    {
+                        return "-";
+                    }
+                    else
+                    {
+                        return row.ReceiveTime;
+                    }
+                } },
+                { field: "UsedTime", title: "使用时间" , formatter: function ( value, row, index ){
+                    if(row.UsedTime == null || row.UsedTime == "")
+                    {
+                        return "-";
+                    }
+                    else
+                    {
+                        return row.UsedTime;
+                    }
+                } },
+                { field: "UsedOrderId", title: "使用订单编号" , formatter: function ( value, row, index ){
+                    if(row.UsedOrderId == null || row.UsedOrderId == "")
+                    {
+                        return "-";
+                    }
+                    else
+                    {
+                        return row.UsedOrderId;
+                    }
+                } }
+
+            ]]
+        } );
+    }
+</script>

@@ -1,0 +1,53 @@
+﻿@model Himall.Web.Areas.Web.Models.ProductPartialHeaderModel
+<div class="side-asset-total cl">
+    <div>
+        <span id="memberIntegral">@Model.MemberIntegral</span>
+        <p>我的积分</p>
+    </div>
+    <div>
+        <span id="mycouponcount">@(Model.BaseCoupon.Count)</span>
+        <p>优惠券</p>
+    </div>
+</div>
+<div class="side-asset-list" id="myCouponList">
+    @{string cls = "";}
+    <p>已领取的优惠券</p>
+    <ul>
+        @foreach (var item in Model.BaseCoupon)
+        {
+            if (item.BasePrice >= 100) { cls = "coupon-lg"; }
+
+            else if (item.BasePrice <= 50) { cls = "coupon-sm"; }
+
+            <li class="@cls">
+                <a href="/Shop/Home/@item.BaseShopId" target="_blank">
+                    <h5>@item.BaseShopName</h5>
+                    @if (item.BaseType == Himall.Model.CouponType.Coupon)
+                    {
+                        Himall.Model.UserCouponInfo obj = (Himall.Model.UserCouponInfo)item;
+                        if (obj.OrderAmount > 0)
+                        {
+                            <h3><span>￥@item.BasePrice</span>满@(obj.OrderAmount)可用</h3>
+                        }
+                        else
+                        {
+                            <h3><span>￥@item.BasePrice</span>无门槛(不含运费)</h3>
+                        }
+                    }
+                    else if (item.BaseType == Himall.Model.CouponType.ShopBonus)
+                    {
+                        Himall.Model.ShopBonusReceiveInfo obj = (Himall.Model.ShopBonusReceiveInfo)item;
+                        if (obj.Himall_ShopBonusGrant.Himall_ShopBonus.UseState == Himall.Model.ShopBonusInfo.UseStateType.FilledSend)
+                        {
+                            <h3><span>￥@item.BasePrice</span>满@{@obj.Himall_ShopBonusGrant.Himall_ShopBonus.UsrStatePrice}减@{@item.BasePrice}<</h3>
+    }
+    else
+    {
+        <h3><span>￥@item.BasePrice</span>无门槛(不含运费)</h3>
+        }
+    }
+                    <p>截止@(item.BaseEndTime.ToString("yyyy.MM.dd"))</p>
+                </a>
+            </li>}
+    </ul>
+</div>

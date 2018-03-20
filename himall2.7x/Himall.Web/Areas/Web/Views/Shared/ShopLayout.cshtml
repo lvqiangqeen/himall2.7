@@ -1,0 +1,139 @@
+﻿@model Himall.Web.Areas.Web.Models.ShopHomeModel
+
+@{
+	Layout = "_HeadAndFoot.cshtml";
+}
+
+@section Style
+{
+	<meta property="qc:admins" content="45417012167221416513066547" />
+	<meta name="viewport" content="width=device-width" />
+
+	<link href="~/Areas/Web/Content/inner.css" rel="stylesheet" />
+	<link href="~/Areas/Web/Content/artdilog.css" rel="stylesheet" />
+	<link href="/Areas/Web/Content/WebLoginPlug.css" rel="stylesheet" />
+	<link href="/Areas/Web/Content/WebAlertPlug.css" rel="stylesheet" />
+	@RenderSection("Style",false)
+
+	<style type="text/css">
+		.green {
+			color: green;
+			font-size: 15px;
+		}
+
+		.red {
+			color: red;
+			font-size: 15px;
+		}
+	</style>
+}
+@section Script
+{
+	<script src="~/Scripts/jQuery.mouseDelay.min.js"></script>
+	<script src="~/Scripts/jquery.scrollLoading.min.js"></script>
+	@*<script src="~/Areas/Web/Scripts/userInfo.js"></script>*@
+	<script src="~/Scripts/jquery.artDialog.js"></script>
+	<script src="~/Areas/Web/Scripts/artDialog.iframeTools.js"></script>
+	<script src="/Areas/Web/Scripts/jQuery.Web.Login.js"></script>
+	<script src="/Areas/Web/Scripts/jQuery.Web.Alert.js"></script>
+	@RenderSection("Script",false)
+}
+
+@section Header
+{
+	@if (IsSectionDefined("Header"))
+	{
+		@RenderSection("Header")
+	}
+	else
+	{
+		Html.RenderAction("ShopHeader", "ProductPartial", new
+		{
+			id = Model.Shop.Id
+		});
+	}
+}
+<!--ShopLayout start-->
+<div class="shops cl">
+	<div class="shop-header">
+		@{
+			var src = Model.ImageAds.Count() > 0 ? Model.ImageAds.ElementAt(0).ImageUrl : "";
+			var url = Model.ImageAds.Count() > 0 ? Model.ImageAds.ElementAt(0).Url : "#";
+		}
+
+		<div class="shop-banner">
+			<a target="_blank" href="@url" style="background-image:url(@(string.IsNullOrWhiteSpace(src) ? "http://fpoimg.com/1920x128" : Himall.Core.HimallIO.GetImagePath(src)))"></a>
+		</div>
+		<div class="shop-nav cl">
+			<div class="w">
+				<ul>
+					@foreach (var nav in Model.Navignations)
+					{
+						if (nav.STATUS == 1)
+						{
+							<li><a href="@nav.Url">@nav.Name</a></li>
+						}
+					}
+				</ul>
+				<div class="shop-search"><input id="shopSearchText" placeholder="搜索" type="text" /><a id="shopSearchBtn" class="search-bt"></a></div>
+			</div>
+		</div>
+	</div>
+
+	@RenderBody()
+</div>
+<script>
+
+	$(function () {
+		///当前网店搜索
+		$('#shopSearchText').keydown(function (e) {
+			if (e.keyCode == 13) {
+				var text = $("#shopSearchText").val();
+				if (text.length === 0) {
+					$.dialog.errorTips('请输入搜索的关键字');
+					return;
+				} else {
+					location.href = "/Shop/SearchAd?pageNo=1&sid=@Model.Shop.Id&keywords=" + text;
+				}
+			}
+		});
+
+		$("#shopSearchBtn").click(function () {
+			var text = $("#shopSearchText").val();
+			if (text.length === 0) {
+				$.dialog.errorTips('请输入搜索的关键字');
+				return;
+			} else {
+				location.href = "/Shop/SearchAd?pageNo=1&sid=@Model.Shop.Id&keywords=" + text;
+			}
+		});
+	});
+</script>
+<!--ShopLayout end-->
+@section ScriptLast
+{
+<script type="text/javascript">
+    var curshopid = couponsUrl = canCouponsUrl = null;
+</script>
+	@if (((bool?)TempData["isShopPage"]) == true)
+	{
+		var curshopid = TempData["CurShopId"];
+		var getcouponurl = "/Shop/PostShopCoupons/" + curshopid.ToString();
+		var getcancouponurl = "/Shop/PostCanUseShopCoupons/" + curshopid.ToString();
+		<script type="text/javascript">
+
+             curshopid = "@(curshopid)";
+				couponsUrl = "@(getcouponurl)";
+			canCouponsUrl = "@(getcancouponurl)";
+
+		</script>
+	}
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            loadLoginUserInfo();
+            loadUserCoupons();
+        });
+</script>
+<script src="~/Areas/Web/Scripts/headdata.js"></script>
+}

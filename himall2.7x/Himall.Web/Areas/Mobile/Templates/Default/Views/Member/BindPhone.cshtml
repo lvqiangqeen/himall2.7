@@ -1,0 +1,95 @@
+﻿@model Himall.Model.UserMemberInfo
+@{
+    ViewBag.Title = "绑定手机";
+}
+<style> html,body{ background: #fff;}</style>
+<div class="container  ">
+    <div class="BindPhone">
+       <h4>手机绑定</h4>
+       <form >
+           <div class="verification">
+                <input class="num-ver" id="destination" type="tel" value="+86">
+                <button class="code send-code" id="btnAuthCode" type="button" >发送验证码</button>
+                <button class="code" type="button" style="display:none">120s后重发</button>
+           </div>
+           <input type="number" class="input-code" id="code" value="请输入短信验证码">
+           <button class="submit" type="button" id="id_btn">立即绑定</button>
+       </form>
+       <span class="tips">提示：为了您的账户安全，请及时绑定手机</span>
+    </div>
+    <input type="hidden" id="pluginId" value="Himall.Plugin.Message.SMS" />
+
+</div>
+<script>
+
+    $("input").focus(function(){
+        $(this).val("");
+    });
+    var count = 120;
+    var t;
+    $('#btnAuthCode').click(SendCode);
+
+    $('#id_btn').click(function () {
+        var destination = $("#destination").val();
+        var id = $('#pluginId').val();
+        var code = $('#code').val();
+        if (check()) {
+            return;
+        }
+        var url = QueryString('returnUrl');
+        if (!url)
+            url = 'Center';
+        $.post('CheckCode', { pluginId: id, code: code, destination: destination }, function (result) {
+            if (result.success) {
+                $.dialog.succeedTips('验证成功！', function () { window.location.href = url; });
+
+            }
+            else {
+                $.dialog.errorTips(result.msg);
+            }
+        });
+    });
+    function countDown1() {
+        $("#btnAuthCode").html(count + 's后重发');
+        if (count == 1) {
+            $("#btnAuthCode").bind('click', SendCode);
+            $("#btnAuthCode").html('重新发送');
+            $("#btnAuthCode").removeAttr("disabled");
+            count = 120;
+            return;
+        } else {
+           t= setTimeout(countDown1, 1000);
+        }
+        count--;
+    }
+    function check() {
+        var reg1 = /^[1-9]\d{10}$/,
+            reg2 = /^\w+([-+.]\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+            str = $('#destination').val();
+        var a = reg1.test(str),
+            b = reg2.test(str);
+        if (a || b) {
+            //$('#msg').hide();
+            return false;
+        } else {
+            $.dialog.errorTips('请填写正确的信息' );
+            return true;
+        }
+    }
+    function SendCode() {
+        if (check()) {
+            return;
+        }
+        var destination = $("#destination").val();
+        var id = $('#pluginId').val();
+        $("#btnAuthCode").unbind('click');
+        $.post('SendCode', { pluginId: id, destination: destination }, function (result) {
+            if (result.success) {
+                t = setTimeout(countDown1, 1000);
+            } else {
+                $("#btnAuthCode").bind('click', SendCode);
+                $.dialog.errorTips('发送验证码失败,' + result.msg);
+            }
+        });
+    }
+</script>

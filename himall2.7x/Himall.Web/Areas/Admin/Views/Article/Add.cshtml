@@ -1,0 +1,103 @@
+﻿@model Himall.Web.Areas.Admin.Models.ArticleModel
+
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+
+<script src="~/Scripts/ueditor/ueditor.config.js"></script>
+<script src="~/Scripts/ueditor/ueditor.all.min.js"></script>
+<script src="~/Areas/Admin/Scripts/articleAdd.js"></script>
+
+<div class="container">
+    <ul class="breadcrumb clearfix">
+
+        <li><a href="management">文章列表</a></li>
+        <li class="active"><a>@(Model.Id > 0 ? "编辑文章" : "新增文章")</a></li>
+    </ul>
+
+
+
+
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>标题：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Title, new { @class = "form-control input-sm", maxlength = 25 })
+            </div>
+            <div class="col-sm-3">
+                @Html.ValidationMessageFor(m => m.Title, "", new { @class = "help-default cor-red" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>所属分类：</label>
+            <div class="col-sm-3">
+                @*<div id="articleCategorySelector"></div>*@
+                <select class="form-control input-sm" id="articleCategorySelector1"></select>
+            </div>
+
+            <div class="col-sm-3">
+                <select class="form-control input-sm" style="display:none" id="articleCategorySelector2"></select>
+            </div>
+            <div class="col-sm-3">
+                <span class="help-default cor-red" id="categoryError" style="display:none">必须选择一个分类</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>内容：</label>
+            <div class="col-sm-7">
+                @Html.TextAreaFor(m => m.Content, new { MaxLength="10000",  id="contentContainer",style="width:700px;" })
+            </div>
+
+        </div>
+        <div id="upload-img" class="form-group upload-img" style="margin-bottom:0;">
+            <label for="" class="col-sm-2 control-label"></label>
+            <div class="col-sm-3">
+                <span class="cor-red" id="contentError" style="display:none">必须填写内容</span>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">Meta Title：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Meta_Title, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">Meta Keywords：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Meta_Keywords, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">Meta Description：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Meta_Description, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">是否显示：</label>
+            <div class="col-sm-3">
+                <label>@Html.CheckBoxFor(m => m.IsRelease)是</label>
+            </div>
+        </div>
+        @Html.HiddenFor(m => m.CategoryId)
+        @Html.HiddenFor(m => m.Id)
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" id="submit" class="btn btn-primary">保 存</button>
+            </div>
+        </div>
+    </form>
+</div>
+<input type="hidden" id="CategoryId" value="@Model.CategoryId" />
+<input type="hidden" id="ArticleCategoryFullPath" value="@Model.ArticleCategoryFullPath" />
+<input type="hidden" id="IconUrl" value="@Model.IconUrl" />
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+

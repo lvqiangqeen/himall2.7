@@ -1,0 +1,186 @@
+﻿@{
+    ViewBag.Title = "活动列表";
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<div class="container clear-v20">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>所有拼团</a></li>
+        <li class=""><a href="@Url.Action("AddActive")">添加拼团</a></li>
+        <li class=""><a href="@Url.Action("BuyMarketService")">购买服务</a></li>
+    </ul>
+
+    <div class="search-box only-line" id="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">商品名称</label>
+                <input class="form-control input-ssm" type="text" id="txtproductname">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">活动状态</label>
+                <select id="selactivestatus" class="form-control input-ssm">
+                    <option value="">请选择</option>
+                    <option value="0">正在进行</option>
+                    <option value="1">即将开始</option>
+                    <option value="-1">已结束</option>
+                </select>
+            </div>
+            <div class="form-group"><button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button></div>
+        </form>
+    </div>
+
+    <table id="list" class="table"></table>
+</div>
+
+<div id="linkshowcon" class="hide">
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.TextBox("linkurl", "", new { @class = "form-control input-sm" })
+        </div>
+        <div class="col-sm-12">
+            <center><img src="#" id="linkqrpic" height="260" /></center>
+        </div>
+    </div>
+</div>
+
+@Html.Hidden("dataurl", Url.Action("PostActiveList"))
+@Html.Hidden("mainwapurl","http://"+ Request.Url.Authority + "/m-" + PlatformType.Wap.ToString())
+
+<script type="text/javascript">
+   var mainwapurl;
+
+    $(function () {
+        mainwapurl = $("#mainwapurl").val();
+
+        $("#list").hiMallDatagrid({
+            url: $("#dataurl").val(),
+            singleSelect: true,
+            pagination: true,
+            NoDataMsg: '没有找到符合条件的数据',
+            idField: "Id",
+            pageSize: 15,
+            pageNumber: 1,
+            queryParams: {},
+            columns:
+            [[
+
+                { field: "Id", title: "Id", hidden: true },
+                { field: "ProductName", title: "商品名称", width: 400, align: "left" },
+                { field: "ShowActiveStatus", title: "活动状态", width: 260 },
+                {
+                    field: "StartTime", title: "开始时间", width: 160, formatter: function (value, row, index) {
+                        return time_string(value);
+                    }
+                },
+                {
+                    field: "EndTime", title: "结束时间", width: 160, formatter: function (value, row, index) {
+                        var html = time_string(value);
+                        if (row.FightGroupManageAuditStatus == -1) {
+                            html = "--";
+                        }
+                        return html;
+                    }
+                },
+                { field: "GroupCount", title: "组团次数", width: 160 },
+                { field: "OkGroupCount", title: "成团次数", width: 160 },
+                {
+                    field: "operation", title: "操作", width: 300, formatter: function (value, row, index) {
+                        var id = row.Id;
+                        var html = [""];
+                        if (row.ActiveStatus == 0) {
+                            html.push("<span class=\"btn-a\"><a class=\"bt-linkshow\" href=\"###\" data-id=\""+id+"\">链接</a></span>");
+                        }
+
+                        if (row.ActiveStatus == 1) {
+                            html.push("<span class=\"btn-a\"><a class=\"bt-edit\"  href=\"/SellerAdmin/FightGroup/EditActive/" + id + "\">编辑</a></span>");
+                        }
+
+                        html.push("<span class=\"btn-a\"><a class=\"bt-view\" href=\"/SellerAdmin/FightGroup/ViewActive/" + id + "\">查看</a></span>");
+
+                        if (row.ActiveStatus != 1) {
+                            html.push("<span class=\"btn-a\"><a class=\"bt-viewgroup\" href=\"/SellerAdmin/FightGroup/ViewGroupList/" + id + "\">组团详情</a></span>");
+                        }
+                        if (row.FightGroupManageAuditStatus == -1) {
+                            var mtime = time_string(row.ManageDate);
+                            var mdes = row.ManageRemark;
+                            html.push("<span class=\"btn-a\"><a class=\"bt-saltoutdes\" href=\"###\" data-mdes=\"" + mdes + "\" data-mtime=\"" + mtime + "\"}\">下架原因</a></span>");
+                        }
+                        return html.join("");
+                    }
+                },
+            ]]
+        });
+
+        //链接
+        $("#list").on("click", ".bt-linkshow", function () {
+            var _t = $(this);
+            var id = _t.data("id");
+            var viewurl = mainwapurl + "/FightGroup/Detail/" + id;
+            var imgurl = "/SellerAdmin/FightGroup/ShowActiveQRCode/" + id;
+            $("#linkurl").attr("value",viewurl);
+            $("#linkqrpic").attr("src", imgurl);
+
+            $.dialog({
+                title: '拼团链接',
+                lock: true,
+                id: 'linkshowdlg',
+                content: $("#linkshowcon").html(),
+                padding: '10px',
+                width: '300px',
+                button: []
+            });
+        });
+
+        //下架原因
+        $("#list").on("click", ".bt-saltoutdes", function () {
+            var _t = $(this);
+            var mdes = _t.data("mdes");
+            var mtime = _t.data("mtime");
+            dlgcontent = ['<div class="dialog-form">'];
+            dlgcontent = dlgcontent.concat([
+                    '<div class="form-group">',
+                '<label class="label-inline fl">平台下架原因</label>',
+                '<p class="only-text">' + mdes + '</p>',
+                    '</div>',
+                    '<div class="form-group">',
+                '<label class="label-inline fl">平台操作时间</label>',
+                '<p class="only-text">' + mtime + '</p>',
+                    '</div>'
+            ]);
+
+            var dlgbt = [{
+                name: '关闭',
+                focus: true
+            }];
+
+            $.dialog({
+                title: '下架原因查看',
+                lock: true,
+                id: 'saltoutdesdlg',
+                width: '500px',
+                content: dlgcontent.join(''),
+                padding: '0 40px',
+                button: dlgbt
+            });
+
+        });
+
+        $('#searchButton').click(function (e) {
+            searchClose(e);
+            ReloadGrid(1);
+        });
+
+    });
+
+    //重载数据
+    function ReloadGrid(page) {
+        var pageNo = page || $("#list").hiMallDatagrid('options').pageNumber;
+        var proname = $.trim($('#txtproductname').val());
+        var actstatus = $('#selactivestatus').val();
+        $("#list").hiMallDatagrid('reload',
+            {
+                productName: proname,
+                activeStatus: actstatus,
+                pageNumber: pageNo
+            });
+    }
+</script>

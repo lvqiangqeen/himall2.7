@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>绑定账号</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<link href="css/account.css" rel="stylesheet"/>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">绑定账号</h1>
+		</header>
+		<div class="mui-content">
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>账号</label>
+					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+				</div>
+				<div class="mui-input-row mui-password">
+					<label>密码</label>
+					<input id='password' type="password" class="mui-input-password mui-input" placeholder="请输入密码">
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button id='login' class="mui-btn mui-btn-block mui-btn-danger">立即绑定</button>
+				<div class="link-area"><a id='noBind'>不绑定直接登录 <span class="mui-icon mui-icon-arrowthinright"></span></a></div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script>
+			(function($, doc) {
+				$.init({
+					swipeBack:true
+				});
+				$.plusReady(function() {
+					var dataAuth=plus.webview.currentWebview().dataAuth,
+						dataAuthArr=JSON.parse(dataAuth);
+					var toMain = function() {
+						$.fire(plus.webview.getWebviewById('usercenter.html'),'updateData');
+						plus.webview.currentWebview().close();
+					};
+					
+					var loginBtn = doc.getElementById('login'),
+						accountBox = doc.getElementById('account'),
+						passwordBox = doc.getElementById('password'),
+						noBindBtn = doc.getElementById('noBind');
+					loginBtn.addEventListener('tap', function() {
+						if (accountBox.value.length < 4) {
+							plus.nativeUI.toast('账号最短为 4 个字符');
+							return false;
+						}
+						if (passwordBox.value.length < 6) {
+							plus.nativeUI.toast('密码最短为 6 个字符');
+							return false;
+						}
+						var dataResult=$.extend({username:accountBox.value,password:passwordBox.value},dataAuthArr);
+						//绑定直接传递两组数据调用登录接口
+						plus.nativeUI.showWaiting('',{back:'none'});
+						regLogin(dataResult);
+					});
+					
+					noBindBtn.addEventListener('tap', function() {
+						console.log(JSON.stringify(dataAuthArr))
+						//不绑定先注册生成随机账号后登录
+						plus.nativeUI.showWaiting('',{back:'none'});
+						$.ajax(URL+'api/Register/PostRegisterUser',{
+							data:himall.md5Data(dataAuthArr),
+							dataType:'json',
+							type:'POST',
+							timeout:10000,
+							success:function(data){
+								if(data.Success=="true"){
+									regLogin(dataAuthArr);
+									plus.nativeUI.toast('第三方登录成功'+(data.CouponNum>0?'，获得'+data.CouponNum+'张赠送优惠券':''));
+								}else{
+									plus.nativeUI.closeWaiting();
+									plus.nativeUI.toast('绑定超时，请重新绑定')
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								plus.nativeUI.closeWaiting();
+								plus.nativeUI.toast('请求超时，请检查网络！')
+							}
+						});
+					});
+					
+					function regLogin(data){
+						var loginPage=plus.webview.getWebviewById('login.html');
+						$.ajax(URL+'api/Login/GetUser',{
+							data:himall.md5Data(data),
+							dataType:'json',
+							type:'get',
+							timeout:10000,
+							success:function(data){
+								plus.nativeUI.closeWaiting();
+								if(data.Success=="true"){
+									loginPage.close('none');
+									return himall.createState(dataAuthArr.oauthnickname,data.UserId,data.UserKey,data.IsPromoter,function(){
+										toMain();
+									});
+								}else{
+									plus.nativeUI.toast(data.ErrorMsg);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								plus.nativeUI.closeWaiting();
+								plus.nativeUI.toast('第三方登录失败');
+							}
+						});
+					}
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

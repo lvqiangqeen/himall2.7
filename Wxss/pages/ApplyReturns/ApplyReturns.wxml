@@ -1,0 +1,93 @@
+<!--ApplyReturns.wxml-->
+<view class="page-section">
+  <form bindsubmit="formSubmit" report-submit="true">
+    <view class="form-group bg-white">
+      <view class="form-group-name">退货订单</view>
+      <view class="form-group-input">{{OrderId}}</view>
+    </view>
+    <view class="form-group bg-white" bindtap="ShowAfterType">
+      <view class="form-group-name">售后类型</view>
+      <view class="form-group-input {{AfterSaleTypeId==-1?'selecttxt':''}}">{{AfterSaleTypeId==-1?'请选择售后类型':AfterSaleTypeList[AfterSaleTypeId]}}</view>
+      <view class="iconfont arrow_right come-icon"></view>
+    </view>
+    <view class="form-group bg-white" bindtap="ShowResaon">
+      <view class="form-group-name">退款原因</view>
+      <view class="form-group-input {{ShowReasonIndex==-1?'selecttxt':''}}">{{ShowReasonIndex==-1?'请选择退款原因':ShowReasonList[ShowReasonIndex]}}</view>
+      <view class="iconfont arrow_right come-icon come-icon"></view>
+    </view>
+    <view class="form-group bg-white">
+      <view class="form-group-name">退货商品</view>
+      <view class="form-group-input width540">{{Name}}</view>
+    </view>
+    <view class="form-group bg-white" hidden="{{AfterSaleTypeId==0}}">
+      <view class="form-group-name">退货数量</view>
+      <view class="form-group-input">
+        <view class="change-num">
+          <view class="muse iconfont icon__minus_L font24" bindtap="MuseNum"></view>
+          <text name="txtnum" class="input_num">{{ApplyReturnNum}}</text>
+          <view class="add iconfont icon__plus_L font24" bindtap="AddNum"></view>
+        </view>
+        <text class="change_text">最多退{{ReturnNum}}件</text>
+      </view>
+    </view>
+    <view class="form-group bg-white">
+      <view class="form-group-name">退款金额</view>
+      <view class="form-group-input width520">
+        <input name="txtmoney" value="￥{{TotalMoney}}" class="money" />
+        <text class="money_text">最多退{{TotalMoney}}元</text>
+      </view>
+    </view>
+    <view class="form-group bg-white" bindtap="ShowRefundType">
+      <view class="form-group-name">退款方式</view>
+      <view class="form-group-input {{ShowRefundIndex==-1?'selecttxt':''}}">{{ShowRefundIndex==-1?'请选择退款方式':RefundTextList[ShowRefundIndex]}}</view>
+      <view class="iconfont arrow_right come-icon"></view>
+    </view>
+    <view class="form-group bg-white" hidden="{{RefundType!=2}}">
+    <view class="form-group-name"> 开户银行</view>
+    <view class="form-group-input">
+      <input type="text" name="txtBankName"/>
+    </view>
+  </view>
+  <view class="form-group bg-white" hidden="{{RefundType!=2}}">
+    <view class="form-group-name"> 银行开户名</view>
+    <view class="form-group-input">
+      <input type="text" name="txtBankAccountName"/>
+    </view>
+  </view>
+  <view class="form-group bg-white" hidden="{{RefundType!=2}}">
+    <view class="form-group-name"> 银行账号</view>
+    <view class="form-group-input">
+      <input type="text" name="txtBankAccountNo"/>
+    </view>
+  </view>
+
+    <view class="line"><view></view></view>
+
+    <view class="beizhu">
+      <view class="form-group-name">备注</view>
+    </view>
+    <view class="beizhu bg-white">
+      <textarea class="group-area" name="txtarea" placeholder="在此输入备注"></textarea>
+    </view>
+    <view class="beizhu" style="border-bottom: 1rpx solid #fff;">
+      <view class="form-group-name">上传凭证</view>
+    </view>
+    <view class="beizhu bg-white" style="display:flex">
+      <view class="uploadimg" bindtap="uploadImg" data-index="0">
+        <image style="width:158rpx;height:158rpx;" src="{{UserCredentials[0]}}" />
+      </view>
+      <view class="uploadimg" bindtap="uploadImg" data-index="1">
+        <image style="width:158rpx;height:158rpx;" src="{{UserCredentials[1]}}" />
+      </view>
+      <view class="uploadimg" bindtap="uploadImg" data-index="2">
+        <image style="width:158rpx;height:158rpx;" src="{{UserCredentials[2]}}" />
+      </view>
+    </view>
+    <view class="btn">
+      <button class="submit" form-type="submit">确定提交</button>
+      <navigator open-type="navigateBack" class="cancel">取消</navigator>
+    </view>
+  
+  </form>
+
+</view>

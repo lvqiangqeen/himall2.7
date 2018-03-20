@@ -1,0 +1,150 @@
+﻿@model Himall.DTO.ShopProfileStep3
+@{
+    ViewBag.Title = "店铺信息";
+    var ids = (string)ViewBag.BusinessCategoryIds;
+    var isEdit = !Model.ShopName.Equals("") ? 1 : 0;
+}
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.min.css" />
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.picker.css" />
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.poppicker.css" />
+@*<header class="mui-bar mui-bar-nav Gheader ">
+    <a class="mui-icon mui-pull-left back j_back">返回</a>
+   <h1 class="mui-title">店铺信息</h1>
+</header>*@
+<div id='company' class="G company_container himall_ui">
+    <form class="mui-input-group G">
+        <div class="mui-input-row">
+            <label>店铺名称</label>
+            <input type="text" id="shopName" class="mui-input" value="@Model.ShopName" @(!Model.ShopName.Equals("") ? "readonly" : "")/>
+        </div>
+        <div class="mui-input-row Ggo">
+            <label>店铺等级</label>
+            <a href="javascript:" id="showGrade">@ViewBag.GradeName</a>
+        </div>
+        @Html.Hidden("GradeId", Model.ShopGrade)
+        <div class="mui-input-row Ggo">
+            <label>经营类目</label>
+            <a href="javascript:" onclick="categories();">@ViewBag.ShopBusinessCategory</a>
+        </div>
+    </form>
+    <div class="Gbottom_btnRow">
+        <button class="mui-btn mui-btn-block mui-pull-left gbtn-yellow j_back">上一步</button>
+        <button class="mui-btn mui-btn-block mui-pull-left gbtn-red" id="submit">提交申请</button>
+    </div>
+</div>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.min.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.picker.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.poppicker.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#submit').click(function () {
+            var shopName = $('#shopName').val().replace(/(^\s*)|(\s*$)/g, '');
+            var shopGrade = Number(gradeId);
+            if (shopName == "") {
+                $.dialog.errorTips('请输入店铺名称');
+                return;
+            }
+            if (!shopGrade) {
+                $.dialog.errorTips('请选择店铺等级');
+                return;
+            }
+            var categories = '@ids'.split(',');
+            if (categories=="") {
+                $.dialog.errorTips('请至少选择一个经营类目');
+                return;
+            }
+            var obj = { shopName: shopName, shopGrade: shopGrade, categories: categories };
+            var jsonString = JSON.stringify(obj);
+            var loading = showLoading();
+            $.post('EditProfile3', { shopProfileStep3: jsonString }, function (result) {
+                loading.close();
+                if (result.success) {
+                    //$.dialog.succeedTips('提交成功', function () {
+                        $.cookie('shopName', "null");
+                        $.cookie('showGrade', "null");
+                        $.cookie('showGradeName', "null");
+                        location.href = '@(Url.Action("step6"))';//跳转至成功页
+                    //});
+                }
+                else {
+                    if (typeof (result.msg) != "undefined") {
+                        $.dialog.errorTips('提交失败！' + result.msg);
+                    } else {
+                        window.location.href = location.href;
+                    }
+                }
+            });
+        });
+        $(".j_back").click(function () {
+            location.href = '@(Url.Action("step4"))';
+        });
+    });
+</script>
+<script type="text/javascript">
+    var gradeId, showGrade = document.getElementById('showGrade'), gradeList = {};
+    $(function () {
+        gradeId = Number($("#GradeId").val());//如果是修改
+        getCookie();
+        var _temp, _gradeIndex = 0;
+        $.ajax({
+            url: 'GetShopGrades',
+            type: 'post', //GET
+            async: true,    //或false,是否异步
+            data: {
+            },
+            timeout: 10000,    //超时时间
+            dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+            success: function (data, textStatus, jqXHR) {
+                var gradePicker3 = new mui.PopPicker({
+                    layer: 1
+                });
+                gradePicker3.setData(data);
+                gradeList = data;
+                showGrade.addEventListener('tap', function () {
+                    var focus = document.querySelector(':focus');
+                    if (focus)
+                        focus.blur();
+                    gradePicker3.show(function (items) {
+                        showGrade.text = (items[0].Name || '');
+                        gradeId = items[0].Id;
+                        $("#GradeId").val(gradeId);
+                    });
+                }, false);
+                if (Number(gradeId) > 0) {//当修改收货地址的时候才进行
+                    _temp = gradeList.filter(function (a, index) {
+                        if (a.Id == gradeId) {
+                            _gradeIndex = index;
+                        }
+                        return a.Id == gradeId;
+                        return;
+                    });
+                    gradePicker3.pickers[0].setSelectedIndex(_gradeIndex);
+                }
+            }
+        });
+    });
+    function setCookie() {
+        $.cookie('shopName', $("#shopName").val().replace(/(^\s*)|(\s*$)/g, ''));
+        $.cookie('showGrade', gradeId);
+        $.cookie('showGradeName', $("#showGrade").text());
+        $.cookie("categories", '@ids');
+    }
+    function categories() {
+        setCookie();
+        location.href = '@(Url.Action("categories"))';
+    }
+    function getCookie() {
+        var cookieShopName=$.cookie('shopName');
+        var cookieGrade = $.cookie('showGrade');
+        var cookieGradeName = $.cookie('showGradeName');
+        if (cookieShopName != "null" && typeof (cookieShopName) != "undefined" && '@isEdit' == 0) {//如果不是修改，则走cookie
+            $("#shopName").val(cookieShopName);
+        }
+        if (cookieGrade != "null" && typeof (cookieGrade) != "undefined") {
+            gradeId = cookieGrade;
+        }
+        if (cookieGradeName != "null" && typeof (cookieGradeName) != "undefined") {
+            $("#showGrade").text(cookieGradeName)
+        }
+    }
+</script>

@@ -1,0 +1,106 @@
+﻿@model Himall.DTO.CouponSendByRegisterModel
+
+<script src="~/Scripts/jquery.zclip.js"></script>
+
+<div class="container coupon-act">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>注册送优惠券设置</a></li>
+    </ul>
+
+    <div class="act-top">
+        <input type="hidden" value="@Model.Id" id="CouponRegisterId" />
+
+        <div class="on-off">
+            <h5>是否开启活动：</h5><br />
+            <label><input type="radio" name="coStatus" @(Model.Status.Equals(Himall.CommonModel.CouponSendByRegisterStatus.Open) ? "checked=checked" : "") id="coStatus1" /> 开启</label>
+            <br />
+            <label><input type="radio" name="coStatus" id="coStatus2" @(Model.Status.Equals(Himall.CommonModel.CouponSendByRegisterStatus.Open) ? " " : "checked=checked") /> 关闭</label>
+        </div>
+        <div class="add-btn opdiv" @(Html.Raw(Model.Status.Equals(Himall.CommonModel.CouponSendByRegisterStatus.Open) ? " " : "style='display:none;'"))>
+            <h5>添加优惠券：</h5>
+            <input type="button" value="添加优惠券" id="ChoceCoupon" class="btn-export" />
+        </div>
+    </div>
+
+    <div class="opdiv" @(Html.Raw(Model.Status.Equals(Himall.CommonModel.CouponSendByRegisterStatus.Open) ? " " : "style='display:none;'"))>
+        <table class="table" id="list">
+
+            <thead>
+                <tr>
+                    <th width="20%">优惠券名称</th>
+                    <th width="20%">商家</th>
+                    <th width="10%">面额</th>
+                    <th width="10%">剩余数量</th>
+                    <th width="10%">使用条件</th>
+                    <th width="20%">有效期</th>
+                    <th width="10%">操作</th>
+                </tr>
+            </thead>
+
+            <tbody id="colist">
+                @if (Model.CouponIds.Count > 0 && Model.Status.Equals(Himall.CommonModel.CouponSendByRegisterStatus.Open))
+                {
+                    foreach (var item in Model.CouponIds)
+                    {
+                        <tr class="tr_li">
+                            <td>
+                                <a href="/m-wap/vshop/CouponInfo/@item.Id" class="fl a_hover" target="_blank" title="@item.CouponName">@item.CouponName</a>
+                                <input type="hidden" id="couponId" value="@item.Id" />
+                            </td>
+                            <td>@item.ShopName</td>
+                            <td>@item.Price</td>
+                            <td>@item.inventory</td>
+                            <td>@item.OrderAmount</td>
+                            <td>@item.strStartTime ~ @item.strEndTime</td>
+                            <td><a href="javascript:;" id="del_@item.Id">删除</a></td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td style="text-align:center;" colspan="7"><h2 style="font-size: 18px;margin-top:30px;margin-bottom:40px;color:#8e8f92;">未添加优惠券</h2></td></tr>
+                }
+
+            </tbody>
+        </table>
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">活动页面URL：</label>
+                <span class="lj"> @ViewBag.link </span>&nbsp;&nbsp;<a id="fz" style="border:0px;">复制</a>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">二维码：</label>
+                <img src="@ViewBag.QR " width="300" height="300" />
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-offset-5 col-sm-2">
+        <button type="button" class="btn btn-primary" id="btn_save">保存</button>
+    </div>
+
+
+</div>
+
+
+
+<!--选择优惠券列表-->
+<div id="choceCouponUrl" class="dln">
+    <div class="choose-search">
+        <div class="form-group">
+            <label class="label-inline clear-h" for="">名称</label>
+            <input class="form-control input-ssm" type="text" name="couponName" id="couponName">
+        </div>
+        <button type="button" class="btn btn-primary btn-ssm" id="btncoupon">搜索</button>
+    </div>
+    <table id="CouponGrid" class="table table-bordered"></table>
+</div>
+
+
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/ZeroClipboard.js"></script>
+<script src="~/Areas/Admin/Scripts/CouponActivity.js"></script>

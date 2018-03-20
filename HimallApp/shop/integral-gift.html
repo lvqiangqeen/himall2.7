@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>积分礼品</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">积分礼品</h1>
+		</header>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper transparent">
+			<div class="mui-scroll">
+				<ul class="integral-product mui-clearfix" id="giftProduct"></ul>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/template.js" ></script>
+		<script>
+			var isnodata = false,
+				page = 1,
+				giftProduct=document.getElementById('giftProduct');
+			mui.init({
+				pullRefresh : {
+				    container:'#pullrefresh',
+				    deceleration:0.0006,
+				    up : {
+					    contentrefresh : "正在加载...",
+					    contentnomore:'已加载全部礼品',
+					    callback :function(){
+					      	var self=this;
+					      	if (!isnodata) {
+					      		page++;
+						        mui.ajax(URL+'api/Gifts/GetList',{
+						        	data:himall.md5Data({
+										page:page,
+										pagesize:10
+									}),
+									dataType:'json',
+									type:'get',
+									timeout:10000,
+									success:function(data){
+					                    if(data.Total>0){
+											giftProduct.insertAdjacentHTML('beforeend',template('initGifts', data));
+											delayimg.render();
+										}
+					                    if (data.Total<=page*10) {isnodata = true;}
+										self.endPullupToRefresh(isnodata);
+									},
+									error:function(xhr,type,errorThrown){
+										plus.nativeUI.toast('请求失败，请检查网络')
+									}
+								});
+						    }else{
+						    	self.endPullupToRefresh(isnodata);
+						    }
+				    	}
+				    }
+				},
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				var ws=plus.webview.currentWebview(),
+					w=plus.nativeUI.showWaiting('',{padlock:true});
+				ws.setStyle({scrollIndicator:'none'});
+				mui.ajax(URL+'api/Gifts/GetList',{
+					data:himall.md5Data({
+						page:1,
+						pagesize:10
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if (data.Total<=10) {isnodata = true;}
+						giftProduct.innerHTML=template('initGifts', data);
+						delayimg.init();
+						w.close();
+						himall.removeClass(document.getElementById('pullrefresh'),'transparent');
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						reloadWvLoad();
+					}
+				});
+			});
+			
+			mui('#giftProduct').on('tap', 'a', function() {
+				himall.openVW('integral-detail.html',{giftId:this.getAttribute('data-id')});
+			});
+			
+
+		</script>
+		
+		<script type="text/html" id="initGifts">
+        	{{each DataList}}
+        		<li>
+					<a data-id="{{$value.Id}}">
+						<div class="p-img"><b data-delay-background="{{$value.DefaultShowImage}}"></b></div>
+						<h3>{{$value.GiftName}}</h3>
+						<p><s>¥ {{$value.GiftValue.toFixed(2)}}</s></p>
+						<h5><i class="iconfont icon-jifen"></i> {{$value.NeedIntegral}}</h5>
+					</a>
+        		</li>
+            {{/each}}
+		</script>
+	</body>
+
+</html>

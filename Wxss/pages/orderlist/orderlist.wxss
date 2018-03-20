@@ -1,0 +1,200 @@
+/* pages/orderlist/orderlist.wxss */
+
+page {
+  background: #f5f5f5;
+}
+
+.coupontitle {
+  border-bottom: 1rpx solid #e0e0e0;
+  display: flex;
+  background: #fff;
+}
+
+.coupontitlel {
+  width: 250rpx;
+  text-align: center;
+  font-size: 28rpx; 
+  line-height: 40rpx;
+}
+
+.coupontitlel view {
+  border-bottom: 2rpx solid #fff;
+  width: 145rpx;
+  margin: 0 auto;
+  line-height: 40rpx; 
+  font-size: 32rpx; 
+  padding: 24rpx 0px;
+  color: #616161;
+  box-sizing: border-box;
+  height: 96rpx;
+}
+
+.coupontitlel view.active {
+  border-bottom: 4rpx solid #212121;
+  color: #212121; 
+}
+
+.orderlist {
+  background: #fff;
+}
+
+.orderlisttile {
+  display: flex;
+  overflow: hidden;
+  font-size: 32rpx;
+  padding: 24rpx;
+  line-height: 40rpx;
+}
+
+.orderhao {
+  width: 520rpx;  
+  color: #212121;
+}
+
+.orderzt {
+  width: 220rpx;
+  text-align: right;
+  color: #ff5722;
+}
+
+.dianpu {
+    width:32rpx;
+    height:18rpx;
+    float:left;
+    font-size:32rpx;
+    margin-right:10rpx;
+}
+
+
+.orderlistcont {
+  padding: 24rpx;
+  display: flex;
+  background: #f9f9f9;
+  flex-direction:row;
+  position:relative;
+}
+.lastitem:after{
+  content: '';
+  position: absolute;
+  bottom:0;
+  right:0;
+  width: 726rpx;
+  border-bottom: none !important;
+}
+
+.orderlistcont:after{
+  content: '';
+  position: absolute;
+  bottom:0;
+  right:0;
+  width: 726rpx;
+  border-bottom: 1rpx solid #e0e0e0;
+}
+
+.ordername {
+  line-height: 40rpx;
+  overflow: hidden;
+  font-size: 28rpx;
+  color: #212121;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.orderlistright {
+  color:#212121;
+  font-size:28rpx;
+  line-height:40rpx;
+  flex:1;
+  text-align:right;
+}
+
+.orderlistright .orderzt {
+  width:auto;
+  font-size:24rpx;
+  color:#fff;
+  background:#ff7043;
+  padding:6rpx;
+  border:1rpx solid #FF5722;
+  border-radius:4rpx;
+  float:right;
+  line-height:1;
+}
+
+.orderlistcont image {
+  width: 129rpx;
+  height: 129rpx;
+  border: 1rpx solid #e0e0e0;
+}
+
+.orderlisc {
+  width: 380rpx;
+}
+
+
+.ordersize {
+  color: #747474;
+  font-size: 28rpx;
+  padding-top: 16rpx;
+  line-height: 40rpx;
+}
+
+.orderlistzong {
+  line-height: 40rpx;
+  text-align: right;
+  padding: 24rpx 24rpx;
+  color: #424242;
+  font-size: 28rpx;
+}
+
+.orderlistzong text {
+  margin: 0 10rpx;
+}
+
+.orderlistzong text.price{
+  color: #212121; 
+  font-size: 28rpx;
+  margin: 0;
+  }
+
+.orderlistbt {
+  border-top: 1rpx solid #e0e0e0;  
+  background: #fff;
+  text-align: right;
+  padding: 16rpx 24rpx;
+  font-size: 28rpx;
+}
+
+.orderlistbt button {
+  display: inline-block;
+  color: #424242;
+  background: #fff;
+  border: 1rpx solid #333;
+  line-height: 40rpx;
+  margin-left: 24rpx;
+  font-size: 28rpx;
+  padding: 16rpx 24rpx;
+}
+
+.orderlistbt button::after {
+  display: none;
+}
+
+.orderlistbt button.fukuan {
+  border: 1rpx solid #ff5722;
+  color: #ff5722;
+}
+
+.kong {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  padding: 145rpx 0 285rpx 0;
+  min-height: 680rpx;
+  overflow:hidden;
+}
+
+ .bg_nullOrder{ width: 750rpx; height: 352rpx;}
+ .icon_count{ font-size: 28rpx; color: #212121; margin-right: 8rpx; line-height: 40rpx;}

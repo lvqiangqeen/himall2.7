@@ -1,0 +1,24 @@
+﻿@model Himall.Web.Areas.Web.Models.HomeFloorModel
+@{
+    var floor = Model;
+}
+<!--楼层样式3-->
+<div class="floorC floor">
+    <div class="t-show"><a href="@floor.Products.ElementAt(0).Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(floor.Products.ElementAt(0).ImageUrl)" /></a></div>
+    <div class="b-pro">
+        <ul class="clearfix">
+
+            @foreach (var item in floor.ProductModules)
+            {
+                <li>
+                    <a href="/Product/Detail/@item.ProductId"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@item.productImg"></a>
+                    <div>
+                        <span><i>￥@item.price</i><s>￥@item.MarketPrice</s></span>
+                        <p><a href="/Product/Detail/@item.ProductId">@item.productName</a></p>
+                    </div>
+                </li>
+            }
+
+        </ul>
+    </div>
+</div>

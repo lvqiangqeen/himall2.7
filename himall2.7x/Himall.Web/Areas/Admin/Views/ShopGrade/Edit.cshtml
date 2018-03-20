@@ -1,0 +1,48 @@
+﻿@model Himall.Web.Models.ShopGradeModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+<script src="~/Areas/Admin/Scripts/ShopGradeEdit.js"></script>
+
+<div class="container">
+    <ul class="breadcrumb clearfix">
+
+        <li><a href="./Management">店铺套餐管理</a></li>
+        <li class="active"><a>编辑套餐</a></li>
+
+    </ul>
+    @using (Html.BeginForm("Edit", "ShopGrade", new { Area = "Admin" }, FormMethod.Post))
+    {
+        @Html.HiddenFor(s => s.Id)
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">套餐名称</label>
+                <div class="col-sm-3">@Html.EditorFor(s => s.Name, new { htmlAttributes = new { @class = "form-control input-sm" } })</div>
+                <div class="col-sm-3">@Html.ValidationMessageFor(s => s.Name, "", new { @class = "help-default cor-red" })</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">可发布商品数</label>
+                <div class="col-sm-3">@Html.EditorFor(s => s.ProductLimit, new { htmlAttributes = new { @class = "form-control input-sm" } })</div>
+                <div class="col-sm-3">@Html.ValidationMessageFor(s => s.ProductLimit, "", new { @class = "help-default cor-red" })</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">可用空间（M）</label>
+                <div class="col-sm-3">@Html.EditorFor(s => s.ImageLimit, new { htmlAttributes = new { @class = "form-control input-sm" } })</div>
+                <div class="col-sm-3">@Html.ValidationMessageFor(s => s.ImageLimit, "", new { @class = "help-default cor-red" })</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">年费</label>
+                <div class="col-sm-3">@Html.EditorFor(s => s.ChargeStandard, new { htmlAttributes = new { @class = "form-control input-sm" } })</div>
+                <div class="col-sm-3 add-fee"><span class="fee1">元 &nbsp;&nbsp; </span>@Html.ValidationMessageFor(s => s.ChargeStandard, "", new { @class = "help-default cor-red" })</div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">保 存</button>
+                </div>
+            </div>
+        </div>
+
+    }
+
+    </div>

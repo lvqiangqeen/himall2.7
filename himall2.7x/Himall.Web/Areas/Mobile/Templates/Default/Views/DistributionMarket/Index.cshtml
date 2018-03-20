@@ -1,0 +1,100 @@
+﻿@model List<Himall.DTO.DistributionProducts>
+@{
+    ViewBag.Title = "分销市场首页";
+    var mSlideAdInfo = (List<Himall.Model.SlideAdInfo>)ViewBag.slideImage;
+}
+
+<!--<script src="~/Content/Public/js/dist/underscore.js"></script>-->
+<link rel="stylesheet" href="/Content/PublicMob/css/style.css">
+<script src="~/Scripts/swipe-template.js"></script>
+
+<div class="container yun-market">
+    <div class="market-slides">
+        <div class="share-guide"></div>
+        <section class="members_flash j-swipe" id="mySwipe1">
+            <ul class="clearfix">
+                @foreach (var item in mSlideAdInfo)
+                {
+                    <li><a href="@item.Url"><img src="@(Himall.Core.HimallIO.GetImagePath(item.ImageUrl))" /></a></li>
+                }
+
+            </ul>
+            <section class="members_flash_time">
+                @for (int i = 0; i < mSlideAdInfo.Count; i++)
+                {
+                    if (i.Equals(0))
+                    {
+                        <span class="cur"></span>
+                    }
+                    else
+                    {
+                        <span></span>
+                    }
+                }
+            </section>
+        </section>
+    </div>
+    <div class="market-nav">
+        <ul>
+            <li><a href="@Url.Action("DistributionMarketCategory")"><i class="cata1"></i><span>分类</span></a></li>
+            <li><a href="@Url.Action("DistributionMarketHotShop")"><i class="seller1"></i><span>商家</span></a></li>
+            <li><a href="@Url.Action("DistributionMarketHotProduct")"><i class="hotsell"></i><span>热卖</span></a></li>
+        </ul>
+    </div>
+    <div class="hot-pro">
+        <p class="title1"><i></i></p>
+        <ul id="databox">
+            @foreach (var item in Model)
+            {
+                if (item.Commission <= 0)
+                {
+                    continue;
+                }
+
+                <li>
+                        <div class="combine-total-wrap"  onclick="window.location.href='@(Url.Action("ProductDetail"))/@item.ProductId'">
+                            <div class="detail-left">
+                                <a href="@(Url.Action("ProductDetail"))/@item.ProductId"><img src="@item.Image" /></a>
+                            </div>
+                            <div class="detail-right">
+                                <p class="name-pro"><a href="@(Url.Action("ProductDetail"))/@item.ProductId">@item.ProductName</a></p>
+                                <p class="price-pro"><em>￥@item.Price</em><span>佣金<i>@item.Commission</i>元</span></p>
+                                <p class="deal-n">成交数<em>@item.SaleNum</em></p>
+                                <p class="deal-n">代理数<em>@item.AgentNum</em></p>
+                            </div>
+
+                        </div>
+                        <div class="detail-bottom">
+                            <span class="bt_share" data-pid="@item.ProductId" data-uid="@(CurrentUser.Id)"
+                                  data-des="@item.ShortDescription"
+                                   data-title="@item.ProductName" data-img="@item.Image">转发</span>
+                            <span class="bt_agent @(item.isHasAgent ? "disabled" : "")" data-pid="@item.ProductId">@(item.isHasAgent ? "已" : "")代理</span>
+                        </div>
+                </li>
+
+            }
+        </ul>
+    </div>
+</div>
+
+@Html.Action("ShareInfo", "Distribution")
+<script src="~/Areas/Mobile/Templates/Default/Scripts/DistributionMarket.js"></script>
+<script>
+    winxinShareArgs.share = $.extend(winxinShareArgs.share, {
+        link: '@ViewBag.ShopQCodeUrl',
+        title: disShareTitle,
+        desc: disShareDesc,
+        imgUrl: disShareIcon
+    });
+
+    initWinxin(winxinShareArgs);
+
+    var elem = document.getElementById('mySwipe1');
+    window.mySwipe = Swipe(elem, {
+        startSlide: 0,
+        auto: 3000,
+        callback: function (m) {
+            $(elem).find('.members_flash_time').children('span').eq(m).addClass('cur').siblings().removeClass('cur')
+        },
+    });
+</script>

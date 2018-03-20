@@ -1,0 +1,55 @@
+﻿/* CSS Document   */
+
+* { margin: 0; padding: 0; }
+body, div, address, blockquote, iframe, ul, ol, dl, dt, dd, li, dl, h1, h2, h3, h4, h5, h6, p, pre, table, caption, th, td, form, legend, fieldset, input, button, select, textarea, em, i { margin: 0; padding: 0; outline: 0 none; font-weight: normal; font-style: normal; font-size: 100%; font-family: inherit; }
+table { border-collapse: collapse; word-break: break-all }
+input { font: 12px/1.5 Arial, Verdana, 'microsoft yahei'; color:#666; }
+ol, ul, li { list-style: none; }
+img { border: 0 none; display: block; font-size: 0; vertical-align: top }
+body { color: #545454; background: #eef3fa; font: 12px/1.5 'microsoft yahei', 'SimSun'; _background-image: url(about:blank); /* for IE6 */ _background-attachment: fixed;}
+.cl { zoom: 1; }
+.cl:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; overflow: hidden }
+span { display: inline-block }
+a { text-decoration: none; color: #666; }
+a:hover { color: #e4393c; text-decoration: underline }
+.warp{ position: relative; background-color: #fff; width:1200px; margin:0 auto; }
+.header{ border-bottom:1px solid #e8e8e8;}
+.logo{ float:left; padding:20px 30px;}
+.version{ float:right; margin:60px 30px 0 0}
+
+.proess{ padding:40px 0 0; width:700px; margin:0 auto;}
+.proess div{ width:100px; height: 100px; border-radius:100%; float:left; background-color:#999; color:#fff; line-height:100px; text-align:center; font-size:16px;}
+.proess div.cur{background-color:#428bca; }
+.proess span{float:left;border-left:100px solid #999; height:10px; width: 100px; background: #999;display:block; margin:45px -1px 0;}
+.proess span.finish{border-left:100px solid #428bca; background-color:#428bca}
+.proess span.cur{  border:0; width:200px;  background:-webkit-gradient(linear,65% 0%, 49% 0%, from(#999999), to(#428BCA));border-left:100px solid #428bca\9; background:#999\9; width:100px\9;}
+
+.agreement{ height:400px; width:900px; margin:30px auto; border:1px solid #e8e8e8; padding:20px; line-height:22px;}
+.agreement h3{ font-size:18px; text-align:center; line-height:36px;}
+.btn-group{ text-align:center; margin-bottom:30px;}
+.btn-group .btn{ height:45px; line-height:45px; border:0; border-radius:4px; padding:0 30px; color:#fff; font-size:18px;background-color: #428bca; transition:all .3s linear; display:inline-block; margin:0 5px; text-decoration:none; cursor:pointer;}
+.btn-group .btn:hover{ background-color:#2a6496}
+.btn-group .btn.disabled{ background-color:#999;}
+.btn-group .btn.disabled:hover{ background-color:#666;}
+.succeed-btn{ margin-bottom:150px;}
+
+.form{ width: 900px; margin:30px auto;}
+.form .title{ border-top:1px solid #ebeff0; position:relative; margin:50px 0 30px; font-size:18px;}
+.form .title span{ position: absolute; top:-14px; left:5px; background-color:#fff;}
+.form-group{ margin-bottom:14px; line-height:36px;}
+.form-group label{ width:135px; padding-left: 90px; color:#666;display: inline-block; color:#999;}
+.form-group input.text{ height:30px; line-height:30px; padding:3px 8px; width:290px; border:1px solid #ccc; border-radius:3px; font-size:14px;}
+.form-group span.msg{ color:#999; margin-left:10px;}
+.form-group span.error{ color:#ff7313; display:none; margin-left:10px;}
+
+.succeed{ font-size:28px; padding:100px 0; text-align:center;}
+.succeed span{ color:#16A085; font-weight:bold; font-size:50px; margin-right:8px; vertical-align:middle}
+
+.footer{ padding:45px 0; text-align:center; line-height:22px;border-top:1px solid #e8e8e8;}
+.footer strong{ line-height:28px}
+.footer strong span{ color:#4aa3df;}
+
+
+.ajax-loading{ width:100%; height:100%; position:fixed; z-index:999999; background-color: rgba(0, 0, 0, 0.2); transition:all ease-in-out .5s; top:0; left:0; display:none;}
+.ajax-loading p{ width: 100px;height: 100px;background: url('/Images/progress.gif') no-repeat center;border-radius: 5px;background-color: rgba(0, 0, 0, 0.8);color: #fff;font-size: 16px;}
+

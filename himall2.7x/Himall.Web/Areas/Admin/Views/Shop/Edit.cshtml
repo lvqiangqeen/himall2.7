@@ -1,0 +1,302 @@
+﻿@model Himall.Web.Models.ShopModel
+@using Himall.Core;
+@{
+    ViewBag.Title = "Edit";
+    string AllBusinessLicenseCert = "";
+    List<string> BusinessLicenseCertlist = new List<string>();
+    string AllProductCert = "";
+    List<string> ProductCertlist = new List<string>();
+    string AllOtherCert = "";
+    List<string> OtherCertlist = new List<string>();
+
+    for (int i = 1; i < 4; i++)
+    {
+        if (HimallIO.ExistFile(Model.BusinessLicenseCert + string.Format("{0}.png", i)))
+        {
+            BusinessLicenseCertlist.Add(HimallIO.GetImagePath(Model.BusinessLicenseCert + string.Format("{0}.png", i)));
+        }
+        if (HimallIO.ExistFile(Model.ProductCert + string.Format("{0}.png", i)))
+        {
+            ProductCertlist.Add(HimallIO.GetImagePath(Model.ProductCert + string.Format("{0}.png", i)));
+        }
+        if (HimallIO.ExistFile(Model.OtherCert + string.Format("{0}.png", i)))
+        {
+            OtherCertlist.Add(HimallIO.GetImagePath(Model.OtherCert + string.Format("{0}.png", i)));
+        }
+    }
+    AllBusinessLicenseCert = string.Join(",", BusinessLicenseCertlist);
+    AllProductCert = string.Join(",", ProductCertlist);
+    AllOtherCert = string.Join(",", OtherCertlist);
+}
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script src="~/Scripts/jquery.himall.Region.js"></script>
+<script src="~/Scripts/jquery.hishopUpload.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Areas/Admin/Scripts/ShopEdit.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<script type="text/javascript">
+    var bankRegionIds = "@ViewBag.BankRegionIds";
+    var companyRegionIds = "@ViewBag.CompanyRegionIds";
+
+    $(function () {
+        $("#Name").focus();
+        var oldStatus = "@ViewBag.Status";
+        $('input[name="Status"]').val(oldStatus);
+        $("input#statusCheckbox").click(function () {
+
+            var status = $(this).attr('status');
+
+            if ($(this).attr('checked') == 'checked') {
+                $(this).val(status);
+                $('input[name="Status"]').val(status);
+            } else {
+                $(this).val(oldStatus);
+                $('input[name="Status"]').val(oldStatus);
+            }
+        });
+
+        $(".form_datetime").datetimepicker({
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            weekStart: 1,
+            minView: 2
+        });
+
+        $('#BusinessLicenseCert').hishopUpload({
+            title: '<b>*</b>经营许可类证书：',
+            imageDescript: '请确保图片清晰，(最多三张)。',
+            displayImgSrc: '@(Himall.Core.HimallIO.GetImagePath(AllBusinessLicenseCert))',
+            imgFieldName: "BusinessLicenseCert",
+            imagesCount: 3,
+            dataWidth: 10
+        });
+
+        $('#ProductCert').hishopUpload({
+            title: '<b>*</b>产品类证书：',
+            imageDescript: '请确保图片清晰，(最多三张)。',
+            displayImgSrc: '@(Himall.Core.HimallIO.GetImagePath(AllProductCert))',
+            imgFieldName: "ProductCert",
+            imagesCount: 3,
+            dataWidth: 10
+        });
+
+        $('#OtherCert').hishopUpload({
+            title: '<b>*</b>其它证书：',
+            imageDescript: '请确保图片清晰，(最多三张)。',
+            displayImgSrc: '@(Himall.Core.HimallIO.GetImagePath(AllOtherCert))',
+            imgFieldName: "OtherCert",
+            imagesCount: 3,
+            dataWidth: 10
+        });
+
+        $('#BusinessLicenceNumberPhoto').hishopUpload({
+            title: '<b>*</b>营业执照号<br>电子版：',
+            imageDescript: '请确保图片清晰。',
+            displayImgSrc: '@(Himall.Core.HimallIO.GetImagePath(Model.BusinessLicenceNumberPhoto))',
+            imgFieldName: "BusinessLicenceNumberPhoto",
+            dataWidth: 10
+        });
+
+        $('#OrganizationCodePhoto').hishopUpload({
+            title: '<b>*</b>组织机构代码证<br>电子版：',
+            imageDescript: '请确保图片清晰。',
+            displayImgSrc: '@(Himall.Core.HimallIO.GetImagePath(Model.OrganizationCodePhoto))',
+            imgFieldName: "OrganizationCodePhoto",
+            dataWidth: 10
+        });
+
+        $('#GeneralTaxpayerPhot').hishopUpload({
+            title: '<b>*</b>一般纳税人证明：',
+            imageDescript: '请确保图片清晰。',
+            displayImgSrc: '@(Himall.Core.HimallIO.GetImagePath(Model.GeneralTaxpayerPhot))',
+            imgFieldName: "GeneralTaxpayerPhot",
+            dataWidth: 10
+        });
+
+
+
+    });
+</script>
+
+<div class="container">
+    <ul class="breadcrumb clearfix">
+
+        <li><a href="./Management">店铺管理</a></li>
+        <li><a>编辑店铺</a></li>
+
+    </ul>
+    @using (Html.BeginForm("Edit", "Shop", new { Area = "Admin" }, FormMethod.Post, new { @id = "shopEditForm" }))
+    {
+        @Html.HiddenFor(s => s.Id)
+
+
+        <h3 class="table-hd clear-v2">公司及联系人信息</h3>
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="col-xs-1">
+                <col class="col-xs-7">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>公司名称</td>
+                    <td>@Html.TextBoxFor(c => c.CompanyName, new { @class = "form-control input-sm w240" })</td>
+                </tr>
+                <tr>
+                    <td>公司所在地</td>
+                    <td>
+                        <div class="field">
+                            <div id="regionSelector" class="fl"></div>
+                            <div class="clr"></div>
+                            @Html.HiddenFor(p => p.NewCompanyRegionId)
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>公司详细地址</td>
+                    <td>@Html.TextBoxFor(c => c.CompanyAddress, new { @class = "form-control input-sm w240" })</td>
+                </tr>
+                <tr>
+                    <td>员工总数</td>
+                    <td>@Html.DropDownListFor(item => item.CompanyEmployeeCount, (IEnumerable<SelectListItem>)Himall.Model.CompanyEmployeeCount.LessThanFive.ToSelectList(), new { @class = "form-control input-sm w240" })</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+
+        <h3 class="table-hd">营业执照信息（副本）</h3>
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="col-xs-1">
+                <col class="col-xs-7">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>营业执照号</td>
+                    <td>@Html.TextBoxFor(s => s.BusinessLicenceNumber, new { @class = "form-control input-sm w240" })</td>
+                </tr>
+                <tr>
+                    <td>法定经营范围</td>
+                    <td>@Html.TextBoxFor(s => s.BusinessSphere, new { @class = "form-control input-sm w240" })</td>
+                </tr>
+                <tr>
+                    <td>上传营业执照</td>
+                    <td>
+                        <div class="form-group upload-img" id="BusinessLicenceNumberPhoto"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>组织机构代码</td>
+                    <td>@Html.TextBoxFor(s => s.OrganizationCode, new { @class = "form-control input-sm w240" })</td>
+                </tr>
+                <tr>
+                    <td>组织机构代码证书</td>
+                    <td>
+                        <div class="form-group upload-img" id="OrganizationCodePhoto"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>经营许可类证书<br />(最多三张)</td>
+                    <td>
+                        <div class="form-group upload-img" id="BusinessLicenseCert"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>产品类证书<br />(最多三张)</td>
+                    <td>
+                        <div class="form-group upload-img" id="ProductCert"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>其它证书<br />(最多三张)</td>
+                    <td>
+                        <div class="form-group upload-img" id="OtherCert"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <h3 class="table-hd">一般纳税人证明</h3>
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="col-xs-1">
+                <col class="col-xs-7">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>一般纳税人证明</td>
+                    <td>
+                        <div class="form-group upload-img" id="GeneralTaxpayerPhot"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+        <h3 class="table-hd">店铺经营信息</h3>
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="col-xs-1">
+                <col class="col-xs-7">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>卖家帐号</td>
+                    <td>@Model.Account</td>
+                </tr>
+                <tr>
+                    <td>店铺名称</td>
+                    <td>@Html.TextBoxFor(s => s.Name, new { @class = "form-control input-sm w240" })</td>
+                </tr>
+                <tr>
+                    <td>店铺等级</td>
+                    <td>
+                        @{
+                            var list = ((List<SelectListItem>)ViewBag.ShopGrade);
+                        }
+                        @Html.GenerateSelectHtml(list, "ShopGrade", "w240")
+                    </td>
+                </tr>
+                <tr>
+                    <td>店铺有效期</td>
+                    <td>@Html.TextBoxFor(s => s.EndDate, new { @class = "form-control input-sm w240 form_datetime" })</td>
+                </tr>
+                <tr style="display:none">
+                    @*<td>店铺状态</td>
+                        <td>*@
+                    <td>
+                        @{
+//string name = "冻结";
+//int status = 7;
+//if (6 == (int)ViewBag.Status)
+//{
+//    name = "开启";
+//}
+//else if (7 == (int)ViewBag.Status)
+//{
+//    status = 6;
+//}
+                        }
+
+                        @*@Html.CheckBox("Status", false, new { status = status, id = "statusCheckbox", value = ViewBag.Status }) @name
+                            </td>*@
+                        @Html.CheckBox("Status", false, new { status = (int)ViewBag.Status, id = "statusCheckbox", value = ViewBag.Status })
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button type="button" id="submit" class="btn btn-primary">保 存</button></td>
+                </tr>
+
+            </tbody>
+        </table>
+
+
+                            }
+</div>

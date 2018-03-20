@@ -1,0 +1,140 @@
+﻿@model Himall.DTO.Theme
+@{
+    string strRead = Model.TypeId.Equals(Himall.CommonModel.ThemeType.Defaults) ? "readonly=readonly style=background:#EBEBE4;" : "";
+}
+@section Styles
+{
+    <style>
+        .wh100 {
+            width: 100px;
+            height: 28px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            text-align: center;
+            color: #494e52;
+        }
+    </style>
+    <link href="~/Content/spectrum.css" rel="stylesheet" />
+}
+@section HeadScript
+{
+    <script src="~/Scripts/spectrum.js"></script>
+}
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>主题设置</a></li>
+    </ul>
+    <div class="custom-inline mt20">
+        <div class="form-group">
+            <div class="radio">
+              <label><input type="radio" name="themeType" @(Model.TypeId.Equals(Himall.CommonModel.ThemeType.Defaults) ? "checked=checked" : "") id="themeType1" /> 默认主题 </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="radio">
+                <label><input type="radio" name="themeType" id="themeType2" @(Model.TypeId.Equals(Himall.CommonModel.ThemeType.Defaults) ? " " : "checked=checked") /> 自定义主题 </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="hidden" value="@Model.ThemeId" id="themeid" />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="15%" class="text-center">名称</th>
+                    <th width="15%" class="text-center">颜色显示</th>
+                    <th width="15%" class="text-center">web色编码</th>
+                    <th width="55%" class="text-center">颜色作用区域</th>
+                </tr>
+            </thead>
+            <tr class="level-1">
+                <td align="center"><b>商城主色</b></td>
+                <td align="center">
+                    <input type="text" class="color_choseer" id="mainColorChoseer" for="MainColor" value="@(Model.TypeId.Equals(Himall.CommonModel.ThemeType.Customize) ? Model.MainColor : "#e3393c")" />
+                </td>
+                <td align="center"><input type="text" class="form-control wh100" @strRead id="MainColor" value="@Model.MainColor" /></td>
+                <td>修改商城搜索框，商品分类栏顶栏，按钮，以及方块状图标的颜色</td>
+            </tr>
+            <tr>
+                <td align="center"><b>商城辅色</b></td>
+                <td align="center">
+                    <input type="text" class="color_choseer" id="secondaryColorChoseer" for="SecondaryColor" value="@(Model.TypeId.Equals(Himall.CommonModel.ThemeType.Customize) ? Model.SecondaryColor : "#ef524d")" />
+                </td>
+                <td align="center"><input type="text" class="form-control wh100" @strRead id="SecondaryColor" value="@Model.SecondaryColor" /></td>
+                <td>修改商城中水平线颜色，楼层风格以及选中效果的边框颜色</td>
+            </tr>
+            <tr>
+                <td align="center"><b>字体效果</b></td>
+                <td align="center">
+                    <input type="text" class="color_choseer" id="writingColorChoseer" for="WritingColor" value="@(Model.TypeId.Equals(Himall.CommonModel.ThemeType.Customize) ? Model.WritingColor : "#e3393c")" />
+                </td>
+                <td align="center"><input type="text" class="form-control wh100" @strRead id="WritingColor" value="@Model.WritingColor" /></td>
+                <td>文字选项的选中效果以及鼠标移入选项时文字的颜色</td>
+            </tr>
+            <tr>
+                <td align="center"><b>侧边栏</b></td>
+                <td align="center">
+                    <input type="text" class="color_choseer" id="frameColorChoseer" for="FrameColor" value="@(Model.TypeId.Equals(Himall.CommonModel.ThemeType.Customize) ? Model.FrameColor : "#2a2a2e")" />
+                </td>
+                <td align="center"><input type="text" class="form-control wh100" @strRead id="FrameColor" value="@Model.FrameColor" /></td>
+                <td>右侧边栏的颜色</td>
+            </tr>
+            <tr>
+                <td align="center"><b>商品分类栏</b></td>
+                <td align="center">
+                    <input type="text" class="color_choseer" id="classifiedsColorChoseer" for="ClassifiedsColor" value="@(Model.TypeId.Equals(Himall.CommonModel.ThemeType.Customize) ? Model.ClassifiedsColor : "rgba(56,56,60,0.95)")" />
+                </td>
+                <td align="center"><input type="text" class="form-control wh100" @strRead id="ClassifiedsColor" value="@Model.ClassifiedsColor" /></td>
+                <td>商品分类栏展开后的颜色</td>
+            </tr>
+        </table>
+    </div>
+    <div class="mt40 text-center">
+        <button type="button" class="btn btn-primary" id="btn_save">保存</button>
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <script src="~/Areas/Admin/Scripts/setTheme.js"></script>
+    <script>
+        $('.color_choseer').spectrum({
+            //allowEmpty: true,
+            showInput: true,
+            showInitial: true,
+            showPalette: true,
+            showSelectionPalette: true,
+            showAlpha: true,
+            maxPaletteSize: 10,
+            preferredFormat: "hex",
+            localStorageKey: "spectrum.admin.theme",
+            palette: [
+                ["rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)", "rgb(153, 153, 153)","rgb(183, 183, 183)",
+                "rgb(204, 204, 204)", "rgb(217, 217, 217)", "rgb(239, 239, 239)", "rgb(243, 243, 243)", "rgb(255, 255, 255)"],
+                ["rgb(152, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 153, 0)", "rgb(255, 255, 0)", "rgb(0, 255, 0)",
+                "rgb(0, 255, 255)", "rgb(74, 134, 232)", "rgb(0, 0, 255)", "rgb(153, 0, 255)", "rgb(255, 0, 255)"],
+                ["rgb(230, 184, 175)", "rgb(244, 204, 204)", "rgb(252, 229, 205)", "rgb(255, 242, 204)", "rgb(217, 234, 211)",
+                "rgb(208, 224, 227)", "rgb(201, 218, 248)", "rgb(207, 226, 243)", "rgb(217, 210, 233)", "rgb(234, 209, 220)",
+                "rgb(221, 126, 107)", "rgb(234, 153, 153)", "rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)",
+                "rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)", "rgb(180, 167, 214)", "rgb(213, 166, 189)",
+                "rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)", "rgb(147, 196, 125)",
+                "rgb(118, 165, 175)", "rgb(109, 158, 235)", "rgb(111, 168, 220)", "rgb(142, 124, 195)", "rgb(194, 123, 160)",
+                "rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)", "rgb(241, 194, 50)", "rgb(106, 168, 79)",
+                "rgb(69, 129, 142)", "rgb(60, 120, 216)", "rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)",
+                /*"rgb(133, 32, 12)", "rgb(153, 0, 0)", "rgb(180, 95, 6)", "rgb(191, 144, 0)", "rgb(56, 118, 29)",
+                "rgb(19, 79, 92)", "rgb(17, 85, 204)", "rgb(11, 83, 148)", "rgb(53, 28, 117)", "rgb(116, 27, 71)",*/
+                "rgb(91, 15, 0)", "rgb(102, 0, 0)", "rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)",
+                "rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"]
+            ],
+            hide: function (color) {
+                $('#' + $(this).attr('for')).val(color);
+            },
+        });
+
+        $('input[id$=Color]').change(function () {
+            var tr = $(this).closest('tr');
+            tr.find('.color_choseer').spectrum('set', this.value);
+        })
+    </script>
+}

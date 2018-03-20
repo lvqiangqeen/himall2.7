@@ -1,0 +1,47 @@
+﻿@model Himall.Model.MemberGrade
+@{
+    ViewBag.Title = "积分管理";
+}
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Scripts/v.js"></script>
+<script src="~/Areas/Admin/Scripts/MemberIntegralManagement.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="./Search">积分查询</a></li>
+        <li class="active">@Html.ActionLink("积分管理", "Management", new { area = "admin" })</li>
+    </ul>
+    @using (Html.BeginForm("Save", "MemberIntegral", FormMethod.Post, new { id = "form1",@class="form-horizontal" }))
+    {
+        @*<form class="form-horizontal" id="v-form"  action="@Url.a" name="v-form" method="post">*@
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">会员帐号：</label>
+            <div class="col-sm-3">
+                <input class="form-control input-sm w150" type="text" id="userName" name="userName" autocomplete="off">
+            </div>
+            <input type="hidden" name="userId" id="userId" />
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">操作：</label>
+            <div class="col-sm-8">
+                <select id="Operation" name="Operation" class="clear-u4 w75">
+                    <option value="add">增加</option>
+                    <option value="sub">减少</option>
+                </select>
+                <input class="form-control input-sm pull-left w150 ml10" id="Integral" name="Integral" type="text" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">备注(选填)：</label>
+            <div class="col-sm-8">
+                <textarea class="form-control input-sm input-half" id="Remark" name="Remark" rows="5"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" class="btn btn-primary" value="保 存" />
+            </div>
+        </div>
+    }
+</div>

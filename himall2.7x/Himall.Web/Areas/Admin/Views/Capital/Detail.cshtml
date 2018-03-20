@@ -1,0 +1,39 @@
+﻿
+@{
+    
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Areas/Admin/Scripts/CapitalDetail.js"></script>
+<link rel="stylesheet" type="text/css" href="/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<div class="container">
+    <ul class="breadcrumb clearfix">
+        <li class="active"><a href="../Index">预付款管理</a></li>
+        <li><a href="../WithDraw">查看预付款明细</a></li>
+    </ul>
+    <div class="search-box pt10" id="search-box">
+         <form class="form-inline custom-inline clearfix">
+             <ul class="cl two-title mb20" id="ulstatus">
+                <li value="0" class=active"><a>账户明细</a></li>
+                @foreach (var d in Himall.Core.EnumHelper.ToDescriptionDictionary<Himall.Model.CapitalDetailInfo.CapitalDetailType>())
+                {
+                    <li style="cursor:pointer;" value="@d.Key"><a>@d.Value</a></li>
+                }
+            </ul>
+            <div class="form-group">
+                <label class="label-inline w75" for="">时间</label>
+                <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text">
+                <label class="label-inline-line">-</label>
+                <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜索</button>
+            </div>
+        </form>
+    </div>
+
+    <table id="list" class="table"></table>
+    <input type="hidden" id="userid" value="@ViewBag.UserId"/>
+</div>

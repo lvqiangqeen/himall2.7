@@ -1,0 +1,64 @@
+﻿@model List<Himall.Web.Areas.SellerAdmin.Models.CategoryJsonModel>
+@{
+    ViewBag.Title = "AllCategory";
+}
+<div class="w">
+    <ul class="tab" id="tab-link">
+        <li class="curr"><a href="./AllCategory">全部商品分类</a></li>
+    </ul><!--tab end-->
+</div>
+<div class="w" id="allsort">
+    <div class="fl">
+        @for (int i = 0; i < Model.Count() / 2; i++)
+        {
+            <div class="m">
+                <div class="mt">
+                    <h2><a href="#">@Model[i].Name</a></h2>
+                </div>
+                <div class="mc">
+                    @foreach (var second in Model[i].SubCategory)
+                    {
+                        <dl class="fore">
+                            <dt>@second.Name</dt>
+                            <dd>
+                                @foreach (var third in second.SubCategory)
+                                {
+                                    <em><a href="#">@third.Name</a></em>
+                                }
+                            </dd>
+                        </dl>
+                    }
+                </div>
+            </div>
+        }
+        <!--左主体分类-->
+    </div>
+    <!--fl end-->
+    <div class="fr">
+        <!--右主体分类-->
+        @for (int i = Model.Count() / 2; i < Model.Count(); i++)
+        {
+            <div class="m">
+                <div class="mt">
+                    <h2><a href="#">@Model[i].Name</a></h2>
+                </div>
+                <div class="mc">
+                    @foreach (var second in Model[i].SubCategory)
+                    {
+                        <dl class="fore">
+                            <dt>@second.Name</dt>
+                            <dd>
+                                @foreach (var third in second.SubCategory)
+                                {
+                                    <em><a href="#">@third.Name</a></em>
+                                }
+                            </dd>
+                        </dl>
+                    }
+                </div>
+            </div>
+        }
+    </div><!--fr end-->
+    <span class="clr"></span>
+
+</div>

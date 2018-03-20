@@ -1,0 +1,59 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "我的账户";
+}
+@model  Himall.Model.CapitalInfo
+@using Himall.Model;
+@using Himall.Core;
+@{var type = Request.QueryString["type"];}
+<style>
+    #describe{height:50px;border:1px dashed #f1f1f1;background-color:#f9f9f9;padding-left:28px;padding-top:28px;margin-top:10px;}
+    .tb-goods>thead>tr>th:last-child{text-align:left!important;padding-left:20px!important;}
+</style>
+
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Areas/Web/Scripts/UserCapital.js"></script>
+<style>.tb-goods td{ padding:5px 15px;}</style>
+<div class="box1 lh24">
+	<div class="title bot-border">
+        <h3 class="title_txt cur">账户管理</h3>
+    </div>
+    <div class="border-box">
+        <div id="describe" >
+            <div >
+                <div class="fl" style="color:#6b6c6e;font-size:15px;">
+                    可用金额： <span style="color:#494e52;margin-left:10px;font-weight:bold;"> @(Model == null ? 0 : Model.Balance) 元</span>
+                </div>
+                <div class="fr" style="margin-right:38px;">
+                    <a class="btn-5 btn-8" style="background-color:#feae58; width:64px;height:26px;color:#fff;padding:0;text-align:center;margin-right:10px;border:1px solid #e49036;border-radius:0;font-size:14px;" href="@Url.Action("CapitalCharge")" target="_self">去充值</a>
+                    <a class="btn-5 btn-8" style="background-color:#eff2f5;width:64px;height:26px;border:1px solid #eaeaea;color:#6a7c86;padding:0;text-align:center;border-radius:0;font-size:14px;" href="@Url.Action("ApplyWithDraw")" target="_self">提现</a>
+                </div>
+                <div class="clr"></div>
+            </div>
+    </div>
+
+    <ul class="cl two-title" id="ulstatus" style="margin-top:25px;">
+        <li value="0" @(string.IsNullOrEmpty(type) ? "class=active" : "")><a href="#">账户明细</a></li>
+
+        @foreach (var d in Himall.Core.EnumHelper.ToDescriptionDictionary<Himall.Model.CapitalDetailInfo.CapitalDetailType>())
+        {
+            if (type == d.Key.ToString())
+            {
+                <li class="active" value="@d.Key"><a >@d.Value</a></li>
+            }
+            else
+            {
+                <li value="@d.Key"><a >@d.Value</a></li>
+            }
+        }
+    </ul>
+    <div class="border-box">
+        <table class="tb-void tb-goods" id="list">
+		
+		</table>
+    </div>
+
+</div>

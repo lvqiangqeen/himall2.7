@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "优惠券详情";
+}
+
+
+@model Himall.Model.CouponInfo
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="~/Scripts/jquery.zclip.js"></script>
+<div class="container ">
+    <ul class="breadcrumb clearfix">
+
+        <li class=""><a href="@Url.Action("Management")">优惠券列表</a></li>
+        <li class="active"><a>查看优惠券</a></li>
+
+
+    </ul>
+    <div class="row">
+        <div class="col-xs-7">
+            <form role="form" class="form-horizontal Sclear-P11">
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">优惠券数量：</label>
+                    <div class="col-sm-3">
+                        <p class="form-control-static">@Model.Num</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">链接：</label>
+                    <div class="col-sm-9">
+                        <div class="form-group col-xs-10">
+                            <p class="form-control-static Sclear-P18">@ViewBag.Url</p>
+                        </div>
+                        <span class="btn btn-link" id="copyurlbt" data-url="@ViewBag.Url">复制</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">温馨提示：</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">该链接为WAP链接，可在移动设备中打开</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">领取二维码：</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static"><img src="@ViewBag.Image" width="300" height="300"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><a href="@Url.Action("Management")" class="btn btn-primary" id="id_c">返回列表</a></label>
+                </div>
+            </form>
+        </div>
+        <div class="col-xs-4 fr">
+            <div id="id_title" class="Sclear-P12">
+                @Model.CouponName
+            </div>
+            <div class="Sclear-P13">¥@Model.Price</div>
+            <div class="Sclear-P14">
+                有效日期：<span class="Sclear-P15" id="id_date">@Model.StartTime.ToShortDateString()--@Model.EndTime.ToShortDateString()</span>
+            </div>
+            <div class="Sclear-P16" >
+                使用限制：订单满<span class="Sclear-P17" id="id_p">@Model.OrderAmount</span>元可使用（不含运费）
+            </div>
+            <!-- <div style="color:#666;height:45px;line-height:45px;">
+                <button class="btn btn-primary" type="button">立即使用</button>
+                <a href="#" class="btn btn-link btn-ms" role="button">查看我的奖品</a>
+            </div> -->
+        </div>
+
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#copyurlbt").zclip({
+            path: '/Scripts/ZeroClipboard.swf', //记得把ZeroClipboard.swf引入到项目中 
+            copy: function () {
+                return $('#copyurlbt').data("url");
+            },
+            afterCopy: function () {
+                $.dialog.succeedTips('复制链接成功！');
+            }
+        });
+    });
+</script>

@@ -1,0 +1,41 @@
+<!--applylist.wxml-->
+<view class="applylist">
+  <block wx:for="{{AfterList}}">
+   <view class="item">
+            <view class="hd" >
+                  <view class="num">订单号 ：<text class="font-arial">{{item.OrderId}}</text></view>
+                  <view class="state">{{item.StatusText}}</view>
+            </view>
+            <view class="bd"  bindtap="applydetail" data-type="{{item.AfterSaleType}}" data-id="{{item.AfterSaleId}}">
+              <block wx:for="{{item.LineItems}}" wx:for-item="lineitem">
+                  <view class="comm">
+                      <view class="pic">
+                            <image src="{{lineitem.Image}}"></image>
+                      </view>
+                      <view class="info">
+                            <view class="name">{{lineitem.Name}}</view>
+                            <view class="para">{{lineitem.SkuText}}</view>
+                      </view>
+                      <view class="price">
+                            <view class="sell pb16">¥ <text class="font-arial">{{lineitem.Price}}</text></view>
+                            <view class="num"><view class="iconfont icon__close font28 mr8"></view> <text class="font-arial">{{lineitem.Quantity}}</text></view>
+                      </view>
+                  </view>
+</block>
+                 
+
+            </view>
+            <view class="fd">
+                  <view class="money">
+                        <text class="trade">交易金额：￥<text class="font-arial">{{item.OrderTotal}}</text></text>
+                        <text class="refund">退款金额：￥<text class="font-arial">{{item.RefundAmount}}</text></text>
+                  </view>
+                  <view class="operate" hidden="{{item.Status!=2 }}">
+                  <button class="btn-apply" type="default" bindtap="SendGood" data-id="{{item.AfterSaleId}}" data-skuid="{{item.SkuId}}">发货</button>
+                  
+                  </view>
+            </view>
+      </view>
+     
+  </block>
+</view>

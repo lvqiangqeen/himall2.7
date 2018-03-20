@@ -1,0 +1,58 @@
+<!--pages/usehome/usehome.wxml-->
+<view class="uselogos">
+  <image src="/images/header_02.jpg" class="logobg"></image>
+  <view class="usetitle">
+    <image src="{{userInfo.picture}}" class="uselogo"></image>
+    <view class="userinfo">
+      <view class="username userinfo-b">{{userInfo.realName}}</view>
+      <view class="userinfo-b">
+      <view class="user-grade">{{userInfo.gradeName}}</view>
+      <view class="user-score">
+     <image src="/images/score.png"/>
+      <text><text>{{userInfo.points}}</text>分</text></view>
+      </view>
+    </view>
+
+  </view>
+</view>
+<view class="hdonglist" style="margin-top:0" bindtap="bindOrderList">我的订单<text bindtap="bindAllOrderTap">全部订单</text></view>
+<view class="usecd">
+
+  <view class="usecdlist" bindtap="bindWaitPayTap">
+    <view class="iconfont icon__wallet"></view>
+    <text >待付款</text>
+    <view class="order_num" hidden="{{userInfo.waitPayCount==0}}"><text>{{userInfo.waitPayCount}}</text></view>
+  </view>
+  <view class="usecdlist" bindtap="bindWaitSendTap">
+    <view class="iconfont icon__package"></view>
+    <text>待发货</text>
+    <view class="order_num" hidden="{{userInfo.waitSendCount==0}}"><text>{{userInfo.waitSendCount}}</text></view>
+  </view>
+  <view class="usecdlist" bindtap="bindWaitFinishTap">
+    <view class="iconfont icon__shipping"></view>
+    <text>待收货</text>
+     <view class="order_num"  hidden="{{userInfo.waitFinishCount==0}}"><text>{{userInfo.waitFinishCount}}</text></view>
+  </view>
+  <view class="usecdlist" bindtap="bindReviewTap">
+    <view class="iconfont icon__comment"></view>
+    <text>待评论</text>
+     <view class="order_num"  hidden="{{userInfo.waitReviewCount==0}}"><text>{{userInfo.waitReviewCount}}</text></view>
+  </view>
+  <view class="usecdlist" bindtap="bindApply">
+    <view class="iconfont icon__service-1 "></view>
+    <text>售后</text>
+    <view class="order_num"  hidden="{{userInfo.afterSalesCount==0}}"><text>{{userInfo.afterSalesCount}}</text></view>
+  </view>
+</view>
+<view class="producthd mt15">
+  <view class="hdonglist" bindtap="bindMyAddressTap">我的收货地址</view>
+  <view class="hdonglist" bindtap="bindMyCouponsTap">我的优惠券
+    <text wx:if="{{userInfo.couponsCount>0}}">{{userInfo.couponsCount}}张未使用</text>
+  </view>
+  <view class="hdonglist" bindtap="bindTelPhone" data-tel="{{userInfo.ServicePhone}}">客服电话
+    <text>{{userInfo.ServicePhone}}</text>
+  </view>
+  <view class="hdonglist outlogin" bindtap="ExitLoginout"> 
+        退出登录
+  </view>
+</view>

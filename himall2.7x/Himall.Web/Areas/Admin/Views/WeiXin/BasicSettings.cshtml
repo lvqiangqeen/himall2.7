@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "基本配置";
+    string demoSiteTips = string.Empty;
+    string disabled = string.Empty;
+    if (ViewBag.isDemo != null)
+    {
+        disabled = "disabled";
+        demoSiteTips = "（演示站点自动隐藏此参数，且修改后不能保存）";
+    }
+}
+
+@model Himall.Web.Models.SiteSettingModel
+
+<script type="text/javascript" src="/Areas/Admin/Scripts/WeiXinBasicSettings.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        
+        <li class="active"><a href="#">公众号设置</a></li>
+        <li><a href="AutoReplay">公众号自动回复</a></li>
+    </ul>
+    @using (Html.BeginForm("BasicSettings", "WeiXin", FormMethod.Post, new { @class = "form-horizontal form-pt0 pb0" }))
+    {
+        <h3 class="table-hd">自定义菜单权限配置<span class="help-default" style="margin-left:50px">提示：如需自定义微信菜单，需配置公众号AppId及AppSecret</span></h3>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">微信AppId</label>
+            <div class="col-sm-4">
+                @Html.EditorFor(item => item.WeixinAppId, new { htmlAttributes = new { @class = "form-control input-sm" } })
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">微信AppSecret</label>
+            <div class="col-sm-4">
+                @Html.EditorFor(item => item.WeixinAppSecret, new { htmlAttributes = new { @class = "form-control input-sm" } })
+            </div>
+
+        </div>
+
+
+        <h3 class="table-hd">自定义菜单权限配置<span class="help-default" style="margin-left:50px">提示：URL及Token需在微信公众号平台进行配置</span></h3>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">URL：</label>
+            <div class="col-sm-4 form-control-static">
+                @ViewBag.Url
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">微信ToKen：</label>
+            <div class="col-sm-4 form-control-static">
+                @Model.WeixinToKen
+            </div>
+        </div>
+        <div class="form-group mb0">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary" @disabled title="@demoSiteTips">保存</button>
+                @if (!string.IsNullOrWhiteSpace(demoSiteTips))
+                {
+                    <label>（演示站点不能修改此部分参数）</label>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+

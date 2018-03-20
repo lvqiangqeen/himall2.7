@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = ViewBag.SiteName + "首页";
+    ViewBag.FootIndex = 0;
+    ViewBag.LeftNavi = false;
+    ViewBag.CopyRight = true;
+}
+@using Himall.Web.Areas.Mobile.Models;
+
+<div class="container">
+    @{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_SearchBox.cshtml");}
+    <!--轮播图 -->
+    <div id="slides">
+        @{var slideAds = (IEnumerable<HomeSlideAdsModel>)ViewBag.SlideAds;}
+        @foreach (var slideAd in slideAds)
+        {
+            <a href="@slideAd.Url"><img src="@Himall.Core.HimallIO.GetImagePath(slideAd.ImageUrl)" alt=""></a>
+        }
+    </div>
+    <div class="index-title"><img src="~/Areas/Mobile/Templates/Default/Images/index-title-1.png" /></div>
+
+
+    @{var topics = (IEnumerable<HomeTopicModel>)ViewBag.Topics;}
+    <ul class="recom-topic clearfix">
+        @foreach (var topic in topics)
+        {
+            <li>
+                <a href="/@ViewBag.AreaName/topic/detail/@topic.Id?isMobileHomeTopic=true"><img class="lazyload" src="~/Areas/Mobile/Templates/Default/images/blank.gif" data-url="@topic.ImageUrl" alt=""></a>
+                <p>
+                    @foreach (var tag in topic.Tags)
+                    {
+                        <span>@tag</span>
+                    }
+                </p>
+            </li>
+        }
+    </ul>
+
+    @{var products = (IEnumerable<Himall.Web.Areas.Mobile.Models.ProductItem>)ViewBag.Products; }
+    <div class="index-title"><img src="~p/Areas/Mobile/Templates/Default/Images/index-title-2.png" /></div>
+    <ul class="goods-list clearfix" id="roductList">
+
+        @foreach (var product in products)
+        {
+            <li>
+                <a class="p-img" href="/@ViewBag.AreaName/product/detail/@product.Id"><img class="lazyload" src="~/Areas/Mobile/Templates/Default/images/blank.gif" data-url="@product.ImageUrl" alt="@product.Name"></a>
+                <i>@(((product.SalePrice / product.MarketPrice) * 10).ToString("F1"))折</i>
+                <h3><a>@product.Name</a></h3>
+                <p><span>￥@product.SalePrice.ToString("F2")</span><s>￥@product.MarketPrice.ToString("F2")</s></p>
+            </li>
+        }
+
+    </ul>
+    <div class="loading" id="autoLoad"><span></span></div>
+    @{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_4ButtonsFoot.cshtml");}
+</div>
+<a class="WX-backtop"></a>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/home.js"></script>

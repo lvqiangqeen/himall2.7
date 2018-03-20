@@ -1,0 +1,23 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "个人信息";
+}
+
+<div class="box1 lh24">
+    <div class="title bot-border">
+        <h3 class="title_txt cur">验证信息</h3>
+    </div>
+    
+    <div class="border-box">
+		<div class="yanzh_pic no">
+           @{
+               var msg =Request.QueryString["id"].IndexOf("SMS") > 0 ? "手机" : "邮箱";
+               msg = msg + "验证";
+             }
+			<span class="col">@msg</span><span>完成</span>	
+		</div>
+        <div class="yxyz">
+            <span class="yxyz_span1" style="margin:0 auto;width:200px;">恭喜您,绑定成功！</span>
+        </div>
+    </div>
+</div>

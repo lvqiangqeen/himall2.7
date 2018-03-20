@@ -1,0 +1,88 @@
+
+
+
+ 记录时间：2017-10-22 11:33:15,814 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2017-10-22 11:38:08,705 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2017-10-22 11:40:45,468 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2017-10-22 11:41:29,358 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2017-10-22 11:41:29 357:[当前请求URL：http://localhost:60362/；请求的参数为：；页面加载的时间：39316.8814 毫秒] 
+
+
+
+
+ 记录时间：2017-10-22 12:26:28,637 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2017-10-22 12:26:54,730 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2017-10-22 12:26:54 728:[当前请求URL：http://localhost:60362/；请求的参数为：；页面加载的时间：19379.2283 毫秒] 
+
+
+
+
+ 记录时间：2017-10-22 12:27:35,586 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2017-10-22 12:27:35 586:[当前请求URL：http://localhost:60362/Admin/Login；请求的参数为：；页面加载的时间：32866.3345 毫秒] 
+
+
+
+
+ 记录时间：2017-10-22 12:27:52,946 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2017-10-22 12:27:52 946:[当前请求URL：http://localhost:60362/Admin/home/Console；请求的参数为：；页面加载的时间：5169.6697 毫秒] 
+
+
+
+
+ 记录时间：2017-10-22 12:30:38,095 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2017-10-22 12:30:38 088:[当前请求URL：http://localhost:60362/Admin/shop/management?type=Auditing；请求的参数为：type=Auditing；页面加载的时间：76305.178 毫秒] 
+
+
+
+
+ 记录时间：2017-10-22 12:31:34,759 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2017-10-22 12:31:34 757:[当前请求URL：http://localhost:60362/Admin/shop/management?type=Auditing；请求的参数为：type=Auditing；页面加载的时间：8965.3544 毫秒] 
+
+
+
+
+ 记录时间：2017-10-22 12:31:35,970 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2017-10-22 12:31:35 970:[当前请求URL：http://localhost:60362/__browserLink/requestData/dbdf635a61424e3ab0d6de629ffc3dee；请求的参数为：；页面加载的时间：10463.4283 毫秒] 
+

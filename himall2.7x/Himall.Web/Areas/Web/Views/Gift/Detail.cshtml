@@ -1,0 +1,82 @@
+﻿@model Himall.Web.Areas.Web.Models.GiftDetailPageModel
+@{
+    ViewBag.Title = @Model.GiftData.GiftName + " - 礼品详情";
+}
+<script src="~/Areas/Web/Scripts/cloud-zoom.1.0.2.min.js"></script>
+<style type="text/css">
+    .inte-goods-data li .chang-goods.disabled{cursor: default; background:#999; }
+</style>
+<div class="warp cl">
+	<div class="inte-detail-left">
+		<div class="inte-goods-info">
+			<div class="inte-goods-img">
+				<div class="jqzoom" style="position:relative;">
+                    <a class="cloud-zoom" id="zoom1" rel="lensOpacity:1,adjustX:10" href="@(Model.GiftData.GetImage(Himall.CommonModel.ImageSize.Size_500, 1)) " style=" position relative; display block;">
+                        <img src="@(Model.GiftData.GetImage(Himall.CommonModel.ImageSize.Size_500,1))" alt="">
+                    </a>
+				</div>
+		
+				<div id="spec-list">
+					<ul class="lh">
+                        @for (int i = 1; i < 6; i++)
+                        {
+                            if (i == 1 || Himall.Core.HimallIO.ExistFile(Model.GiftData.ImagePath + string.Format("/{0}.png", i)))
+                            {
+                                <li><a href="@Himall.Core.HimallIO.GetProductSizeImage(Model.GiftData.ImagePath,i))" class="cloud-zoom-gallery" rel="useZoom: 'zoom1', smallImage: '@(Model.GiftData.GetImage(Himall.CommonModel.ImageSize.Size_500, i))'"><img src="@(Model.GiftData.GetImage(Himall.CommonModel.ImageSize.Size_100, i))"></a></li>
+                            }
+                        }
+					</ul>
+				</div>
+		
+			</div>
+			
+			<div class="inte-goods-data">
+				<h3>@(Model.GiftData.GiftName) </h3>
+				<ul>
+					<li class="old-price"><span>市场价：</span><s>¥ @(Model.GiftData.GiftValue.Value.ToString("F2"))</s></li>
+					<li class="new-integra"><span>所需积分</span><em>@(Model.GiftData.NeedIntegral)分</em><i>@(Model.GiftData.NeedGrade > 0 ? Model.GiftData.NeedGradeName + " 专享" : Model.GiftData.NeedGradeName)</i></li>
+					<li class="new-gray">已兑换@(Model.GiftData.SumSales)件</li>
+					<li>礼品编号：@(Model.GiftData.Id)</li>
+                    @if(Model.GiftData.LimtQuantity>0){
+                        <li>限兑数量：@(Model.GiftData.ShowLimtQuantity)</li>
+                    }
+					<li>剩余可兑：<span id="stockProduct">@Model.GiftData.StockQuantity</span></li>
+					<li>
+						数量：
+						<div class="changeNum">
+							<a class="btn-reduce">−</a>
+							<input class="text" id="buy-num" value="1" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'1'); if(this.value==''){this.value='1'}}).call(this)" onblur="this.v()">
+							<a class="btn-add">+</a>
+						</div>
+					</li>
+					<li><a class="chang-goods @(Model.GiftCanBuy ? "" : "disabled")" id="OrderNow">立即兑换</a></li>
+				</ul>
+				
+			</div>
+		</div>
+		
+		<div class="inte-goods-desc">
+			<div class="goods-desc-hd">
+				<span>礼品信息</span>
+			</div>
+			<div class="inte-goods-content">
+				@Html.Raw(Model.GiftData.Description)
+			</div>
+		</div>
+	</div>
+	
+	<ul class="inte-detail-right">
+		<li class="hd"><h3>热门礼品</h3></li>
+        @foreach(var item in Model.HotGifts){
+		<li>
+			<a href="@Url.Action("Detail", new { id=item.Id })"><img src="@(item.GetImage(Himall.CommonModel.ImageSize.Size_150, 1))" alt=""></a>
+			<p>@(item.NeedIntegral)积分</p>
+		</li>
+        }
+	</ul>
+	
+</div>
+<script type="text/javascript">
+    var giftid = '@(Model.GiftData.Id)';
+</script>
+<script src="~/Areas/Web/Scripts/GiftDetail.js"></script>

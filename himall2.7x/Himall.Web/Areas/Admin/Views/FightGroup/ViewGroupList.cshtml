@@ -1,0 +1,156 @@
+﻿@{
+    ViewBag.Title = "活动列表";
+    long ActionId = (long)ViewBag.ActionId;
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<div class="container clear-v20">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("Index")">活动列表</a></li>
+        <li class="active"><a>拼团详情</a></li>
+    </ul>
+
+    <div class="search-box" id="search-box">
+        <form class="form-inline custom-inline">
+            @Html.Hidden("actionId", ActionId)
+            <div class="form-group">
+                <label class="label-inline w75" for="">组团状态</label>
+                <select id="groupStatus" class="form-control input-ssm">
+                    <option value="">请选择</option>
+                    <option value="0">成团中</option>
+                    <option value="1">成团成功</option>
+                    <option value="-1">成团失败</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">组团时间</label>
+                <input class="form-control input-ssm" type="text" id="startTime">
+                <label class="label-inline" style="width:20px;">-</label>
+                <input class="form-control input-ssm" type="text" id="endTime">
+            </div>
+            <div class="form-group"><button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button></div>
+        </form>
+    </div>
+
+    <table id="list" class="table"></table>
+</div>
+@Html.Hidden("dataurl", Url.Action("PostGroupList"))
+
+<script type="text/javascript">
+    var actionId = 0;
+    $(function () {
+        actionId = $('#actionId').val();
+
+        var stimebox, etimebox;
+        stimebox = $("#startTime");
+        etimebox = $('#endTime');
+        stimebox.datetimepicker({
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            weekStart: 1,
+            startView: 2,
+            minView: 2
+        });
+
+        etimebox.datetimepicker({
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            weekStart: 1,
+            startView: 2,
+            minView: 2
+        });
+        etimebox.datetimepicker('setStartDate', stimebox.val());
+        stimebox.datetimepicker('setEndDate', etimebox.val());
+
+        stimebox.on('changeDate', function () {
+            if (etimebox.val()) {
+                if (stimebox.val() > etimebox.val()) {
+                    etimebox.val(stimebox.val());
+                }
+            }
+
+            etimebox.datetimepicker('setStartDate', stimebox.val());
+        });
+        etimebox.on('changeDate', function () {
+            stimebox.datetimepicker('setEndDate', etimebox.val());
+        });
+
+
+        $("#list").hiMallDatagrid({
+            url: $("#dataurl").val(),
+            singleSelect: true,
+            pagination: true,
+            NoDataMsg: '没有找到符合条件的数据',
+            idField: "Id",
+            pageSize: 15,
+            pageNumber: 1,
+            queryParams: { actionId: actionId },
+            columns:
+            [[
+
+                { field: "Id", title: "Id", hidden: true },
+                {
+                    field: "AddGroupTime", title: "组团时间", width: 100, formatter: function (value, row, index) {
+                        return date_string(value);
+                    }
+                },
+                { field: "ShowBuildStatus", title: "组团状态", width: 100 },
+                {
+                    field: "OverTime", title: "成团时间", width: 100, formatter: function (value, row, index) {
+                        var html = "---";
+                        if (row.BuildStatus == 1 && value && value.length > 0) {
+                            html = date_string(value);
+                        }
+                        return html;
+                    }
+                },
+                {
+                    field: "joknum", title: "参团人数/成团人数", width: 160, formatter: function (value, row, index) {
+                        var html = "";
+                        html += row.JoinedNumber;
+                        html += "/";
+                        html += row.LimitedNumber;
+                        return html;
+                    }
+                },
+                { field: "HeadUserName", title: "团长", width: 100 },
+                {
+                    field: "ShowActiveStatus", title: "参团订单", formatter: function (value, row, index) {
+                        var html = [""];
+                        if (row.OrderIds) {
+                            for (var _i = 0; _i < row.OrderIds.length; _i++) {
+                                html.push("<span><a href=\"/Admin/Order/Detail/" + row.OrderIds[_i] + "\" target=\"_blank\">" + row.OrderIds[_i] + "</a></span><br>");
+                            }
+                        } else {
+                            html.push("无成功订单");
+                        }
+                        return html.join("");
+                    }
+                },
+            ]]
+        });
+        $('#searchButton').click(function (e) {
+            searchClose(e);
+            ReloadGrid(1);
+        });
+    });
+
+    //重载数据
+    function ReloadGrid(page) {
+        var pageNo = page || $("#list").hiMallDatagrid('options').pageNumber;
+        var groupStatus = $('#groupStatus').val();
+        var startTime = $('#startTime').val();
+        var endTime = $('#endTime').val();
+        $("#list").hiMallDatagrid('reload',
+            {
+                actionId: actionId,
+                groupStatus: groupStatus,
+                startTime: startTime,
+                endTime: endTime
+            });
+    }
+</script>

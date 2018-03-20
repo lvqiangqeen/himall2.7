@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ServiceConfig>
+  <Service >
+    <configfile>WinBrokerageService\bin\Debug\ServiceSetting.xml</configfile>
+    <connconfigfile>WinBrokerageService\bin\Debug\WinBrokerageService.exe</connconfigfile>
+  </Service>
+  <Service >
+    <configfile>WinOrderCommentsService\bin\Debug\ServiceSetting.xml</configfile>
+    <connconfigfile>WinOrderCommentsService\bin\Debug\WinOrderCommentsService.exe</connconfigfile>
+  </Service>
+  <Service >
+    <configfile>WinOrderProductStatisticsService\bin\Debug\ServiceSetting.xml</configfile>
+    <connconfigfile>WinOrderProductStatisticsService\bin\Debug\WinOrderProductStatisticsService.exe</connconfigfile>
+  </Service>
+  <Service >
+    <configfile>WinOrderService\bin\Debug\ServiceSetting.xml</configfile>
+    <connconfigfile>WinOrderService\bin\Debug\WinOrderService.exe</connconfigfile>
+  </Service>
+  <Service >
+    <configfile>WinOrderTradeStatisticsService\bin\Debug\ServiceSetting.xml</configfile>
+    <connconfigfile>WinOrderTradeStatisticsService\bin\Debug\WinOrderTradeStatisticsService.exe</connconfigfile>
+  </Service>
+  <Service >
+    <configfile>WinSettlementService\bin\Debug\ServiceSetting.xml</configfile>
+    <connconfigfile>WinSettlementService\bin\Debug\WinSettlementService.exe</connconfigfile>
+  </Service>
+  <Service >
+    <configfile>WinShopServices\bin\Debug\ServiceSetting.xml</configfile>
+    <connconfigfile>WinShopServices\bin\Debug\WinShopServices.exe</connconfigfile>
+  </Service>
+  <Service >
+    <configfile>WinStatisticsService\bin\Debug\ServiceSetting.xml</configfile>
+    <connconfigfile>WinStatisticsService\bin\Debug\WinStatisticsService.exe</connconfigfile>
+  </Service>
+</ServiceConfig>

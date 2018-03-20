@@ -1,0 +1,80 @@
+﻿@using Himall.Core;
+@model Himall.Web.Areas.SellerAdmin.Models.CustomerServiceModel
+
+@section Styles
+{
+	<style>
+		.download a {
+			display: -moz-inline-stack;
+			display: inline-block;
+			margin-right: 10px;
+			vertical-align: top;
+			zoom: 1;
+			overflow: hidden;
+			text-indent: -999px;
+			background-repeat: no-repeat;
+			background-position: 50% 50%;
+		}
+		.download .win{
+			width: 152px;
+			height: 36px;
+			background-image: url(//everlook-qcloud.meiqia.com/assets/windows_button-17eefe7b43bb04ca8591802cb8ec189c8725c02de6d3839e72da9cc5079bf86d.png);
+			background-image: -webkit-image-set(url(//everlook-qcloud.meiqia.com/assets/windows_button-17eefe7b43bb04ca8591802cb8ec189c8725c02de6d3839e72da9cc5079bf86d.png) 1x, url(//everlook-qcloud.meiqia.com/assets/rv/windows_button-621c424cdb97c7fa55aff76b86df894b60e52cb9fc632abd26f7fdb466757902.png) 2x);
+		}
+		.download .ios{
+			width: 122px;
+			height: 36px;
+			background-image: url(//everlook-qcloud.meiqia.com/assets/AppStore_button-30a94c8eba98c403bfd515b4cb6e80cb3e49b3dbacf63742718e6eed21629698.png);
+			background-image: -webkit-image-set(url(//everlook-qcloud.meiqia.com/assets/AppStore_button-30a94c8eba98c403bfd515b4cb6e80cb3e49b3dbacf63742718e6eed21629698.png) 1x, url(//everlook-qcloud.meiqia.com/assets/rv/AppStore_button-a4a1060001f80478dc88b360684b020fc72885d804a75e2c8d2fd723640a0102.png) 2x);
+		}
+		.download .android{
+			width: 145px;
+			height: 36px;
+			background-image: url(//everlook-qcloud.meiqia.com/assets/android_no_narrow_btn-6f0546c265333f059c98668efaba4b27dc70000763aad679e2b1ac6451ab7af3.png);
+			background-image: -webkit-image-set(url(//everlook-qcloud.meiqia.com/assets/android_no_narrow_btn-6f0546c265333f059c98668efaba4b27dc70000763aad679e2b1ac6451ab7af3.png) 1x, url(//everlook-qcloud.meiqia.com/assets/rv/android_no_narrow_btn-92175bfd950c25bcd4a237981c0407f11cb93a0bd95b192fe1730ea2bf90e865.png) 2x);
+		}
+	</style>
+}
+
+<script src="~/Areas/SellerAdmin/Scripts/CustomerServiceAdd.js"></script>
+<div class="container">
+    <ul class="breadcrumb clearfix">
+        <li><a href="@Url.Action("management")">客服列表</a></li>
+        <li class="active"><a>@(Model.Id > 0 ? "编辑美洽客服" : "新增美洽客服")</a></li>
+    </ul>
+    <form class="form-horizontal" role="form" action="@Url.Action("add")" method="post">
+		<input type="hidden" name="Name" value="美洽" />
+		<input type="hidden" name="Tool" value="@((int)Himall.Model.CustomerServiceInfo.ServiceTool.MeiQia)" />
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>企业ID：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Account, new { @class = "form-control input-sm", maxlength = 25 })
+            </div>
+            <div class="col-sm-3">
+				<a class="lh30" href="//app.meiqia.com/signup" target="_blank">去美洽注册账号</a>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"></label>
+            <div class="col-sm-10 color-9">登录美恰后，在【设置】&mdash;<a href="//app.meiqia.com/setting/id-query" target="_blank">【ID查询】</a>中，获取到企业ID，填写至此处。</div>
+        </div>
+		<div class="form-group download">
+			<label for="" class="col-sm-2 control-label pt9"><b>*</b>客户端下载：</label>
+			<div class="col-sm-10">
+				<a class="win" href="//meiqia-cdn.b0.upaiyun.com/meiqia_for_windows.zip" target="_blank">下载 Windows 桌面客户端</a>
+				<a class="ios" href="//itunes.apple.com/cn/app/mei-qia-yi-dong-zai-xian-ke-fu/id1050591118" target="_blank">下载美洽 iOS App</a>
+				<a class="android" href="//meiqia-cdn.b0.upaiyun.com/meiqia_for_android.apk" target="_blank">下载 .apk 文件</a>
+			</div>
+		</div>
+
+        @Html.HiddenFor(m => m.Id)
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" class="btn btn-primary" id="submit">保 存</button>
+            </div>
+        </div>
+    </form>
+</div>
+<input type="hidden" value="@Url.Action("management", "CustomerService", new {area="Selleradmin"})" id="MCurl" />
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

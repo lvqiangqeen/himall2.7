@@ -1,0 +1,177 @@
+﻿@model Himall.Web.Areas.SellerAdmin.Models.HomeModel
+<script src="~/Scripts/echarts-plain-map.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Scripts/echarts.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/ProductRecentMonthSaleRankNew.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/HomeSellerAdminPie.js"></script>
+<script>
+    var yesterday = '@DateTime.Now.AddDays(-1).Date.ToString("yyyy-MM-dd")';
+    var productsNumber = parseInt("@Model.ProductsNumber");
+    var productsNumberIng = parseInt("@Model.ProductsNumberIng");
+    var productsPercentage = parseInt(productsNumber / parseFloat("@Model.ProductsNumberIng") * 100.0);
+    productsPercentage = productsPercentage > 100 ? 100 : productsPercentage;
+    var useSpace = parseInt("@Model.UseSpace");
+    var useSpaceing = parseInt("@Model.UseSpaceing");
+    var useSpaceingPercentage = parseInt(useSpaceing / parseFloat("@Model.UseSpace") * 100.0);
+    useSpaceingPercentage = useSpaceingPercentage > 100 ? 100 : useSpaceingPercentage;
+</script>
+
+<style>
+    #main div{overflow:visible!important}
+</style>
+<div class="container">
+    <div class="shop-top-info">
+        <div class="shop-logo">
+            <img src="@(Himall.Core.HimallIO.GetImagePath(Model.ShopLogo))" width="100" height="100" alt="">
+            <h3><a target="_blank" href="/shop/home/@Model.ShopId">@Model.ShopName</a> </h3>
+            <p class="time">@Model.ShopEndDate 到期</p>
+            <p class="star">@Model.ShopGradeName      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/SellerAdmin/Shop/Renew">续费</a></p>
+        </div>
+        <ul class="shop-score">
+            <li><span>宝贝与描述相符</span><p class="s3"><i style="width:@Model.ProductAndDescriptionPercentage"></i></p><em>@Model.ProductAndDescription</em></li>
+            <li><span>卖家的服务态度</span><p class="s3"><i style="width:@Model.SellerServiceAttitudePercentage"></i></p><em>@Model.SellerServiceAttitude</em></li>
+            <li><span>卖家发货速度</span><p class="s9"><i style="width:@Model.SellerDeliverySpeedPercentage"></i></p><em>@Model.SellerDeliverySpeed</em></li>
+        </ul>
+        <div id="shopProductPie" style="height:100px;width:100px;float:left;">
+        </div>
+        <div class="Sclear-A6">
+            <div class="Sclear-A7">可发布商品数</div>
+            <div id="productsNumberDiv" class="Sclear-A8"></div>
+        </div>
+        <div id="shopImagePie" style="height:100px;width:100px;float:left;">
+        </div>
+        <div class="Sclear-A6">
+            <div class="Sclear-A7">可使用空间</div>
+            <div id="useSpaceDiv" class="Sclear-A8"></div>
+        </div>
+
+    </div>
+    <div class="ms-myorder modle-box">
+        <h3><span>交易前</span><span>交易中</span><span>交易后</span></h3>
+        <div class="mycollect clearfix">
+            <dl class="clearfix">
+                <dt>订单管理</dt>
+                <dd class="first-child"><p><span>交易订单 &minus;</span><a href="/SellerAdmin/order/management">全部订单(@Model.OrderCounts)</a></p></dd>
+                <dd class="two-child"><p><a href="/SellerAdmin/order/management?status=1">待买家付款(@Model.OrderWaitPay)</a></p><p><a href="/SellerAdmin/order/management?status=2"> 待发货(@Model.OrderWaitDelivery)</a></p></dd>
+                <dd style="margin-bottom: -10px;">
+                    <p><a href="/SellerAdmin/ProductComment/management?status=1">待回复评价(@Model.OrderReplyComments)</a></p>
+                    <p><a href="/SellerAdmin/ordercomplaint/management?status=1">待处理投诉(@Model.OrderHandlingComplaints)</a></p>
+                    <p><a href="/SellerAdmin/orderrefund/management?showtype=2&status=1">待处理退款(@Model.OrderWithRefund)</a></p>
+                    <p><a href="/SellerAdmin/orderrefund/management?showtype=3&status=1">待处理退货(@Model.OrderWithRefundAndRGoods)</a></p>
+                </dd>
+
+            </dl>
+        </div>
+    </div>
+    <div class="ms-public modle-box">
+        <h3><a>公告</a></h3>
+        <ul>
+            @foreach (var article in @Model.Articles)
+            {
+                <li><a href="@Url.Action("Details", "Article", new { id = article.Id })">@article.Title</a></li>
+            }
+        </ul>
+    </div>
+
+    <div class="ms-goods modle-box">
+        <h3><a>商品管理</a></h3>
+        <ul class="clearfix">
+            <li>
+                <div class="icon icon-1"></div>
+                <p>
+                    <a href="/SellerAdmin/product/management">出售中(@Model.ProductsOnSale)</a>
+                    <a href="/SellerAdmin/product/management?status=inDraft">草稿箱(@Model.ProductsInDraft)</a>
+                    <a href="/SellerAdmin/product/management?isSafeStock=true" >库存报警<i>(@Model.OverSafeStockProducts)</i></a>
+                </p>
+                <p><a href="/SellerAdmin/product/management?status=unAudit">待审核(@Model.ProductsWaitForAuditing)</a><a href="/SellerAdmin/product/management?status=unAudit">审核未通过(@Model.ProductsAuditFailed)</a></p>
+                <p><a href="/SellerAdmin/product/management?status=saleOff">违规下架(@Model.ProductsInfractionSaleOff)</a><a href="/SellerAdmin/product/management?status=inStock">仓库中(@Model.ProductsInStock)</a></p>
+            </li>
+            <li>
+                <div class="icon icon-2"></div>
+                <p><a href="/SellerAdmin/productconsultation/management">商品咨询(@Model.OrderProductConsultation)</a><a href="/SellerAdmin/ProductComment/management">商品评价<i>(@Model.ProductsEvaluation)</i></a></p>
+                <p><a href="/SellerAdmin/brand/management">授权品牌(@Model.ProductsBrands)</a></p>
+            </li>
+        </ul>
+    </div>
+
+    <div class="ms-chat chat-shop modle-box">
+        <h3><a>店铺效果分析</a></h3>
+        <h6 class="Sclear-A9">昨日数据：@DateTime.Now.Date.AddDays(-1).ToString("yyyy-MM-dd")</h6>
+        <div class="chat-shop-rang">
+            <i></i>
+            <ul>
+                <li>
+                    <h5>访问次数</h5>
+                    <p><b></b><span>@ViewBag.VistiCounts</span></p>
+                </li>
+                <li>
+                    <h5>下单次数</h5>
+                    <p><b></b><span>@ViewBag.OrderCounts</span></p>
+                </li>
+                <li>
+                    <h5>支付金额</h5>
+                    <p><b></b><span>@ViewBag.SaleAmounts</span></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="ms-chat modle-box">
+        <h3>商品销售 <em>Top15</em></h3>
+        <div class="chat-box">
+            <div id="main" class="Sclear-A10"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

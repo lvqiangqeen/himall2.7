@@ -1,0 +1,40 @@
+﻿<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+@using Himall.Core;
+@model Himall.Model.PromoterStatistics
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>销售员列表</a></li>
+        <li><a href="@Url.Action("Planning")">招募计划设置</a></li>
+        <li><a href="@Url.Action("Setting")">招募审核开关</a></li>
+    </ul>
+    <div class="search-box" id="search-box">
+        <form class="form-inline custom-inline">
+                <div class="total-promoter mb15">
+                    <span>销售员总数:<em>@Model.PromoterCount</em></span>
+                    <span>近3天新增数:<em>@Model.ThreeDaysIncrease</em></span>
+                    <span>近7天新增数:<em>@Model.SevenDaysIncrease</em></span>
+                </div>
+                <div class="form-group">
+                    <label class="label-inline w95" for="">销售员帐号</label>
+                    <input class="form-control input-ssm" type="text" id="autoTextBox" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label class="label-inline w75" for="">审核状态</label>
+                    <select class="form-control input-ssm" id="Status">
+                        <option value="-1" selected>所有状态</option>
+                     @foreach (var d in Himall.Core.EnumHelper.ToDescriptionDictionary<Himall.Model.PromoterInfo.PromoterStatus>())
+                     {
+                        <option value="@d.Key">@d.Value</option>
+                     }
+                    </select>
+                </div>
+                <div class="form-group"><button type="button" class="btn btn-primary btn-sm" id="searchBtn">搜 索</button></div>
+        </form>
+    </div>
+
+    <table id="list" class="table"></table>
+</div>
+<script src="~/Areas/Admin/Scripts/PromoterManagement.js"></script>

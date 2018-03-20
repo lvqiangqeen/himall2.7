@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>核销详情</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">核销详情</h1>
+			<div class="has-border-bt"></div>
+		</header>
+		<div class="mui-content transparent">
+			<div id="List" class="order-list" style="padding: 0;"></div>
+		</div>
+		<div class="error-tips hidden" id="errorTips"><i class="iconfont icon-tips"></i><h4></h4></div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js"></script>
+		<script>
+		
+			var userkey=himall.getState().userkey,
+				code,
+				w,
+				ws,
+				List=document.getElementById('List'),
+				errorTips=document.getElementById('errorTips');
+			mui.init({
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				ws=plus.webview.currentWebview();
+				ws.setStyle({scrollIndicator:'none'});
+				code=ws.code;
+				w=plus.nativeUI.showWaiting('',{padlock:true});
+				mui.ajax(URL+'api/ShopBranchOrder/GetShopBranchOrder',{
+		        	data:himall.md5Data({
+						userkey:userkey,
+						pickcode:code
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(data.success){
+							List.innerHTML=template('initData',data)
+							delayimg.init();
+							himall.removeClass(document.querySelector('.mui-content'),'transparent');
+						}else{
+							errorTips.querySelector('h4').innerHTML=data.msg;
+							himall.removeClass(errorTips,'hidden');
+						}
+				        
+	      				w.close();	
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						reloadWvLoad();
+					}
+				});
+			});
+			
+			mui('#List').on('tap','#enterCheck',function(){
+				var _this=this;
+				mui.confirm('是否确认核销该订单！', '', ['取消', '确认'], function(e) {
+					if (e.index == 1) {
+						mui.ajax(URL+'api/ShopBranchOrder/GetShopBranchOrderConfirm',{
+				        	data:himall.md5Data({
+								userkey:userkey,
+								pickcode:code
+							}),
+							dataType:'json',
+							type:'get',
+							timeout:10000,
+							success:function(data){
+								if(data){
+									document.getElementById('orderStatus').innerText='已完成';
+							        _this.style.display='none';
+							        var goBack=document.getElementById('goBack');
+							        himall.removeClass(goBack,' hidden'); 
+							        plus.nativeUI.toast('核销成功！请给买家提货');
+							        goBack.addEventListener('tap',function(){
+							        	ws.close();
+							        })
+								}else{
+									plus.nativeUI.toast('核销失败！');
+								}
+								
+							},
+							error:function(xhr,type,errorThrown){
+								plus.nativeUI.toast('核销失败！请检查网络后重试');
+							}
+						});
+					}
+				});
+			});
+			
+			
+		</script>
+		
+		<script id="initData" type="text/html">
+			{{if order.RefundStats}}
+				<div class="order-check-disabled"><i class="iconfont icon-tips"></i>该订单有商品正在发起售后，无法核销</div>
+			{{/if}}
+			<div class="order-guide-info"><i class="iconfont icon-checkuser"></i>{{order.ShipTo}}，{{order.CellPhone}}</div>
+			
+			<div class="order-title">自提订单</div>
+			<div class="order-info">
+                <div class="item">
+                	{{each orderItem}}
+                    <div class="buy-goods">
+                        <a class="goods-url goods-img"><img src="images/blank.gif" data-delay="{{$value.ThumbnailsUrl}}"/></a>
+                        <p><em>¥ {{$value.SalePrice.toFixed(2)}}<i>x {{$value.Quantity}}</i></em><span><a class="goods-url">{{$value.ProductName}}</a></span></p>
+                        <h5>
+							{{if $value.Size}}
+							{{$value.SizeAlias}}：{{$value.Size}}&nbsp;&nbsp;
+							{{/if}}
+							{{if $value.Color}}
+								{{$value.ColorAlias}}：{{$value.Color}}&nbsp;&nbsp;
+							{{/if}}
+							{{if $value.Version}}
+								{{$value.VersionAlias}}：{{$value.Version}}
+							{{/if}}
+                        </h5>
+                    </div>
+                    {{/each}}
+                </div>
+                <div class="item">
+	            	<div class="order-amount border-top">订单金额：<span>¥ {{order.OrderTotalAmount.toFixed(2)}}</span></div>
+                </div>
+	        </div>
+	        <div class="item order-title">订单信息</div>
+	        <div class="order-info">
+	        	<div class="item item-ptext">
+					<p>订单编号：{{order.Id}}</p>
+					<p>订单状态：<span id="orderStatus">待自提</span></p>
+					<p>下单时间：{{order.PayDate.replace('T',' ')}}</p>
+				</div>
+	        </div>
+	        
+	        {{if !order.RefundStats}}
+		        <div class="order-btn">
+		        	<a class="mui-btn mui-btn-blue mui-btn-block" id="enterCheck">确认提货</a>
+		        	<a class="mui-btn mui-btn-blue mui-btn-block hidden" id="goBack">返回首页</a>
+		        </div>
+	        {{/if}}
+		</script>
+	</body>
+
+</html>

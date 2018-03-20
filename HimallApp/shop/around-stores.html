@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>周边门店</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />   
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">周边门店</h1>
+		</header>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div id="sansearchstroe">
+					<img src="images/locating.gif" width="80">
+					<b style="float: left;width: 100%;color: #666;">正在定位...</b>
+				</div>
+				<div id="storesList">
+					
+				</div>
+			</div>
+		</div>
+        <script src="js/mui.min.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/md5.js"></script>
+        <script src="js/template.js"></script>
+        <script src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+        <script type="text/html" id="initStoreList">
+            {{each Storelist}}
+            <div class="stores-lsit-row" data-id="{{$value.Id}}">
+                <i>{{$value.DistanceUnit}}</i>
+                <h4 class="j_home" data-id="{{$value.Id}}"><span class="iconfont icon-dianpu"></span>{{$value.ShopBranchName}}</h4>
+                <p>{{$value.AddressDetail}}</p>
+                <div class="storesList-bottm-row">
+                    <a href="javscript:void(0)" class="goMap" data-adress="{{$value.AddressDetail}}" data-name="{{$value.ShopBranchName}}" data-lat="{{$value.Latitude}}"  data-lon="{{$value.Longitude}}"><span class="mui-icon mui-icon-map"></span>查看地图</a>
+                    <a href="javscript:void(0)" class="goPhone" data-phone="{{$value.ContactPhone}}"><span class="mui-icon mui-icon-phone"></span>拨打电话</a>
+                </div>
+            </div>
+            {{/each}}
+        </script>
+        <script>
+            var page = 1,
+                isnodata = false,
+                shopId,
+                fromLatLng = '',//这里要获取当前用户定位
+			    storesList = document.getElementById('storesList'),
+			    lat="",
+			    lon="";
+              mui.init({
+                pullRefresh: {
+                    container: '#pullrefresh',
+                    deceleration: 0.0006,
+                    up: {
+                        contentrefresh: "正在加载...",
+                        contentnomore: '已加载全部门店',
+                        callback: function () {
+                            var self = this;
+                            if (!isnodata) {
+                                page++;
+                                mui.ajax(URL + 'api/ShopBranchList/GetStoreList', {
+                                    data: himall.md5Data({
+                                        pageNo: page,
+                                        pageSize: 10,
+                                        shopId: shopId,
+                                        fromLatLng: fromLatLng
+                                    }),
+                                    dataType: 'json',
+                                    type: 'get',
+                                    timeout: 10000,
+                                    success: function (data) {
+                                        if (data.Success ==true) {
+                                            if (data.Storelist.length > 0) {
+                                                storesList.insertAdjacentHTML('beforeend', template('initStoreList', data));
+                                            } else {
+                                                isnodata = true;
+                                            }
+                                            self.endPullupToRefresh(isnodata);
+
+                                        }
+                                    },
+                                    error: function (xhr, type, errorThrown) {
+                                        plus.nativeUI.toast('请求失败，请检查网络')
+                                    }
+                                });
+                            } else {
+                                self.endPullupToRefresh(isnodata);
+                            }
+                        }
+                    }
+                }
+            });
+            himall.immersedNav();
+            mui.plusReady(function () {
+            	var sid=plus.webview.currentWebview().shopId;
+            	if(sid!=null){
+            		shopId=sid;
+            	}
+//          	plus.geolocation.getCurrentPosition(function (p) {
+//          		lat=p.coords.latitude;
+//          		lon=p.coords.longitude;  
+//          		fromLatLng=lat+","+lon;
+//	            		if(fromLatLng==''){
+//						 plus.nativeUI.toast("请在系统设置中打开“定位服务“允许Himall商城获取您的位置");
+//						 return;
+//					 }
+//          		loadList();
+//				}, function (e) {
+//					plus.nativeUI.toast("定位获取失败，请检查是否开启定位");
+//				});
+				if (navigator.geolocation){ 
+				    navigator.geolocation.getCurrentPosition(function(position){
+				    	lat = position.coords.latitude; //纬度 
+						lon = position.coords.longitude; //经度 
+						mui.ajax(TENXUNMAP, {
+		                    data: {
+		                    	locations: lat+','+lon,
+		                    	type: 1,
+		                    	key: MAPKEY
+		                    },
+		                    dataType: 'json',
+		                    type: 'get',
+		                    timeout: 10000,
+		                    success: function (data) {
+		                        lat = data.locations[0].lat;
+		                        lon = data.locations[0].lng;
+		                        fromLatLng = lat+','+lon;
+		    					loadList();
+		                    },
+		                    error: function (xhr, type, errorThrown) {
+	                    	   console.log(errorThrown);  
+		                    }
+		                });
+				    },function(error){
+				    	switch(error.code) { 
+						    case error.PERMISSION_DENIED: 
+						      plus.nativeUI.toast("定位失败,请检查是否允许定位"); 
+						      break; 
+						    case error.POSITION_UNAVAILABLE: 
+						      plus.nativeUI.toast("定位失败,位置信息是不可用"); 
+						      break; 
+						    case error.TIMEOUT: 
+						      plus.nativeUI.toast("定位失败,请求获取位置超时"); 
+						      break; 
+						    case error.UNKNOWN_ERROR: 
+						      plus.nativeUI.toast("定位失败,定位系统失效"); 
+						      break; 
+						} 
+				    });
+			    }else{
+			    	plus.nativeUI.toast("该浏览器不支持地理定位");
+			    }
+            });
+            mui('.mui-content').on('tap', '.stores-lsit-row', function (e) {
+            	    if(e.target.nodeName!="A"&&e.target.nodeName!="SPAN"){
+            		    himall.openVW('shop-index.html', {Id: this.getAttribute('data-id') });
+                    }
+            });
+            mui("#storesList").on('tap',".goPhone",function(){
+            	//plus.device.dial(this.getAttribute('data-phone'), false);直接拨号 
+            	 location.href = "tel:" + this.getAttribute('data-phone');
+            });
+            mui("#storesList").on('tap',".goMap",function(){
+            	  var store_ads=this.getAttribute('data-adress');
+            	  var store_lat=this.getAttribute('data-lat');
+            	  var store_lon=this.getAttribute('data-lon');
+            	  var store_name=this.getAttribute('data-name');
+            	  var local=new plus.maps.Point(lon,lat);
+            	  var destination=new plus.maps.Point(store_lon,store_lat);
+            	  plus.maps.openSysMap(destination, store_name, local);
+            });
+            
+            function loadList(){
+            	 mui.ajax(URL + 'api/ShopBranchList/GetStoreList', {
+                    data: himall.md5Data({
+                        pageNo: page,
+                        pageSize: 10,
+                        shopId: shopId,
+                        fromLatLng: fromLatLng
+                    }),
+                    dataType: 'json',
+                    type: 'get',
+                    timeout: 10000,
+                    success: function (data) {
+                    	document.getElementById("sansearchstroe").style.display='none';
+                        if (data.Success == true) {
+			            	   if (data.Storelist.length > 0) {
+			            	   		storesList.innerHTML=template('initStoreList', data);
+			                    } else {
+						        	var html='<div class="empty-show"><h4>暂无门店...</h4></div>';
+						        	storesList.innerHTML=html;
+			                    }
+                        }
+                    },
+                    error: function (xhr, type, errorThrown) {
+                    	   console.log(errorThrown);  
+                       	   reloadWvLoad();
+                    }
+                });
+            }
+		</script>
+	</body>
+</html>

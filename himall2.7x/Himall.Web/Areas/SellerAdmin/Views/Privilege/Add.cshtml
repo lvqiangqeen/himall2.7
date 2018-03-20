@@ -1,0 +1,71 @@
+﻿@model Himall.Web.Areas.Admin.Models.RoleInfoModel
+<script src="~/Areas/SellerAdmin/Scripts/RoleAdd.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li>@Html.ActionLink("权限组", "Management", new { area = "Selleradmin" })</li>
+        <li class="active"><a href="@Url.Action("add")">添加权限组</a></li>
+
+    </ul>
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">权限组名：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(item => item.RoleName, new { @class = "form-control input-sm" })
+            </div>
+            <div class="col-sm-3">
+                @Html.ValidationMessageFor(item => item.RoleName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"></label>
+            <div class="col-sm-9">
+                <label class="checkbox-inline power-check-all"><input value="0" type="checkbox">权限设置（全选 ）</label>
+                <ul class="checkbox-list">
+                    @*<li>
+                            <label class="checkbox-inline parent-check"><input type="checkbox">首页</label>
+                            <p>
+                                @foreach (var item in @ViewBag.HomePrivileges)
+                                {
+                                    <label class="checkbox-inline"><input name="privilege" value="@item.Key" type="checkbox">@item.Value</label>
+                                }
+
+                            </p>
+                        </li>*@
+                    @foreach (var p in (ViewBag.Privileges as Himall.Model.Privileges).Privilege)
+                    {
+                        <li>
+
+                            <label class="checkbox-inline parent-check"><input type="checkbox">@p.GroupName</label>
+                            <p>
+                                @foreach (var item in p.Items)
+                                {
+                                    <label class="checkbox-inline"><input name="privilege" id="@item.PrivilegeId" value="@item.PrivilegeId" type="checkbox">@item.Name</label>
+                                }
+
+
+
+                            </p>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" onclick="submitRole()" class="btn btn-primary">保 存</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    $(function () {
+        var IsSelfShop = '@ViewBag.IsSelf';
+        if (IsSelfShop.toUpperCase() == "False".toUpperCase()) {
+            $("#3007,#4007").parent().remove();
+        }
+    });
+</script>

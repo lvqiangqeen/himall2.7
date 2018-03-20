@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "PaymentConfig";
+    List<string> addressids = ViewBag.Address;
+    List<string> addressids_city = ViewBag.AddressCity;
+}
+
+@model List<Himall.CommonModel.Region>
+
+<script src="~/Areas/SellerAdmin/Scripts/PaymentConfigIndex.js"></script>
+<link href="/Content/inner-custom.css" rel="stylesheet" />
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>货到付款</a></li>
+    </ul>
+    <h5 class="tips-top"><span class="help-default"><i></i>说明：若有不支持货到付款的区域请将该区域前的对勾去掉</span></h5>
+
+    <div class="paymentConfig">
+        @foreach (var p in Model)
+        {
+            <div class="dl-horizontal clearfix">
+                <h4><span id="100" class="sc1">@p.Name</span></h4>
+                <h5>
+                    @foreach (var c in p.Sub)
+                    {
+                        <div class="hidereginDiv">
+                            @if (addressids_city.Contains("'" + c.Id.ToString() + "'"))
+                            {
+                                <input type="checkbox" class="show-region-ckb" id="@c.Id" checked="checked" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" class="show-region-ckb" id="@c.Id" />
+                            }
+                            @if (c.Sub != null && c.Sub.Count() > 0)
+                            {
+                                <span class="show-region">@c.Name<span class="glyphicon glyphicon-triangle-bottom"></span></span>
+                            }
+                            else
+                            {
+                                <span class="show-region">@c.Name</span>
+                            }
+
+                            @if (c.Sub != null)
+                            {
+                                <ul class="region-select">
+                                    <span  class="glyphicon glyphicon-remove Sclear-J1"></span>
+
+                                    @foreach (var u in c.Sub)
+                                    {
+                                        if (addressids.Contains("'" + u.Id.ToString() + "'"))
+                                        {
+                                            <li> <input class="show-region-real" type="checkbox" id="@u.Id" checked="checked" />@u.Name</li>
+                                        }
+                                        else
+                                        {
+                                            <li> <input class="show-region-real" type="checkbox" id="@u.Id" />@u.Name</li>
+                                        }
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    }
+                </h5>
+            </div>
+        }
+        <button type="button" class="btn btn-primary btn-sm Sclear-J2" id="btnSave">保 存</button>
+    </div>
+</div>

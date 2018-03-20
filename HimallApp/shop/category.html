@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>商城分类</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<style>
+			body,html{height: 100%; padding-bottom: 5px;}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">商城分类</h1>
+		</header>
+		
+		<div class="mui-content transparent">
+			<div class="category-box">
+	            <div class="category1" id="category1">
+	            	<div class="mui-scroll-wrapper" id="scroll1">
+				 		<div class="mui-scroll">
+			                <ul class="mui-clearfix" id="categoryOneList">
+			                </ul>
+			            </div>
+			        </div>
+	            </div>
+	            <div class="category2" id="category2"><dl></dl></div>
+	        </div>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/delayimg.min.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true
+			});
+			
+			var dataC,
+				category1='',
+				category2='',
+				categoryElem2=document.getElementById('category2');
+			
+			mui.plusReady(function() {
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				document.getElementsByClassName('category-box')[0].style.height= document.body.clientHeight+'px'
+				mui.ajax(URL+'api/Category/GetCategories',{
+					data:himall.md5Data(),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(data.Success=='True'){
+							dataC=data;  //储存分类数据
+							
+					        if (dataC.Category.length > 0) {
+					        	for(var i=0;i<dataC.Category.length;i++){
+									category1+='<li '+(i==0?'class="cur"':'')+' >'+dataC.Category[i].Name+'</li>';
+					            }
+					            document.getElementById('categoryOneList').innerHTML=category1;
+					            
+					            mui('#scroll1').scroll({
+									indicators: false //是否显示滚动条
+								});
+					            
+					            for(var i=0;i<dataC.Category[0].SubCategories.length;i++){
+				                    category2+='<dt>'+dataC.Category[0].SubCategories[i].Name+'</dt>'+
+				                    '<dd class="mui-clearfix">';
+				                    for(var j=0;j<dataC.Category[0].SubCategories[i].SubCategories.length;j++){
+				                        if(dataC.Category[0].SubCategories[i].SubCategories[j].Image==''){
+				                    		category2+='<a data-id="'+dataC.Category[0].SubCategories[i].SubCategories[j].Id+'">'+
+				                        		'<img style="opacity:1 !important" src="images/default.png">';
+				                        }else{
+				                        	category2+='<a data-id="'+dataC.Category[0].SubCategories[i].SubCategories[j].Id+'" style="background:url(images/default.png) no-repeat center top">'+
+				                        		'<img src="images/default.png" data-delay="'+dataC.Category[0].SubCategories[i].SubCategories[j].Image+'">';
+				                        }
+				                        category2+='<span>'+dataC.Category[0].SubCategories[i].SubCategories[j].Name+'</span>'+
+				                        '</a>';
+				                    }
+				                    category2+='</dd>';
+					                
+					            }
+					            categoryElem2.childNodes[0].innerHTML=category2;
+					            delayimg.init({content:document.getElementById('category2'),throttle:0});
+					        }else{
+					        	var html='<div class="empty-show"><h4>商城还没有添加分类</h4><button id="closeWv" class="mui-btn mui-btn-negative">去其他地方逛逛</button></div>';
+					        	document.getElementsByClassName('mui-content')[0].innerHTML=html;
+					        }
+					        w.close();
+					        himall.removeClass(document.querySelector('.mui-content'),'transparent');
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						reloadWvLoad();
+					}
+				});
+			});
+			
+			var index;
+            mui('#category1').on('tap','li',function(){
+        		categoryElem2.scrollTop=0;
+            	index=getIndex(this);
+            	category2='';
+            	for(var i=0;i<dataC.Category[index].SubCategories.length;i++){
+                    category2+='<dt>'+dataC.Category[index].SubCategories[i].Name+'</dt>'+
+                    '<dd class="mui-clearfix">';
+                    for(var j=0;j<dataC.Category[index].SubCategories[i].SubCategories.length;j++){
+                    	if(dataC.Category[index].SubCategories[i].SubCategories[j].Image==''){
+                    		category2+='<a data-id="'+dataC.Category[index].SubCategories[i].SubCategories[j].Id+'">'+
+                        		'<img style="opacity:1 !important" src="images/default.png">';
+                        }else{
+                        	category2+='<a data-id="'+dataC.Category[index].SubCategories[i].SubCategories[j].Id+'" style="background:url(images/default.png) no-repeat center top">'+
+                        		'<img src="images/default.png" data-delay="'+dataC.Category[index].SubCategories[i].SubCategories[j].Image+'">';
+                        }
+                        category2+='<span>'+dataC.Category[index].SubCategories[i].SubCategories[j].Name+'</span>'+
+                        '</a>';
+                    }
+                    category2+='</dd>';
+	            }
+            	categoryElem2.firstChild.innerHTML='';
+            	categoryElem2.firstChild.innerHTML=category2;
+            	delayimg.render();
+            	document.getElementsByClassName('cur')[0].className='';
+            	this.className='cur';
+            });
+			
+			
+			mui('#category2').on('tap', 'a', function() {
+				himall.openVW('search.html',{cid:this.getAttribute('data-id')});
+			});
+			
+		</script>
+	</body>
+
+</html>

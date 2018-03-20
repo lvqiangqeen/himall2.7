@@ -1,0 +1,114 @@
+﻿@model Himall.Web.Areas.Mobile.Models.ShopBranchModel
+@{
+    ViewBag.Title = "选择自提点";
+}
+
+<style>
+    li span span {
+        width: 100%;
+    }
+</style>
+
+<div class="container shop-branch">
+    <ul id="list">
+        <li>暂无门店数据</li>
+    </ul>
+</div>
+
+<div id="template" style="display:none">
+    <div class="branch-check">
+        <input id="rdo{index}" type="radio" name="shopBranch" value="{id}" data-name="{shopBranchName}" {state} />
+    </div>
+    <div class="branch-info">
+        <p class="branch-name"><label for="rdo{index}">{shopBranchName}</label></p>
+        <p><span class="{msg.class}" style="color: #fff; background: #f8413d;padding: 0 10px; border-radius: 2px;">#该门店缺货</span></p>
+        <p class="branch-tel"><em>联系方式：</em>{contactPhone}</p>
+        <p class="branch-addr">{addressDetail}</p>
+    </div>
+</div>
+
+<script>
+	var shopId=@Model.ShopId;
+	var regionId=@Model.RegionId;
+	var skuIds='@string.Join(",",Model.SkuIds)'.split(',');
+	var counts='@string.Join(",",Model.Counts)'.split(',');
+	var _page=1;
+	var cacheKey='ChoseShopBranch.Value';
+	var cacheValue=window.getFromLocalStorate(cacheKey);
+	var lodeEnd = false,total=0;
+	function loadData(){
+	    if (lodeEnd)
+	        return;
+	    var loading = showLoading();
+
+		$.post('./GetShopBranchs', {shopId:shopId, regionId:regionId, getParent:true, skuIds:skuIds, counts:counts, page:_page,rows:10,shippingAddressId:'@ViewBag.ShippingAddressId'}, function (data) {
+		    if(data){
+		        total = data.total;
+				loading.close();
+				var list=$('#list');
+				if(data.rows.length>0){
+				    if(_page==1)
+				        list.html('');
+				    _page++;
+				    if (total == data.rows.length){
+				        lodeEnd = true;
+				    }
+				}else{
+				    lodeEnd=true;
+				    return;
+				}
+
+				var html=[];
+				var template=$('#template').html();
+				for (var i = 0; i < data.rows.length; i++) {
+					var item=data.rows[i];
+					if($.notNullOrEmpty(cacheValue)&&cacheValue.sbId==item.id)
+						item.state='checked';
+					item.index=i;
+					if(item.enabled==true)
+						item.msg={"class":"hide"};
+					else
+						item.state='disabled';
+					html.push(template.formatProperty(item));
+				}
+
+				list.append('<li class="clearfix 1">{0}</li>'.format(html.join('</li ><li class="clearfix 2">')));
+			}
+		});
+	}
+	$(function(){
+		if($.notNullOrEmpty(cacheValue))
+			cacheValue=cacheValue[shopId];
+		loadData();
+
+		$(window).scroll(function () {
+			var scrollTop = $(this).scrollTop();
+			var scrollHeight = $(document).height();
+			var windowHeight = $(this).height();
+
+			if (scrollTop + windowHeight >= scrollHeight) {
+				loadData();
+			}
+		});
+
+		$('#list').on('change','input:radio',function(){
+		    if(this.checked==true){
+		    	$(this).next().addClass("active");
+		    	saveChose(this.value,$(this).data('name'));
+		    	var refer=window.sessionStorage.getItem("refer");
+		    	if(refer!=null&&refer!=''){
+		    	    window.sessionStorage.removeItem("refer");
+		    	    window.location.href=refer;
+		    	}
+			}
+		});
+
+		function saveChose(sbId,sbName) {
+			var value=window.getFromLocalStorate(cacheKey);
+			if($.isNullOrEmpty(value))
+				value={};
+			value[shopId]={sbId:sbId,sbName:sbName,regionId:regionId};
+			window.saveToLocalStorage(cacheKey, value);
+		}
+	});
+</script>

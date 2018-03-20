@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewBag.Title = "WXMsgTemplate";
+    ViewBag.MediaId = Request.QueryString["mediaid"];
+}
+@model IEnumerable<Himall.Model.WXMaterialInfo>
+<link href="/Content/WXmsg.css" rel="stylesheet" />
+<script src="~/Scripts/ueditor/ueditor.config.js"></script>
+<script src="~/Scripts/ueditor/ueditor.all.min.js"></script>
+<script src="~/Areas/Admin/Scripts/WXMaterialAdd.js"></script>
+<input type="hidden" id="mediaid" value="@ViewBag.MediaId" />
+<style>
+    input.dln{display:none!important}
+</style>
+<div class="container">
+    <ul class="breadcrumb clearfix">
+        <li><a href="WXMsgTemplateManage">素材管理</a></li>
+        <li class="active"><a>编辑素材</a></li>
+    </ul>
+    <div class="edit-wrap clearfix mt20">
+            <div class="WX-edit">
+                <div class="item item-wrapper cover-handle" id="navWrapper" name="nav1" cnt="1" >
+                    <div class="WX-item">
+                        <div class="item-img">
+                            <img  />
+                        </div>
+                        <span class="item-title">标题</span>
+                    </div>
+					<div class="WX-edted">
+						<i> <img /> </i>
+						<span >标题</span>
+					</div>
+                    <div class="edit-cover">
+						<span class="glyphicon glyphicon-arrow-up"></span>
+                        <span class="glyphicon glyphicon-arrow-down"></span>
+                    </div>
+                </div>
+                <div class="item-wrapper03">
+					<div class="WX-item-add">
+						<span class="glyphicon glyphicon-plus"></span>
+					</div>
+				</div>
+            </div>
+			<div class="item item-wrapper tmpl-item-wrapper02 cover-handle" style="display: none;">
+				<div class="WX-item">
+					<div class="item-img">
+						<img  />
+					</div>
+					<span class="item-title">标题</span>
+				</div>
+				<div class="WX-edted">
+					<i> <img /> </i>
+					<span >标题</span>
+				</div>
+				<div class="edit-cover">
+					<span class="glyphicon glyphicon-arrow-up"></span>
+					<span class="glyphicon glyphicon-arrow-down"></span>
+					<span class="glyphicon glyphicon-trash"></span>
+				</div>
+			</div>
+			
+            <div class="WXinput-area" id="content1">
+
+                <div class="input-title">
+                    <h3>标题<em>（必填）</em></h3>
+                    <label><input type="text" name="title" maxlength="64"><i>0/64</i></label>
+                </div>
+                <div class="input-title author">
+                    <h3>作者<em>（必填）</em></h3>
+                    <label><input type="text" name="author" maxlength="8"><i>0/8</i></label>
+                </div>
+                <div class="upload-wrap">
+                    <h3>封面<em>（大图片建议尺寸：900像素*500像素）</em></h3>
+                    <iframe name="iframeUpload1" src="" width="350" height="35" frameborder="0" scrolling="no" class="dln" id="iframe1"></iframe>
+                    <form id="formUpload1" action="/common/PublicOperation/UploadPicToWeiXin" enctype="multipart/form-data" method="post" target="iframeUpload1">
+                        <label>
+                            <span>本地上传</span>
+                            <input id="btnFile1" type="file" name="_file" accept="Image/*" class="dln" />
+                            <input type="text" name="thumb_media_id" class="dln">
+                        </label>
+                    </form>
+                    @*<label>
+                        <span>从图片库选择</span>
+                            <div class="dialog-load">
+                            </div>
+                    </label>*@
+                    <br>
+                    <label class="checkload"><input type="checkbox" name="show_cover_pic">封面图片显示在正文中</label>
+                </div>
+                <div class="abstract">
+                    <h3>摘要<em>（选填，该摘要只在发送图文消息为单条时显示）</em></h3>
+                    <label><textarea name="digest" maxlength="120"></textarea><i>0/120</i></label>
+                </div>
+                <div class="text-body">
+                    <h3>正文<em>（提示信息已载入.......）</em></h3>
+                    <div class="clear-v48" name="contentDesc">
+
+                            <textarea id="contentDesc1"></textarea>
+                        </div>
+                    </div>
+                <div class="WX-bottom">
+                    <h3>阅读全文</h3>
+                   <p><label><input type="checkbox" name="setUrl">设置链接地址</label><input name="content_source_url" class="href" type="text"></p>
+                </div>
+                <div class="WX-footer">
+                    <button name="btnSave" class="btn btn-primary btn-sm clear-v49" >保存</button>
+                </div>
+            </div>
+        </div>
+</div>
+

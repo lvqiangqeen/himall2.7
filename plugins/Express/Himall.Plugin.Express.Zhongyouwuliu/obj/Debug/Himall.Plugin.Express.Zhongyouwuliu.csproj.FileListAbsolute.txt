@@ -1,0 +1,9 @@
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhongyouwuliu\bin\Debug\plugin.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhongyouwuliu\bin\Debug\Himall.Plugin.Express.Zhongyouwuliu.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhongyouwuliu\bin\Debug\Himall.Plugin.Express.Zhongyouwuliu.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhongyouwuliu\bin\Debug\Himall.Core.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhongyouwuliu\bin\Debug\Himall.ExpressPlugin.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhongyouwuliu\bin\Debug\Himall.ExpressPlugin.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhongyouwuliu\bin\Debug\Himall.Core.xml
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhongyouwuliu\obj\Debug\Himall.Plugin.Express.Zhongyouwuliu.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Zhongyouwuliu\obj\Debug\Himall.Plugin.Express.Zhongyouwuliu.pdb

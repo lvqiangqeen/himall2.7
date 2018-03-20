@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>绑定提现账户</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">绑定提现账户</h1>
+		</header>
+		<div class="mui-content">
+			<div class="bind-step"><span>验证身份</span> > <span class="active">填写账户信息</span> > <span>绑定成功</span></div>
+            <ul class="table-widthdraw-data withdraw-info">
+            	<li class="m-line">
+					<label>银行</label>
+					<input id="bankName" type="text" placeholder="请输入银行名称"/>
+				</li>
+                <li class="m-line">
+					<label>银行开户名</label>
+					<input id="accountName" type="text" placeholder="请输入开户名"/>
+				</li>
+				<li class="m-line">
+					<label>开户支行完整名</label>
+					<input id="bankBranch" type="text" placeholder="请输入支行名"/>
+				</li>
+				<li class="m-line">
+					<label>银行账号</label>
+					<input id="accountNum" type="text" placeholder="请输入银行卡号"/>
+				</li>
+            </ul>
+            <div class="mui-content-padded">
+				<button id='submit' class="mui-btn mui-btn-block mui-btn-blue pad10 mart30">下一步</button>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js"></script>
+		<script>
+			var w,
+				baseInfo,
+				certificate,
+			    userKey = himall.getState().userkey,
+			    bankName = document.getElementById('bankName'),
+			    accountName = document.getElementById('accountName'),
+			    bankBranch = document.getElementById('bankBranch'),
+			    accountNum = document.getElementById('accountNum');
+		    
+			mui.init({
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				var ws = plus.webview.currentWebview();
+				ws.setStyle({scrollIndicator:'none'});
+				baseInfo = ws.data;
+				certificate=ws.certificate;
+				if(!ws.isNew){
+					bankName.value = baseInfo.BankName;
+					accountName.value = baseInfo.BankAccountName;
+					bankBranch.value = baseInfo.BankBranch;
+					accountNum.value = baseInfo.BankAccountNumber;
+				}
+				//提交申请
+		        function submitApply(){
+		        	if(!bankName.value||!accountName.value||!bankBranch.value||!accountNum.value){
+		        		plus.nativeUI.toast('请将账户信息填写完整');
+						return;
+		        	}
+		        	var w=plus.nativeUI.showWaiting('',{padlock:true});
+		        	mui.ajax(URL + 'api/ShopWithDraw/SetBankAccount', {
+	                    data:himall.md5Data({
+	                        userKey: userKey,
+	                        bankname: bankName.value,
+	                        bankaccountname: accountName.value,
+	                        bankbranch: bankBranch.value,
+	                        bankaccountnumber: accountNum.value,
+	                        certificate:certificate
+	                    }),
+	                    dataType: 'json',
+	                    type: 'post',
+	                    timeout: 10000,
+	                    success: function(data) {
+	                    	w.close();
+	                    	if(data.success){
+	                    		himall.openVW('withdraw-account-bind3.html', {});
+	                    	}else{
+	                    		plus.nativeUI.toast(data.msg);
+	                    	}
+	                    },
+	                    error: function(xhr, type, errorThrown) {
+	                    	w.close();
+	                        plus.nativeUI.toast('请求失败，请检查网络重试');
+	                    }
+	                });
+		        }
+				document.getElementById('submit').addEventListener('tap',function(){
+					submitApply();
+				});
+			});
+		</script>
+	</body>
+</html>

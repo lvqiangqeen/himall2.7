@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = "我的拼团";
+    ViewBag.FootIndex = 4;
+}
+
+<div class="container merge-personal" id="hasdata">
+    <ul id="databox"></ul>
+    <div id="autoLoad" class="loading"></div>
+</div>
+
+<div class="container merge-small-page merge-any" style="display:none;" id="nodata">
+    <div class="merge-any-bg"></div>
+    <p>您还没有参加任何团哦，赶快去火拼吧！</p>
+    <a class="btn btn-danger btn-any" href="/@(ViewBag.AreaName)/FightGroup/">去火拼</a>
+</div>
+
+<script src="~/Content/Public/js/dist/underscore.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/loading.js"></script>
+
+<script id="datatmp" type="text/template">
+    <%_.each(datalist, function(item, index, obj) {%>
+
+    <div class="list">
+        <div class="merge-personal-hd">
+            <div class="thumb">
+                <div class="son"><img src="<%=item.ProductDefaultImage%>"></div>
+            </div>
+            <div class="info">
+                <div class="name"><%=item.ProductName%></div>
+                <div class="price">火拼价:<em>￥</em><span><%=item.GroupPrice.toFixed(2)%></span></div>
+                <div class="time">
+                    <span class="hmui-before"><%=item.ShowGroupEndTime%></span>
+                    <%if(item.BuildStatus==0){%>后组团结束<%}%>
+                    <%if(item.BuildStatus==1){%>成团成功<%}%>
+                    <%if(item.BuildStatus==-1){%>成团失败<%}%>
+                </div>
+            </div>
+        </div>
+        <div class="personal-list-bd">
+            <div class="merge-do-tip">已参团的小伙伴<%if(item.BuildStatus==0){%>，还差<strong class="merge-highlight"><%=item.NeedNumber%></strong>人<%}%></div>
+            <ul class="avatar-group">
+                <%_(item.UserIcons).each(function(v, k) {%>
+                <li>
+                    <span class="avatar">
+                        <%if(v){%>
+                        <img src="<%=v%>">
+                        <%}%>
+                    </span>
+                </li>
+                <%});%>
+            </ul>
+        </div>
+        <div class="personal-list-ft">
+            <a class="btn btn-default" href="/@(ViewBag.AreaName)/MyFightGroup/GroupDetail/<%=item.Id%>?aid=<%=item.ActiveId%>">拼团详情</a>
+            <a class="btn btn-danger" href="/@(ViewBag.AreaName)/Order/Detail?id=<%=item.OrderId%>">查看订单</a>
+        </div>
+        <%if(item.BuildStatus==1){%>
+        <div class="merge-do-sign"></div>
+        <%}%>
+        <%if(item.BuildStatus==-1){%>
+        <div class="merge-fail-sign"></div>
+        <%}%>
+    </div>
+    <%});%>
+</script>
+
+<script>
+    var curPage = 1;       //当前页
+    var isMoreGet = true;  //是否还在数据
+    var isLoading = false;
+    var TmplCon = "";
+    var databox;
+    var datalist;   //数据变量
+
+
+    $(document).ready(function () {
+
+        TmplCon = $("#datatmp").html(); //获取模板内容
+        databox = $("#databox");
+        h_loading.init($("#autoLoad"));
+
+        getData();
+
+        $(window).scroll(function () {
+            var scrollTop = $(this).scrollTop();
+            var scrollHeight = $(document).height();
+            var windowHeight = $(this).height();
+
+            if (scrollTop + windowHeight >= scrollHeight - 30) {
+                curPage++;
+                getData();
+            }
+        });
+
+    })
+
+    function getData() {
+        if (isMoreGet) {
+            var getdataurl = '/' + areaName + '/MyFightGroup/PostJoinGroups';
+            if (!isLoading) {
+                isLoading = true;
+                h_loading.show();
+                $.post(getdataurl, { page: curPage }, function (result) {
+                    isLoading = false;
+                    if (result.success) {
+                        datalist = result.rows;
+                        if (datalist.length > 0) {
+                            databox.append(_.template(TmplCon, datalist));
+                            h_loading.hide();
+                        } else {
+                            isMoreGet = false;
+                            if (curPage > 1) {
+                                h_loading.nodata();
+                            } else {
+                                $("#hasdata").hide();
+                                $("body").append("<style>html,body{height:100%;}</style>");
+                                $("#nodata").show();
+                            }
+                        }
+                    } else {
+                        h_loading.hide();
+                        $.dialog.errorTips(result.msg);
+                    }
+                });
+            }
+        }
+    }
+</script>

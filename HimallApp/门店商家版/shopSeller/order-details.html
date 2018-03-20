@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>订单详情</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	
+
+		
+	
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">订单详情</h1>
+		</header>
+		<div id="scrollDiv" class="scroll-div">
+			<div class="mui-content transparent">
+				<div id="order-info" ></div>
+			</div>
+		</div>
+			
+		<script src="js/mui.min.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js"></script>
+		<script>
+			var orderId,
+				mask=null,
+				ws,
+				orderListPage,
+				loadPage,
+				shares = {},
+				isJoin=himall.isJoin(),
+				userkey=himall.getState().userkey;
+				
+			var ajaxUrlList='api/ShopBranchOrder/GetOrderDetail';
+			if(isJoin){
+				ajaxUrlList='api/ShopOrder/GetOrderDetail';
+			}
+			
+			mui.init({
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				orderListPage=plus.webview.getWebviewById('order-list.html');
+				ws=plus.webview.currentWebview();
+				orderId=ws.orderId;
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				
+				loadPage=function(){
+					mui.ajax(URL+ajaxUrlList,{
+						data:himall.md5Data({
+							id:orderId,
+							userkey:userkey
+						}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							if(data.Success=='true'){
+								data.Order.isJoin = isJoin;
+					            document.getElementById('order-info').innerHTML=template('initData',data);
+					            delayimg.init({content:document.getElementById('scrollDiv')});
+					            var btnb=document.getElementById("fixedbtn-box");
+					            if(!isJoin && btnb){
+					            	btnb.style.display="";
+					            }
+								w.close();
+								himall.removeClass(document.querySelector('.mui-content'),'transparent');
+							}else{
+								plus.nativeUI.toast("该订单已被转移");
+								w.close();
+                        		ws.close();
+                        		return;
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							reloadWvLoad();
+						}
+					});
+				};
+				
+				loadPage();
+			});
+			
+			document.addEventListener('updateData', function() {
+				loadPage();
+			});
+			
+			mui('#order-info').on('tap', '.refundApply', function() {
+				himall.openVW('order-refund.html',{orderId:orderId});
+				
+			});
+			
+			mui('#order-info').on('tap', '.refundApplyChild', function(e) {
+				himall.openVW('order-refund.html',{orderId:orderId,itemId:this.getAttribute('data-itemid')});
+				e.stopPropagation();
+			});
+			
+			mui('#order-info').on('tap', '.evaluateOrder', function() {
+				himall.openVW('order-evaluate.html',{orderId:orderId});
+			});
+			
+			mui('#order-info').on('tap', '.evaluateAppendOrder', function() {
+				himall.openVW('order-evaluate-append.html',{orderId:orderId});
+			});		
+			mui('#order-info').on('tap','.btn-delivery',function(){
+				himall.openVW("goods-deliver.html",{orderId:orderId});
+			});
+		</script>
+		
+		<script id="initData" type="text/html">		
+		<div class="mui-content order-detail">
+			 <header>订单状态：{{Order.Status}}</header>
+		</div>
+		<ul class="mui-table-view">
+			  <li class="mui-table-view-cell">
+			  	<div class="order-detail_ads">
+			  		 <span>{{Order.ShipTo}}</span> 
+			  		 <span class="mui-pull-right">{{Order.Phone}}</span> 
+			  		 <p>{{Order.Address}}</p>
+			  	</div>
+			  </li>
+			  <li class="mui-table-view-cell">
+			  	<div class="order-detail_row">
+			  		 <span class="mui-pull-left">发票</span> 
+			  		 {{if Order.InvoiceValue==0}}
+			  		 <span class="mui-pull-right">无</span>
+			  		 {{/if}}
+			  	</div>
+			  		 {{if Order.InvoiceValue!=0}}
+			  	<div class="order-detail_row">
+			  		 <span class="mui-pull-left">发票抬头</span>
+			  		 <span class="mui-pull-right">{{Order.InvoiceTitle}}</span> 
+			  	</div>
+			  	<div class="order-detail_row">
+			  		 <span class="mui-pull-left">发票内容</span>
+			  		 <span class="mui-pull-right">{{Order.InvoiceContext}}</span> 
+			  	</div>
+			  		 {{/if}}
+			  </li>
+			  <li class="mui-table-view-cell">
+			  	<div class="order-detail_row">
+			  		 <span class="mui-pull-left">买家留言</span>
+			  		 <span class="mui-pull-right">{{Order.OrderRemarks}}</span> 
+			  	</div>
+			  </li>
+		</ul>
+		<div>
+			<div class="order-detail_goodsLis_head">
+				<span class="iconfont2 icon-dizhi"></span>  
+				{{Order.ShopName}}
+			</div>
+			<ul class="mui-table-view  order-detail_goodsList">
+				{{each OrderItem}}				
+					<li class="mui-table-view-cell mui-media">
+						<div class="mui-pull-right">
+							￥{{$value.Price}}<br />
+							<span>×{{$value.Count}}</span>  
+						</div>
+						<div class="goods-url goods-img"><img src="images/blank.gif" data-delay="{{$value.ProductImage}}"/></div>
+						<!--<img class="mui-media-object mui-pull-left" src="{{$value.ProductImage}}">-->    
+						<a href="javascript:;">
+							<span class="name-space">{{$value.ProductName}}</span>
+							<p class="mui-ellipsis">
+								{{if $value.size}}{{$value.SizeAlias}}：{{$value.size}}&nbsp;&nbsp;{{/if}}<br />
+								{{if $value.color}}{{$value.ColorAlias}}：{{$value.color}}&nbsp;&nbsp;{{/if}}<br />
+								{{if $value.version}}{{$value.VersionAlias}}：{{$value.version}}{{/if}}<br />  
+							</p>
+						</a>
+					</li>
+               	{{/each}}  
+				</ul>
+		</div>
+		<ul class="mui-table-view noPright">
+			 <li class="mui-table-view-cell" >
+			 	  <span style="width: 75px;">运费 </span>￥{{Order.Freight.toFixed(2)}}<br />
+			 	{{if Order.FullDiscount}}<span style="width: 75px;"> 满减优惠 </span>-￥{{Order.FullDiscount.toFixed(2)}}<br />{{/if}}
+			 	{{if Order.DiscountAmount}} <span style="width: 75px;"> 优惠券抵扣      </span>-￥{{Order.DiscountAmount.toFixed(2)}}<br />{{/if}}
+			 	{{if Order.IntegralDiscount}}<span style="width: 75px;"> 积分抵扣  </span> -￥{{Order.IntegralDiscount.toFixed(2)}}<br />{{/if}}
+			 </li>	
+			 <li class="mui-table-view-cell">
+			 	  <h3>实付(含运费):<span>￥{{Order.RealTotalAmount.toFixed(2)}}</span></h3>
+			 </li>	
+			 <li class="mui-table-view-cell">
+			 	{{if Order.PaymentTypeValue!=0}}
+			 	 支付方式：{{Order.PaymentType}}<br />
+			 	 {{/if}}
+			 	 订单编号：{{Order.Id}}<br />
+			 	 下单时间：{{Order.OrderDate}}<br />
+			 </li>	
+		</ul>
+		
+		{{if Order.orderStatus==2 && Order.DeliveryType==0 && (!Order.isJoin && Order.ShopBranchName!='')}}  
+			<div class="load_all">
+				 <p>已显示全部</p> 
+			</div>    	
+			<div class="bottom_fixedBtn right-btn" id="fixedbtn-box">
+				 <button class="mui-btn blue_btn btn-delivery">去发货</button> 
+		   </div>
+		{{else}}  
+			<div class="load_all" style="margin-bottom:10px;">
+					 <p>已显示全部</p> 
+			</div>      
+		{{/if}}
+	    </script>
+	</body>
+
+</html>

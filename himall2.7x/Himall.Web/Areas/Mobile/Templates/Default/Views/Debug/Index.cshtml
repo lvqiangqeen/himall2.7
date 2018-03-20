@@ -1,0 +1,32 @@
+﻿<script src="~/Scripts/jquery.cookie.js"></script>
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<br />
+<br />
+<button id="clearCookie">清除Cookie</button>
+<script>
+
+    $('#clearCookie').click(function () {
+        //clearCookie();
+        var user = $.cookie('Himall-User') || '';
+        $.post('./debug/Logout', {}, function (result) {
+            if (result.success) {
+                $.removeCookie('Himall-User', { path: '/' });
+                $.removeCookie('Himall-SellerManager', { path: "/" });
+
+                alert('清除完成');
+            }
+            else
+                alert('没有可清除的数据');
+        });
+    });
+
+
+    function clearCookie(){ 
+        var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+        if (keys) {
+            for (var i = keys.length; i--;) {
+                $.cookie(keys[i], null, { path: "/" });
+            }
+        }
+    } 
+</script>

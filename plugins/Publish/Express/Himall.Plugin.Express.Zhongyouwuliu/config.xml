@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ExpressInfo>
+  <Name>邮政平邮</Name>
+  <DisplayName>邮政平邮</DisplayName>
+  <BackGroundImage>2010111727247.jpg</BackGroundImage>
+  <Logo>logo.jpg</Logo>
+  <Width>2300</Width>
+  <Height>1270</Height>
+  <TaobaoCode>POST</TaobaoCode>
+  <Kuaidi100Code>zhongyouwuliu</Kuaidi100Code>
+  <KuaidiNiaoCode>YZPY</KuaidiNiaoCode>
+</ExpressInfo>

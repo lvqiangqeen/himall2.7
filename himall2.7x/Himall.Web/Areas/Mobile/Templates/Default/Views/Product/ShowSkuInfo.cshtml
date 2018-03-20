@@ -1,0 +1,82 @@
+﻿@using Himall.Core
+@model Himall.Web.Areas.Mobile.Models.ProductShowSkuInfoModel
+@{
+    Layout = null;
+    ViewBag.Title = "商品SKU";
+}
+<!--ShowSkuInfo start-->
+<div class="modul-popup" role="alert">
+    <div class="modul-popup-container">
+        <div class="att-popup-header">
+            <div class="thumb pull-left"><img class="img-responsive" src="@(Himall.Core.HimallIO.GetProductSizeImage(Model.ProductImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_150))"></div>
+            <div class="info pull-left">
+                <div class="price-con">￥<em id="jd-price">@Model.MinSalePrice.ToString("F2")</em></div>
+                <div class="stock-control">库存 <em id="stockNum">0</em> @Model.MeasureUnit 
+				@if (Model.MaxBuyCount > 0)
+                {
+                    <label id="maxBuyCount" data-value="@Model.MaxBuyCount"> (单个ID限购@(Model.MaxBuyCount)件)</label>
+                }
+				</div>
+                <!-- <div class="sku-dtips" id="choose-result">已选择：</div> -->
+            </div>
+            <a href="javascript:;" class="modul-popup-close att-popup-close"></a>
+        </div>
+        <div class="att-popup-body">
+            <div class="modul-scroll">
+                @if (Model.Color.Count() > 0 || Model.Size.Count() > 0 || Model.Version.Count() > 0) {
+                    <div class="item" id="choose">
+                        @if (Model.Color.Count() > 0) {
+                            <div class="spec">
+                                <label>@Model.ColorAlias</label>
+                                <div class="att-name" id="colorSpec">
+                                    @foreach (var color in Model.Color) {
+                                        <span st="0" cid="@color.SkuId" data-img="@(color.Img)" class="itemSku @color.EnabledClass @color.SelectedClass">@color.Value</span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        @if (Model.Size.Count() > 0) {
+                            <div class="spec">
+                                <label>@Model.SizeAlias</label>
+                                <div class="att-name">
+                                    @foreach (var size in Model.Size) {
+                                        <span st="1" cid="@size.SkuId" class="itemSku @size.EnabledClass @size.SelectedClass">@size.Value</span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        @if (Model.Version.Count() > 0) {
+                            <div class="spec">
+                                <label>@Model.VersionAlias</label>
+                                <div class="att-name">
+                                    @foreach (var version in Model.Version) {
+                                        <span st="2" cid="@version.SkuId" class="itemSku @version.EnabledClass @version.SelectedClass">@version.Value</span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                <div class="item">
+                    <div class="buy-num">
+                        <label>数量</label>
+                        <div class="wrap-num">
+                            <a class="glyphicon glyphicon-minus" href="javascript:;"></a>
+                            <input class="input-xs form-control" id="buy-num" value="1" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v()">
+                            <a class="glyphicon glyphicon-plus" href="javascript:;"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="att-popup-footer">
+            <button type="button" class="btn btn-warning btn-yes" id="addToCart" style="display:none;">确 定</button>
+            <button type="button" class="btn btn-warning btn-yes" id="easyBuyBtn" style="display:none;">确 定</button>
+            <button type="button" class="btn btn-danger btn-shopcart" id="addToCart2" style="display:none;">加入购物车</button>
+            <button type="button" class="btn btn-danger btn-goshop" id="easyBuyBtn2" style="display:none;">立即购买</button>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery.himall.sku.js"></script>
+<!--ShowSkuInfo end-->

@@ -1,0 +1,56 @@
+﻿@using Himall.Core;
+<link href="~/Content/jquery.onoff.css.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.onoff.min.js"></script>
+ <script src="~/Areas/Admin/Scripts/MessageManagement.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li value="" class="active"><a>管理</a></li>
+        @foreach (var messagePlugin in Model)
+        {
+            <li><a href="edit?pluginId=@(messagePlugin.pluginId)">@{@messagePlugin.name}配置</a></li>
+        }
+    </ul>
+
+    <h5 class="tips-top"><span class="help-default"><i></i>提示：第一次使用消息提示请先进行相关配置。短信消息需要先<a class="red" style="margin-left:5px;" target="_blank" href="http://sms.kuaidiantong.cn/Login.aspx">购买短信</a>。</span></h5>
+    <table class="table clear-v15">
+        <thead>
+            <tr >
+                <th style="text-align:center">消息类型</th>
+                @foreach (var messagePlugin in Model)
+                {
+                    <th style="text-align:center"> @messagePlugin.name</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var d in Himall.Core.EnumHelper.ToDescriptionDictionary<Himall.Core.Plugins.Message.MessageTypeEnum>())
+            {
+                <tr style="text-align:center">
+                    <td>
+                        @d.Value
+                    </td>
+
+                    @{var flag = (Himall.Core.Plugins.Message.MessageTypeEnum)@d.Key;}
+                    @foreach (var messagePlugin in Model)
+                    {
+                        var status = messagePlugin.status as Dictionary<Himall.Core.Plugins.Message.MessageTypeEnum, Himall.Core.Plugins.Message.StatusEnum>;
+                        var curstate = status.Where(a => a.Key == flag).FirstOrDefault();
+                        var check = curstate.Value == Himall.Core.Plugins.Message.StatusEnum.Open;
+                        var disable = curstate.Value == Himall.Core.Plugins.Message.StatusEnum.Disable;
+                        <td style="text-align:center">
+                          
+                                <input type="checkbox" class="messagePlugin"  @Html.Raw(disable ? "style=\"display:none\"" : "") messagetype="@d.Key" pluginid="@messagePlugin.pluginId" @(@disable ? "disabled" : "") @(@check ? "checked" : "")>
+                           
+
+                            @*<div class="switch switch-mini" @Html.Raw(disable?"style=\"display:none\"":"")><input class="bootstrapSwitch" messagetype="@d.Key" pluginid="@messagePlugin.pluginId" type="checkbox" data-size="mini" @(@disable ? "disabled" : "") data-on-text="开启" @(@check ? "checked" : "") data-off-text="关闭" /></div>*@
+                        </td>
+                    }
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+</div>

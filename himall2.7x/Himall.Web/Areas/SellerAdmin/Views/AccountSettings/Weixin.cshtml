@@ -1,0 +1,126 @@
+﻿@{
+    Layout = null;
+}
+
+            <div class="dialog-simple" id="weixinBind" style="width:700px;">
+                <a class="close">×</a>
+               
+                <ul class="choose-step">
+                    <li class="active">
+                        验证管理员身份
+                        <span class="border"></span>
+                        <span class="border-n Sclear-P34"></span>
+                    </li>
+                    <li>
+                        扫码获取账户
+                        <span class="border"></span>
+                        <span class="border-n"></span>
+                    </li>
+                    <li>
+                        确认账户信息
+                        <span class="border"></span>
+                        <span class="border-n"></span>
+                    </li>
+                    <li>绑定成功</li>
+                </ul>
+                <div class="form-horizontal weixin-bind">
+                    <!--第一步-->
+                    <div class="weixn-step-1">
+                        <div class="form-group">
+                            @if (ViewBag.MemberPhone == "")
+                            {
+                                <div class="col-sm-offset-1 col-sm-9 form-control-static">
+                                    短信验证将发送至商户绑定的邮箱 @ViewBag.MemberEmail &nbsp;
+                                    <input type="hidden" id="wpluginId" value="Himall.Plugin.Message.Email" />
+                                    <input type="hidden" id="wdestination" value="@ViewBag.MemberEmail">
+                                    <a href="javascript:;" id="wsendCode">发送验证码</a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-sm-offset-1 col-sm-9 form-control-static">
+                                    短信验证将发送至商户绑定的手机 @ViewBag.MemberPhone &nbsp;
+                                    <input type="hidden" id="wpluginId" value="Himall.Plugin.Message.SMS" />
+                                    <input type="hidden" id="wdestination" value="@ViewBag.MemberPhone">
+                                    <a href="javascript:;" id="wsendCode">发送验证码</a>
+                                </div>
+                            }
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-9 form-control-static">请联系你的商户管理员获取验证码</div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label for="" class="control-label col-sm-offset-1">验证码：</label>
+                                <input class="form-control input-sm w150 inline" id="wcode">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-5 col-sm-offset-5">
+                                <a class="btn btn-primary" id="wnext" href="javascript:;">下 一 步</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--第二步-->
+                    <div class="weixn-step-2" style="display:none;">
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-9 form-control-static">请使用您的收款微信扫描该二维码</div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-9">
+                                <img src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" class="wximg" width="260" height="260" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--第三步-->
+                    <div class="weixn-step-3" style="display:none;">
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 control-label">收款微信昵称：</label>
+                            <div class="col-sm-3 form-control-static" id="nikename"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 control-label">性别：</label>
+                            <div class="col-sm-3 form-control-static" id="sex"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 control-label">所在地区：</label>
+                            <div class="col-sm-3 form-control-static" id="address"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 control-label">真实姓名：</label>
+                            <div class="col-sm-3">
+                                <input class="form-control input-sm" id="trueName" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-9 form-control-static">
+                                <span class="red">重要提示：</span>请输入您的真实姓名，当您提现至微信零钱包时，系统将对您的姓名进行验证，若与您在微信支付
+                                实名认证的姓名不一致将无法提现
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-5 col-sm-offset-5">
+                                <a class="btn btn-primary" href="javascript:;" id="btn_weixstep3">提交</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--第四步-->
+                    <div class="weixn-step-4" style="display:none;">
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-6 form-control-static"><span class="glyphicon glyphicon-ok-sign"></span> 绑定微信账户成功</div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-5 col-sm-offset-5">
+                                <a class="btn btn-primary" href="javascript:;" id="btn_winxinfi">完成</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        
+
+<script src="~/Areas/SellerAdmin/Scripts/AccountSettingsWeixin.js"></script>

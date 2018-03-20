@@ -1,0 +1,43 @@
+﻿
+
+<link href="~/Content/jquery.onoff.css.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.onoff.min.js"></script>
+<style>
+     .onoffswitch-inner:before{text-align:left;}
+</style>
+
+<script src="~/Areas/Admin/Scripts/OAuthManagement.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+		<li class="active"><a>信任登录</a></li>
+
+    </ul>
+    <table class="table mt20">
+        <thead>
+            <tr>
+                <th class="clear-u7" >信任登录</th>
+                <th>开关</th>
+                <th class="td-operate clear-u8">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @foreach (var oauthPlugin in Model)
+                {
+                <tr class="tal">
+                    <td class="clear-u9">@oauthPlugin.name</td>
+                    <td width="100px">
+                        @*<div class="switch switch-mini"><input class="bootstrapSwitch" pluginid="@oauthPlugin.pluginId" type="checkbox" data-size="mini" data-on-text="开启" data-off-text="关闭" @(oauthPlugin.enable ? "checked" : "")  /></div>*@     
+                        <input type="checkbox" class="oauthPlugin" pluginid="@oauthPlugin.pluginId" @(oauthPlugin.enable ? "checked" : "")>
+                           
+
+                        
+                    </td>
+                    <td class="td-operate clear-u10"><span class="btn-a"><a href="edit?pluginId=@(oauthPlugin.pluginId)">编辑</a></span></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+

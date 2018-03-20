@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>追加评论</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">追加评论</h1>
+		</header>
+		<div class="mui-content transparent">
+			<div class="order-evaluate">
+				<ul id="goodList">
+				</ul>
+			</div>
+		</div>
+		<div class="cart-bottom transparent">
+			<a class="submit-cart" id="submitBtn">提交评价</a>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/lrz.bundle.js" ></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script>
+			var orderId,
+				orderItemIds,
+				imgBox,
+				ws,
+				wt,
+				userkey=himall.getState().userkey;
+			mui.init({
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				ws=plus.webview.currentWebview();
+				ws.setStyle({scrollIndicator:'none'});
+				orderId=ws.orderId;
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				mui.ajax(URL+'api/Comment/GetAppendComment',{
+					data:himall.md5Data({
+						orderid:orderId,
+						userkey:userkey
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(data.Success){
+							var html='';
+					        for(var i=0; i<data.List.length; i++){
+					        	html+='<li data-id="'+data.List[i].CommentId+'">'+
+									'<img class="goods-url" src="'+data.List[i].ThumbnailsUrl+'" data-id="'+data.List[i].ProductId+'" />'+
+									'<div class="eval-text"><h5>'+data.List[i].EvaluationTime.substring(0,10).replace(/-/g,'.')+'</h5><p>'+(data.List[i].EvaluationContent||'暂无评论内容...')+'</p></div>'+
+									'<h3 class="border-top">追加评论</h3>'+
+									'<textarea class="com-append-text" placeholder="请写下您对该宝贝得使用心得..."></textarea>'+
+									'<div class="imgUpload mui-clearfix"><div class="imgBox"></div><div class="upload-item"><i class="mui-icon mui-icon-camera"></i></div></div>'+
+								'</li>';
+					        }
+					        orderItemIds=data.orderItemIds;
+				            document.getElementById('goodList').innerHTML=html;
+				            delayimg.init();
+				            
+							w.close();
+							
+							himall.removeClass(document.querySelector('.mui-content'),'transparent');
+							himall.removeClass(document.querySelector('.cart-bottom'),'transparent');
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						reloadWvLoad();
+					}
+				});
+				
+			});
+			
+			mui('#goodList').on('tap', '.goods-url', function() {
+				showProduct(this.getAttribute('data-id'));
+			});
+			
+			document.getElementById('submitBtn').addEventListener('tap',function(){
+				var wSubmit=plus.nativeUI.showWaiting('',{padlock:true});
+				var goodList=document.getElementById('goodList').querySelectorAll('li');
+					data=[];
+				for(var i=0; i<goodList.length; i++){
+					var imgs=goodList[i].querySelectorAll('.imgBox img'),
+						Images=[];
+					if(imgs.length>0){
+						for(var j=0; j<imgs.length; j++){
+							Images.push(imgs[j].getAttribute('data-src'))
+						}
+					}
+					data[i]={
+						id:goodList[i].getAttribute('data-id'),
+						appendContent:goodList[i].querySelector('textarea').value,
+						images:Images,
+						wxmediaId:[]
+					}
+				}
+				mui.ajax(URL+'api/Comment/PostAppendComment',{
+					data: himall.md5Data({
+						productCommentsJSON:JSON.stringify(data),
+						userkey:userkey
+					}),
+					dataType:'json',
+					type:'post',
+					timeout:10000,
+					success:function(data){
+						wSubmit.close();
+						if(data.success){
+							plus.nativeUI.toast('评价订单成功');
+							var orderDetail=plus.webview.getWebviewById('order-detail.html');
+							if(orderDetail)
+								mui.fire(orderDetail,'updateData');
+							mui.fire(plus.webview.getWebviewById('order-list.html'),'updateData');
+							mui.fire(plus.webview.getWebviewById('usercenter.html'),'updateData');
+							ws.close();
+						}else{
+							plus.nativeUI.toast('评价失败,请刷新页面重试');
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						wSubmit.close();
+						plus.nativeUI.toast('评价失败，请检查网络')
+					}
+				});
+			});
+			mui('#goodList').on('tap', '.upload-item i', function() {
+				imgBox=siblings(this.parentNode)[0];
+				var btnArray = [{
+					title: "拍照上传"
+				}, {
+					title: "相册选取"
+				}];
+				plus.nativeUI.actionSheet({
+					cancel: "取消",
+					buttons: btnArray
+				}, function(event) {
+					var index = event.index;
+					switch (index) {
+						case 1:
+							getImage();
+							break;
+						case 2:
+							appendByGallery();
+							break;
+					}
+				});
+			});
+			
+			mui('#goodList').on('tap', '.upload-item .del', function() {
+				var box=this.parentNode.parentNode;
+				box.removeChild(this.parentNode);
+			});
+			
+			
+			// 拍照添加文件
+			 function getImage() {
+			    plus.camera.getCamera().captureImage( function ( p ) {        
+			        plus.io.resolveLocalFileSystemURL( p, function ( entry ) {    
+						var localurl = entry.toLocalURL();
+						appendFile(localurl);
+					});   
+			    });   
+			}
+			
+			// 从相册添加文件 
+			function appendByGallery(){
+			    plus.gallery.pick(function(path){
+			        appendFile(path);//处理图片的地方
+			    });
+			}
+			
+			// 添加文件
+			function appendFile(path){
+				wt=plus.nativeUI.showWaiting();
+	            lrz(path).then(function (rst) {
+		        	upload(rst.base64.split(';base64,')[1]);
+		        })
+			}
+			
+			// 上传文件
+			function upload(picStr){ 
+			    mui.ajax(URL+'api/PublicOperation/UploadPic',{
+					data:himall.md5Data({picStr:picStr}),
+					dataType:'json',
+					type:'post',
+					timeout:10000,
+					success:function(data){
+						wt.close();
+						if(data.Success){
+							//plus.nativeUI.toast('图片上传成功');
+							var imgStr='<div class="upload-item"><img data-src="'+data.Src+'" src="'+data.RomoteImage+'"><em class="del">−<em></div>';
+							imgBox.insertAdjacentHTML('beforeend',imgStr)
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						wt.close();
+						plus.nativeUI.toast('图片上传失败，请检查网络')
+					}
+				});
+			}
+			
+		</script>
+	</body>
+
+</html>

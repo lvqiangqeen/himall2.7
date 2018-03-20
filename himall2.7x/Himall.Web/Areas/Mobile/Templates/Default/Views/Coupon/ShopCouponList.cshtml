@@ -1,0 +1,40 @@
+﻿@{
+    Layout = null;
+}
+<div class="modul-popup" role="alert">
+    <div class="modul-popup-container coupon-popup-container">
+        <div class="coupon-popup-header">店铺优惠券</div>
+        <div class="coupon-popup-body">
+            <div class="modul-scroll">
+                <ul>
+                    @{var couponlist = (IEnumerable<Himall.Model.UserCouponInfo>)ViewBag.CouponList;}
+                    @foreach (var coupon in couponlist) {
+                        <li>
+                            @if (coupon.OrderAmount > 0) {
+                                <span class="coupon-how pull-left">满<em>@coupon.OrderAmount.ToString()</em>减<em>@coupon.Price.ToString()</em></span>
+                            }
+                            else {
+                                <span class="coupon-how pull-left">@(coupon.Price.ToString())无门槛(不含运费)</span>
+                            }
+                            <span class="coupon-date pull-left">有效期至@(coupon.EndTime.ToString("yyyy-MM-dd"))</span>
+                            @if(coupon.ReceiveStatus==1){
+                            	<span class="coupon-pick text-right"><a name="acceptCoupon" @*vshopid="@coupon.VShop.Id"*@ cpid="@coupon.CouponId">立即领取</a></span>
+                            }
+                            else if(coupon.ReceiveStatus==3){
+                            	<span class="coupon-pick text-right hasmask"><a name="acceptCoupon" @*vshopid="@coupon.VShop.Id"*@ cpid="@coupon.CouponId">已领取</a></span>
+                            }
+                            else if(coupon.ReceiveStatus==5){
+                            	<span class="coupon-pick text-right hasmask"><a name="acceptCoupon" @*vshopid="@coupon.VShop.Id"*@ cpid="@coupon.CouponId">积分不足</a></span>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="coupon-popup-footer">
+            <a href="javascript:;" class="modul-popup-close coupon-popup-close"></a>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="couponCon" value="@Url.Action("AcceptCoupon","coupon")" />
+<script src="~/Areas/Mobile/Templates/Default/Scripts/coupon.js"></script>

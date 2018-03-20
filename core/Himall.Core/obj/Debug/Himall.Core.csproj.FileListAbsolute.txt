@@ -1,0 +1,13 @@
+E:\HimallFramework\HiMall2.61官网完整版\core\Himall.Core\bin\Debug\Himall.Core.dll.config
+E:\HimallFramework\HiMall2.61官网完整版\core\Himall.Core\bin\Debug\Himall.Core.dll
+E:\HimallFramework\HiMall2.61官网完整版\core\Himall.Core\bin\Debug\Himall.Core.pdb
+E:\HimallFramework\HiMall2.61官网完整版\core\Himall.Core\bin\Debug\Ionic.Zip.dll
+E:\HimallFramework\HiMall2.61官网完整版\core\Himall.Core\bin\Debug\log4net.dll
+E:\HimallFramework\HiMall2.61官网完整版\core\Himall.Core\bin\Debug\Newtonsoft.Json.dll
+E:\HimallFramework\HiMall2.61官网完整版\core\Himall.Core\bin\Debug\Quartz.dll
+E:\HimallFramework\HiMall2.61官网完整版\core\Himall.Core\bin\Debug\ZipLib.dll
+E:\HimallFramework\HiMall2.61官网完整版\core\Himall.Core\bin\Debug\zxing.dll
+E:\HimallFramework\HiMall2.61官网完整版\core\Himall.Core\bin\Debug\Quartz.xml
+E:\HimallFramework\HiMall2.61官网完整版\core\Himall.Core\obj\Debug\Himall.Core.csprojResolveAssemblyReference.cache
+E:\HimallFramework\HiMall2.61官网完整版\core\Himall.Core\obj\Debug\Himall.Core.dll
+E:\HimallFramework\HiMall2.61官网完整版\core\Himall.Core\obj\Debug\Himall.Core.pdb

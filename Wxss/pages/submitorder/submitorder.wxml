@@ -1,0 +1,102 @@
+
+<!--pages/SubmmitOrder/SubmmitOrder.wxml-->
+<form bindsubmit="submitOrder" report-submit='true'>
+<!--地址信息-->
+<view class="address-info" bindtap="{{ShippingAddressInfo?'gotoAddress':'addAddresstap'}}">
+  <view class="address-outer">
+    <text class="iconfont icon__locate"></text>
+    <view class="infos">
+       <block wx:if="{{ShippingAddressInfo}}">
+        <text class="name">{{ShippingAddressInfo.ShipTo}}，{{ShippingAddressInfo.CellPhone}}</text>
+        <text class="address"> {{ShippingAddressInfo.FullAddress}}</text>
+       </block>
+       <block wx:if="{{!ShippingAddressInfo}}">
+        <text class="name"></text>
+        <text class="address"> 请选择一个收货地址</text>
+       </block>
+    </view>
+    <text class="iconfont arrow_right"></text>
+  </view>
+  <view class="addr-xuanbg">
+    <image src="/images/order_06.jpg"></image>
+  </view>
+</view>
+
+<!--商品清单-->
+<view class="orderlist">
+  <view class="orderlisttile">
+    <view class="orderhao">订单清单</view>
+  </view>
+  <block wx:for="{{ProductInfo}}" wx:for-index="idx" wx:for-item="shop">
+    <view class="shopInfo">
+        <view class="shopTitle"><view class="iconfont dianpu"></view>{{shop.ShopName}}</view>
+        <block wx:for="{{shop.CartItemModels}}" wx:for-index="ix" wx:for-item="item">
+            <view class="orderlistcont">
+                <image src="{{item.imgUrl}}" mode="aspectFit"></image>
+                <view class="orderlisc">
+                    <view class="ordername">{{item.name}}</view>
+                    <view class="ordersize">
+                        <block wx:if="{{item.size}}">
+                            {{item.SizeAlias}}:{{item.size}}
+                        </block>
+                        <block wx:if="{{item.Color}}">
+                            {{item.ColorAlias}}:{{item.color}}
+                        </block>
+                        <block wx:if="{{item.Version}}">
+                            {{item.VersionAlias}}:{{item.version}}
+                        </block>
+                    </view>
+                </view>
+                <view class="orderlistright">
+                <text>￥{{item.price}}</text>
+                <view><text class="iconfont icon__close submit_count"></text>{{item.count}}</view>
+                </view>
+            </view>
+        </block>
+        <view class="yunfei">
+            <view class="yunfeil">配送方式</view>
+            <view class="yunfeir">
+                快递配送
+            </view>
+        </view>
+        <view class="yunfei">
+            <view class="yunfeil">运费</view>
+            <view class="yunfeir"><text wx:if="{{shop.IsFreeFreight}}">免邮</text><text wx:else>￥{{shop.Freight}}</text></view>
+        </view>
+        <view class="yunfei" wx:if="{{shop.OneCoupons}}">
+            <view class="yunfeil">优惠券</view>
+            <view class="yunfeir">-￥{{shop.OneCoupons.BasePrice}}</view>
+        </view>
+        <view class="yunfei" wx:if="{{shop.FullDiscount && shop.FullDiscount>0}}">
+            <view class="yunfeil">满减</view>
+            <view class="yunfeir">-￥{{shop.FullDiscount}}</view>
+        </view>
+        <view class="yunfei">
+            <view class="yunfei_benzhu">订单备注</view>
+            <view class="liuyabr yunfeir">
+                <input placeholder="选填，可填写您与卖家达成一致的要求" data-shopid="{{shop.shopId}}" data-idx="{{idx}}"  bindblur="bindRemarkInput" bindconfirm="bindRemarkInput" fixed="false"/>
+            </view>
+        </view>
+        <view class="orderlistzong">小计 ：￥<text>{{shop.totalPrice}}</text></view>
+    </view>
+  </block>
+  
+</view>
+
+<view class="submfs" wx:if="{{userIntegrals}}">
+  <view class="yunfei jfdik">
+    <view class="yunfeil">积分抵扣</view>
+    <view class="yunfeir">
+      <text class="help">可用{{userIntegrals}}分抵{{integralPerMoney}}元</text>
+      <switch bindchange="ChkUsePoint"/>
+    </view>
+  </view>
+  
+</view>
+<view class="jinge">
+  <view class="classtext">
+   实付金额：<text class="price">￥<text>{{orderAmount}}</text></text>
+   </view>
+  <button form-type="submit">提交订单</button> 
+</view>
+</form>

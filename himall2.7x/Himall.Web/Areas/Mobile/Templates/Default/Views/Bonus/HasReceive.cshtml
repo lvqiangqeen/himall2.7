@@ -1,0 +1,59 @@
+﻿@model Himall.Web.Areas.Admin.Models.Market.BonusModel
+
+@{
+	Layout = "";
+}
+<html>
+<head>
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>红包领取</title>
+	<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+	<link href="~/Areas/Mobile/Templates/Default/Content/custom.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+	<style>
+		body, html, .container {
+			height: 100%;
+		}
+	</style>
+</head>
+
+<body>
+
+	<script>
+		var winxinShareArgs = {
+			success: function () {
+				LoadBody();
+				$('.bonus').height($('.bonus').width() * 39 / 28);
+			},
+			error: function () {
+				$.dialog.errorTips('注册微信接口失败，请刷新页面');
+			},
+			share: {
+			    title: '@Model.Name',
+			    desc: '@Model.Description',
+			    link: '@Model.ReceiveHref',
+			    imgUrl: '@(Himall.Core.HimallIO.GetRomoteImagePath(Model.ImagePath))'
+			}
+		};
+	</script>
+	@Html.Partial("_WeiXinShare")
+	<script type="text/javascript">
+		function LoadBody() {
+			var html = "";
+			html += '<div class="container" style="padding-bottom:0!important;">';
+			html += '<div class="b-cover"></div>';
+			html += '<div class="bonus">';
+			html += '<img src="@Model.ImagePath" />';
+			html += '<h3>@Model.MerchantsName</h3>';
+			html += '<h5>您已领取过该红包</h5>';
+			html += '<p class="p-b-fail">已有 @Model.ReceiveCount 人领取红包</p>';
+			html += '</div>';
+			html += '</div>';
+
+			$("body").html(html);
+
+		}
+	</script>
+</body>
+</html>

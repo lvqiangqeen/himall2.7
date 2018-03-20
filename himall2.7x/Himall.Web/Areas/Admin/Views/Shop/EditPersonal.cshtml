@@ -1,0 +1,191 @@
+﻿@model Himall.Web.Models.ShopPersonal
+@using Himall.Core;
+@{
+    ViewBag.Title = "Edit";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script src="~/Scripts/jquery.himall.Region.js"></script>
+<script src="~/Scripts/jquery.hishopUpload.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Areas/Admin/Scripts/ShopEditPersonal.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<script type="text/javascript">
+	var bankRegionIds = "@ViewBag.BankRegionIds";
+	var companyRegionIds = "@ViewBag.CompanyRegionIds";
+
+	$(function () {
+		$("#Name").focus();
+		var oldStatus = "@ViewBag.Status";
+		$('input[name="Status"]').val(oldStatus);
+		$("input#statusCheckbox").click(function () {
+
+			var status = $(this).attr('status');
+
+			if ($(this).attr('checked') == 'checked') {
+				$(this).val(status);
+				$('input[name="Status"]').val(status);
+			} else {
+				$(this).val(oldStatus);
+				$('input[name="Status"]').val(oldStatus);
+			}
+		});
+
+		$(".form_datetime").datetimepicker({
+			language: 'zh-CN',
+			format: 'yyyy-mm-dd',
+			autoclose: true,
+			weekStart: 1,
+			minView: 2
+		});
+
+		$('#IDCardUrl').hishopUpload({
+			title: '<b>*</b>身份证正面照片<br>电子版：',
+			imageDescript: '身份证正面照(请确保图片清晰)',
+			displayImgSrc: '@(Himall.Core.HimallIO.GetImagePath(Model.IDCardUrl))',
+            imgFieldName: "IDCardUrl",
+            dataWidth: 10
+        });
+
+        $('#IDCardUrl2').hishopUpload({
+            title: '<b>*</b>身份证背面照片<br>电子版：',
+            imageDescript: '身份证背面照(请确保图片清晰)',
+            displayImgSrc: '@(Himall.Core.HimallIO.GetImagePath(Model.IDCardUrl2))',
+            imgFieldName: "IDCardUrl2",
+            dataWidth: 10
+        });
+
+    });
+</script>
+
+<div class="container">
+    <ul class="breadcrumb clearfix">
+
+        <li><a href="./Management">店铺管理</a></li>
+        <li><a>编辑店铺</a></li>
+
+    </ul>
+    @using (Html.BeginForm("Edit", "Shop", new { Area = "Admin" }, FormMethod.Post, new { @id = "shopEditForm" }))
+    {
+        @Html.HiddenFor(s => s.Id)
+
+
+        <h3 class="table-hd clear-v2">个人信息</h3>
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="col-xs-1">
+                <col class="col-xs-7">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>姓名</td>
+                    <td>@Html.TextBoxFor(c => c.CompanyName, new { @class = "form-control input-sm w240" })</td>
+                </tr>
+                <tr>
+                    <td>住址</td>
+                    <td>
+
+                        <div class="field">
+                            <div id="regionSelector" class="fl"></div>
+                            <div class="clr"></div>
+                            @Html.HiddenFor(p => p.NewCompanyRegionId)
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>详细地址</td>
+                    <td>@Html.TextBoxFor(c => c.CompanyAddress, new { @class = "form-control input-sm w240" })</td>
+                </tr>
+                
+            </tbody>
+        </table>
+
+
+        <h3 class="table-hd">身份信息</h3>
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="col-xs-1">
+                <col class="col-xs-7">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>身份证号码</td>
+                    <td>@Html.TextBoxFor(s => s.IDCard, new { @class = "form-control input-sm w240" })</td>
+                </tr>
+                <tr>
+                    <td>上传身份证照</td>
+                    <td>
+                        <div class="form-group upload-img" id="IDCardUrl"></div>
+						<div class="form-group upload-img" id="IDCardUrl2"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+
+
+        <h3 class="table-hd">店铺经营信息</h3>
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="col-xs-1">
+                <col class="col-xs-7">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>卖家帐号</td>
+                    <td>@Model.Account</td>
+                </tr>
+                <tr>
+                    <td>店铺名称</td>
+                    <td>@Html.TextBoxFor(s => s.Name, new { @class = "form-control input-sm w240" })</td>
+                </tr>
+                <tr>
+                    <td>店铺等级</td>
+                    <td>
+                        @{
+        var list = ((List<SelectListItem>)ViewBag.ShopGrade);
+                        }
+                        @Html.GenerateSelectHtml(list, "ShopGrade", "w240")
+                    </td>
+                </tr>
+                <tr>
+                    <td>店铺有效期</td>
+                    <td>@Html.TextBoxFor(s => s.EndDate, new { @class = "form-control input-sm form_datetime w240" })</td>
+                </tr>
+                <tr style="display:none">
+                    @*<td>店铺状态</td>
+                        <td>*@
+                    <td>
+                        @{
+        //string name = "冻结";
+        //int status = 7;
+        //if (6 == (int)ViewBag.Status)
+        //{
+        //    name = "开启";
+        //}
+        //else if (7 == (int)ViewBag.Status)
+        //{
+        //    status = 6;
+        //}
+                        }
+
+                        @*@Html.CheckBox("Status", false, new { status = status, id = "statusCheckbox", value = ViewBag.Status }) @name
+                            </td>*@
+                        @Html.CheckBox("Status", false, new { status = (int)ViewBag.Status, id = "statusCheckbox", value = ViewBag.Status })
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button type="button" id="submit" class="btn btn-primary">保 存</button></td>
+                </tr>
+
+            </tbody>
+        </table>
+
+
+    }
+</div>

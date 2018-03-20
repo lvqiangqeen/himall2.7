@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+}
+@*<script src="~/Scripts/jquery.himallUpload.js"></script>*@
+<script src="~/Scripts/jquery.hishopUpload.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/brandManagement.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/brandAdd.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+       
+        <li><a href="./Management">申请列表</a></li>
+        <li class="active"><a>新增申请</a></li>
+        
+    </ul>
+	<div id="id_band">
+    <div>
+        <form role="form" class="form-horizontal" id="brandform">
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-6">
+                    <input id="radExist" name="mode" type="radio" value="1" checked="checked" />平台已有品牌&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input id="radNew" name="mode" type="radio" value="2" />新品牌
+                </div>
+            </div>
+            <div id="divExist">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="red">*</span>选择品牌：</label>
+                    <div class="col-sm-9 brand-letter" id="id_tab">
+
+                    </div>
+                    <div class="col-sm-9 brand-group">
+                        <div class="checkbox-group">
+                        </div>
+                        <div id="id_s" class="choose-brand">
+                            <span>已选择：</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="brandLetter" class="form-group upload-img"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">备注：</label>
+                    <div class="col-sm-9"><textarea rows="4" cols="50" class="form-control" id="band_remark"></textarea></div>
+                    <label class="col-sm-2 control-label" for="">&nbsp;</label>
+                    <div class="col-sm-9"><span class="field-validation-error" id="band_remarkTip"></span></div>
+                </div>                
+            </div>
+            <div id="divNew" style="display:none;">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="red">*</span>名称：</label>
+                    <div class="col-sm-6"><input type="text" class="form-control input-sm" id="band_name"></div>
+                    <div class="col-sm-4"><span class="field-validation-error" id="brandNameTip"></span></div>
+                </div>
+                <div id="brandPic" class="form-group upload-img"></div>
+                <div id="brandAuthPic" class="form-group upload-img"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>简介：</label>
+                    <div class="col-sm-9"><textarea rows="4" cols="50" class="form-control" id="band_des"></textarea></div>
+                    <label class="col-sm-2 control-label" for="">&nbsp;</label>
+                    <div class="col-sm-9"><span class="field-validation-error" id="band_desTip"></span></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-9">
+                    <button type="button" onclick="return AddApply();" class="btn btn-primary">提 交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+	<input id="hdId" type="hidden" value="0" />
+</div>

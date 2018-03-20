@@ -1,0 +1,49 @@
+﻿@using Himall.DTO
+@{
+    var shopBranch = ViewBag.ShopBranch as ShopBranch;
+    var shopCategory = ViewBag.ShopCategory as List<ShopCategory>;
+    var shopImages = string.IsNullOrWhiteSpace(shopBranch.ShopImages) ? "/Areas/Mobile/Templates/Default/Images/index-banner.png" : shopBranch.ShopImages;
+    ViewBag.Title = shopBranch.ShopBranchName;
+    ViewBag.ShowAside = 1;  // 显示更多按钮
+}
+	<div class="index-mask hide">
+		<div class="choose-box">
+			<div class="content">
+				@shopBranch.ContactPhone
+			</div>
+			<div class="btns">
+				<span id="cancel">取消</span>
+				<span id="call">呼叫</span>
+			</div>
+		</div>
+	</div>
+    <div class="index container" style="padding:0;">
+    	<div class="index-topimg" style="background-image:url(@shopImages)"></div>
+    	<div class="index-address navigate-arrow" onclick="onMapClick(@shopBranch.Latitude,@shopBranch.Longitude,'@shopBranch.AddressDetail')">
+    		@shopBranch.AddressDetail
+    	</div>
+        <div class="index-category">
+            <div class="categoryLeft" id="categoryLeft">
+                <ul class="clearfix">
+                    <li class="cur" id="0">全部分类</li>
+                    @for(int i=0;i<shopCategory.Count;i++)
+                    {
+                        <li class="" id="@shopCategory[i].Id">@shopCategory[i].Name</li>
+                    }
+                </ul>
+            </div>
+            <div class="categoryRight" id="categoryRight">
+                <ul id="productlist">
+                </ul>
+                <div class="loading" id="autoLoad"><span></span></div>
+            </div>
+        </div>
+        <div class="bottom-btn">
+        	<span>电话</span>
+        </div>
+    </div>
+@Html.Hidden("shopId", shopBranch.ShopId)
+@Html.Hidden("shopBranchId", shopBranch.Id)
+@{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_Aside.cshtml");}
+<script src="~/Scripts/iscroll.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/shopBranch.js"></script>

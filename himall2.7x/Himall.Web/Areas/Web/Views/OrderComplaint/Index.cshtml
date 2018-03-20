@@ -1,0 +1,122 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "投诉维权";
+}
+@model IEnumerable<Himall.Model.OrderInfo>
+
+<div class="box1 lh24">
+    <div class="title">
+        <span class="title_txt curr">投诉维权</span>
+        <span class="title_txt " style="margin-left:40px;margin-top:2px;"><a href="@Url.Action("Record")">申请记录</a></span>
+    </div>
+    <div class="border-box mt20">
+        <table class="tb-void tb-back">
+            <colgroup>
+                <col width="180" />
+                <col width="350" />
+                <col width="150" />
+                <col width="180" />
+            </colgroup>
+            <thead>
+                <tr class="tr">
+                    <th>订单编号</th>
+                    <th>订单商品</th>
+                    <th>下单时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() == 0)
+                {
+                    <tr><td colspan="4" class="ety"><div class="empty">暂时没有记录！</div></td></tr>
+                }
+                @foreach (var m in Model)
+                {
+                    <tr class="tr-td">
+                        <td>
+                            <span class="col-blue">
+                                @m.Id @if (m.UserId != ViewBag.UserId)
+                                {<label>(子订单)</label>}
+                            </span>
+                        </td>
+                        <td>
+                            <ul class="back-goods-list">
+                                @foreach (var item in m.OrderItemInfo)
+                                {
+                                    var spc = "";
+                                    if (!string.IsNullOrWhiteSpace(item.Color)) { spc += item.ColorAlias + "：" + item.Color; }
+                                    if (!string.IsNullOrWhiteSpace(item.Size)) { spc += "，" + item.SizeAlias + "：" + item.Size; }
+                                    if (!string.IsNullOrWhiteSpace(item.Version)) { spc += "，" + item.VersionAlias + "：" + item.Version; }
+                                    <li>
+                                        <a href="/product/detail/@item.ProductId" title="@item.ProductName 【@spc.TrimStart('，')】" target="_blank"><img width="50" height="50" alt="" src="@Himall.Core.HimallIO.GetProductSizeImage(item.ThumbnailsUrl, 1, (int)Himall.CommonModel.ImageSize.Size_50)" /></a>
+                                    </li>
+
+                                }
+                            </ul>
+                        </td>
+                        <td>
+                            <span class="ftx-03"> @m.OrderDate</span>
+                        </td>
+                        @if (m.UserId == ViewBag.UserId)
+                        {
+                            if (m.OrderComplaintInfo.Count() > 0 && string.IsNullOrWhiteSpace(m.OrderComplaintInfo.ElementAt(0).SellerReply))
+                            {
+                                <td><a class="btn-5" href="javascript:void(0)">等待商家处理</a></td>
+                            }
+                            else if (m.OrderComplaintInfo.Count() > 0 && !string.IsNullOrWhiteSpace(m.OrderComplaintInfo.ElementAt(0).SellerReply))
+                            {
+                                <td>
+                                    <a class="btn-5" href="javascript:void(0)">
+                                        商家处理结果：@m.OrderComplaintInfo.ElementAt(0).SellerReply
+                                    </a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td><a class="complain-btn btn" href="javascript:AddComplain('@m.ShopId','@m.Id')">我要投诉</a></td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+        <div class="cl mt10" id="bottom_pager">
+            <div id="pagin-btm" class="pagin fr" style="clear:both">
+                @{
+                    var count = ((PagingInfo)ViewBag.pageInfo).TotalPages;
+                    var curr = ((PagingInfo)ViewBag.pageInfo).CurrentPage;
+                }
+                @Html.PageLinks((PagingInfo)ViewBag.pageInfo, x => Url.Action("Index", new { pageNo = x }))
+                <span class="page-skip">
+                    <em>&nbsp;&nbsp;共 @count 页&nbsp;&nbsp;&nbsp;&nbsp;</em>
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="dialog-form" id="addform" style="display:none">
+    <div class="mc">
+        <div class="form">
+            <div class="item">
+                <span class="label">投诉内容：</span>
+                <div class="fl">
+                    <textarea class="area" id="content" cols="50" rows="4"></textarea>
+                </div>
+                <div class="clr"></div>
+            </div>
+            <div class="item">
+                <span class="label">联系电话：</span>
+                <div class="fl">
+                    <input type="text" id="UserPhone" class="text" value="@ViewBag.UserPhone" />
+                </div>
+                <div class="clr"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="~/Areas/Web/Scripts/OrderComplaint.js"></script>

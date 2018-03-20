@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "ProductTypeManagement";
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Areas/Admin/Scripts/ProductTypeManagement.js"></script>
+<div class="container clear-n" >
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active" id="showall"><a>管理</a></li>
+        <li><a href="./Edit?id=0">新增</a></li>
+    </ul>
+    <div id="typeToolBar">
+        <div class="search-box">
+            <form class="form-inline custom-inline">
+                <div class="form-group">
+                    <label class="label-inline w75">名称</label>
+                    <input class="form-control input-ssm" type="text" id="searchKeyWord">
+                </div>
+                <div class="form-group">
+                    <input type="button" value="搜 索" id="searchBtn" class="btn btn-primary btn-sm">
+                </div>
+            </form>
+        </div>
+    </div>
+    <table id="typeDatagrid" class="table mt5"></table>
+</div>
+

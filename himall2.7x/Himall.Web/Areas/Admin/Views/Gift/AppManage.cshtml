@@ -1,0 +1,92 @@
+﻿@model Himall.Web.Areas.Admin.Models.GiftsAppManageModel
+@{
+    ViewBag.Title = "APP积分商城配置";
+}
+@{
+    //var imageAds = (List<Himall.Model.ImageAdInfo>)ViewBag.imageAds;
+}
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>APP积分商城设置</a></li>
+    </ul>
+
+    <ul class="page-tab-hd page-giftsapp mt20">
+        <li class="li1"><i class="glyphicon glyphicon-pencil"></i>轮播图配置</li>
+        <li class="li2"><i class="glyphicon glyphicon-pencil"></i>大转盘</li>
+        <li class="li3"><i class="glyphicon glyphicon-pencil"></i>刮刮卡</li>
+        <i class="arrow"></i>
+    </ul>
+    <div class="page-tab-bd">
+        <div class="page-item">
+            <div class="table-top"><a class="btn btn-primary btn-xs" id="addSlideImage"><i class="glyphicon glyphicon-plus"></i> 添加轮播图</a></div>
+            <table id="slideImagesTable" class="table table-bordered"></table>
+
+            <form class="form-horizontal dln" id="editSlideImage">
+                <div class="form-group upload-img" id="imgUrl">
+                    <div class="col-sm-3"></div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">描述：</label>
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm" name="description" id="description" value="" maxlength="10" />
+                        <p class="help-default">限10个字符</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">跳转链接：</label>
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm" name="url" id="url" value="" />
+                    </div>
+
+                </div>
+            </form>
+            <input type="hidden" id="SlideImageBox" value="" />
+            <input type="hidden" id="SlideImageId" value="" />
+
+        </div>
+
+        <!--S 大转盘-->
+        <div class="page-item">
+            <div class="search-box">
+                <form class="form-inline custom-inline">
+                    <div class="form-group">
+                        <label class="label-inline w75" for="">活动名称</label>
+                        <input class="form-control input-ssm" type="text" id="ractname">
+                    </div>
+                    <div class="form-group">
+                    	<button type="button" class="btn btn-primary  btn-ssm" id="bt_rsearch">搜索</button>
+                    </div>
+                </form>
+            </div>
+            <table id="RouletteTable" class="table table-bordered"></table>
+        </div>
+        <!--E 大转盘-->
+
+        <!--E 刮刮乐-->
+        <div class="page-item">
+            <div class="search-box">
+                <form class="form-inline custom-inline">
+                    <div class="form-group">
+                        <label class="label-inline w75" >活动名称</label>
+                        <input class="form-control input-ssm" type="text" id="cactname">
+                    </div>
+                    <div class="form-group">
+                    	<button type="button" class="btn btn-primary  btn-ssm" id="bt_csearch">搜索</button>
+                    </div>
+                </form>
+            </div>
+            <table id="ScratchCardTable" class="table table-bordered"></table>
+        </div>
+        <!--E 刮刮乐-->
+    </div>
+</div>
+
+@Html.HiddenFor(d => d.RouletteId)
+@Html.HiddenFor(d => d.ScratchCardId)
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Areas/Admin/Scripts/GiftsAppMange_SlideImage.js"></script>
+<script src="~/Areas/Admin/Scripts/GiftsAppMange_Roulette.js"></script>
+<script src="~/Areas/Admin/Scripts/GiftsAppMange_ScratchCard.js"></script>
+<script src="~/Areas/Admin/Scripts/GiftsAppManage.js"></script>

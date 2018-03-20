@@ -1,0 +1,82 @@
+﻿@model Himall.Web.Areas.SellerAdmin.Models.ProductCreateModel
+
+@{
+	ViewBag.Title = "商品编辑";
+	ViewBag.IsEdit = true;
+}
+
+@section Styles
+{
+	<link href="~/Areas/SellerAdmin/Content/product.css" rel="stylesheet" />
+	<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+}
+<style>
+    .form-horizontal{padding:0;}
+</style>
+<form id="editForm" method="post">
+	@Html.HiddenFor(p => p.Id)
+
+	@Html.Partial("Product", Model)
+</form>
+
+@section Scripts
+{
+	<script src="~/Scripts/jquery.validate.js"></script>
+	<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+	<script src="~/Scripts/ueditor/ueditor.config.js"></script>
+	<script src="~/Scripts/ueditor/ueditor.all.min.js"></script>
+	<script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+	<script src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="~/Areas/SellerAdmin/Scripts/product.js"></script>
+
+	<script>
+		var url_Specifications='@Url.Action("Specifications")';
+		var url_CategoryBrands='@Url.Action("CategoryBrands")';
+		var url_GetAttributes='@Url.Action("GetAttributes")';
+		var modelId=@(Model.Id);
+
+		var brandId=@(Model.BrandId);
+
+		var selectAttributes=[];
+		var selectSKUInfos={
+			colorId:[],
+			sizeId:[],
+			versionId:[]
+		};
+
+		var defaultCategoryId=@(Model.CategoryId);
+
+		@if (Model.SelectAttributes != null)
+		{
+			foreach (var item in Model.SelectAttributes)
+			{
+				if (string.IsNullOrWhiteSpace(item.ValueId))
+				{
+					continue;
+				}
+
+				var values=item.ValueId.Split(',');
+				foreach (var value in values)
+				{
+					@(string.Format(@"selectAttributes.push({{attributeId:{0},valueId:{1}}});
+								",item.AttributeId,value))
+				}
+			}
+		}
+
+		@if (Model.SKUExs != null)
+		{
+			foreach (var item in Model.SKUExs)
+			{
+				@(string.Format(@"selectSKUInfos.colorId.push({0});
+								selectSKUInfos.sizeId.push({1});
+								selectSKUInfos.versionId.push({2});
+								", item.ColorId,item.SizeId,item.VersionId))
+			}
+		}
+
+		$(function(){
+			productInit();
+		});
+	</script>
+}

@@ -1,0 +1,91 @@
+﻿@model Himall.Web.Areas.Web.Models.ShopHomeModel
+@{
+    ViewBag.Title = ViewBag.Keyword + "  商品搜索";
+    Layout = "~/Areas/Web/Views/Shared/ShopLayout.cshtml";
+    PagingInfo CurPageInfo = (PagingInfo)ViewBag.pageInfo;
+}
+
+<div class="w">
+	@if (Model.Products == null || Model.Products.Count() == 0)
+    {
+	
+    <div class="shop-goods-list">
+        <strong class="list-title"><b></b> </strong>
+        
+
+            <div class="notice-search" style="height:200px;padding-top:110px;padding-left:360px;">
+                <span class="ns-icon"></span>
+                <div class="ns-content">
+                    <span>抱歉，没有找到与“<em>@(ViewBag.Keyword == string.Empty ? ViewBag.CategoryName : ViewBag.Keyword)</em>”相关的商品</span>
+                </div>
+            </div>
+        
+    </div>
+	<div class="footmark" style="margin-top:20px;">
+			<div class="m recent-view">
+				<div class="mt">
+					<h2 class="title">最近浏览</h2>
+				</div>
+				<div class="mc">
+					<ul class="recent-view-list clearfix">
+						@if (null != ViewBag.BrowsedHistory)
+						{
+							foreach (var item in ((List<Himall.Web.Areas.Web.Models.ProductBrowsedHistoryModel>)ViewBag.BrowsedHistory).Take(10))
+							{
+								if (item != null)
+								{
+									<li>
+										<div class="p-img center">
+											<a href="@Url.Action("Detail", "Product", new { id = item.ProductId })" title="" target="_blank">
+                                                <img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetProductSizeImage(item.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_100)" alt="" />
+											</a>
+										</div>
+										<div class="p-price center">￥@item.ProductPrice.ToString("f2")</div>
+									</li>
+								}
+							}
+						}
+					</ul>
+				</div>
+			</div>
+		</div>
+	}
+	else
+	{
+	<div class="shop-title"><p>@(ViewBag.Keyword == string.Empty ? ViewBag.CategoryName : ViewBag.Keyword)找到 @(CurPageInfo.TotalItems)件相关商品</p></div>
+	<div class="shop-goods-list">
+		<ul class="cl">
+			@foreach (var p in Model.Products)
+			{
+
+				<li>
+					<a target="_blank" href="@Url.Action("Detail", "Product", new { id = p.ProductId })">
+                        <img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetProductSizeImage(p.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_350)" alt="" />
+					</a>
+					<h3>
+						<a target="_blank" href="@Url.Action("Detail", "Product", new { id = p.ProductId })">
+							@if (!string.IsNullOrWhiteSpace(ViewBag.Keyword))
+							{
+								@MvcHtmlString.Create(p.ProductName.Replace((string)ViewBag.Keyword, "<font class='keycolor'>" + (string)ViewBag.Keyword + "</font>"));
+							}
+							else
+							{
+								@p.ProductName
+							}
+						</a>
+					</h3>
+					<p><span>￥@p.SalePrice.ToString("f2")</span></p>
+					<p>已售<b>@(p.SaleCount)</b>件</p>
+				</li>
+			}
+
+		</ul>
+		
+	</div>
+	<div class="m clearfix" id="bottom_pager">
+		<div id="pagin-btm" class="pagin-sm fr">
+			@Html.PageLinks(CurPageInfo, x => Url.Action("Search", new { pageNo = x, keywords = ViewBag.Keyword, cid = ViewBag.cid, sid = Model.Shop.Id }))
+		</div>
+	</div>
+	}
+</div>

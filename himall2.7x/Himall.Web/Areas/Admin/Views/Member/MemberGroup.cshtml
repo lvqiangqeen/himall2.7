@@ -1,0 +1,125 @@
+﻿@{
+    ViewBag.Title = "会员分组";
+
+    var activeOne = Model.ActiveOne;
+    var activeThree = Model.ActiveThree;
+    var activeSix = Model.ActiveSix;
+    var activeCount = Convert.ToDouble(activeOne+ activeThree+ activeSix);
+
+    var sleepingThree = Model.SleepingThree;
+    var sleepingSix = Model.SleepingSix;
+    var sleepingNine = Model.SleepingNine;
+    var sleepingTwelve = Model.SleepingTwelve;
+    var sleepingTwentyFour = Model.SleepingTwentyFour;
+    var sleepingCount = Convert.ToDouble(sleepingThree + sleepingSix + sleepingNine + sleepingTwelve + sleepingTwentyFour);
+
+    var birthdayToday = Model.BirthdayToday;
+    var birthdayToMonth = Model.BirthdayToMonth;
+    var birthdayNextMonth = Model.BirthdayNextMonth;
+    var birthdayCount = Convert.ToDouble(birthdayToday + birthdayToMonth + birthdayNextMonth);
+
+    var registeredMember = Convert.ToDouble(Model.RegisteredMember);
+}
+@model Himall.DTO.MemberGroup
+
+<script src="~/Scripts/echarts.min.js"></script>
+<script src="~/Scripts/echartsConfig.js"></script>
+<script>
+    var ActiveOne=@activeOne;
+    var ActiveOneProportion='@((activeOne / (activeCount.Equals(0)?1: activeCount) * 100).ToString("F2"))%';
+    var ActiveThree=@activeThree;
+    var ActiveThreeProportion='@((activeThree / (activeCount.Equals(0)?1: activeCount) * 100).ToString("F2"))%';
+    var ActiveSix=@activeSix;
+    var ActiveSixProportion='@((activeSix / (activeCount.Equals(0)?1: activeCount) * 100).ToString("F2"))%';
+
+    var SleepingThree=@sleepingThree;
+    var SleepingThreeProportion='@((sleepingThree / (sleepingCount.Equals(0)?1: sleepingCount) * 100).ToString("F2"))%';
+    var SleepingSix=@sleepingSix;
+    var SleepingSixProportion='@((sleepingSix / (sleepingCount.Equals(0)?1: sleepingCount) * 100).ToString("F2"))%';
+    var SleepingNine=@sleepingNine;
+    var SleepingNineProportion='@((sleepingNine / (sleepingCount.Equals(0)?1: sleepingCount) * 100).ToString("F2"))%';
+    var SleepingTwelve=@sleepingTwelve;
+    var SleepingTwelveProportion='@((sleepingTwelve / (sleepingCount.Equals(0)?1: sleepingCount) * 100).ToString("F2"))%';
+    var SleepingTwentyFour=@sleepingTwentyFour;
+    var SleepingTwentyFourProportion='@((sleepingTwentyFour / (sleepingCount.Equals(0)?1: sleepingCount) * 100).ToString("F2"))%';
+
+    var BirthdayToday=@birthdayToday;
+    var BirthdayTodayProportion='@((birthdayToday / (birthdayCount.Equals(0)?1: birthdayCount) * 100).ToString("F2"))%';
+    var BirthdayToMonth=@birthdayToMonth;
+    var BirthdayToMonthProportion='@((birthdayToMonth / (birthdayCount.Equals(0)?1: birthdayCount) * 100).ToString("F2"))%';
+    var BirthdayNextMonth=@birthdayNextMonth;
+    var BirthdayNextMonthProportion='@((birthdayNextMonth / (birthdayCount.Equals(0)?1: birthdayCount) * 100).ToString("F2"))%';
+
+    var RegisteredMember=@registeredMember;
+</script>
+<script src="~/Areas/Admin/Scripts/MemberGroup.js"></script>
+<div class="container">
+
+    <div class="menber-group">
+        <div class="group-wp">
+            <ul class="nav nav-tabs-custom clearfix">
+                <li class="active"><a>活跃会员</a></li>
+            </ul>
+            <div class="rank-wrap">
+                <div class="rank-data">
+                    <h3>@(activeCount)人</h3>
+                    <ul>
+                        <li><i class="ri1"></i>1个月活跃会员<a href="@Url.Action("ManagementPower","Member")?StatisticsType=@Himall.CommonModel.MemberStatisticsType.ActiveOne">@activeOne</a></li>
+                        <li><i class="ri2"></i>3个月活跃会员<a href="@Url.Action("ManagementPower","Member")?StatisticsType=@Himall.CommonModel.MemberStatisticsType.ActiveThree">@activeThree</a></li>
+                        <li><i class="ri3"></i>6个月活跃会员<a href="@Url.Action("ManagementPower","Member")?StatisticsType=@Himall.CommonModel.MemberStatisticsType.ActiveSix">@activeSix</a></li>
+                    </ul>
+                </div>
+                <a class="data-area"><div class="group-meta" id="product-rank"></div></a>
+            </div>
+        </div>
+        <div class="group-wp">
+            <ul class="nav nav-tabs-custom clearfix">
+                <li class="active"><a>沉睡会员</a></li>
+            </ul>
+            <div class="rank-wrap">
+                <div class="rank-data">
+                    <h3>@(sleepingCount)人</h3>
+                    <ul>
+                        <li><i class="ri1"></i>3个月沉睡会员<a href="@Url.Action("ManagementPower","Member")?StatisticsType=@Himall.CommonModel.MemberStatisticsType.SleepingThree">@sleepingThree</a></li>
+                        <li><i class="ri2"></i>6个月沉睡会员<a href="@Url.Action("ManagementPower","Member")?StatisticsType=@Himall.CommonModel.MemberStatisticsType.SleepingSix">@sleepingSix</a></li>
+                        <li><i class="ri3"></i>9个月沉睡会员<a href="@Url.Action("ManagementPower","Member")?StatisticsType=@Himall.CommonModel.MemberStatisticsType.SleepingNine">@sleepingNine</a></li>
+                        <li><i class="ri4"></i>12个月沉睡会员<a href="@Url.Action("ManagementPower","Member")?StatisticsType=@Himall.CommonModel.MemberStatisticsType.SleepingTwelve">@sleepingTwelve</a></li>
+                        <li><i class="ri5"></i>24个月沉睡会员<a href="@Url.Action("ManagementPower","Member")?StatisticsType=@Himall.CommonModel.MemberStatisticsType.SleepingTwentyFour">@sleepingTwentyFour</a></li>
+                    </ul>
+                </div>
+                <a class="data-area"><div class="group-meta" id="product-rank2"></div></a>
+            </div>
+
+        </div>
+        <div class="group-wp">
+            <ul class="nav nav-tabs-custom clearfix">
+                <li class="active"><a>生日</a></li>
+            </ul>
+            <div class="rank-wrap">
+                <div class="rank-data">
+                    <h3>@(birthdayCount)人</h3>
+                    <ul>
+                        <li><i class="ri1"></i>今天生日会员<a href="@Url.Action("ManagementPower","Member")?StatisticsType=@Himall.CommonModel.MemberStatisticsType.BirthdayToday">@birthdayToday</a></li>
+                        <li><i class="ri2"></i>当月生日会员<a href="@Url.Action("ManagementPower","Member")?StatisticsType=@Himall.CommonModel.MemberStatisticsType.BirthdayToMonth">@birthdayToMonth</a></li>
+                        <li><i class="ri3"></i>次月生日会员<a href="@Url.Action("ManagementPower","Member")?StatisticsType=@Himall.CommonModel.MemberStatisticsType.BirthdayNextMonth">@birthdayNextMonth</a></li>
+                    </ul>
+                </div>
+                <a class="data-area"><div class="group-meta" id="product-rank3"></div></a>
+            </div>
+
+        </div>
+        <div class="group-wp">
+            <ul class="nav nav-tabs-custom clearfix">
+                <li class="active"><a>注册</a></li>
+            </ul>
+            <div class="rank-wrap">
+                <div class="rank-data">
+                    <h3>@(registeredMember)人</h3>
+
+                </div>
+                <a class="data-area"><div class="group-meta" id="product-rank4"></div></a>
+            </div>
+
+        </div>
+    </div>
+</div>

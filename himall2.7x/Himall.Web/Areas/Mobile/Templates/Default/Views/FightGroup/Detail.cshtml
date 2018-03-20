@@ -1,0 +1,199 @@
+﻿@model Himall.Web.Areas.Mobile.Models.FightGroupActiveDetailModel
+@{
+	ViewBag.Title = "拼团详情";
+    decimal discount = ViewBag.Discount;
+    bool IsSelf = ViewBag.IsSelf;
+}
+<div id="J_shop_att">@Html.Action("ShowSkuInfo", "FightGroup", new { data = Model })</div>
+<div class="container merge-container">
+
+	@Html.Action("ShowActionHead", "FightGroup", new { data = Model })
+	<div class="detail-bd">
+		@Html.Action("ShowDetail", "FightGroup", new { data = Model })
+
+		@Html.Action("ShowNewCanJoinGroup", "FightGroup", new { id = Model.Id })
+        @*门店信息-前端调整界面样式*@
+        <div class="item detail-comment j_storesInfo product-store-title" style="display:none">
+            <div class="goods-comment">
+                <h1><b class="j_storeName"></b><span class="j_distanceUnit"></span><i class="ic-arrow"></i></h1>
+                <p class="j_storeAddress"></p>
+                <a class="j_storelist btn btn-default" href="@Url.Action("storelist", "shopbranch", new { shopid = Model.ShopId})"></a>
+            </div>
+        </div>
+        @*门店信息-前端调整界面样式*@
+		@Html.Action("ProductCommentShow", "Product", new { id = Model.ProductId, top = 0, isshowtit = true })
+
+		@Html.Action("ShowShopScore", "VShop", new { id = Model.ShopId })
+
+		@Html.Action("ShowProductDescription", "Product", new { id = Model.ProductId })
+	</div>
+</div>
+<section class="merge-bar-container">
+	<div class="merge-bar">
+		@if (Model.CanBuy)
+		{
+            var price = Model.MiniSalePrice * discount;
+			<a href="/@(ViewBag.AreaName)/Product/Detail/@(Model.ProductId)?nojumpfg=1" class="btn btn-default btn-multiLine btn-left">
+                @if (IsSelf) { 
+				    <span class="hmui-single-ellipsis">￥@price.ToString("f2")</span>
+                }
+                else
+                {
+                    <span class="hmui-single-ellipsis">￥@Model.MiniSalePrice.ToString("f2")</span>
+                }
+				<p>原价买</p>
+			</a>
+			if (Model.ActiveStatus == Himall.CommonModel.FightGroupActiveStatus.Ongoing)
+			{
+				<a class="btn btn-danger btn-right btn-multiLine buy">
+					<span class="hmui-single-ellipsis">￥@(Model.MiniGroupPrice)</span>
+					<p>去拼团</p>
+				</a>
+			}
+			else
+			{
+				<a class="btn btn-danger btn-right" href="/@(ViewBag.AreaName)/FightGroup/Index/">更多拼团</a>
+			}
+		}
+		else
+		{
+			<a class="btn btn-default btn-right disabled" href="###">商品不在销售中</a>
+		}
+	</div>
+</section>
+<script type="text/javascript">
+    function getProductId() {
+        return '@Model.ProductId';
+    }
+</script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/ProductDistributionBrokerage.js"></script>
+
+<script>
+	var loading = showLoading();
+	var winxinShareArgs = {
+		success: function () {
+			loading.close();
+		},
+		error: function () {
+			loading.close();
+			if (commonJS.isWeiXinBrowser) {
+				imitateRequireJS.load('artDialog', function () {
+					$.dialog.errorTips('注册微信接口失败，请刷新页面');
+				});
+			}
+		},
+		share: {
+			title: '@Model.ShareTitle',
+			desc: '@Model.ShareDesc',
+			link: '@Model.ShareUrl',
+			imgUrl: '@Model.ShareImage',
+			success: function () {
+				var mmbox = $(".merge-mask");
+				if (mmbox) {
+					$(".merge-mask").addClass("hide");
+				}
+			}
+		}
+	};
+</script>
+@Html.Partial("_WeiXinShare")
+<script src="https://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+<script src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var mapkey = 'SYJBZ-DSLR3-IWX3Q-3XNTM-ELURH-23FTP';
+        var geolocation = new qq.maps.Geolocation(mapkey, "myapp");
+        if (geolocation) {
+            geolocation.getLocation(getPositionSuccess, ShowError)
+        }
+        else {
+            $.dialog.tips("请在系统设置中打开“定位服务“允许Himall商城获取您的位置");
+        }
+		/*if (navigator.geolocation){ 
+		    navigator.geolocation.getCurrentPosition(function(position){
+		    	var lat = position.coords.latitude; //纬度 
+				var lag = position.coords.longitude; //经度 
+				var fromLatLng = lat+','+lag;
+    			GetIsSelfDelivery(fromLatLng);
+		    },function(error){
+		    	switch(error.code) { 
+				    case error.PERMISSION_DENIED: 
+				      console.log("定位失败,用户拒绝请求地理定位"); 
+				      break; 
+				    case error.POSITION_UNAVAILABLE: 
+				      console.log("定位失败,位置信息是不可用"); 
+				      break; 
+				    case error.TIMEOUT: 
+				      console.log("定位失败,请求获取用户位置超时"); 
+				      break; 
+				    case error.UNKNOWN_ERROR: 
+				      console.log("定位失败,定位系统失效"); 
+				      break; 
+				} 
+		    });
+	    }else{
+	    	$.dialog.tips("该浏览器不支持地理定位");
+	    }*/
+    });
+    //获取定位
+    function getPositionSuccess(position) {
+        var lat = position.lat;
+        var lng = position.lng;
+        var fromLatLng = lat + ',' + lng;
+        GetStoresInfo(fromLatLng);
+        GetIsSelfDelivery(fromLatLng);
+    }
+    //定位错误
+    function ShowError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                break;
+            case error.POSITION_UNAVAILABLE:
+                break;
+            case error.TIMEOUT:
+                break;
+            case error.UNKNOWN_ERROR:
+                break;
+        }
+    }
+    //获取门店信息
+    function GetStoresInfo(fromLatLng) {
+        if (fromLatLng == "" || fromLatLng == undefined) {
+            $.dialog.tips('无法获取您的当前位置，请确认是否开启定位服务');
+            return;
+        }
+        var shopId = $("#shopId").val();
+        var pid = $("#productId").val();
+        $.get('/' + areaName + '/product/GetStroreInfo?productId={0}&shopId={1}&fromLatLng={2}'.format(pid, shopId, fromLatLng), function (data) {
+            if (data.success == true) {
+                if (typeof (data.storeInfo) != "undefined" && data.storeInfo != null) {
+                    $(".j_storeName").html(data.storeInfo.shopBranchName);
+                    $(".j_storesInfo").click(function () {
+                        window.location.href = '/m-wap/shopbranch/index/' + data.storeInfo.id
+                    });
+                    $(".j_distanceUnit").html("(" + data.storeInfo.distanceUnit + ")");
+                    $(".j_storeAddress").html(data.storeInfo.addressDetail);
+                    $(".j_storelist").html("查看全部" + data.total + "家门店");
+                    $(".j_storesInfo").show();
+                }
+            } else {
+                $.dialog.tips(data.message);
+            }
+        });
+    }
+    //获取是否允许到店自提图标
+    function GetIsSelfDelivery(fromLatLng) {
+        if (fromLatLng == "" || fromLatLng == undefined) {
+            $.dialog.tips('无法获取您的当前位置，请确认是否开启定位服务');
+            return;
+        }
+        console.log('当前定位成功：' + fromLatLng);
+        var shopId = $("#shopId").val();
+        var pid = $("#productId").val();
+        $.get('/' + areaName + '/product/GetIsSelfDelivery?productId={0}&shopId={1}&fromLatLng={2}'.format(pid, shopId, fromLatLng), function (data) {
+            if (typeof (data.isSelfDelivery) != "undefined" && data.isSelfDelivery != null && data.isSelfDelivery == 1) {
+                $(".j_ensary").append('<li class="flex-center"><i>到店自提</i></li>');
+            }
+        });
+    }
+</script>

@@ -1,0 +1,51 @@
+﻿
+@{
+    
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<link href="/Content/bootstrap.min.css?v=2.4" rel="stylesheet">
+<link rel="stylesheet" type="text/css" media="all" href="/Content/daterangepicker-bs3.css" />
+
+<script type="text/javascript" src="/Scripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="/Scripts/moment.js"></script>
+<script type="text/javascript" src="/Scripts/daterangepicker.js"></script>
+<script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<script src="~/Areas/SellerAdmin/Scripts/ProductSaleStatistic.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>商品销售情况</a></li>
+        <li><a href="@Url.Action("ProductSaleCategoryStatistic")">商品类目销售分析</a></li>
+    </ul>
+    <a class="export-data" id="aMonthExport" href='javascript:;' onclick="ExportExecl();">导出数据</a>
+    <div class="form-inline custom-inline sdata-trade">
+        <div class="form-group pdata">
+            <a class="active" id="defaultBtn" onclick="LoadData('@DateTime.Now.Date.AddDays(-1).ToString("yyyy-MM-dd")','@DateTime.Now.Date.AddDays(-1).ToString("yyyy-MM-dd")')">昨天</a>
+            <a onclick="LoadData('@DateTime.Now.Date.AddDays(-7).ToString("yyyy-MM-dd")','@DateTime.Now.Date.AddDays(-1).ToString("yyyy-MM-dd")')">最近7天</a>
+            <a onclick="LoadData('@DateTime.Now.Date.AddDays(-30).ToString("yyyy-MM-dd")','@DateTime.Now.Date.AddDays(-1).ToString("yyyy-MM-dd")')">最近30天</a>
+        </div>
+        <div class="form-group">
+            <input id="inputStartDate" class="form-control input-ssm w220 start_datetime has-dateicon" value="" placeholder="区间日期" type="text">
+            <i class="glyphicon glyphicon-calendar"></i>
+        </div>
+        <!--<div class="form-group pull-right">
+            <label class="label-inline" for="">每页显示数量：</label>
+            <select id="pageSizeSelect" class="form-control input-ssm">
+                <option>10</option>
+                <option>15</option>
+                <option>20</option>
+            </select>
+        </div>-->
+    </div>
+    <table id="list" class="table"></table>
+</div>
+
+<script>
+    $(function () {
+        $(".sdata-trade .pdata a").click(function () {
+            $(this).addClass("active").siblings().removeClass("active")
+        })
+    })
+</script>

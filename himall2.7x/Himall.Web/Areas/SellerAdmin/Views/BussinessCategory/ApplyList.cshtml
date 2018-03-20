@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "经营类目申请列表";
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("Management")">经营类目</a></li>
+        <li class="active"><a href="@Url.Action("ApplyList")">申请列表</a></li>
+        <li><a href="@Url.Action("Apply")">申请新的经营类目</a></li>
+    </ul>
+    <div></div>
+    <table class="table" id="list"></table>
+</div>
+
+<script type="text/javascript">
+    function query() {
+        //订单表格
+        $("#list").hiMallDatagrid({
+            url: './GetApplyList',
+            nowrap: false,
+            rownumbers: true,
+            NoDataMsg: '没有找到符合条件的申请列表',
+            border: false,
+            fit: true,
+            fitColumns: true,
+            pagination: true,
+            idField: "Id",
+            pageSize: 15,
+            pagePosition: 'bottom',
+            pageNumber: 1,
+            queryParams: {},
+            columns:
+            [[
+                { field: "Id", title: 'Id', hidden: true, width: 150 },
+
+                  { field: "ShopName", title: "店铺名称", width: 250, align: "center" },
+
+                   { field: "ApplyDate", title: "申请日期", width: 250, align: "center" },
+               {
+                   field: "AuditedStatus", title: "审核状态", width: 250, align: "center"
+               },
+            {
+                field: "operation", operation: true, title: "操作", width: 220,
+                formatter: function (value, row, index) {
+                    var id = row.Id.toString();
+                    var html = ["<span class=\"btn-a\">"];
+                    html.push("<a class=\"good-check\" href='./applyDetail/"+id+"'>查看详情</a>");
+                    html.push("</span>");
+                    return html.join("");
+                }
+            }
+            ]]
+        });
+    }
+    $(function () {
+        query();
+    });
+</script>

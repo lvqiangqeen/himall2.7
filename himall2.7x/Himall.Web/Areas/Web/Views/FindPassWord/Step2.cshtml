@@ -1,0 +1,325 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_SimpeHeadAndFoot.cshtml";
+    ViewBag.Title = "找回密码-验证用户信息";
+}
+@model Himall.Model.UserMemberInfo
+<div id="container">
+    <div class="w pt10">
+        <div id="main">
+            <div class="g-0">
+                <div id="content">
+                    <div class="mod-main mod-comm">
+                        <div class="mt">
+                            <input type="hidden" name="key" id="key" value="@ViewBag.Key" />
+                            <h3>找回密码</h3>
+                        </div>
+                        <div class="mc">
+                            <div class="stepflex " id="sflex04">
+                                <dl class="first done">
+                                    <dt class="s-num">1</dt>
+                                    <dd class="s-text">填写账户名<s></s><b></b></dd>
+                                    <dd></dd>
+                                </dl>
+                                <dl class="normal doing">
+                                    <dt class="s-num">2</dt>
+                                    <dd class="s-text">验证身份<s></s><b></b></dd>
+                                </dl>
+                                <dl class="normal">
+                                    <dt class="s-num">3</dt>
+                                    <dd class="s-text">设置新密码<s></s><b></b></dd>
+                                </dl>
+                                <dl class="last">
+                                    <dt class="s-num">&nbsp;</dt>
+                                    <dd class="s-text">完成<s></s><b></b></dd>
+                                </dl>
+                            </div>
+
+                            <div class="form formno">
+                                <div class="item">
+                                    <span class="label">请选择验证身份方式：</span>
+                                    <div class="fl">
+                                        <select onchange="selectVerifyType();" name="" id="type" class="selt">
+                                            @foreach (var messagePlugin in @ViewBag.BindContactInfo)
+                                            {
+                                                if (@messagePlugin.IsBind)
+                                                {
+                                                    <option value="@(messagePlugin.PluginId)">@messagePlugin.ShortName</option>
+                                                }
+                                            }
+                                        </select>
+                                        <div class="clr"></div>
+                                    </div>
+                                    <div class="clr"></div>
+                                </div>
+                                <div id="mobileDiv" style="display: none;">
+                                    <div class="item">
+                                        <span class="label">昵称：</span>
+                                        <div class="fl">
+                                            <strong class="ftx-un">@Model.UserName</strong>
+                                            <label id="username_succeed" class="blank invisible"></label>
+                                            <div class="clr"></div>
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                    <div class="item">
+                                        <span class="label">已验证手机：</span>
+                                        <div class="fl">
+                                            <strong class="ftx-un" id="mobileSpan">@Model.CellPhone</strong>
+                                            <div class="clr"></div>
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                    <div class="item">
+                                        <span class="label">请填写手机校验码：</span>
+                                        <div class="fl">
+                                            <input type="text" id="code" name="code" class="itxt text-1" disabled="disabled">
+                                            <a class="btn btn-10 ml10" id="sendMobileCode" href="javascript:sendFindPwdCode('sendMobileCode','@ViewBag.Key');">
+                                                <s></s>获取短信校验码
+                                            </a>
+                                            <div class="clr"></div>
+                                            <div class="" id="code_error"></div>
+                                        </div>
+                                        <div class="clr"></div>
+                                        <div class="msg-text" style="display:none;" id="timeDiv">
+                                    		校验码已发出，请注意查收短信，如果没有收到，你可以在<strong class="ftx-01">35</strong>秒后要求系统重新发送
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <span class="label">&nbsp;</span>
+                                        <div class="fl">
+                                            <input class="btn-5" onclick="validFindPwdCode('@ViewBag.Key');" id="submitCode" value="提交" href="javascript:void(0);" type="submit">
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                </div>
+
+
+                                <div style="display: none;" id="emailDiv">
+                                    <div class="item">
+                                        <span class="label">昵称：</span>
+                                        <div class="fl">
+                                            <strong class="ftx-un">@Model.UserName</strong>
+                                            <label id="username_succeed" class="blank invisible"></label>
+                                            <div class="clr"></div>
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                    <div class="item">
+                                        <span class="label">邮箱地址：</span>
+                                        <div class="fl">
+                                            <strong class="ftx-un" id="mobileSpan">@Model.Email</strong>
+                                            <div class="clr"></div>
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                    <div class="item">
+                                        <span class="label">请填写邮箱校验码：</span>
+                                        <div class="fl">
+                                            <input type="text" id="code1" name="code" class="itxt text-1" disabled="disabled">
+                                            <a class="btn btn-10 ml10" id="sendMobileCode1" href="javascript:sendFindEmailCode('sendMobileCode1','@ViewBag.Key');">
+                                                <s></s>获取邮箱校验码
+                                            </a>
+                                            <div class="clr"></div>
+                                            <div class="msg-text" style="display:none;" id="timeDiv1">
+                                                校验码已发出，请注意查收邮件，如果没有收到，你可以在<strong class="ftx-01">35</strong>秒后要求系统重新发送
+                                            </div>
+                                            <div class="" id="code_error1"></div>
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                    <div class="item">
+                                        <span class="label">&nbsp;</span>
+                                        <div class="fl">
+                                            <input class="btn-5" onclick="sendEmail('@ViewBag.Key');" id="submitCode" value="提交" href="javascript:void(0);" type="submit">
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="clr"></span>
+        </div>
+    </div>
+</div>
+<input type="hidden" value="">
+
+<script>
+    $(function () {
+        selectVerifyType();
+    })
+
+    var pidEmail = $("#type").val();
+    function selectVerifyType() {
+        var type = $("#type").val();
+        if (type== "Himall.Plugin.Message.SMS") {
+            $("#mobileDiv").show();
+            $("#emailDiv").hide();
+        } else if (type == "Himall.Plugin.Message.Email") {
+            $("#mobileDiv").hide();
+            $("#emailDiv").show();
+        }
+    }
+
+    function sendFindPwdCode(a, k) {
+        if ($("#" + a).attr("disabled")) {
+            return;
+        }
+        $("#" + a).attr("disabled", "disabled");
+        jQuery.ajax({
+            type: "post",
+            url: "/findPassWord/SendCode?key=" + k + '&PluginId=' + $("#type").val(),
+            success: function (data) {
+                if (data.success) {
+                    $("#timeDiv .ftx-01").text(119);
+                    $("#sendMobileCodeDiv").hide();
+                    $("#timeDiv").show();
+                    setTimeout(countDown, 1000);
+                    $("#code").removeAttr("disabled");
+                    $("#submitCode").removeAttr("disabled");
+                }else if (data.flag == "0") {
+                    $.dialog.errorTips("120秒内仅能获取一次验证码，请稍后重试");
+                    $("#sendMobileCode").removeAttr("disabled");
+                }else {
+                    $.dialog.errorTips("网络连接超时，请重新获取验证码");
+                    $("#sendMobileCode").removeAttr("disabled");
+                }
+            },
+            error: function () {
+                $.dialog.errorTips("网络连接超时，请您稍后重试");
+                $("#sendMobileCode").removeAttr("disabled");
+            }
+        });
+    }
+    function sendFindEmailCode(a, k) {
+        if ($("#" + a).attr("disabled")) {
+            return;
+        }
+        $("#" + a).attr("disabled", "disabled");
+        jQuery.ajax({
+            type: "post",
+            url: "/findpassword/SendCode?key=" + ($('#key').val()) + '&PluginId=' + $("#type").val(),
+            success: function (data) {
+                if (data.success) {
+                    $("#timeDiv1 .ftx-01").text(119);
+                    $("#sendMobileCodeDiv").hide();
+                    $("#timeDiv1").show();
+                    setTimeout(countDown1('timeDiv1', ''), 1000);
+                    $("#code1").removeAttr("disabled");
+                    $("#submitCode1").removeAttr("disabled");
+                }else if (data.flag == "0") {
+                    $.dialog.errorTips("120秒内仅能获取一次验证码，请稍后重试");
+                    $("#sendMobileCode1").removeAttr("disabled");
+                }else {
+                    $.dialog.errorTips("网络连接超时，请重新获取验证码");
+                    $("#" + a).removeAttr("disabled");
+                }
+            },
+            error: function () {
+                $.dialog.errorTips("网络连接超时，请您稍后重试");
+                $("#" + a).removeAttr("disabled");
+            }
+        });
+    }
+
+    function countDown1() {
+        var time = $("#timeDiv1 .ftx-01").text();
+        $("#timeDiv1 .ftx-01").text(time - 1);
+        if (time == 1) {
+            $("#sendMobileCode1").removeAttr("disabled");
+            $("#timeDiv1").hide();
+            $("#sendMobileCodeDiv1").show();
+            $("#send_text1").hide();
+        } else {
+            setTimeout(countDown1, 1000);
+        }
+    }
+    function countDown() {
+        var time = $("#timeDiv .ftx-01").text();
+        $("#timeDiv .ftx-01").text(time - 1);
+        if (time == 1) {
+            $("#sendMobileCode").removeAttr("disabled");
+            $("#timeDiv").hide();
+            $("#sendMobileCodeDiv").show();
+            $("#send_text").hide();
+        } else {
+            setTimeout(countDown, 1000);
+        }
+    }
+    function validFindPwdCode(k) {
+        if ($("#submitCode").attr("disabled")) {
+            return;
+        }
+        var code = $("#code").val();
+        if (!checkCode1()) {
+            return;
+        }
+        $("#submitCode").attr("disabled", "disabled");
+        jQuery.ajax({
+            type: "post",
+            dataType: "json",
+            url: "/findpassword/CheckPluginCode?key=" + ($('#key').val()) + '&pluginId=' + $("#type").val() + '&code=' + code,
+            success: function (data) {
+                if (data.success) {
+                    window.location.href = "/findpassword/Step3?key=" + data.key;
+                } else {
+                    $.dialog.errorTips('验证码错误!');
+                }
+            },
+            error: function () {
+                $.dialog.errorTips("网络连接超时，请您稍后重试");
+                $("#submitCode").removeAttr("disabled");
+            }
+        });
+    }
+    function sendEmail(k) {
+        if ($("#submitCode1").attr("disabled")) {
+            return;
+        }
+        var code = $("#code1").val();
+        if (!checkCode()) {
+            return;
+        }
+        $("#submitCode1").attr("disabled", "disabled");
+        jQuery.ajax({
+            type: "post",
+            dataType: "json",
+            url: "/findpassword/CheckPluginCode?key=" + ($('#key').val()) + '&pluginId=' + $("#type").val() + '&code=' + code,
+            success: function (data) {
+                if (data.success) {
+                    window.location.href = "/findpassword/Step3?key=" + data.key;
+                } else {
+                    $.dialog.errorTips('验证码错误!');
+                }
+            },
+            error: function () {
+                $.dialog.errorTips("网络连接超时，请您稍后重试");
+                $("#submitCode").removeAttr("disabled");
+            }
+        });
+    }
+    function checkCode() {
+        var code = $("#code1").val();
+        if (!code) {
+            $("#code1").removeClass().addClass("itxt text-1 highlight2");
+            $("#code_error1").removeClass().addClass("msg-error").html("请输入验证码");
+            return false;
+        }
+        $("#code1").removeClass().addClass("itxt text-1");
+        $("#code_error1").removeClass().html("");
+        return true;
+    }
+    function checkCode1() {
+        var code = $("#code").val();
+        if (!code) {
+            $("#code").removeClass().addClass("itxt text-1 highlight2");
+            $("#code_error").removeClass().addClass("msg-error").html("请输入验证码");
+            return false;
+        }
+        $("#code").removeClass().addClass("itxt text-1");
+        $("#code_error").removeClass().html("");
+        return true;
+    }
+</script>

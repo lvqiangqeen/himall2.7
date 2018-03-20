@@ -1,0 +1,68 @@
+﻿@model Himall.Web.Areas.Mobile.Models.ProductCommentShowModel
+@{
+    // ViewBag.Title = "商品评论分布";
+    Layout = null;
+}
+@if (Model.IsShowColumnTitle)
+{
+<div class="item detail-comment">
+    <a class="item-navigate-arrow" href="/@(ViewBag.AreaName)/Product/ProductComment?pId=@(Model.ProductId)&commentType=0">商品评价<span>@(Model.CommentCount)</span></a>
+</div>
+}
+@if (Model.IsShowCommentList)
+{
+    if (Model.CommentList.Count() > 0)
+    {
+        <ul class="detail-comment-bd">
+            @foreach (var comitem in Model.CommentList)
+            {
+                <li>
+                    <h5>@(comitem.UserName)<span class="date">@(comitem.ReviewDate.Value.ToString("yyyy-MM-dd HH:mm:ss"))</span></h5>
+                    @if (!string.IsNullOrWhiteSpace(comitem.Sku))
+                    {
+                        <h6>购买了 @(comitem.Sku) </h6>
+                    }
+                    <div class="detail-comment-con">@(comitem.ReviewContent)</div>
+                    @if (comitem.Images.Count > 0)
+                    {
+                        <dl class="detail-comment-img">
+                            @foreach (var imgitem in comitem.Images)
+                            {
+                                <dd><span><img src="@(Himall.Core.HimallIO.GetImagePath(imgitem))"></span></dd>
+                            }
+                        </dl>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(comitem.ReplyContent) && comitem.ReplyContent != "暂无回复")
+                    {
+                        <div class="detail-comment-replay">卖家回复:@(comitem.ReplyContent)</div>
+                    }
+                    @if (comitem.AppendDate.HasValue && comitem.FinshDate.HasValue)
+                    {
+                        var spanday = (int)((comitem.AppendDate.Value - comitem.FinshDate.Value).TotalDays);
+                        <dl class="detail-comment-ago">
+                            <dt>收货@(spanday > 0 ? spanday.ToString() + "天" : "")后追加</dt>
+                            <dd class="detail-comment-con">@(comitem.AppendContent)</dd>
+                        </dl>
+                        if (comitem.AppendImages.Count > 0)
+                        {
+                            <dl class="detail-comment-img">
+                                @foreach (var imgitem in comitem.AppendImages)
+                                {
+                                    <dd><span><img src="@(Himall.Core.HimallIO.GetImagePath(imgitem))"></span></dd>
+                                }
+                            </dl>
+                        }
+                        if (!string.IsNullOrWhiteSpace(comitem.ReplyAppendContent) && comitem.ReplyAppendContent != "暂无回复")
+                        {
+                            <div class="detail-comment-replay">卖家回复:@(comitem.ReplyAppendContent)</div>
+                        }
+                    }
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <div>该商品还没有人写评价呢</div>
+    }
+}

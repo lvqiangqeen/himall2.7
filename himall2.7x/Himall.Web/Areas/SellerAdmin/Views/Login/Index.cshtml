@@ -1,0 +1,242 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>商家登录</title>
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/login.css" rel="stylesheet" />
+    <script src="~/Scripts/CommonJS.js"></script>
+    <script src="~/Scripts/jquery.cookie.js"></script>
+</head>
+<body style="background:#3f4553;background-image: -webkit-gradient(radial,50% 100%,10,50% 50%,1000,from(#3f4553),to(#1f2126));background-image:-moz-radial-gradient(center 80px 45deg, circle farthest-corner, #3f4553 0%, #1f2126 100%);">
+    <div class="login-box business-login">
+        <div class="login-logo">商家中心登录</div>
+        <form class="clearfix">
+            <div class="form-option">
+                <input type="text" class="text" id="username" placeholder="账号..." />
+                <input type="password" class="text" id="password" placeholder="密码..." />
+                <input type="text" class="text text-code" id="checkCode" maxlength="4" placeholder="验证码..." style="display:none" />
+
+                <div class="tipic-dialog"><img id="checkCodeImg" title="点击更换验证码" src="login/GetCheckCode" /></div>
+                <button type="button" class="login-btn">登录</button>
+                <span id="checkBoxIcon" class="glyphicon"></span>
+                <span class="glyphicon glyphicon-user"></span>
+                <span class="glyphicon glyphicon-lock"></span>
+            </div>
+            <div class="form-option">
+                <label><input type="checkbox" id="keepLogin" />保持登录状态</label>
+            </div>
+            <div class="error-info" style="display:none">
+                <p><span class="glyphicon glyphicon-exclamation-sign"></span></p>
+            </div>
+
+        </form>
+    </div>
+
+    <script type="text/javascript">
+    var path = '@Url.Action("Login")';
+
+    $(function () {
+		if($(window).width()<800){
+			$('.login-box').css('margin',0);
+			$(body).css('background','#3f4553');
+		}
+		
+        path = path.substring(0, path.lastIndexOf('/')+1 );
+
+        $('.text-code').focus(function () {
+            $('.tipic-dialog').fadeIn(300);
+        });
+
+
+        $('img').click(function () {
+            $('.text-code').focus();
+            changeCheckCode();
+        });
+
+        $('button').click(function () {
+            loginBtnClick();
+        });
+
+        $('input').keydown(function () {
+            $('.error-info').hide();
+            checkBoxIcon();
+        });
+
+        initUsername();
+
+    });
+
+
+    function loginBtnClick() {
+        var username = $.trim($('#username').val());
+        var password = $.trim($('#password').val());
+        var checkCode = $.trim($('#checkCode').val());
+		var loading = showLoading();
+        try {
+            checkInputValid(username, password, checkCode);
+            login(username, password, checkCode);
+			loading.close();
+        }
+        catch (e) {
+            showErrorMsg(e.message);
+			loading.close();
+        }
+    }
+
+    function checkBoxIcon(type) {
+        var right = 'glyphicon-ok-circle', wrong = 'glyphicon-remove-circle';
+        var obj = $('#checkBoxIcon');
+        if (!type) {
+            obj.removeClass(right).removeClass(wrong);
+        }
+        else if (type == 'right')
+            obj.removeClass(wrong).addClass(right);
+        else
+            obj.removeClass(right).addClass(wrong);
+    }
+
+    function checkInputValid(username, password, checkCode) {
+        if (!username) {
+            $('#username').select();
+            throw new Error('请输入用户名');
+        }
+        if (!password) {
+            $('#password').select();
+            throw new Error('请输入密码');
+        }
+        var display = $('#checkCode').css('display') != 'none';
+        if (display && !checkCode) {
+            $('#checkCode').select();
+            throw new Error('请输入验证码');
+        }
+        var checkCodeWrongClass = 'glyphicon-remove-circle';
+        if ($('#checkBoxIcon').hasClass(checkCodeWrongClass)) {
+            $('#checkCode').select();
+            throw new Error('验证码错误');
+        }
+    }
+
+    function showErrorMsg(msg) {
+        var icon='<span class="glyphicon glyphicon-exclamation-sign"></span>';
+		if (msg)
+			$('.error-info p').html(icon+msg).parent().show();
+        else
+            $('.error-info').hide();
+    }
+
+    function login(username, password, checkCode) {
+		var loading = showLoading();
+        $.ajax({
+            type: "post",
+            url: path + 'login',
+            data: {
+                username: username,
+                password: password,
+                checkCode: checkCode
+            },
+            dataType: "json",
+            async:false,
+            success: function (result) {
+				loading.close();
+                showErrorMsg();
+                if (result.success) {
+                    var options = { path: "/" };
+                    if ($('#keepLogin').attr('checked'))
+                        options.expires = 365;
+                    $.cookie('Himall-SellerManager', result.userId, options);
+                    $.cookie('Himall-SellerUsername', username, { path: "/", expires: 365 });
+
+                    var url = QueryString('return');
+
+                    if (!url)
+                        url = '/sellerAdmin';
+                    location.replace(url);
+                }
+                else {
+                    $('#checkCode').val('');
+                    checkBoxIcon();
+
+                    if (result.errorTimes >= result.minTimesWithoutCheckCode) {
+                        var checkCode = $('#checkCode');
+                        var display = checkCode.css('display') != 'none';
+                        if (!display) {
+                            checkCode.show().focus();
+                            bindCheckBoxInputChangeEvent();
+                        }
+                        else
+                            changeCheckCode();
+                    }
+                    $('#password').select();
+                    throw new Error(result.msg);
+                }
+            },
+            error: function () {
+				loading.close();
+                showErrorMsg('网络错误');
+            }
+        });
+    }
+
+    function changeCheckCode() {
+        $('#checkCodeImg').attr('src', path + 'GetCheckCode?time=' + new Date().getTime());
+    }
+
+    function checkCheckCode() {
+        var checkCode = $.trim($('#checkCode').val());
+        if (checkCode.length < 4)
+            checkBoxIcon('wrong');
+        else {
+            $.post(path + 'CheckCode', { checkCode: checkCode }, function (result) {
+                if (result.success) {//验证码正确
+                    checkBoxIcon('right');
+                }
+                else {
+                    if (result.msg) {//验证码校验异常
+                        showErrorMsg(result.msg);
+                    }
+                    else {//检验码不正确
+                        checkBoxIcon('wrong');
+                    }
+
+                }
+
+            });
+        }
+    }
+
+    document.onkeydown = function () {
+        if (event.keyCode == 13) {
+            loginBtnClick();
+                
+        }
+    }
+
+    function bindCheckBoxInputChangeEvent() {
+        $('#checkCode').keyup(function () {
+            var text = $(this).val();
+            if (text.length == 4)
+                checkCheckCode();
+        });
+
+    }
+
+    function initUsername() {
+        var defaultUsername = $.cookie('Himall-SellerUsername');
+        if (defaultUsername) {
+            $('#username').val(defaultUsername);
+            $('#password').focus();
+        }
+        else
+            $('#username').focus();
+    }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "领取记录";
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        
+        <li class="active"><a>领取记录</a></li>
+        <li class=""><a href="@Url.Action("Add")">添加优惠券</a></li>
+        <li class=""><a href="@Url.Action("BuyService")">购买服务</a></li>
+   
+    </ul>
+    <div>
+        <table class="table" id="list"></table>
+    </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            //订单表格
+            $("#list").hiMallDatagrid({
+                url: '../GetReceivers/@ViewBag.Id',
+                nowrap: false,
+                rownumbers: true,
+                NoDataMsg: '没有找到符合条件的记录',
+                border: false,
+                fit: true,
+                fitColumns: true,
+                pagination: true,
+                idField: "Id",
+                pageSize: 15,
+                pagePosition: 'bottom',
+                pageNumber: 1,
+                queryParams: {},
+                columns:
+                [[
+                    { field: "Id", title: 'Id', hidden: true, width: 150 },
+                    {
+                        field: "CouponSN", title: "优惠码", width: 220, align: "center",
+                    },
+                     {
+                         field: "Price", title: "价值", width: 60, align: "center",
+                     },
+                    { field: "CreateTime", title: "创建时间", width: 90, align: "center" },
+                    { field: "ReceviceTime", title: "领取时间", width: 90, align: "center" },
+                    { field: "Recever", title: "领取人", width: 90, align: "center" },
+                    { field: "UsedTime", title: "使用时间", width: 90, align: "center" },
+                     {
+                         field: "OrderId", title: "订单ID", width: 90, align: "center",
+                         formatter: function (value, row, index) {
+                             var html = "";
+                             if(row.OrderId!=null)
+                                 html = '<a href="@Url.Action("Detail", "Order")/'+row.OrderId+'">' + row.OrderId + '</a>';
+                             return html;
+                         }
+                     },
+                    { field: "Status", title: "状态", width: 80, align: "center" },
+                ]]
+            });
+        });
+    </script>

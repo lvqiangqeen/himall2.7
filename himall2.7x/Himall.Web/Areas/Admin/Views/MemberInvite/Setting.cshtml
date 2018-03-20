@@ -1,0 +1,131 @@
+﻿@model Himall.Model.InviteRuleModel
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>推广规则</a></li>
+        <li><a href="@Url.Action("Management")">推广管理</a></li>
+    </ul>
+    @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", Url = @Url.Action("SaveSetting"), OnBegin = "beginPost", OnSuccess = "successPost" }))
+    {
+        <div class="form-horizontal form-pt0">
+
+            <h3 class="table-hd">奖励规则设置</h3>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">邀请会员注册：</label>
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(item => item.InviteIntegral,  new { @class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-7">
+                    <p class="help-default">邀请新会员注册后邀请人所得积分；仅当新会员完成邮箱或手机验证后才能得到积分奖励.@Html.ValidationMessageFor(item => item.InviteIntegral)</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">新会员注册：</label>
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(item => item.RegIntegral,  new { @class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-4">
+                    <p class="help-default">新会员接受邀请完成注册获得的积分奖励 @Html.ValidationMessageFor(item => item.RegIntegral)</p>
+                </div>
+            </div>
+            @if (Model != null)
+            { @Html.HiddenFor(item => item.ID);
+            }
+            else
+            { 
+                @Html.Hidden("ID","0")
+            }
+
+
+
+            <h3 class="table-hd">活动页面设置</h3>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">分享标题：</label>
+                <div class="col-sm-4">
+                    @Html.EditorFor(item => item.ShareTitle, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                </div>
+                <div class="col-sm-4">
+                    <p class="help-default">@Html.ValidationMessageFor(item => item.ShareTitle)</p>
+                </div>
+            </div>
+            <div class="form-group upload-img" id="ShareIcon"></div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">分享描述：</label>
+                <div class="col-sm-4">
+                    @Html.TextAreaFor(item => item.ShareDesc, 4, 50, new { @class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-4">
+                    <p class="help-default">@Html.ValidationMessageFor(item => item.ShareDesc)</p>
+                </div>
+            </div>
+            <div class="form-group upload-img" id="Logo"></div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">活动规则：</label>
+                <div class="col-sm-4">
+                    @Html.TextAreaFor(item => item.ShareRule, 4, 50, new { @class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-4">
+                    <p class="help-default">@Html.ValidationMessageFor(item => item.ShareRule)</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" id="btsubmit" class="btn btn-primary" value="保 存">
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+
+<input type="hidden" value="@(Model==null?"":@Himall.Core.HimallIO.GetImagePath(Model.ShareIcon))" id="MMsi"/>
+<script type="text/javascript">
+ 
+    var loading;
+    var isposting = false;
+
+
+    function beginPost() {
+        var shareIcon = $('input[name="ShareIcon"]').val();
+        if (null == shareIcon || shareIcon == "") {
+            $.dialog.errorTips("分享图标不能为空");
+            return false;
+        }
+        if (isposting) {
+            $.dialog.tips("数据提交中...");
+            return false;
+        }
+        isposting = true;
+        $("#btsubmit").text("提交中...");
+        loading = showLoading();
+    };
+
+    function successPost(data) {
+        isposting = false;
+        $("#btsubmit").text("保 存");
+        loading.close();
+        if (data.success == true) {
+            $.dialog.tips("保存成功", function () {
+                //数据提交成功页面跳转
+            });
+        } else {
+            $.dialog.errorTips(data.msg);
+        }
+    };
+
+
+    var img = $("#MMsi").val();
+    $('#ShareIcon').himallUpload({
+        title: '分享图标：',
+        imageDescript: '最佳尺寸:符合微信尺寸(100*100)',
+        displayImgSrc: img,
+        imgFieldName: "ShareIcon",
+        dataWidth: 8
+    });
+</script>

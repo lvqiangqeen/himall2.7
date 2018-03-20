@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>商品评论列表</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<style>.mui-preview-header{ bottom: auto; top: 10px;}</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">商品评论</h1>
+		</header>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper transparent">
+			<div class="mui-scroll">
+				<ul class="comment-class cl" id="commentClass"></ul>
+				<ul class="comment-list" id="commentList">
+				</ul>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/mui.zoom.js"></script>
+		<script src="js/mui.previewimage.js"></script>
+		<script>
+			var pId,
+				commentType=0,
+				isnodata = false,
+				page = 1,
+				lodaPage,
+				commentClass=document.getElementById('commentClass'),
+				commentList=document.getElementById('commentList');
+			mui.init({
+				pullRefresh : {
+				    container:'#pullrefresh',
+				    deceleration:0.0006,
+				    up : {
+					    contentrefresh : "正在加载...",
+					    contentnomore:'已加载全部',
+					    callback :function(){
+					      	var self=this;
+					      	if (!isnodata) {
+					      		page++;
+						        mui.ajax(URL+'api/Product/GetProductComment',{
+						        	data:himall.md5Data({
+										pid:pId,
+										commenttype:commentType,
+										pageno:page,
+										pagesize:10
+									}),
+									dataType:'json',
+									type:'get',
+									timeout:10000,
+									success:function(data){
+					                    if(data.List.length > 0) {
+								        	commentList.insertAdjacentHTML('beforeend',template('initData',data));
+											delayimg.render();
+											mui.previewImage();
+								        }else{
+											isnodata = true;
+										}
+										self.endPullupToRefresh(isnodata);
+									},
+									error:function(xhr,type,errorThrown){
+										plus.nativeUI.toast('请求失败，请检查网络')
+									}
+								});
+						    }else{
+						    	self.endPullupToRefresh(isnodata);
+						    }
+				    	}
+				    }
+				},
+				swipeBack: true
+			});
+			if (mui.os.android)
+				document.getElementsByClassName('mui-scroll')[0].className='';
+			
+			mui.plusReady(function() {
+				var ws=plus.webview.currentWebview();
+				pId=ws.pId;
+				ws.setStyle({scrollIndicator:'none'});
+				lodaPage=function(){
+					var w=plus.nativeUI.showWaiting('',{padlock:true});
+					mui.ajax(URL+'api/Product/GetProductComment',{
+						data:himall.md5Data({
+							commentType:commentType,
+							pageno:page,
+							pagesize:10,
+							pid:pId
+						}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							if(commentClass.innerHTML==''){
+								commentClass.innerHTML='<li class="cur">全部</li><li>好评('+data.GoodCount+')</li><li>中评('+data.MediumCount+')</li><li>差评('+data.BadCount+')</li><li>有图('+data.ImageCount+')</li><li>追加('+data.AppendCount+')</li>';
+							}
+					        if (data.List.length > 0) {
+					            commentList.innerHTML=template('initData',data);
+					            delayimg.init();
+					            mui.previewImage();
+					            page = 1;
+								isnodata = false;
+								mui('#pullrefresh').pullRefresh().refresh(true);
+					        }else{
+					        	document.getElementById('commentList').innerHTML='<div class="empty-show"><h4>暂无该类评论</h4></div>';
+					        }
+					        w.close();
+							himall.removeClass(document.querySelector('.mui-content'),'transparent');
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							reloadWvLoad();
+						}
+					});
+				}
+				lodaPage();
+				
+			});
+			
+			mui('#commentClass').on('tap', 'li', function() {
+				commentType = getIndex(this);
+				document.querySelector('#commentClass .cur').className='';
+				this.className='cur';
+				lodaPage();
+			});
+			
+		</script>
+		
+		
+		<script type="text/html" id="initData">
+			{{each List as item}}
+				<li class="border-top">
+					<h3>{{item.UserName}}</h3>
+					<p>{{item.ReviewContent}}</p>
+					{{if item.ReplyContent!='暂无回复'}}
+						<h2>卖家回复：{{item.ReplyContent}}</h2>
+					{{/if}}
+					<h5>{{item.ReviewDate.substring(0,10).replace(/-/g,'.')}} &nbsp; {{item.Sku}}</h5>
+					{{if item.Images.length>0}}
+						<div class="comment-img cl">
+						{{each item.Images}}
+							<div class="mui-zoom"><img src="images/blank.gif" data-delay="{{$value.CommentImage}}" data-preview-src="" data-preview-group="1" data-content="{{item.ReviewContent}}" /></div>
+						{{/each}}
+						</div>
+					{{/if}}
+					{{if item.AppendDate}}
+						<h4>收货{{item.AppendDays}}天后追加</h4>
+						<p>{{item.AppendContent}}</p>
+						{{if item.ReplyAppendContent}}
+							<h2>卖家回复：item.ReplyAppendContent</h2>
+						{{/if}}
+						{{if item.AppendImages.length>0}}
+							<div class="comment-img cl">
+							{{each item.AppendImages}}
+								<div class="mui-zoom"><img src="images/blank.gif" data-delay="{{$value.CommentImage}}" data-preview-src="" data-preview-group="1" data-content="{{item.AppendContent}}" /></div>
+							{{/each}}
+							</div>
+						{{/if}}
+					{{/if}}
+				</li>
+            {{/each}}
+		</script>
+	</body>
+
+</html>

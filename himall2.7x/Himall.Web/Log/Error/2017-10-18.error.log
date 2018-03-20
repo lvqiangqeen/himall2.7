@@ -1,0 +1,671 @@
+
+
+
+ 记录时间：2017-10-18 00:05:11,455 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 00:05:20,842 
+日志级别：  ERROR 
+出错类：Himall.Application.StatisticApplication.Encrypt  
+错误描述：StatisticApplication加密异常： 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 271
+
+
+
+ 记录时间：2017-10-18 00:06:00,258 
+日志级别：  ERROR 
+出错类：Himall.Web.Framework.BaseController.OnException  
+错误描述：页面未捕获的异常：Area:Web,Controller:home,Action:Index,id:Get:post: 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 278
+   在 Himall.Application.StatisticApplication.StatisticPlatVisitUserCount() 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 96
+   在 Himall.Web.Framework.BaseWebController.OnActionExecuted(ActionExecutedContext filterContext) 位置 c:\zhaopian\src\Himall.Web.Framework\BaseControllers\Web\BaseWebController.cs:行号 36
+   在 System.Web.Mvc.Controller.System.Web.Mvc.IActionFilter.OnActionExecuted(ActionExecutedContext filterContext)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass33.<BeginInvokeActionMethodWithFilters>b__32(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+
+
+
+ 记录时间：2017-10-18 00:11:17,391 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 00:11:25,938 
+日志级别：  ERROR 
+出错类：Himall.Application.StatisticApplication.Encrypt  
+错误描述：StatisticApplication加密异常： 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 271
+
+
+
+ 记录时间：2017-10-18 00:13:22,639 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 00:13:30,466 
+日志级别：  ERROR 
+出错类：Himall.Application.StatisticApplication.Encrypt  
+错误描述：StatisticApplication加密异常： 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 271
+
+
+
+ 记录时间：2017-10-18 00:14:50,885 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 00:14:59,681 
+日志级别：  ERROR 
+出错类：Himall.Application.StatisticApplication.Encrypt  
+错误描述：StatisticApplication加密异常： 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 271
+
+
+
+ 记录时间：2017-10-18 00:17:21,849 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 00:17:30,465 
+日志级别：  ERROR 
+出错类：Himall.Application.StatisticApplication.Encrypt  
+错误描述：StatisticApplication加密异常： 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 271
+
+
+
+ 记录时间：2017-10-18 00:20:09,081 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 00:21:46,406 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 00:21:55,220 
+日志级别：  ERROR 
+出错类：Himall.Application.StatisticApplication.Encrypt  
+错误描述：StatisticApplication加密异常： 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 271
+
+
+
+ 记录时间：2017-10-18 00:22:03,242 
+日志级别：  ERROR 
+出错类：Himall.Web.Framework.BaseController.OnException  
+错误描述：页面未捕获的异常：Area:Web,Controller:home,Action:Index,id:Get:post: 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 278
+   在 Himall.Application.StatisticApplication.StatisticPlatVisitUserCount() 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 96
+   在 Himall.Web.Framework.BaseWebController.OnActionExecuted(ActionExecutedContext filterContext) 位置 c:\zhaopian\src\Himall.Web.Framework\BaseControllers\Web\BaseWebController.cs:行号 36
+   在 System.Web.Mvc.Controller.System.Web.Mvc.IActionFilter.OnActionExecuted(ActionExecutedContext filterContext)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass33.<BeginInvokeActionMethodWithFilters>b__32(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+
+
+
+ 记录时间：2017-10-18 00:22:17,790 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 00:22:31,372 
+日志级别：  ERROR 
+出错类：Himall.Application.StatisticApplication.Encrypt  
+错误描述：StatisticApplication加密异常： 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 271
+
+
+
+ 记录时间：2017-10-18 10:38:52,286 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 10:38:59,140 
+日志级别：  ERROR 
+出错类：Himall.Application.StatisticApplication.Encrypt  
+错误描述：StatisticApplication加密异常： 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 271
+
+
+
+ 记录时间：2017-10-18 10:50:19,366 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 10:50:28,528 
+日志级别：  ERROR 
+出错类：Himall.Application.StatisticApplication.Encrypt  
+错误描述：StatisticApplication加密异常： 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 271
+
+
+
+ 记录时间：2017-10-18 10:53:08,223 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 10:53:18,422 
+日志级别：  ERROR 
+出错类：Himall.Application.StatisticApplication.Encrypt  
+错误描述：StatisticApplication加密异常： 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 271
+
+
+
+ 记录时间：2017-10-18 10:58:55,495 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 10:59:04,127 
+日志级别：  ERROR 
+出错类：Himall.Application.StatisticApplication.Encrypt  
+错误描述：StatisticApplication加密异常： 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 271
+
+
+
+ 记录时间：2017-10-18 10:59:40,843 
+日志级别：  ERROR 
+出错类：Himall.Web.Framework.BaseController.OnException  
+错误描述：页面未捕获的异常：Area:Web,Controller:home,Action:Index,id:Get:post: 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 278
+   在 Himall.Application.StatisticApplication.StatisticPlatVisitUserCount() 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 96
+   在 Himall.Web.Framework.BaseWebController.OnActionExecuted(ActionExecutedContext filterContext) 位置 c:\zhaopian\src\Himall.Web.Framework\BaseControllers\Web\BaseWebController.cs:行号 36
+   在 System.Web.Mvc.Controller.System.Web.Mvc.IActionFilter.OnActionExecuted(ActionExecutedContext filterContext)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass33.<BeginInvokeActionMethodWithFilters>b__32(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+
+
+
+ 记录时间：2017-10-18 10:59:53,272 
+日志级别：  ERROR 
+出错类：Himall.Application.StatisticApplication.Encrypt  
+错误描述：StatisticApplication加密异常： 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 271
+
+
+
+ 记录时间：2017-10-18 11:01:42,342 
+日志级别：  ERROR 
+出错类：Himall.Web.Framework.BaseController.OnException  
+错误描述：页面未捕获的异常：Area:Web,Controller:home,Action:Index,id:Get:post: 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 278
+   在 Himall.Application.StatisticApplication.StatisticPlatVisitUserCount() 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 96
+   在 Himall.Web.Framework.BaseWebController.OnActionExecuted(ActionExecutedContext filterContext) 位置 c:\zhaopian\src\Himall.Web.Framework\BaseControllers\Web\BaseWebController.cs:行号 36
+   在 System.Web.Mvc.Controller.System.Web.Mvc.IActionFilter.OnActionExecuted(ActionExecutedContext filterContext)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass33.<BeginInvokeActionMethodWithFilters>b__32(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+
+
+
+ 记录时间：2017-10-18 11:02:22,157 
+日志级别：  ERROR 
+出错类：Himall.Application.StatisticApplication.Encrypt  
+错误描述：StatisticApplication加密异常： 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 271
+
+
+
+ 记录时间：2017-10-18 11:02:39,335 
+日志级别：  ERROR 
+出错类：Himall.Web.Framework.BaseController.OnException  
+错误描述：页面未捕获的异常：Area:Web,Controller:home,Action:Index,id:Get:post: 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 278
+   在 Himall.Application.StatisticApplication.StatisticPlatVisitUserCount() 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 96
+   在 Himall.Web.Framework.BaseWebController.OnActionExecuted(ActionExecutedContext filterContext) 位置 c:\zhaopian\src\Himall.Web.Framework\BaseControllers\Web\BaseWebController.cs:行号 36
+   在 System.Web.Mvc.Controller.System.Web.Mvc.IActionFilter.OnActionExecuted(ActionExecutedContext filterContext)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass33.<BeginInvokeActionMethodWithFilters>b__32(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+
+
+
+ 记录时间：2017-10-18 11:03:44,742 
+日志级别：  ERROR 
+出错类：Himall.Application.StatisticApplication.Encrypt  
+错误描述：StatisticApplication加密异常： 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 271
+
+
+
+ 记录时间：2017-10-18 11:03:46,297 
+日志级别：  ERROR 
+出错类：Himall.Web.Framework.BaseController.OnException  
+错误描述：页面未捕获的异常：Area:Web,Controller:home,Action:Index,id:Get:post: 
+
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: 此实现不是 Windows 平台 FIPS 验证的加密算法的一部分。
+   在 System.Security.Cryptography.RijndaelManaged..ctor()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Security.Cryptography.CryptoConfig.CreateFromName(String name, Object[] args)
+   在 System.Security.Cryptography.Rijndael.Create()
+   在 Himall.Core.Helper.SecureHelper.AESEncrypt(String encryptStr, String encryptKey)
+   在 Himall.Application.StatisticApplication.Encrypt(String value, String key) 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 278
+   在 Himall.Application.StatisticApplication.StatisticPlatVisitUserCount() 位置 c:\zhaopian\src\Himall.Application\StatisticApplication.cs:行号 96
+   在 Himall.Web.Framework.BaseWebController.OnActionExecuted(ActionExecutedContext filterContext) 位置 c:\zhaopian\src\Himall.Web.Framework\BaseControllers\Web\BaseWebController.cs:行号 36
+   在 System.Web.Mvc.Controller.System.Web.Mvc.IActionFilter.OnActionExecuted(ActionExecutedContext filterContext)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass33.<BeginInvokeActionMethodWithFilters>b__32(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+
+
+
+ 记录时间：2017-10-18 11:06:36,168 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 11:14:06,620 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 11:19:47,890 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 12:01:33,560 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 12:38:01,458 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 12:40:13,374 
+日志级别：  ERROR 
+出错类：Himall.SmallProgAPI.ApiExceptionFilterAttribute.OnException  
+错误描述：可为空的对象必须具有一个值。 
+
+System.InvalidOperationException: 可为空的对象必须具有一个值。
+   在 System.ThrowHelper.ThrowInvalidOperationException(ExceptionResource resource)
+   在 System.Nullable`1.get_Value()
+   在 Himall.SmallProgAPI.ShopController.<>c__DisplayClass28.<GetOrders>b__23(OrderInfo item) 位置 c:\zhaopian\src\Himall.SmallProgAPI\ShopController.cs:行号 933
+   在 System.Linq.Enumerable.WhereSelectArrayIterator`2.MoveNext()
+   在 Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList(JsonWriter writer, IEnumerable values, JsonArrayContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   在 Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   在 Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject(JsonWriter writer, Object value, JsonObjectContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   在 Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   在 Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.Serialize(JsonWriter jsonWriter, Object value, Type objectType)
+   在 Newtonsoft.Json.JsonSerializer.SerializeInternal(JsonWriter jsonWriter, Object value, Type objectType)
+   在 Newtonsoft.Json.JsonSerializer.Serialize(JsonWriter jsonWriter, Object value)
+   在 System.Web.Http.Results.JsonResult`1.Serialize()
+   在 System.Web.Http.Results.JsonResult`1.Execute()
+   在 System.Web.Http.Results.JsonResult`1.ExecuteAsync(CancellationToken cancellationToken)
+   在 System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   在 System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   在 System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()
+
+
+
+ 记录时间：2017-10-18 12:52:50,015 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 13:02:33,225 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 13:09:58,410 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)
+
+
+
+ 记录时间：2017-10-18 13:13:25,066 
+日志级别：  ERROR 
+出错类：Himall.Core.PluginsManagement.InstallDll  
+错误描述：插件复制失败(C:\zhaopian\src\Himall.Web\plugins\Payment\Himall.Plugin.Payment.Alipay.Base.dll)！ 
+
+System.IO.FileNotFoundException: 未找到插件Himall.Plugin.Payment.Alipay.Base的配置文件
+   在 Himall.Core.PluginsManagement.AddPluginInfo(FileInfo dllFile)
+   在 Himall.Core.PluginsManagement.InstallDll(String dllFileName)

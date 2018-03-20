@@ -1,0 +1,481 @@
+﻿@model  Himall.Model.CouponInfo
+@{
+    bool CanAddIntegralCoupon = (bool)ViewBag.CanAddIntegralCoupon;
+    string WXColorValue = "";
+    if (Model.WXCardInfo != null) { 
+        WXColorValue= Himall.Model.WXCardLogInfo.WXCardColors[Model.WXCardInfo.CardColor].ToString();
+    }
+}
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#couponName").focus();
+
+        $(".start_datetime").datetimepicker({
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            weekStart: 1,
+            minView: 2
+        });
+        $(".end_datetime").datetimepicker({
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            weekStart: 1,
+            minView: 2
+        });
+
+        $(".endintdatetime").datetimepicker({
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd hh:ii:ss',
+            autoclose: true,
+            weekStart: 1,
+            minView: 0
+        });
+
+        $('.end_datetime').datetimepicker('setStartDate', $(".start_datetime").val());
+        $('.end_datetime').datetimepicker('setEndDate', "@ViewBag.EndTime");
+        $('.start_datetime').on('changeDate', function () {
+            if ($(".end_datetime").val()) {
+                if ($(".start_datetime").val() > $(".end_datetime").val()) {
+                    $('.end_datetime').val($(".start_datetime").val());
+                    setMaxEndIntegralExchange($(".end_datetime").val());
+                    if ($("#EndIntegralExchange").val() > $(".end_datetime").val()) {
+                        $('#EndIntegralExchange').val($(".end_datetime").val());
+                    }
+                }
+            }
+            $('.end_datetime').datetimepicker('setStartDate', $(".start_datetime").val());
+            GetExpiryDate();
+        });
+        $('.end_datetime').on('changeDate', function () {
+            if ($(".end_datetime").val()) {
+                $('#EndIntegralExchange').datetimepicker('setEndDate', $(".end_datetime").val());
+                if ($("#EndIntegralExchange").val() > $(".end_datetime").val()) {
+                    $('#EndIntegralExchange').val($(".end_datetime").val());
+                }                
+                setMaxEndIntegralExchange($(".end_datetime").val());
+            }
+            GetExpiryDate();
+        });
+
+        $('#EndIntegralExchange').datetimepicker('setStartDate', "@(Model.StartTime)");
+        setMaxEndIntegralExchange($(".end_datetime").val());
+
+
+    });
+    function setMaxEndIntegralExchange(v)
+    {
+        $('#EndIntegralExchange').datetimepicker('setEndDate',v+" 23:59:59");
+    }
+    function GetExpiryDate() {
+        var a = $('#starttime').val(),
+               b = $('#endtime').val();
+        $('#id_date').html(a + '至' + b);
+    }
+</script>
+<script src="~/Scripts/v.js"></script>
+<div class="container Sclear-P19">
+
+    <ul class="breadcrumb clearfix">
+
+        <li class=""><a href="@Url.Action("Management","Coupon")">优惠券列表</a></li>
+        <li class="active"><a>@(Model.Id > 0 ? "编辑" : "新增")优惠券</a></li>
+
+
+    </ul>
+    <div class="row">
+
+        <div class="col-xs-7">
+            <form role="form" class="form-horizontal Sclear-P20" id="v-form"  method="post" action="@Url.Action("Edit")">
+                <div class="form-group">
+                    <input type="hidden" id="CouponId" name="Id" value="@Model.Id" />
+                    <label class="col-sm-2 control-label" for="">优惠券名称：</label>
+                    <div class="col-sm-6">
+                        <input type="text" id="couponName" value="@Model.CouponName" data-d-group="0" name="couponName" class="auto form-control input-sm" id="freightInput">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">面值：</label>
+                    <div class="col-sm-3">
+                        <input type="text" data-a-sign="¥ " data-d-group="0" value="@Model.Price" name="price" class="auto form-control input-sm" id="price" @(Model.Id > 0 ? "disabled" : "")>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">每人限领：</label>
+                    <div class="col-sm-3">
+                        <select class="form-control input-sm" name="permax" data="@Model.PerMax" id="id_select">
+                            <option value="0">不限张</option>
+                            <option value="1">1张</option>
+                            <option value="2">2张</option>
+                            <option value="3">3张</option>
+                            <option value="4">4张</option>
+                            <option value="5">5张</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">订单金额：</label>
+                    <div class="col-sm-4">
+                        <div class="radio  @(Model.Id > 0 ? "disabled" : "")">
+                            <label>
+                                <input type="radio" name="orderamount" value="0" @(Model.Id > 0 ? "disabled" : "")>不限制
+                            </label>
+                        </div>
+                        <div>
+                            <label class="=dplib">
+                                <input type="radio" name="orderamount" id="orderamout" value="0.00" @(Model.Id > 0 ? "disabled" : "")>
+                            </label>
+                            <label class="=dplib">
+                                满<input type="text" data-a-sign="¥ " data-d-group="0" value="@Model.OrderAmount" class="auto form-control input-sm" style="display:inline-block;width:50px;margin-left:5px;margin-right:5px;" id="orderamout1" data="@Model.OrderAmount" @(Model.Id > 0 ? "disabled" : "")>元可使用
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">发放总量：</label>
+                    <div class="col-sm-3">
+                        <input type="text" data-d-group="0" value="@Model.Num" name="num" maxlength="7" class="auto form-control input-sm" id="num">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">生效时间：</label>
+                    <div class="col-sm-3">
+                        <input type="text" data-d-group="0" value="@Model.StartTime.ToString("yyyy-MM-dd")" name="StartTime" class="auto form-control input-sm start_datetime" id="starttime" @(Model.Id > 0 ? "disabled" : "")>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">过期时间：</label>
+                    <div class="col-sm-3">
+                        <input type="text" data-d-group="0" value="@Model.EndTime.ToString("yyyy-MM-dd")" name="EndTime" class="auto form-control input-sm end_datetime" id="endtime" @(Model.Id > 0 ? "disabled" : "")>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">可使用商品：</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">全店通用</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">领取方式：</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">
+                            <label><input name="ReceiveType" type="radio" value="0" @(((int)Model.ReceiveType) == 0 ? "checked" : "") />店铺首页</label>
+                            @if (CanAddIntegralCoupon)
+                            {
+                                <label><input name="ReceiveType" type="radio" value="1" @(((int)Model.ReceiveType) == 1 ? "checked" : "") />积分兑换</label>
+                            }
+                            <label><input name="ReceiveType" type="radio" value="2" @(((int)Model.ReceiveType) == 2 ? "checked" : "") />主动发放</label>
+
+                        </p>
+                    </div>
+                </div>
+
+                <div class="rectypeitem">
+                    <div class="form-group">
+                        @{
+                            var pc = @Model.Himall_CouponSetting.Any(a => a.PlatForm == Himall.Core.PlatformType.PC);
+                            var wap = @Model.Himall_CouponSetting.Any(a => a.PlatForm == Himall.Core.PlatformType.Wap);
+                            string pcchecked = pc ? "checked" : "";
+                            string wapchecked = wap ? "checked" : "";
+                        }
+                        <label class="col-sm-2 control-label" for="">推广：</label>
+                        <div class="col-sm-9">
+                            <input id="ChkPC" name="chkShow" type="checkbox" value="PC" @pcchecked />推广至PC端店铺导航右侧
+                            &nbsp;
+                            <input id="ChkWap" name="chkShow" type="checkbox" value="WAP" @wapchecked @*@(Model.CanVshopIndex ? "" : "disabled")*@ />推广至移动端 @Html.Raw(Model.CanVshopIndex ? "" : "<span class=\"red\">[未开通微店]</span>")
+                        </div>
+                    </div>
+                </div>
+                @if (CanAddIntegralCoupon)
+                {
+                    <div class="rectypeitem">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="">所需积分：</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(m => m.NeedIntegral, new { @class = "form-control input-sm input-int-num", maxlength = "7" })
+                            </div>
+                            <div class="col-sm-6">
+                                <span class="help-default">推广至平台积分商城的优惠券不能超过一张；兑换所需积分最低不得低于10分</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="">兑换截止：</label>
+                            <div class="col-sm-4">
+                                <input type="text" data-d-group="0" value="@(Model.EndIntegralExchange.HasValue ? Model.EndIntegralExchange.Value.ToString():"")" name="EndIntegralExchange" id="EndIntegralExchange" class="auto form-control input-sm endintdatetime">
+                            </div>
+                            <div class="col-sm-6">
+                                <span class="help-default">兑换截止时间不能超过优惠券有效期</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="upload-img" id="imgIntegralCover"></div>
+                        </div>
+                    </div>
+                }
+                <div class="rectypeitem"> </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">同步微信：</label>
+                    <div class="col-sm-5">
+                        <p class="form-control-static">
+                            <label>@Html.CheckBoxFor(m => m.FormIsSyncWeiXin, new { disabled = true }) 同步到微信卡券</label>
+                        </p>
+                    </div>
+                    <div class="col-sm-5">
+                        <p class="form-control-static Sclear-P4">如果您的微信公众号未开通卡券权限，将由平台公众号代发卡券。同步到微信卡包后，需要等待微信审核通过才能领取该券。</p>
+                    </div>
+                </div>
+                <div id="syncwxbox" style="@(Model.IsSyncWeiXin == 1?"":"display:none;")">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="">卡券颜色：</label>
+                        <div class="col-sm-5">
+                            <p class="form-control-static">
+                                <span style="background:@(WXColorValue);color:#fff;padding:5px;">@(Model.WXCardInfo != null ? Model.WXCardInfo.CardColor : "")</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="">卡券标题：</label>
+                        <div class="col-sm-5">
+                            <p class="form-control-static">
+                                <input type="text" data-d-group="0" value="@(Model.WXCardInfo != null ? Model.WXCardInfo.CardTitle: "")" name="FormWXCTit" maxlength="7" class="auto form-control input-sm" id="FormWXCTit" disabled>
+                            </p>
+                        </div>
+                        <div class="col-sm-5">
+                            <p class="form-control-static Sclear-P4">建议填写代金券“减免金额”及自定义内容，描述卡券提供的具体优惠。例如：HiMall 100元代金券;字数上限为9个汉字</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="">卡券副标题：</label>
+                        <div class="col-sm-5">
+                            <p class="form-control-static">
+                                <input type="text" data-d-group="0" value="@(Model.WXCardInfo != null ? Model.WXCardInfo.CardSubTitle: "")" name="FormWXCSubTit" maxlength="7" class="auto form-control input-sm" id="FormWXCSubTit" disabled>
+                            </p>
+                        </div>
+                        <div class="col-sm-5">
+                            <p class="form-control-static Sclear-P4">字数上限为18个汉字</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button class="btn btn-primary" type="submit">保 存</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">温馨提示：</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static Sclear-P4" >分别推广到PC端及移动端店铺首页的优惠券不能超过五张</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-xs-4 fr">
+            <div id="id_title" class="Sclear-P21">
+                @Model.CouponName
+            </div>
+            <div class="Sclear-P22" >¥@Model.Price</div>
+            <div class="Sclear-P23">
+                有效日期：<span class="Sclear-P24" id="id_date"></span>
+            </div>
+            <div class="Sclear-P25">
+                <div id="limit">
+                    使用限制：
+                    @if (Model.OrderAmount == 0)
+                    {
+                        <span>无门槛(不含运费)</span>
+                    }
+                    else
+                    {
+                        <span>订单满<span class="Sclear-P26" id="id_p">@Model.OrderAmount</span>元可使用（不含运费）</span>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script>
+    var d_rectype = $("input[name = 'ReceiveType']");
+    var d_rectypecon = $(".rectypeitem");
+    $(function () {
+        $("#imgIntegralCover").himallUpload(
+        {
+            title: '封面图片：',
+            imageDescript: '非必填，建议尺寸 150 *120；默认显示商家logo',
+            headerWidth: 2,
+            dataWidth:9,
+            displayImgSrc: "@(Himall.Core.HimallIO.GetImagePath(Model.IntegralCover))",
+            imgFieldName: "IntegralCover"
+        });
+        d_rectype.click(function () {
+            var _t = $(this);
+            var _ind = d_rectype.index(_t);
+            showrectypetab(_ind);
+        });
+
+        //初始显示
+        var currectype = $("input[name = 'ReceiveType']:checked");
+        var curind = d_rectype.index(currectype);
+        showrectypetab(curind);
+
+        $("input[name='orderamount']").focus(function () {
+            var _t = $(this);
+            var v = _t.val();
+            try{
+                v=parseInt(v);
+            }catch(ex){
+                v=0;
+            }
+            showlimittxt(v);
+        });
+
+        $("#FormIsSyncWeiXin").click(function () {
+            var _t = $(this);
+            var syncwxbox = $("#syncwxbox");
+            if (_t.is(":checked")) {
+                syncwxbox.show();
+            } else {
+                syncwxbox.hide();
+            }
+        });
+    });
+
+    function showrectypetab(n) {
+        d_rectypecon.hide();
+        d_rectypecon.eq(n).show();
+    }
+
+    function showlimittxt(v) {
+        if (v != 0) {
+            $("#limit").html('使用限制：<span>订单满<span style="color:#f60;display:inline-block;" id="id_p">' + v + '</span>元可使用（不含运费）</span>');
+        } else {
+            $("#limit").html('使用限制：<span>无门槛(不含运费)</span>');
+        }
+    }
+
+    var money = parseFloat('@Model.OrderAmount').toFixed(2);
+
+    (function () {
+        if (money == 0) {
+            $('input[name="orderamount"]').eq(0).attr('checked', 'true');
+        } else {
+            $('input[name="orderamount"]').eq(1).attr('checked', 'true');
+        }
+        ;
+        var a = $('#orderamout1').attr('data'),
+            b = $('#id_select').attr('data');
+        $('#id_select').children().each(function (i, e) {
+            if ($(e).val() == b) {
+                $(e).attr('selected', true);
+                return false;
+            }
+        });
+        GetExpiryDate();
+    }());
+    var a = v({
+        form: 'v-form',// 表单id 必须
+        beforeSubmit: function () {
+            loadingobj = showLoading();
+        },
+        afterSubmit: function (data) {
+            loadingobj.close();
+            if (data.success) {
+                a.reset();
+                $.dialog.succeedTips('数据提交成功！', function () { window.location.href = '/SellerAdmin/Coupon/Management'; });
+
+            } else {
+                $.dialog.errorTips('数据提交失败,' + data.msg);
+            }
+        },// 表单提交之后的回调 不是必须
+        ajaxSubmit: true// 是否ajax提交 如果没有这个参数那么就是默认提交方式 如果没有特殊情况建议默认提交方式
+    });
+    a.add(
+        {
+            target: "couponName",
+            afterBlur: function () {
+                $('#id_title').html($('#couponName').val());
+            },
+
+            ruleType: "required&&ce",
+            tips: "1~20个字符，由中文、英文字母和数字组成。",
+            error: "对不起，优惠券名称格式不正确。",
+        },
+        {
+            target: "price",
+            ruleType: "required&&uint",
+            afterBlur: function () {
+                $('#id_price').html('¥' + $('#price').val());
+            },
+            fnRule: function () {
+                var a = $('#price').val();
+                if (a.length > 3 || a - 0 == 0) {
+                    return false;
+                }
+            },
+            tips: '该信息为必填项，请输入金额!',
+            error: '金额输入错误,三位以下且大于0的整数!'
+        },
+
+        {
+            target: "num",
+            ruleType: "required&&uint",
+            fnRule: function () {
+                var a = $('#num').val();
+                if (a <= 0 || a > 999999) {
+                    return false;
+                }
+            },
+            afterBlur: function () {
+                $('#id_price').html('¥' + $('#price').val());
+            },
+            tips: '该信息为必填项，请输入发放数量!',
+            error: '1-999999之间!'
+        },
+        {
+            target: "orderamout1",
+            ruleType: "uint||empty",
+            fnRule: function () {
+                var a = $('#orderamout1').val(),
+                    p = $('input[name="orderamount"]').attr('checked'),
+                    b = $('#price').val();
+                if (p) { return true; }
+                if (a - 999999 > 0) { return false; }
+                if (a != 0 && b - a > 0) {
+                    return false;
+                }
+            },
+            beforeFocus: function () {
+                $('#orderamout').attr('checked', 'true');
+            },
+            afterBlur: function () {
+                var a = $('#orderamout1').val();
+                $('#orderamout').attr('value', a);
+                $('#id_p').html('¥' + a);
+                showlimittxt(a);
+            },
+            tips: '该信息为必填项，请输入金额!',
+            error: '错误,必须大于优惠券面额,小于999999！'
+        },
+
+        {
+            target: "starttime",
+            ruleType: "required&&date",
+            tips: '该信息为必填项，请选择时间!',
+            error: '时间格式错误!'
+        },
+        {
+            target: "endtime",
+            ruleType: "required&&date",
+            tips: '该信息为必填项，请选择时间!',
+            error: '时间格式错误!'
+        }
+    );
+</script>

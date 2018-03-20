@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "退款记录";
+}
+
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="Management?status=3" id="dh_3">提现成功</a></li>
+        <li><a href="Management?status=1" id="dh_1">待处理</a></li>
+        <li><a href="Management?status=4" id="dh_4">提现失败</a></li>
+        <li><a href="Management?status=2" id="dh_2">拒绝提现</a></li>
+    </ul>
+    <div class="search-box" id="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">商家</label>
+                <input id="shopName" class="form-control input-ssm" type="text">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">申请时间</label>
+                <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text">
+                <label class="label-inline-line">-</label>
+                <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text">
+            </div>
+            <div class="form-group Deal" style="display:none;">
+                <label class="label-inline w75" for="">审核时间</label>
+                <input id="inputStartDates" class="form-control input-ssm start_datetimes" type="text">
+                <label class="label-inline-line">-</label>
+                <input id="inputEndDates" class="form-control input-ssm end_datetimes" type="text">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table id="list" class="table"></table>
+</div>
+<script type="text/javascript">
+    var status='@ViewBag.Status';
+</script>
+<script src="~/Areas/Admin/Scripts/ShopWithDrawManagement.js"></script>

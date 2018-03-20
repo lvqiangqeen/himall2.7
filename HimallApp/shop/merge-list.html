@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no,email=no" />
+        <title>拼团列表页</title>
+        <link href="css/mui.min.css" rel="stylesheet" />
+        <link href="css/style.css" rel="stylesheet" />
+    </head>
+    <body>
+        <header class="mui-bar mui-bar-nav">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+            <h1 class="mui-title">拼团</h1>
+        </header>
+        <div id="pullrefresh" class="mui-content mui-scroll-wrapper transparent">
+            <div class="mui-scroll">
+                <ul class="mui-table-view merge-list-view" id="mergeListView"></ul>
+            </div>
+        </div>
+    </body>
+    <script src="js/mui.min.js"></script>
+    <script src="js/app.js"></script>
+	<script src="js/md5.js"></script>
+    <script src="js/delayimg.min.js"></script>
+    <script>
+        mui.init({
+            swipeBack: true,
+            pullRefresh : {
+                container: '#pullrefresh',
+                up: {
+                    contentrefresh: '正在加载...',
+                    contentnomore: '已加载全部拼团',
+                    callback : pullupRefresh
+                }
+            }
+        });
+		
+		var w,
+			page = 0,
+        	noMore = false,
+        	content=document.getElementById('pullrefresh');
+        	
+		mui.plusReady(function() {
+			w=plus.nativeUI.showWaiting('',{padlock:true});
+			plus.webview.currentWebview().setStyle({scrollIndicator:'none'});
+			pullupRefresh('reset');
+		});
+
+        
+        // 上拉加载
+        function pullupRefresh(re) {
+            var that = this;
+            setTimeout(function() {
+                if ( !noMore ) {
+                    page++;
+                    mui.ajax(URL + 'api/FightGroup/GetActiveList', {
+                    	data:himall.md5Data({
+		            		page:page
+		            	}),
+                        dataType:'json',
+                        type:'get',
+                        timeout: 10000,
+                        success: function(data) {
+                        	if(data.Total==0){
+                        		content.className='mui-content merge-small-page merge-not';
+                        		content.innerHTML='<div class="merge-not-bg"></div><p>商城暂时没有火拼团活动！</p>';
+                        		w.close();
+                        		return;
+                        	}
+                            var html = '';
+                            for ( var i = 0; i < data.Data.length; i++ ) {
+                                html += '<li data-id="' + data.Data[i].Id + '" data-status="'+data.Data[i].ActiveStatus+'" data-time="'+data.Data[i].StartTime+'">' +
+                                    '<div class="hmui-img-center thumb">' +
+                                        '<div class="son">' +
+                                            '<img src="' + data.Data[i].IconUrl + '">';
+                                            if( data.Data[i].ActiveStatus == 1 ) {
+                                                html += '<div class="thumb-mask"></div>';
+                                            }
+                                        html += '</div>' +
+                                    '</div>' +
+                                    '<div class="info">' +
+                                        '<span>火拼价 ¥' + data.Data[i].MiniGroupPrice + '</span>' +
+                                        '<del>¥' + data.Data[i].MiniSalePrice + '</del>' +
+                                        '<p class="hmui-multiple-ellipsis">' + data.Data[i].ProductName + '</p>' +
+                                    '</div>';
+                                    if( data.Data[i].ActiveStatus == 0 ) {
+                                        html += '<div class="merge-size"><span>' + data.Data[i].LimitedNumber + '</span> 人团</div>';
+                                    }
+                                html += '</li>';
+                            }
+                            if ( data.Total <= page * 5 ) {
+                                noMore = true;
+                            }
+                            if(re){
+                            	document.querySelector('#mergeListView').innerHTML=html;
+                            	w.close();
+                            	himall.removeClass(content,' transparent');
+                            }else{
+                            	that.endPullupToRefresh(noMore);
+                            	document.querySelector('#mergeListView').insertAdjacentHTML('beforeEnd', html);
+                            }
+                        },
+                        error: function(xhr, type, errorThrown) {
+                            plus.nativeUI.toast('请求失败，请检查网络');
+                        }
+                    });
+                } else {
+                    that.endPullupToRefresh(noMore);
+                }
+            }, 100);
+        }
+        
+        // 点击进入详情页
+        mui('#mergeListView').on('tap', 'li', function() {
+        	if(this.getAttribute('data-status')==1){
+        		plus.nativeUI.toast('活动'+this.getAttribute('data-time').replace('T',' ')+'开始');
+        		return false;
+        	}
+            himall.openVW('merge-detail.html', {activeId: this.getAttribute('data-id')});
+        });
+        
+        himall.backTop();
+    </script>
+</html>

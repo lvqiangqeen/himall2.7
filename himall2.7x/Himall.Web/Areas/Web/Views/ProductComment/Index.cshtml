@@ -1,0 +1,96 @@
+﻿@model Himall.Model.ProductInfo
+@{
+    ViewBag.Title = Model.ProductName + "商品评论";
+}
+<div class="w">
+    @MVCHelpers.CategoryPath(Model.CategoryPath, Model.ProductName)
+</div>
+<div class="w">
+    <input type="hidden" id="gid" value="@Model.Id" />
+    <div class="right">
+        <!--comment -->
+        <!--product-detail end-->
+        <div id="comment" class="m m2">
+            <div class="mt">
+                <h2>商品评价</h2>
+            </div>
+            <div class="mc">
+                <div id="i-comment">
+                    <div class="rate">
+                        <strong>@((int)ViewBag.productMark == 0 ? "100" : "")%</strong> <br />
+                        <span>好评度</span>
+                    </div>
+                    <div class="percent">
+                        <dl>
+                            <dt>好评<span></span></dt>
+                            <dd>
+                                <div style="width: 100px;"></div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>中评<span></span></dt>
+                            <dd class="d1">
+                                <div style="width: 0%;"> </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>差评<span></span></dt>
+                            <dd class="d1">
+                                <div style="width: 0%;"> </div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--comment end-->
+
+        <div id="comments-list" class="m">
+            <div class="mt">
+                <ul class="tab" id="id_comment_btn">
+                    <li class="curr"><a href="javascript:;">全部评价<em id="totalComment"></em></a></li>
+                    <li><a href="javascript:;">好评<em id="goodComment"></em></a></li>
+                    <li><a href="javascript:;">中评<em id=""></em></a></li>
+                    <li><a href="javascript:;">差评<em id="badComment"></em></a></li>
+                    <li class="tab-last"></li>
+                </ul>
+            </div>
+        </div>
+        <!--comment end-->
+    </div>
+    <!--right end-->
+
+    <div class="left">
+        <div class="m m2" id="product-info">
+            <div class="mt"><h2>商品信息</h2></div>
+            <div class="mc">
+                <ul>
+                    <li class="p-img ac"><a href="@Url.Action("Detail", "Product", new { id = @Model.Id })" target="_blank"> <img alt="" src="@Model.GetImage(Himall.CommonModel.ImageSize.Size_100)"> </a></li>
+
+                    <li class="p-name">商品名称：<a href="@Url.Action("Detail", "Product", new { id = @Model.Id,title=@Model.ProductName })" target="_blank">@Model.ProductName</a></li>
+                    <li class="p-price">
+                        <div class="dt">&nbsp;&nbsp;价格：</div>
+                        <strong class="c-J_975101">￥@Model.MinSalePrice</strong>
+                    </li>
+                    <li class="p-grade">
+                        <div class="dt">商品评分：</div>
+                        <div class="fl dd">
+                            <span id="product_star" class="star sa@((int)(ViewBag.productMark))"></span>
+                            (<span id="product_star_score">@(((Decimal)ViewBag.productMark).ToString("F1"))</span>分)
+                        </div>
+                    </li>
+                    <li class="p-count">
+                        <div class="dt">评&nbsp;&nbsp;价&nbsp;&nbsp;数：</div>
+                        <div id="p-num-comment" class="dd">@{@Model.Himall_ProductComments.Where(a=>a.IsHidden.Value==false).Count()}条</div>
+                    </li>
+
+                    <li class="p-btn">
+                        <a class="btn-goshop" href="@Url.Action("Detail", "Product", new { id = @Model.Id })">去购买<b>></b></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div><!--left end-->
+    <span class="clr"></span>
+</div>
+<script src="~/Areas/Web/Scripts/ProductComment.js"></script>

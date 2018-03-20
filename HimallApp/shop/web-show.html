@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>打开web网页</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">加载中</h1>
+		</header>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script>
+		mui.init();
+		
+		mui.plusReady(function(){
+			//plus.storage.setItem('appuserkey',himall.getState().userkey);
+			plus.storage.removeItem('alreayFresh');
+			var top=44;
+		    if(plus.navigator.isImmersedStatusbar()){
+		        top=Math.round(plus.navigator.getStatusbarHeight())+top;
+		    }
+			
+			setTimeout(function(){
+				var ws=plus.webview.currentWebview(),
+					w=plus.nativeUI.showWaiting('',{padlock:true});
+				document.querySelector('.mui-title').innerText=ws.name;
+				var webWV = plus.webview.create(ws.link, "webShow", {
+				    top: top+'px',
+				    bottom: 0,
+				    opacity:0,
+				    bounce:'vertical'
+				});
+				ws.append(webWV);
+				setTimeout(function(){
+					w.close();
+					webWV.setStyle({opacity:1});
+				},1300)
+				//ws.loadURL(ws.link);
+			},200);
+		})
+		</script>
+	</body>
+
+</html>

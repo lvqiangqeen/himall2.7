@@ -1,0 +1,49 @@
+﻿@{ 
+    ViewBag.Title = "物流查询";
+}
+<div class="container">
+    <div class="list-group">
+        <div class="list-group-item"><span> 运单号码：@(ViewBag.ShipOrderNumber == null ? string.Empty : ViewBag.ShipOrderNumber) </span><br><span>物流公司：@(ViewBag.ExpressCompanyName == null ? string.Empty : ViewBag.ExpressCompanyName) </span> <a name=""></a></div>
+        <div class="list-group-item" id="expressDetail">
+            正在加载...
+        </div>
+    </div>
+</div>
+
+<input type="hidden" value="@ViewBag.ExpressCompanyName" id="expressCompanyName" />
+<input type="hidden" value="@ViewBag.ShipOrderNumber" id="shipOrderNumber" />
+
+<script>
+
+    var expressCompanyName = $('#expressCompanyName').val();
+    var shipOrderNumber = $('#shipOrderNumber').val();
+
+    $.post('/common/ExpressData/search',
+        { expressCompanyName: expressCompanyName, shipOrderNumber: shipOrderNumber },
+        function (expressData) {
+            if (expressData.success) {
+                var html = '<ul class="goods_interflow">';
+                $.each(expressData.data, function (i, data) {
+                    var style = '';
+                    if (!i) {
+                        style = ' class="active"';
+                    }
+                    html += ' <li>\
+                                             <i ' + style + '></i>\
+                                             <p>' + data.content + '</p>\
+                                             <p>' + data.time + '</p>\
+                                                  <hr />\
+                                         </li>';
+                });
+                html += '</ul>';
+                $('#expressDetail').html(html);
+            }
+            else {
+                $('#expressDetail').html('<label class="red">' + expressData.msg + '</label>');
+            }
+        }
+    );
+    
+
+
+</script>

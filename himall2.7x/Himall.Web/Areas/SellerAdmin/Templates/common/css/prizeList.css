@@ -1,0 +1,396 @@
+﻿html, body {
+        height: 100%;
+    }
+   .btnright{
+    position: absolute;
+            right: 0;
+            bottom: 0;
+   }
+    .container {
+        max-width: 640px;
+        min-height: 100%;
+        padding: 0;
+        background-color: #F5F5F5;
+    }
+
+    header ul li {
+        width: 50%;
+        height: 36px;
+        line-height: 36px;
+        text-align: center;
+        float: left;
+        border-bottom: 2px solid #fff;
+        border-radius: 3px;
+        font-size: 12px;
+        background-color: #fff;
+    }
+
+        header ul li.active {
+            border-bottom: 2px solid #DC4452;
+            color: #DC4452;
+        }
+
+    .container .content {
+        padding: 10px;
+    }
+
+        .container .content .prizeList {
+            display: none;
+        }
+
+            .container .content .prizeList:first-child {
+                display: block;
+            }
+
+            .container .content .prizeList ul li {
+                border: 1px solid #E5E5E5;
+                background-color: #fff;
+                border-radius: 5px;
+                color: #1F89D3;
+                font-size: 12px;
+                margin-bottom: 10px;
+            }
+
+                .container .content .prizeList ul li .outbox {
+                    padding: 10px 3%;
+                }
+
+                    .container .content .prizeList ul li .outbox:first-child {
+                        padding-bottom: 0;
+                    }
+
+    .shopInfo {
+        position: relative;
+        display: table;
+        height: 64px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #E3E3E3;
+        width: 100%;
+        box-sizing: content-box;
+        overflow: hidden;
+    }
+
+        .shopInfo .img {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 64px;
+            height: 64px;
+            padding: 1px;
+            background-color: #fff;
+            border: 1px solid #CBCBCB;
+        }
+
+        .shopInfo .imgInfo {
+            display: table-cell;
+            min-height: 64px;
+            vertical-align: middle;
+            padding-left: 75px;
+            margin: auto;
+        }
+
+            .shopInfo .imgInfo p {
+                text-align: left;
+            }
+
+                .shopInfo .imgInfo p:last-child {
+                    color: #656565;
+                }
+
+    .prizeList .prizeInfo {
+        color: #000;
+        position: relative;
+    }
+
+        .prizeList .prizeInfo .btn {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+
+        .prizeList .prizeInfo p {
+            margin-bottom: 3px;
+        }
+
+            .prizeList .prizeInfo p:last-child {
+                margin-bottom: 0;
+            }
+
+                .prizeList .prizeInfo p:last-child span {
+                    color: #009900;
+                }
+
+                    .prizeList .prizeInfo p:last-child span.overdue {
+                        color: #999999;
+                    }
+
+            .prizeList .prizeInfo p:nth-of-type(2) span:first-child {
+                color: #1F89D3;
+            }
+
+            .prizeList .prizeInfo p:nth-of-type(2) span:last-child {
+                color: #ACB0B7;
+            }
+
+    .shopInfo.noHeight {
+        height: auto;
+    }
+    /* CSS Document */
+   
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: normal;
+        font-family: "microsoft yahei";
+    }
+
+    h1 {
+        font-size: 18px; /* 18px / 12px = 1.5 */
+    }
+
+    h2 {
+        font-size: 16px;
+    }
+
+    h3 {
+        font-size: 14px;
+    }
+
+    h4, h5, h6 {
+        font-size: 100%;
+    }
+
+    /* 重置列表元素 */
+    ul, ol {
+        list-style: none;
+    }
+
+    /* 重置文本格式元素 */
+    a, button {
+        text-decoration: none;
+        cursor: pointer;
+        outline: none;
+        color: #666;
+    }
+
+        a:link {
+            outline: none;
+        }
+        /* 未访问的链接 */
+        a:visited {
+            outline: none;
+        }
+        /* 已访问的链接 */
+        a:hover {
+            text-decoration: none;
+        }
+        /* 鼠标移动到链接上 */
+        a:active {
+            outline: none;
+        }
+    /* 选定的链接 */
+
+    img {
+        border: none;
+    }
+    /* img 搭车：让链接里的 img 无边框 */
+    /* 注：optgroup 无法扶正 */
+    button, input, select, textarea {
+        font-size: 100%; /* 使得表单元素在 ie 下能继承字体大小 */
+    }
+
+    address, cite, dfn, em, var {
+        font-style: normal;
+    }
+    /* 将斜体扶正 */
+
+    /* 重置表格元素 */
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    /* 让非ie浏览器默认也显示垂直滚动条，防止因滚动条引起的闪烁 */
+    input {
+        outline: none;
+    }
+
+    body {
+        font-size: 12px;
+        word-wrap: break-word;
+        font-family: 12px/150% Arial,Verdana,"\5b8b\4f53";
+        overflow-x: hidden;
+    }
+
+    textarea, input, select {
+        font-family: "Hiragino Sans GB","Microsoft YaHei","微软雅黑",tahoma,arial,simsun,"宋体";
+        font-size: 12px;
+    }
+
+    .clearfix:after {
+        content: "";
+        clear: both;
+        display: block;
+        height: 0;
+    }
+
+    .clearfix {
+        zoom: 1;
+    }
+
+    .fl {
+        float: left;
+    }
+
+    .fr {
+        float: right;
+    }
+
+
+     .container {
+        max-width: 640px;
+        min-height: 100%;
+        padding: 0;
+        background-color: #F5F5F5;
+    }
+
+    .content {
+        padding: 0 10px;
+    }
+
+    .activityTopic {
+        padding-top: 10px;
+        background-color: #fff;
+    }
+
+    .activityInner {
+        background-color: #fff;
+        box-shadow: 1px 1px 4px #E8E8E8;
+        margin-bottom: 20px;
+    }
+
+        .activityInner .activityimg img {
+            max-width: 100%;
+        }
+
+        .activityInner .activityInfo {
+            padding: 5px 10px;
+        }
+
+            .activityInner .activityInfo p {
+                margin: 10px 0;
+            }
+
+                .activityInner .activityInfo p span {
+                    display: block;
+                    float: left;
+                }
+
+                    .activityInner .activityInfo p span:first-child {
+                        width: 83px;
+                        text-align: right;
+                    }
+
+                    .activityInner .activityInfo p span:last-child {
+                        width: 70%;
+                    }
+
+                    .activityInner .activityInfo p span a {
+                        margin-left: 10px;
+                        color: #0000FF;
+                    }
+
+                .activityInner .activityInfo p:after {
+                    content: "";
+                    clear: both;
+                    display: block;
+                    height: 0;
+                }
+
+                .activityInner .activityInfo p.color {
+                    height: 20px;
+                    line-height: 20px;
+                    color: #EA8010;
+                    background: url(../images/iconfont-iconfont75.png) no-repeat left top;
+                }
+
+                    .activityInner .activityInfo p.color span:last-child {
+                        text-indent: 0;
+                    }
+
+    .rollCollar {
+        padding-left: 10px;
+    }
+
+        .rollCollar a {
+            position: relative;
+            display: block;
+            width: 100%;
+            background-color: #DA4453;
+            color: #fff;
+            font-size: 12px;
+            margin-bottom: 1px;
+        }
+
+            .rollCollar a:before {
+                position: absolute;
+                left: -10px;
+                top: 0;
+                display: block;
+                content: "";
+                width: 10px;
+                height: 100%;
+                background-color: transparent;
+                background-size: 10px 20px;
+                background-image: -webkit-linear-gradient(70deg, #DA4453 10%, transparent 10%, transparent), -webkit-linear-gradient(-70deg, #DA4453 25%, transparent 25%, transparent), -webkit-linear-gradient(70deg, transparent 75%, #DA4453 75%), -webkit-linear-gradient(-70deg, transparent 75%, #DA4453 75%);
+                background-image: -moz-linear-gradient(70deg, #DA4453 10%, transparent 10%, transparent), -moz-linear-gradient(-70deg, #DA4453 25%, transparent 25%, transparent), -moz-linear-gradient(70deg, transparent 75%, #DA4453 75%), -moz-linear-gradient(-70deg, transparent 75%, #DA4453 75%);
+                z-index: 100;
+            }
+
+            .rollCollar a .left {
+                position: absolute;
+                width: 33%;
+                height: 100%;
+                border-right: 1px dashed #FFCC00;
+            }
+
+                .rollCollar a .left span {
+                    display: block;
+                }
+
+                    .rollCollar a .left span:first-child {
+                        text-indent: 10%;
+                        padding-top: 10%;
+                        margin-bottom: 5%;
+                        font-size: 16px;
+                    }
+
+                    .rollCollar a .left span:last-child {
+                        text-align: center;
+                    }
+
+                        .rollCollar a .left span:last-child i {
+                            font-size: 30px;
+                            font-style: normal;
+                        }
+
+            .rollCollar a .right {
+                padding-left: 35%;
+                padding-top: 8%;
+            }
+
+                .rollCollar a .right h5 {
+                    font-size: 16px;
+                    margin-bottom: 5%;
+                }
+
+                .rollCollar a .right p {
+                    font-family: "宋体";
+                    margin: 0;
+                    font-size: 12px;
+                }
+
+    .receive {
+        display: block;
+        width: 100%;
+        font-size: 14px;
+        letter-spacing: 2px;
+    }

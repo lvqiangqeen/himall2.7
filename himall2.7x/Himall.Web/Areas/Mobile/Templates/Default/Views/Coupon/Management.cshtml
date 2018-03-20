@@ -1,0 +1,141 @@
+﻿@using Himall.Model;
+@{
+    List<ShopBonusReceiveInfo> bonus = ViewBag.ShopBonus as List<ShopBonusReceiveInfo>;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <script src="~/Areas/Mobile/Templates/Default/Scripts/coupon.js"></script>
+</head>
+<body>
+    @model IEnumerable<Himall.Model.UserCouponInfo>
+    <div class="container">
+        <div class="coupon-list">
+            <div class="coupon-hd"><span class="active" id="spanEnable">可用优惠券（@ViewBag.NoUseCount）</span><span id="spanDisable">不可用优惠券（@ViewBag.UserCount）</span></div>
+            <div class="coupon-bd">
+                @foreach (var coupon in Model) {
+                    var showOrderAmount = (coupon.OrderAmount > 0 ? coupon.OrderAmount : coupon.Price);
+                    if (coupon.UseStatus == Himall.Model.CouponRecordInfo.CounponStatuses.Used || coupon.EndTime < DateTime.Now) {
+                        <ul name="disabled" style="display:none;">
+                            <li class ="disabled">
+                                <div class="cou-card">
+                                    <div>
+                                        @if (coupon.VShop == null) {
+                                            <a><img src="~/Areas/Web/Images/60x30.png" /></a>
+                                        }
+                                        else {
+                                            <a><img src="@Himall.Core.HimallIO.GetImagePath(coupon.VShop.Logo)" /></a>
+                                        }
+                                    </div>
+                                    <p>￥@coupon.Price.ToString()</p>
+                                </div>
+                                <div class="cou-text clearfix">
+									<div class="cou-price">
+										<p>满 @((showOrderAmount).ToString("f2")) 元使用</p>
+										<h6>有效期至@(coupon.EndTime.ToString("yyyy-MM-dd"))</h6>
+                                    </div>
+                                    <a>@(coupon.UseStatus == Himall.Model.CouponRecordInfo.CounponStatuses.Used ? "已使用" : "已过期") <i class="glyphicon glyphicon-menu-right cirle-right"></i></a>
+                                </div>
+                            </li>
+                        </ul>
+                    }
+                    else {
+                        <ul name="enabled" style="display:block;">
+                            <li>
+                                <div class="cou-card">
+                                    <div>
+                                        @if (coupon.VShop != null) {
+                                            <a><img src="@Himall.Core.HimallIO.GetImagePath(coupon.VShop.Logo)" /></a>
+                                        }
+                                        else {
+                                            <a><img src="~/Areas/Web/Images/60x30.png" /></a>
+                                        }
+                                    </div>
+                                    <p>￥@coupon.Price.ToString()</p>
+                                </div>
+                                <div class="cou-text clearfix">
+                                    <div class="cou-price">
+                                        <p>满 @showOrderAmount.ToString("f2") 元使用</p>
+                                        <h6>有效期至@(coupon.EndTime.ToString("yyyy-MM-dd"))</h6>
+                                    </div>
+                                    @if (coupon.VShop != null) {
+                                        <a href="/@ViewBag.AreaName/vshop/detail/@coupon.VShop.Id">立即使用
+                                            <i class="glyphicon glyphicon-menu-right cirle-right"></i>
+                                        </a>
+                                    }
+                                    else {
+                                        <a href="@Url.Action("index","home")">立即使用 <i class="glyphicon glyphicon-menu-right cirle-right"></i></a>
+                                    }
+                                </div>
+                            </li>
+                        </ul>
+                    }
+                }
+                @foreach( var coupon in bonus ) {
+                    var showOrderAmount = (coupon.Himall_ShopBonusGrant.Himall_ShopBonus.UsrStatePrice > 0 ? coupon.Himall_ShopBonusGrant.Himall_ShopBonus.UsrStatePrice : coupon.Price.Value);
+                    if (@coupon.Himall_ShopBonusGrant.Himall_ShopBonus.UseState != ShopBonusInfo.UseStateType.FilledSend) {
+                        showOrderAmount = coupon.Price.Value;
+                    }
+                    if( coupon.State == ShopBonusReceiveInfo.ReceiveState.Use || coupon.Himall_ShopBonusGrant.Himall_ShopBonus.DateEnd < DateTime.Now ) {
+                        <ul name="disabled" style="display:none;">
+                            <li class="disabled">
+                                <div class="cou-card">
+                                    <div>
+                                        @if( coupon.Himall_ShopBonusGrant.Himall_ShopBonus.Himall_Shops.Himall_VShop != null && coupon.Himall_ShopBonusGrant.Himall_ShopBonus.Himall_Shops.Himall_VShop.Count() >0 ) {
+                                            <a><img src="@Himall.Core.HimallIO.GetImagePath(coupon.Himall_ShopBonusGrant.Himall_ShopBonus.Himall_Shops.Himall_VShop.FirstOrDefault().Logo)" /></a>
+                                        }
+                                        else {
+                                            <a><img src="~/Areas/Web/Images/60x30.png" /></a>
+                                        }
+                                    </div>
+                                    <p>￥@coupon.Price.ToString()</p>
+                                </div>
+                                <div class="cou-text clearfix">
+                                    <div class="cou-price">
+                                        <p>满 @(showOrderAmount.ToString("f2"))元使用</p>
+                                        <h6>有效期至@(coupon.Himall_ShopBonusGrant.Himall_ShopBonus.BonusDateEnd.ToString( "yyyy-MM-dd" ))</h6>
+                                    </div>
+                                    <a>@(coupon.State == ShopBonusReceiveInfo.ReceiveState.Use ? "已使用" : "已过期") <i class="glyphicon glyphicon-menu-right cirle-right"></i></a>
+                                </div>
+                            </li>
+                        </ul>
+                    }   
+                    else {
+                        <ul name="enabled" style="display:block;">
+                            <li>
+                                <div class="cou-card">
+                                    <div>
+                                        @if (coupon.Himall_ShopBonusGrant.Himall_ShopBonus.Himall_Shops.Himall_VShop != null && coupon.Himall_ShopBonusGrant.Himall_ShopBonus.Himall_Shops.Himall_VShop.Count() > 0) {
+                                            <a><img src="@Himall.Core.HimallIO.GetImagePath(coupon.Himall_ShopBonusGrant.Himall_ShopBonus.Himall_Shops.Himall_VShop.FirstOrDefault().Logo)" /></a>
+                                        }
+                                        else {
+                                            <a><img src="~/Areas/Web/Images/60x30.png" /></a>
+                                        }
+                                    </div>
+                                    <p>￥@coupon.Price.ToString()</p>
+                                </div>
+                                <div class="cou-text clearfix">
+                                    <div class="cou-price">
+                                        <p>满 @(showOrderAmount.ToString("f2"))元使用</p>
+                                        <h6>有效期至@(coupon.Himall_ShopBonusGrant.Himall_ShopBonus.BonusDateEnd.ToString( "yyyy-MM-dd" ))</h6>
+                                    </div>
+                                    @if( coupon.Himall_ShopBonusGrant.Himall_ShopBonus.Himall_Shops.Himall_VShop != null && coupon.Himall_ShopBonusGrant.Himall_ShopBonus.Himall_Shops.Himall_VShop.Count() >0 ) {
+                                        <a href="/@ViewBag.AreaName/vshop/detail/@coupon.Himall_ShopBonusGrant.Himall_ShopBonus.Himall_Shops.Himall_VShop.FirstOrDefault().Id">立即使用
+                                            <i class="glyphicon glyphicon-menu-right cirle-right"></i>
+                                        </a>
+                                    }
+                                    else {
+                                        <a href="@Url.Action("index","home")">立即使用 <i class="glyphicon glyphicon-menu-right cirle-right"></i></a>
+                                    }
+                                </div>
+                            </li>
+                        </ul>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</body>
+</html>

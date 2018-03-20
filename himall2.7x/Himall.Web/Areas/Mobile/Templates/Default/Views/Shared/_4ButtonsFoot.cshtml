@@ -1,0 +1,36 @@
+﻿<!--_4ButtonsFoot start-->
+<div class="footerempty"></div>
+<footer class="clearfix">
+    <div class="@(ViewBag.FootIndex==0?"current":"")">
+        <a href="/@ViewBag.AreaName/">
+            <i class="home"></i>
+            <p>首页</p>
+        </a>
+    </div>
+    <div class="@(ViewBag.FootIndex==1?"current":"")">
+        <a href="/@ViewBag.AreaName/VShop">
+            <i class="vshop"></i>
+            <p>微店</p>
+        </a>
+    </div>
+    <div class="@(ViewBag.FootIndex==2?"current":"")">
+        <a href="/@ViewBag.AreaName/Category">
+            <i class="classify"></i>
+            <p>分类</p>
+        </a>
+    </div>
+	<div class="@(ViewBag.FootIndex==3?"current":"")">
+        <a href="/@ViewBag.AreaName/Cart/Cart">
+            <i class="f-cart"></i>
+            <p>购物车</p>
+            <span class="plus-one">1</span>
+        </a>
+    </div>
+    <div class="@(ViewBag.FootIndex==4?"current":"")">
+        <a href="/@ViewBag.AreaName/Member/Center">
+            <i class="user"></i>
+            <p>个人中心</p>
+        </a>
+    </div>
+</footer>
+<!--_4ButtonsFoot end-->

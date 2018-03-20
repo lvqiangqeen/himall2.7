@@ -1,0 +1,102 @@
+﻿@model List<Himall.Web.Areas.Admin.Models.Product.CategoryModel>
+
+@{
+	ViewBag.Title = "分类管理";
+}
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Areas/Admin/Scripts/categoryJS.js"></script>
+
+<div class="container clear-m">
+	<ul class="nav nav-tabs-custom clearfix">
+		<li class="active"><a>管理</a></li>
+		<li><a href="./Add">新增</a></li>
+
+	</ul>
+	<div class="topbtn">
+		<a class="add-business" id="btnlevel1"><span class="glyphicon glyphicon-plus-sign"></span>折叠</a>
+		<a class="add-business" id="btnlevelAll"><span class="glyphicon glyphicon-minus-sign"></span>展开</a>
+	</div>
+
+	<table class="table category_table">
+		<thead>
+			<tr>
+
+				<th style="text-align:center" width="400">分类名称</th>
+
+				<th style="text-align:center" width="200">佣金比率</th>
+				<th class="td-operate clear-m1">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (null == Model)
+			{
+
+				<tr style="text-align:center">
+					<td style="text-align:center;" colspan="3"><h2 class="none-data">没有任何分类</h2></td>
+				</tr>
+			}
+			else
+			{
+				var cookie = Request.Cookies["CategoryHideItems"];
+				var cookieValue = "";
+				if (cookie != null && !string.IsNullOrEmpty(cookie.Value))
+				{
+					cookieValue = Uri.UnescapeDataString(cookie.Value);
+				}
+
+				long temp;
+				var hideItems = cookieValue.Split(',').Where(p => long.TryParse(p, out temp)).Select(p => long.Parse(p)).ToArray();
+
+				@helper CreateTr(Himall.Web.Areas.Admin.Models.Product.CategoryModel category, long[] hideItems)
+{
+							var hide = hideItems.Contains(category.Id);
+							var allChildHide = Model.Where(p => p.ParentCategoryId == category.Id).All(p => hideItems.Contains(p.Id));
+						
+				<tr class="level-@category.Depth" cid="@category.Id" parentid="@category.ParentCategoryId" style="@(hide?"display:none":"")">
+					<td class="@(category.Depth == 3 ? "clear-m2" : "clear-e")">
+						@if (category.Depth == 2)
+						{
+							<s class="line clear-m4">└───</s>
+						}
+						@if (category.Depth == 3)
+						{
+							<s class="line clear-m3">├─── </s>
+						}
+						@if (category.Depth < 3)
+						{
+							<span class="glyphicon glyphicon-@(allChildHide ? "plus" : "minus")-sign"></span>
+                        }
+                        <input type="hidden" class="hidden_id" value="@category.Id" />
+                        <input type="hidden" class="hidden_depth" value="@category.Depth" />
+						<input class="text-name input-no-sp" type="text" value="@category.Name" />
+						<input class="text-order" type="text" value="@category.DisplaySequence" />
+					</td>
+					@if (category.Depth == 3)
+					{
+						<td class="tac"><input class="text-commis tac text-order" type="text" value="@category.CommisRate"><span>%</span></td>
+					}
+					else
+					{
+						<td style="text-align:center"></td>
+					}
+					<td class="td-operate">
+						<span class="btn-a">
+							@if (category.Depth < 3)
+							{
+								<a id="add_@category.Id" href="./AddByParent?Id=@category.Id" class="add" target="">新增下级</a>
+							}
+							<a id="edit_@category.Id" href="./Edit?Id=@category.Id" class="edit">编辑</a>
+							<a id="del_@category.Id" class="delete-classify">删除</a>
+						</span>
+					</td>
+				</tr>
+}
+
+				foreach (var category in Model)
+				{
+					@CreateTr(category,hideItems)
+				}
+			}
+		</tbody>
+	</table>
+</div>

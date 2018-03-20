@@ -1,0 +1,278 @@
+﻿<!DOCTYPE html>
+@{
+    Layout = null;
+}
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit|ie-stand">
+    <meta name="viewport" content="width=device-width" />
+    <title>微信平台中心</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="/Scripts/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .logo {
+            background-image: url(../Images/logo3.png);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar navbar-static-top navbar-custom">
+
+        <div class="container">
+            <div class="navbar-header">
+                <a class="logo" href="/" title=""></a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown active">
+                        <a class="dropdown-toggle" data-toggle="dropdown">首页配置</a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("精选设置", "TopicSettings", "Weixin", new { area = "admin" }, new { target = "iframe", id = "1001" })</li>
+                            <li>@Html.ActionLink("轮播图设置", "SlideImageSettings", "Weixin", new { area = "admin" }, new { target = "iframe", id = "1002" })</li>
+                            <li>@Html.ActionLink("热销商品设置", "ProductSettings", "Weixin", new { area = "admin" }, new { target = "iframe", id = "1003" })</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">菜单</a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("菜单设置", "MenuManage", "Weixin", new { area = "admin" }, new { target = "iframe", id = "1001" })</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">专题</a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("移动端专题", "Management", "MobileTopic", new { area = "admin" }, new { target = "iframe", id = "2004" })</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">微店</a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("微店管理", "VShopManagement", "VShop", new { area = "admin" }, new { target = "iframe", id = "1001" })</li>
+                            <li>@Html.ActionLink("热门微店管理", "HotVShop", "VShop", new { area = "admin" }, new { target = "iframe", id = "1001" })</li>
+                            <li>@Html.ActionLink("主推微店管理", "TopShow", "VShop", new { area = "admin" }, new { target = "iframe", id = "1001" })</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">系统</a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("公众号设置", "BasicSettings", "Weixin", new { area = "admin" }, new { target = "iframe", id = "1001" })</li>
+                            <li>@Html.ActionLink("支付设置", "Console", "Weixin", new { area = "admin" }, new { target = "iframe", id = "1001" })</li>
+                        </ul>
+                    </li>
+
+
+                    <li>@Html.ActionLink("PC端", "", "", new { area = "admin" }, new { id = "5004" })</li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a class="glyphicon glyphicon-home" href="/" target="_blank" title="商城首页"></a></li>
+                    <li class="dropdown">
+                        <a class="glyphicon glyphicon-user dropdown-toggle" data-toggle="dropdown" href="" title="用户中心"></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="disabled">@ViewBag.Name</a></li>
+                            <li><a href="@Url.Action("Management", "Manager", new { area = "admin" })" target="iframe">管理员设置</a></li>
+                            <li><a href="javascript:logout()">安全退出</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="glyphicon glyphicon-bell dropdown-toggle" data-toggle="dropdown" href="" title="用户中心"></a>
+                        <i class="num" id="AllMessageCount"></i>
+                        <ul class="dropdown-menu">
+                            <li id="_2001">
+                                <a href="@Url.Action("Management", "Product", new { area = "admin" })" target="iframe">
+                                    商品待审核
+                                    <span id="ProductWaitForAuditing" class="cor-red"></span>
+                                </a>
+                            </li>
+                            <li id="_2003">
+                                <a href="@Url.Action("Management", "Brand", new { area = "admin" })" target="iframe">
+                                    品牌申请
+                                    <span class="cor-red" id="BrandAudit"></span>
+                                </a>
+                            </li>
+                            <li id="_3002">
+                                <a href="@Url.Action("Management", "OrderRefund", new { area = "admin" })" target="iframe">
+                                    退款
+                                    <span class="cor-red" id="RefundWaitAudit"></span>
+                                </a>
+                            </li>
+                            <li id="_3004">
+                                <a href="@Url.Action("Management", "OrderComplaint", new { area = "admin" })" target="iframe">
+                                    待仲裁
+                                    <span class="cor-red" id="ComplaintDispute"></span>
+                                </a>
+                            </li>
+                            <li id="_5001">
+                                <a href="@Url.Action("Management", "Shop", new { area = "admin", type = "Auditing" })" target="iframe">
+                                    店铺待审核
+                                    <span class="cor-red" id="ShopWaitAudit"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a id="resize-web" class="glyphicon glyphicon-resize-full" title="全屏切换"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="aside">
+            <div class="column-icon"><i></i></div>
+            <ul class="aside-list"></ul>
+        </div>
+        <div class="content">
+            <iframe id="iframe" name="iframe" frameborder="0" scrolling="auto"></iframe>
+        </div>
+    </div>
+    <script src="~/Scripts/custom.js"></script>
+    <script src="~/Scripts/CommonJS.js"></script>
+    <script src="~/Scripts/jquery.cookie.js"></script>
+    <script type="text/javascript">
+        function logout() {
+            $.removeCookie('Himall-PlatformManager', { path: "/" });
+            location.reload();
+        }
+        function update() {
+            //console.log(location);
+            $.ajax({
+                type: 'GET',
+                url: '/admin/home/GetPlatfromMessage',
+                cache: false,
+                data: {},
+                dataType: 'json',
+                success: function (data) {
+                    $("#ProductWaitForAuditing").text(data.ProductWaitForAuditing == 0 ? "" : "(" + data.ProductWaitForAuditing + ")");
+                    $("#ShopWaitAudit").text(data.ShopWaitAudit == 0 ? "" : "(" + data.ShopWaitAudit + ")");
+                    $("#BrandAudit").text(data.BrandAudit == 0 ? "" : "(" + data.BrandAudit + ")");
+                    $("#ComplaintDispute").text(data.ComplaintDispute == 0 ? "" : "(" + data.ComplaintDispute + ")");
+                    $("#RefundWaitAudit").text(data.RefundWaitAudit == 0 ? "" : "(" + data.RefundWaitAudit + ")");
+
+                    var dis = 0;
+                    if ($("#ProductWaitForAuditing").length == 0) dis += data.ProductWaitForAuditing;
+                    if ($("#ShopWaitAudit").length == 0) dis += data.ShopWaitAudit;
+                    if ($("#BrandAudit").length == 0) dis += data.BrandAudit;
+                    if ($("#ComplaintDispute").length == 0) dis += data.ComplaintDispute;
+                    if ($("#RefundWaitAudit").length == 0) dis += data.RefundWaitAudit;
+                    $("#AllMessageCount").text(data.AllMessageCount - dis);
+
+                },
+                error: function () { }
+            });
+        }
+        function auth() {
+            var ids = "@ViewBag.Rights".split(',');
+            if (ids[0] != 0) {
+                var count = 0;
+                //for (var i = 1001; i < 1004; i++) {
+                //    if (!ids.in_array(i)) {
+                //        count++;
+                //        if (count == 3) {
+                //            $("#" + i).parents('li').remove();
+                //        }
+                //        $("#" + i).parent('li').remove();
+                //    }
+                //}
+                //count = 0;
+                for (var i = 2001; i < 2008; i++) {
+                    if (!ids.in_array(i)) {
+                        count++;
+                        if (count == 7) {
+                            $("#" + i).parents('li').remove();
+                        }
+                        $("#" + i).parent('li').remove();
+                        if (i == 2001 || i == 2003) {
+                            $("#_" + i).remove();
+                        }
+                    }
+                }
+                count = 0;
+                for (var i = 3001; i < 3007; i++) {
+                    if (!ids.in_array(i)) {
+                        count++;
+                        if (count == 6) {
+                            $("#" + i).parents('li').remove();
+                        }
+                        $("#" + i).parent('li').remove();
+                        if (i == 3002 || i == 3004) {
+                            $("#_" + i).remove();
+                        }
+                    }
+                }
+
+                count = 0;
+                for (var i = 4001; i < 4003; i++) {
+                    if (!ids.in_array(i)) {
+                        count++;
+                        if (count == 2) {
+                            $("#" + i).parents('li').remove();
+                        }
+                        $("#" + i).parent('li').remove();
+                    }
+                }
+
+                count = 0;
+                for (var i = 5001; i < 5004; i++) {
+                    if (!ids.in_array(i)) {
+                        count++;
+                        if (count == 3) {
+                            $("#" + i).parents('li').remove();
+                        }
+                        $("#" + i).parent('li').remove();
+                        if (i == 5001) {
+                            $("#_" + i).remove();
+                        }
+                    }
+                }
+                count = 0;
+                for (var i = 6002; i < 6005; i++) {
+                    if (!ids.in_array(i)) {
+                        count++;
+                        if (count == 3) {
+                            $("#" + i).parents('li').remove();
+                        }
+                        $("#" + i).parent('li').remove();
+                    }
+                }
+                count = 0;
+                for (var i = 7001; i < 7003; i++) {
+                    if (!ids.in_array(i)) {
+                        count++;
+                        if (count == 2) {
+                            $("#" + i).parents('li').remove();
+                        }
+                        $("#" + i).parent('li').remove();
+                    }
+                }
+                count = 0;
+                for (var i = 8001; i < 8006; i++) {
+                    if (!ids.in_array(i)) {
+                        count++;
+                        if (count == 5) {
+                            $("#" + i).parents('li').remove();
+                        }
+                        $("#" + i).parent('li').remove();
+                    }
+                }
+            }
+        }
+        Array.prototype.in_array = function (e) {
+            for (i = 0; i < this.length && this[i] != e; i++);
+            return !(i == this.length);
+        }
+
+        $(function () {
+            auth();
+            update();
+            setInterval(update, 60 * 1000);
+        });
+
+    </script>
+</body>
+</html>

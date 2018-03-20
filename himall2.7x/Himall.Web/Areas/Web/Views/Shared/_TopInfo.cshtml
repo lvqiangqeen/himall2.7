@@ -1,0 +1,118 @@
+﻿@{
+    Layout = null;
+}
+@model Himall.Model.UserMemberInfo
+<!--_TopInfo start-->
+<div class="top">
+    <div class="warp cl">
+        <span class="top-link">
+            您好，欢迎来到 <em class="s-name">@ViewBag.SiteName！</em>
+            @if (Request.Path == "/")
+            {
+                <a href="/userCenter/home">去买家中心</a>
+            }
+            else
+            {
+                <a href="/">去首页</a>
+            }
+            @*@if (Model != null)
+                {
+                    <a href="/UserCenter?url=/userinvite&tar=userinvite">推广返利</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("index","invite")">推广返利</a>
+                }*@
+        </span>
+        <ul class="login-regin" id="loginUser">
+            @if (Model != null)
+            {
+                <li> <a href="/userCenter/home">@(string.IsNullOrEmpty(Model.Nick) ? @Model.UserName : @Model.Nick)</a> &nbsp; <a href="javascript:logout()">[退出]</a></li>
+            }
+            else
+            {
+                <li class="L-line"> <a href="/Login">请登录</a></li>
+                <li> <a href="/Register">免费注册</a></li>
+            }
+        </ul>
+
+        <ul class="quick_list">
+
+            <li class="sitemap dropdown">
+                <span class="outline"></span>
+                <span class="blank"></span>
+                <a href="/UserCenter/home">我的@(ViewBag.SiteName)<b></b></a>
+
+                <div class="dropdown-menu">
+                    <ol>
+                        <li><a href="/UserOrder">已买到的商品</a></li>
+                        <li><a href="/productConcern">我关注的商品</a></li>
+                        <li style="display:none;"><a href="/shopConcern">我关注的店铺</a></li>
+                    </ol>
+                </div>
+            </li>
+            <li><em class="shopping-cart"></em><a target="_blank" href="/cart/cart">购物车<em><span id="shopping-amount"></span></em>件</a></li>
+            <li class="moblie-qrcode dropdown">
+
+                <span class="outline"></span>
+                <span class="blank"></span>
+                <a href="javascript:void(0)">微信端</a>
+                @if (!string.IsNullOrEmpty(ViewBag.QR))
+                {
+                    <div class="dropdown-menu">
+                        <img src="@ViewBag.QR" width="90" height="90" />
+                    </div>
+                }
+            </li>
+            @if (ViewBag.APPCanDownload)
+            {
+                <li class="app-qrcode dropdown service">
+
+                    <span class="outline"></span>
+                    <span class="blank"></span>
+                    <a href="javascript:void(0)">APP</a>
+                    <div class="dropdown-menu">
+                        <img width="90" height="90" src="@ViewBag.APPQR" /><!--Base64显示-->
+                        <h3>扫描二维码</h3>
+                        <p>下载手机客户端</p>
+                    </div>
+
+                </li>
+            }
+            <li class="service dropdown">
+                <span class="outline"></span>
+                <span class="blank"></span>
+                <a href="/SellerAdmin">卖家中心<b></b></a>
+
+                <div class="dropdown-menu">
+                    <ol>
+                        <li><a href="/SellerAdmin">商家入驻</a></li>
+                        <li><a href="/SellerAdmin/order/management">已卖出商品</a></li>
+                        <li><a href="/SellerAdmin/product/create">发布商品</a></li>
+                        <li><a href="/SellerAdmin/product/management">管理商品</a></li>
+
+                    </ol>
+                </div>
+            </li>
+
+
+
+
+            <li class="service dropdown">
+                <span class="outline"></span>
+                <span class="blank"></span>
+                <a href="javascript:void(0)">客户中心<b></b></a>
+
+                <div class="dropdown-menu">
+                    <ol>
+                        <li><a href="/Article/Category">帮助中心</a></li>
+                        <li class=""><a href="/OrderRefund">售后服务</a></li>
+                        <li><a href="/OrderComplaint">投诉中心</a></li>
+                    </ol>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<script src="~/Areas/Web/Scripts/topInfo.js"></script>
+<!--_TopInfo end-->

@@ -1,0 +1,246 @@
+﻿@using Himall.Core
+@model Himall.Web.Areas.Web.Models.LimitTimeProductDetailModel
+@{
+	Layout = "../Shared/_Base.cshtml";
+	ViewBag.Title = "限时购商品详情";
+	ViewBag.ShowAside = 1;
+	var DetailModel = (Himall.Web.Areas.Mobile.Models.LimitTimeBuyDetailModel)ViewBag.DetailModel;
+}
+<input type="hidden" id="gid" value="@Model.Product.Id" />
+<input type="hidden" id="has" value="@(Model.Product.SKUInfo.Count()==0?0:1)" />
+<input type="hidden" id="maxSaleCount" value="@Model.MaxSaleCount" />
+<input type="hidden" id="mainId" value="@Model.MainId" />
+<input type="hidden" id="logined" value="@DetailModel.Logined" />
+<div id="J_timeBuy_att">
+	<div class="modul-popup" role="alert">
+		<div class="modul-popup-container">
+			<div class="att-popup-header">
+				<div class="thumb pull-left"><img class="img-responsive" src="@HimallIO.GetProductSizeImage(Model.Product.RelativePath, 1, (int)Himall.CommonModel.ImageSize.Size_150)"></div>
+				<div class="info pull-left">
+					<div class="price-con">￥<em id="salePrice">0</em></div>
+					<div class="stock-control">库存 <em id="stockNum">0</em> 件</div>
+					<!-- <div class="sku-dtips" id="choose-result"></div> -->
+				</div>
+			</div>
+			<div class="att-popup-body">
+				<div class="modul-scroll">
+					<div class="item" id="choose">
+						@if (Model.Color.Count() > 0)
+						{
+							<div class="spec">
+								<label>@Model.ColorAlias</label>
+								<div class="att-name">
+									@foreach (var color in Model.Color)
+									{
+										<span st="0" cid="@color.SkuId" class="itemSku @color.EnabledClass @color.SelectedClass">@color.Value</span>
+									}
+								</div>
+							</div>
+						}
+						@if (Model.Size.Count() > 0)
+						{
+							<div class="spec">
+								<label>@Model.SizeAlias</label>
+								<div class="att-name">
+									@foreach (var size in Model.Size)
+									{
+										<span st="1" cid="@size.SkuId" class="itemSku @size.EnabledClass @size.SelectedClass">@size.Value</span>
+									}
+								</div>
+							</div>
+						}
+						@if (Model.Version.Count() > 0)
+						{
+							<div class="spec">
+								<label>@Model.VersionAlias</label>
+								<div class="att-name">
+									@foreach (var version in Model.Version)
+									{
+										<span st="2" cid="@version.SkuId" class="itemSku @version.EnabledClass @version.SelectedClass">@version.Value</span>
+									}
+								</div>
+							</div>
+						}
+					</div>
+					<div class="item">
+						<div class="buy-num">
+							<label>数量</label>
+							<div class="wrap-num">
+								<a id="btn-reduce" class="glyphicon glyphicon-minus" href="javascript:;"></a>
+								<input class="input-xs form-control" id="buy-num" value="1" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v()">
+								<a id="btn-add" class="glyphicon glyphicon-plus" href="javascript:;"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="att-popup-footer">
+				<button type="button" class="btn btn-warning btn-yes" id="justBuy">确 定</button>
+			</div>
+			<a href="javascript:;" class="modul-popup-close att-popup-close"></a>
+		</div>
+	</div>
+</div>
+<div class="container container-z">
+	<div class="detail-hd">
+		<div id="slides">
+			@for (int i = 1; i < 6; i++)
+			{
+				if (HimallIO.ExistFile((Model.Product.RelativePath + string.Format("/{0}.png", i))))
+				{
+					<img data-src="@(HimallIO.GetProductSizeImage(Model.Product.RelativePath, i, (int)Himall.CommonModel.ImageSize.Size_350))" />
+				}
+			}
+		</div>
+        <a class="dis-info-a bt_share" id="dis-brokerage-box" style="display:none;">赚<span id="dis-brokerage">00.00</span>元</a>
+	</div>
+	<div class="detail-bd">
+		<div class="goods-info">
+			<div class="item">
+				<div class="goods-price">
+					<span>￥@Model.FlashSale.MinPrice.ToString("F2")</span>
+					<s>￥@Model.Product.MarketPrice.ToString("F2")</s>
+				</div>
+				<h4>@Model.Product.ProductName, 每个ID限购 @Model.MaxSaleCount 件</h4>
+				<h5>@Model.Product.ShortDescription</h5>
+			</div>
+            <div class="item promotion-wrap" id="divCoupon">
+                <div class="promotion">
+                    <ul class="promotion-list" id="showPromotion">
+                        <li class="promotion-coupon">
+                            <a href="javascript:;" class="item-navigate-right arrow" onclick="showPortfolio()">
+                                <span id="activespan"><i class="coupon-tip">促销优惠</i></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                @Html.Action("ShowServicePromise", "Product", new { id = Model.Product.Id, shopId = Model.Product.ShopId })
+            </div>
+		</div>
+		@if (Model.Color.Count > 0 || Model.Size.Count > 0 && Model.Version.Count > 0)
+		{
+			<div class="item">
+				<a class="item-navigate-right att-popup-trigger">选择规格</a>
+			</div>
+        }
+        @*门店信息-前端调整界面样式*@
+        <div class="item detail-comment j_storesInfo product-store-title" style="display:none">
+            <div class="goods-comment">
+                <h1><b class="j_storeName"></b><span class="j_distanceUnit"></span><i class="ic-arrow"></i></h1>
+                <p class="j_storeAddress"></p>
+                <a class="j_storelist btn btn-default" href="@Url.Action("storelist", "shopbranch", new { shopid = Model.Product.ShopId })"></a>
+            </div>
+        </div>
+        @*门店信息-前端调整界面样式*@
+		<div class="item detail-comment">
+			<div class="detail-comment-hd">
+				商品评价
+				<span class="detail-comment-num">@(DetailModel.CommentCount)</span>
+			</div>
+			@Html.Action("ProductCommentShow", "Product", new { id = Model.Product.Id })
+			<div class="detail-comment-ft">
+				<a class="btn btn-default" href="../../Product/ProductComment?pId=@(Model.Product.Id)&commentType=0">查看全部评价</a>
+			</div>
+		</div>
+
+		@Html.Action("ShowShopScore", "VShop", new { id = Model.Product.ShopId })
+
+		<div class="item details-link">
+			<a href="#top" onclick="gotoProductImg()"><span>查看更多详情</span></a>
+		</div>
+		<div class="goods-img"></div>
+	</div>
+</div>
+@if (DateTime.Parse(Model.FlashSale.BeginDate) < DateTime.Now)
+{
+	<footer class="clearfix limi-footer">
+		<p class="countime"><s class="glyphicon glyphicon-time"></s><b class="hour">00</b><em>天</em> <b class="hour">00</b><em>时</em> <b class="hour">00</b><em>分</em> <b class="hour">00</b><em>秒</em></p>
+		@if (Model.Product.SaleStatus == Himall.Model.ProductInfo.ProductSaleStatus.OnSale && Model.Product.AuditStatus == Himall.Model.ProductInfo.ProductAuditStatus.Audited)
+		{
+			<a class="limi-btn">立即抢购</a>
+		}
+		else
+		{
+			<a class="limi-btn" disabled id="easyBuyBtn">已下架</a>
+		}
+	</footer>
+}
+else
+{
+	<footer class="clearfix limi-footer2">
+		<p class="countime"><s class="glyphicon glyphicon-time"></s><b>00</b><em>天</em> <b>00</b><em>时</em> <b>00</b><em>分</em> <b>00</b><em>秒后开始</em></p>
+		@if (Model.IsFavorite)
+		{
+			<a class="favorite active" id="favoriteProduct">已收藏</a>
+		}
+		else
+		{
+			<a class="favorite" id="favoriteProduct">收藏</a>
+		}
+	</footer>
+}
+<input type="hidden" id="proDesc" value="@Model.ProductDescription" />
+<input type="hidden" id="hasSecond" value="@DetailModel.Second" />
+<input type="hidden" id="shopId" value="@Model.Shop.Id" />
+<input type="hidden" id="couponUrl" value="@Url.Action("ShopCouponList","coupon")" />
+<script src="https://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+<script src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/ProductDetail.js"></script>
+<script src="~/Scripts/jquery.cookie.js"></script>
+<script src="~/Scripts/jquery.slides.min.js"></script>
+<div id="ShopCoupon"></div>
+<div id="portfolioCoupon">
+    <div class="modul-popup">
+        <div class="modul-popup-container sale-popup-container">
+            <div class="sale-popup-header"></div>
+            <div class="sale-popup-body">
+                <div class="modul-scroll">
+                    <table class="sale-table" width="100%">
+                        <tbody id="activeList"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="sale-popup-footer">
+                <a href="javascript:" class="modul-popup-close sale-popup-close"></a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+	// 倒计时
+	countDown($("#hasSecond").val(), function (day, hour, minute, second) {
+		@if( DateTime.Parse( Model.FlashSale.BeginDate ) < DateTime.Now ) {
+        <text>
+		$('.countime').html('<s class="glyphicon glyphicon-time"></s> <b class="hour">' + day + '</b><em>天</em> <b class="hour">' + hour + '</b><em>时</em> <b class="hour">' + minute + '</b><em>分</em> <b class="hour">' + second + '</b><em>秒</em>');
+		</text>
+    }
+    else {
+        <text>
+		$('.countime').html('<s class="glyphicon glyphicon-time"></s> <b class="hour">' + day + '</b><em>天</em> <b class="hour">' + hour + '</b><em>时</em> <b class="hour">' + minute + '</b><em>分</em> <b class="hour">' + second + '</b><em>秒后开始</em>');
+		</text>
+    }
+	});
+</script>
+<a class="WX-backtop"></a>
+<script src="~/Scripts/jquery.himall.sku.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/timeBuyDetail.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/ProductDistributionBrokerage.js"></script>
+<script>
+	var loading = showLoading();
+	var winxinShareArgs = {
+		success: function(){
+			loading.close();
+		},
+		error:function(){
+			loading.close();
+			$.dialog.errorTips('注册微信接口失败，请刷新页面');
+		},
+		share: {
+			title: '【限时折扣】@Model.Product.ProductName',
+			desc: '@(string.IsNullOrEmpty(Model.Product.ShortDescription)?Model.Product.ProductName:Model.Product.ShortDescription)',
+			link: location.origin+'/' + areaName + "/LimitTimeBuy/Detail/" + @Model.MainId,
+			imgUrl: '@HimallIO.GetRomoteProductSizeImage(Model.Product.RelativePath, 1, (int)Himall.CommonModel.ImageSize.Size_150)'
+		}
+	};
+</script>
+@Html.Partial("_WeiXinShare")

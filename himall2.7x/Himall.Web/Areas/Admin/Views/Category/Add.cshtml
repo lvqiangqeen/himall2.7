@@ -1,0 +1,82 @@
+﻿@model Himall.Web.Areas.Admin.Models.Product.CategoryModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Areas/Admin/Scripts/CategoryAdd.js"></script>
+
+<input type="hidden" value="@ViewBag.Msg" id="vb-msg" />
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="./Management">管理</a></li>
+        <li class="active"><a href="./Add">新增</a></li>
+    </ul>
+    @using (Html.BeginForm("Add", "Category", new { Area = "Admin" }, FormMethod.Post, new { id = "categoryForm", @class = "form-horizontal" }))
+    {
+    <div class="form-group">
+        <label for="" class="col-sm-2 control-label">名称：</label>
+        <div class="col-sm-3">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control input-sm" })
+        </div>
+        <div class="col-sm-3">@Html.ValidationMessageFor(m => m.Name, "", new { @class = "help-default cor-red" })</div>
+    </div>
+    <div id="upload-img" class="form-group upload-img">
+    </div>
+    <div class="form-group">
+        <label for="" class="col-sm-2 control-label">上级分类：</label>
+        <div class="col-sm-3">
+            @Html.DropDownListFor(t => t.ParentCategoryId, (IEnumerable<SelectListItem>)TempData["Categories"], new { @class = "form-control input-sm", id = "pCategory" })
+        </div>
+        <div class="col-sm-7">
+            @Html.ValidationMessageFor(t => t.ParentCategoryId)
+            <span class="help-default">如果选择上级分类，那么新增的分类则为被选择上级分类的子分类</span>
+        </div>
+    </div>
+    <div class="form-group" id="Depth">
+        <label for="" class="col-sm-2 control-label">分佣比例：</label>
+
+        <div class="col-sm-3">
+            @Html.TextBoxFor(m => m.CommisRate, new { @class = "form-control input-sm" })
+        </div>
+        <div class="col-sm-1"><span class="help-default">%</span></div>
+        <div class="col-sm-3">@Html.ValidationMessageFor(m => m.CommisRate, "", new { @class = "help-default cor-red" })</div>
+    </div>
+
+    <div class="form-group">
+        <label for="" class="col-sm-2 control-label">选择类型：</label>
+        <div class="col-sm-3">
+            @Html.DropDownListFor(t => t.TypeId, (IEnumerable<SelectListItem>)TempData["Types"], new { @class = "form-control input-sm " })
+        </div>
+        <div class="col-sm-3">
+            @Html.ValidationMessageFor(t => t.TypeId)
+        </div>
+    </div>
+    @*<div class="form-group">
+            <label for="" class="col-sm-2 control-label">标题(title)：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Title, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">关键字(keywords)：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Keywords, new { @class = "form-control input-sm" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">描述(description)：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Description, new { @class = "form-control input-sm" })
+            </div>
+        </div>*@
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" id="subCate" class="btn btn-primary">保 存</button>
+        </div>
+    </div>
+    }
+    <input type="hidden" id="depthHidden" value="@TempData["depth"]" />

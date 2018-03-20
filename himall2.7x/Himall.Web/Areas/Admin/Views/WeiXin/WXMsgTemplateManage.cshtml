@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "素材管理";
+}
+<link href="/Content/WXmsg.css" rel="stylesheet" />
+<script src="~/Areas/Admin/Scripts/WXMaterialManage.js"></script>
+
+<div class="container WXmsg">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>素材管理</a></li>
+        <li><a href="WXMsgTemplate">新增图文</a></li>
+    </ul>
+    <div class="source-manage">
+                <div class="source-content mt0">
+                    <ul id="list" style="border-bottom: 1px solid #e7e7eb;"></ul>
+                    <div id="pageNav" class="title">图文消息共<span id="totalCnt"></span> 个<input class="btnpage clear-v47" type="button" value="下一页" id="btnNext" /><input class="btnpage" type="button" value="上一页" id="btnPre" /> </div>
+                </div>
+            </div>
+</div>
+

@@ -1,0 +1,95 @@
+﻿@model Himall.Web.Areas.SellerAdmin.Models.LimitTimeMarketModel
+
+@{
+    ViewBag.Title = "AddLimitItem";
+}
+
+
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<script src="~/Scripts/v.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/LimitTimeBuyAddLimitItem.js"></script>
+<input type="hidden" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="DNT1" />
+<input type="hidden" value="@ViewBag.EndTime" id="VBET" />
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li><a href="./Management">活动管理</a></li>
+        <li class="active"><a>新增限时购</a></li>
+        <li class=""><a href="./BuyService">购买服务</a></li>
+
+    </ul>
+    @using (Html.BeginForm("AddLimitItem", "LimitTimeBuy", FormMethod.Post, new { id = "form1" }))
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>活动标题：</label>
+                <div class="col-sm-3">@Html.EditorFor(item => item.Title, new { htmlAttributes = new { @class = "form-control input-sm" } }) </div>
+                <div class="col-sm-5"><span class="help-default">活动标题是商家对限时折扣活动的别名.</span></div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>活动商品：</label>
+                <div class="col-sm-3">@Html.EditorFor(item => item.ProductName, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })</div>
+                <div class="col-sm-3"><a class="btn btn-primary btn-sm" id="SelectProduct"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp; 选择商品</a></div>
+                <input type="hidden" id="ProductId" name="ProductId" value="" />
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>原价格：</label>
+                <div class="col-sm-3">@Html.EditorFor(item => item.ProductPrice, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })</div>
+                <div class="col-sm-5"><span class="help-default">选择商品之后，会自动填充.</span></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>限时购价格：</label>
+                <div class="col-sm-3">@Html.EditorFor(item => item.Price, new { htmlAttributes = new { @class = "form-control input-sm" } })</div>
+                <div class="col-sm-5"><span class="help-default">限时购价格必须低于原价格；在活动期内，不能修改商品价格.</span></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>活动分类：</label>
+                <div class="col-sm-3">@Html.GenerateSelectHtml((List<SelectListItem>)ViewBag.Cate, "CategoryName")</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>开始时间：</label>
+                <div class="col-sm-3">@Html.EditorFor(item => item.StartTime, new { htmlAttributes = new { @class = "form-control input-sm start_datetime" } })</div>
+                <div class="col-sm-5"><span class="help-default">开始时间最好晚于当前时间+默认的2天审核时间.</span></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>结束时间：</label>
+                <div class="col-sm-3">@Html.EditorFor(item => item.EndTime, new { htmlAttributes = new { @class = "form-control input-sm end_datetime"} })</div>
+                <div class="col-sm-5"><span class="help-default">结束时间必须晚于开始时间.</span></div>
+            </div>
+            @*@if (Model != null)
+                {
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>库存数量：</label>
+                        <div class="col-sm-3">@Html.EditorFor(item => item.Stock, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } }) 件</div>
+                    </div>
+                }
+                else
+                {
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>库存数量：</label>
+                    <div class="col-sm-3">@Html.EditorFor(item => item.Stock, new { htmlAttributes = new { @class = "form-control input-sm" } }) 件</div>
+                </div>
+                }*@
+            @Html.HiddenFor(item => item.Stock, new { htmlAttributes = new { @class = "form-control input-sm" } })
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>购买限制：</label>
+                <div class="col-sm-3">@Html.EditorFor(item => item.MaxSaleCount, new { htmlAttributes = new { @class = "form-control input-sm" } })</div>
+                <div class="col-sm-5"><span class="help-default">单个人最多购买数量.</span></div>
+            </div>
+            <div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+                	<button type="submit" class="btn btn-primary">保存</button><label class="label-inline" for=""><a href="./Management">返回</a></label>
+				</div>
+            </div>
+        </div>
+    }
+</div>
+<input type="hidden" value="@Url.Action("Management")" id="UAmag"/>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+

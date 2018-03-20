@@ -1,0 +1,50 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_SimpeHeadAndFoot.cshtml";
+    ViewBag.Title = "找回密码-错误";
+}
+<div id="container">
+    <div class="w pt10" style="position:relative;margin-left:-450px;left:50%;">
+        <div id="main">
+            <div class="g-0">
+                <div id="content">
+                    <div class="mod-main mod-comm">
+                        <div class="mt">
+                            <input type="hidden" name="key" id="key" value="@ViewBag.Key" />
+                             <h3>找回密码</h3>
+                        </div>
+                        <div class="mc">
+                            <div class="stepflex " id="sflex04" style="position:relative;margin-left:-320px;left:50%;">
+                                <dl class="first done">
+                                    <dt class="s-num">1</dt>
+                                    <dd class="s-text">填写账户名<s></s><b></b></dd>
+                                    <dd></dd>
+                                </dl>
+                                <dl class="normal doing">
+                                    <dt class="s-num">2</dt>
+                                    <dd class="s-text">验证身份<s></s><b></b></dd>
+                                </dl>
+                                <dl class="normal">
+                                    <dt class="s-num">3</dt>
+                                    <dd class="s-text">设置新密码<s></s><b></b></dd>
+                                </dl>
+                                <dl class="last">
+                                    <dt class="s-num" style="background-position: -68px 0;">&nbsp;</dt>
+                                    <dd class="s-text">完成<s></s><b></b></dd>
+                                </dl>
+                            </div>
+                            <div class="safe-icon-box formno">
+								<div><s class="icon-warn02 m-icon" style="display:block;"></s></div>
+								<div class="fore">
+									<h3 class="ftx04">您的账户信息异常！</h3>
+									<div class="ftx-03">由于您未设置任何重置密码的路径，请联系客服进行重置密码。</div>
+									
+								</div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="clr"></span>
+        </div>
+    </div>
+</div>

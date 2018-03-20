@@ -1,0 +1,112 @@
+﻿@{
+    ViewBag.Title = "Audit";
+}
+@model Himall.Model.FlashSaleModel
+
+<script src="~/Areas/Admin/Scripts/LimitTimeBuyManagement.js"></script>
+<div class="container">
+    <ul class="breadcrumb clearfix">
+        <li><a href="@(Url.Action("Management"))" id="Uama0">限时购列表</a></li>
+        <li><a>审核限时购</a></li>
+
+    </ul>
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">活动标题：</label>
+            <div class="col-sm-7"><label class=" control-label" for="">@Model.Title</label></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">活动商品：</label>
+            <div class="col-sm-9"><label class="control-label" for="">@Model.ProductName</label></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">商品详情：</label>
+            <div class="col-sm-9">
+                <table id="tbl" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td>主商品</td>
+                            <td>规格</td>
+                            <td>原价</td>
+                            <td>限时价</td>
+                            <td>库存</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{bool isFirst = true;}
+                        @foreach( var item in Model.Details )
+                        {
+                            if( isFirst && Model.Details.Count > 1 )
+                            {
+                                <tr>
+                                    <td rowspan="@Model.Details.Count" style='text-align:center'><img src="@(Himall.Core.HimallIO.GetProductSizeImage(Model.ProductImg, 1, (int)Himall.CommonModel.ImageSize.Size_50))" /></td>
+                                    <td>@item.Color  @item.Size  @item.Version</td>
+                                    <td>@item.SalePrice</td>
+                                    <td>@item.Price</td>
+                                    <td>@item.Stock</td>
+                                </tr>
+                            }
+                            else if( isFirst && Model.Details.Count == 1 )
+                            {
+                                <tr>
+                                    <td style='text-align:center'><img src="@(Himall.Core.HimallIO.GetProductSizeImage(Model.ProductImg,1,50))" /></td>
+                                    <td>@item.Color  @item.Size  @item.Version</td>
+                                    <td>@item.SalePrice</td>
+                                    <td>@item.Price</td>
+                                    <td>@item.Stock</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>@item.Color  @item.Size  @item.Version</td>
+                                    <td>@item.SalePrice</td>
+                                    <td>@item.Price</td>
+                                    <td>@item.Stock</td>
+                                </tr>
+                            }
+                            isFirst = false;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">活动分类：</label>
+            <div class="col-sm-3"><label class="control-label" for="">@Model.CategoryName</label></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">开始时间：</label>
+            <div class="col-sm-3"><label class=" control-label" for="">@Model.BeginDate</label></div>
+
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">结束时间：</label>
+            <div class="col-sm-3"><label class="control-label" for="">@Model.EndDate</label></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">购买限制：</label>
+            <div class="col-sm-3"><label class="control-label" for="">@Model.LimitCountOfThePeople</label></div>
+
+        </div>
+
+        @if( Model.Status == Himall.Model.FlashSaleInfo.FlashSaleStatus.WaitForAuditing && ViewBag.IsAudit)
+        { 
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" id="pass" class="btn btn-primary">同意</button>
+                    <button type="button" id="re" class="btn">拒绝</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<input type="hidden" value="@Model.Id" id="limi_m" />

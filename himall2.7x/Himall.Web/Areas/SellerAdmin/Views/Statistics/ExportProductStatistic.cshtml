@@ -1,0 +1,35 @@
+﻿@model  List<Himall.Model.ProductStatisticModel>
+@{
+    object Title = new object();
+    ViewData.TryGetValue("Title", out Title);
+}
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+    <thead>
+        <tr>
+            <th colspan="3">@(ViewData["Title"].ToString())</th>
+        </tr>
+        <tr>
+            <th>商品名称</th>
+            <th>浏览量</th>
+            <th>浏览人数</th>
+            <th>付款人数</th>
+            <th>单品转化率</th>
+            <th>销售数量</th>
+            <th>销售金额</th>
+        </tr>
+    </thead>
+    <tbody id="list-table-body">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.VistiCounts</td>
+                <td>@item.VisitUserCounts</td>
+                <td>@item.PayUserCounts</td>
+                <td>@item.SinglePercentConversionString</td>
+                <td>@item.SaleCounts</td>
+                <td>@item.SaleAmounts</td>
+            </tr>
+        }
+    </tbody>
+</table>

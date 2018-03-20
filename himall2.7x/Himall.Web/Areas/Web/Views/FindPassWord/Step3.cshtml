@@ -1,0 +1,241 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_SimpeHeadAndFoot.cshtml";
+    ViewBag.Title = "找回密码-重新设置新密码";
+}
+@model Himall.Model.UserMemberInfo
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>FindPassWordStep3</title>
+    <link href="~/Areas/Web/Content/findpassword1.css" rel="stylesheet" type="text/css">
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+</head>
+<body>
+<style>
+.msg-error{color:red;}
+s{text-decoration:none;}
+</style>
+<div id="container">
+    <div class="w">
+        <div id="main">
+            <div class="g-0">
+                <div id="content">
+                    <div class="mod-main mod-comm">
+                        <div class="mt">
+                            <input type="hidden" name="key" id="key" value="@ViewBag.Key" />
+                            <h3>找回密码</h3>
+                        </div>
+                        <div class="mc">
+                            <div class="stepflex " id="sflex04">
+                                <dl class="first done">
+                                    <dt class="s-num">1</dt>
+                                    <dd class="s-text">填写账户名<s></s><b></b></dd>
+                                    <dd></dd>
+                                </dl>
+                                <dl class="normal done">
+                                    <dt class="s-num">2</dt>
+                                    <dd class="s-text">验证身份<s></s><b></b></dd>
+                                </dl>
+                                <dl class="normal doing">
+                                    <dt class="s-num">3</dt>
+                                    <dd class="s-text">设置新密码<s></s><b></b></dd>
+                                </dl>
+                                <dl class="last">
+                                    <dt class="s-num">&nbsp;</dt>
+                                    <dd class="s-text">完成<s></s><b></b></dd>
+                                </dl>
+                            </div>
+
+                            <div class="form formno">
+
+                                <div class="item">
+                                    <span class="label">新登录密码：</span>
+                                    <div class="fl">
+                                        <input type="password" value="" tabindex="1" onfocus="passwordFocus();" onblur="passwordBlur();" class="itxt" id="password">
+                                        <span class="clr"></span>
+                                        <div id="pwdstrength" style="display:none" class="u-safe">
+                                            安全程度：
+                                            <i class="safe-rank06"></i>
+                                            <s id="text"></s>
+                                        </div>
+                                    </div>
+                                    <span class="clr"></span>
+                                    <label id="password_error" class=""></label>
+                                </div>
+
+                                <div class="item">
+                                    <span class="label">确认新密码：</span>
+                                    <div class="fl">
+                                        <input type="password" value="" tabindex="2" onfocus="repasswordFocus();" onblur="repasswordBlur();" class="itxt" id="repassword">
+                                    </div>
+                                    <span class="clr"></span>
+                                    <label id="repassword_error" class=""></label>
+                                </div>
+
+                                <div class="item">
+                                    <span class="label">&nbsp;</span>
+                                    <div class="fl">
+                                        <input onclick="updatePassword('c0d3f15f6b4a21a1b68de97924a899b4','true','')" id="resetPwdSubmit" class="btn-5" href="javascript:void(0);" value="提交" type="submit">
+                                    </div>
+                                    <div class="clr"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="clr"></span>
+        </div>
+    </div>
+</div>
+
+<script>
+function passwordFocus(passwordId){
+    $("#pwdstrength").hide();
+    $("#password").removeClass().addClass("itxt highlight1");
+    $("#password_error").removeClass().addClass("msg-text").html("6-20位字符，可使用字母、数字或符号的组合，不建议使用纯字母、纯数字、纯符号");
+}
+
+function passwordBlur(){
+    $("#password").removeClass().addClass("itxt");
+    var password = $("#password").val();
+    if(!password){
+        $("#password").removeClass().addClass("itxt");
+        $("#password_error").removeClass().html("");
+        $("#pwdstrength").hide();
+        return;
+    }
+    checkNewPasswordForm();
+    $("#repassword").focus();
+}
+function checkNewPasswordForm(){
+    var password = $("#password").val();
+    if(!password){
+        $("#password").removeClass().addClass("itxt text-error highlight2");
+        $("#password_error").removeClass().addClass("msg-error").html("请输入密码");
+        return false;
+    }
+    var reg = /^[^\s]{6,20}$/;
+    if (!reg.test(password)) {
+        $("#password").removeClass().addClass("itxt text-error highlight2");
+        $("#password_error").removeClass().addClass("msg-error").html("密码格式不正确，请重新设置");
+        return false;
+    } else if (password.length < 6) {
+        $("#password").removeClass().addClass("itxt text-error highlight2");
+        $("#password_error").removeClass().addClass("msg-error").html("密码长度不正确，请重新设置");
+        return false;
+    } else if (password.length > 20) {
+        $("#password").removeClass().addClass("itxt text-error highlight2");
+        $("#password_error").removeClass().addClass("msg-error").html("密码长度不正确，请重新设置");
+        return false;
+    } else {
+        var   pattern_1   =   /^.*([\W_])+.*$/i;
+        var   pattern_2   =   /^.*([a-zA-Z])+.*$/i;
+        var   pattern_3   =   /^.*([0-9])+.*$/i;
+        var strength = 0;
+        if(password.length>10){
+            strength++;
+        }
+        if(pattern_1.test(password)){
+            strength++;
+        }
+        if(pattern_2.test(password)){
+            strength++;
+        }
+        if(pattern_3.test(password)){
+            strength++;
+        }
+        if(strength<=1){
+            //$("#password").removeClass().addClass("itxt text-error highlight2");
+            //$("#password_error").removeClass().addClass("msg-error").html("密码太弱，有被盗风险，请设置由多种字符组成的复杂密码");
+            //return false;
+            $("#pwdstrength").show();
+            $("#text").html('弱');
+            $("#pwdstrength i").removeClass().addClass('safe-rank02');
+            //$("#pwdstrength").removeClass().addClass("strengthC");
+            $("#password").removeClass().addClass("itxt");
+            $("#password_error").removeClass().html("");
+        }
+        if(strength==2){
+            $("#pwdstrength").show();
+            $("#text").html('中');
+            $("#pwdstrength i").removeClass().addClass('safe-rank04');
+            //$("#pwdstrength").removeClass().addClass("strengthB");
+            $("#password").removeClass().addClass("itxt");
+            $("#password_error").removeClass().html("");
+        }
+        if(strength>=3){
+            $("#pwdstrength").show();
+            $("#text").html('强');
+            $("#pwdstrength i").removeClass().addClass('safe-rank06');
+            //$("#pwdstrength").removeClass().addClass("strengthC");
+            $("#password").removeClass().addClass("itxt");
+            $("#password_error").removeClass().html("");
+        }
+    }
+    return true;
+}
+function repasswordFocus(passwordId){
+    $("#repassword").removeClass().addClass("itxt highlight1");
+    $("#repassword_error").removeClass().addClass("msg-text").html("请再次输入新密码");
+}
+function repasswordBlur(){
+    $("#repassword").removeClass().addClass("itxt");
+    var repassword = $("#repassword").val();
+    if(!repassword){
+        $("#repassword").removeClass().addClass("itxt");
+        $("#repassword_error").removeClass().html("");
+        return;
+    }
+    isSamePassword();
+}
+
+function isSamePassword(){
+    var password = $("#password").val();
+    var repassword = $("#repassword").val();
+    if(!repassword){
+        $("#repassword").removeClass().addClass("itxt highlight2");
+        $("#repassword_error").removeClass().addClass("msg-error").html("请再次输入新密码");
+        return false;
+    }
+    if(password != repassword){
+        $("#repassword").removeClass().addClass("itxt highlight2");
+        $("#repassword_error").removeClass().addClass("msg-error").html("两次输入的密码不一致，请重新输入");
+        return false;
+    }
+    $("#repassword_error").removeClass().html("");
+    return true;
+}
+
+function updatePassword(key,needMobile) {
+  if($("#resetPwdSubmit").attr("disabled")){return;}
+  if(!checkNewPasswordForm(newPassword)){return;}
+  if(!isSamePassword()){return;}
+  $("#resetPwdSubmit").attr("disabled","disabled");
+  var newPassword=$("#password").val();
+  var key=$('#key').val();
+  jQuery.ajax({
+    type:"post",
+    dataType:"json",
+    data:'password='+newPassword,
+    url:'/findpassword/ChangePassWord?key='+key,
+    success:function(data){
+      if(data && data.success==true){
+        window.location.href = "/findpassword/step4";
+      }else{
+          $.dialog.errorTips("网络连接超时，请重新修改登录密码");
+        $("#resetPwdSubmit").removeAttr("disabled");
+      }
+    },
+    error:function(){
+        $.dialog.errorTips("网络连接超时，请您稍后重试");
+      $("#resetPwdSubmit").removeAttr("disabled");
+    }
+  });
+}
+
+</script>
+</body>
+</html>

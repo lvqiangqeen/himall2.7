@@ -1,0 +1,114 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_SimpeHeadAndFoot.cshtml";
+    ViewBag.Title = "找回密码";
+}
+    <div id="container">
+        <div class="w pt10" style="position:relative;margin-left:-450px;left:50%;">
+            <div id="main">
+                <div class="g-0">
+                    <div id="content">
+                        <div class="mod-main mod-comm">
+                            <div class="mt">
+                                <h3>找回密码</h3>
+                            </div>
+                            <div class="mc">
+                                <div class="stepflex " id="sflex04" style="position:relative;margin-left:-320px;left:50%;">
+                                    <dl class="first doing">
+                                        <dt class="s-num">1</dt>
+                                        <dd class="s-text">填写账户名<s></s><b></b></dd>
+                                        <dd></dd>
+                                    </dl>
+                                    <dl class="normal">
+                                        <dt class="s-num">2</dt>
+                                        <dd class="s-text">验证身份<s></s><b></b></dd>
+                                    </dl>
+                                    <dl class="normal">
+                                        <dt class="s-num">3</dt>
+                                        <dd class="s-text">设置新密码<s></s><b></b></dd>
+                                    </dl>
+                                    <dl class="last">
+                                        <dt class="s-num" style="background-position: -68px 0;">&nbsp;</dt>
+                                        <dd class="s-text">完成<s></s><b></b></dd>
+                                    </dl>
+                                </div>
+
+                                <div class="form formno">
+                                    <form id="v-form" class="ui-form" method="post" action="/FindPassWord/CheckUser">
+                                        <div class="item" style="width:100%;">
+                                            <span class="label" style="float:left;display:inline-block;margin:0;">账户名：</span>
+                                            <div class="name-confirm"><input type="text" placeholder="用户名/邮箱/已验证手机" name="username" id="username" class="itxt" style="display:inline-block;float:left;margin-right:10px;"></div>
+                                        </div>
+
+                                        <div class="item" style="width:100%;">
+                                            <span class="label">验证码：</span>
+                                            <div>
+                                                <input type="text" class="itxt" tabindex="2" name="checkCode" id="checkCode" style="float:left;">
+                                                <label style="display:inline-block;width:200px;float:left;">
+                                                <img id="checkCodeImg" class="ml10" src="/FindPassWord/GetCheckCode" onclick="refreshCheckCode();" alt="验证码" style="cursor:pointer;width:100px;height:30px;float:left;">看不清？<a href="javascript:refreshCheckCode();" class="ftx-05">换一张</a></label><br>
+                                            </div>
+                                        </div>
+
+                                        <div class="item" style="width:100%;">
+                                            <span class="label">&nbsp;</span>
+                                            <div class="fl">
+                                                <input type="submit" id="findPwdSubmit" class="btn-5" href="javascript:void(0);" value="提交">
+                                            </div>
+                                            <div class="clr"></div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <span class="clr"></span>
+            </div>
+        </div>
+    </div>
+    <script>
+        var a = v({
+            form: 'v-form',
+            ajaxSubmit: true,
+            beforeSubmit: function () {
+                loadingobj = showLoading();
+            },
+            afterSubmit: function (e) {
+                loadingobj.close();
+                if (e.success) {
+                    location.href = '/FindPassWord/Step2?key=' + e.key;
+                } else {
+                    if (e.tag) {
+                        $('#username').focus().val('');
+                        $('#username').parent().find('.tip').css('display','inline-block').html('<span style="color:red;margin:0;">用户名未绑定或者不存在</span>');
+                    } else {
+                        $('#checkCode').focus().val('');
+                        $('#checkCode').parent().find('.tip').html('<span style="margin-left:130px;color:red">验证码错误</span>');
+                        $('#checkCode').parent().find('.tip').css({'display':'block',"margin-left":"130px;"});
+                    }
+                    $('#checkCode').val('');
+                    refreshCheckCode();
+                    return false;
+                }
+            }
+        });
+        a.add(
+          {
+              target: 'username',
+              ruleType: 'username||email||mobile',
+              focusTips: true,
+              error: '请输入您的用户名/邮箱/已验证手机'
+          },
+          {
+              target: 'checkCode',
+              ruleType: 'required',
+              focusTips: true,
+              error: '验证码错误'
+          }
+        );
+        function refreshCheckCode() {
+            var path = $('#checkCodeImg').attr('src').split('?')[0];
+            path += '?time=' + new Date().getTime();
+            $('#checkCodeImg').attr('src', path);
+            $('#checkCodeBox').val('');
+        }
+    </script>

@@ -1,0 +1,99 @@
+﻿@using Himall.Core;
+
+@{
+    ViewBag.Title = "EditMenu";
+}
+
+@model Himall.Web.Areas.Admin.Models.MenuManageModel
+
+<div class="container">
+    <ul class="breadcrumb clearfix">
+
+        <li><a href="MenuManage">菜单管理</a></li>
+        <li class="active"><a href="#">编辑菜单</a></li>
+    </ul>
+	<form id="form1" method="post" class="form-horizontal">
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label">菜单名称</label>
+			<div class="col-sm-3">
+				@Html.EditorFor(item => item.TopMenuName, new { htmlAttributes = new { @class = "form-control input-sm" } })
+				<p class="help-default">一级菜单限5个字符,二级限7个字符</p>
+			</div>
+		</div>
+		<div id="parentMenuName" class="form-group">
+			<label for="" class="col-sm-2 control-label">上级菜单</label>
+			<div class="col-sm-3 form-control-static">
+				@ViewBag.parentName
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">链接对象</label>
+			<div class="col-sm-3">
+				<select id="ddlType" name="ddlType" onchange="Onchange($(this))" class="form-control input-sm">
+					<option value="0">不绑定</option>
+					<option value="1">首页</option>
+					<option value="2">微店</option>
+					<option value="3">商城分类</option>
+					<option value="4">个人中心</option>
+                    <option value="5">购物车</option>
+					<option value="6">链接</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group" id="linkUrl">
+			<label class="col-sm-2 control-label">链接地址</label>
+			<div class="col-sm-3">
+				@Html.EditorFor(item => item.URL, new { htmlAttributes = new { @class = "form-control input-sm" } })
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="button" class="btn btn-primary" onclick="UpdateMenu()">提交</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var value = "@((int)Model.LinkType.GetValueOrDefault())";
+        $("#ddlType").val(value);
+        if ($("#ddlType").val() == 6)
+            $("#linkUrl").show();
+        else
+            $("#linkUrl").hide();
+        if(isNaN(@(ViewBag.parentName)))
+            $("#parentMenuName").css('display', 'none')
+
+    });
+
+    function Onchange(obj) {
+        if (obj.val() == "6") {
+            $("#linkUrl").show();
+            $("#URL").val("http://");
+        }
+        else {
+            $("#linkUrl").hide();
+            $("#URL").val("");
+        }
+    }
+
+    function UpdateMenu() {
+        var urlType1;
+        var menuId1 = "@(Model.ID)";
+        var menuName1 = $('input[name="TopMenuName"]').val();
+        var urlType1 = $("#ddlType").val();
+        var url1 = $('input[name="URL"]').val();
+        var parentMenuId = "@ViewBag.parentId";
+        var loading = showLoading();
+        $.post('./UpdateMenu', { menuId: menuId1, menuName: menuName1, urlType: urlType1, url: url1, parentId: parentMenuId }, function (result) {
+            loading.close();
+            if (result.success) {
+                $.dialog.tips('更新成功');
+                location.reload();
+            }
+            else
+                $.dialog.alert('更新失败！' + result.msg);
+        });
+    }
+</script>

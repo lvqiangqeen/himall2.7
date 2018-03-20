@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html class="proShare">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-isSales-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>商品列表</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body class="proShare">
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">商品列表</h1>
+			<a class="mui-pull-right header-icon" id="search"><i class="iconfont icon-search"></i></a>
+			<a class="mui-pull-right header-icon hidden" id="orderFilter"><i class="iconfont icon-filter"></i></a>
+			<div class="header-search">
+				<div class="mui-input-row mui-search">
+					<input type="search" id="keywordsText" class="mui-input-clear" data-input-search="1"><span class="mui-icon mui-icon-clear mui-hidden"></span><span class="mui-placeholder"><span class="mui-icon mui-icon-search"></span><span>请输入商品名称</span></span>
+				</div>
+				<a class="search-cancel">取消</a>
+			</div>
+		</header>
+		<div class="fixed" id="fixedNav">
+			<div class="swiper-container hasSx">
+				<ul class="nav-list nav-scroll swiper-wrapper">
+					<li id="nav1" class="swiper-slide active" data-status="0">销售中</li>
+					<li id="nav2" class="swiper-slide" data-status="2">待审核</li>
+					<li id="nav3" class="swiper-slide" data-status="1">仓库中</li>
+					<li id="nav4" class="swiper-slide" data-status="3">违规下架</li>
+				</ul>
+			</div>
+			<span class="sx mui-navigate-right"><span class="opacity-mask"></span>筛选</span>
+			<div class="border-bot"></div>
+		</div>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div id="cartList" class="has-fixed">
+					<div class="pull-loading"><div class="mui-icon mui-spinner"></div>正在加载...</div>
+				</div>	
+			</div>
+		</div>
+			
+		<div class="cart-bottom product-bottom hidden" id="bottomCheck">
+			<div class="mui-checkbox mui-left">
+				<label>全选</label>
+				<input name="s-checkAll" id="s-checkAll" type="checkbox">
+			</div>
+			<a id="batchSetStock">设置库存</a>
+			<a id="batchUnSale">下架</a>
+			<a id="batchOnSale" class="hidden">上架</a>
+		</div>
+		
+		<div class="popItem-box hidden" id="showShareBox">
+			<div class="line" id="qqLink" data-id="qq"><img src="images/icon_qq.png" width="68" height="69"/>分享给QQ好友</div>
+			<div class="line" id="wxLink" data-id="weixin" data-ex="WXSceneSession"><img src="images/icon_wx.png" width="68" height="69"/>分享给微信好友</div>
+			<div class="line" id="wxpLink" data-id="weixin" data-ex="WXSceneTimeline"><img src="images/icon_wxp.png" width="68" height="69"/>分享到微信朋友圈</div>
+		</div>
+		<div class="type-box" id="typebox">
+			<div class="c-top">
+				<a id="tboxQa" class="mui-icon mui-icon-left-nav mui-pull-left padt10"></a>
+				<h1 class="mui-title">商城分类</h1>
+			</div>
+			<div class="c-title" id="cTitle"></div>
+			<div class="slider-ul select1">
+				<div id="col1" class="single-col first"></div>
+				<div id="col2" class="single-col"></div>
+				<div id="col3" class="single-col"></div>
+			</div>
+			<div class="c-bottom">
+				<button id="tboxReset">重置</button>
+				<button id="tboxConfirm">确定</button>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js"></script>
+		<script src="js/swiper.min.js"></script>
+		<script type="text/html" id="initType">
+			<span id="t1" class="{{type1?'':'hidden'}}" data-index="0">{{type1}}</span>
+			<span id="t2" class="{{type2?'':'hidden'}}" data-index="1">{{type2}}</span>
+			<span id="t3" class="{{type3?'':'hidden'}}" data-index="2">{{type3}}</span>
+			<span id="tip" class="{{type3?'hidden':'active'}}">请选择</span>
+		</script>
+		<script type="text/javascript">
+			var isEnd = false,
+				page = 0,
+				searchVal='',
+				status='0',
+				isBatch=false,//是否批量设置
+				userkey=himall.getState().userkey,
+				List = document.getElementById('cartList'),
+				isJoin = himall.isJoin(),
+				batchSetStock = document.getElementById("batchSetStock"),
+				batchUnSale = document.getElementById("batchUnSale"),
+				batchOnSale = document.getElementById("batchOnSale"),
+				checkAll=document.querySelector('input[name="s-checkAll"]'),
+				showShareBox = document.getElementById('showShareBox'),
+				qqLink = document.getElementById('qqLink'),
+				wxLink = document.getElementById("wxLink"),
+				wxpLink = document.getElementById("wxpLink"),
+				content=document.getElementById('pullrefresh'),
+				shareProName,
+				shareProId,
+				shareImg,
+				pwdMask=mui.createMask(function(){showShareBox.className+=' hidden'}),
+				cid,//分类ID
+				slidesPerView=3.5;
+			mui.init({
+				pullRefresh : {
+				    container:'#pullrefresh',
+				    deceleration:0.0006,
+				    up : {
+					    contentrefresh : "正在加载...",
+					    contentnomore:'已加载完全部',
+					    callback :loadPage
+				    }
+				},
+				swipeBack: true
+			});
+			var swiper = new Swiper('.swiper-container', {
+		        slidesPerView: slidesPerView,
+		        spaceBetween:0,
+		        freeMode: true
+		    });
+			
+			if (mui.os.android)
+				document.getElementsByClassName('mui-scroll')[0].className='';
+			
+			himall.immersedNoTop();
+			himall.immersedNav();
+			mui.plusReady(function() {
+				if (himall.ios()) {
+					if (!himall.isWXInstalled()) {
+						wxLink.className+=' hidden';
+						wxpLink.className+=' hidden';
+					}
+					if (!himall.isQQInstalled()) {
+						qqLink.className+=' hidden';
+					}
+				}
+				var ws=plus.webview.currentWebview();
+				ws.setStyle({scrollIndicator:'none'});
+				loadPage('reset');
+				getType();
+				
+				ws.setPullToRefresh({
+					support:true,
+					height:"50px",
+					range:"100px",
+					style: 'circle',
+					offset: '20px'
+				},function(){
+					setTimeout(function(){
+						reloadPage();
+						ws.endPullToRefresh();
+					},300)
+				});
+				
+				function doOnSalePro(ids,num){
+					mui.confirm('您确定要上架这'+(num?num:'')+'个商品吗?', '', ['取消', '确认'], function(e) {
+						if (e.index == 1) {
+							mui.ajax(URL+onSaleUrl,{
+					        	data:himall.md5Data({
+					        		userkey:userkey,
+									pids:ids
+								}),
+								dataType:'json',
+								type:'get',
+								timeout:10000,
+								success:function(data){
+				      				if(data.success){
+				      					reloadPage();
+				      					if(num){
+				      						plus.nativeUI.toast(num+'个商品已上架');
+				      					}else{
+				      						plus.nativeUI.toast('该商品已上架');
+				      					}
+				      					
+				      				}else{
+				      					plus.nativeUI.toast(error_response.sub_msg);
+				      				}
+								},
+								error:function(xhr,type,errorThrown){
+									plus.nativeUI.toast('请求失败，请检查网络重试');
+								}
+							});
+						}
+					});
+				}
+				batchOnSale.addEventListener('tap',function(){
+					setTimeout(function(){
+						var checkPro=cartList.querySelectorAll('input[name="checkItem"]:checked');
+						if(checkPro.length>0){
+							var cartidArr=[];
+							mui('#cartList input[name="checkItem"]:checked').each(function(){
+								cartidArr.push(this.parentNode.getAttribute('data-pid'));
+							});
+							doOnSalePro(cartidArr.join(','),cartidArr.length);
+							
+						}else{
+							plus.nativeUI.toast('请至少选择一件商品');
+						}
+					},100)
+				});
+				function doBatchUnSale(ids,num){
+					mui.confirm('您确定要下架这'+(num?num:'')+'个商品吗?', '', ['取消', '确认'], function(e) {
+						if (e.index == 1) {
+							mui.ajax(URL+unSaleUrl,{
+					        	data:himall.md5Data({
+					        		userkey:userkey,
+									pids:ids
+								}),
+								dataType:'json',
+								type:'get',
+								timeout:10000,
+								success:function(data){
+				      				if(data.success){
+				      					reloadPage();
+				      					if(num){
+				      						plus.nativeUI.toast(num+'个商品已下架');
+				      					}else{
+				      						plus.nativeUI.toast('该商品已下架');
+				      					}
+				      				}else{
+				      					plus.nativeUI.toast(error_response.sub_msg);
+				      				}
+								},
+								error:function(xhr,type,errorThrown){
+									plus.nativeUI.toast('请求失败，请检查网络重试');
+								}
+							});
+						}
+					});
+				}
+				batchUnSale.addEventListener('tap',function(e){
+					setTimeout(function(){
+						var checkPro=cartList.querySelectorAll('input[name="checkItem"]:checked');
+						if(checkPro.length>0){
+							var cartidArr=[];
+							mui('#cartList input[name="checkItem"]:checked').each(function(){
+								cartidArr.push(this.parentNode.getAttribute('data-pid'));
+							});
+							doBatchUnSale(cartidArr.join(','),cartidArr.length);
+						}else{
+							plus.nativeUI.toast('请至少选择一件商品');
+						}
+					},100)
+				});
+				
+				function doSetStock(ev,ids,num){
+					ev.detail.gesture && ev.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+					var btnArrays = ['取消', '确定'];
+					mui.prompt('批量设置库存', '请输入库存数', '', btnArrays, function(e) {
+						if (e.index == 1) {
+							if(!(parseFloat(e.value)=== parseInt(e.value))||parseFloat(e.value)<0){
+								plus.nativeUI.toast('请输入正确的库存数');
+								return;
+							}
+							mui.ajax(URL + setStockUrl, {
+			                    data:himall.md5Data({
+			                        userkey:userkey,
+									pids:ids,
+									stock: e.value,
+									optype:'0'
+			                    }),
+			                    dataType: 'json',
+			                    type: 'post',
+			                    timeout: 10000,
+			                    success: function(data) {
+			                    	if(data.success){
+				      					reloadPage();
+				      					plus.nativeUI.toast('已成功设置库存');
+				      				}else{
+				      					plus.nativeUI.toast(error_response.sub_msg);
+				      				}
+			                    },
+			                    error: function(xhr, type, errorThrown) {
+			                        plus.nativeUI.toast('请求失败，请检查网络重试');
+			                    }
+			                });
+						}
+					},'div')
+				}
+				batchSetStock.addEventListener('tap',function(ev){
+					setTimeout(function(){
+						var checkPro=cartList.querySelectorAll('input[name="checkItem"]:checked');
+						if(checkPro.length>0){
+							var cartidArr=[];
+							mui('#cartList input[name="checkItem"]:checked').each(function(){
+								cartidArr.push(this.parentNode.getAttribute('data-pid'));
+							});
+							
+							doSetStock(ev,cartidArr.join(','),cartidArr.length);
+							
+						}else{
+							plus.nativeUI.toast('请至少选择一件商品');
+						}
+					},100)
+				});
+				mui('#cartList').on('tap', 'button', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+			        var type=this.getAttribute('data-type'),
+							pid=this.parentNode.getAttribute('data-pid'),
+							codeid=this.parentNode.getAttribute('data-codeid'),
+							img=this.parentNode.getAttribute('data-img'),
+							name=this.parentNode.getAttribute('data-name');
+						if(type=='setStock'){
+							himall.openVW('setRepertory.html',{pid:pid,img:img,name:name,codeid:codeid});
+						}else if(type=='setUnSale'){
+							doBatchUnSale(pid);
+						}else{
+							doOnSalePro(pid);
+						}
+			    });
+			});
+			mui('#cartList').on('tap', '.cart-list-goods', function(e) {
+		    	var pid=this.parentNode.getAttribute('data-pid');
+		    	himall.openVW('product-detail.html',{productId:pid,status:status});
+		    });
+			
+			mui(document).on('change', 'input[name="s-checkAll"]', function() {
+		    	var _this=this;
+		        setTimeout(function(){
+			        var checked = _this.checked,
+			        	checkBox=cartList.querySelectorAll('input[type="checkbox"]:enabled');
+			        for(var i=0; i<checkBox.length; i++){
+			        	checkBox[i].checked=checked;
+			        }
+		        },50)
+		    });
+		    
+		    mui('#cartList').on('change', 'input[name="checkItem"]', function() {
+		    	var _this=this;
+		        setTimeout(function(){
+					var checked = _this.checked;
+			        //判断所有商品是否都选中了
+			        var allShopChecked = true;
+			        mui('#cartList input[name="checkItem"]:enabled').each(function () {
+			            if(!this.checked){
+			                allShopChecked = false;
+			            }
+			        });
+			        if(allShopChecked){
+			        	checkAll.checked=true;
+			        }else{
+			            checkAll.checked=false;
+			        }
+				},50)
+		        
+		    });
+			
+			mui('#fixedNav').on('tap','li',function(){
+				document.querySelector('#fixedNav li.active').className='swiper-slide';
+				this.className+=' active';
+				status=this.getAttribute('data-status');
+				if(isBatch){
+					document.getElementById('setIsBatch').innerHTML = '批量设置';
+		    		document.getElementById('bottomCheck').className='cart-bottom product-bottom hidden';
+		    		isBatch=false;
+		    		himall.removeClass(content,' has-bot hasCheck');
+				}
+				if(status=='0'){
+					batchSetStock.className=batchUnSale.className='';
+					batchOnSale.className='hidden';
+				}else if(status=='1' || status=='3'){
+					batchOnSale.className='';
+					batchSetStock.className=batchUnSale.className='hidden';
+				}else if(status=='2'){
+					batchUnSale.className='';
+					batchSetStock.className=batchOnSale.className='hidden';
+				}
+				reloadPage();
+			});
+			
+			mui('#cartList').on('tap', '#setIsBatch', function() {
+		    	isBatch = !isBatch;
+		    	if(isBatch){
+		    		document.getElementById('setIsBatch').innerHTML = '取消';
+		    		himall.removeClass(document.getElementById('bottomCheck'),' hidden');
+		    		content.className+=' has-bot hasCheck';
+		    	}else{
+		    		document.getElementById('setIsBatch').innerHTML = '批量设置';
+		    		document.getElementById('bottomCheck').className+=' hidden';
+		    		himall.removeClass(content,' has-bot hasCheck');
+		    	}
+		    });
+		    
+		    mui('#cartList').on('touchstart', '.shareBtn', function(e) {
+		    	e.preventDefault();
+				e.stopPropagation();
+		    	var scrollY = document.documentElement.scrollTop||document.body.scrollTop;
+		        var y = e.touches[0].clientY;
+		        showShareBox.style.top=(scrollY+y)+'px';
+		    	himall.removeClass(showShareBox,'hidden');
+		    	pwdMask.show();
+		    	shareProId = this.getAttribute('data-pid');
+		    	shareProName = this.getAttribute('data-name');
+		    	shareImg = this.getAttribute('data-img');
+		    });
+		    
+		    
+		    var index=0,ctitle={type1:'',type2:'',type3:''},dataC,
+		    	index1,//一级分类索引值
+		    	index2,//二级分类索引值
+		    	index3,
+		    	mask;//三级分类索引值
+			mui('#fixedNav').on('tap','.sx',function(){
+				if(!mask){
+					mask=mui.createMask(function(){himall.removeClass(typebox,' active') });
+				}
+				mask.show();
+				typebox.className+=' active';
+			});
+			
+			mui('.single-col').on('tap','.item',function(){
+				this.className+=' active';
+				if(siblings(this,'.item.active')[0]){
+					siblings(this,'.item.active')[0].className='item';
+				}
+			});
+			
+			//点击一级分类事件
+			mui('#col1').on('tap','.item',function(){
+				ctitle.type1=this.innerHTML;
+				ctitle.type2=ctitle.type3='';
+				uploadTitle();
+				cid=this.getAttribute("data-id");
+				//获取二级分类数据
+				index1 = this.getAttribute("data-index");
+				document.getElementById("col2").innerHTML = template('initCol', dataC.Category[index1].SubCategories);
+				showCols(1);
+			});
+			
+			//点击二级分类事件
+			mui('#col2').on('tap','.item',function(){
+				ctitle.type2=this.innerHTML;
+				ctitle.type3='';
+				uploadTitle();
+				cid=this.getAttribute("data-id");
+				//获取三级分类数据
+				index2 = this.getAttribute("data-index");
+				document.getElementById("col3").innerHTML = template('initCol', dataC.Category[index1].SubCategories[index2].SubCategories);
+				showCols(2);
+			});
+			
+			//点击三级分类事件
+			mui('#col3').on('tap','.item',function(){
+				ctitle.type3=this.innerHTML;
+				uploadTitle();
+				cid=this.getAttribute("data-id");
+				document.getElementById('cTitle').querySelectorAll('span')[2].className+=' active';
+			});
+			
+			document.getElementById("tboxQa").addEventListener('tap',function(){
+				mask.close();
+			});
+			document.getElementById("tboxReset").addEventListener('tap',function(){
+				himall.removeClass(document.querySelector('.slider-ul .item.active'),' active');
+				ctitle={type1:'',type2:'',type3:''};
+				uploadTitle();
+				cid='';
+				showCols(0);
+			});
+			
+			document.getElementById("tboxConfirm").addEventListener('tap',function(){
+				reloadPage();
+				mask.close();
+			});
+			
+			mui('#cTitle').on('tap','span',function(){
+				uploadTitle();
+				if(this.id!='tip'){
+					showCols(parseInt(this.getAttribute('data-index')));
+					
+				}
+			});
+			
+			//滑到相应级别
+		    function showCols(i) {
+				typebox.querySelector('.slider-ul').className='slider-ul select'+(i+1);
+				document.getElementById('cTitle').querySelectorAll('span')[i].className+=' active';
+			}
+			//初始化右滑事件
+			function doSlider() {
+				uploadTitle();
+				showCols(0);
+			}
+			//更新标题区
+			function uploadTitle(){
+				document.getElementById('cTitle').innerHTML=template('initType', ctitle);
+			}
+			//获取分类数据
+			function getType(){
+				mui.ajax(URL+'api/Category/GetCategories',{
+					data:himall.md5Data(),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(data.Success=='True'){
+							dataC=data;  //储存分类数据
+							document.getElementById("col1").innerHTML = template('initCol', dataC.Category);
+						}
+					}
+				});
+			}
+		    
+		    function shareProduct(id,ex,params){
+		    	var shares=initShare();
+		    	setTimeout(function(){
+		    		var share = shares[id];
+			    	if (share.authenticated) {
+						shareMessage(share, ex, params);
+					} else {
+						share.authorize(function() {
+							shareMessage(share, ex, params);
+						}, function(e) {
+							plus.nativeUI.toast("认证授权失败!");
+						});
+					}
+		    	},500);
+		    }
+		    qqLink.addEventListener('tap',function(e){
+		    	var s_id = this.getAttribute("data-id");
+		    	var ex = this.getAttribute("data-ex");
+				var params = {
+					title:shareProName,
+					href:URL+'product/detail/'+shareProId,
+					productImg:shareImg
+				};
+				shareProduct(s_id,ex,params);
+		    });
+		    wxLink.addEventListener('tap',function(e){
+		    	var s_id = this.getAttribute("data-id");
+		    	var ex = this.getAttribute("data-ex");
+				var params = {
+					title:shareProName,
+					href:URL+'product/detail/'+shareProId,
+					productImg:shareImg
+				};
+				shareProduct(s_id,ex,params);
+		    });
+		    wxpLink.addEventListener('tap',function(e){
+		    	var s_id = this.getAttribute("data-id");
+		    	var ex = this.getAttribute("data-ex");
+				var params = {
+					title:shareProName,
+					href:URL+'product/detail/'+shareProId,
+					productImg:shareImg
+				};
+				shareProduct(s_id,ex,params);
+		    });
+			
+			var ajaxUrl='api/shopbranchproduct/GetShopBranchProducts',
+				setStockUrl = 'api/ShopBranchProduct/PostSetProductStock',
+				unSaleUrl='api/ShopBranchProduct/GetUnSaleProduct',
+				onSaleUrl='api/ShopBranchProduct/GetOnSaleProduct';
+			if(isJoin){
+				ajaxUrl='api/ShopProduct/GetShopProducts';
+				setStockUrl='api/ShopProduct/PostSetProductStock';
+				unSaleUrl='api/ShopProduct/GetUnSaleProduct';
+				onSaleUrl='api/ShopProduct/GetOnSaleProduct';
+			}
+			function loadPage(re){
+				var self=this;
+				searchVal= searchVal.replace(/(^\s*)|(\s*$)/g, ""); 
+		      	if (!isEnd) {
+		      		page++;
+			        mui.ajax(URL+ajaxUrl,{
+			        	data:himall.md5Data({
+							pageno:page,
+							pagesize:10,
+							userkey:userkey,
+							keywords:searchVal,
+							cid:cid,
+							status:status
+						}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							data.status = status;
+							data.isBatch = isBatch;
+							data.hideShare = false;
+							if (himall.ios()) {
+								if (!himall.isQQInstalled()&&!himall.isWXInstalled()){
+									data.hideShare=true; //不显示分享图标
+								}
+							}
+					        if(data.products.length <10){
+								isEnd = true;
+							}
+					        if(re){
+					        	List.innerHTML='<div class="cart-title">共 '+data.total+'个商品<span class="mui-pull-right" id="setIsBatch">'+(isBatch?'取消':'批量设置')+'</span></div>'+template('initData', data);
+					        	mui('#pullrefresh').pullRefresh().scrollTo(0,0,20);
+					        }else{
+					        	List.insertAdjacentHTML('beforeend',template('initData', data));
+					        	self.endPullupToRefresh(isEnd);
+					        }
+					        
+							if(page==1){
+								if(data.products.length > 0){
+									delayimg.init();
+									document.querySelector('.mui-pull-bottom-pocket').style.opacity=1;
+								}else{
+									document.querySelector('.mui-pull-bottom-pocket').style.opacity=0;
+									List.innerHTML='<div class="empty-show"><h4>未找到任何商品...</h4></div><span id="setIsBatch" style="display: none;">取消</span>';
+								}
+							}else{
+								delayimg.render();
+							}
+							
+						},
+						error:function(xhr,type,errorThrown){
+							if(page==1){
+								reloadWvLoad();
+							}else{
+								plus.nativeUI.toast('请求失败，请检查网络重试');
+								self.endPullupToRefresh(isEnd);
+								page--;
+							}
+							
+						}
+					});
+			    }else{
+			    	self.endPullupToRefresh(isEnd);
+			    }
+			}
+			
+			function reloadPage(){
+				isEnd = false;
+				page = 0;
+				mui('#pullrefresh').pullRefresh().refresh(true);
+				loadPage('reset');
+				checkAll.checked=false;
+			}
+			
+			commonFn.search();
+			doSlider();
+			
+			document.addEventListener('updateData', function() {
+				reloadPage();
+			});
+		</script>
+		<script type="text/html" id="initData">
+			<ul class="cart-list products">
+			{{each products as item}}
+				<li class="mui-input-group" data-pid="{{item.id}}">
+					<div class="mui-left cart-list-goods">
+						<div class="cart-goods">
+							<a class="goods-url goods-img"><img src="images/blank.gif" data-delay="{{item.img}}"/></a>
+							<div class="cart-goods-detail">
+								<p><a class="goods-url">{{item.name}}</a></p>
+								<h5>
+										库存：{{item.stock}}&nbsp;&nbsp;
+										销量：{{item.salesCount}}
+								</h5>
+								<span class="money">¥ {{item.price}}</span>
+							</div>
+							<span data-pid="{{item.id}}" data-name="{{item.name}}" data-img="{{item.img}}" class="{{status=='1'||status=='2'||status=='3'||hideShare?'hidden shareBtn':'icon_share shareBtn'}}"></span>
+						</div>
+					</div>
+					<div class="bottom-line mui-checkbox" data-pid="{{item.id}}" data-img="{{item.img}}" data-name="{{item.name}}" data-codeid="{{item.productCode}}">
+						<input name="checkItem" type="checkbox"/>
+						<button data-type="setStock" type="button" class="{{status=='1'||status=='2'||status=='3'?'hidden':'mui-btn'}}">设置库存</button>
+						<button data-type="setUnSale" type="button" class="{{status=='1'||status=='3'?'hidden':'mui-btn'}}">下架</button>
+						<button data-type="setOnSale" type="button" class="{{status=='0'||status=='2'?'hidden':'mui-btn'}}">上架</button>
+					</div>
+				</li>
+			{{/each}}
+			</ul>
+		</script>
+		
+		<script type="text/html" id="initCol">
+			{{each}}
+				<div class="item" data-id="{{$value.Id}}" data-index="{{$index}}">{{$value.Name}}</div>
+			{{/each}}
+		</script>
+	</body>
+
+</html>

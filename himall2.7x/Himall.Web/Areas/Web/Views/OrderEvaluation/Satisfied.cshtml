@@ -1,0 +1,81 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "满意度评价";
+}
+@model IEnumerable<Himall.Model.OrderInfo>
+
+<div class="box1 lh24">
+            <div class="title">
+            	<span class="title_txt"><a href="@Url.Action("index", "UserComment")">商品评价</a></span>
+                <span class="title_txt cur">满意度评价</span>
+            </div>
+            <div class="border-box">
+                <table class="tb-void">
+                    <colgroup>
+                        <col width="290">
+                        <col width="90">
+                        <col width="110">
+                    </colgroup>
+                    <tr class="tr">
+                        <th>商品信息</th>
+                        <th>评价时间</th>
+                        <th>评价</th>
+                    </tr>
+                    <tbody>
+                        @if (Model.Count() == 0)
+                        {
+                            <tr><td colspan="3"><div class="empty"><b></b>暂时没有记录！</div></td></tr>
+                        }
+                        @foreach (var m in Model.ToArray())
+                        {
+                            <tr class="tr-td">
+                                <td>
+                                    <a target="_blank" href="@Url.Action("index", new { id=@m.Id})">
+                                        @m.Id
+                                    </a>
+                                </td>
+                                @{
+                            var comment = m.OrderCommentInfo.FirstOrDefault();
+                            if (comment != null)
+                            {
+                                <td>
+                                    <span class="ftx-03">
+                                        @comment.CommentDate
+                                    </span>
+                                </td>
+                                    <td class="td-122">
+                                        @{var mark = (comment.PackMark + comment.ServiceMark + comment.DeliveryMark) / 3; }
+                                        <span class="star sa@{@mark}"></span>
+                                    </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <span class="ftx-03">
+                                        --
+                                    </span>
+                                </td>
+                                    <td class="td-01">
+                                        <a href="@Url.Action("index", new { id=@m.Id})">评价</a>
+                                    </td>
+                            }}
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+				<div class="mt10">
+					<div id="pagin-btm" class="pagin fr" style="clear:both">
+						@{
+							var count = ((PagingInfo)ViewBag.pageInfo).TotalPages;
+							var curr = ((PagingInfo)ViewBag.pageInfo).CurrentPage;
+						}
+						@Html.PageLinks((PagingInfo)ViewBag.pageInfo, x => Url.Action("Satisfied", new { pageNo = x }))
+					</div>
+					<div class="clr"></div>
+				</div>
+            </div>
+			
+        </div>
+   
+

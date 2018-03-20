@@ -1,0 +1,69 @@
+﻿@model Himall.Web.Areas.Mobile.Models.FightGroupShowDetailModel
+@{
+    Layout = null;
+    var actdata = Model.ActiveData;
+}
+<div class="goods-info">
+    <div class="item">
+        <section class="merge-state-bar @(actdata.ActiveStatus == Himall.CommonModel.FightGroupActiveStatus.Ending?"merge-state-bar-disabled":"")">
+            <span class="text-@(Model.LimitedHourShowType == 2 ? "center" : "left")"><span class="glyphicon glyphicon-time" aria-hidden="true"></span>成团时限：@(actdata.ShowHourOrMinute(actdata.LimitedHour.Value))</span>
+            @switch (Model.LimitedHourShowType)
+            {
+                case 1:
+                    <span class="text-right">活动截止：@(actdata.EndTime.ToString("yy.MM.dd"))</span>
+                    break;
+                case 3:
+                    @Html.Hidden("groupendsecond", (int)((Model.EndBuildGroupTime - DateTime.Now).TotalSeconds))
+                    <span class="text-right merge-state-time" id="showtimeout"></span>
+                    break;
+            }
+        </section>
+        <div class="goods-price">
+            <span class="merge-price-icon">￥@(actdata.MiniGroupPrice)</span>
+            <s>￥@(Model.ProductMiniPriceByUser.ToString("f2"))</s>
+        </div>
+        <h4>@(actdata.ProductName)</h4>
+        <h5>@(actdata.ProductShortDescription)</h5>
+    </div>
+    <div class="item promotion-wrap" id="divCoupon">
+        @Html.Action("ShowPromotion", "VShop", new { id = actdata.ShopId, showcoupon = false, showfullsend = false })
+        @Html.Action("ShowDepotAddress", "Product", new { ftid = actdata.FreightTemplateId })
+        @Html.Action("ShowServicePromise", "Product", new { id = actdata.ProductId, actdata.ShopId })
+    </div>
+    @if (actdata.ActiveStatus == Himall.CommonModel.FightGroupActiveStatus.Ending)
+    {
+        <div class="merge-over-sign"></div>
+    }
+</div>
+<section class="merge-rule">活动规则：当您在@(actdata.ShowHourOrMinute(actdata.LimitedHour.Value))内成功邀请@(actdata.LimitedNumber)位好友参团，则火拼成功；若火拼失败，系统会自动将金额退还到预付款余额或原路退回。</section>
+
+@Html.Hidden("ets", (Model.EndBuildGroupTime - DateTime.Now).TotalSeconds)
+
+<script src="~/Areas/Mobile/Templates/Default/Scripts/FightGroupShowDetail.js"></script>
+<script src="~/Scripts/jquery.slides.min.js"></script>
+<script src="~/Scripts/jquery.himall.sku.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/FightGroupActiveDetail.js"></script>
+@if (Model.LimitedHourShowType == 3)
+{
+    <script type="text/javascript">
+        $(function () {
+            // 倒计时
+            countDown($("#groupendsecond").val(), function (day, hour, minute, second) {
+                var thour = (day * 24) + hour;
+                if (thour < 9) {
+                    thour = "0" + thour;
+                }
+                var tshow = thour + "" + minute + "" + second;
+                if (parseInt(tshow, 10) <= 0) {
+                    window.location.reload();
+                }
+                var _arrtmp = tshow.split("");
+                var showhtml = "距结束";
+                for (var _i = 0; _i < _arrtmp.length; _i++) {
+                    showhtml += "<em>" + _arrtmp[_i] + "</em>";
+                }
+                $('#showtimeout').html(showhtml);
+            });
+        })
+    </script>
+}

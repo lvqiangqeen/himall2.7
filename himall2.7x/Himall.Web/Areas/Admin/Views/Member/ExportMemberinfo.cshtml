@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Himall.Model.UserMemberInfo>
+@{
+	Layout = null;
+}<table cellspacing="0" cellpadding="5" rules="all" border="1">
+    <thead>
+        <tr>
+            <th>会员名称</th>
+            <th>真实姓名</th>
+            <th>QQ</th>
+            <th>Email</th>
+            <th>微信昵称</th>
+            <th>最后登录日期</th>
+            <th>手机</th>
+            <th>创建日期</th>
+            <th>状态</th>
+        </tr>
+    </thead>
+    <tbody id="list-table-body">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.UserName</td>
+                <td>@item.RealName</td>
+                <td>@item.QQ</td>
+                <td>@item.Email</td>
+                <td>@item.Nick</td>
+                <td>@item.LastLoginDate.ToString("yyyy-MM-dd")</td>
+                <td>@item.CellPhone</td>
+                <td>@item.CreateDate.ToString("yyyy-MM-dd")</td>
+                <td>@(item.Disabled == true ? "冻结" : "正常")</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Himall.Model.ProductCategoryStatisticModel>
+@{
+    var chartModel = Model.OrderBy(e => e.CategoryId);
+    var category = chartModel.Select(e => e.CategoryName);
+    var categoryStr = string.Join(",", category);
+    var countStr = string.Join(",", chartModel.Select(e => e.SaleCounts));
+    var amountStr = string.Join(",", chartModel.Select(e => e.SaleAmounts));
+}
+<input value="@categoryStr" id="categoryStr" type="hidden" />
+<input value="@countStr" id="countStr" type="hidden" />
+<input value="@amountStr" id="amountStr" type="hidden" />
+
+<link href="/Content/bootstrap.min.css?v=2.4" rel="stylesheet">
+<link rel="stylesheet" type="text/css" media="all" href="/Content/daterangepicker-bs3.css" />
+
+<script type="text/javascript" src="/Scripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="/Scripts/moment.js"></script>
+<script type="text/javascript" src="/Scripts/daterangepicker.js"></script>
+<script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<script src="~/Areas/Admin/Scripts/ProductSaleCategoryStatistic.js"></script>
+<style>
+    .count-chat {
+        border: solid 1px #eeeeee;
+        background-color: #fafafa;
+        padding-top: 30px;
+    }
+</style>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("ProductSaleStatistic")">商品销售情况</a></li>
+        <li class="active"><a>商品类目销售分析</a></li>
+    </ul>
+    <div class="form-inline custom-inline sdata-trade">
+        <div class="form-group pdata">
+            <a class="active" id="defaultBtn" onclick="LoadChartData('@DateTime.Now.Date.AddDays(-1).ToString("yyyy-MM-dd")','@DateTime.Now.Date.AddDays(-1).ToString("yyyy-MM-dd")',this)">昨天</a>
+            <a onclick="LoadChartData('@DateTime.Now.Date.AddDays(-7).ToString("yyyy-MM-dd")','@DateTime.Now.Date.AddDays(-1).ToString("yyyy-MM-dd")',this)">最近7天</a>
+            <a onclick="LoadChartData('@DateTime.Now.Date.AddDays(-30).ToString("yyyy-MM-dd")','@DateTime.Now.Date.AddDays(-1).ToString("yyyy-MM-dd")',this)">最近30天</a>
+        </div>
+        <div class="form-group">
+            <input id="inputStartDate" class="form-control input-ssm w220 start_datetime has-dateicon" value="" placeholder="区间日期" type="text">
+            <i class="glyphicon glyphicon-calendar"></i>
+        </div>
+    </div>
+    <div class="count-chat clearfix mt5">
+        <div id="mainSaleCount" style="height:400px; width: 100%;"></div>
+        <div id="mainTips"></div>
+    </div>
+</div>
+
+<script src="~/Scripts/echarts.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>

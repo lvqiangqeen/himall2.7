@@ -1,0 +1,60 @@
+﻿@model decimal
+@{
+    ViewBag.Title = "ServiceSetting";
+}
+<script src="~/Scripts/v.js"></script>
+<div class="container clear-v20">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("Index")">活动列表</a></li>
+        <li><a href="@Url.Action("BoughtList")">服务购买列表</a></li>
+        <li class="active"><a>服务费用设置</a></li>
+    </ul>
+    @using (Html.BeginForm("ServiceSetting", "FightGroup", FormMethod.Post, new { id = "form1" }))
+    {
+        <div class="form-horizontal clear-v28">
+            <div class="form-group v-server-mb30">
+                <label class="col-sm-2 control-label" for="">服务价格：</label>
+                <div class="col-sm-3 v-server-error">@Html.TextBox("Price",Model, new { @class = "form-control input-sm"  })</div>
+                <div class="col-sm-5"><span class="help-default">设置限时购服务的价格（按照每月计算）.</span></div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#Price").focus();
+
+        var a = v({
+            form: 'form1',
+            ajaxSubmit: true,
+            beforeSubmit: function () {
+                loadingobj = showLoading();
+            },
+            afterSubmit: function (data) {// 表单提交成功回调
+                loadingobj.close();
+                var d = data;
+                if (d.success) {
+                    $.dialog.succeedTips("保存成功！", function () {
+                        window.location.reload();
+                    }, 0.5);
+                } else {
+                    $.dialog.errorTips(d.msg, '', 0.5);
+                }
+            }
+        });
+        a.add(
+            {
+                target: 'Price',
+                empty: true,
+                ruleType: 'money&&(value>=0)',// v.js规则验证
+                error: '只能为数字，  且大于等于0!'
+            });
+
+    });
+</script>
+

@@ -1,0 +1,96 @@
+
+
+
+ 记录时间：2017-10-16 20:57:15,307 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2017-10-16 20:59:51,989 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2017-10-16 21:00:14,801 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2017-10-16 09:00:14 799:[当前请求URL：http://localhost:60362/；请求的参数为：；页面加载的时间：19923.5919 毫秒] 
+
+
+
+
+ 记录时间：2017-10-16 21:00:56,065 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2017-10-16 09:00:56 063:[当前请求URL：http://localhost:60362/__browserLink/requestData/577c8a60f6664450a7b40605e7b9763a；请求的参数为：；页面加载的时间：36285.8431 毫秒] 
+
+
+
+
+ 记录时间：2017-10-16 21:01:03,538 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2017-10-16 09:01:03 538:[当前请求URL：http://localhost:60362/__browserLink/requestData/d15b08df0f694817a6088c008418d3e1；请求的参数为：；页面加载的时间：33945.1797 毫秒] 
+
+
+
+
+ 记录时间：2017-10-16 21:02:22,341 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2017-10-16 09:02:22 340:[当前请求URL：http://localhost:60362/smallprogapi/Shop/GetFightGroupOrderDetail?Id=2017101668913632；请求的参数为：Id=2017101668913632；页面加载的时间：18488.4323 毫秒] 
+
+
+
+
+ 记录时间：2017-10-16 21:05:43,561 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2017-10-16 09:05:43 561:[当前请求URL：http://localhost:60362/smallprogapi/Shop/GetFightGroupOrderDetail?Id=2017101668913632；请求的参数为：Id=2017101668913632；页面加载的时间：134848.7452 毫秒] 
+
+
+
+
+ 记录时间：2017-10-16 21:08:54,429 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2017-10-16 21:10:36,818 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2017-10-16 21:11:00,760 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2017-10-16 09:11:00 760:[当前请求URL：http://localhost:60362/；请求的参数为：；页面加载的时间：21053.1959 毫秒] 
+
+
+
+
+ 记录时间：2017-10-16 21:11:13,266 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2017-10-16 09:11:13 266:[当前请求URL：http://localhost:60362/smallprogapi/Shop/GetFightGroupOrderDetail?Id=2017101668913632；请求的参数为：Id=2017101668913632；页面加载的时间：5596.3692 毫秒] 
+
+
+
+
+ 记录时间：2017-10-16 21:11:31,592 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2017-10-16 09:11:31 592:[当前请求URL：http://localhost:60362/__browserLink/requestData/81d20d79ee414db88a502f542f6025c0；请求的参数为：；页面加载的时间：27922.2739 毫秒] 
+

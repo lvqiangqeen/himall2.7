@@ -1,0 +1,88 @@
+﻿@{
+    Layout = null;
+}
+@model IEnumerable<Himall.Model.CouponInfo>
+<!--_ShopCoupon start-->
+@if (Model != null && Model.Count() > 0)
+{
+    <div class="coupon" style="overflow:hidden;width:160px;position:fixed;">
+        <div id="id_btn" style="width:80px;height:50px;background:#e3393c;position:fixed;right:0px;padding:10px 15px;text-align:center;cursor:pointer;border-radius:4px;">
+            <div style="background:url('/Areas/Web/Images/icon_c.png');position:absolute;left:0;top: 0;width:32px;height:31px;background-position:-4px -1px;"></div>
+            <div style="font-size:12px;color:#fff;line-height:25px;text-align:right;">@Model.Count() 张券可领</div>
+            <div style="font-size:16px;color:#fff;text-align:right;">点此领取</div>
+        </div>
+        <div style="width:160px;height:100%;position:relative;right:-320px;cursor:pointer;" id="id_coupon">
+            @foreach (var item in Model)
+            {
+
+                <a class="coupon_g" data-id="@item.Id,@item.ShopId" style="text-decoration:none;">
+                    <span class="coupon_g_g">
+                        <i class="coupon_p">@item.Price</i>
+                        <i class="coupon_info">
+                            <span class="coupon_info_t">优惠券</span>
+                            @if (@item.OrderAmount > 0)
+                            {
+                                <span class="coupon_info_p">满@{@item.OrderAmount}用</span>
+                            }
+                            else
+                            {
+                                <span class="coupon_info_p">无门槛(不含运费)</span>
+                            }
+                        </i>
+                    </span>
+                    <span class="coupon_g_d">立即领取</span>
+                </a>
+            }
+        </div>
+    </div>
+}
+<script>
+    $(function () {
+        $('.coupon_g').bind('click', function (e) {
+            e.stopPropagation();
+            var obj = $(this),
+                a = obj.attr('data-id'),
+                b = a.split(',');
+            checkLogin(function () {
+                initUserInfo();
+                $.post('/shop/ReceiveCoupons?couponId=' + b[0] + '&shopId=' + b[1], function (data) {
+                    if (data.success) {
+                        $.dialog.succeedTips('领取成功!', '', 3);
+                    } else {;
+                        $.dialog.errorTips(data.msg, 3);
+                    }
+                });
+            });
+            return false;
+        });
+        var a = 0;
+        $('#id_btn').bind('click', function () {
+            if (a == 0) {
+                $('#id_coupon').animate({ right: 0 }, 300, function () {
+                    $('#id_btn').fadeOut(300).hide();
+                    a = 1;
+                });
+            }
+        });
+        $(document).bind('click', function (e) {
+            var t = $(e.target).attr('data-id');
+            if (t) { return; }
+            if (a == 1) {
+                $('#id_coupon').animate({ right: -320 }, 300, function () {
+                    $('#id_btn').fadeIn(300).show();
+                    a = 0;
+                });
+            }
+        });
+        var getQueryString = function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"),
+                r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;
+        };
+        if (getQueryString('open')) {
+            $('#id_btn').click();
+        }
+    });
+</script>
+<!--_ShopCoupon end-->

@@ -1,0 +1,75 @@
+{
+  "pages": [ 
+    "pages/home/home",
+    "pages/login/login",
+    "pages/usehome/usehome",
+    "pages/goods/goods",
+    "pages/countdowndetail/countdowndetail",
+    "pages/productdetail/productdetail",
+    "pages/coupon/coupon",
+    "pages/couponlist/couponlist",
+    "pages/address/address",
+    "pages/editaddress/editaddress",
+    "pages/submitorder/submitorder",
+    "pages/choiceaddress/choiceaddress",
+    "pages/orderlist/orderlist",
+    "pages/searchresult/searchresult",
+    "pages/logistics/logistics",
+    "pages/orderdetails/orderdetails",
+    "pages/search/search",
+    "pages/productlist/productlist",
+    "pages/productcategory/productcategory",
+    "pages/shopcart/shopcart",
+    "pages/countdown/countdown",
+    "pages/ApplyRefund/ApplyRefund",
+    "pages/ApplyReturns/ApplyReturns",
+    "pages/coupondetail/coupondetail",
+    "pages/applylist/applylist",
+    "pages/productevaluate/productevaluate",
+     "pages/comment/comment",
+    "pages/commentlist/commentlist",
+      "pages/applysendgood/applysendgood",
+      "pages/refunddetail/refunddetail",
+      "pages/returndetail/returndetail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "Himall商城",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "backgroundColor": "#fff",
+    "selectedColor": "#ff5722",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "主页",
+        "iconPath": "/images/home.png",
+        "selectedIconPath": "/images/home_hover.png",
+        "selectedColor": "#ff5722"
+      },
+      {
+        "pagePath": "pages/productcategory/productcategory",
+        "text": "商品",
+        "iconPath": "/images/search.png",
+        "selectedIconPath": "/images/search_hover.png",
+        "selectedColor": "#ff5722"
+      },
+      {
+        "pagePath": "pages/shopcart/shopcart",
+        "text": "购物车",
+        "iconPath": "/images/cart.png",
+        "selectedIconPath": "/images/cart_hover.png",
+        "selectedColor": "#ff5722"
+      },
+      {
+        "pagePath": "pages/usehome/usehome",
+        "text": "我的",
+        "iconPath": "/images/my.png",
+        "selectedIconPath": "/images/my_hover.png",
+        "selectedColor": "#ff5722"
+      }
+    ]
+  }
+}

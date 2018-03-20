@@ -1,0 +1,54 @@
+﻿@model  List<Himall.Model.TradeStatisticModel>
+@{
+    object Title = new object();
+    ViewData.TryGetValue("Title", out Title);
+}
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+    <thead>
+        <tr>
+            <th colspan="3">@(ViewData["Title"].ToString())</th>
+        </tr>
+        <tr>
+            <th>时间</th>
+            <th>浏览人数</th>
+            <th>下单人数</th>
+            <th>订单数</th>
+            <th>下单金额</th>
+            <th>付款人数</th>
+            <th>付款订单</th>
+            <th>付款件数</th>
+            <th>付款金额</th>
+            <th>客单价</th>
+            <th>下单转化率</th>
+            <th>付款转化率</th>
+            <th>交易转化率</th>
+        </tr>
+    </thead>
+    <tbody id="list-table-body">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Date.ToString("yyyy-MM-dd")</td>
+                <td>@item.VistiCounts</td>
+                <td>@item.OrderUserCount</td>
+                <td>@item.OrderCount</td>
+                <td>@item.OrderAmount</td>
+                <td>@item.OrderPayUserCount</td>
+                <td>@item.OrderPayCount</td>
+                <td>@item.SaleCounts</td>
+                <td>@item.SaleAmounts</td>
+                @if (item.SaleCounts > 0)
+                {
+                    <td>@(Math.Round(Convert.ToDecimal(item.SaleAmounts) / item.SaleCounts, 2))</td>
+                }
+                else
+                {
+                    <td>0</td>
+                }
+                <td>@item.OrderConversionsRatesString</td>
+                <td>@item.PayConversionsRatesString</td>
+                <td>@item.TransactionConversionRateString</td>
+            </tr>
+        }
+    </tbody>
+</table>

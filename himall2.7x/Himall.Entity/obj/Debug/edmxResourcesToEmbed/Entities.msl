@@ -1,0 +1,2920 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="HimallModelStoreContainer" CdmEntityContainer="Entities">
+    <EntitySetMapping Name="Himall_VirtualOrder">
+      <EntityTypeMapping TypeName="Himall.Model.VirtualOrderInfo">
+        <MappingFragment StoreEntitySet="Himall_VirtualOrder">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="PayTime" ColumnName="PayTime" />
+          <ScalarProperty Name="PayAmount" ColumnName="PayAmount" />
+          <ScalarProperty Name="PayNum" ColumnName="PayNum" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="MoneyFlag" ColumnName="MoneyFlag" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Categories">
+      <EntityTypeMapping TypeName="IsTypeOf(Himall.Model.CategoryInfo)">
+        <MappingFragment StoreEntitySet="Himall_Categories">
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="CommisRate" ColumnName="CommisRate" />
+          <ScalarProperty Name="Meta_Keywords" ColumnName="Meta_Keywords" />
+          <ScalarProperty Name="Meta_Description" ColumnName="Meta_Description" />
+          <ScalarProperty Name="Meta_Title" ColumnName="Meta_Title" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="HasChildren" ColumnName="HasChildren" />
+          <ScalarProperty Name="RewriteName" ColumnName="RewriteName" />
+          <ScalarProperty Name="Path" ColumnName="Path" />
+          <ScalarProperty Name="Depth" ColumnName="Depth" />
+          <ScalarProperty Name="ParentCategoryId" ColumnName="ParentCategoryId" />
+          <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+          <ScalarProperty Name="Icon" ColumnName="Icon" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MemberCommission">
+      <EntityTypeMapping TypeName="Himall.Model.MemberCommissionInfo">
+        <MappingFragment StoreEntitySet="Himall_MemberCommission">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CType" ColumnName="CType" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="ActiveId" ColumnName="ActiveId" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="InCome" ColumnName="InCome" />
+          <ScalarProperty Name="GetTime" ColumnName="GetTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Attributes">
+      <EntityTypeMapping TypeName="Himall.Model.AttributeInfo">
+        <MappingFragment StoreEntitySet="Himall_Attributes">
+          <ScalarProperty Name="IsMulti" ColumnName="IsMulti" />
+          <ScalarProperty Name="IsMust" ColumnName="IsMust" />
+          <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_AttributeValues">
+      <EntityTypeMapping TypeName="Himall.Model.AttributeValueInfo">
+        <MappingFragment StoreEntitySet="Himall_AttributeValues">
+          <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="AttributeId" ColumnName="AttributeId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Brands">
+      <EntityTypeMapping TypeName="IsTypeOf(Himall.Model.BrandInfo)">
+        <MappingFragment StoreEntitySet="Himall_Brands">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+          <ScalarProperty Name="logo" ColumnName="Logo" />
+          <ScalarProperty Name="RewriteName" ColumnName="RewriteName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Meta_Title" ColumnName="Meta_Title" />
+          <ScalarProperty Name="Meta_Description" ColumnName="Meta_Description" />
+          <ScalarProperty Name="Meta_Keywords" ColumnName="Meta_Keywords" />
+          <ScalarProperty Name="IsRecommend" ColumnName="IsRecommend" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ProductConsultations">
+      <EntityTypeMapping TypeName="Himall.Model.ProductConsultationInfo">
+        <MappingFragment StoreEntitySet="Himall_ProductConsultations">
+          <ScalarProperty Name="ReplyDate" ColumnName="ReplyDate" />
+          <ScalarProperty Name="ReplyContent" ColumnName="ReplyContent" />
+          <ScalarProperty Name="ConsultationDate" ColumnName="ConsultationDate" />
+          <ScalarProperty Name="ConsultationContent" ColumnName="ConsultationContent" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Products">
+      <EntityTypeMapping TypeName="Himall.Model.ProductInfo">
+        <MappingFragment StoreEntitySet="Himall_Products">
+          <ScalarProperty Name="MaxBuyCount" ColumnName="MaxBuyCount" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="EditStatus" ColumnName="EditStatus" />
+          <ScalarProperty Name="MeasureUnit" ColumnName="MeasureUnit" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Volume" ColumnName="Volume" />
+          <ScalarProperty Name="Weight" ColumnName="Weight" />
+          <ScalarProperty Name="FreightTemplateId" ColumnName="FreightTemplateId" />
+          <ScalarProperty Name="AuditStatus" ColumnName="AuditStatus" />
+          <ScalarProperty Name="SaleCounts" ColumnName="SaleCounts" />
+          <ScalarProperty Name="VistiCounts" ColumnName="VistiCounts" />
+          <ScalarProperty Name="HasSKU" ColumnName="HasSKU" />
+          <ScalarProperty Name="MinSalePrice" ColumnName="MinSalePrice" />
+          <ScalarProperty Name="MarketPrice" ColumnName="MarketPrice" />
+          <ScalarProperty Name="imagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+          <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+          <ScalarProperty Name="SaleStatus" ColumnName="SaleStatus" />
+          <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
+          <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="CategoryPath" ColumnName="CategoryPath" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_SellerSpecificationValues">
+      <EntityTypeMapping TypeName="IsTypeOf(Himall.Model.SellerSpecificationValueInfo)">
+        <MappingFragment StoreEntitySet="Himall_SellerSpecificationValues">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="ValueId" ColumnName="ValueId" />
+          <ScalarProperty Name="Specification" ColumnName="Specification" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_SpecificationValues">
+      <EntityTypeMapping TypeName="Himall.Model.SpecificationValueInfo">
+        <MappingFragment StoreEntitySet="Himall_SpecificationValues">
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="Specification" ColumnName="Specification" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_TypeBrands">
+      <EntityTypeMapping TypeName="Himall.Model.TypeBrandInfo">
+        <MappingFragment StoreEntitySet="Himall_TypeBrands">
+          <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Types">
+      <EntityTypeMapping TypeName="Himall.Model.ProductTypeInfo">
+        <MappingFragment StoreEntitySet="Himall_Types">
+          <ScalarProperty Name="VersionAlias" ColumnName="VersionAlias" />
+          <ScalarProperty Name="SizeAlias" ColumnName="SizeAlias" />
+          <ScalarProperty Name="ColorAlias" ColumnName="ColorAlias" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="IsSupportVersion" ColumnName="IsSupportVersion" />
+          <ScalarProperty Name="IsSupportSize" ColumnName="IsSupportSize" />
+          <ScalarProperty Name="IsSupportColor" ColumnName="IsSupportColor" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ProductAttributes">
+      <EntityTypeMapping TypeName="Himall.Model.ProductAttributeInfo">
+        <MappingFragment StoreEntitySet="Himall_ProductAttributes">
+          <ScalarProperty Name="ValueId" ColumnName="ValueId" />
+          <ScalarProperty Name="AttributeId" ColumnName="AttributeId" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ProductDescriptions">
+      <EntityTypeMapping TypeName="Himall.Model.ProductDescriptionInfo">
+        <MappingFragment StoreEntitySet="Himall_ProductDescriptions">
+          <ScalarProperty Name="MobileDescription" ColumnName="MobileDescription" />
+          <ScalarProperty Name="AuditReason" ColumnName="AuditReason" />
+          <ScalarProperty Name="Meta_Keywords" ColumnName="Meta_Keywords" />
+          <ScalarProperty Name="Meta_Description" ColumnName="Meta_Description" />
+          <ScalarProperty Name="Meta_Title" ColumnName="Meta_Title" />
+          <ScalarProperty Name="DescriptiondSuffixId" ColumnName="DescriptiondSuffixId" />
+          <ScalarProperty Name="DescriptionPrefixId" ColumnName="DescriptionPrefixId" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ProductDescriptionTemplates">
+      <EntityTypeMapping TypeName="Himall.Model.ProductDescriptionTemplateInfo">
+        <MappingFragment StoreEntitySet="Himall_ProductDescriptionTemplates">
+          <ScalarProperty Name="MobileContent" ColumnName="MobileContent" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_SKUs">
+      <EntityTypeMapping TypeName="Himall.Model.SKUInfo">
+        <MappingFragment StoreEntitySet="Himall_SKUs">
+          <ScalarProperty Name="SafeStock" ColumnName="SafeStock" />
+          <ScalarProperty Name="ShowPic" ColumnName="ShowPic" />
+          <ScalarProperty Name="AutoId" ColumnName="AutoId" />
+          <ScalarProperty Name="SalePrice" ColumnName="SalePrice" />
+          <ScalarProperty Name="CostPrice" ColumnName="CostPrice" />
+          <ScalarProperty Name="Stock" ColumnName="Stock" />
+          <ScalarProperty Name="Sku" ColumnName="Sku" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="Size" ColumnName="Size" />
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Accounts">
+      <EntityTypeMapping TypeName="Himall.Model.AccountInfo">
+        <MappingFragment StoreEntitySet="Himall_Accounts">
+          <ScalarProperty Name="OpenCommission" ColumnName="OpenCommission" />
+          <ScalarProperty Name="JoinCommission" ColumnName="JoinCommission" />
+          <ScalarProperty Name="ReturnBrokerage" ColumnName="ReturnBrokerage" />
+          <ScalarProperty Name="Brokerage" ColumnName="Brokerage" />
+          <ScalarProperty Name="ProductActualPaidAmount" ColumnName="ProductActualPaidAmount" />
+          <ScalarProperty Name="PeriodSettlement" ColumnName="PeriodSettlement" />
+          <ScalarProperty Name="AdvancePaymentAmount" ColumnName="AdvancePaymentAmount" />
+          <ScalarProperty Name="RefundCommissionAmount" ColumnName="RefundCommissionAmount" />
+          <ScalarProperty Name="FreightAmount" ColumnName="FreightAmount" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="RefundAmount" ColumnName="RefundAmount" />
+          <ScalarProperty Name="CommissionAmount" ColumnName="CommissionAmount" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="AccountDate" ColumnName="AccountDate" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ArticleCategories">
+      <EntityTypeMapping TypeName="Himall.Model.ArticleCategoryInfo">
+        <MappingFragment StoreEntitySet="Himall_ArticleCategories">
+          <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+          <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ParentCategoryId" ColumnName="ParentCategoryId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Articles">
+      <EntityTypeMapping TypeName="Himall.Model.ArticleInfo">
+        <MappingFragment StoreEntitySet="Himall_Articles">
+          <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+          <ScalarProperty Name="IsRelease" ColumnName="IsRelease" />
+          <ScalarProperty Name="Meta_Keywords" ColumnName="Meta_Keywords" />
+          <ScalarProperty Name="Meta_Description" ColumnName="Meta_Description" />
+          <ScalarProperty Name="Meta_Title" ColumnName="Meta_Title" />
+          <ScalarProperty Name="AddDate" ColumnName="AddDate" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="IconUrl" ColumnName="IconUrl" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Banners">
+      <EntityTypeMapping TypeName="IsTypeOf(Himall.Model.BannerInfo)">
+        <MappingFragment StoreEntitySet="Himall_Banners">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="Platform" ColumnName="Platform" />
+          <ScalarProperty Name="UrlType" ColumnName="UrlType" />
+          <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+          <ScalarProperty Name="EnableDelete" ColumnName="EnableDelete" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_CustomerServices">
+      <EntityTypeMapping TypeName="Himall.Model.CustomerServiceInfo">
+        <MappingFragment StoreEntitySet="Himall_CustomerServices">
+          <ScalarProperty Name="ServerStatus" ColumnName="ServerStatus" />
+          <ScalarProperty Name="TerminalType" ColumnName="TerminalType" />
+          <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Tool" ColumnName="Tool" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Favorites">
+      <EntityTypeMapping TypeName="Himall.Model.FavoriteInfo">
+        <MappingFragment StoreEntitySet="Himall_Favorites">
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Tags" ColumnName="Tags" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FloorBrands">
+      <EntityTypeMapping TypeName="Himall.Model.FloorBrandInfo">
+        <MappingFragment StoreEntitySet="Himall_FloorBrands">
+          <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+          <ScalarProperty Name="FloorId" ColumnName="FloorId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FloorCategories">
+      <EntityTypeMapping TypeName="Himall.Model.FloorCategoryInfo">
+        <MappingFragment StoreEntitySet="Himall_FloorCategories">
+          <ScalarProperty Name="Depth" ColumnName="Depth" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="FloorId" ColumnName="FloorId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FloorProducts">
+      <EntityTypeMapping TypeName="Himall.Model.FloorProductInfo">
+        <MappingFragment StoreEntitySet="Himall_FloorProducts">
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Tab" ColumnName="Tab" />
+          <ScalarProperty Name="FloorId" ColumnName="FloorId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FloorTopics">
+      <EntityTypeMapping TypeName="Himall.Model.FloorTopicInfo">
+        <MappingFragment StoreEntitySet="Himall_FloorTopics">
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="TopicName" ColumnName="TopicName" />
+          <ScalarProperty Name="topicImage" ColumnName="TopicImage" />
+          <ScalarProperty Name="TopicType" ColumnName="TopicType" />
+          <ScalarProperty Name="FloorId" ColumnName="FloorId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_HandSlideAds">
+      <EntityTypeMapping TypeName="Himall.Model.HandSlideAdInfo">
+        <MappingFragment StoreEntitySet="Himall_HandSlideAds">
+          <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="imageUrl" ColumnName="ImageUrl" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_HomeCategories">
+      <EntityTypeMapping TypeName="Himall.Model.HomeCategoryInfo">
+        <MappingFragment StoreEntitySet="Himall_HomeCategories">
+          <ScalarProperty Name="Depth" ColumnName="Depth" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="RowNumber" ColumnName="RowId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_HomeFloors">
+      <EntityTypeMapping TypeName="Himall.Model.HomeFloorInfo">
+        <MappingFragment StoreEntitySet="Himall_HomeFloors">
+          <ScalarProperty Name="DefaultTabName" ColumnName="DefaultTabName" />
+          <ScalarProperty Name="StyleLevel" ColumnName="StyleLevel" />
+          <ScalarProperty Name="SubName" ColumnName="SubName" />
+          <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+          <ScalarProperty Name="IsShow" ColumnName="IsShow" />
+          <ScalarProperty Name="FloorName" ColumnName="FloorName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ImageAds">
+      <EntityTypeMapping TypeName="Himall.Model.ImageAdInfo">
+        <MappingFragment StoreEntitySet="Himall_ImageAds">
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="IsTransverseAD" ColumnName="IsTransverseAD" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="imageUrl" ColumnName="ImageUrl" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Logs">
+      <EntityTypeMapping TypeName="Himall.Model.LogInfo">
+        <MappingFragment StoreEntitySet="Himall_Logs">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="PageUrl" ColumnName="PageUrl" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Managers">
+      <EntityTypeMapping TypeName="Himall.Model.ManagerInfo">
+        <MappingFragment StoreEntitySet="Himall_Managers">
+          <ScalarProperty Name="RealName" ColumnName="RealName" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MemberOpenIds">
+      <EntityTypeMapping TypeName="Himall.Model.MemberOpenIdInfo">
+        <MappingFragment StoreEntitySet="Himall_MemberOpenIds">
+          <ScalarProperty Name="UnionOpenId" ColumnName="UnionOpenId" />
+          <ScalarProperty Name="UnionId" ColumnName="UnionId" />
+          <ScalarProperty Name="AppIdType" ColumnName="AppIdType" />
+          <ScalarProperty Name="ServiceProvider" ColumnName="ServiceProvider" />
+          <ScalarProperty Name="OpenId" ColumnName="OpenId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Members">
+      <EntityTypeMapping TypeName="Himall.Model.UserMemberInfo">
+        <MappingFragment StoreEntitySet="Himall_Members">
+          <ScalarProperty Name="Hobby" ColumnName="Hobby" />
+          <ScalarProperty Name="LastConsumptionTime" ColumnName="LastConsumptionTime" />
+          <ScalarProperty Name="NetAmount" ColumnName="NetAmount" />
+          <ScalarProperty Name="Occupation" ColumnName="Occupation" />
+          <ScalarProperty Name="BirthDay" ColumnName="BirthDay" />
+          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+          <ScalarProperty Name="ShareUserId" ColumnName="ShareUserId" />
+          <ScalarProperty Name="Sex" ColumnName="Sex" />
+          <ScalarProperty Name="InviteUserId" ColumnName="InviteUserId" />
+          <ScalarProperty Name="PayPwdSalt" ColumnName="PayPwdSalt" />
+          <ScalarProperty Name="PayPwd" ColumnName="PayPwd" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="ParentSellerId" ColumnName="ParentSellerId" />
+          <ScalarProperty Name="photo" ColumnName="Photo" />
+          <ScalarProperty Name="Nick" ColumnName="Nick" />
+          <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+          <ScalarProperty Name="Points" ColumnName="Points" />
+          <ScalarProperty Name="Expenditure" ColumnName="Expenditure" />
+          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+          <ScalarProperty Name="Disabled" ColumnName="Disabled" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="QQ" ColumnName="QQ" />
+          <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+          <ScalarProperty Name="RealName" ColumnName="RealName" />
+          <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+          <ScalarProperty Name="TopRegionId" ColumnName="TopRegionId" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ModuleProducts">
+      <EntityTypeMapping TypeName="Himall.Model.ModuleProductInfo">
+        <MappingFragment StoreEntitySet="Himall_ModuleProducts">
+          <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="ModuleId" ColumnName="ModuleId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_OrderComplaints">
+      <EntityTypeMapping TypeName="Himall.Model.OrderComplaintInfo">
+        <MappingFragment StoreEntitySet="Himall_OrderComplaints">
+          <ScalarProperty Name="UserPhone" ColumnName="UserPhone" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ShopPhone" ColumnName="ShopPhone" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="ComplaintDate" ColumnName="ComplaintDate" />
+          <ScalarProperty Name="SellerReply" ColumnName="SellerReply" />
+          <ScalarProperty Name="ComplaintReason" ColumnName="ComplaintReason" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_OrderItems">
+      <EntityTypeMapping TypeName="Himall.Model.OrderItemInfo">
+        <MappingFragment StoreEntitySet="Himall_OrderItems">
+          <ScalarProperty Name="FullDiscount" ColumnName="FullDiscount" />
+          <ScalarProperty Name="CouponDiscount" ColumnName="CouponDiscount" />
+          <ScalarProperty Name="EnabledRefundIntegral" ColumnName="EnabledRefundIntegral" />
+          <ScalarProperty Name="DistributionRate" ColumnName="DistributionRate" />
+          <ScalarProperty Name="IsLimitBuy" ColumnName="IsLimitBuy" />
+          <ScalarProperty Name="EnabledRefundAmount" ColumnName="EnabledRefundAmount" />
+          <ScalarProperty Name="SkuId" ColumnName="SkuId" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="Size" ColumnName="Size" />
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="CommisRate" ColumnName="CommisRate" />
+          <ScalarProperty Name="ThumbnailsUrl" ColumnName="ThumbnailsUrl" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="RefundPrice" ColumnName="RefundPrice" />
+          <ScalarProperty Name="RealTotalPrice" ColumnName="RealTotalPrice" />
+          <ScalarProperty Name="SalePrice" ColumnName="SalePrice" />
+          <ScalarProperty Name="CostPrice" ColumnName="CostPrice" />
+          <ScalarProperty Name="ReturnQuantity" ColumnName="ReturnQuantity" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="SKU" ColumnName="SKU" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_OrderOperationLogs">
+      <EntityTypeMapping TypeName="Himall.Model.OrderOperationLogInfo">
+        <MappingFragment StoreEntitySet="Himall_OrderOperationLogs">
+          <ScalarProperty Name="OperateContent" ColumnName="OperateContent" />
+          <ScalarProperty Name="OperateDate" ColumnName="OperateDate" />
+          <ScalarProperty Name="Operator" ColumnName="Operator" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_OrderRefunds">
+      <EntityTypeMapping TypeName="Himall.Model.OrderRefundInfo">
+        <MappingFragment StoreEntitySet="Himall_OrderRefunds">
+          <ScalarProperty Name="ReasonDetail" ColumnName="ReasonDetail" />
+          <ScalarProperty Name="ReturnPlatCommission" ColumnName="ReturnPlatCommission" />
+          <ScalarProperty Name="CertPic3" ColumnName="CertPic3" />
+          <ScalarProperty Name="CertPic2" ColumnName="CertPic2" />
+          <ScalarProperty Name="CertPic1" ColumnName="CertPic1" />
+          <ScalarProperty Name="ApplyNumber" ColumnName="ApplyNumber" />
+          <ScalarProperty Name="ReturnBrokerage" ColumnName="ReturnBrokerage" />
+          <ScalarProperty Name="ReturnQuantity" ColumnName="ReturnQuantity" />
+          <ScalarProperty Name="RefundPostTime" ColumnName="RefundPostTime" />
+          <ScalarProperty Name="RefundBatchNo" ColumnName="RefundBatchNo" />
+          <ScalarProperty Name="RefundPayType" ColumnName="RefundPayType" />
+          <ScalarProperty Name="RefundPayStatus" ColumnName="RefundPayStatus" />
+          <ScalarProperty Name="SellerConfirmArrivalDate" ColumnName="SellerConfirmArrivalDate" />
+          <ScalarProperty Name="BuyerDeliverDate" ColumnName="BuyerDeliverDate" />
+          <ScalarProperty Name="RefundMode" ColumnName="RefundMode" />
+          <ScalarProperty Name="PayeeAccount" ColumnName="PayeeAccount" />
+          <ScalarProperty Name="Payee" ColumnName="Payee" />
+          <ScalarProperty Name="ShipOrderNumber" ColumnName="ShipOrderNumber" />
+          <ScalarProperty Name="ExpressCompanyName" ColumnName="ExpressCompanyName" />
+          <ScalarProperty Name="RefundAccount" ColumnName="RefundAccount" />
+          <ScalarProperty Name="ContactCellPhone" ColumnName="ContactCellPhone" />
+          <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ManagerConfirmDate" ColumnName="ManagerConfirmDate" />
+          <ScalarProperty Name="ManagerConfirmStatus" ColumnName="ManagerConfirmStatus" />
+          <ScalarProperty Name="IsReturn" ColumnName="IsReturn" />
+          <ScalarProperty Name="ManagerRemark" ColumnName="ManagerRemark" />
+          <ScalarProperty Name="SellerRemark" ColumnName="SellerRemark" />
+          <ScalarProperty Name="SellerAuditDate" ColumnName="SellerAuditDate" />
+          <ScalarProperty Name="SellerAuditStatus" ColumnName="SellerAuditStatus" />
+          <ScalarProperty Name="Reason" ColumnName="Reason" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="ApplyDate" ColumnName="ApplyDate" />
+          <ScalarProperty Name="Applicant" ColumnName="Applicant" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="OrderItemId" ColumnName="OrderItemId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Orders">
+      <EntityTypeMapping TypeName="Himall.Model.OrderInfo">
+        <MappingFragment StoreEntitySet="Himall_Orders">
+          <ScalarProperty Name="PayCode" ColumnName="PayCode" />
+          <ScalarProperty Name="FullDiscount" ColumnName="FullDiscount" />
+          <ScalarProperty Name="ActualPayAmount" ColumnName="ActualPayAmount" />
+          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+          <ScalarProperty Name="SellerRemarkFlag" ColumnName="SellerRemarkFlag" />
+          <ScalarProperty Name="PickupCode" ColumnName="PickupCode" />
+          <ScalarProperty Name="ShopBranchId" ColumnName="ShopBranchId" />
+          <ScalarProperty Name="DeliveryType" ColumnName="DeliveryType" />
+          <ScalarProperty Name="LastModifyTime" ColumnName="LastModifyTime" />
+          <ScalarProperty Name="OrderRemarks" ColumnName="OrderRemarks" />
+          <ScalarProperty Name="ShareUserId" ColumnName="ShareUserId" />
+          <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+          <ScalarProperty Name="OrderType" ColumnName="OrderType" />
+          <ScalarProperty Name="InvoiceContext" ColumnName="InvoiceContext" />
+          <ScalarProperty Name="IntegralDiscount" ColumnName="IntegralDiscount" />
+          <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="Platform" ColumnName="Platform" />
+          <ScalarProperty Name="ActiveType" ColumnName="ActiveType" />
+          <ScalarProperty Name="PayDate" ColumnName="PayDate" />
+          <ScalarProperty Name="FinishDate" ColumnName="FinishDate" />
+          <ScalarProperty Name="RefundCommisAmount" ColumnName="RefundCommisAmount" />
+          <ScalarProperty Name="CommisTotalAmount" ColumnName="CommisTotalAmount" />
+          <ScalarProperty Name="RefundTotalAmount" ColumnName="RefundTotalAmount" />
+          <ScalarProperty Name="ProductTotalAmount" ColumnName="ProductTotalAmount" />
+          <ScalarProperty Name="PayRemark" ColumnName="PayRemark" />
+          <ScalarProperty Name="Tax" ColumnName="Tax" />
+          <ScalarProperty Name="InvoiceTitle" ColumnName="InvoiceTitle" />
+          <ScalarProperty Name="GatewayOrderId" ColumnName="GatewayOrderId" />
+          <ScalarProperty Name="PaymentTypeGateway" ColumnName="PaymentTypeGateway" />
+          <ScalarProperty Name="PaymentTypeName" ColumnName="PaymentTypeName" />
+          <ScalarProperty Name="IsPrinted" ColumnName="IsPrinted" />
+          <ScalarProperty Name="ShippingDate" ColumnName="ShippingDate" />
+          <ScalarProperty Name="ShipOrderNumber" ColumnName="ShipOrderNumber" />
+          <ScalarProperty Name="Freight" ColumnName="Freight" />
+          <ScalarProperty Name="ExpressCompanyName" ColumnName="ExpressCompanyName" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="RegionFullName" ColumnName="RegionFullName" />
+          <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+          <ScalarProperty Name="TopRegionId" ColumnName="TopRegionId" />
+          <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+          <ScalarProperty Name="ShipTo" ColumnName="ShipTo" />
+          <ScalarProperty Name="UserRemark" ColumnName="UserRemark" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="SellerRemark" ColumnName="SellerRemark" />
+          <ScalarProperty Name="SellerAddress" ColumnName="SellerAddress" />
+          <ScalarProperty Name="SellerPhone" ColumnName="SellerPhone" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="CloseReason" ColumnName="CloseReason" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ProductShopCategories">
+      <EntityTypeMapping TypeName="Himall.Model.ProductShopCategoryInfo">
+        <MappingFragment StoreEntitySet="Himall_ProductShopCategories">
+          <ScalarProperty Name="ShopCategoryId" ColumnName="ShopCategoryId" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_RolePrivileges">
+      <EntityTypeMapping TypeName="Himall.Model.RolePrivilegeInfo">
+        <MappingFragment StoreEntitySet="Himall_RolePrivileges">
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="Privilege" ColumnName="Privilege" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Roles">
+      <EntityTypeMapping TypeName="Himall.Model.RoleInfo">
+        <MappingFragment StoreEntitySet="Himall_Roles">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShippingAddresses">
+      <EntityTypeMapping TypeName="Himall.Model.ShippingAddressInfo">
+        <MappingFragment StoreEntitySet="Himall_ShippingAddresses">
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="IsQuick" ColumnName="IsQuick" />
+          <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="ShipTo" ColumnName="ShipTo" />
+          <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopCategories">
+      <EntityTypeMapping TypeName="Himall.Model.ShopCategoryInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopCategories">
+          <ScalarProperty Name="IsShow" ColumnName="IsShow" />
+          <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ParentCategoryId" ColumnName="ParentCategoryId" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopGrades">
+      <EntityTypeMapping TypeName="Himall.Model.ShopGradeInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopGrades">
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="ChargeStandard" ColumnName="ChargeStandard" />
+          <ScalarProperty Name="TemplateLimit" ColumnName="TemplateLimit" />
+          <ScalarProperty Name="ImageLimit" ColumnName="ImageLimit" />
+          <ScalarProperty Name="ProductLimit" ColumnName="ProductLimit" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ShoppingCartItemInfo">
+      <EntityTypeMapping TypeName="Himall.Model.ShoppingCartItemInfo">
+        <MappingFragment StoreEntitySet="Himall_ShoppingCarts">
+          <ScalarProperty Name="SkuId" ColumnName="SkuId" />
+          <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_SiteSettings">
+      <EntityTypeMapping TypeName="Himall.Model.SiteSettingsInfo">
+        <MappingFragment StoreEntitySet="Himall_SiteSettings">
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="Key" ColumnName="Key" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_SlideAds">
+      <EntityTypeMapping TypeName="Himall.Model.SlideAdInfo">
+        <MappingFragment StoreEntitySet="Himall_SlideAds">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="imageUrl" ColumnName="ImageUrl" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_TopicModules">
+      <EntityTypeMapping TypeName="Himall.Model.TopicModuleInfo">
+        <MappingFragment StoreEntitySet="Himall_TopicModules">
+          <ScalarProperty Name="TitleAlign" ColumnName="TitleAlign" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="TopicId" ColumnName="TopicId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Topics">
+      <EntityTypeMapping TypeName="Himall.Model.TopicInfo">
+        <MappingFragment StoreEntitySet="Himall_Topics">
+          <ScalarProperty Name="SelfDefineText" ColumnName="SelfDefineText" />
+          <ScalarProperty Name="IsRecommend" ColumnName="IsRecommend" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Tags" ColumnName="Tags" />
+          <ScalarProperty Name="frontCoverImage" ColumnName="FrontCoverImage" />
+          <ScalarProperty Name="PlatForm" ColumnName="PlatForm" />
+          <ScalarProperty Name="backgroundImage" ColumnName="BackgroundImage" />
+          <ScalarProperty Name="topImage" ColumnName="TopImage" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ProductComments">
+      <EntityTypeMapping TypeName="Himall.Model.ProductCommentInfo">
+        <MappingFragment StoreEntitySet="Himall_ProductComments">
+          <ScalarProperty Name="IsHidden" ColumnName="IsHidden" />
+          <ScalarProperty Name="ReplyDate" ColumnName="ReplyDate" />
+          <ScalarProperty Name="ReplyContent" ColumnName="ReplyContent" />
+          <ScalarProperty Name="ReplyAppendDate" ColumnName="ReplyAppendDate" />
+          <ScalarProperty Name="ReplyAppendContent" ColumnName="ReplyAppendContent" />
+          <ScalarProperty Name="AppendDate" ColumnName="AppendDate" />
+          <ScalarProperty Name="AppendContent" ColumnName="AppendContent" />
+          <ScalarProperty Name="SubOrderId" ColumnName="SubOrderId" />
+          <ScalarProperty Name="ReviewMark" ColumnName="ReviewMark" />
+          <ScalarProperty Name="ReviewDate" ColumnName="ReviewDate" />
+          <ScalarProperty Name="ReviewContent" ColumnName="ReviewContent" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_OrderComments">
+      <EntityTypeMapping TypeName="Himall.Model.OrderCommentInfo">
+        <MappingFragment StoreEntitySet="Himall_OrderComments">
+          <ScalarProperty Name="ServiceMark" ColumnName="ServiceMark" />
+          <ScalarProperty Name="DeliveryMark" ColumnName="DeliveryMark" />
+          <ScalarProperty Name="PackMark" ColumnName="PackMark" />
+          <ScalarProperty Name="CommentDate" ColumnName="CommentDate" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_BusinessCategories">
+      <EntityTypeMapping TypeName="Himall.Model.BusinessCategoryInfo">
+        <MappingFragment StoreEntitySet="Himall_BusinessCategories">
+          <ScalarProperty Name="CommisRate" ColumnName="CommisRate" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_AccountDetails">
+      <EntityTypeMapping TypeName="IsTypeOf(Himall.Model.AccountDetailInfo)">
+        <MappingFragment StoreEntitySet="Himall_AccountDetails">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="CommissionAmount" ColumnName="CommissionAmount" />
+          <ScalarProperty Name="RefundTotalAmount" ColumnName="RefundTotalAmount" />
+          <ScalarProperty Name="RefundCommisAmount" ColumnName="RefundCommisAmount" />
+          <ScalarProperty Name="OrderType" ColumnName="OrderType" />
+          <ScalarProperty Name="FreightAmount" ColumnName="FreightAmount" />
+          <ScalarProperty Name="ProductActualPaidAmount" ColumnName="ProductActualPaidAmount" />
+          <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="OrderRefundsDates" ColumnName="OrderRefundsDates" />
+          <ScalarProperty Name="BrokerageAmount" ColumnName="BrokerageAmount" />
+          <ScalarProperty Name="ReturnBrokerageAmount" ColumnName="ReturnBrokerageAmount" />
+          <ScalarProperty Name="OrderFinshDate" ColumnName="OrderFinshDate" />
+          <ScalarProperty Name="OrderAmount" ColumnName="OrderAmount" />
+          <ScalarProperty Name="SettlementAmount" ColumnName="SettlementAmount" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="PaymentTypeName" ColumnName="PaymentTypeName" />
+          <ScalarProperty Name="OpenCommission" ColumnName="OpenCommission" />
+          <ScalarProperty Name="JoinCommission" ColumnName="JoinCommission" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_HomeCategoryRows">
+      <EntityTypeMapping TypeName="Himall.Model.HomeCategoryRowInfo">
+        <MappingFragment StoreEntitySet="Himall_HomeCategoryRows">
+          <ScalarProperty Name="Url2" ColumnName="Url2" />
+          <ScalarProperty Name="image2" ColumnName="Image2" />
+          <ScalarProperty Name="Url1" ColumnName="Url1" />
+          <ScalarProperty Name="image1" ColumnName="Image1" />
+          <ScalarProperty Name="RowId" ColumnName="RowId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopHomeModuleProducts">
+      <EntityTypeMapping TypeName="Himall.Model.ShopHomeModuleProductInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopHomeModuleProducts">
+          <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="HomeModuleId" ColumnName="HomeModuleId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopHomeModules">
+      <EntityTypeMapping TypeName="Himall.Model.ShopHomeModuleInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopHomeModules">
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+          <ScalarProperty Name="IsEnable" ColumnName="IsEnable" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ProductVistis">
+      <EntityTypeMapping TypeName="Himall.Model.ProductVistiInfo">
+        <MappingFragment StoreEntitySet="Himall_ProductVistis">
+          <ScalarProperty Name="StatisticFlag" ColumnName="StatisticFlag" />
+          <ScalarProperty Name="PayUserCounts" ColumnName="PayUserCounts" />
+          <ScalarProperty Name="VisitUserCounts" ColumnName="VisitUserCounts" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="OrderCounts" ColumnName="OrderCounts" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="SaleAmounts" ColumnName="SaleAmounts" />
+          <ScalarProperty Name="SaleCounts" ColumnName="SaleCounts" />
+          <ScalarProperty Name="VistiCounts" ColumnName="VistiCounts" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopVistis">
+      <EntityTypeMapping TypeName="Himall.Model.ShopVistiInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopVistis">
+          <ScalarProperty Name="StatisticFlag" ColumnName="StatisticFlag" />
+          <ScalarProperty Name="OrderPayCount" ColumnName="OrderPayCount" />
+          <ScalarProperty Name="OrderPayUserCount" ColumnName="OrderPayUserCount" />
+          <ScalarProperty Name="OrderAmount" ColumnName="OrderAmount" />
+          <ScalarProperty Name="OrderProductCount" ColumnName="OrderProductCount" />
+          <ScalarProperty Name="OrderCount" ColumnName="OrderCount" />
+          <ScalarProperty Name="OrderUserCount" ColumnName="OrderUserCount" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="SaleAmounts" ColumnName="SaleAmounts" />
+          <ScalarProperty Name="SaleCounts" ColumnName="SaleCounts" />
+          <ScalarProperty Name="VistiCounts" ColumnName="VistiCounts" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FavoriteShops">
+      <EntityTypeMapping TypeName="Himall.Model.FavoriteShopInfo">
+        <MappingFragment StoreEntitySet="Himall_FavoriteShops">
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Tags" ColumnName="Tags" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BrowsingHistoryInfo">
+      <EntityTypeMapping TypeName="IsTypeOf(Himall.Model.BrowsingHistoryInfo)">
+        <MappingFragment StoreEntitySet="Himall_BrowsingHistory">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="BrowseTime" ColumnName="BrowseTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Menus">
+      <EntityTypeMapping TypeName="Himall.Model.MenuInfo">
+        <MappingFragment StoreEntitySet="Himall_Menus">
+          <ScalarProperty Name="UrlType" ColumnName="UrlType" />
+          <ScalarProperty Name="Platform" ColumnName="Platform" />
+          <ScalarProperty Name="FullIdPath" ColumnName="FullIdPath" />
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="Depth" ColumnName="Depth" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MessageLog">
+      <EntityTypeMapping TypeName="Himall.Model.MessageLog">
+        <MappingFragment StoreEntitySet="Himall_MessageLog">
+          <ScalarProperty Name="SendTime" ColumnName="SendTime" />
+          <ScalarProperty Name="MessageContent" ColumnName="MessageContent" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MemberContacts">
+      <EntityTypeMapping TypeName="Himall.Model.MemberContactsInfo">
+        <MappingFragment StoreEntitySet="Himall_MemberContacts">
+          <ScalarProperty Name="UserType" ColumnName="UserType" />
+          <ScalarProperty Name="Contact" ColumnName="Contact" />
+          <ScalarProperty Name="ServiceProvider" ColumnName="ServiceProvider" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FreightAreaContent">
+      <EntityTypeMapping TypeName="Himall.Model.FreightAreaContentInfo">
+        <MappingFragment StoreEntitySet="Himall_FreightAreaContent">
+          <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+          <ScalarProperty Name="AccumulationUnitMoney" ColumnName="AccumulationUnitMoney" />
+          <ScalarProperty Name="AccumulationUnit" ColumnName="AccumulationUnit" />
+          <ScalarProperty Name="FirstUnitMonry" ColumnName="FirstUnitMonry" />
+          <ScalarProperty Name="FirstUnit" ColumnName="FirstUnit" />
+          <ScalarProperty Name="AreaContent" ColumnName="AreaContent" />
+          <ScalarProperty Name="FreightTemplateId" ColumnName="FreightTemplateId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FreightTemplate">
+      <EntityTypeMapping TypeName="Himall.Model.FreightTemplateInfo">
+        <MappingFragment StoreEntitySet="Himall_FreightTemplate">
+          <ScalarProperty Name="ShopID" ColumnName="ShopID" />
+          <ScalarProperty Name="ShippingMethod" ColumnName="ShippingMethod" />
+          <ScalarProperty Name="ValuationMethod" ColumnName="ValuationMethod" />
+          <ScalarProperty Name="IsFree" ColumnName="IsFree" />
+          <ScalarProperty Name="SendTime" ColumnName="SendTime" />
+          <ScalarProperty Name="SourceAddress" ColumnName="SourceAddress" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Agreement">
+      <EntityTypeMapping TypeName="Himall.Model.AgreementInfo">
+        <MappingFragment StoreEntitySet="Himall_Agreement">
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="AgreementContent" ColumnName="AgreementContent" />
+          <ScalarProperty Name="AgreementType" ColumnName="AgreementType" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_CashDeposit">
+      <EntityTypeMapping TypeName="Himall.Model.CashDepositInfo">
+        <MappingFragment StoreEntitySet="Himall_CashDeposit">
+          <ScalarProperty Name="EnableLabels" ColumnName="EnableLabels" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="TotalBalance" ColumnName="TotalBalance" />
+          <ScalarProperty Name="CurrentBalance" ColumnName="CurrentBalance" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_CashDepositDetail">
+      <EntityTypeMapping TypeName="Himall.Model.CashDepositDetailInfo">
+        <MappingFragment StoreEntitySet="Himall_CashDepositDetail">
+          <ScalarProperty Name="RechargeWay" ColumnName="RechargeWay" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Operator" ColumnName="Operator" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="AddDate" ColumnName="AddDate" />
+          <ScalarProperty Name="CashDepositId" ColumnName="CashDepositId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopBrandApplys">
+      <EntityTypeMapping TypeName="Himall.Model.ShopBrandApplysInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopBrandApplys">
+          <ScalarProperty Name="ApplyTime" ColumnName="ApplyTime" />
+          <ScalarProperty Name="AuditStatus" ColumnName="AuditStatus" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="ApplyMode" ColumnName="ApplyMode" />
+          <ScalarProperty Name="AuthCertificate" ColumnName="AuthCertificate" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Logo" ColumnName="Logo" />
+          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+          <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopBrands">
+      <EntityTypeMapping TypeName="Himall.Model.ShopBrandsInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopBrands">
+          <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_StatisticOrderComments">
+      <EntityTypeMapping TypeName="Himall.Model.StatisticOrderCommentsInfo">
+        <MappingFragment StoreEntitySet="Himall_StatisticOrderComments">
+          <ScalarProperty Name="CommentValue" ColumnName="CommentValue" />
+          <ScalarProperty Name="CommentKey" ColumnName="CommentKey" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_AccountPurchaseAgreement">
+      <EntityTypeMapping TypeName="Himall.Model.AccountPurchaseAgreementInfo">
+        <MappingFragment StoreEntitySet="Himall_AccountPurchaseAgreement">
+          <ScalarProperty Name="ApplyDate" ColumnName="ApplyDate" />
+          <ScalarProperty Name="FinishDate" ColumnName="FinishDate" />
+          <ScalarProperty Name="AdvancePayment" ColumnName="AdvancePayment" />
+          <ScalarProperty Name="PurchaseAgreementId" ColumnName="PurchaseAgreementId" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_SensitiveWords">
+      <EntityTypeMapping TypeName="Himall.Model.SensitiveWordsInfo">
+        <MappingFragment StoreEntitySet="Himall_SensitiveWords">
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="SensitiveWord" ColumnName="SensitiveWord" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Coupon">
+      <EntityTypeMapping TypeName="Himall.Model.CouponInfo">
+        <MappingFragment StoreEntitySet="Himall_Coupon">
+          <ScalarProperty Name="CardLogId" ColumnName="CardLogId" />
+          <ScalarProperty Name="WXAuditStatus" ColumnName="WXAuditStatus" />
+          <ScalarProperty Name="IsSyncWeiXin" ColumnName="IsSyncWeiXin" />
+          <ScalarProperty Name="IntegralCover" ColumnName="IntegralCover" />
+          <ScalarProperty Name="EndIntegralExchange" ColumnName="EndIntegralExchange" />
+          <ScalarProperty Name="NeedIntegral" ColumnName="NeedIntegral" />
+          <ScalarProperty Name="ReceiveType" ColumnName="ReceiveType" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="CouponName" ColumnName="CouponName" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="Num" ColumnName="Num" />
+          <ScalarProperty Name="OrderAmount" ColumnName="OrderAmount" />
+          <ScalarProperty Name="PerMax" ColumnName="PerMax" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_CouponRecord">
+      <EntityTypeMapping TypeName="Himall.Model.CouponRecordInfo">
+        <MappingFragment StoreEntitySet="Himall_CouponRecord">
+          <ScalarProperty Name="WXCodeId" ColumnName="WXCodeId" />
+          <ScalarProperty Name="CounponStatus" ColumnName="CounponStatus" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="UsedTime" ColumnName="UsedTime" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="CounponTime" ColumnName="CounponTime" />
+          <ScalarProperty Name="CounponSN" ColumnName="CounponSN" />
+          <ScalarProperty Name="CouponId" ColumnName="CouponId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_CouponSetting">
+      <EntityTypeMapping TypeName="Himall.Model.CouponSettingInfo">
+        <MappingFragment StoreEntitySet="Himall_CouponSetting">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Display" ColumnName="Display" />
+          <ScalarProperty Name="CouponID" ColumnName="CouponID" />
+          <ScalarProperty Name="PlatForm" ColumnName="PlatForm" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MemberGrade">
+      <EntityTypeMapping TypeName="Himall.Model.MemberGrade">
+        <MappingFragment StoreEntitySet="Himall_MemberGrade">
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="Integral" ColumnName="Integral" />
+          <ScalarProperty Name="GradeName" ColumnName="GradeName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MemberIntegral">
+      <EntityTypeMapping TypeName="Himall.Model.MemberIntegral">
+        <MappingFragment StoreEntitySet="Himall_MemberIntegral">
+          <ScalarProperty Name="AvailableIntegrals" ColumnName="AvailableIntegrals" />
+          <ScalarProperty Name="HistoryIntegrals" ColumnName="HistoryIntegrals" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MemberIntegralExchangeRules">
+      <EntityTypeMapping TypeName="Himall.Model.MemberIntegralExchangeRules">
+        <MappingFragment StoreEntitySet="Himall_MemberIntegralExchangeRules">
+          <ScalarProperty Name="MoneyPerIntegral" ColumnName="MoneyPerIntegral" />
+          <ScalarProperty Name="IntegralPerMoney" ColumnName="IntegralPerMoney" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MemberIntegralRecord">
+      <EntityTypeMapping TypeName="Himall.Model.MemberIntegralRecord">
+        <MappingFragment StoreEntitySet="Himall_MemberIntegralRecord">
+          <ScalarProperty Name="ReMark" ColumnName="ReMark" />
+          <ScalarProperty Name="RecordDate" ColumnName="RecordDate" />
+          <ScalarProperty Name="Integral" ColumnName="Integral" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MemberIntegralRecordAction">
+      <EntityTypeMapping TypeName="Himall.Model.MemberIntegralRecordAction">
+        <MappingFragment StoreEntitySet="Himall_MemberIntegralRecordAction">
+          <ScalarProperty Name="VirtualItemId" ColumnName="VirtualItemId" />
+          <ScalarProperty Name="VirtualItemTypeId" ColumnName="VirtualItemTypeId" />
+          <ScalarProperty Name="IntegralRecordId" ColumnName="IntegralRecordId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MemberIntegralRule">
+      <EntityTypeMapping TypeName="Himall.Model.MemberIntegralRule">
+        <MappingFragment StoreEntitySet="Himall_MemberIntegralRule">
+          <ScalarProperty Name="Integral" ColumnName="Integral" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_VShop">
+      <EntityTypeMapping TypeName="Himall.Model.VShopInfo">
+        <MappingFragment StoreEntitySet="Himall_VShop">
+          <ScalarProperty Name="WXLogo" ColumnName="WXLogo" />
+          <ScalarProperty Name="HomePageTitle" ColumnName="HomePageTitle" />
+          <ScalarProperty Name="Tags" ColumnName="Tags" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="backgroundImage" ColumnName="BackgroundImage" />
+          <ScalarProperty Name="logo" ColumnName="Logo" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="buyNum" ColumnName="buyNum" />
+          <ScalarProperty Name="VisitNum" ColumnName="VisitNum" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_VShopExtend">
+      <EntityTypeMapping TypeName="Himall.Model.VShopExtendInfo">
+        <MappingFragment StoreEntitySet="Himall_VShopExtend">
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="VShopId" ColumnName="VShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_WXshop">
+      <EntityTypeMapping TypeName="Himall.Model.WXShopInfo">
+        <MappingFragment StoreEntitySet="Himall_WXshop">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FollowUrl" ColumnName="FollowUrl" />
+          <ScalarProperty Name="Token" ColumnName="Token" />
+          <ScalarProperty Name="AppSecret" ColumnName="AppSecret" />
+          <ScalarProperty Name="AppId" ColumnName="AppId" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ActiveMarketService">
+      <EntityTypeMapping TypeName="Himall.Model.ActiveMarketServiceInfo">
+        <MappingFragment StoreEntitySet="Himall_ActiveMarketService">
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_AccountMeta">
+      <EntityTypeMapping TypeName="Himall.Model.AccountMetaInfo">
+        <MappingFragment StoreEntitySet="Himall_AccountMeta">
+          <ScalarProperty Name="ServiceEndTime" ColumnName="ServiceEndTime" />
+          <ScalarProperty Name="ServiceStartTime" ColumnName="ServiceStartTime" />
+          <ScalarProperty Name="MetaValue" ColumnName="MetaValue" />
+          <ScalarProperty Name="MetaKey" ColumnName="MetaKey" />
+          <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_LimitTimeMarket">
+      <EntityTypeMapping TypeName="Himall.Model.LimitTimeMarketInfo">
+        <MappingFragment StoreEntitySet="Himall_LimitTimeMarket">
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="MinPrice" ColumnName="MinPrice" />
+          <ScalarProperty Name="ProductAd" ColumnName="ProductAd" />
+          <ScalarProperty Name="MaxSaleCount" ColumnName="MaxSaleCount" />
+          <ScalarProperty Name="CancelReson" ColumnName="CancelReson" />
+          <ScalarProperty Name="SaleCount" ColumnName="SaleCount" />
+          <ScalarProperty Name="Stock" ColumnName="Stock" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="RecentMonthPrice" ColumnName="RecentMonthPrice" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="AuditTime" ColumnName="AuditTime" />
+          <ScalarProperty Name="AuditStatus" ColumnName="AuditStatus" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MarketServiceRecord">
+      <EntityTypeMapping TypeName="Himall.Model.MarketServiceRecordInfo">
+        <MappingFragment StoreEntitySet="Himall_MarketServiceRecord">
+          <ScalarProperty Name="BuyTime" ColumnName="BuyTime" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="SettlementFlag" ColumnName="SettlementFlag" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="MarketServiceId" ColumnName="MarketServiceId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MarketSetting">
+      <EntityTypeMapping TypeName="Himall.Model.MarketSettingInfo">
+        <MappingFragment StoreEntitySet="Himall_MarketSetting">
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MarketSettingMeta">
+      <EntityTypeMapping TypeName="Himall.Model.MarketSettingMetaInfo">
+        <MappingFragment StoreEntitySet="Himall_MarketSettingMeta">
+          <ScalarProperty Name="MetaValue" ColumnName="MetaValue" />
+          <ScalarProperty Name="MetaKey" ColumnName="MetaKey" />
+          <ScalarProperty Name="MarketId" ColumnName="MarketId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MobileHomeProducts">
+      <EntityTypeMapping TypeName="Himall.Model.MobileHomeProductsInfo">
+        <MappingFragment StoreEntitySet="Himall_MobileHomeProducts">
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="PlatFormType" ColumnName="PlatFormType" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MobileHomeTopics">
+      <EntityTypeMapping TypeName="Himall.Model.MobileHomeTopicsInfo">
+        <MappingFragment StoreEntitySet="Himall_MobileHomeTopics">
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="TopicId" ColumnName="TopicId" />
+          <ScalarProperty Name="Platform" ColumnName="Platform" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FloorTablDetails">
+      <EntityTypeMapping TypeName="Himall.Model.FloorTablDetailsInfo">
+        <MappingFragment StoreEntitySet="Himall_FloorTablDetails">
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="TabId" ColumnName="TabId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FloorTabls">
+      <EntityTypeMapping TypeName="Himall.Model.FloorTablsInfo">
+        <MappingFragment StoreEntitySet="Himall_FloorTabls">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="FloorId" ColumnName="FloorId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_InvoiceContext">
+      <EntityTypeMapping TypeName="Himall.Model.InvoiceContextInfo">
+        <MappingFragment StoreEntitySet="Himall_InvoiceContext">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_InvoiceTitle">
+      <EntityTypeMapping TypeName="Himall.Model.InvoiceTitleInfo">
+        <MappingFragment StoreEntitySet="Himall_InvoiceTitle">
+          <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_OrderPay">
+      <EntityTypeMapping TypeName="Himall.Model.OrderPayInfo">
+        <MappingFragment StoreEntitySet="Himall_OrderPay">
+          <ScalarProperty Name="PayTime" ColumnName="PayTime" />
+          <ScalarProperty Name="PayState" ColumnName="PayState" />
+          <ScalarProperty Name="PayId" ColumnName="PayId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_GiftOrderItem">
+      <EntityTypeMapping TypeName="Himall.Model.GiftOrderItemInfo">
+        <MappingFragment StoreEntitySet="Himall_GiftOrderItem">
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="GiftValue" ColumnName="GiftValue" />
+          <ScalarProperty Name="GiftName" ColumnName="GiftName" />
+          <ScalarProperty Name="SaleIntegral" ColumnName="SaleIntegral" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="GiftId" ColumnName="GiftId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Gifts">
+      <EntityTypeMapping TypeName="Himall.Model.GiftInfo">
+        <MappingFragment StoreEntitySet="Himall_Gifts">
+          <ScalarProperty Name="AddDate" ColumnName="AddDate" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="GiftValue" ColumnName="GiftValue" />
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="SalesStatus" ColumnName="SalesStatus" />
+          <ScalarProperty Name="RealSales" ColumnName="RealSales" />
+          <ScalarProperty Name="VirtualSales" ColumnName="VirtualSales" />
+          <ScalarProperty Name="NeedGrade" ColumnName="NeedGrade" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="StockQuantity" ColumnName="StockQuantity" />
+          <ScalarProperty Name="LimtQuantity" ColumnName="LimtQuantity" />
+          <ScalarProperty Name="NeedIntegral" ColumnName="NeedIntegral" />
+          <ScalarProperty Name="GiftName" ColumnName="GiftName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_GiftsOrder">
+      <EntityTypeMapping TypeName="Himall.Model.GiftOrderInfo">
+        <MappingFragment StoreEntitySet="Himall_GiftsOrder">
+          <ScalarProperty Name="CloseReason" ColumnName="CloseReason" />
+          <ScalarProperty Name="TotalIntegral" ColumnName="TotalIntegral" />
+          <ScalarProperty Name="FinishDate" ColumnName="FinishDate" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="ShippingDate" ColumnName="ShippingDate" />
+          <ScalarProperty Name="ShipOrderNumber" ColumnName="ShipOrderNumber" />
+          <ScalarProperty Name="ExpressCompanyName" ColumnName="ExpressCompanyName" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="RegionFullName" ColumnName="RegionFullName" />
+          <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+          <ScalarProperty Name="TopRegionId" ColumnName="TopRegionId" />
+          <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+          <ScalarProperty Name="ShipTo" ColumnName="ShipTo" />
+          <ScalarProperty Name="UserRemark" ColumnName="UserRemark" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Bonus">
+      <EntityTypeMapping TypeName="IsTypeOf(Himall.Model.BonusInfo)">
+        <MappingFragment StoreEntitySet="Himall_Bonus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Style" ColumnName="Style" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="MerchantsName" ColumnName="MerchantsName" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="Blessing" ColumnName="Blessing" />
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="QRPath" ColumnName="QRPath" />
+          <ScalarProperty Name="FixedAmount" ColumnName="FixedAmount" />
+          <ScalarProperty Name="RandomAmountStart" ColumnName="RandomAmountStart" />
+          <ScalarProperty Name="RandomAmountEnd" ColumnName="RandomAmountEnd" />
+          <ScalarProperty Name="ReceiveCount" ColumnName="ReceiveCount" />
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="IsInvalid" ColumnName="IsInvalid" />
+          <ScalarProperty Name="PriceType" ColumnName="PriceType" />
+          <ScalarProperty Name="ReceivePrice" ColumnName="ReceivePrice" />
+          <ScalarProperty Name="ReceiveHref" ColumnName="ReceiveHref" />
+          <ScalarProperty Name="IsAttention" ColumnName="IsAttention" />
+          <ScalarProperty Name="IsGuideShare" ColumnName="IsGuideShare" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_BonusReceive">
+      <EntityTypeMapping TypeName="IsTypeOf(Himall.Model.BonusReceiveInfo)">
+        <MappingFragment StoreEntitySet="Himall_BonusReceive">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="BonusId" ColumnName="BonusId" />
+          <ScalarProperty Name="OpenId" ColumnName="OpenId" />
+          <ScalarProperty Name="ReceiveTime" ColumnName="ReceiveTime" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="IsShare" ColumnName="IsShare" />
+          <ScalarProperty Name="IsTransformedDeposit" ColumnName="IsTransformedDeposit" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ApplyWithDraw">
+      <EntityTypeMapping TypeName="Himall.Model.ApplyWithDrawInfo">
+        <MappingFragment StoreEntitySet="Himall_ApplyWithDraw">
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="OpUser" ColumnName="OpUser" />
+          <ScalarProperty Name="PayNo" ColumnName="PayNo" />
+          <ScalarProperty Name="PayTime" ColumnName="PayTime" />
+          <ScalarProperty Name="ConfirmTime" ColumnName="ConfirmTime" />
+          <ScalarProperty Name="ApplyTime" ColumnName="ApplyTime" />
+          <ScalarProperty Name="ApplyAmount" ColumnName="ApplyAmount" />
+          <ScalarProperty Name="ApplyStatus" ColumnName="ApplyStatus" />
+          <ScalarProperty Name="OpenId" ColumnName="OpenId" />
+          <ScalarProperty Name="NickName" ColumnName="NickName" />
+          <ScalarProperty Name="MemId" ColumnName="MemId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Capital">
+      <EntityTypeMapping TypeName="Himall.Model.CapitalInfo">
+        <MappingFragment StoreEntitySet="Himall_Capital">
+          <ScalarProperty Name="ChargeAmount" ColumnName="ChargeAmount" />
+          <ScalarProperty Name="FreezeAmount" ColumnName="FreezeAmount" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="MemId" ColumnName="MemId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_CapitalDetail">
+      <EntityTypeMapping TypeName="Himall.Model.CapitalDetailInfo">
+        <MappingFragment StoreEntitySet="Himall_CapitalDetail">
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="SourceData" ColumnName="SourceData" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="SourceType" ColumnName="SourceType" />
+          <ScalarProperty Name="CapitalID" ColumnName="CapitalID" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_CategoryCashDeposit">
+      <EntityTypeMapping TypeName="Himall.Model.CategoryCashDepositInfo">
+        <MappingFragment StoreEntitySet="Himall_CategoryCashDeposit">
+          <ScalarProperty Name="EnableNoReasonReturn" ColumnName="EnableNoReasonReturn" />
+          <ScalarProperty Name="NeedPayCashDeposit" ColumnName="NeedPayCashDeposit" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InviteRecordInfo">
+      <EntityTypeMapping TypeName="Himall.Model.InviteRecordInfo">
+        <MappingFragment StoreEntitySet="Himall_InviteRecord">
+          <ScalarProperty Name="RecordTime" ColumnName="RecordTime" />
+          <ScalarProperty Name="RegUserId" ColumnName="RegUserId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+          <ScalarProperty Name="RegIntegral" ColumnName="RegIntegral" />
+          <ScalarProperty Name="InviteIntegral" ColumnName="InviteIntegral" />
+          <ScalarProperty Name="RegName" ColumnName="RegName" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InviteRuleInfo">
+      <EntityTypeMapping TypeName="Himall.Model.InviteRuleInfo">
+        <MappingFragment StoreEntitySet="Himall_InviteRule">
+          <ScalarProperty Name="ShareRule" ColumnName="ShareRule" />
+          <ScalarProperty Name="ShareIcon" ColumnName="ShareIcon" />
+          <ScalarProperty Name="ShareDesc" ColumnName="ShareDesc" />
+          <ScalarProperty Name="ShareTitle" ColumnName="ShareTitle" />
+          <ScalarProperty Name="RegIntegral" ColumnName="RegIntegral" />
+          <ScalarProperty Name="InviteIntegral" ColumnName="InviteIntegral" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_OpenIds">
+      <EntityTypeMapping TypeName="Himall.Model.OpenIdsInfo">
+        <MappingFragment StoreEntitySet="Himall_OpenIds">
+          <ScalarProperty Name="IsSubscribe" ColumnName="IsSubscribe" />
+          <ScalarProperty Name="SubscribeTime" ColumnName="SubscribeTime" />
+          <ScalarProperty Name="OpenId" ColumnName="OpenId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ChargeDetail">
+      <EntityTypeMapping TypeName="Himall.Model.ChargeDetailInfo">
+        <MappingFragment StoreEntitySet="Himall_ChargeDetail">
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="ChargeStatus" ColumnName="ChargeStatus" />
+          <ScalarProperty Name="ChargeWay" ColumnName="ChargeWay" />
+          <ScalarProperty Name="ChargeAmount" ColumnName="ChargeAmount" />
+          <ScalarProperty Name="ChargeTime" ColumnName="ChargeTime" />
+          <ScalarProperty Name="MemId" ColumnName="MemId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_WeiXinBasic">
+      <EntityTypeMapping TypeName="Himall.Model.WeiXinBasicInfo">
+        <MappingFragment StoreEntitySet="Himall_WeiXinBasic">
+          <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
+          <ScalarProperty Name="AppId" ColumnName="AppId" />
+          <ScalarProperty Name="TicketOutTime" ColumnName="TicketOutTime" />
+          <ScalarProperty Name="Ticket" ColumnName="Ticket" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_WXCardCodeLog">
+      <EntityTypeMapping TypeName="Himall.Model.WXCardCodeLogInfo">
+        <MappingFragment StoreEntitySet="Himall_WXCardCodeLog">
+          <ScalarProperty Name="OpenId" ColumnName="OpenId" />
+          <ScalarProperty Name="CouponCodeId" ColumnName="CouponCodeId" />
+          <ScalarProperty Name="CouponType" ColumnName="CouponType" />
+          <ScalarProperty Name="UsedTime" ColumnName="UsedTime" />
+          <ScalarProperty Name="CodeStatus" ColumnName="CodeStatus" />
+          <ScalarProperty Name="SendTime" ColumnName="SendTime" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="CardId" ColumnName="CardId" />
+          <ScalarProperty Name="CardLogId" ColumnName="CardLogId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_WXCardLog">
+      <EntityTypeMapping TypeName="Himall.Model.WXCardLogInfo">
+        <MappingFragment StoreEntitySet="Himall_WXCardLog">
+          <ScalarProperty Name="CouponId" ColumnName="CouponId" />
+          <ScalarProperty Name="CouponType" ColumnName="CouponType" />
+          <ScalarProperty Name="AppSecret" ColumnName="AppSecret" />
+          <ScalarProperty Name="AppId" ColumnName="AppId" />
+          <ScalarProperty Name="AuditStatus" ColumnName="AuditStatus" />
+          <ScalarProperty Name="CardColor" ColumnName="CardColor" />
+          <ScalarProperty Name="CardSubTitle" ColumnName="CardSubTitle" />
+          <ScalarProperty Name="CardTitle" ColumnName="CardTitle" />
+          <ScalarProperty Name="CardId" ColumnName="CardId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Collocation">
+      <EntityTypeMapping TypeName="Himall.Model.CollocationInfo">
+        <MappingFragment StoreEntitySet="Himall_Collocation">
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="ShortDesc" ColumnName="ShortDesc" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_CollocationPoruducts">
+      <EntityTypeMapping TypeName="Himall.Model.CollocationPoruductInfo">
+        <MappingFragment StoreEntitySet="Himall_CollocationPoruducts">
+          <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+          <ScalarProperty Name="IsMain" ColumnName="IsMain" />
+          <ScalarProperty Name="ColloId" ColumnName="ColloId" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_CollocationSkus">
+      <EntityTypeMapping TypeName="Himall.Model.CollocationSkuInfo">
+        <MappingFragment StoreEntitySet="Himall_CollocationSkus">
+          <ScalarProperty Name="SkuPirce" ColumnName="SkuPirce" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="ColloProductId" ColumnName="ColloProductId" />
+          <ScalarProperty Name="SkuID" ColumnName="SkuID" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_WXAccToken">
+      <EntityTypeMapping TypeName="Himall.Model.WXAccTokenInfo">
+        <MappingFragment StoreEntitySet="Himall_WXAccToken">
+          <ScalarProperty Name="TokenOutTime" ColumnName="TokenOutTime" />
+          <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
+          <ScalarProperty Name="AppId" ColumnName="AppId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopBonus">
+      <EntityTypeMapping TypeName="Himall.Model.ShopBonusInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopBonus">
+          <ScalarProperty Name="WXCardState" ColumnName="WXCardState" />
+          <ScalarProperty Name="QRPath" ColumnName="QRPath" />
+          <ScalarProperty Name="ReceiveCount" ColumnName="ReceiveCount" />
+          <ScalarProperty Name="IsInvalid" ColumnName="IsInvalid" />
+          <ScalarProperty Name="CardSubtitle" ColumnName="CardSubtitle" />
+          <ScalarProperty Name="CardColor" ColumnName="CardColor" />
+          <ScalarProperty Name="CardTitle" ColumnName="CardTitle" />
+          <ScalarProperty Name="SynchronizeCard" ColumnName="SynchronizeCard" />
+          <ScalarProperty Name="ShareImg" ColumnName="ShareImg" />
+          <ScalarProperty Name="ShareDetail" ColumnName="ShareDetail" />
+          <ScalarProperty Name="ShareTitle" ColumnName="ShareTitle" />
+          <ScalarProperty Name="BonusDateEnd" ColumnName="BonusDateEnd" />
+          <ScalarProperty Name="BonusDateStart" ColumnName="BonusDateStart" />
+          <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+          <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+          <ScalarProperty Name="GrantPrice" ColumnName="GrantPrice" />
+          <ScalarProperty Name="UsrStatePrice" ColumnName="UsrStatePrice" />
+          <ScalarProperty Name="UseState" ColumnName="UseState" />
+          <ScalarProperty Name="RandomAmountEnd" ColumnName="RandomAmountEnd" />
+          <ScalarProperty Name="RandomAmountStart" ColumnName="RandomAmountStart" />
+          <ScalarProperty Name="Count" ColumnName="Count" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopBonusGrant">
+      <EntityTypeMapping TypeName="Himall.Model.ShopBonusGrantInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopBonusGrant">
+          <ScalarProperty Name="BonusQR" ColumnName="BonusQR" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ShopBonusId" ColumnName="ShopBonusId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopBonusReceive">
+      <EntityTypeMapping TypeName="Himall.Model.ShopBonusReceiveInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopBonusReceive">
+          <ScalarProperty Name="WXHead" ColumnName="WXHead" />
+          <ScalarProperty Name="WXName" ColumnName="WXName" />
+          <ScalarProperty Name="UsedOrderId" ColumnName="UsedOrderId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UsedTime" ColumnName="UsedTime" />
+          <ScalarProperty Name="ReceiveTime" ColumnName="ReceiveTime" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="OpenId" ColumnName="OpenId" />
+          <ScalarProperty Name="BonusGrantId" ColumnName="BonusGrantId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_PaymentConfig">
+      <EntityTypeMapping TypeName="Himall.Model.PaymentConfigInfo">
+        <MappingFragment StoreEntitySet="Himall_PaymentConfig">
+          <ScalarProperty Name="IsCashOnDelivery" ColumnName="IsCashOnDelivery" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MemberSignIn">
+      <EntityTypeMapping TypeName="Himall.Model.MemberSignInInfo">
+        <MappingFragment StoreEntitySet="Himall_MemberSignIn">
+          <ScalarProperty Name="SignDaySum" ColumnName="SignDaySum" />
+          <ScalarProperty Name="DurationDaySum" ColumnName="DurationDaySum" />
+          <ScalarProperty Name="DurationDay" ColumnName="DurationDay" />
+          <ScalarProperty Name="LastSignTime" ColumnName="LastSignTime" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_SiteSignInConfig">
+      <EntityTypeMapping TypeName="Himall.Model.SiteSignInConfigInfo">
+        <MappingFragment StoreEntitySet="Himall_SiteSignInConfig">
+          <ScalarProperty Name="DurationReward" ColumnName="DurationReward" />
+          <ScalarProperty Name="DurationCycle" ColumnName="DurationCycle" />
+          <ScalarProperty Name="DayIntegral" ColumnName="DayIntegral" />
+          <ScalarProperty Name="IsEnable" ColumnName="IsEnable" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_AgentProducts">
+      <EntityTypeMapping TypeName="Himall.Model.AgentProductsInfo">
+        <MappingFragment StoreEntitySet="Himall_AgentProducts">
+          <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_BrokerageIncome">
+      <EntityTypeMapping TypeName="IsTypeOf(Himall.Model.BrokerageIncomeInfo)">
+        <MappingFragment StoreEntitySet="Himall_BrokerageIncome">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="OrderItemId" ColumnName="OrderItemId" />
+          <ScalarProperty Name="SkuID" ColumnName="SkuID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="SkuInfo" ColumnName="SkuInfo" />
+          <ScalarProperty Name="Brokerage" ColumnName="Brokerage" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="BuyerUserId" ColumnName="BuyerUserId" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="SettlementTime" ColumnName="SettlementTime" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+          <ScalarProperty Name="OrderTime" ColumnName="OrderTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_BrokerageRefund">
+      <EntityTypeMapping TypeName="IsTypeOf(Himall.Model.BrokerageRefundInfo)">
+        <MappingFragment StoreEntitySet="Himall_BrokerageRefund">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="IncomeId" ColumnName="IncomeId" />
+          <ScalarProperty Name="Brokerage" ColumnName="Brokerage" />
+          <ScalarProperty Name="RefundTime" ColumnName="RefundTime" />
+          <ScalarProperty Name="RefundAmount" ColumnName="RefundAmount" />
+          <ScalarProperty Name="RefundId" ColumnName="RefundId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_DistributorSetting">
+      <EntityTypeMapping TypeName="Himall.Model.DistributorSettingInfo">
+        <MappingFragment StoreEntitySet="Himall_DistributorSetting">
+          <ScalarProperty Name="DisBanner" ColumnName="DisBanner" />
+          <ScalarProperty Name="Enable" ColumnName="Enable" />
+          <ScalarProperty Name="PromoterRule" ColumnName="PromoterRule" />
+          <ScalarProperty Name="SellerRule" ColumnName="SellerRule" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ProductBrokerage">
+      <EntityTypeMapping TypeName="Himall.Model.ProductBrokerageInfo">
+        <MappingFragment StoreEntitySet="Himall_ProductBrokerage">
+          <ScalarProperty Name="BrokerageTotal" ColumnName="BrokerageTotal" />
+          <ScalarProperty Name="BrokerageAmount" ColumnName="BrokerageAmount" />
+          <ScalarProperty Name="saleAmount" ColumnName="saleAmount" />
+          <ScalarProperty Name="Sort" ColumnName="Sort" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ForwardNum" ColumnName="ForwardNum" />
+          <ScalarProperty Name="AgentNum" ColumnName="AgentNum" />
+          <ScalarProperty Name="SaleNum" ColumnName="SaleNum" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="rate" ColumnName="rate" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Promoter">
+      <EntityTypeMapping TypeName="Himall.Model.PromoterInfo">
+        <MappingFragment StoreEntitySet="Himall_Promoter">
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="PassTime" ColumnName="PassTime" />
+          <ScalarProperty Name="ApplyTime" ColumnName="ApplyTime" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_RecruitPlan">
+      <EntityTypeMapping TypeName="Himall.Model.RecruitPlanInfo">
+        <MappingFragment StoreEntitySet="Himall_RecruitPlan">
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_RecruitSetting">
+      <EntityTypeMapping TypeName="Himall.Model.RecruitSettingInfo">
+        <MappingFragment StoreEntitySet="Himall_RecruitSetting">
+          <ScalarProperty Name="MustRealName" ColumnName="MustRealName" />
+          <ScalarProperty Name="MustAddress" ColumnName="MustAddress" />
+          <ScalarProperty Name="MustMobile" ColumnName="MustMobile" />
+          <ScalarProperty Name="Enable" ColumnName="Enable" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopDistributorSetting">
+      <EntityTypeMapping TypeName="Himall.Model.ShopDistributorSettingInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopDistributorSetting">
+          <ScalarProperty Name="DistributorShareLogo" ColumnName="DistributorShareLogo" />
+          <ScalarProperty Name="DistributorShareContent" ColumnName="DistributorShareContent" />
+          <ScalarProperty Name="DistributorShareName" ColumnName="DistributorShareName" />
+          <ScalarProperty Name="DistributorDefaultRate" ColumnName="DistributorDefaultRate" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Label">
+      <EntityTypeMapping TypeName="Himall.Model.LabelInfo">
+        <MappingFragment StoreEntitySet="Himall_Label">
+          <ScalarProperty Name="LabelName" ColumnName="LabelName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MemberLabel">
+      <EntityTypeMapping TypeName="Himall.Model.MemberLabelInfo">
+        <MappingFragment StoreEntitySet="Himall_MemberLabel">
+          <ScalarProperty Name="LabelId" ColumnName="LabelId" />
+          <ScalarProperty Name="MemId" ColumnName="MemId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_SendMessageRecord">
+      <EntityTypeMapping TypeName="Himall.Model.SendMessageRecordInfo">
+        <MappingFragment StoreEntitySet="Himall_SendMessageRecord">
+          <ScalarProperty Name="SendTime" ColumnName="SendTime" />
+          <ScalarProperty Name="SendState" ColumnName="SendState" />
+          <ScalarProperty Name="ToUserLabel" ColumnName="ToUserLabel" />
+          <ScalarProperty Name="SendContent" ColumnName="SendContent" />
+          <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+          <ScalarProperty Name="MessageType" ColumnName="MessageType" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_WeiXinMsgTemplate">
+      <EntityTypeMapping TypeName="Himall.Model.WeiXinMsgTemplateInfo">
+        <MappingFragment StoreEntitySet="Himall_WeiXinMsgTemplate">
+          <ScalarProperty Name="UserInWxApplet" ColumnName="UserInWxApplet" />
+          <ScalarProperty Name="IsOpen" ColumnName="IsOpen" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+          <ScalarProperty Name="TemplateNum" ColumnName="TemplateNum" />
+          <ScalarProperty Name="MessageType" ColumnName="MessageType" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FlashSaleConfig">
+      <EntityTypeMapping TypeName="Himall.Model.FlashSaleConfigInfo">
+        <MappingFragment StoreEntitySet="Himall_FlashSaleConfig">
+          <ScalarProperty Name="IsNormalPurchase" ColumnName="IsNormalPurchase" />
+          <ScalarProperty Name="Preheat" ColumnName="Preheat" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FlashSale">
+      <EntityTypeMapping TypeName="Himall.Model.FlashSaleInfo">
+        <MappingFragment StoreEntitySet="Himall_FlashSale">
+          <ScalarProperty Name="MinPrice" ColumnName="MinPrice" />
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="SaleCount" ColumnName="SaleCount" />
+          <ScalarProperty Name="LimitCountOfThePeople" ColumnName="LimitCountOfThePeople" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FlashSaleDetail">
+      <EntityTypeMapping TypeName="Himall.Model.FlashSaleDetailInfo">
+        <MappingFragment StoreEntitySet="Himall_FlashSaleDetail">
+          <ScalarProperty Name="FlashSaleId" ColumnName="FlashSaleId" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="SkuId" ColumnName="SkuId" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_PhotoSpace">
+      <EntityTypeMapping TypeName="Himall.Model.PhotoSpaceInfo">
+        <MappingFragment StoreEntitySet="Himall_PhotoSpace">
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
+          <ScalarProperty Name="FileSize" ColumnName="FileSize" />
+          <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+          <ScalarProperty Name="PhotoName" ColumnName="PhotoName" />
+          <ScalarProperty Name="PhotoCategoryId" ColumnName="PhotoCategoryId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_PhotoSpaceCategory">
+      <EntityTypeMapping TypeName="Himall.Model.PhotoSpaceCategoryInfo">
+        <MappingFragment StoreEntitySet="Himall_PhotoSpaceCategory">
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+          <ScalarProperty Name="PhotoSpaceCatrgoryName" ColumnName="PhotoSpaceCatrgoryName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_TemplateVisualizationSettings">
+      <EntityTypeMapping TypeName="Himall.Model.TemplateVisualizationSettingsInfo">
+        <MappingFragment StoreEntitySet="Himall_TemplateVisualizationSettings">
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="CurrentTemplateName" ColumnName="CurrentTemplateName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_DistributionShareSetting">
+      <EntityTypeMapping TypeName="Himall.Model.DistributionShareSetting">
+        <MappingFragment StoreEntitySet="Himall_DistributionShareSetting">
+          <ScalarProperty Name="RecruitShareDesc" ColumnName="RecruitShareDesc" />
+          <ScalarProperty Name="DisShareDesc" ColumnName="DisShareDesc" />
+          <ScalarProperty Name="RecruitShareTitle" ColumnName="RecruitShareTitle" />
+          <ScalarProperty Name="DisShareTitle" ColumnName="DisShareTitle" />
+          <ScalarProperty Name="RecruitShareLogo" ColumnName="RecruitShareLogo" />
+          <ScalarProperty Name="DisShareLogo" ColumnName="DisShareLogo" />
+          <ScalarProperty Name="ShopShareDesc" ColumnName="ShopShareDesc" />
+          <ScalarProperty Name="ProShareDesc" ColumnName="ProShareDesc" />
+          <ScalarProperty Name="ShopShareTitle" ColumnName="ShopShareTitle" />
+          <ScalarProperty Name="ProShareTitle" ColumnName="ProShareTitle" />
+          <ScalarProperty Name="ShopShareLogo" ColumnName="ShopShareLogo" />
+          <ScalarProperty Name="ProShareLogo" ColumnName="ProShareLogo" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_DistributionUserLink">
+      <EntityTypeMapping TypeName="Himall.Model.DistributionUserLinkInfo">
+        <MappingFragment StoreEntitySet="Himall_DistributionUserLink">
+          <ScalarProperty Name="BuyUserId" ColumnName="BuyUserId" />
+          <ScalarProperty Name="LinkTime" ColumnName="LinkTime" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="PartnerId" ColumnName="PartnerId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FlashSaleRemind">
+      <EntityTypeMapping TypeName="Himall.Model.FlashSaleRemindInfo">
+        <MappingFragment StoreEntitySet="Himall_FlashSaleRemind">
+          <ScalarProperty Name="FlashSaleId" ColumnName="FlashSaleId" />
+          <ScalarProperty Name="RecordDate" ColumnName="RecordDate" />
+          <ScalarProperty Name="OpenId" ColumnName="OpenId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopHomeModulesTopImg">
+      <EntityTypeMapping TypeName="Himall.Model.ShopHomeModulesTopImgInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopHomeModulesTopImg">
+          <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+          <ScalarProperty Name="HomeModuleId" ColumnName="HomeModuleId" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="ImgPath" ColumnName="ImgPath" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopFooter">
+      <EntityTypeMapping TypeName="Himall.Model.ShopFooterInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopFooter">
+          <ScalarProperty Name="Footer" ColumnName="Footer" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ReceivingAddressConfig">
+      <EntityTypeMapping TypeName="Himall.Model.ReceivingAddressInfo">
+        <MappingFragment StoreEntitySet="Himall_ReceivingAddressConfig">
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+          <ScalarProperty Name="AddressId_City" ColumnName="AddressId_City" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_OrderExpressData">
+      <EntityTypeMapping TypeName="Himall.Model.OrderExpressInfo">
+        <MappingFragment StoreEntitySet="Himall_OrderExpressData">
+          <ScalarProperty Name="DataContent" ColumnName="DataContent" />
+          <ScalarProperty Name="ExpressNumber" ColumnName="ExpressNumber" />
+          <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_OrderRefundLogs">
+      <EntityTypeMapping TypeName="Himall.Model.OrderRefundlogsInfo">
+        <MappingFragment StoreEntitySet="Himall_OrderRefundLogs">
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="Step" ColumnName="Step" />
+          <ScalarProperty Name="ApplyNumber" ColumnName="ApplyNumber" />
+          <ScalarProperty Name="OperateContent" ColumnName="OperateContent" />
+          <ScalarProperty Name="OperateDate" ColumnName="OperateDate" />
+          <ScalarProperty Name="Operator" ColumnName="Operator" />
+          <ScalarProperty Name="RefundId" ColumnName="RefundId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ProductCommentsImages">
+      <EntityTypeMapping TypeName="Himall.Model.ProductCommentsImagesInfo">
+        <MappingFragment StoreEntitySet="Himall_ProductCommentsImages">
+          <ScalarProperty Name="CommentType" ColumnName="CommentType" />
+          <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+          <ScalarProperty Name="CommentImage" ColumnName="CommentImage" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_RefundReason">
+      <EntityTypeMapping TypeName="Himall.Model.RefundReasonInfo">
+        <MappingFragment StoreEntitySet="Himall_RefundReason">
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="AfterSalesText" ColumnName="AfterSalesText" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_BusinessCategoriesApply">
+      <EntityTypeMapping TypeName="Himall.Model.BusinessCategoriesApplyInfo">
+        <MappingFragment StoreEntitySet="Himall_BusinessCategoriesApply">
+          <ScalarProperty Name="AuditedDate" ColumnName="AuditedDate" />
+          <ScalarProperty Name="AuditedStatus" ColumnName=" AuditedStatus" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="ApplyDate" ColumnName="ApplyDate" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_BusinessCategoriesApplyDetail">
+      <EntityTypeMapping TypeName="IsTypeOf(Himall.Model.BusinessCategoriesApplyDetailInfo)">
+        <MappingFragment StoreEntitySet="Himall_BusinessCategoriesApplyDetail">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CommisRate" ColumnName="CommisRate" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="ApplyId" ColumnName="ApplyId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopRenewRecord">
+      <EntityTypeMapping TypeName="Himall.Model.ShopRenewRecord">
+        <MappingFragment StoreEntitySet="Himall_ShopRenewRecord">
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="OperateType" ColumnName="OperateType" />
+          <ScalarProperty Name="OperateContent" ColumnName="OperateContent" />
+          <ScalarProperty Name="OperateDate" ColumnName="OperateDate" />
+          <ScalarProperty Name="Operator" ColumnName="Operator" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopOpenApiSetting">
+      <EntityTypeMapping TypeName="Himall.Model.ShopOpenApiSettingInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopOpenApiSetting">
+          <ScalarProperty Name="IsRegistered" ColumnName="IsRegistered" />
+          <ScalarProperty Name="IsEnable" ColumnName="IsEnable" />
+          <ScalarProperty Name="LastEditDate" ColumnName="LastEditDate" />
+          <ScalarProperty Name="AddDate" ColumnName="AddDate" />
+          <ScalarProperty Name="AppSecreat" ColumnName="AppSecreat" />
+          <ScalarProperty Name="AppKey" ColumnName="AppKey" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Theme">
+      <EntityTypeMapping TypeName="Himall.Model.ThemeInfo">
+        <MappingFragment StoreEntitySet="Himall_Theme">
+          <ScalarProperty Name="ClassifiedsColor" ColumnName="ClassifiedsColor" />
+          <ScalarProperty Name="FrameColor" ColumnName="FrameColor" />
+          <ScalarProperty Name="WritingColor" ColumnName="WritingColor" />
+          <ScalarProperty Name="SecondaryColor" ColumnName="SecondaryColor" />
+          <ScalarProperty Name="MainColor" ColumnName="MainColor" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="ThemeId" ColumnName="ThemeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_CouponSendByRegister">
+      <EntityTypeMapping TypeName="Himall.Model.CouponSendByRegisterInfo">
+        <MappingFragment StoreEntitySet="Himall_CouponSendByRegister">
+          <ScalarProperty Name="Link" ColumnName="Link" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_CouponSendByRegisterDetailed">
+      <EntityTypeMapping TypeName="Himall.Model.CouponSendByRegisterDetailedInfo">
+        <MappingFragment StoreEntitySet="Himall_CouponSendByRegisterDetailed">
+          <ScalarProperty Name="CouponId" ColumnName="CouponId" />
+          <ScalarProperty Name="CouponRegisterId" ColumnName="CouponRegisterId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_SendmessagerecordCoupon">
+      <EntityTypeMapping TypeName="Himall.Model.SendmessagerecordCouponInfo">
+        <MappingFragment StoreEntitySet="Himall_SendmessagerecordCoupon">
+          <ScalarProperty Name="CouponId" ColumnName="CouponId" />
+          <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FightGroupActive">
+      <EntityTypeMapping TypeName="Himall.Model.FightGroupActiveInfo">
+        <MappingFragment StoreEntitySet="Himall_FightGroupActive">
+          <ScalarProperty Name="ActiveTimeStatus" ColumnName="ActiveTimeStatus" />
+          <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
+          <ScalarProperty Name="ManageDate" ColumnName="ManageDate" />
+          <ScalarProperty Name="ManageRemark" ColumnName="ManageRemark" />
+          <ScalarProperty Name="ManageAuditStatus" ColumnName="ManageAuditStatus" />
+          <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+          <ScalarProperty Name="OkGroupCount" ColumnName="OkGroupCount" />
+          <ScalarProperty Name="GroupCount" ColumnName="GroupCount" />
+          <ScalarProperty Name="LimitQuantity" ColumnName="LimitQuantity" />
+          <ScalarProperty Name="LimitedHour" ColumnName="LimitedHour" />
+          <ScalarProperty Name="LimitedNumber" ColumnName="LimitedNumber" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="IconUrl" ColumnName="IconUrl" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PayCode" ColumnName="PayCode" />
+          <ScalarProperty Name="IsCombo" ColumnName="IsCombo" />
+          <ScalarProperty Name="OpenGroupReward" ColumnName="OpenGroupReward" />
+          <ScalarProperty Name="InvitationReward" ColumnName="InvitationReward" />
+          <ScalarProperty Name="ReturnMoney" ColumnName="ReturnMoney" />
+          <ScalarProperty Name="UseDate" ColumnName="UseDate" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="IsVirtualProduct" ColumnName="IsVirtualProduct" />
+          <ScalarProperty Name="GroupNotice" ColumnName="GroupNotice" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FightGroupActiveItem">
+      <EntityTypeMapping TypeName="Himall.Model.FightGroupActiveItemInfo">
+        <MappingFragment StoreEntitySet="Himall_FightGroupActiveItem">
+          <ScalarProperty Name="BuyCount" ColumnName="BuyCount" />
+          <ScalarProperty Name="ActiveStock" ColumnName="ActiveStock" />
+          <ScalarProperty Name="ActivePrice" ColumnName="ActivePrice" />
+          <ScalarProperty Name="SkuId" ColumnName="SkuId" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="ActiveId" ColumnName="ActiveId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FightGroupOrder">
+      <EntityTypeMapping TypeName="Himall.Model.FightGroupOrderInfo">
+        <MappingFragment StoreEntitySet="Himall_FightGroupOrder">
+          <ScalarProperty Name="SalePrice" ColumnName="SalePrice" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="SkuId" ColumnName="SkuId" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="OrderUserId" ColumnName="OrderUserId" />
+          <ScalarProperty Name="OverTime" ColumnName="OverTime" />
+          <ScalarProperty Name="JoinStatus" ColumnName="JoinStatus" />
+          <ScalarProperty Name="JoinTime" ColumnName="JoinTime" />
+          <ScalarProperty Name="IsFirstOrder" ColumnName="IsFirstOrder" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+          <ScalarProperty Name="ActiveId" ColumnName="ActiveId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvitationUserId" ColumnName="InvitationUserId" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="JoinedNumber" ColumnName="JoinedNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FightGroups">
+      <EntityTypeMapping TypeName="Himall.Model.FightGroupsInfo">
+        <MappingFragment StoreEntitySet="Himall_FightGroups">
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="OverTime" ColumnName="OverTime" />
+          <ScalarProperty Name="AddGroupTime" ColumnName="AddGroupTime" />
+          <ScalarProperty Name="GroupStatus" ColumnName="GroupStatus" />
+          <ScalarProperty Name="IsException" ColumnName="IsException" />
+          <ScalarProperty Name="JoinedNumber" ColumnName="JoinedNumber" />
+          <ScalarProperty Name="LimitedHour" ColumnName="LimitedHour" />
+          <ScalarProperty Name="LimitedNumber" ColumnName="LimitedNumber" />
+          <ScalarProperty Name="ActiveId" ColumnName="ActiveId" />
+          <ScalarProperty Name="HeadUserId" ColumnName="HeadUserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_WeiActivityAward">
+      <EntityTypeMapping TypeName="Himall.Model.WeiActivityAwardInfo">
+        <MappingFragment StoreEntitySet="Himall_WeiActivityAward">
+          <ScalarProperty Name="CouponId" ColumnName="CouponId" />
+          <ScalarProperty Name="BonusId" ColumnName="BonusId" />
+          <ScalarProperty Name="Integral" ColumnName="Integral" />
+          <ScalarProperty Name="Proportion" ColumnName="Proportion" />
+          <ScalarProperty Name="AwardCount" ColumnName="AwardCount" />
+          <ScalarProperty Name="AwardType" ColumnName="AwardType" />
+          <ScalarProperty Name="AwardLevel" ColumnName="AwardLevel" />
+          <ScalarProperty Name="ActivityId" ColumnName="ActivityId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_WeiActivityInfo">
+      <EntityTypeMapping TypeName="Himall.Model.WeiActivityInfo">
+        <MappingFragment StoreEntitySet="Himall_WeiActivityInfo">
+          <ScalarProperty Name="AddDate" ColumnName="AddDate" />
+          <ScalarProperty Name="CodeUrl" ColumnName="CodeUrl" />
+          <ScalarProperty Name="ConsumePoint" ColumnName="ConsumePoint" />
+          <ScalarProperty Name="ParticipationCount" ColumnName="ParticipationCount" />
+          <ScalarProperty Name="ParticipationType" ColumnName="ParticipationType" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="BeginTime" ColumnName="BeginTime" />
+          <ScalarProperty Name="ActivityUrl" ColumnName="ActivityUrl" />
+          <ScalarProperty Name="ActivityDetails" ColumnName="ActivityDetails" />
+          <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
+          <ScalarProperty Name="ActivityTitle" ColumnName="ActivityTitle" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_WeiActivityWinInfo">
+      <EntityTypeMapping TypeName="Himall.Model.WeiActivityWinInfo">
+        <MappingFragment StoreEntitySet="Himall_WeiActivityWinInfo">
+          <ScalarProperty Name="AddDate" ColumnName="AddDate" />
+          <ScalarProperty Name="AwardName" ColumnName="AwardName" />
+          <ScalarProperty Name="IsWin" ColumnName="IsWin" />
+          <ScalarProperty Name="AwardId" ColumnName="AwardId" />
+          <ScalarProperty Name="ActivityId" ColumnName="ActivityId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Shops">
+      <EntityTypeMapping TypeName="Himall.Model.ShopInfo">
+        <MappingFragment StoreEntitySet="Himall_Shops">
+          <ScalarProperty Name="ContactsPosition" ColumnName="ContactsPosition" />
+          <ScalarProperty Name="ShopDescription" ColumnName="ShopDescription" />
+          <ScalarProperty Name="BranchImage" ColumnName="BranchImage" />
+          <ScalarProperty Name="Industry" ColumnName="Industry" />
+          <ScalarProperty Name="OpeningTime" ColumnName="OpeningTime" />
+          <ScalarProperty Name="WelcomeTitle" ColumnName="WelcomeTitle" />
+          <ScalarProperty Name="Lat" ColumnName="Lat" />
+          <ScalarProperty Name="Lng" ColumnName="Lng" />
+          <ScalarProperty Name="AutoAllotOrder" ColumnName="AutoAllotOrder" />
+          <ScalarProperty Name="IDCardUrl2" ColumnName="IDCardUrl2" />
+          <ScalarProperty Name="WeiXinImg" ColumnName="WeiXinImg" />
+          <ScalarProperty Name="WeiXinOpenId" ColumnName="WeiXinOpenId" />
+          <ScalarProperty Name="WeiXinTrueName" ColumnName="WeiXinTrueName" />
+          <ScalarProperty Name="WeiXinAddress" ColumnName="WeiXinAddress" />
+          <ScalarProperty Name="WeiXinSex" ColumnName="WeiXinSex" />
+          <ScalarProperty Name="WeiXinNickName" ColumnName="WeiXinNickName" />
+          <ScalarProperty Name="IDCardUrl" ColumnName="IDCardUrl" />
+          <ScalarProperty Name="IDCard" ColumnName="IDCard" />
+          <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+          <ScalarProperty Name="CompanyFoundingDate" ColumnName="CompanyFoundingDate" />
+          <ScalarProperty Name="legalPerson" ColumnName="legalPerson" />
+          <ScalarProperty Name="OtherCert" ColumnName="OtherCert" />
+          <ScalarProperty Name="ProductCert" ColumnName="ProductCert" />
+          <ScalarProperty Name="BusinessLicenseCert" ColumnName="BusinessLicenseCert" />
+          <ScalarProperty Name="SenderRegionId" ColumnName="SenderRegionId" />
+          <ScalarProperty Name="Stage" ColumnName="Stage" />
+          <ScalarProperty Name="FreeFreight" ColumnName="FreeFreight" />
+          <ScalarProperty Name="Freight" ColumnName="Freight" />
+          <ScalarProperty Name="SenderPhone" ColumnName="SenderPhone" />
+          <ScalarProperty Name="SenderAddress" ColumnName="SenderAddress" />
+          <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+          <ScalarProperty Name="PayRemark" ColumnName="PayRemark" />
+          <ScalarProperty Name="PayPhoto" ColumnName="PayPhoto" />
+          <ScalarProperty Name="TaxRegistrationCertificatePhoto" ColumnName="TaxRegistrationCertificatePhoto" />
+          <ScalarProperty Name="TaxpayerId" ColumnName="TaxpayerId" />
+          <ScalarProperty Name="TaxRegistrationCertificate" ColumnName="TaxRegistrationCertificate" />
+          <ScalarProperty Name="BankPhoto" ColumnName="BankPhoto" />
+          <ScalarProperty Name="BankRegionId" ColumnName="BankRegionId" />
+          <ScalarProperty Name="BankCode" ColumnName="BankCode" />
+          <ScalarProperty Name="BankName" ColumnName="BankName" />
+          <ScalarProperty Name="BankAccountNumber" ColumnName="BankAccountNumber" />
+          <ScalarProperty Name="BankAccountName" ColumnName="BankAccountName" />
+          <ScalarProperty Name="GeneralTaxpayerPhot" ColumnName="GeneralTaxpayerPhot" />
+          <ScalarProperty Name="OrganizationCodePhoto" ColumnName="OrganizationCodePhoto" />
+          <ScalarProperty Name="OrganizationCode" ColumnName="OrganizationCode" />
+          <ScalarProperty Name="BusinessSphere" ColumnName="BusinessSphere" />
+          <ScalarProperty Name="BusinessLicenceEnd" ColumnName="BusinessLicenceEnd" />
+          <ScalarProperty Name="BusinessLicenceStart" ColumnName="BusinessLicenceStart" />
+          <ScalarProperty Name="BusinessLicenceRegionId" ColumnName="BusinessLicenceRegionId" />
+          <ScalarProperty Name="BusinessLicenceNumberPhoto" ColumnName="BusinessLicenceNumberPhoto" />
+          <ScalarProperty Name="BusinessLicenceNumber" ColumnName="BusinessLicenceNumber" />
+          <ScalarProperty Name="ContactsEmail" ColumnName="ContactsEmail" />
+          <ScalarProperty Name="ContactsPhone" ColumnName="ContactsPhone" />
+          <ScalarProperty Name="ContactsName" ColumnName="ContactsName" />
+          <ScalarProperty Name="CompanyRegisteredCapital" ColumnName="CompanyRegisteredCapital" />
+          <ScalarProperty Name="CompanyEmployeeCount" ColumnName="CompanyEmployeeCount" />
+          <ScalarProperty Name="CompanyPhone" ColumnName="CompanyPhone" />
+          <ScalarProperty Name="CompanyAddress" ColumnName="CompanyAddress" />
+          <ScalarProperty Name="CompanyRegionId" ColumnName="CompanyRegionId" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="RefuseReason" ColumnName="RefuseReason" />
+          <ScalarProperty Name="ShopStatus" ColumnName="ShopStatus" />
+          <ScalarProperty Name="IsSelf" ColumnName="IsSelf" />
+          <ScalarProperty Name="Theme" ColumnName="Theme" />
+          <ScalarProperty Name="SubDomains" ColumnName="SubDomains" />
+          <ScalarProperty Name="Logo" ColumnName="Logo" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="GradeId" ColumnName="GradeId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Settled">
+      <EntityTypeMapping TypeName="Himall.Model.SettledInfo">
+        <MappingFragment StoreEntitySet="Himall_Settled">
+          <ScalarProperty Name="SelfVerificationType" ColumnName="SelfVerificationType" />
+          <ScalarProperty Name="IsSIdCardUrl" ColumnName="IsSIdCardUrl" />
+          <ScalarProperty Name="IsSIDCard" ColumnName="IsSIDCard" />
+          <ScalarProperty Name="IsSAddress" ColumnName="IsSAddress" />
+          <ScalarProperty Name="IsSCity" ColumnName="IsSCity" />
+          <ScalarProperty Name="IsSName" ColumnName="IsSName" />
+          <ScalarProperty Name="CompanyVerificationType" ColumnName="CompanyVerificationType" />
+          <ScalarProperty Name="IsTaxpayerToProve" ColumnName="IsTaxpayerToProve" />
+          <ScalarProperty Name="IsAgencyCodeLicense" ColumnName="IsAgencyCodeLicense" />
+          <ScalarProperty Name="IsAgencyCode" ColumnName="IsAgencyCode" />
+          <ScalarProperty Name="IsBusinessLicense" ColumnName="IsBusinessLicense" />
+          <ScalarProperty Name="IsBusinessScope" ColumnName="IsBusinessScope" />
+          <ScalarProperty Name="IsBusinessLicenseCode" ColumnName="IsBusinessLicenseCode" />
+          <ScalarProperty Name="IsAddress" ColumnName="IsAddress" />
+          <ScalarProperty Name="IsPeopleNumber" ColumnName="IsPeopleNumber" />
+          <ScalarProperty Name="IsCity" ColumnName="IsCity" />
+          <ScalarProperty Name="TrialDays" ColumnName="TrialDays" />
+          <ScalarProperty Name="SettlementAccountType" ColumnName="SettlementAccountType" />
+          <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_DistributionProducts">
+      <EntityTypeMapping TypeName="Himall.Model.DistributionProductsInfo">
+        <MappingFragment StoreEntitySet="Himall_DistributionProducts">
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="ProductbrokerageId" ColumnName="ProductbrokerageId" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_PendingSettlementOrders">
+      <EntityTypeMapping TypeName="Himall.Model.PendingSettlementOrdersInfo">
+        <MappingFragment StoreEntitySet="Himall_PendingSettlementOrders">
+          <ScalarProperty Name="JoinCommission" ColumnName="JoinCommission" />
+          <ScalarProperty Name="OpenCommission" ColumnName="OpenCommission" />
+          <ScalarProperty Name="PaymentTypeName" ColumnName="PaymentTypeName" />
+          <ScalarProperty Name="OrderAmount" ColumnName="OrderAmount" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="OrderFinshTime" ColumnName="OrderFinshTime" />
+          <ScalarProperty Name="SettlementAmount" ColumnName="SettlementAmount" />
+          <ScalarProperty Name="DistributorCommissionReturn" ColumnName="DistributorCommissionReturn" />
+          <ScalarProperty Name="PlatCommissionReturn" ColumnName="PlatCommissionReturn" />
+          <ScalarProperty Name="RefundAmount" ColumnName="RefundAmount" />
+          <ScalarProperty Name="DistributorCommission" ColumnName="DistributorCommission" />
+          <ScalarProperty Name="PlatCommission" ColumnName="PlatCommission" />
+          <ScalarProperty Name="FreightAmount" ColumnName="FreightAmount" />
+          <ScalarProperty Name="ProductsAmount" ColumnName="ProductsAmount" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_PlatAccount">
+      <EntityTypeMapping TypeName="Himall.Model.PlatAccountInfo">
+        <MappingFragment StoreEntitySet="Himall_PlatAccount">
+          <ScalarProperty Name="Settled" ColumnName="Settled" />
+          <ScalarProperty Name="PendingSettlement" ColumnName="PendingSettlement" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_PlatAccountItem">
+      <EntityTypeMapping TypeName="Himall.Model.PlatAccountItemInfo">
+        <MappingFragment StoreEntitySet="Himall_PlatAccountItem">
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="DetailId" ColumnName="DetailId" />
+          <ScalarProperty Name="ReMark" ColumnName="ReMark" />
+          <ScalarProperty Name="IsIncome" ColumnName="IsIncome" />
+          <ScalarProperty Name="TradeType" ColumnName="TradeType" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="AccoutID" ColumnName="AccoutID" />
+          <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopAccount">
+      <EntityTypeMapping TypeName="Himall.Model.ShopAccountInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopAccount">
+          <ScalarProperty Name="Settled" ColumnName="Settled" />
+          <ScalarProperty Name="PendingSettlement" ColumnName="PendingSettlement" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopAccountItem">
+      <EntityTypeMapping TypeName="Himall.Model.ShopAccountItemInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopAccountItem">
+          <ScalarProperty Name="SettlementCycle" ColumnName="SettlementCycle" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="DetailId" ColumnName="DetailId" />
+          <ScalarProperty Name="ReMark" ColumnName="ReMark" />
+          <ScalarProperty Name="IsIncome" ColumnName="IsIncome" />
+          <ScalarProperty Name="TradeType" ColumnName="TradeType" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="AccoutID" ColumnName="AccoutID" />
+          <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopWithDraw">
+      <EntityTypeMapping TypeName="Himall.Model.ShopWithDrawInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopWithDraw">
+          <ScalarProperty Name="SerialNo" ColumnName="SerialNo" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="PlatRemark" ColumnName="PlatRemark" />
+          <ScalarProperty Name="ShopRemark" ColumnName="ShopRemark" />
+          <ScalarProperty Name="DealTime" ColumnName="DealTime" />
+          <ScalarProperty Name="SellerName" ColumnName="SellerName" />
+          <ScalarProperty Name="SellerId" ColumnName="SellerId" />
+          <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+          <ScalarProperty Name="Account" ColumnName="Account" />
+          <ScalarProperty Name="CashAmount" ColumnName="CashAmount" />
+          <ScalarProperty Name="CashType" ColumnName="CashType" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ApplyTime" ColumnName="ApplyTime" />
+          <ScalarProperty Name="CashNo" ColumnName="CashNo" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ChargeDetailShop">
+      <EntityTypeMapping TypeName="Himall.Model.ChargeDetailShopInfo">
+        <MappingFragment StoreEntitySet="Himall_ChargeDetailShop">
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="ChargeStatus" ColumnName="ChargeStatus" />
+          <ScalarProperty Name="ChargeWay" ColumnName="ChargeWay" />
+          <ScalarProperty Name="ChargeAmount" ColumnName="ChargeAmount" />
+          <ScalarProperty Name="ChargeTime" ColumnName="ChargeTime" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_AutoReply">
+      <EntityTypeMapping TypeName="Himall.Model.AutoReplyInfo">
+        <MappingFragment StoreEntitySet="Himall_AutoReply">
+          <ScalarProperty Name="ReplyType" ColumnName="ReplyType" />
+          <ScalarProperty Name="IsOpen" ColumnName="IsOpen" />
+          <ScalarProperty Name="TextReply" ColumnName="TextReply" />
+          <ScalarProperty Name="MatchType" ColumnName="MatchType" />
+          <ScalarProperty Name="Keyword" ColumnName="Keyword" />
+          <ScalarProperty Name="RuleName" ColumnName="RuleName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_AppBaseSafeSetting">
+      <EntityTypeMapping TypeName="Himall.Model.AppBaseSafeSettingInfo">
+        <MappingFragment StoreEntitySet="Himall_AppBaseSafeSetting">
+          <ScalarProperty Name="AppSecret" ColumnName="AppSecret" />
+          <ScalarProperty Name="AppKey" ColumnName="AppKey" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopBranch">
+      <EntityTypeMapping TypeName="Himall.Model.ShopBranchInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopBranch">
+          <ScalarProperty Name="ShopImages" ColumnName="ShopImages" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="ServeRadius" ColumnName="ServeRadius" />
+          <ScalarProperty Name="AddressPath" ColumnName="AddressPath" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ContactPhone" ColumnName="ContactPhone" />
+          <ScalarProperty Name="ContactUser" ColumnName="ContactUser" />
+          <ScalarProperty Name="AddressDetail" ColumnName="AddressDetail" />
+          <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+          <ScalarProperty Name="ShopBranchName" ColumnName="ShopBranchName" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopBranchManagers">
+      <EntityTypeMapping TypeName="Himall.Model.ShopBranchManagersInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopBranchManagers">
+          <ScalarProperty Name="RealName" ColumnName="RealName" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="ShopBranchId" ColumnName="ShopBranchId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FreightAreaDetail">
+      <EntityTypeMapping TypeName="Himall.Model.FreightAreaDetailInfo">
+        <MappingFragment StoreEntitySet="Himall_FreightAreaDetail">
+          <ScalarProperty Name="TownIds" ColumnName="TownIds" />
+          <ScalarProperty Name="CountyId" ColumnName="CountyId" />
+          <ScalarProperty Name="CityId" ColumnName="CityId" />
+          <ScalarProperty Name="ProvinceId" ColumnName="ProvinceId" />
+          <ScalarProperty Name="FreightAreaId" ColumnName="FreightAreaId" />
+          <ScalarProperty Name="FreightTemplateId" ColumnName="FreightTemplateId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ShopBranchSkus">
+      <EntityTypeMapping TypeName="Himall.Model.ShopBranchSkusInfo">
+        <MappingFragment StoreEntitySet="Himall_ShopBranchSkus">
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Stock" ColumnName="Stock" />
+          <ScalarProperty Name="ShopBranchId" ColumnName="ShopBranchId" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="SkuId" ColumnName="SkuId" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ProductRelationProducts">
+      <EntityTypeMapping TypeName="IsTypeOf(Himall.Model.ProductRelationProductInfo)" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <MappingFragment StoreEntitySet="Himall_ProductRelationProducts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Relation" ColumnName="Relation" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_PlatVisits">
+      <EntityTypeMapping TypeName="Himall.Model.PlatVisitsInfo">
+        <MappingFragment StoreEntitySet="Himall_PlatVisits">
+          <ScalarProperty Name="StatisticFlag" ColumnName="StatisticFlag" />
+          <ScalarProperty Name="SaleAmounts" ColumnName="SaleAmounts" />
+          <ScalarProperty Name="SaleCounts" ColumnName="SaleCounts" />
+          <ScalarProperty Name="OrderPayCount" ColumnName="OrderPayCount" />
+          <ScalarProperty Name="OrderPayUserCount" ColumnName="OrderPayUserCount" />
+          <ScalarProperty Name="OrderAmount" ColumnName="OrderAmount" />
+          <ScalarProperty Name="OrderProductCount" ColumnName="OrderProductCount" />
+          <ScalarProperty Name="OrderCount" ColumnName="OrderCount" />
+          <ScalarProperty Name="OrderUserCount" ColumnName="OrderUserCount" />
+          <ScalarProperty Name="VisitCounts" ColumnName="VisitCounts" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MemberActivityDegree">
+      <EntityTypeMapping TypeName="Himall.Model.MemberActivityDegreeInfo">
+        <MappingFragment StoreEntitySet="Himall_MemberActivityDegree">
+          <ScalarProperty Name="SixMonthEffectiveTime" ColumnName="SixMonthEffectiveTime" />
+          <ScalarProperty Name="ThreeMonthEffectiveTime" ColumnName="ThreeMonthEffectiveTime" />
+          <ScalarProperty Name="OneMonthEffectiveTime" ColumnName="OneMonthEffectiveTime" />
+          <ScalarProperty Name="SixMonth" ColumnName="SixMonth" />
+          <ScalarProperty Name="ThreeMonth" ColumnName="ThreeMonth" />
+          <ScalarProperty Name="OneMonth" ColumnName="OneMonth" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MemberBuyCategory">
+      <EntityTypeMapping TypeName="Himall.Model.MemberBuyCategoryInfo">
+        <MappingFragment StoreEntitySet="Himall_MemberBuyCategory">
+          <ScalarProperty Name="OrdersCount" ColumnName="OrdersCount" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MemberConsumeStatistics">
+      <EntityTypeMapping TypeName="Himall.Model.MemberConsumeStatisticsInfo">
+        <MappingFragment StoreEntitySet="Himall_MemberConsumeStatistics">
+          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+          <ScalarProperty Name="NetAmount" ColumnName="NetAmount" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_MemberGroup">
+      <EntityTypeMapping TypeName="Himall.Model.MemberGroupInfo">
+        <MappingFragment StoreEntitySet="Himall_MemberGroup">
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="StatisticsType" ColumnName="StatisticsType" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_IntegralMallAds">
+      <EntityTypeMapping TypeName="Himall.Model.IntegralMallAdInfo">
+        <MappingFragment StoreEntitySet="Himall_IntegralMallAds">
+          <ScalarProperty Name="ShowPlatform" ColumnName="ShowPlatform" />
+          <ScalarProperty Name="ShowStatus" ColumnName="ShowStatus" />
+          <ScalarProperty Name="Cover" ColumnName="Cover" />
+          <ScalarProperty Name="ActivityId" ColumnName="ActivityId" />
+          <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_Active">
+      <EntityTypeMapping TypeName="Himall.Model.ActiveInfo">
+        <MappingFragment StoreEntitySet="Himall_Active">
+          <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
+          <ScalarProperty Name="ActiveType" ColumnName="ActiveType" />
+          <ScalarProperty Name="IsAllStore" ColumnName="IsAllStore" />
+          <ScalarProperty Name="IsAllProduct" ColumnName="IsAllProduct" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="ActiveName" ColumnName="ActiveName" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_ActiveProducts">
+      <EntityTypeMapping TypeName="Himall.Model.ActiveProductInfo">
+        <MappingFragment StoreEntitySet="Himall_ActiveProducts">
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="ActiveId" ColumnName="ActiveId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_FullDiscountRules">
+      <EntityTypeMapping TypeName="Himall.Model.FullDiscountRulesInfo">
+        <MappingFragment StoreEntitySet="Himall_FullDiscountRules">
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="Quota" ColumnName="Quota" />
+          <ScalarProperty Name="ActiveId" ColumnName="ActiveId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_SendmessagerecordCouponSN">
+      <EntityTypeMapping TypeName="Himall.Model.SendmessagerecordCouponSNInfo">
+        <MappingFragment StoreEntitySet="Himall_SendmessagerecordCouponSN">
+          <ScalarProperty Name="CouponSN" ColumnName="CouponSN" />
+          <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HiMall_ProductWords">
+      <EntityTypeMapping TypeName="Himall.Model.ProductWordsInfo">
+        <MappingFragment StoreEntitySet="HiMall_ProductWords">
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="WordId" ColumnName="WordId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_SegmentWords">
+      <EntityTypeMapping TypeName="Himall.Model.SegmentWordsInfo">
+        <MappingFragment StoreEntitySet="Himall_SegmentWords">
+          <ScalarProperty Name="Word" ColumnName="Word" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_DeliveryScope">
+      <EntityTypeMapping TypeName="Himall.Model.DeliveryScopeInfo">
+        <MappingFragment StoreEntitySet="Himall_DeliveryScope">
+          <ScalarProperty Name="FullRegionPath" ColumnName="FullRegionPath" />
+          <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+          <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+          <ScalarProperty Name="ShopBranchId" ColumnName="ShopBranchId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_AppMessages">
+      <EntityTypeMapping TypeName="Himall.Model.AppMessagesInfo">
+        <MappingFragment StoreEntitySet="Himall_AppMessages">
+          <ScalarProperty Name="OrderPayDate" ColumnName="OrderPayDate" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="sendtime" ColumnName="sendtime" />
+          <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="ShopBranchId" ColumnName="ShopBranchId" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_SearchProducts">
+      <EntityTypeMapping TypeName="Himall.Model.SearchProductsInfo">
+        <MappingFragment StoreEntitySet="Himall_SearchProducts">
+          <ScalarProperty Name="CanSearch" ColumnName="CanSearch" />
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="OnSaleTime" ColumnName="OnSaleTime" />
+          <ScalarProperty Name="SalePrice" ColumnName="SalePrice" />
+          <ScalarProperty Name="SaleCount" ColumnName="SaleCount" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="AttrValues" ColumnName="AttrValues" />
+          <ScalarProperty Name="ThirdCateName" ColumnName="ThirdCateName" />
+          <ScalarProperty Name="ThirdCateId" ColumnName="ThirdCateId" />
+          <ScalarProperty Name="SecondCateName" ColumnName="SecondCateName" />
+          <ScalarProperty Name="SecondCateId" ColumnName="SecondCateId" />
+          <ScalarProperty Name="FirstCateName" ColumnName="FirstCateName" />
+          <ScalarProperty Name="FirstCateId" ColumnName="FirstCateId" />
+          <ScalarProperty Name="BrandLogo" ColumnName="BrandLogo" />
+          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+          <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_WXSmallChoiceProducts">
+      <EntityTypeMapping TypeName="Himall.Model.WXSmallChoiceProductsInfo">
+        <MappingFragment StoreEntitySet="Himall_WXSmallChoiceProducts">
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Himall_WXAppletFormDatas">
+      <EntityTypeMapping TypeName="Himall.Model.WXAppletFormDatasInfo">
+        <MappingFragment StoreEntitySet="Himall_WXAppletFormDatas">
+          <ScalarProperty Name="ExpireTime" ColumnName="ExpireTime" />
+          <ScalarProperty Name="EventTime" ColumnName="EventTime" />
+          <ScalarProperty Name="FormId" ColumnName="FormId" />
+          <ScalarProperty Name="EventValue" ColumnName="EventValue" />
+          <ScalarProperty Name="EventId" ColumnName="EventId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

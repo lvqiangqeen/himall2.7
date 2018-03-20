@@ -1,0 +1,289 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "退换货列表";
+    int? showtype = (int?)ViewBag.ShowType;
+	var orders = ViewBag.Orders as List<Himall.DTO.Order>;
+}
+@model  IEnumerable<Himall.Model.OrderRefundInfo>
+@using Himall.Core;
+@using Himall.Model;
+<style>
+    .tr-td td{border-right:none;padding:20px 0;}
+    .tb-void tbody .tr-td{border:none;border-bottom:1px solid #f1f1f1;}
+    .title .title_txt{margin-top:4px;}
+    .tb-void th select {width:93px}
+</style>
+
+<div class="box1 lh24">
+    <div class="title">
+        <span class="title_txt @((showtype != 3) ? "curr" : "")"><a href="@Url.Action("List", new { showtype=2 })">我申请的退款</a></span>
+        <span class="title_txt @(showtype == 3 ? "curr" : "")" style="margin-left:40px;margin-top:6px;"><a href="@Url.Action("List", new { showtype = 3 })">我申请的退货</a></span>
+    </div>
+    <div class="border-box" style="margin-top:20px;">
+        <table class="tb-void tb-back">
+            <colgroup>
+                <col width="250" />
+                <col width="100" />
+                <col width="100" />
+                <col width="120" />
+                <col width="100" />
+                <col width="80" />
+            </colgroup>
+            <thead>
+                <tr class="tr">
+                    <th style="padding-left:27px;text-align:left;">商品名称</th>
+                    <th>售后编号</th>
+                    <th>订单编号</th>
+                   
+                    <th>
+                        <select class="sele" id="submitDate" onchange="Query()">
+                            <option value="all">申请时间</option>
+                            <option value="threeMonth">最近三个月</option>
+                            <option value="threeMonthAgo">三个月以前</option>
+                        </select>
+                    </th>
+                    <th>
+                        <select class="sele" id="status" onchange="Query()">
+                            <option value="">审核状态</option>
+                            @foreach (var d in Himall.Core.EnumHelper.ToDescriptionDictionary<Himall.Model.OrderRefundInfo.OrderRefundAuditStatus>())
+                            {
+                                if (d.Value != Himall.Model.OrderRefundInfo.OrderRefundAuditStatus.Audited.ToDescription())
+                                {
+                                    <option value="@d.Key">@d.Value</option>
+                                }
+                            }
+                            @foreach (var d in Himall.Core.EnumHelper.ToDescriptionDictionary<Himall.Model.OrderRefundInfo.OrderRefundConfirmStatus>())
+                            {
+                                <option value="@d.Key">@d.Value</option>
+                            }
+                        </select>
+                    </th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() == 0)
+                {
+                    <tr><td colspan="6"><div class="empty">暂时没有任何申请记录！</div></td></tr>
+                }
+                @foreach (var m in Model)
+                {
+					var order = orders.FirstOrDefault(p => p.Id == m.OrderId);
+                    <tr class="tr-td">
+
+                        <td class="goods-name" style="padding-left:15px;">
+                            @if (m.RefundMode == OrderRefundInfo.OrderRefundMode.OrderRefund)
+                            {
+                                @("订单所有商品")
+                            }
+                            else
+                            {
+                                var spc = "";
+                                if (!string.IsNullOrWhiteSpace(m.OrderItemInfo.Color)) { spc += m.OrderItemInfo.ColorAlias + "：" + m.OrderItemInfo.Color; }
+                                if (!string.IsNullOrWhiteSpace(m.OrderItemInfo.Size)) { spc += "，" + m.OrderItemInfo.SizeAlias + "：" + m.OrderItemInfo.Size; }
+                                if (!string.IsNullOrWhiteSpace(m.OrderItemInfo.Version)) { spc += "，" + m.OrderItemInfo.VersionAlias + "：" + m.OrderItemInfo.Version; }
+                                spc = spc.TrimStart('，');
+                                spc = string.IsNullOrWhiteSpace(spc) ? "" : "【" + spc + "】";
+                                <a target="_blank" href="@Url.Action("Detail", "product", new { id=@m.OrderItemInfo.ProductId})" style="position:relative;top:-2px;">
+                                    <img width="50" height="50" style="margin-right:15px;" title="" src="@Himall.Core.HimallIO.GetProductSizeImage(m.OrderItemInfo.ThumbnailsUrl, 1, (int)Himall.CommonModel.ImageSize.Size_50)">@m.OrderItemInfo.ProductName @spc
+                                </a>
+                            }
+                        </td>
+                        <td><span class="col-blue">@m.Id</span></td>
+                        <td>
+                            <span class="col-blue">
+                                @m.OrderId @if (m.UserId != ViewBag.UserId)
+                                { <span>[子订单]</span>}
+                            </span>
+                        </td>
+                       
+                        <td>@m.ApplyDate</td>
+                        @if (@m.SellerAuditStatus == OrderRefundInfo.OrderRefundAuditStatus.Audited)
+                        {
+                            <td>@m.ManagerConfirmStatus.ToDescription()</td>
+                        }
+                        else
+                        {
+                            <td>@((order.DeliveryType == Himall.CommonModel.Enum.DeliveryType.SelfTake || (order.ShopBranchId.HasValue && order.ShopBranchId.Value > 0)) ? ((Himall.CommonModel.Enum.OrderRefundShopAuditStatus)m.SellerAuditStatus).ToDescription() : m.SellerAuditStatus.ToDescription())</td>
+                        }
+                        <td class="operate">
+                            @if (m.SellerAuditStatus == Himall.Model.OrderRefundInfo.OrderRefundAuditStatus.UnAudit && m.IsOrderRefundTimeOut == false)
+                                {
+                                    if (
+                                        (m.RefundMode != Himall.Model.OrderRefundInfo.OrderRefundMode.OrderRefund)
+                                        || (m.RefundMode == Himall.Model.OrderRefundInfo.OrderRefundMode.OrderRefund && m.OrderItemInfo.OrderInfo.OrderStatus == Himall.Model.OrderInfo.OrderOperateStatus.WaitDelivery)
+                                        )
+                                    {
+                                    <a href="/OrderRefund/RefundApply/?orderid=@(m.OrderId)&refundid=@(m.Id)@Html.Raw(m.RefundMode == OrderRefundInfo.OrderRefundMode.OrderRefund ? "" : "&itemId="+m.OrderItemId.ToString())">处理</a>
+                                    }
+                                }
+                            <a href="@Url.Action("Detail", new { id=m.Id})">查看</a>
+                            @if (m.SellerAuditStatus == Himall.Model.OrderRefundInfo.OrderRefundAuditStatus.WaitDelivery)
+                                {
+                                <a class="back-goods-btn" datashop="@m.ShopId" dataid="@m.Id">请退货</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="mt10">
+            <div id="pagin-btm" class="pagin fr" style="clear:both">
+                @{
+                    var count = ((PagingInfo)ViewBag.pageInfo).TotalPages;
+                        var curr = ((PagingInfo)ViewBag.pageInfo).CurrentPage;
+                }
+                @Html.PageLinks((PagingInfo)ViewBag.pageInfo, x => Url.Action("List", new { pageNo = x }))
+                <span class="page-skip">
+                    <em>&nbsp;&nbsp;共 @count 页&nbsp;&nbsp;&nbsp;&nbsp;</em>
+                </span>
+            </div>
+            <div class="clr"></div>
+        </div>
+    </div>
+
+
+</div>
+<script>
+    function Query() {
+                            var applyDate = $("#submitDate").val();
+                            var auditStatus = $("#status").val();
+                            window.location.href = "?showtype=@(showtype)&applyDate=" + applyDate + "&status=" + auditStatus;
+                        }
+    $(function () {
+                            var auditStatus = "@Request.QueryString["status"]";
+                            var applyDate = "@Request.QueryString["applyDate"]";
+                            if (applyDate != "" && applyDate != null)
+            $("#submitDate").val(applyDate);
+                            if (auditStatus != "" && auditStatus != null)
+            $("#status").val(auditStatus);
+                        });
+</script>
+<script type="text/javascript">
+    var curentId;
+    $(function () {
+        $('.back-goods-btn').click(function () {
+                                var shopId = $(this).attr("dataShop");
+                                curentId = $(this).attr("dataId");
+            $.dialog({
+                                    title: '请退货',
+                lock: true,
+                id: 'BackForm',
+                content: $('#backform')[0],
+                init: function () {
+                    $.ajax({
+                                            type: 'get',
+                        async: false,
+                        url: "/OrderRefund/GetShopInfo?shopId=" + shopId,
+                        dataType: 'json',
+                        data: {},
+                        success: function (d) {
+                            $("#SellerAddress").text(d.SenderAddress);
+                            $("#SellerName").text(d.SenderName);
+                            $("#SellerPhone").text(d.SenderPhone);
+                                            }
+                                        });
+                                    },
+                padding: '20px 30px 20px 0',
+                okVal: '确认已退货',
+                ok: function () {
+                                        UpdateRefund();
+                                    }
+                                });
+                            });
+
+                        });
+
+    function UpdateRefund() {
+                            var expressCompanyName = $("#ExpressCompanyName").val();
+                            var shipOrderNumber = $("#ShipOrderNumber").val();
+                            if (expressCompanyName == "" || shipOrderNumber == "") {
+            $.dialog.errorTips("请输入快递公司和快递单号！", '', 1);
+                                return;
+                            }
+                            var loading = showLoading();
+        $.ajax({
+                                type: 'post',
+            async: false,
+            url: "/OrderRefund/UpdateRefund",
+            dataType: 'json',
+            data: { id: curentId, expressCompanyName: expressCompanyName, shipOrderNumber: shipOrderNumber },
+            success: function (d) {
+                                    loading.close();
+                                    if (d.success) {
+                    $.dialog.succeedTips("提交成功！", function () {
+                                            window.location.href = window.location.href;
+                                        }, 1);
+                                    }
+                                    else {
+                    $.dialog.errorTips("提交失败," + d.msg, '', 2);
+                                    }
+                                }
+                            });
+                        }
+</script>
+
+
+<div id="backform" style="display: none;">
+    <div class="form">
+        <div class="form">
+            @*<div class="item">
+                    <span class="label p0">地址：</span>
+                    <div class="fl" id="SellerAddress"></div>
+                    <div class="clr"></div>
+                </div>
+                <div class="item">
+                    <span class="label p0">联系人：</span>
+                    <div class="fl" id="SellerName"></div>
+                    <div class="clr"></div>
+                </div>
+                <div class="item">
+                    <span class="label p0">联系电话：</span>
+                    <div class="fl" id="SellerPhone"></div>
+                    <div class="clr"></div>
+                </div>*@
+            <div class="item">
+                <span class="label">快递公司：</span>
+                <div class="fl">
+                    <input type="text" id="ExpressCompanyName" name="ExpressCompanyName" class="text" value="" />
+                    <span class="error-msg hide">请您填写快递公司</span>
+                </div>
+                <div class="clr"></div>
+            </div>
+            <div class="item">
+                <span class="label">快递单号：</span>
+                <div class="fl">
+                    <input type="text" class="text" id="ShipOrderNumber" name="ShipOrderNumber" value="" />
+                    <span class="error-msg hide">请您填写快递单号</span>
+                </div>
+                <div class="clr"></div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="thickdiv hide"></div>
+    <div class="thickbox hide">
+        <div class="thickwrap">
+            <div class="thicktitle">
+                <span>请退货</span>
+            </div>
+            <div style="width: 400px; padding-left: 10px; padding-right: 10px;" class="thickcon">
+                <div id="">
+                    <div id="edit-cont">
+                        <div class="mc">
+
+
+                            <div class="btns">
+                                <a id="id_add_order" class="e-btn btn-9 save-btn" onclick="UpdateRefund()">确认已退货</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a id="" class="thickclose" href="javascript:void(0);">×</a>
+    </div>
+</div>

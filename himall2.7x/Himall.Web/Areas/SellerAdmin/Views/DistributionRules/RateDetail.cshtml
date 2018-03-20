@@ -1,0 +1,19 @@
+﻿@model Himall.Model.DistributorSettingInfo
+@{
+    ViewBag.Title = "Manage";
+}
+<link href="/Content/WXmsg.css" rel="stylesheet" />
+<div class="container Sclear-N4">
+    <ul class="breadcrumb clearfix ">
+
+        <li><a href="@Url.Action("Manage")">分销规则管理</a></li>
+        <li><a>查看分销市场规则</a></li>
+    </ul>
+    <div class="search-box only-line">
+        <div class="custom-inline rules-detail">
+            <div class="form-group">
+                @Html.Raw(Model.SellerRule)
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <Name>WAP默认</Name>
+  <IsModuleEdit>True</IsModuleEdit>
+  <TopicProductMaxNum>99</TopicProductMaxNum>
+  <CategoryProductMaxNum>6</CategoryProductMaxNum>
+  <MarketPrice>
+  </MarketPrice>
+  <SalePrice>
+  </SalePrice>
+  <DefaultBg>/templates/wapshop/default/images/ad/imgDefaultBg.jpg</DefaultBg>
+  <ImageUrl>default.jpg</ImageUrl>
+  <Phone>
+  </Phone>
+  <Navigate>http://j.map.baidu.com/pGluq</Navigate>
+</root>

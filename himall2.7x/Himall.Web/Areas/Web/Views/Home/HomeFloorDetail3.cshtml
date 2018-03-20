@@ -1,0 +1,47 @@
+﻿@model Himall.Web.Areas.Web.Models.HomeFloorModel
+@{
+    var floor = Model;
+}
+<!--楼层样式4-->
+<div class="content_m floor floor">
+    <div class="content_mtop">
+        <b>@floor.Name</b><em>@floor.SubName</em><span></span>
+        <ul class="goods_class_list">
+            @foreach (var link in floor.TextLinks)
+            {
+                <li><a target="_blank" href="@link.Url">@link.Name</a></li>
+            }
+        </ul>
+    </div>
+    <div class="content_mcont">
+
+        @{var top2 = floor.Products.Take(2);
+
+        var others = floor.Products.Skip(2).Take(8);
+        }
+        <div class="content_mcontl">
+
+            @foreach (var p in top2)
+            {
+                <div><a target="_blank" href="@p.Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@(Himall.Core.HimallIO.GetImagePath(p.ImageUrl))" /></a></div>
+            }
+        </div>
+
+        <div class="content_mcontc">
+            @foreach (var p in others)
+            {
+                <div><a target="_blank" href="@p.Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@(Himall.Core.HimallIO.GetImagePath(p.ImageUrl))" /></a></div>
+            }
+        </div>
+        <div class="content_mcontr">
+            <div class="content_mcontrtop">推荐品牌</div>
+            <ul>
+                @foreach (var c in floor.Brands.Take(8))
+                {
+                    <li><a target="_blank" title="@c.Name" href="/Search?b_id=@c.Id"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@(Himall.Core.HimallIO.GetImagePath(c.Img))" /></a></li>
+                }
+
+            </ul>
+        </div>
+    </div>
+</div>

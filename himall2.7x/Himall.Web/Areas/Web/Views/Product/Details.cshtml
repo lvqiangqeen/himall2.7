@@ -1,0 +1,284 @@
+﻿@model Himall.Web.Areas.Web.Models.ProductDetailModelForWeb
+@{
+    ViewBag.Title = Model.Product.ProductName;
+    bool HasPromotion = false;
+    if (Model.Shop.FreeFreight > 0)
+    {
+        HasPromotion = true;
+    }
+}
+@using Himall.Model
+<meta property="wb:webmaster" content="13b21966c78f011e" />
+@section Script{
+    <script src="~/Areas/Web/Scripts/cloud-zoom.1.0.2.min.js"></script>
+    <script src="~/Scripts/jquery.himall.sku.js"></script>
+    <script src="~/Areas/Web/Scripts/ProductComment.js"></script>
+    <script src="~/Areas/Web/Scripts/ProductConsultation.js"></script>
+    <script src="~/Areas/Web/Scripts/ProductDetail.js"></script>
+    <script src="~/Scripts/Region.js"></script>
+    <script src="~/Scripts/jquery.himallDistrict.js"></script>
+    <script src="~/Scripts/jquery.fly.js"></script>
+    <!--[if lte IE 10]>
+    <script src="~/Scripts/requestAnimationFrame.js"></script>
+    <![endif]-->
+    <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+}
+
+<input type="hidden" id="gid" value="@Model.Product.Id" />
+<input type="hidden" id="gidName" value="@Model.Product.ProductName" />
+<input type="hidden" id="relativePath" value="@(Himall.Core.HimallIO.GetRomoteProductSizeImage(Model.Product.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_350))" />
+<input type="hidden" id="shopid" value="@Model.Product.ShopId" />
+<input type="hidden" id="has" value="@(Model.Product.SKUInfo.Count()==0?0:1)" />
+<input type="hidden" id="IsSellerAdminProdcut" value="@Model.IsSellerAdminProdcut" />
+<input type="hidden" id="ProductAndDescription" value="@Model.ProductAndDescription" />
+<input type="hidden" id="ProductAndDescriptionPeer" value="@Model.ProductAndDescriptionPeer" />
+<input type="hidden" id="ProductAndDescriptionMax" value="@Model.ProductAndDescriptionMax" />
+<input type="hidden" id="ProductAndDescriptionMin" value="@Model.ProductAndDescriptionMin" />
+<input type="hidden" id="SellerServiceAttitude" value="@Model.SellerServiceAttitude" />
+<input type="hidden" id="SellerServiceAttitudePeer" value="@Model.SellerServiceAttitudePeer" />
+<input type="hidden" id="SellerServiceAttitudeMax" value="@Model.SellerServiceAttitudeMax" />
+<input type="hidden" id="SellerServiceAttitudeMin" value="@Model.SellerServiceAttitudeMin" />
+<input type="hidden" id="SellerDeliverySpeed" value="@Model.SellerDeliverySpeed" />
+<input type="hidden" id="SellerDeliverySpeedPeer" value="@Model.SellerDeliverySpeedPeer" />
+<input type="hidden" id="SellerDeliverySpeedMax" value="@Model.SellerDeliverySpeedMax" />
+<input type="hidden" id="SellerDeliverySpeedMin" value="@Model.sellerDeliverySpeedMin" />
+<input type="hidden" id="showShop" value="@(Model.Product.AddedDate.Year <= 2000 ? "true" : "")" />
+<input type="hidden" id="categoryId" value="@Model.Product.CategoryId" />
+<input type="hidden" id="canSelfTake" value="@Model.CanSelfTake.ToString().ToLower()" />
+
+@{
+    var hdFreightType = Model.Product.Himall_FreightTemplate == null ? 0 : Model.Product.Himall_FreightTemplate.IsFree.GetHashCode();
+    var isEnableCashOnDelivery = (bool)ViewBag.IsEnableCashOnDelivery ? 1 : 0;
+}
+<input id="hdFreightType" type="hidden" value="@hdFreightType" />
+<input id="isEnableCashOnDelivery" type="hidden" value="@isEnableCashOnDelivery" />
+
+<div class="bg-g">
+    <div id="catePath" class="w">
+        @MVCHelpers.CategoryPath(Model.Product.CategoryPath, Model.Product.ProductName)
+    </div>
+    <div class="w">
+        <div id="product-intro">
+            <div id="name">
+                <h1>@Model.Product.ProductName</h1>
+                <strong>@Model.Product.ShortDescription</strong>
+            </div>
+            <div id="preheat">               
+            </div>
+            <div class="cl">
+                <ul id="summary">
+                    <li id="summary-price">
+                        <div class="t">
+                            <div class="dt dt01">价格</div>
+                            <strong class="p-price dt">￥ <b id="jd-price"></b></strong><span class="dt dt02">￥@(Model.Product.MarketPrice)</span>
+                            @if (Model.Product.Himall_FreightTemplate != null && !string.IsNullOrEmpty(Model.Product.Himall_FreightTemplate.SendTime))
+                            {
+                                <i class="dt" style="width:auto;margin-right:20px;color:#737b9e; float:right;">@(Model.Product.Himall_FreightTemplate.SendTime)h内发货</i>
+                            }
+                        </div>
+                        <div class="b">
+                            <div class="b-01 dt">销量 &nbsp;&nbsp;<a id="saleCounts"></a></div> <div class="b-01 dt">评价 &nbsp;&nbsp;<a id="Comments" href="#comment">0</a></div>
+                            <div class="dt b-02">评分：</div> <div class="dt summary-grade" style="margin-right:10px" id="productmark">
+
+                            </div>
+                        </div>
+                    </li>
+                    <li id="summary-promotion">
+                    </li>
+                    @*<li id="summary-service">
+                        <div class="dt l">库存</div>
+                        <div class="dd d03">
+                            <span id="stockProductImage" style="float:left;">有货，下单后立即领取</span>
+                        </div>
+                    </li>*@
+                    <li id="summary-service" style="width:540px;">
+                        <div class="dt l" style="line-height: 26px;">物流</div>
+                        <div class="dd special">
+                            <span>配送至</span> &nbsp; <a class="address-choose" id="addressChoose" data-select="@Model.ShippingValue">@Model.ShippingAddress</a><span id="spFreight">@Model.Freight</span><span id="isCashOnDelivery"></span>
+
+                        </div>
+                    </li>
+                </ul>
+                <!--summary end-->
+                <div id="brand-bar-pop" style="display:none">
+
+                </div>
+                <!--brand-bar-pop-->
+                <ul id="choose" class="choose">                    
+                    <li id="choose-amount" style="line-height: 26px;">
+                        <div class="dt l">数量</div>
+                        <div class="dd">
+                            <div class="wrap-input">
+                                <a class="btn-reduce" href="javascript:;">-</a>
+                                <a class="btn-add" href="javascript:;">+</a>
+                                <input class="text quantity-text" id="buy-num" value="1" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'1'); if(this.value==''){this.value='1'}}).call(this)" onblur="this.v()" />
+                            </div>
+                            <span style="margin-left:10px">
+                                &nbsp; 库存：<i id="stockProduct"></i><i id="unit">@Model.Product.MeasureUnit</i>
+                                @if (Model.Product.MaxBuyCount > 0)
+                                {
+                                    <label id="maxBuyCount" data-value="@Model.Product.MaxBuyCount">(单个ID限购@(Model.Product.MaxBuyCount)件)</label>
+                                }
+                            </span>
+                            <input type="hidden" id="hidskuId" />
+                        </div>
+
+                    </li>
+                    <li id="choose-result">
+                        <div class="dt"></div><div class="dd"><strong></strong><strong></strong></div>
+                    </li>
+                    <li id="choose-btns">
+                    </li>
+                </ul>
+
+                <input id="IsExpiredShop" type="hidden" value="@Model.IsExpiredShop" />
+                <!--choose end-->
+                <span class="clr"></span>
+
+            </div>
+
+            <div id="preview">
+                <div class="jqzoom" style="position:relative;">
+                    <a class="cloud-zoom" id="zoom1" rel="lensOpacity:1,adjustX:10" href="@Himall.Core.HimallIO.GetProductSizeImage(Model.Product.RelativePath,1)" style="position: relative; display: block;">
+                        <img src="@Himall.Core.HimallIO.GetProductSizeImage(Model.Product.RelativePath, 1, (int)Himall.CommonModel.ImageSize.Size_350)" alt="@Model.Product.ProductName">
+                    </a>
+                </div>
+
+                <div id="spec-list">
+                    <ul class="lh">
+                        @for (int i = 1; i < 6; i++)
+                        {
+                            if (i == 1 || Himall.Core.HimallIO.ExistFile(Model.Product.RelativePath + string.Format("/{0}.png", i)))
+                            {
+                                @*<li><a href="@(Model.Product.ImagePath+string.Format("/{0}.png",i))" class="cloud-zoom-gallery" rel="useZoom: 'zoom1', smallImage: '@(Model.Product.ImagePath+string.Format("/{0}_350.png",i))'"><img src="@(Model.Product.ImagePath+string.Format("/{0}_50.png",i))" width="50" height="50"></a></li>*@
+                                <li><a href="@(Model.Product.ImagePath+string.Format("/{0}.png",i))" class="cloud-zoom-gallery" rel="useZoom: 'zoom1', smallImage: '@Himall.Core.HimallIO.GetProductSizeImage(Model.Product.RelativePath, i, (int)Himall.CommonModel.ImageSize.Size_350)'"><img src="@Himall.Core.HimallIO.GetProductSizeImage(Model.Product.RelativePath, i, (int)Himall.CommonModel.ImageSize.Size_50)" width="50" height="50"></a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <div class="attent-goods" id="choose-btn-coll">
+                    <a href="#none" class="btn-coll">收藏商品</a>
+                </div>
+                <span class="btn" style="margin-top: 5px; padding-left:10px;float:right; margin-top: 25px;color:#000;">
+                    <span style="float:none;display:inline-block;vertical-align:top;margin-top:3px">分享到：</span>
+                    <wb:share-button count="n" addition="simple" type="icon" size="medium" title="@Model.Product.ProductName" pic="http://@Request.Url.Host@Himall.Core.HimallIO.GetProductSizeImage(Model.Product.RelativePath, 1,100)" url="http://@Request.Url.Host/product/detail/@Model.Product.Id"></wb:share-button>
+                    <script type="text/javascript">
+                        (function () {
+                            var p = {
+                                url: 'http://@Request.Url.Host/product/detail/@Model.Product.Id',
+                                showcount: '0',/*是否显示分享总数,显示：'1'，不显示：'0' */
+                                desc: '',/*默认分享理由(可选)*/
+                                summary: '',/*分享摘要(可选)*/
+                                title: '@Model.Product.ProductName',/*分享标题(可选)*/
+                                site: '',/*分享来源 如：腾讯网(可选)*/
+                                pics: 'http://@Request.Url.Host@Model.Product.ImagePath@string.Format("/{0}.png",1)', /*分享图片的路径(可选)*/
+                                style: '203',
+                                width: 22,
+                                height: 22
+                            };
+                            var s = [];
+                            for (var i in p) {
+                                s.push(i + '=' + encodeURIComponent(p[i] || ''));
+                            }
+                            document.write(['<a href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?', s.join('&'), '" target="_blank"  title="分享到QQ空间"><img src="http://qzonestyle.gtimg.cn/ac/qzone_v5/app/app_share/qz_logo.png" style="margin-top:3px;" alt="分享到QQ空间" /><\/a>'].join(''));
+                        })();
+                    </script>
+                    <a href="javascript:void(0);" title="分享到微信" onclick="showQrCode()" style="float:none;display:inline-block;vertical-align:top;margin-top:3px"><img src="/Images/wx.png"></a>
+                </span>
+
+            </div><!--preview end-->
+        </div><!--product-intro end-->
+    </div>
+</div>
+
+
+<div class="w" id="ProductColloCation">
+
+</div>
+<div class="w">
+    @Html.Partial("ProductComment", @Model.Product)
+    <div class="left product-left">
+        <div id="sp-search" class="m m2">
+            <div class="mt">
+                <h2>本店搜索</h2>
+            </div>
+            <div class="mc">
+                <p class="sp-form-item1">
+                    <label for="sp-keyword">关键字</label>
+                    <span>
+                        <input type="text" id="sp-keyword" onkeydown="javascript:if(event.keyCode==13){}" />
+                    </span>
+                </p>
+                <p class="sp-form-item2">
+                    <label for="sp-price">价　格</label>
+                    <span>
+                        <input type="text" id="sp-price" />
+                        -
+                        <input type="text" id="sp-price1" onkeydown="javascript:if(event.keyCode==13){}" />
+                    </span>
+                </p>
+                <p class="sp-form-item3">
+                    <label for="">　　　</label>
+                    <span>
+                        <input type="submit" id="shopInSearch" value="搜索" />
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div id="sp-category" class="m m2 sp-category">
+            <div class="mt">
+                <h2>店铺分类</h2>
+            </div>
+            <div id="shopCateDiv" class="mc">
+                <dl>
+                    <dt><a href="#" target="_blank"><s></s>加载中...</a></dt>
+                </dl>
+            </div>
+        </div>
+
+        <div id="sp-brand-official" class="m m2 sp-category of-category">
+            <div class="mt">
+                <h2>同类其他品牌</h2>
+            </div>
+            <div id="brandDivOfficial" class="mc">
+                <dl>
+                    <dt><a href="#" target="_blank"><s></s>加载中...</a></dt>
+                </dl>
+            </div>
+        </div>
+        <div class="left product-left" id="showHotsaleDiv">
+            <div id="sp-hot-sale" class="m m2 m3">
+                <div class="mt">
+                    <span class="cur">热门销售</span>
+                    <span>热门关注</span>
+                </div>
+                <div class="mc">
+                    <ul id="hotsaleDiv"></ul>
+                    <ul id="hotConcerned" style="display:none"></ul>
+                </div>
+            </div>
+        </div>
+        <!--<div id="sp-hot-fo" class="m m2 m3">
+            <div class="mt">
+
+            </div>
+            <div class="mc">
+
+            </div>
+        </div>-->
+        @Html.Partial("BoughtProducts", @Model.BoughtProducts)
+    </div><!--left end-->
+    <span class="clr"></span>
+</div>
+<div class="form-group" id="weixinQrCode" style="display:none">
+    <img id="QrCode" src="@Model.Code" /><!--BASE64图片格式-->
+</div>
+<dl id="online-service" style=" display:none;">
+    <dd>@Html.Action("CustmerServices", "Product", new { shopId = @Model.Product.ShopId })</dd>
+</dl>
+<script src="~/Scripts/jquery.fly.js"></script>
+<!--[if lte IE 10]>
+<script src="~/Scripts/requestAnimationFrame.js"></script>
+<![endif]-->
+
+<div id="addCollocation" class="cl porducts-group-box"></div>

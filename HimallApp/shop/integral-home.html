@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>积分商城首页</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">积分商城</h1>
+		</header>
+		<div class="scroll-div" id="scrollDiv">
+			<div class="mui-content transparent">
+				<div id="swiperBox"></div>
+				<div class="integral-cur" id="integralCur">
+					<p><i class="iconfont icon-wenhao"></i><span>登录后查看我的积分</span></p>
+					<a class="integral-list-btn" id="goLogin">去登录</a>
+				</div>
+				<div class="integral-title"><span>礼品兑换专区</span><a id="moreGift">查看更多</a></div>
+				<ul class="integral-product mui-clearfix" id="giftProduct"></ul>
+				<div class="integral-title"><span>优惠券兑换专区</span><a id="moreCoupon">查看更多</a></div>
+				<ul class="integral-coupon integral-product" id="integralCoupon"></ul>
+				<div id="integralUse"></div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/swiper.min.js" ></script>
+		<script src="js/template.js" ></script>
+		<script>
+			mui.init();
+			
+			mui.plusReady(function() {
+				var w=plus.nativeUI.showWaiting('',{padlock:true}),
+					loadUser=function(){
+						mui.ajax(URL+'api/UserCenter/GetUser',{
+							data:himall.md5Data({
+								userkey:himall.getState().userkey
+							}),
+							dataType:'json',
+							type:'get',
+							success:function(data){
+								document.getElementById('integralCur').innerHTML='<p><i class="iconfont icon-jifen"></i><span>积分</span>'+data.Integral+'</p>'+
+									'<a class="integral-list-btn" id="integralUseDetail">积分明细</a>';
+								document.getElementById('integralUseDetail').addEventListener('tap',function(){
+									himall.openVW('integral-use.html');
+								});
+							}
+						});
+					}
+				
+				if(himall.isLogin()){
+					loadUser();
+				}
+				
+				document.addEventListener('updateData', function() {
+					loadUser();
+				});
+				
+				mui.ajax(URL+'api/Gifts/GetSlideAds',{
+					data:himall.md5Data(),
+					dataType:'json',
+					type:'get',
+					success:function(data){
+						if(data.length>0){
+							document.getElementById('swiperBox').innerHTML=template('initSlide', data);
+							himall.initSwiper();
+						}
+						mui.ajax(URL+'api/Gifts/GetList',{
+							data:himall.md5Data({
+								page:1,
+								pagesize:4
+							}),
+							dataType:'json',
+							type:'get',
+							success:function(data){
+								if(data.Total>0){
+									document.getElementById('giftProduct').innerHTML=template('initGifts', data);
+								}
+								mui.ajax(URL+'api/Coupon/GetIntegralCoupon',{
+									data:himall.md5Data({
+										page:1,
+										pagesize:3
+									}),
+									dataType:'json',
+									type:'get',
+									success:function(data){
+										if(data.Total>0){
+											document.getElementById('integralCoupon').innerHTML=template('initCoupon', data);
+										}
+										mui.ajax(URL+'api/gifts/GetIntegralMallAd',{
+											data:himall.md5Data(),
+											dataType:'json',
+											type:'get',
+											success:function(data){
+												if(data.length>0){
+													document.getElementById('integralUse').innerHTML=template('initMoreUse', data);
+												}
+												delayimg.init({content:document.getElementById('scrollDiv')});
+												w.close();
+												himall.removeClass(document.querySelector('.mui-content'),'transparent');
+											}
+										});
+									}
+								});
+							}
+						});
+					}
+				});
+				
+			});
+			
+			document.getElementById('moreGift').addEventListener('tap',function(){
+				himall.openVW('integral-gift.html');
+			});
+			
+			document.getElementById('moreCoupon').addEventListener('tap',function(){
+				himall.openVW('integral-coupon.html');
+			});
+			
+			document.getElementById('goLogin').addEventListener('tap',function(){
+				showLogin({fireId:'integral-home.html'});
+			});
+			
+			mui('#giftProduct').on('tap', 'a', function(e) {
+				himall.openVW('integral-detail.html',{giftId:this.getAttribute('data-id')});
+			});
+				
+			mui('#integralCoupon').on('tap', '.getCoupon', function() {
+				if(himall.isLogin()){
+					var _this=this,
+						btnArray = ['确认','取消'];
+					mui.confirm('此券需要'+_this.getAttribute('data-pay')+'积分，是否兑换？', '', btnArray, function(e) {
+						if(e.index == 0) {
+							var w=plus.nativeUI.showWaiting('',{padlock:true});
+							mui.ajax(URL+'api/coupon/PostAcceptCoupon',{
+								data:himall.md5Data({
+									couponId:_this.getAttribute('data-id'),
+									userkey:himall.getState().userkey
+								}),
+								dataType:'json',
+								type:'POST',
+								timeout:10000,
+								success:function(data){
+									w.close();
+									if(data.Success=="true"){
+										plus.nativeUI.toast('恭喜您，优惠券兑换成功');
+									}else{
+										if(data.Status==2)
+											plus.nativeUI.toast('优惠券已经过期');
+										if(data.Status==3)
+											plus.nativeUI.toast('每个ID限兑'+_this.getAttribute("data-max")+'张，您兑换次数已满');
+										if(data.Status==4)
+											plus.nativeUI.toast('您下手慢了，被抢光了~');
+										if(data.Status==5)
+											plus.nativeUI.toast('抱歉，您的积分不足攒够再来吧~');
+									}
+								},
+								error:function(xhr,type,errorThrown){
+									w.close();
+									plus.nativeUI.toast('优惠券兑换失败，请检查网络')
+								}
+							});
+						}
+					});
+				}else{
+					showLogin();
+				}
+			});
+			
+			mui('#integralUse').on('tap', 'a', function() {
+				if(himall.isLogin()){
+					himall.openVW('web-show.html',{
+						link:this.getAttribute('data-href'),
+						name:this.getAttribute('data-name')
+					});
+				}else{
+					showLogin({
+						id:'web-show.html',
+						extras:{link:this.getAttribute('data-href'),name:this.getAttribute('data-name')},
+						fireId:'integral-home.html'
+					});
+				}
+			});
+			
+			himall.customHref();
+		</script>
+		<script type="text/html" id="initSlide">
+			<div class="swiper-container">
+		        <div class="swiper-wrapper">
+		        	{{each}}
+		            	<div class="swiper-slide"><a class="custom-href" data-href="{{$value.Url}}"><img src="{{$value.ImageUrl}}"></a></div>
+		            {{/each}}
+		        </div>
+		        <div class="swiper-pagination"></div>
+		   </div>
+		</script>
+		
+		<script type="text/html" id="initGifts">
+        	{{each DataList}}
+        		<li>
+					<a data-id="{{$value.Id}}">
+						<div class="p-img">
+							<b data-delay-background="{{$value.DefaultShowImage}}"></b>
+							{{if $value.StockQuantity==0}}
+								<span>已兑完</span>
+							{{/if}}
+						</div>
+						<h3>{{$value.GiftName}}</h3>
+						<p><s>¥ {{$value.GiftValue.toFixed(2)}}</s></p>
+						<h5><i class="iconfont icon-jifen"></i> {{$value.NeedIntegral}}</h5>
+					</a>
+        		</li>
+            {{/each}}
+		</script>
+		<script type="text/html" id="initCoupon">
+        	{{each Models}}
+        		<li>
+					<div class="p-img"><b data-delay-background="{{$value.ShowIntegralCover}}"></b></div>
+					<div class="p-text">
+						<h3>{{$value.ShopName}}</h3>
+						{{if $value.OrderAmount!=0}}
+							<p>{{$value.Price}} 元券满{{$value.OrderAmount}}可用</p>
+						{{else}}
+							<p>{{$value.Price}} 元券无门槛使用 </p>
+						{{/if}}
+						<h6><span>{{$value.NeedIntegral}}</span> 积分<a class="getCoupon" data-id="{{$value.Id}}" data-pay="{{$value.NeedIntegral}}" data-max="{{$value.PerMax}}" >马上兑</a></h6>
+					</div>
+				</li>
+            {{/each}}
+		</script>
+		
+		<script type="text/html" id="initMoreUse">
+			<div class="integral-title-m"><img src="images/inte-icon.png"/><span>更多玩法</span><img class="rotate-half" src="images/inte-icon.png"/></div>
+			<ul class="integral-use">
+				{{each}}
+					{{if $value.ActivityType==1}}
+						<li><a class="p-img" data-name="开心刮刮卡" data-href="{{$value.LinkUrl}}"><img src="images/blank.gif" data-delay="images/integral2.png" height="120"/></a></li>
+					{{else}}
+						<li><a class="p-img" data-name="幸运大转盘" data-href="{{$value.LinkUrl}}"><img src="images/blank.gif" data-delay="images/integral1.png" height="120"/></a></li>
+					{{/if}}
+	    		{{/each}}
+    		</ul>
+		</script>
+		
+	</body>
+
+</html>

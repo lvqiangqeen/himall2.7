@@ -1,0 +1,127 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "追加评论";
+}
+@model IEnumerable<Himall.Model.ProductEvaluation>
+@{var i = 0;}
+
+<style>
+    .product-comments{background-color:#fff;margin-top:60px;padding:0 30px 30px 30px;margin-bottom:20px;}
+    .pc-left-img {float: left;margin-right: 10px;}
+    .pc-right-c{float:left;font-size:14px;width:800px;}
+    .pc-right-c span{color:#333;}
+    .pc-right-c span em{color:#999;padding-right:10px;}
+    .pc-right-c span em:first-child{width: 70px;display: inline-block;text-align:right;}
+    #cont_txt{width:600px;height:80px;border:1px solid #999;padding:10px;font-size:12px;color:#666;}
+    .uploadFilebtn{color:#fff;}
+    .show-pic{width:100px;height:30px;border-radius:5px;border:1px solid #333;text-align:center;color:#000;font-size:14px;line-height:30px;}
+</style>
+<div class="box1 lh24">
+    <div class="title">
+        <span class="title_txt curr">追加评论</span>
+    </div>
+    @foreach (var m in @Model)
+    {
+        <div class="product-comments clearfix">
+            <div class="pc-left-img">
+                <a href="@Url.Action("Detail", "Product", new { id = @m.ProductId })" target="_blank">
+                    <img width="150" height="150" data-img="1" title="@m.ProductName" src="@Himall.Core.HimallIO.GetProductSizeImage(m.ThumbnailsUrl, 1, (int)Himall.CommonModel.ImageSize.Size_100)" class="err-product">
+                </a>
+            </div>
+            <div class="pc-right-c">
+                <span><em>初次评价:</em>@m.EvaluationContent <em style="padding-left:10px;">[@m.EvaluationTime]</em></span>
+                <div class="item item01" style="margin-top:20px;">
+                    <span class="label fl"><em>追加:</em></span>
+                    <div class="cont fl">
+                        <textarea id="cont_txt" name="cont_txt" class="id_cont_txt area area01">无</textarea>
+                        <div class="clr"></div>
+                        <span class="id_cont msg-error-01 hide" style="display:none">麻烦填写1-500个字呦</span>
+                        <div class="msg-text" style="text-align: right;font-size: 12px;color: #999;margin-bottom: 10px;line-height:12px;">1-500字</div>
+                    </div>
+                    <div class="clr"></div>
+                </div>
+				
+				<div class="item">
+					<span class="label fl"><em>追加晒图：</em></span>
+					<div class="fl pic-upload" id="ProductImages@(i)">
+					</div>
+				</div>
+                <input type="hidden" name="commentId" value="@m.CommentId" />
+                <span style="line-height: 70px;font-size: 12px;color: #999;margin-left: 10px;">图片大小不得超过2M，最多上传5张</span>
+            </div>
+     </div>
+            
+        i++;
+    }
+    <div class="op-btn">
+        <input type="hidden" value="@ViewBag.OrderId" id="OrderId" />
+        <a id="id_btn_y" class="btn btn-6" href="#none" style="margin-left: 272px; font-size: 16px;height: 38px; padding: 0 15px; line-height: 38px;">提交评价</a>
+    </div>
+</div>
+<script src="~/Scripts/jquery.form.js"></script>
+<script src="~/Scripts/jquery.uploadPictures.js"></script>
+<script type="text/javascript">
+    $(function () {
+        for (var i = 0; i < $('.pic-upload').length; i++) {
+		    $("#ProductImages"+i).uploadPictures({
+			    title: '晒图：',
+			    imageDescript: '',
+			    displayImgSrc: '',
+			    imgFieldName: "ProductImages"+i,
+			    defaultImg: '/Images/default_100x100.png',
+			    pictureSize:'',
+			    imagesCount: 5,
+			    dataWidth: 6,
+			    maxSize: 2
+		    });
+        }
+    });
+</script>
+<script>
+    $('#id_btn_y').bind('click', function () {
+        var jsonArray = eval("[{'Id':'','AppendContent':'',Images:[]}]");
+        jsonArray.splice(0, 1);
+        $(".product-comments").each(function (index,item) {
+            var uid = $("[name=commentId]", this).val();
+            var star = 0;
+            var cont = $("[name=cont_txt]", this).val() == "" ? "无" : $("[name=cont_txt]", this).val();
+            var images = $('#ProductImages'+index).uploadPictures('getImgSrc');
+            var arr = {
+                "Id": uid,
+                "AppendContent": cont,
+                "Images": images
+            };
+            jsonArray.push(arr);
+        });
+        //检测内容不超过500个字
+        for (var i = 0; i < jsonArray.length; i++) {
+            if (jsonArray[i].AppendContent.length > 500) {
+                $.dialog.tips("心得不能超过500个字符！");
+                return false;
+            }
+            //if(jsonArray[i].content.length < 10)
+            //{
+            //    $.dialog.tips("心得不能少于10个字符！");
+            //    return false;
+            //}
+        }
+        //return false;
+        var loading = showLoading();
+        $.ajax({
+            type: 'post',
+            url: "/OrderEvaluation/AppendProductComment",
+            data: {productCommentsJSON: JSON.stringify(jsonArray) },
+            dataType: "json",
+            success: function (data) {
+                loading.close();
+                if (data.success) {
+                    window.location = "/userComment";
+                }
+                else {
+                    $.dialog.errorTips(data.msg);
+                }
+            }
+        });
+    });
+    
+</script>

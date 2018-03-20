@@ -1,0 +1,31 @@
+﻿@model Himall.Web.Areas.Admin.Models.ExportPendingSettlementListModel
+@{
+	Layout = null;
+}
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+	<thead>
+		<tr>
+			<th>商家名称</th>
+			<th>
+				本期应结
+			</th>
+			<th>
+				预计结算时间
+			</th>
+			<th>
+				结算周期
+			</th>
+		</tr>
+	</thead>
+	<tbody id="list-table-body">
+		@foreach (var item in Model.Data)
+		{
+			<tr>
+				<td>@Model.ShopNames[item.ShopId]</td>
+				<td>@item.Amount.ToString("F2")</td>
+				<td>@Model.SettmentCycle.EndTime</td>
+				<td>@Model.SettmentCycle.BillingCycleStr</td>
+			</tr>
+		}
+	</tbody>
+</table>

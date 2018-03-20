@@ -1,0 +1,40 @@
+﻿@using Himall.Core;
+@model Himall.DTO.SettledPayment
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<div class="container">
+    <ul class="breadcrumb clearfix">
+        <li><a>结余明细</a></li>
+        <li class="active"><a>商家入驻缴费</a></li>
+    </ul>
+    <table id="list" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                   商家 
+                </th>
+                <th>
+                    缴纳金额
+                </th>
+                <th>
+                    续费时间
+                </th>
+                <th>
+                    套餐
+                </th>
+                <th>
+                   类型
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.ShopName</td>
+                <td>@Model.Amount</td>
+                <td>@Model.OperateDate</td>
+                <td>@Model.Content</td>
+                <td>@Model.OperateType</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

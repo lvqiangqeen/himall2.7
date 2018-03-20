@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "微店基本配置";
+}
+@model Himall.Model.WXShopInfo
+
+<script src="~/Areas/SellerAdmin/Scripts/WeiXinBasicVShopSettings.js"></script>
+
+@if ((@Himall.Model.VShopInfo)@ViewBag.VShop == null)
+{
+    <div class="container Sclear-N5">
+        <ul class="nav nav-tabs-custom clearfix">
+            <li class="active"><a>未开通微店</a></li>
+        </ul>
+        <div class="form-horizontal">
+            <div class="form-group">
+                <p class="apply-primary"><span class="glyphicon glyphicon-info-sign"></span>您还未开设自己的微店，<a href="../vshop/EditVShop?shopId=@ViewBag.ShopId">现在开设</a></p>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container">
+        <ul class="nav nav-tabs-custom clearfix">
+           
+            <li class="active"><a href="#">绑定公众号</a></li>
+        </ul>
+        <h3 class="table-hd">为什么要绑定微信公众号并开启快速关注？<br />
+            <span class="tipinfo">1. 可使用公众帐号的素材管理，客户管理，消息管理等功能</span><br />
+            <span class="tipinfo">2. 引导用户关注公众号成为你的粉丝，进行后续的粉丝运营</span><br />
+            <span class="tipinfo">3. 建议绑定认证的服务号，否则将无法正常使用微信支付、摇一摇、自定义菜单等功能</span><br />
+            <span class="tipinfo">4. 开启快速关注，用户点击快速关注公众号时，可通过点击文章左上角蓝色小字快速关注公众号</span>
+        </h3>
+        
+        @using (Html.BeginForm("BasicSettings", "WeiXin", FormMethod.Post, new { @class = "form-horizontal form-pt0" }))
+        {
+            <h3 class="table-hd">自定义菜单权限配置<span class="help-default Sclear-N6">提示：如需自定义微信菜单，需配置公众号AppId及AppSecret</span></h3>
+            <div class="form-group">
+                <label for="" class="col-sm-2 control-label">微信AppId</label>
+                <div class="col-sm-4">
+                    @Html.EditorFor(item => item.AppId, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-2 control-label">微信AppSecret</label>
+                <div class="col-sm-4">
+                    @Html.EditorFor(item => item.AppSecret, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                </div>
+            </div>
+
+
+            <h3 class="table-hd">自定义菜单权限配置<span class="help-default Sclear-N6">提示：URL及Token需在微信公众号平台进行配置</span></h3>
+            <div class="form-group">
+                <label for="" class="col-sm-2 control-label">URL：</label>
+                <div class="col-sm-4 form-control-static">
+                    @ViewBag.Url
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-2 control-label">微信ToKen：</label>
+                <div class="col-sm-4 form-control-static">
+                    @Model.Token
+                </div>
+            </div>
+            <h3 class="table-hd">快速关注</h3>
+            <div class="form-group">
+                <label for="" class="col-sm-2 control-label">快速关注（建议设置）：</label>
+                <div class="col-sm-4">
+                    @Html.EditorFor(item => item.FollowUrl, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        }
+    </div>
+    <input type="hidden" id="weixinToken" value="@Model.Token" />
+
+}

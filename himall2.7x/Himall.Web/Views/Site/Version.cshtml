@@ -1,0 +1,37 @@
+﻿@{
+    Layout = null;
+}
+
+<style type="text/css">
+    body {
+        background-color: #f2f2f2;
+    }
+
+    .error {
+        background: url(/images/error.jpg) no-repeat center;
+        padding: 300px 0;
+        position: relative;
+    }
+
+        .error h3 {
+            width: 350px;
+            position: absolute;
+            left: 50%;
+            top: 260px;
+            margin-left: -40px;
+            font-family: 'microsoft yahei';
+            font-weight: normal;
+            line-height: 36px;
+            color: #e3393c;
+            font-size: 16px;
+        }
+
+            .error h3 span {
+                color: #333;
+            }
+</style>
+<div>
+    产品名称：<span>Hishop-Himall</span><br />
+    产品版本：<span>@ViewBag.FileVersion</span><br />
+    部署类型：<span>@(ViewBag.IsDebug?"Debug":"Release")</span>
+</div>

@@ -1,0 +1,198 @@
+﻿@model Himall.Web.Areas.SellerAdmin.Models.LimitTimeMarketModel
+
+@{
+    ViewBag.Title = "EditLimitItem";
+}
+
+
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Scripts/v.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li class="active"><a>活动管理</a></li>
+        <li class=""><a href="../BuyService">购买服务</a></li>
+
+    </ul>
+    @using (Html.BeginForm("EditLimitItem", "LimitTimeBuy", FormMethod.Post, new { id = "form1" }))
+    {
+        <div class="custom-form">
+            <div class="form-group">
+                <label class="label-inline" for=""><b style="color:red;">*</b>活动标题：</label>
+                @Html.EditorFor(item => item.Title, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                <span class="help-default">&nbsp;&nbsp;&nbsp;&nbsp;活动标题是商家对限时折扣活动的别名.</span>
+            </div>
+            <div class="form-group">
+                <label class="label-inline" for=""><b style="color:red;">*</b>活动商品：</label>
+                @Html.EditorFor(item => item.ProductName, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })
+                <label class="label-inline" for=""><a class="btn btn-primary btn-ssm" id="SelectProduct"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp; 选择商品</a></label>
+               @Html.HiddenFor(item => item.ProductId, new { htmlAttributes = new { @class = "form-control input-sm" } })
+            </div>
+            <div class="form-group">
+                <label class="label-inline" for=""><b style="color:red;">*</b>原价格：</label>
+                @Html.EditorFor(item => item.ProductPrice, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } }) 元
+                <span class="help-default">&nbsp;&nbsp;&nbsp;&nbsp;选择商品之后，会自动填充.</span>
+            </div>
+            <div class="form-group">
+                <label class="label-inline" for=""><b style="color:red;">*</b>限时购价格：</label>
+                @Html.EditorFor(item => item.Price, new { htmlAttributes = new { @class = "form-control input-sm" } }) 元
+                <span class="help-default">&nbsp;&nbsp;&nbsp;&nbsp;限时购价格必须低于原价格；在活动期内，不能修改商品价格.</span>
+            </div>
+            <div class="form-group">
+                <label class="label-inline" for=""><b style="color:red;">*</b>活动分类：</label>
+               @Html.GenerateSelectHtml((List<SelectListItem>)ViewBag.Cate, "CategoryName")
+            </div>
+            <div class="form-group">
+                <label class="label-inline" for=""><b style="color:red;">*</b>开始时间：</label>
+                @Html.EditorFor(item => item.StartTime, new { htmlAttributes = new { @class = "form-control input-sm start_datetime" } })
+            </div>
+            <div class="form-group">
+                <label class="label-inline" for=""><b style="color:red;">*</b>结束时间：</label>
+                @Html.EditorFor(item => item.EndTime, new { htmlAttributes = new { @class = "form-control input-sm end_datetime" } })
+                <span class="help-default">&nbsp;&nbsp;&nbsp;&nbsp;结束时间必须晚于开始时间.</span>
+            </div>
+
+            @Html.HiddenFor(item => item.Stock, new { htmlAttributes = new { @class = "form-control input-sm" } })
+            <div class="form-group">
+                <label class="label-inline" for=""><b style="color:red;">*</b>购买限制：</label>
+                @Html.EditorFor(item => item.MaxSaleCount, new { htmlAttributes = new { @class = "form-control input-sm" } }) 件
+                <span class="help-default">&nbsp;&nbsp;&nbsp;&nbsp;单个人最多购买数量.</span>
+            </div>
+            <div class="form-group">
+                <label class="label-inline" for=""><b style="color:red;">*</b>审核状态：</label>
+                @(Model.AuditStatus)
+                <span class="help-default">&nbsp;&nbsp;@(Model.CancelReson)</span>
+            </div>
+            <div class="dialog-form-btn">
+                <label class="label-inline" for="">&nbsp;</label>
+                <button type="submit" class="btn btn-primary">保存</button><label class="label-inline" for=""><a href="../Management">返回</a></label>
+            </div>
+        </div>
+    }
+</div>
+@if (Model.AuditStatus=="待审核")
+{ 
+<script type="text/javascript">
+    $(function () {
+        $(".start_datetime").datetimepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            weekStart: 1,
+            language: 'zh-CN',
+            minView: 2
+        });
+        $(".end_datetime").datetimepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            weekStart: 1,
+            language: 'zh-CN',
+            minView: 2
+        });
+        $('.end_datetime').datetimepicker('setStartDate', $(".start_datetime").val());
+        $('.start_datetime').datetimepicker('setStartDate',"@(DateTime.Now.ToString("yyyy-MM-dd"))");
+        $('.start_datetime').datetimepicker('setEndDate', $(".end_datetime").val());
+        $('.start_datetime').on('changeDate', function () {
+            if ($(".end_datetime").val()) {
+                if ($(".start_datetime").val() > $(".end_datetime").val()) {
+                    $('.end_datetime').val($(".start_datetime").val());
+                }
+            }
+            $('.end_datetime').datetimepicker('setStartDate', $(".start_datetime").val());
+        });
+        $('.end_datetime').on('changeDate', function () {
+            $('.start_datetime').datetimepicker('setEndDate', $(".end_datetime").val());
+        });
+    });
+</script>
+}
+
+<script>
+    $(function () {
+        $("#Title").focus();
+
+        $("#SelectProduct").click(function () {
+            $.productSelector.show(null, function (selectedProducts) {
+                console.log(selectedProducts);
+                $("#ProductId").val(selectedProducts[0].id);
+                $("#ProductName").val(selectedProducts[0].name);
+                $("#ProductPrice").val(selectedProducts[0].price);
+            }, 'selleradmin', false);
+        });
+    });
+        var a = v({
+            form: 'form1',
+            ajaxSubmit: true,
+            beforeSubmit: function () {
+                loadingobj = showLoading();
+            },
+            afterSubmit: function (data) {// 表单提交成功回调
+                loadingobj.close();
+                var d =data;
+                if (d.success) {
+                    $.dialog.succeedTips("保存成功！", function () {
+                        window.location.href = "../Management";
+                    });
+                } else {
+                    $.dialog.errorTips(d.msg, '', 1);
+                }
+            }
+        });
+        a.add(
+             {
+                 target: 'Title',
+                 empty: true,
+                 ruleType: 'required',// v.js规则验证
+                 error: '请您填写活动标题'
+             },
+            {
+                target: 'ProductName',
+                empty: true,
+                ruleType: 'required',// v.js规则验证
+                error: '请您选择商品'
+            }, {
+                target: 'Price',
+                empty: true,
+                ruleType: 'money',// v.js规则验证
+                fnRule: function () {
+                    var a = $('#ProductPrice').val(),
+                          b = $('#Price').val();
+                    try{
+                        a=parseFloat(a);
+                    } catch (ex) {
+                        a = 0;
+                    }
+                    try {
+                        b = parseFloat(b);
+                    } catch (ex) {
+                        b = 0;
+                    }
+                    if (b >= a || b < 0 || a < 0) {
+                        return false;
+                    }
+                },
+                error: '只能为数字，  且大于0'
+            }, {
+                target: 'StartTime',
+                ruleType: 'required',// v.js规则验证
+                error: '请选择活动开始时间'
+            }, {
+                target: 'EndTime',
+                ruleType: 'required',// v.js规则验证
+                error: '请选择活动结束时间'
+            }, {
+                target: 'MaxSaleCount',
+                empty: true,
+                ruleType: 'uint&&(value>0)',// v.js规则验证
+                error: '最大购买数只能为数字，  且大于0'
+            });
+
+
+
+</script>
+

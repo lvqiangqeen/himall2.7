@@ -1,0 +1,111 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "个人信息";
+}
+
+<div class="box1 lh24">
+    <div class="title bot-border">
+        <h3 class="title_txt cur">验证信息</h3>
+    </div>
+    
+    <div class="border-box">
+		<div class="yanzh_pic off">
+			 <span class="col">验证@{@ViewBag.ShortName}</span><span>完成</span>
+			 
+		</div>
+        <div class="user-set userset-lcol">
+            <div class="form">
+                <div class="item w300">
+                    <span class="label">@ViewBag.ShortName：</span>
+                    <div class="fl">
+                        <input type="text" value="" id="destination" maxlength="120" class="itxt"  onblur="check();">
+                        <div id="msg"></div>
+                        <div class="clr"></div>
+                    </div>
+                </div>
+                <div class="item w300">
+                    <span class="label"></span>
+                    <div class="fl">
+                        <input type="button" class="btn-8" id="btnAuthCode" intervaltime="120" value="获取@{@ViewBag.ShortName}验证码" >
+                    </div>
+                </div>
+                <div class="item w300">
+                    <span class="label">验证码：</span>
+                    <div class="fl">
+                        <input type="text" value="" id="code" maxlength="20" class="itxt">
+                        <div class="clr"></div>
+                    </div>
+                </div>
+                <div class="item w300">
+                    <span class="label">&nbsp;</span>
+                    <div class="fl">
+                        <a id="id_btn" class="btn-5">验证</a>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="pluginId" value="@ViewBag.Id" />
+        </div>
+    </div>
+</div>
+<script>
+var count=120;
+    $('#btnAuthCode').click(function () {
+        if(check()){
+            return;
+        }
+        var destination = $("#destination").val();
+        var id = $('#pluginId').val();
+        $.post('SendCode', { pluginId: id, destination: destination }, function (result) {
+            if (result.success) {
+                setTimeout(countDown1('timeDiv1', ''), 1000);
+            }else {
+                $.dialog.errorTips('发送验证码失败,'+result.msg);
+            }
+        });
+    });
+
+    $('#id_btn').click(function () {
+        var destination = $("#destination").val();
+        var id = $('#pluginId').val();
+        var code = $('#code').val();
+        if(check()){
+            return;
+        }
+        $.post('CheckCode', { pluginId: id, code: code, destination: destination }, function (result) {
+            if (result.success) {
+                $.dialog.succeedTips('验证成功！',function(){window.location.href='/UserCenter/Finished?id='+id;});
+                
+            }
+            else {
+                $.dialog.errorTips(result.msg);
+            }
+        });
+    });
+    function countDown1() {
+        $("#btnAuthCode").parent().parent().hide();
+        $("#msg").show().html('验证码已发送还剩下<font color="#f60">'+count+'</font>秒');
+        if (count == 1) {
+            $("#msg").hide();
+            $("#btnAuthCode").parent().parent().show().removeAttr("disabled");
+            count=120;
+            return;
+        } else {
+            setTimeout(countDown1, 1000);
+        }
+        count--;
+    }
+    function check(){
+        var reg1=/^[1-9]\d{10}$/,
+            reg2=/^\w+([-+.]\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+            str=$('#destination').val();
+        var a=reg1.test(str),
+            b=reg2.test(str);
+        if(a||b){
+            $('#msg').hide();
+            return false;
+        }else{
+            $('#msg').html('<div style="color:#e4393c">请填写正确的信息!</div>');
+            return true;
+        }
+    }
+</script>

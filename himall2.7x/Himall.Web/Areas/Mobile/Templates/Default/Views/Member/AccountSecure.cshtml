@@ -1,0 +1,77 @@
+﻿@model Himall.Model.UserMemberInfo
+@{
+    ViewBag.Title = "账户安全";
+}
+<style>
+    .container a:hover{color:#333}
+</style>
+<div class="container">
+    <a href="ChangeLoginPwd">
+        <div class="acc-safe clearfix">
+            <div class="list">登录密码<br><i>建议定期修改密码以保护账户安全</i></div>
+            <span class="glyphicon glyphicon-menu-right"></span>
+        </div>
+    </a>
+	<a href="ChangePayPwd">
+		<div class="acc-safe clearfix">
+			<div class="list">支付密码<br><i>建议定期修改密码以保护账户安全</i></div>
+			<span class="glyphicon glyphicon-menu-right"></span>
+		</div>
+	</a>
+    <a href="BindPhone">
+        <div class="acc-safe clearfix">
+            <div class="list">绑定手机<br><i>如若您已更换手机号，请及时绑定</i></div>
+            <span class="glyphicon glyphicon-menu-right"></span>
+            @if (!string.IsNullOrWhiteSpace(Model.CellPhone))
+            {
+                <span class="al-tel">已绑定：@Model.CellPhone</span>
+            }
+        </div>
+    </a>
+    @*<a href="ChangeLoginPwd">
+        <div class="acc-safe">
+            <div class="list">支付密码<br><i>建议您使用跟登录密码不一样的交易密码</i></div>
+            <span class="glyphicon glyphicon-menu-right"></span>
+        </div>
+    </a>*@
+    <a href="#" id="clearCookie">
+        <div class="acc-safe" style="line-height:50px;height:50px;border-top:1px solid #e9e9ea;margin-top:10px;">
+            退出当前账号
+        </div>
+    </a>
+    @{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_4ButtonsFoot.cshtml");}
+</div>
+<script>
+    $('#clearCookie').click(function () {
+        //clearCookie();
+        var user = $.cookie('Himall-User') || '';
+        $.post('../debug/Logout', {}, function (result) {
+            if (result.success) {
+                $.dialog.alert('成功退出', function () {
+                    window.location.href = 'Center';
+                });
+
+                //clearCookie();
+            }
+            else {
+                //clearCookie();
+                $.dialog.alert('未登录');
+            }
+        });
+    });
+
+
+    function clearCookie() {
+        var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+        if (keys) {
+            for (var i = keys.length; i--;) {
+                $.cookie(keys[i], null, { path: "/" });
+            }
+        }
+        //补充cookie
+        addLastCookie();
+    }
+    function addLastCookie() {
+        $.cookie('@(Himall.Web.Framework.CookieKeysCollection.HIMALL_ACTIVELOGOUT)', '1',{expires:20,path:'/'});
+    }
+</script>

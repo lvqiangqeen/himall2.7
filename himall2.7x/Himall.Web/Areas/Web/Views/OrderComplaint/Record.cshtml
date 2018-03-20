@@ -1,0 +1,85 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "退换货列表";
+}
+@model  IEnumerable<Himall.Model.OrderComplaintInfo>
+@using Himall.Core;
+
+<div class="box1 lh24">
+    <div class="title">    
+        <span class="title_txt curr">申请记录</span>
+        <span class="title_txt title_back" style="margin-left: 40px; margin-top: 2px;"><a href="@Url.Action("Index")">投诉维权</a></span>
+    </div>
+    <div class="border-box mt20">
+        <table class="tb-void tb-back-record">
+            <colgroup>
+                <col width="165" />
+                <col width="165" />
+                <col width="100" />
+                <col width="100" />
+                <col width="130" />
+                <col width="80" />
+                <col width="80" />
+            </colgroup>
+            <thead>
+                <tr class="tr">
+                    <th>投诉内容</th>
+                    <th>商家回复</th>
+                    <th>联系电话</th>
+                    <th>所属订单</th>
+                    <th>提交时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() == 0)
+                {
+                    <tr><td colspan="6" class="ety"><div class="empty">暂时没有记录</div></td></tr>
+                }
+                @foreach (var m in Model)
+                {
+                    <tr>
+                        <td><span class="col-blue" title="@m.ComplaintReason" style="height:18px; overflow:hidden;text-overflow:ellipsis;white-space:nowrap; width:175px">@Server.HtmlDecode(m.ComplaintReason)</span></td>
+                        <td><span class="col-blue" title="@m.SellerReply" style="height:18px; overflow:hidden;text-overflow:ellipsis;white-space:nowrap; width:175px">@Server.HtmlDecode(m.SellerReply)</span></td>
+                        <td><span class="col-blue">@m.UserPhone</span></td>
+                        <td>@m.OrderId</td>
+                        <td>@m.ComplaintDate</td>
+                        <td>@m.Status.ToDescription()</td>
+                        <td>
+                            <span style="display:none">@m.SellerReply</span>
+                            @if (m.Status == Himall.Model.OrderComplaintInfo.ComplaintStatus.WaitDeal)
+                            {
+                                <a cid="@m.Id" deal="cancel" class="complain-btn">取消</a>
+                            }
+                            else if (m.Status == Himall.Model.OrderComplaintInfo.ComplaintStatus.Dealed)
+                            {
+                                <a cid="@m.Id" deal="ok" class="complain-btn">满意</a>
+                            }
+                            @if (m.Status == Himall.Model.OrderComplaintInfo.ComplaintStatus.Dealed || m.ComplaintDate.AddDays(1) < DateTime.Now && m.Status == Himall.Model.OrderComplaintInfo.ComplaintStatus.WaitDeal)
+                            {
+                                <a cid="@m.Id" deal="bad" class="complain-btn">申请仲裁</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="mt10">
+            <div id="pagin-btm" class="pagin fr" style="clear:both">
+                @{
+                    var count = ((PagingInfo)ViewBag.pageInfo).TotalPages;
+                    var curr = ((PagingInfo)ViewBag.pageInfo).CurrentPage;
+                }
+                @Html.PageLinks((PagingInfo)ViewBag.pageInfo, x => Url.Action("Record", new { pageNo = x }))
+                <span class="page-skip">
+                    <em>&nbsp;&nbsp;共 @count 页&nbsp;&nbsp;&nbsp;&nbsp;</em>
+                </span>
+            </div>
+            <div class="clr"></div>
+        </div>
+    </div>
+    
+
+</div>
+<script src="~/Areas/Web/Scripts/OrderComplaintRecord.js"></script>

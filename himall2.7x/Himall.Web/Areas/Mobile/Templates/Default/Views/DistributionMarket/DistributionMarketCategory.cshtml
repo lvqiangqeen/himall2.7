@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "分销市场分类页";
+}
+@model IEnumerable<Himall.DTO.Category>
+<div class="container">
+    <header>
+        <div class="search search-bor-none">
+            <input id="searchBox" type="text" name="" value="@ViewBag.Keywords" placeholder="搜索全部商品..." />
+            <i class="glyphicon glyphicon-search" id="searchDistribution"></i>
+        </div>
+    </header>
+    <div class="category-box">
+        <div class="category1" id="category1">
+            <ul class="clearfix">
+                @{bool isFirst = true;}
+                @foreach (var firstCategory in Model)
+                {
+                    <li class="@(isFirst?"cur":"")">@firstCategory.Name</li>
+                    isFirst = false;
+                }
+            </ul>
+        </div>
+        <div class="category2" id="category2">
+            @{isFirst = true;}
+            @foreach (var firstCategory in Model)
+            {
+                <dl style="@(isFirst?"display:block;":"")">
+                    @foreach (var secondCategory in firstCategory.SubCategories)
+                    {
+                        <dt>@secondCategory.Name</dt>
+                        <dd class="clearfix">
+                            @foreach (var thirdCategory in secondCategory.SubCategories)
+                            {
+                                if (string.IsNullOrWhiteSpace(thirdCategory.Image))
+                                {
+                                    thirdCategory.Image = "/Areas/Mobile/Templates/Default/Images/default.png";
+                                }
+                                <a href="@Url.Action("SearchProduct", new { categoryId = thirdCategory.Id })">
+                                    <img src="@thirdCategory.Image" width="50" height="50">
+                                    <span>@thirdCategory.Name</span>
+                                </a>
+                            }
+                        </dd>
+                    }
+                </dl>
+                    isFirst = false;
+            }
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/iscroll.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/category.js"></script>

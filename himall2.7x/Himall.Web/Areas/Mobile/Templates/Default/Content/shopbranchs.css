@@ -1,0 +1,316 @@
+﻿/*
+ * Creater: 罗天雄
+ * Date: 2016-06-16
+ * Time: 10:00:00
+ */
+
+/*全局样式*/
+
+/*多分辨率设定rem设定*/
+html {
+    font-size: 20px;
+    /*display:flex;*/
+}
+
+body {
+    background-color: #fbf9fe;
+    color: #333;
+    font-size: 0.6rem; font-family:"Microsoft YaHei";
+/*    font-family: Heiti, Heiti SC, DroidSans, DroidSansFallback, Arial, "Microsoft YaHei";*/
+    width: 100%;
+    margin: 0 auto;
+    display: inline-block;
+    padding-bottom: 3.15rem;
+}
+@media only screen and (min-width: 320px) {
+    html {
+        font-size: 20px !important;
+    }
+}
+/*Note3*/
+@media only screen and (min-width: 360px) {
+    html {
+        font-size: 22px !important;
+    }
+}
+
+/*iPhone6*/
+@media only screen and (min-width: 375px) {
+    html {
+        font-size: 23px !important;
+    }
+}
+
+
+/*iPhone6 plus*/
+@media only screen and (min-width: 414px) {
+    html {
+        font-size: 25px !important;
+    }
+}
+
+/*big Resolution*/
+@media only screen and (min-width: 641px) {
+    html {
+        font-size: 25px !important;
+    }
+}
+
+
+b {
+    font-weight: normal;
+}
+
+input {
+    border: 0;
+}
+
+label {
+    font-weight: normal;
+}
+
+fieldset, img, iframe {
+    border: 0;
+}
+
+:focus {
+    outline: 0;
+}
+
+i, address, caption, cite, code, dfn, em, strong, th, var {
+    font-style: normal;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+li {
+    list-style: none;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: normal;
+}
+
+h1 {
+    font-size: 0.8rem;
+}
+
+h2 {
+    font-size: 0.14rem;
+}
+
+ul,
+ol,
+li {
+    list-style: none;
+}
+
+em,
+i {
+    font-style: normal;
+}
+
+img {
+    border: 0;
+}
+
+input,
+img {
+    vertical-align: middle;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+html,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/*门店列表*/
+.store_list {
+    width: 100%;
+    text-align: left;
+    display: inline-block;
+}
+
+    .store_list li {
+	    background: #fff;
+	    padding: 15px 0 0 0;
+	    position: relative;
+	    margin: 10px;
+	}
+	.store_list li h1 { color:#212121;
+		position: relative; font-weight:400;
+	    display: inline-block;
+ 
+	    width: 73%;
+	    line-height: 1;
+	    padding: 0 15px 0 35px;
+	    margin: 0;
+	    font-size: 16px;
+	    overflow: hidden;white-space: nowrap;text-overflow: ellipsis;
+	}
+	.store_list li h1:before{
+		content: '';
+		position: absolute;
+		left: 15px;
+		top: 50%;
+		margin-top: -8px;
+		width: 14px;
+		height: 14px;
+		background: url(../Images/ic_store.png) no-repeat;
+		background-size: contain;
+	}
+
+
+	.store_list li h4 { color:#212121;
+		position: relative; 
+	    display: inline-block;
+ 
+	    width: 73%;
+	    line-height: 1;
+	    padding: 0 15px 0 35px;
+	    margin: 0;
+	    font-size: 16px;
+	    overflow: hidden;white-space: nowrap;text-overflow: ellipsis;
+	}
+	.store_list li h4:before{
+		content: '';
+		position: absolute;
+		left: 15px;
+		top: 50%;
+		margin-top: -8px;
+		width: 14px;
+		height: 14px;
+		background: url(../Images/ic_store.png) no-repeat;
+		background-size: contain;
+	}
+
+
+
+
+
+
+.store_list_address {
+    display: inline-block;
+    color: #424242;
+    padding: 0.2rem 1.5rem 0.5rem 15px;
+    font-size: 14px;
+}
+
+.store_list_tel { font-size:11px;
+    color: #757575;
+    position: absolute;
+    top: 0;
+    right: 0.75rem;
+    top: 15px;
+}
+    .store_list_tel span {
+        float: left;
+        color: #616161;
+    }
+
+.store_list_map {
+    display: inline-block;
+    width: 100%;
+    height: 1.825rem;
+    display: inline-block;
+    /*background: url(/Areas/mobile/templates/default/Images/store_list_1.jpg);
+    background-size: 100% 100%;*/
+   	border-top: 1px solid #e0e0e0;
+    line-height: 1.825rem;
+}
+
+    .store_list_map a {
+	    display: inline-block;
+	    color: #616161;
+	    width: 50%;
+	    text-align: center;
+	    padding-left: 1rem;
+	    box-sizing: border-box;
+	}
+	.store_list_map a span{ font-size:14px;
+		position: relative; color: #616161;
+	}
+	 .store_list_map a:first-of-type{
+	 	 border-right: 1px solid #e0e0e0;
+	 }
+    .store_list_map a:first-of-type span:before {
+        content: '';
+		position: absolute;
+		left: -20px;
+		top: 50%;
+		margin-top: -6px;
+		width: 13px;
+		height: 12px;
+		background: url(../Images/map.png) no-repeat;
+		background-size: contain;
+    }
+    .store_list_map a:last-of-type span:before {
+        content: '';
+		position: absolute;
+		left: -20px;
+		top: 50%;
+		margin-top: -6px;
+		width: 12px;
+		height: 12px;
+		background: url(../Images/phone.png) no-repeat;
+		background-size: contain;
+    }
+
+.icon_angle_right {
+    margin: 0.75rem 0 0 0;
+    float: right;
+}
+
+.store_list .icon_angle_right {
+    position: absolute;
+    right: 0.75rem;
+    top: 40%;
+}
+
+.no_more {
+    text-align: center;
+    padding: 0.75rem;
+    float: left;
+    width: 100%;
+    font-size: 0.5rem;
+    color: #999;
+}
+
+.no_sotre {
+    width: 100%;
+    display: inline-block;
+    padding: 3rem 0.75rem 0.75rem 0.75rem;
+    text-align: center;
+}
+
+    .no_sotre img {
+        width: 6.9rem;
+    }
+
+.icon_angle_right {
+    width: 0.325rem;
+    height: 0.55rem;
+    display: inline-block;
+    background: url(/Areas/mobile/templates/default/Images/icon_angle_right.png);
+    background-size: 100% 100%;
+}
+
+/*end*/

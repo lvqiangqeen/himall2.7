@@ -1,0 +1,69 @@
+﻿@{
+    Layout = null;
+}
+@model Himall.Model.ProductCommentInfo
+
+<style>
+  .dialog-form .only-text{padding-left:110px;}
+</style>
+<div class="dialog-form">
+    <div class="form-group">
+        <label class="label-inline fl" style="width:80px!important">初次评价</label>
+        <p class="only-text">@Model.ReviewContent</p>
+        <p class="after-service-img">
+            @foreach (var img in @Model.Himall_ProductCommentsImages.Where(a => a.CommentType == 0))
+            {
+                <img height="50" width="50" src="@(Himall.Core.HimallIO.GetImagePath(img.CommentImage))" />
+            }
+        </p>        
+
+       @if (Model.ReplyDate.HasValue)
+       {
+        <label class="label-inline fl" style="width:80px!important"> 初次回复</label>
+        <p class="only-text">@Model.ReplyContent</p>
+       }
+       else if (!Model.ReplyAppendDate.HasValue)
+       {
+        <label class="label-inline fl" style="width:80px!important">回复</label>
+        <p class="only-text">
+            <textarea id="replyContent" name="replyContent" class="form-control" cols="50" rows="3"></textarea>
+            <span class="field-validation-error" id="commentCotentTip"></span>
+        </p>
+
+       }
+   </div>
+   
+    @if (@Model.AppendDate.HasValue)
+    {
+        <div class="form-group">
+            <label class="label-inline fl" style="width:80px!important">追加评论</label>
+            <p id="cont_txt" name="cont_txt" class="only-text">@Model.AppendContent</p>
+            <p class="after-service-img">
+                @foreach (var img in @Model.Himall_ProductCommentsImages.Where(a => a.CommentType == 1))
+                {
+                    <img height="50" width="50" src="@(Himall.Core.HimallIO.GetImagePath(img.CommentImage))" />
+                }
+            </p>    
+            @if (Model.ReplyAppendDate.HasValue)
+            {
+                <label class="label-inline fl" style="width:80px!important">追加回复</label>
+                <p class="only-text">@Model.ReplyAppendContent</p>
+            
+            }
+            else
+            {
+        <label class="label-inline fl" style="width:80px!important">回复</label>
+                <p class="only-text">
+                    <textarea id="appendContent" name="appendContent" class="form-control" cols="50" rows="3"></textarea>
+                    <span class="field-validation-error" id="AppendcommentCotentTip"></span>
+                </p>
+            
+            }
+      </div>
+           
+       
+    }
+
+</div>
+
+

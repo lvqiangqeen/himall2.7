@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "拼团首页";
+}
+<div class="container merge-list-container" id="hasdata">
+    <ul id="databox"></ul>
+    <div id="autoLoad" class="loading"></div>
+</div>
+
+<div class="container merge-small-page merge-not" style="display:none;" id="nodata">
+    <div class="merge-not-bg"></div>
+    <p>商城暂时没有火拼团活动！</p>
+</div>
+
+<script src="~/Content/Public/js/dist/underscore.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/loading.js"></script>
+
+<script id="datatmp" type="text/template">
+    <%_.each(datalist, function(item, index, obj) {%>
+    <li>
+        <div class="thumb">
+            <a class="hmui-img-full" href="/@(ViewBag.AreaName)/FightGroup/Detail/<%=item.Id%>">
+                <img src="<%=item.IconUrl%>">
+                <%if(item.ActiveStatus==1){%>
+                <div class="thumb-mask"></div>
+                <%}%>
+            </a>
+        </div>
+        <div class="price">
+            <span class="merge-price-icon">¥<%=item.MiniGroupPrice.toFixed(2)%></span>
+            <del>¥<%=item.MiniSalePrice%></del>
+        </div>
+        <div class="name"><a href="/@(ViewBag.AreaName)/FightGroup/Detail/<%=item.Id%>"><%=item.ProductName%></a></div>
+        <div class="merge-size"><span><%=item.LimitedNumber%></span> 人团</div>
+    </li>
+    <%});%>
+</script>
+
+<script>
+    var curPage = 1;       //当前页
+    var isMoreGet = true;  //是否还在数据
+    var isLoading = false;
+    var TmplCon = "";
+    var databox;
+    var datalist;   //数据变量
+
+
+    $(document).ready(function () {
+
+        TmplCon = $("#datatmp").html(); //获取模板内容
+        databox = $("#databox");
+        h_loading.init($("#autoLoad"));
+
+        getData();
+
+        $(window).scroll(function () {
+            var scrollTop = $(this).scrollTop();
+            var scrollHeight = $(document).height();
+            var windowHeight = $(this).height();
+
+            if (scrollTop + windowHeight >= scrollHeight - 30) {
+                curPage++;
+                getData();
+            }
+        });
+
+    })
+
+    function getData() {
+        if (isMoreGet) {
+            var getdataurl = '/' + areaName + '/FightGroup/PostActiveList';
+            if (!isLoading) {
+                isLoading = true;
+                h_loading.show();
+                $.post(getdataurl, { page: curPage }, function (result) {
+                    isLoading = false;
+                    if (result.success) {
+                        datalist = result.rows;
+                        if (datalist.length > 0) {
+                            databox.append(_.template(TmplCon, datalist));
+                            h_loading.hide();
+                        } else {
+                            isMoreGet = false;
+                            if (curPage > 1) {
+                                h_loading.nodata();
+                            } else {
+                                $("#hasdata").hide();
+                                $("body").append("<style>html,body{height:100%;}</style>");
+                                $("#nodata").show();
+                            }
+                        }
+                    } else {
+                        h_loading.hide();
+                        $.dialog.errorTips(result.msg);
+                    }
+                });
+            }
+        }
+    }
+</script>

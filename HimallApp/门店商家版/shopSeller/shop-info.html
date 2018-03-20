@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>编辑门店信息</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.listpicker.css" rel="stylesheet" />
+    	<link href="css/mui.poppicker.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<link href="css/account.css" rel="stylesheet"/>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">编辑门店信息</h1>
+		</header>
+		<div class="mui-content">
+			<div id='shopInfo-form' class="mui-input-group base-info">
+				<div class="mui-input-row">
+					<label>门店名称</label>
+					<input id='name' type="text" class="mui-input-clear mui-input" placeholder="请输入门店名称">
+				</div>
+				<div class="mui-input-row">
+					<label>所在地区</label>
+					<input id='areaP' type="text" class="mui-input" readonly="readonly" placeholder="请选择地区">
+					<i class="arrow-right"></i>
+				</div>
+				<div class="mui-input-row" id="showStreet">
+					<label>街道</label>
+					<input id='street' type="text" class="mui-input" readonly="readonly" placeholder="请选择街道">
+					<i class="arrow-right"></i>
+				</div>
+				<div class="mui-input-row">
+					<label>详细地址</label>
+					<input id='detail' type="text" class="mui-input-clear mui-input" placeholder="请输入详细地址">
+				</div>
+				<div class="mui-input-row">
+					<label>联系人</label>
+					<input id='linkman' type="text" class="mui-input-clear mui-input" placeholder="请输入联系人">
+				</div>
+				<div class="mui-input-row">
+					<label>联系电话</label>
+					<input id='phone' type="text" class="mui-input-clear mui-input" pattern="[0-9]*" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="请输入联系电话">
+				</div>
+			</div>
+			<div class="mui-content-padded">
+				<button id='saveBtn' class="mui-btn mui-btn-block mui-btn-blue">保存</button>
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/mui.listpicker.js"></script>
+		<script src="js/mui.poppicker.js"></script>
+		<script src="js/region.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script>
+			var doc=document,
+				userkey = himall.getState().userkey,
+				streetList = [],
+				shopId,
+				streetId,
+				id,
+				w;
+			var AddressFullName,CreateDate,PasswordOne,PasswordTwo,Status,UserName;
+			
+			var shopName = doc.getElementById('name'),
+				areaP = doc.getElementById('areaP'),
+				street = doc.getElementById('street'),
+				showStreet=doc.getElementById('showStreet'),
+				detail = doc.getElementById('detail'),
+				linkman = doc.getElementById('linkman'),
+				phone = doc.getElementById('phone'),
+				saveBtn = doc.getElementById('saveBtn');
+				
+			mui.init();
+			mui.plusReady(function() {
+				
+				//获取门店信息
+				mui.ajax(URL+'api/ShopBranchHome/GetShopBranchInfo',{
+					data:himall.md5Data({
+						userkey:userkey
+					}),
+					dataType:'json',
+					type:'GET',
+					timeout:20000,
+					success:function(data){
+						data = data.data[0];
+						
+						//初始化街道组合
+						//data.RegionIdPath='1812,1813,1814,27073'; test
+						var adsPath=data.RegionIdPath.split(','),
+							temp;
+						if(adsPath.length>3){
+								for(var i=0; i<adsPath.length-1; i++){
+								if(i==0){
+									temp=province.filter(function(a) {
+									  return a.v == adsPath[i];
+									});
+								}else{
+									temp=temp[0].s.filter(function(a) {
+									  return a.v == adsPath[i];
+									});
+								}
+							}
+							streetList=temp[0].s;
+						}
+						
+						
+						AddressFullName=data.AddressFullName;
+						CreateDate=data.CreateDate;
+						PasswordOne=data.PasswordOne;
+						PasswordTwo=data.PasswordTwo;
+						Status=data.Status;
+						UserName=data.UserName;
+						
+						shopId = data.ShopId;
+						id = data.Id;
+						shopName.value=data.ShopBranchName;
+						var fullName = data.AddressFullName.split(' ');
+						areaP.value = fullName[0]+' '+fullName[1]+' '+(fullName[2]||'');
+						if(fullName[3]){
+							street.value = fullName[3];
+						}else{
+							showStreet.style.display='none';
+						}
+						
+						detail.value = data.AddressDetail;
+						linkman.value = data.ContactUser;
+						phone.value = data.ContactPhone;
+						streetId = data.AddressId;
+					},
+					error:function(xhr,type,errorThrown){
+						plus.nativeUI.toast('请求失败，请检查网络');
+					}
+				});
+				
+			});
+			saveBtn.addEventListener('tap', function() {
+				if (shopName.value==''||detail.value==''||linkman.value==''||phone.value=='') {
+					plus.nativeUI.toast('请将信息填写完整');
+					return;
+				}
+				if(!streetId){
+					plus.nativeUI.toast('请选择街道');
+					return;
+				}
+				var shopInfo = {
+					addressfullname:AddressFullName,
+					createdate:CreateDate,
+					passwordone:PasswordOne,
+					passwordtwo:PasswordTwo,
+					status:Status,
+					username:UserName,
+					userkey: userkey,
+					id:id,
+					shopid: shopId,
+					addressid: streetId,
+					addressdetail: detail.value,
+					contactuser: linkman.value,
+					contactphone: phone.value,
+					shopbranchname: shopName.value
+				};
+				w = plus.nativeUI.showWaiting();
+				mui.ajax(URL+'api/ShopBranchHome/PostShopBranchInfo',{
+					data:himall.md5Data(shopInfo),
+					dataType:'json',
+					type:'POST',
+					timeout:20000,
+					success:function(data){
+						w.close();
+						if(data.success){
+							plus.nativeUI.toast('修改成功');
+							setTimeout(function(){
+								plus.webview.currentWebview().close();
+							},1000);
+						}else{
+							plus.nativeUI.toast(data.msg);
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						plus.nativeUI.toast('请求失败，请检查网络');
+					}
+				});
+			});
+			areaP.addEventListener('tap',function(){
+				//级联示例
+				var cityPicker3 = new mui.PopPicker({
+					layer: 3
+				});
+				cityPicker3.setData(province);
+				setTimeout(function(){
+					cityPicker3.show(function(items) {
+						areaP.value = (items[0].t || '') + " " + (items[1].t || '') + " " + (items[2].t || '');
+						street.value='请选择街道';
+						if(!items[2].v){
+							streetId=items[1].v;
+							showStreet.style.display='none';
+						}else{
+							if(items[2].s){
+								streetList = items[2].s;
+								streetId='';
+								showStreet.style.display='block';
+							}else{
+								streetId=items[2].v;
+								showStreet.style.display='none';
+								
+							}
+						}
+					});
+
+				},200);
+			});
+			street.addEventListener('tap',function(){
+				//普通示例
+				if(streetList.length<1){
+					plus.nativeUI.toast('请先选择地区');
+					return;
+				}
+				var userPicker = new mui.PopPicker();
+				userPicker.setData(streetList);
+				userPicker.show(function(items) {
+					street.value=items[0].t;
+					streetId = items[0].v;
+				});
+			});
+			
+		</script>
+	</body>
+
+</html>

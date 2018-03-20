@@ -1,0 +1,100 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "我的积分";
+}
+@model  IEnumerable<Himall.Model.MemberIntegralRecord>
+@using Himall.Model;
+@using Himall.Core;
+@{var type = Request.QueryString["type"];}
+<style>
+    #ulstatus li a {
+        padding: 0 24px;
+    }
+
+    .tr-td td {
+        border-right: none;
+    }
+
+    .tb-goods td {
+        padding: 28px 0 20px 0;
+        font-size: 15px;
+        color: #6b6c6e;
+        line-height: 15px;
+    }
+
+    .tb-void tbody .tr-td {
+        border-bottom: 1px solid #f1f1f1;
+        border: none;
+    }
+
+    .tb-void thead {
+        font-size: 15px;
+        color: #383635;
+    }
+</style>
+
+<div class="box1 lh24">
+    <div class="title bot-border">
+        <span class="title_txt curr">我的积分</span>
+        <span class="title_txt" style="margin-left:40px;margin-top:2px; font-weight:bold"><a href="@Url.Action("OrderList")" style="color:#959596">礼品兑换管理</a></span>
+    </div>
+    <div class="border-box" style="margin-top:17px;">
+        <div id="describe">
+            <div class="fl">
+                <p><label>您当前可用积分：</label><span style="border-bottom:1px solid #cacaca;">@ViewBag.Integral 分</span>  <a class="ftx-05" href="@Url.Action("IntegralRule")" style="color:#78a1c1;margin-left:25px;">如何获取积分？</a></p>
+
+                @if (@ViewBag.IntegralPerMoney != 0)
+                {
+                    <p><label>可抵扣订单金额：</label><span>@(Math.Round(ViewBag.Integral / (decimal)ViewBag.IntegralPerMoney, 2, MidpointRounding.AwayFromZero)) 元</span></p>
+                    <p>
+
+                        <label>积分使用说明：</label><span style="margin-left:26px;">1、每 @ViewBag.IntegralPerMoney 积分可抵扣1元； 2、如订单发生退款、退货等问题时，获得的积分将被扣除。</span>
+                    </p> }
+            </div>
+            <div class="clr"></div>
+        </div>
+    </div>
+
+    <ul class="cl two-title" id="ulstatus" style="margin-top:10px;margin-bottom:27px;">
+        <li @(string.IsNullOrEmpty(type) ? "class=active" : "")><a href="?type=" style="padding-left:24px;">全部</a></li>
+        <li @(type == "1" ? "class=active" : "")><a href="?type=1">收入</a></li>
+        <li @(type == "2" ? "class=active" : "")><a href="?type=2">支出</a></li>
+    </ul>
+    <div class="border-box" style="margin:0;">
+        <table class="tb-void tb-goods">
+            <thead>
+                <tr class="tr-td">
+                    <th width="150">来源/用途</th>
+                    <th width="150">积分</th>
+                    <th width="250">时间</th>
+                    <th width="350" style="text-align:left;padding-left:20px;">备注</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() == 0)
+                {
+                    <tr><td colspan="8" class="ety"><div class="empty">暂无积分记录！</div></td></tr>
+                }
+                @foreach (var m in Model)
+                {
+                    <tr class="tr-td">
+                        <td>@m.TypeId.ToDescription()</td>
+                        <td class="red-lg" style="font-weight:bold;font-size:13px;">@m.Integral</td>
+                        <td>@m.RecordDate</td>
+                        <td style="text-align:left">@m.ReMark</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="clearfix mt10" id="bottom_pager">
+            <div id="pagin-btm" class="pagin fr" style="clear:both">
+                @{
+                    var count = ((PagingInfo)ViewBag.pageInfo).TotalPages;
+                    var curr = ((PagingInfo)ViewBag.pageInfo).CurrentPage;
+                }
+                @Html.PageLinks((PagingInfo)ViewBag.pageInfo, x => Url.Action("Index", new { pageNo = x, type = type }))
+            </div>
+        </div>
+    </div>
+</div>

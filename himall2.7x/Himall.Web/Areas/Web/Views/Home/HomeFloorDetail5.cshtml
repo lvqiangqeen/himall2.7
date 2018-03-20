@@ -1,0 +1,117 @@
+﻿@model Himall.Web.Areas.Web.Models.HomeFloorModel
+@{
+    var floor = Model;
+}
+<!--楼层样式5-->
+<div class="floor5 floor">
+    <div class="floor5-hd">
+        <i><s>@floor.Index</s>F</i><span>@floor.Name</span>
+        <ul>
+            <li class="active">@floor.DefaultTabName</li>
+            @foreach (var tab in floor.Tabs)
+            {
+                <li>@tab.Name</li>
+            }
+        </ul>
+    </div>
+    <div class="floor-bd">
+        <div class="floor-content cl">
+            <div class="content-left5">
+                <div class="slide">
+                    <ul class="cl" style="width: 1600px;">
+                        @foreach (var scroll in floor.Scrolls)
+                        {
+                            <li><a target="_blank" href="@scroll.Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@(Himall.Core.HimallIO.GetImagePath(scroll.ImageUrl))" /></a></li>
+                        }
+                    </ul>
+                    <div class="slide-controls"><span class="cur">0</span><span>1</span><span>2</span><span>3</span></div>
+                </div>
+                <table>
+                    <tr>
+                        @{
+                            int txtCount = floor.TextLinks.Count, firstIndex = 0, endFirst = 0;
+                            if (txtCount >= 8)
+                            {
+                                firstIndex = 4;
+                                endFirst = 8;
+                            }
+                            else if (txtCount > 4 && txtCount < 8)
+                            {
+                                firstIndex = 4;
+                                endFirst = txtCount;
+                            }
+                            else
+                            {
+                                firstIndex = txtCount;
+                            }
+                        }
+                        @for (int i = 0; i < firstIndex; i++)
+                        {
+                            <td><a href="@floor.TextLinks[i].Url" target="_blank">@floor.TextLinks[i].Name</a></td>
+                        }
+                    </tr>
+                    @if (txtCount > 4)
+                    {
+                        <tr>
+                            @for (int i = 4; i < endFirst; i++)
+                            {
+                                <td><a href="@floor.TextLinks[i].Url" target="_blank">@floor.TextLinks[i].Name</a></td>
+                            }
+                        </tr>
+                    }
+                </table>
+            </div>
+
+            <div class="content-right-box">
+                <ul class="content-right-img tab-right  style="display:block"">
+                    @{int fore = 0;}
+                    @foreach (var righttop in floor.RightTops)
+                    {
+                        fore++;
+                        <li class="fore@(fore)"><a target="_blank" href="@(Himall.Core.HimallIO.GetImagePath(righttop.Url))"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@(Himall.Core.HimallIO.GetImagePath(righttop.ImageUrl))" /></a></li>
+                    }
+                    @foreach (var rightbottons in floor.RightBottons)
+                    {
+                        fore++;
+                        <li class="fore@(fore)"><a target="_blank" href="@(Himall.Core.HimallIO.GetImagePath(rightbottons.Url))"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@(Himall.Core.HimallIO.GetImagePath(rightbottons.ImageUrl))" /></a></li>
+                    }
+                </ul>
+                @foreach (var tab in floor.Tabs)
+                {
+                    <ul class="content-right-goods tab-right">
+                        @{fore = 0;}
+                        @foreach (var product in tab.Detail)
+                        {
+                            fore++;
+                            <li class="fore@(fore)">
+                                <div class="p-img">
+                                    <a target="_blank" href="/Product/Detail/@product.ProductId" title="">
+                                        <img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@product.ImagePath">
+                                    </a>
+                                </div>
+                                <h3><a target="_blank" href="/Product/Detail/@product.ProductId" title="">@product.Name</a></h3>
+                                <p>￥<span>@product.Price</span></p>
+                            </li>
+                            if (fore == 8)
+                            {
+                                break;
+                            }
+                        }
+                    </ul>
+                }
+            </div>
+
+            <div class="content-brand5">
+                <ul class="cl">
+                    @foreach (var c in floor.Brands)
+                    {
+                        <li><a target="_blank" title="@c.Name" href="/Search?b_id=@c.Id"><img alt="@c.Name" class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@(Himall.Core.HimallIO.GetImagePath(c.Img))" /></a></li>
+                    }
+
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,128 @@
+﻿@{Layout = "/Areas/Mobile/Templates/Default/Views/Shared/_Base.cshtml";}
+@{
+long curshopid=1,curvshopid=1;
+}
+<div class="container">
+@(Html.Action("VShopHeader", "vshop", new { id = curvshopid }))
+<link rel="stylesheet" href="/Content/PublicMob/css/style.css" />
+<link rel="stylesheet" href="/Areas/Admin/templates/common/style/css.css" rev="stylesheet" type="text/css">
+<link rel="stylesheet" href="/Areas/Admin/templates/common/style/mycss.css" rev="stylesheet" type="text/css">
+<link rel="stylesheet" href="/Areas/Admin/templates/common/style/main.css" rev="stylesheet" type="text/css">
+<link rel="stylesheet" href="/Areas/Admin/templates/common/style/head.css">
+<script type="text/javascript">
+var curshopid=1,curvshopid=1;
+</script>
+
+            <div class="members_con" style="margin:0 auto">
+                
+                <section class="members_flash j-swipe" id="mySwipe">
+                    <ul class="clearfix">
+                        
+                        
+                        <li>
+                            <a href="" title="">
+                                
+                                
+                                <img src="http://2-2.himalltest.kuaidiantong.cn/Storage/template/0/20151221/6358629396104296885445413.jpg" width="100%" />
+                                
+                                
+                            </a>
+                        </li>
+                        
+                        <li>
+                            <a href="" title="">
+                                
+                                
+                                <img src="http://2-2.himalltest.kuaidiantong.cn/Storage/template/0/20151221/6358629396036230476289695.jpg" width="100%" />
+                                
+                                
+                            </a>
+                        </li>
+                        
+                        <li>
+                            <a href="" title="">
+                                
+                                
+                                <img src="http://2-2.himalltest.kuaidiantong.cn/Storage/template/0/20151221/6358629396061035162746652.jpg" width="100%" />
+                                
+                                
+                            </a>
+                        </li>
+                        
+                        <li>
+                            <a href="" title="">
+                                
+                                
+                                <img src="http://2-2.himalltest.kuaidiantong.cn/Storage/template/0/20151221/6358629396082324221745118.jpg" width="100%" />
+                                
+                                
+                            </a>
+                        </li>
+                        
+                        
+                    </ul>
+                    <section class="members_flash_time">
+                        
+                        
+                        <span class="cur" ></span>
+                        
+                        <span  ></span>
+                        
+                        <span  ></span>
+                        
+                        <span  ></span>
+                        
+                        
+                    </section>
+                </section>
+                
+            </div>
+        
+            <form action="/m-Wap/search" method="get">
+                <div class="members_con">
+                    <section class="members_search">
+                        <input type="text" name="keyWords" id="" value="" placeholder="搜索">
+                        <label></label>
+                        <input type="hidden" name="vshopid" value="1">
+                    </section>
+                </div>
+            </form>
+        
+            <div class="members_con">
+                <section class="members_special titlestyle0 center">
+                    <h2 class=" j-title">
+                        精选商品
+                    </h2>
+                    <!--<p class="j-subtitle">『副标题』</p>-->
+                    <!--
+                        <b>更多</b>
+                    -->
+                </section>
+            </div>
+        
+            <div class="members_con">
+                <section class="members_special titlestyle0 center">
+                    <h2 class=" j-title">
+                        精品配饰
+                    </h2>
+                    <!--<p class="j-subtitle">『副标题』</p>-->
+                    <!--
+                        <b>更多</b>
+                    -->
+                </section>
+            </div>
+        
+            <form action="/m-Wap/search" method="get">
+                <div class="members_con">
+                    <section class="members_search">
+                        <input type="text" name="keyWords" id="" value="" placeholder="搜索">
+                        <label></label>
+                        <input type="hidden" name="vshopid" value="1">
+                    </section>
+                </div>
+            </form>
+        @{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_4ButtonsFoot_shop.cshtml");}
+</div>
+<a class="WX-backtop"></a>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/shophome.js"></script>
+ <script src="~/Scripts/swipe-template.js"></script>

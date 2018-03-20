@@ -1,0 +1,157 @@
+﻿<style>
+    .btn-especial{margin-bottom:20px;text-decoration:none;}
+    .btn-export{height:30px;}
+</style>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("Management")">经营类目</a></li>
+        <li><a href="@Url.Action("ApplyList")">申请列表</a></li>
+        <li class="active"><a href="@Url.Action("Apply")">申请新的经营类目</a></li>
+    </ul>
+    
+    <a class="btn-especial add-business"><span class="glyphicon glyphicon glyphicon-plus"></span><em>选择类目</em></a>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>经营类目</th>
+                <th>佣金比例</th>
+                <th class="td-operate">操作</th>
+            </tr>
+        </thead>
+        <tbody id="businessCategories"></tbody>
+    </table>
+    <div class="form-group clearfix">
+        @*<div class="col-sm-offset-2 col-sm-10" style="margin-top:20px;">*@
+        <div class="col-sm-10" style="margin-top:20px;">
+            <button type="button" id="submit" onclick="Apply()" class="btn btn-primary">提交申请</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <a id="backpre" class="btn-export" href="@(Url.Action("Management"))">返回</a>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script>
+    $(function () {
+        var selectedCategoryId, selectedCategoryPath = [];
+        $('#businessCategories').on('click', 'a.a-del', function () {
+            $(this).parents('tr').remove();
+        });
+        $('.add-business').click(function () {
+            selectedCategoryId;
+            selectedCategoryPath = [];
+            $.dialog({
+                title: '新增经营类目',
+                lock: true,
+                id: 'addBusiness',
+                content: ['<div class="dialog-form">',
+                    '<div class="form-group">',
+                        '<label class="label-inline" for="">经营类目</label>',
+                        '<select name="businessCategories" class="form-control input-sm select-sort"></select>',
+                        '<select name="businessCategories" class="form-control input-sm select-sort"></select>',
+                        '<select name="businessCategories" class="form-control input-sm select-sort"></select>',
+                    '</div>',
+                '</div>'].join(''),
+                padding: '0 40px',
+                okVal: '确认',
+                ok: function () {
+                    if (selectedCategoryId > 0) {
+                        var trs = $('#businessCategories tr');
+                        var exist = false;
+                        $.each(trs, function (i, tr) {
+                            if ((',' + selectedCategoryId + ',').indexOf(',' + $(tr).attr('value') + ',') > -1) {
+                                exist = true;
+                            }
+                        });
+                        if (exist) {
+                            $.dialog.tips('不能重复选择相同类目');
+                            return false;
+                        }
+                        var html = "";
+                        $.ajax({
+                            type: 'GET',
+                            url: './GetBussinessCate',
+                            cache: false,
+                            async: false,
+                            data: { id: selectedCategoryId },
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.length == 0) {
+                                    $.dialog.tips('你已经有该类目的经营！');
+                                    return false;
+                                }
+                                for (var i = 0; i < data.length; i++) {
+                                    var ex = $('#businessCategories tr[value=' + data[i].id + ']');
+                                    if (ex.length == 0) {
+                                        html += '<tr value="' + data[i].id + '">\
+                                    <td>' + data[i].path + '</td>\
+                                     <td>' + data[i].rate + '% </td>\
+                                    <td class="td-operate"><span class="btn-a"><a class="a-del">删除</a></span></td>\
+                                    </tr>';
+                                    }
+                                }
+                            }
+                        });
+                        $('#businessCategories').append(html);
+                    }
+                    else {
+                        $.dialog.tips('请至少选择一个分类');
+                        return false;
+                    }
+                }
+            });
+            $('select[name="businessCategories"]').himallLinkage({//申请列表
+                url: 'GetCategories',
+                enableDefaultItem: true,
+                defaultItemsText: '请选择',
+                defaultSelectedValues: [],
+                onChange: function (level, value, text) {
+                    if (level == selectedCategoryPath.length) {
+                        selectedCategoryPath.push(text);
+                    }
+                    else {
+                        var newSelectedCategoryPath = [];
+                        for (var i = 0; i < level; i++) {
+                            newSelectedCategoryPath.push(selectedCategoryPath[i]);
+                        }
+                        selectedCategoryPath = newSelectedCategoryPath;
+                        selectedCategoryPath.push(text);
+                    }
+                    selectedCategoryId = value;
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    function Apply() {
+        var categories = [];
+        var trs = $('#businessCategories tr');
+        $.each(trs, function (i, tr) {
+            categories.push($(tr).attr('value'));
+        });
+        if (categories.length == 0) {
+            $.dialog.errorTips('请至少选择一个经营类目');
+            return;
+        }
+        else {
+            $.ajax({
+                type: 'Post',
+                url: './ApplyBussinessCate',
+                cache: false,
+                async: false,
+                data: { categoryIds: JSON.stringify(categories) },
+                dataType: "json",
+                success: function (data) {
+                    if (data.success) {
+                        $.dialog.succeedTips('申请成功！', function () { window.location.href = './applylist'; });
+                    }
+                    else
+                    {
+                        $.dialog.errorTips("申请失败,请重试！");
+                    }
+                }
+            });
+        }
+    }
+</script>

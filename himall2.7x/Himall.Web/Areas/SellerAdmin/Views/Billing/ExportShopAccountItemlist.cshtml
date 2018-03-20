@@ -1,0 +1,29 @@
+﻿@model List<Himall.DTO.ShopAccountItem>
+@{
+	Layout = null;
+}
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+	<thead>
+		<tr>
+			<th> 时间</th>
+			<th> 资金流水号</th>
+			<th> 类型</th>
+			<th> 收入</th>
+			<th> 支出</th>
+			<th> 余额</th>
+		</tr>
+	</thead>
+	<tbody id="list-table-body">
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>@item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+				<td>@item.AccountNo</td>
+				<td>@item.AccountType</td>
+				<td>@item.Income</td>
+				<td>@item.Expenditure</td>
+				<td>@item.Balance</td>
+			</tr>
+		}
+	</tbody>
+</table>

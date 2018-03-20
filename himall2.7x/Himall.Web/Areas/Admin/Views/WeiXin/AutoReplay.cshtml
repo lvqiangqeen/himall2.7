@@ -1,0 +1,318 @@
+﻿@{
+    ViewBag.Title = "CouponGroupMessage";
+}
+
+
+<link href="/Content/WXmsg.css" rel="stylesheet" />
+<script src="/Scripts/jquery.hiMallDatagrid.js"></script>
+
+<div class="container weixin-autoreply">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="BasicSettings">公众号设置</a></li>
+        <li class="active"><a href="AutoReplay">公众号自动回复</a></li>
+    </ul>
+    <ul class="auto-reply mb20">
+        <li class="active"><a href="AutoReplay">关键字自动回复</a></li>
+        <li><a href="FocusReplay">关注后自动回复</a></li>
+        <li><a href="NewsReplay">消息自动回复</a></li>
+    </ul>
+    <div class="keywords-reply">
+        <div class="add-rules">
+            <input type="button" value="添加规则" class="btn-export mb20" id="AddRules">
+        </div>
+        @*添加规则弹窗*@
+        <div class="rules-dialog VIP-Marketing" style="display:none;">
+            <div class="sucai-library">
+                <h5>创建规则<span class="glyphicon glyphicon-remove"></span></h5>
+                <div class="creation-rules ">
+                    <div class="rules-top form-horizontal">
+                        <input type="hidden" id="Id" value=""/>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="">规则名：</label>
+                            <div class="col-sm-2"><input class="form-control input-sm" type="text" id="RuleName"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="">关键词：</label>
+                            <div class="col-sm-2"><input class="form-control input-sm" type="text" id="Keyword"></div>
+                            <div class="col-sm-7"><p class="help-default">自动回复发所触发的关键词</p></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="">关键词匹配：</label>
+                            <label class="control-label" for="" style="margin-left:20px;"><input type="radio" name="MatchType" value="0" checked="checked">完全匹配</label>
+                            <label class="control-label" for="" style="margin-left:20px;"><input type="radio" name="MatchType" value="1">模糊匹配</label>
+                        </div>
+                        @*<div class="form-group">
+                            <label class="col-sm-2 control-label" for="">消息回复类型：</label>
+                            <label class="control-label" for="" style="margin-left:20px;"><input type="radio" name="ReplyType" value="0">关键词自动回复</label>
+                            <label class="control-label" for="" style="margin-left:20px;"><input type="radio" name="ReplyType" value="1">关注后自动回复</label>
+                            <label class="control-label" for="" style="margin-left:20px;"><input type="radio" name="ReplyType" value="2">消息自动回复</label>
+                        </div>*@
+                        <input type="hidden" id="IsOpen" value="0" />
+                    </div>
+                    <div class="rules-same" style="margin-bottom:10px;">
+                        <div class="msg-tab">
+                            <ul id="msgtype">
+                                @*<li id="msgtype_news" class="active"><span class="glyphicon glyphicon-list-alt"></span>图文</li>*@
+                                <li id="msgtype_text" class="active"><span class="glyphicon glyphicon-pencil"></span>文字</li>
+                                @*<li id="msgtype_img"><span class="glyphicon glyphicon-picture"></span>图片</li>*@
+                            </ul>
+                            <div class="Area-inner">
+                                @*<div class="tab-content" id="mediaSelect">
+                                    <span class="create_access library">
+                                        <a><i class="glyphicon glyphicon-plus"></i><br><p>从素材库中选择</p></a>
+                                    </span>
+                                    <span class="create_access">
+                                        <a href="../WeiXin/WXMsgTemplate"><i class="glyphicon glyphicon-plus"></i><br><p>新建图文消息</p></a>
+                                    </span>
+                                    <div id="mediaDetail" style="display:none;">
+                                        <span id="mediaTime"></span>
+                                        <div class="item" name="wrapperItem">
+                                            <div class="WX-item">
+                                                <div class="item-img">
+                                                    <img name="wrapper">
+                                                </div>
+                                                <span class="item-title" name="wrapperTitle">标题</span>
+                                            </div>
+                                        </div>
+                                        <div id="divChild"></div>
+
+                                    </div>
+                                </div>
+                                <div class="sucai-library">
+                                    <h5>选择素材<span class="glyphicon glyphicon-remove"></span></h5>
+
+                                    <div class="library-box">
+                                        <ul id="list"></ul>
+                                    </div>
+                                    <p class="submit"><a type="submit" id="btnOk" class="clear-u2">确定</a><a type="submit" id="btnCancel">取消</a></p>
+                                </div>*@
+                                <div class="tab-content" id="txtInput">
+                                    <textarea id="TextReply"></textarea>
+                                </div>
+                                @*<div class="tab-content dln" id="imginput">
+                                    <span class="create_access">
+                                        <a><i class="glyphicon glyphicon-plus"></i><br><p>上传图片</p></a>
+
+                                    </span>
+                                    <input type="file" />
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="submit"><a type="submit" id="btnOk" class="clear-u2">确定</a><a type="submit" id="btnCancel">取消</a></p>
+            </div>
+        </div>
+        <table class="table" id="listAutoReplay"></table>
+    </div>
+
+
+    <div class="coverage" style="display:none;"></div>
+</div>
+<!--选择优惠券列表-->
+<div id="choceCouponUrl" class="dln">
+    <div class="choose-search">
+        <div class="form-group">
+            <label class="label-inline clear-h" for="">名称</label>
+            <input class="form-control input-ssm" type="text" name="couponName" id="couponName">
+        </div>
+        <button type="button" class="btn btn-primary btn-ssm" id="btncoupon">搜索</button>
+    </div>
+    <table id="CouponGrid" class="table"></table>
+</div>
+@Html.Hidden("dataurl", Url.Action("PostAutoReplyList"))
+
+
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<script>
+    $(function () {
+        $("#AddRules").click(function () {
+            $(".rules-dialog").show();
+            $(".coverage").show();
+            $(".sucai-library").show();
+        });
+        $(".glyphicon-remove").click(function () {
+            $(".rules-dialog").hide();
+            $(".coverage").hide();
+        });
+        $('#msgtype_news').click(function () {
+            $('#mediaSelect').show();
+            $('#txtInput').hide();
+            $("#imginput").hide();
+            $('#msgtype_text').removeClass('active');
+            $(this).addClass('active');
+        });
+        $('#msgtype_text').click(function () {
+            $('#txtInput').show();
+            $('#mediaSelect').hide();
+            $("#imginput").hide();
+            $('#msgtype_news').removeClass('active');
+            $(this).addClass('active');
+        });
+        $("#msgtype_img").click(function () {
+            $("#imginput").show();
+            $('#txtInput').hide();
+            $('#mediaSelect').hide();
+            $('#msgtype_news').removeClass('active');
+            $('#msgtype_text').removeClass('active');
+            $(this).addClass('active');
+        })
+
+        $(".tab-content .library").click(function () {
+            $(".sucai-library").show();
+            $(".coverage").show();
+
+        });
+        //$(".sucai-library .glyphicon-remove").click(function () {
+        //    $(".sucai-library").hide();
+        //    $(".coverage").hide();
+        //});
+
+    });
+    $(function () {
+        $("#listAutoReplay").hiMallDatagrid({
+            url: $("#dataurl").val(),
+            singleSelect: true,
+            pagination: true,
+            NoDataMsg: '没有找到符合条件的数据',
+            idField: "Id",
+            pageSize: 15,
+            pageNumber: 1,
+            queryParams: {},
+            columns:
+            [[
+
+                { field: "Id", title: "Id", hidden: true },
+                { field: "MatchType", title: "MatchType", hidden: true },
+                { field: "IsOpen", title: "IsOpen", hidden: true },
+                { field: "ReplyType", title: "ReplyType", hidden: true },
+                { field: "RuleName", title: "规则名称", width: 100 },
+                { field: "Keyword", title: "关键词", width: 100 },
+                { field: "TextReply", title: "回复内容", width: 260 },
+                {
+                    field: "operation", title: "操作", width: 260, formatter: function (value, row, index) {
+                        var id = row.Id;
+                        var html = [""];
+                        html.push("<span class=\"btn-a\"><a class=\"bt-edit\" href=\"###\" data-id=\"" + id + "\">编辑</a></span>");
+                        html.push("<span class=\"btn-a\"><a class=\"bt-del\"  href=\"###\" data-id=\"" + id + "\">删除</a></span>");
+                        return html.join("");
+                    }
+                },
+            ]]
+        });
+        //编辑
+        $("#listAutoReplay").on("click", ".bt-edit", function () {
+            var _t = $(this);
+            var id = _t.data("id");
+            $('.rules-dialog').show();
+            $(".coverage").show();
+            var loading = showLoading();
+            $.ajax({
+                type: "post",
+                url: "/Admin/WeiXin/GetAutoReplayById",
+                data: { Id: id },
+                dataType: "json",
+                success: function (data) {
+                    loading.close();
+                    $('#Id').val(data.Data.Id);
+                    $('#IsOpen').val(data.Data.IsOpen);
+                    $('#RuleName').val(data.Data.RuleName);
+                    $('#Keyword').val(data.Data.Keyword);
+                    $("input[name='MatchType'][value=" + data.Data.MatchType + "]").attr("checked", true);
+                    //$("input[name='ReplyType'][value=" + data.Data.ReplyType + "]").attr("checked", true);
+                    $('#TextReply').val(data.Data.TextReply);
+                }
+            });
+        });
+        function init() {
+            $('#Id').val(0);
+            $('#IsOpen').val(0);
+            $('#RuleName').val("");
+            $('#Keyword').val("");
+            $(":radio[name='MatchType']").eq(0).prop("checked", true);
+            //$("input[name='MatchType'][value=" + data.Data.MatchType + "]").attr("checked", true);
+            //$("input[name='ReplyType'][value=" + data.Data.ReplyType + "]").attr("checked", true);
+            $('#TextReply').val("");
+        }
+        $("#AddRules").click(function () {
+            //$('#Id').val(0);
+            init();
+        });
+        $("#btnOk").on("click", function () {
+            var Id = $('#Id').val();
+            var IsOpen = $('#IsOpen').val();
+            var RuleName = $('#RuleName').val();
+            var Keyword = $('#Keyword').val();
+            var Keyword = $('#Keyword').val();
+            if ($.trim(Keyword).length == 0) {
+                $.dialog.tips('请填写关键字!');
+                return;
+            }
+            var MatchType = $("input[name='MatchType']:checked").val();
+            //var ReplyType = $("input[name='ReplyType']:checked").val();
+            var TextReply = $('#TextReply').val();
+            if ($.trim(TextReply).length == 0) {
+                $.dialog.tips('请填写文字!');
+                return;
+            }
+            $('.rules-dialog').hide();
+            $(".coverage").hide();
+            var loading = showLoading();
+            $.ajax({
+                type: "post",
+                url: "/Admin/WeiXin/ModAutoReplay",
+                data: { Id: Id, RuleName: RuleName, Keyword: Keyword, MatchType: MatchType, ReplyType: 0, TextReply: TextReply, IsOpen: IsOpen },
+                dataType: "json",
+                success: function (data) {
+                    loading.close();
+                    if (data.success) {
+                        $.dialog.tips(data.msg, function () {
+                            ReloadGrid();
+                        });
+                    }
+                }
+            });
+        });
+        $("#btnCancel").on("click", function () {
+            $('.rules-dialog').hide();
+            $(".coverage").hide();
+        })
+        //删除
+        $("#listAutoReplay").on("click", ".bt-del", function () {
+            var _t = $(this);
+            var id = _t.data("id");
+            $.dialog.confirm('确定删除该规则吗？', function () {
+                var loading = showLoading();
+                $.ajax({
+                    type: "post",
+                    url: "/Admin/WeiXin/DelAutoReplay",
+                    data: { Id: id },
+                    dataType: "json",
+                    success: function (data) {
+                        loading.close();
+                        if (data.success) {
+                            $.dialog.tips(data.msg, function () {
+                                ReloadGrid();
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    });
+
+    //重载数据
+    function ReloadGrid(page) {
+        var pageNo = page || $("#listAutoReplay").hiMallDatagrid('options').pageNumber;
+        $("#listAutoReplay").hiMallDatagrid('reload',
+            {
+                pageNumber: pageNo
+            });
+    }
+</script>

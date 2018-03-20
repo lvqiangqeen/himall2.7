@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Completed";
+    this.Layout = null;
+}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>系统安装向导-数据填写</title>
+    <link href="~/Content/installStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.nicescroll.min.js"></script>
+</head>
+
+<body>
+    <div class="warp">
+        <div class="header cl">
+            <div class="logo"><img src="/Images/installLogo.png" /></div>
+            <div class="version">2015.07.21.02</div>
+        </div>
+        <div class="proess cl">
+            <div class="cur">安装协议</div>
+            <span class="finish"></span>
+            <div class="cur">创建数据</div>
+            <span class="finish"></span>
+            <div class="cur">安装完成</div>
+        </div>
+        <div class="content">
+            <div class="succeed"><span>√</span>恭喜，安装完成！</div>
+            <div class="btn-group succeed-btn">
+                <a href="/" class="btn">商城首页</a><a href="@Url.Action("Index","Home",new{area="Admin"})" class="btn">平台登录</a>
+            </div>
+        </div>
+        <div class="footer">
+            <p><strong>Powered By <span>Hishop</span>【Himall】</strong></p>
+            <p>Copyright 2003 - 2014 Hishop网店系统 All Rights Reserved.</p>
+            <p>软件注册备案号：234234234</p>
+        </div>
+    </div>
+</body>
+</html>
+
+

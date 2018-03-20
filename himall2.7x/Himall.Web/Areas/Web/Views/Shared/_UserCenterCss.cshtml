@@ -1,0 +1,27 @@
+﻿@{
+    Layout = null;
+}
+@model Himall.DTO.Theme
+
+@if (Model.TypeId == Himall.CommonModel.ThemeType.Customize)
+{
+    <style>
+        /*主色*/
+        button.aui_state_highlight, .aside li.li-lg em.big, .aside-list .aside-active a:before, .search-form .button, .btn-5, .btn-6, .btn-7, .btn-8 { background-color: @Model.MainColor; }
+        button.aui_state_highlight, .search-form, .btn-5, .btn-6, .btn-7, .btn-8 { border-color: @Model.MainColor; }
+        .search-form label:after { border-top-color: @Model.MainColor; }
+        .datetimepicker table tr td.active:active, .datetimepicker table tr td.active:hover:active, .datetimepicker table tr td.active.disabled:active,
+        .datetimepicker table tr td.active.disabled:hover:active, .datetimepicker table tr td.active.active, .datetimepicker table tr td.active:hover.active,
+        .datetimepicker table tr td.active.disabled.active, .datetimepicker table tr td.active.disabled:hover.active, .datetimepicker table tr td span.active:active,
+        .datetimepicker table tr td span.active:hover:active, .datetimepicker table tr td span.active.disabled:active, .datetimepicker table tr td span.active.disabled:hover:active,
+        .datetimepicker table tr td span.active.active, .datetimepicker table tr td span.active:hover.active, .datetimepicker table tr td span.active.disabled.active,
+        .datetimepicker table tr td span.active.disabled:hover.active { background-color: @Model.MainColor !important; }
+
+        /*辅色*/
+        .header { border-color: @Model.SecondaryColor; }
+.aside span.user-c i{ color: @Model.SecondaryColor; }
+
+        /*字体颜色*/
+        .aside-list .aside-active a, .aside li a:hover, a:hover, .search-form ul li:hover, .s-name a:hover, .top .top-link a { color: @Model.WritingColor; }
+    </style>
+}

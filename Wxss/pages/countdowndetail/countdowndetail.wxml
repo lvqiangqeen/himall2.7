@@ -1,0 +1,176 @@
+
+<!--pages/ProductDetails/ProductDetails.wxml-->
+<import src="../wxParse/wxParse.wxml" />
+<swiper class="swiper-box" indicator-dots autoplay>
+  <block wx:for="{{ProductImgs}}" wx:key="*this">
+    <swiper-item>
+      <image src="{{item}}" class="slide-image" mode="aspectFit"></image>
+    </swiper-item>
+  </block>
+</swiper>
+<!--即将开始-->
+<view class="taojstime jijkais" hidden="{{CountDownStatus!=6}}">
+ <view class="pricel">
+      <view class="saleprice">
+        ￥<text>{{MinSalePrice}}</text>
+      </view>
+      <view class="oldprice">
+        ￥<text>{{MarketPrice}}</text>
+      </view>
+    </view>
+  <view class="jshuright">距离开始<!--4天23时50分48秒--><view>{{StartClock}}</view></view>
+</view>
+<!--正在进行-->
+<view class="taojstime" hidden="{{CountDownStatus!=2}}">
+  <view class="pricel">
+      <view class="saleprice">
+
+        ￥<text>{{MinSalePrice}}</text>
+      </view>
+      <view class="oldprice">
+        ￥<text>{{MarketPrice}}</text>
+      </view>
+    </view>
+  <view  class="jshuright">距离结束<!--4天23时50分48秒--><view>{{EndClock}}</view></view>
+</view>
+<!--活动结束-->
+<view class="taojstime jstime" hidden="{{CountDownStatus!=4}}">
+  <view class="pricel">
+      <view class="saleprice">
+        ￥<text>{{MinSalePrice}}</text>
+      </view>
+      <view class="oldprice">
+        ￥<text>{{MarketPrice}}</text>
+      </view>
+    </view>
+  <view  class="jshuright">活动已结束！</view>
+</view>
+<view class="productcont">
+  <view class="productjs pl24 pr24">
+    <view class="name">{{ProductName}}</view>
+    <view class="jjname">{{ShortDescription}}</view>
+    <view class="pricel" style="display:flex;overflow:hidden; color:#757575"  class="mt16 line_height32 mb32">
+      <view class="yunfei">
+        运费
+        <text>￥{{Freight}}</text>
+      </view>
+      <view class="xiaoliang">销量
+        <text>{{ShowSaleCounts}}</text>
+      </view>
+    </view>
+  </view>
+  <view class="producthd">
+  <view class="hdonglist">
+      <view class="counpon-icon promote_item">
+        <view class="promote_item1"> <view class="houhui_name font24">限购</view></view>
+        <text>每人限购{{MaxCount}}件</text>
+      </view> 
+    </view>
+    <view class="hdonglist" bindtap="clickCouponList" hidden="{{Coupons.length<=0}}">
+    <view class="counpon-icon promote_item">
+        <view class="promote_item1"> <view class="houhui_name font24">优惠券</view></view>
+        <text>领取优惠券</text>
+      </view> 
+      <view class="iconfont arrow_right font32"></view>
+    </view>
+    <view class="hdonglist other" bindtap="clickSku" hidden="{{CountDownStatus!=2}}"><view class="counpon-icon">选择规格</view>
+        <view class="iconfont arrow_right font32"></view></view>
+  </view>
+   <navigator url="../commentlist/commentlist?id={{ProductId}}" class="hdonglist other">
+      <view class="counpon-icon">商品评价({{ReviewCount?ReviewCount:0}})</view>
+        <view class="iconfont arrow_right font32"></view>
+    </navigator>
+  <view class="productxq mt16">
+    <view class="xqtitle pt24 pb24 pl24 font32">
+      <text>详情描述</text>
+    </view>
+    <view class="xqcont">
+      <view class="wxParse">
+        <template is="wxParse" data="{{wxParseData:metaDescription.nodes}}" />
+      </view>
+    </view>
+  </view>
+</view>
+<view class="btn-area">
+  <navigator url="../home/home" open-type="switchTab" hover-class="navigator-hover">
+    <view class="icon">
+      <image src="/images/home.jpg"></image>
+    </view>
+    主页</navigator>
+  <navigator class="goumai" open-type="redirect" hover-class="other-navigator-hover" hidden="{{CountDownStatus!=2}}" bindtap="clickSku">立即抢购</navigator>
+  <navigator url="../../redirect/redirect/redirect?title=redirect" class="goumai jiksname" open-type="redirect" hover-class="other-navigator-hover" hidden="{{CountDownStatus!=6}}">即将开始</navigator>
+  <navigator url="../../redirect/redirect/redirect?title=redirect" class="goumai hdongjs" open-type="redirect" hover-class="other-navigator-hover" hidden="{{CountDownStatus!=4}}">活动结束</navigator>
+</view>
+
+<view class="btmbg {{backShow}}" bindtap="clickback"></view>
+<!--领取优惠券-->
+<view class="lqyhq {{couponShow}}" style="background: #f5f5f5;">
+  <view class="lqyhqtitle"> 
+    <text>领取优惠券</text>
+    <view class="guigecha" bindtap="onCouponHide">
+     <view class="iconfont icon__close1 font40"></view>
+    </view>
+  </view>
+ <view class="gouwqnr">
+<block wx:for="{{Coupons}}" wx:key="CouponId">
+<view class="youhuiquan"> 
+  <view class="nrong">
+    <view class="nrje">
+    ￥<text>{{item.Price}}</text>
+    </view>
+    <view class="nrtimelist">{{item.CanUseProduct }}</view>
+   </view>
+      
+    <view class="nrtimelqan">
+        <view class="nrtimelist-con">
+           <view class="nrtimelist"><view class="dian">■</view><view>{{item.LimitText}}</view></view>
+             <view class="nrtimelist"><view class="dian">■</view><view>{{item.StartTimeText}}-{{item.ClosingTimeText}}</view></view>
+        </view>
+        <button id="{{item.CouponId}}" bindtap="getCoupon">领取</button>
+      </view>
+ 
+  </view>
+</block>
+</view> 
+</view>
+<!--选择规格-->
+<view class="lqyhq skuchoose {{SkuShow}}">
+<view class="positionre">
+  <view class="guige">
+      <image src="{{skuImg}}"  class="lqicon guigeimg"   mode="aspectFit"></image>
+    <view class="guigecont">
+      <view class="saleprice">￥
+        <text>{{skuPrice}}</text>
+      </view>
+      <view class="guigeconkc">库存 {{skuStock}}</view>
+      <view class="guigeyxhs" hidden="{{SkuItemList==''||SkuItemList.length==0}}">已选：{{selectedSkuContent}}</view>
+    </view>
+    <view class="guigecha" bindtap="onSkuHide">
+     <view class="iconfont icon__close1 font40"></view>
+    </view>
+  </view>
+  <block wx:for="{{SkuItemList}}" wx:key="AttributeId" wx:for-index="i">
+    <view class="sezhi">
+      <view class="sezhititle font28 line_height40">{{item.AttributeName}}</view>
+      <view class="sezhicont mt8">
+      <block wx:for="{{item.AttributeValue}}"  wx:key="ValueId" wx:for-item="sku">
+        <image  class="{{sku.UseAttributeImage=='selected'?'SKUSelectValueClass':'skuvalueclass'}}" wx:if="{{sku.ImageUrl!=''}}" src="{{sku.ImageUrl}}" id="{{sku.ValueId}}" data-skuvalue="{{sku.Value}}" data-indexcount="{{i}}" bindtap="onSkuClick"></image>
+        
+        <text class="{{sku.UseAttributeImage=='selected'?'SKUSelectValueClass':'skuvalueclass'}}" id="{{sku.ValueId}}"  wx:else="sku.ImageUrl==''" data-skuvalue="{{sku.Value}}" data-indexcount="{{i}}" bindtap="onSkuClick"> {{sku.Value}} </text>
+      </block>
+      </view>
+    </view>
+  </block>
+  <view class="sezhi_last_child"  hidden="{{SkuItemList==''||SkuItemList.length==0}}"></view>
+  <view class="goumaisl"> 
+    <text>购买数量</text>
+    <view class="goumkuang">
+      <view class="jian" bindtap="reduceAmount"><view class="iconfont icon__minus_L  font32"></view></view>
+      <input placeholder="{{buyAmount}}" value="{{buyAmount}}" bindinput="changeAmount" bindconfirm="changeAmount" type="number" />
+      <view class="jia" bindtap="addAmount"><view class="iconfont icon__plus_L  font32"></view></view>
+    </view>
+    <text class="ml16">限购{{MaxCount}}件</text>
+  </view>
+   </view>
+  <button class="lijigoumai" bindtap="commitBuy">立即抢购</button>
+</view>

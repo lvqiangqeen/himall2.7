@@ -1,0 +1,66 @@
+/* pages/logistics/logistics.wxss */
+page{background: #f5f5f5; padding-bottom: 105rpx;}
+.address-info{border-top: none;}
+.hdonglist {
+  display:flex;
+  padding:24rpx;
+  padding-left:96rpx;
+  overflow:hidden;
+  position:relative;
+}
+
+.hdonglist .icon__delivery {
+  margin-right:24rpx;
+  height:40rpx;
+  position:absolute;
+  left:24rpx;
+  top:50%;
+  margin-top:-23rpx;
+}
+.xuanbg image{width: 750rpx; height: 11rpx;display: block;}
+.xuanbg {background: #fff;padding: 0; padding-top:40rpx;  height: 11rpx;overflow: hidden;}
+.pb40{ padding-bottom: 40rpx; overflow: hidden; background: #fff;}
+.pb40 image{width: 46rpx; height: 32rpx;}
+.mt15{margin-top: 15rpx;}
+.hdonglist1 {
+  display: flex;
+  padding: 24rpx;
+  padding-left: 96rpx;
+}
+.classnames {
+  display: flex;
+  width: 600rpx;
+  flex-direction: column;
+}
+
+.yhname {
+  font-size: 32rpx;
+}
+.xuanzhed1{ background: #fff;border-bottom: 1rpx solid #e0e0e0;}
+
+.ddgzcont{padding:24rpx 24rpx 0 47rpx;}
+.wllist{ position: relative; min-height: 10rpx;border-left: 2rpx solid #e0e0e0;font-size: 28rpx;line-height: 40rpx;padding: 24rpx 0 24rpx 47rpx;}
+.wllist:first-child{padding-top: 0;}
+.wllist::before{ 
+  content: ""; position: absolute;left:-7rpx; width: 14rpx; height: 14rpx;background: #e0e0e0;  border-radius:50%; top:32rpx;
+  }
+.active::before{
+  left: -16rpx;
+  background: #00B0FF;
+  border: 8rpx solid #aee6ff;
+}
+.active {
+  color: #00B0FF;
+}
+.wllist:first-child::before{
+  top: 0;
+}
+.wllist:not(:last-child)::after{
+  content: '';
+  position: absolute;
+  bottom:0;
+  right:0;
+  width: 626rpx;
+  border-bottom: 1rpx solid #e0e0e0;
+}
+.wllist .acceptTime{color: #bdbdbd;font-size: 24rpx;line-height: 34rpx;margin-top: 8rpx;}

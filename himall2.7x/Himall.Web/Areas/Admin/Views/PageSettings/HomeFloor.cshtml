@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Himall.Web.Areas.Admin.Models.HomeFloor>
+<link href="~/Content/bootstrap-switch.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-switch.min.js"></script>
+<script src="~/Areas/Admin/Scripts/pageSettings-floor.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>管理</a></li>
+        <li><a href="@Url.Action("AddFloorChoose", "PageSettings", new { area = "Admin" })">新增楼层</a></li>
+    </ul>
+    <table class="table mt20">
+        <thead>
+            <tr>
+                <th width="50%">楼层名称</th>
+                <th width="12%">样式类型</th>
+                <th width="12%">排序</th>
+                <th width="12%"></th>
+                <th width="14%" class="td-operate">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var floor in Model)
+            {
+                <tr rownumber="@floor.DisplaySequence" floorid="@floor.Id">
+                    <td width="50%">@floor.Name</td>
+                    <td width="12%">
+                        @if (floor.StyleLevel == 0)
+                        { <text>样式一</text>}
+                        else if (floor.StyleLevel == 1)
+                        {<text>样式二</text>}
+                        else if (floor.StyleLevel == 2)
+                        {<text>样式三</text>}
+                        else if (floor.StyleLevel == 3)
+                        {<text>样式四</text>}
+                        else if (floor.StyleLevel == 5)
+                        {<text>样式五</text>}
+                        else if (floor.StyleLevel == 6)
+                        {<text>样式六</text>}
+                        else if (floor.StyleLevel == 7)
+                        {<text>样式七</text>}
+                        else if (floor.StyleLevel == 8)
+                        {<text>样式八</text>}
+                        else
+                        {<text>默认样式</text>}
+                </td>
+                <td width="12%"><span class="glyphicon glyphicon-circle-arrow-up"></span> <span class="glyphicon glyphicon-circle-arrow-down"></span></td>
+                <td width="12%" align="center"><div class="switch switch-mini"><input class="bootstrapSwitch" type="checkbox" data-size="mini" data-on-text="开启" data-off-text="关闭" @(floor.Enable ? "checked" : "") /></div></td>
+                <td width="14%" class="td-operate">
+                    <span class="btn-a">
+                        <a onclick="deleteFloor(@floor.Id,'@floor.Name')">删除</a>
+                        @if (floor.StyleLevel == 0)
+                        {
+                            <a href="AddHomeFloorDetail?id=@floor.Id">编辑</a>
+                        }
+                        else
+                        {
+                            @Html.Raw("<a href='AddHomeFloorDetail" + (floor.StyleLevel+1) + "?id=" + floor.Id + "'>编辑</a>")
+                        }
+                    </span>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

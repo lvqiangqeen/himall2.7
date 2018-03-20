@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>绑定提现账户</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">绑定提现账户</h1>
+		</header>
+		<div class="mui-content">
+			<div class="order-check-disabled hidden" id="tips"><i class="iconfont icon-tips"></i>您还未绑定手机，去绑定手机 >></div>
+			<div class="bind-step"><span class="active">验证身份</span> > <span>填写账户信息</span> > <span>绑定成功</span></div>
+            <ul class="table-widthdraw-data withdraw-info">
+            	<li class="m-line checkCode">
+					<label>绑定手机</label>
+					<input id="phone" type="text" disabled="disabled"/>
+				</li>
+                <li class="m-line checkCode">
+					<label>验证码</label>
+					<input id="code" type="text" placeholder="输入短信验证码"/>
+					<a id="getCode">发送验证码</a>
+				</li>
+            </ul>
+            <div class="mui-content-padded mart30">
+				<button id='submit' class="mui-btn mui-btn-block mui-btn-blue pad10">下一步</button>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js"></script>
+		<script>
+			var w,
+			    baseInfo,
+			    userKey = himall.getState().userkey,
+			    phone = document.getElementById('phone'),
+			    code = document.getElementById('code'),
+			    getCodeHtml = document.getElementById('getCode'),
+			    tips=document.getElementById('tips'),
+			    canSendCode = true,
+			    telPhone;
+		    
+			mui.init({
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				var ws = plus.webview.currentWebview();
+				ws.setStyle({scrollIndicator:'none'});
+				
+				baseInfo = ws.data;
+				telPhone=baseInfo.Phone;
+				
+				loadTele();
+				
+				function loadTele(){
+					if(telPhone){
+						baseInfo.Phone=telPhone;
+						phone.value = telPhone.substr(0,3)+"****"+telPhone.substr(7,4);
+						tips.className+=' hidden';
+					}else{
+						phone.value='请先绑定手机';
+						himall.removeClass(tips,' hidden');
+					}
+				}
+				
+				
+				function getCode(){
+					if(!canSendCode){
+						return;
+					}
+					canSendCode = false;
+					mui.ajax(URL + 'api/ShopWithDraw/GetPhoneOrEmailCheckCode', {
+	                    data:himall.md5Data({
+	                        userKey: userKey,
+	                        contact: telPhone
+	                    }),
+	                    dataType: 'json',
+	                    type: 'get',
+	                    timeout: 10000,
+	                    success: function(data) {
+	                    	if(data.success){
+	                    		myIntervalFunction();
+	                    	}else{
+	                    		canSendCode = true;
+	                    		plus.nativeUI.toast(data.msg);
+	                    	}
+	                    },
+	                    error: function(xhr, type, errorThrown) {
+	                    	canSendCode = true;
+	                        plus.nativeUI.toast('请求失败，请检查网络重试');
+	                    }
+	                });
+				}
+				//定时器
+				function myIntervalFunction(){
+					var countdown = 120;
+	                cancelRefresh = setTimeout(function startCountDown() {
+	                    countdown--;
+	                    getCodeHtml.innerHTML = countdown + "秒后重发";
+	                    cancelRefresh = setTimeout(startCountDown, 1000);
+	                    if(countdown<=0){
+	                        getCodeHtml.innerHTML = "重新发送";
+	                        clearTimeout(cancelRefresh);
+	                        canSendCode = true;
+	                    }
+	                },1000);
+				}
+				//提交申请
+		        function submitApply(){
+		        	if(!code.value){
+		        		plus.nativeUI.toast('请填写验证码');
+						return;
+		        	}
+		        	var w=plus.nativeUI.showWaiting('',{padlock:true});
+		        	mui.ajax(URL + 'api/ShopWithDraw/GetCheckPhoneOrEmailCheckCode', {
+	                    data:himall.md5Data({
+	                        userKey: userKey,
+	                        contact:telPhone,
+	                        checkCode: code.value,
+	                    }),
+	                    dataType: 'json',
+	                    type: 'get',
+	                    timeout: 10000,
+	                    success: function(data) {
+	                    	w.close();
+	                    	if(data.success){
+	                    		himall.openVW('withdraw-account-bind2.html', {isNew:ws.isNew,data:baseInfo,certificate:data.certificate});
+	                    	}else{
+	                    		plus.nativeUI.toast(data.msg);
+	                    	}
+	                    },
+	                    error: function(xhr, type, errorThrown) {
+	                    	w.close();
+	                        plus.nativeUI.toast('请求失败，请检查网络重试');
+	                    }
+	                });
+		        }
+		        document.getElementById('getCode').addEventListener('tap',function(){
+					getCode();
+				});
+				document.getElementById('submit').addEventListener('tap',function(){
+					submitApply();
+				});
+				
+				tips.addEventListener('tap',function(){
+					himall.openVW('bind-phone.html');
+				});
+				
+				document.addEventListener('updateData',function(e){
+					telPhone=e.detail.telPhone;
+					loadTele();
+				});
+			});
+		</script>
+	</body>
+</html>

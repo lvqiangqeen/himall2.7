@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="format-detection" content="telephone=no, address=no">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+	<title>@ViewBag.Title</title>
+	<script>
+		(function() {
+			var baseFontSize = 100;
+			var baseWidth = 320;
+			var clientWidth = document.documentElement.clientWidth || window.innerWidth;
+			var innerWidth = Math.max(Math.min(clientWidth, 480), 320);
+
+			var rem = 100;
+
+			if (innerWidth > 362 && innerWidth <= 375) {
+				rem = Math.floor(innerWidth / baseWidth * baseFontSize);
+				//rem = Math.floor(innerWidth / baseWidth * baseFontSize * 0.9);
+			}
+
+			if (innerWidth > 375) {
+				rem = Math.floor(innerWidth / baseWidth * baseFontSize);
+				//rem = Math.floor(innerWidth / baseWidth * baseFontSize * 0.84);
+			}
+
+			window.__baseREM = rem;
+			document.querySelector('html').style.fontSize = rem + 'px';
+		}());
+	</script>
+	<link rel="stylesheet" href="~/Content/bootstrap.min.css">
+	<link rel="stylesheet" href="~/Areas/Mobile/Templates/Default/Content/custom.css">
+	@RenderSection("Styles", false)
+	<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+	<script src="~/Scripts/CommonJS.js"></script>
+	<script src="~/Areas/Mobile/Templates/Default/Scripts/custom.js"></script>
+	<script src="~/Areas/Mobile/Templates/Default/Scripts/buylib.js"></script>
+	<script src="~/Scripts/imitateRequire.js"></script>
+	<script>
+		imitateRequireJS.addJsFile([{
+			group: 'common',
+			fileNames: [
+				{ nickName: 'jquery.artDialog', fileName: 'jquery.artDialog.js' },
+				{ nickName: 'artDialog', fileName: 'artDialog.iframeTools.js', depends: ['jquery.artDialog'] },
+			]
+		}]);
+	</script>
+</head>
+<body>
+	<!--_Base start-->
+	<script>
+		var areaName = '@ViewBag.AreaName';
+		var MAppType = '@ViewBag.MAppType';
+	</script>
+	@RenderBody()
+	@{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_Aside.cshtml");}
+	@{
+		if (ViewBag.CopyRight != null && ((bool)ViewBag.CopyRight))
+		{
+			<div class="bottom" onclick="javascript:window.location.href='/@ViewBag.AreaName'" style="background-image:url(@ViewBag.Logo)">Copyright &copy; @(ViewBag.SiteName)版权所有</div>
+		}
+	}
+	<script src="~/Scripts/jquery.nicescroll.min.js"></script>
+	<script src="~/Areas/Mobile/Templates/Default/Scripts/_Base.js"></script>
+	<link rel="stylesheet" href="~/Areas/Mobile/Templates/Default/Content/artdialog.css">
+	<script src="~/Scripts/jquery.artDialog.js"></script>
+	<script src="~/Scripts/artDialog.iframeTools.js"></script>
+	<script src="~/Scripts/jquery.cookie.js"></script>
+	<script src="~/Scripts/jquery.scrollLoading.min.js"></script>
+
+		@RenderSection("Scripts", false)
+
+		@Html.Partial("_ShowMessage")
+	<!--_Base end-->
+</body>
+</html>

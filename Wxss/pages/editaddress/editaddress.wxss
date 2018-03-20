@@ -1,0 +1,201 @@
+/* pages/raiseaddress/raiseaddress.wxss */
+
+page {
+  background: #f5f5f5;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  background: #fff;
+}
+
+.loginpassword {
+  width: 100%;
+  line-height: 40rpx;
+  font-size: 32rpx;
+  background: #fff;
+  color: #212121;
+}
+
+.borderbott0m {
+  border-bottom: 1rpx solid #ddd;
+}
+
+.loginpassword input {
+  line-height: 40rpx;
+  color: #212121;
+  font-size: 32rpx;
+  padding-left: 16rpx;
+  width: 450rpx;
+}
+
+.loginpassword input:-moz-placeholder {
+  color: #BDBDBD;
+}
+
+.loginpassword input:placeholder {
+  color: #BDBDBD;
+}
+.beizhu{
+  padding: 24rpx 24rpx 24rpx 24rpx;
+  font-size: 32rpx;
+  line-height: 48rpx;
+  overflow: hidden;
+  display:flex;
+  position:relative;
+  color: #212121;
+  border-bottom: 1rpx solid #e0e0e0;
+  }
+
+.beizhu .form-group-name {
+  color: #747474;
+  font-size: 28rpx;
+  line-height: 40rpx;
+}
+
+.beizhu .group-area{ padding-bottom: 16rpx; font-size: 32rpx; line-height: 40rpx; color: #212121; width: 100%;height:120rpx;}
+.beizhu .group-area:-moz-placeholder{ color: #bdbdbd;}
+
+.loginpassword text {
+  width: 160rpx;
+  font-size: 32rpx;
+  float: left;
+  line-height: 48rpx;
+  color: #212121;
+}
+
+.loginpassword input.regionname {
+  padding: 0;
+  width: 480rpx;
+}
+
+.loginpasstext {
+  background: #fff;
+}
+
+.loginpasstext text {
+  font-size: 32rpx;
+  width: 128rpx;
+  color: #212121;
+}
+
+.loginpasstext textarea {
+  display: block;
+  overflow: hidden;
+  width: 580rpx;
+  font-size: 32rpx;
+  line-height: 48rpx;
+  padding-top: 24rpx;
+  color: #212121;
+}
+
+ 
+
+.hidden {
+  opacity: 0;
+}
+
+.message {
+  position: fixed;
+  top: 80%;
+  left: 50%;
+  width: 400rpx;
+  height: 80rpx;
+  margin-left: -200rpx;
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 20px;
+  text-align: center;
+  line-height: 80rpx;
+  color: #fff;
+  opacity: 0;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+.area-item {
+  line-height: 40px;
+  text-align: center;
+}
+
+.distpicker {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: 560rpx;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: #fff;
+}
+
+.distpicker-btn {
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 40rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #fafafa;
+  color: #586c94;
+}
+
+.distpicker-content {
+  box-sizing: border-box;
+  width: 100%;
+  height: 560rpx;
+  background-color: #fff;
+}
+
+.mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 998;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.regionname {
+  display: block;
+  overflow: hidden;
+  width: 480rpx;
+  font-size: 32rpx;
+  padding-left: 16rpx;
+  line-height: 48rpx;
+  float: left;
+}
+
+.regionname-color {
+  color: #808080;
+}
+
+.loginpassword .arrow_right_w {
+  width: 24rpx;
+  float: right;
+  font-size: 24rpx !important;
+  color: #9e9e9e !important;
+  margin-top:8rpx;
+}

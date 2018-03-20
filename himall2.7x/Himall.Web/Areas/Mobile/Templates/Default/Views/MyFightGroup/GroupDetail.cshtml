@@ -1,0 +1,129 @@
+﻿@model Himall.Web.Areas.Mobile.Models.MyFightGroupDetailModel
+@using Himall.Core;
+@{
+	ViewBag.Title = "拼团详情";
+	ViewBag.FootIndex = 4;
+	var actdata = Model.ActiveData;
+	var gpdata = Model.GroupsData;
+	DateTime endtime = gpdata.OverTime.HasValue ? gpdata.OverTime.Value : gpdata.GroupEndTime;
+}
+<div class="merge-mask hide">
+	<div class="text-tip"></div>
+</div>
+<div class="container merge-container">
+	<div class="merge-personal-hd">
+		<div class="thumb">
+			<div class="son"><img src="@(actdata.ProductDefaultImage)"></div>
+		</div>
+		<div class="info">
+			<div class="name">@(actdata.ProductName)</div>
+			<div class="price">火拼价:<em>￥</em><span>@(actdata.MiniGroupPrice)</span></div>
+			<div class="time">
+				@if (gpdata.BuildStatus == Himall.CommonModel.FightGroupBuildStatus.Ongoing)
+				{
+					@Html.Hidden("groupendsecond", (int)((gpdata.GroupEndTime - DateTime.Now).TotalSeconds))
+					<text>
+						<span class="hmui-before" id="showtimeout"></span>后组团结束
+					</text>
+				}
+				else
+				{
+					<text>
+						<span class="hmui-before">@(endtime.ToString("yyyy-MM-dd HH:mm:ss"))</span> @(gpdata.BuildStatus.ToDescription())
+					</text>
+				}
+			</div>
+		</div>
+	</div>
+	<div class="detail-bd">
+		<section class="merge-go merge-personal-go">
+			<div class="merge-go-tip">
+				已参团的小伙伴
+				@if (gpdata.BuildStatus == Himall.CommonModel.FightGroupBuildStatus.Ongoing)
+				{
+					<span>，还差<strong class="merge-highlight">@(gpdata.LimitedNumber - gpdata.JoinedNumber)</strong>人</span>
+				}
+			</div>
+			<ul>
+				@foreach (var item in gpdata.GroupOrders)
+				{
+					<li>
+						<div class="info">
+							<span class="avatar"><img src="@(item.Photo)"></span>
+							<span class="leader">@(item.IsFirstOrder ? "团长" : "参团")</span>
+							<span class="name">@(item.UserName)</span>
+							<span class="time">@(item.JoinTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+						</div>
+					</li>
+				}
+			</ul>
+			@if (gpdata.BuildStatus == Himall.CommonModel.FightGroupBuildStatus.Success)
+			{
+				<div class="merge-do-sign"></div>
+			}
+			@if (gpdata.BuildStatus == Himall.CommonModel.FightGroupBuildStatus.Failed)
+			{
+				<div class="merge-fail-sign"></div>
+			}
+		</section>
+		<section class="merge-rule">活动规则：当您在@(actdata.ShowHourOrMinute(actdata.LimitedHour.Value))内成功邀请@(actdata.LimitedNumber)位好友参团，则火拼成功；若火拼失败，系统会自动将金额退还到预付款余额或原路退回。</section>
+
+		@Html.Action("ProductCommentShow", "Product", new { id = actdata.ProductId, top = 0, isshowtit = true })
+
+		@Html.Action("ShowProductDescription", "Product", new { id = actdata.ProductId })
+	</div>
+</div>
+
+
+@if (gpdata.BuildStatus == Himall.CommonModel.FightGroupBuildStatus.Ongoing)
+{
+	<script type="text/javascript">
+		$(function () {
+			// 倒计时
+			countDown($("#groupendsecond").val(), function (day, hour, minute, second) {
+				var thour = (day * 24) + hour;
+				if ((thour + minute + second) <= 0) {
+					window.location.reload();
+				}
+				var tshow = thour + ":" + minute + ":" + second;
+				var showhtml = tshow;
+				$('#showtimeout').html(showhtml);
+			});
+		})
+	</script>
+}
+
+<section class="merge-bar-container">
+	<div class="merge-bar">
+		<a class="btn btn-danger btn-center" id="bt_invite">邀请好友参团</a>
+	</div>
+</section>
+<script type="text/javascript">
+    $(function () {
+        $("#bt_invite").on("click", function () {
+            $(".merge-mask").removeClass("hide");
+        });
+
+        $(".merge-mask").on("click", function () {
+            var _t = $(this);
+            _t.addClass("hide");
+        });
+
+    });
+</script>
+<script>
+        var winxinShareArgs = {
+            share: {
+                title: '@Model.ShareTitle',
+                desc: '@Model.ShareDesc',
+                link: '@Model.ShareUrl',
+                imgUrl: '@(Model.ShareImage)',
+                success: null,
+                cancel: null,
+                fail: null,
+                complete: null,
+                trigger: null
+            }
+        };
+</script>
+@Html.Partial("_WeiXinShare")

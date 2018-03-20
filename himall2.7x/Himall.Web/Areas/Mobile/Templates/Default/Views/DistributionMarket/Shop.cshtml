@@ -1,0 +1,141 @@
+﻿@model Himall.Web.Areas.Mobile.Models.DistributionShopShowModel
+@{
+    ViewBag.Title = "分销聚合页";
+}
+
+<div class="container sell-combine" style="padding:0!important">
+        <div class="combine-top">
+            <img src="@(Himall.Core.HimallIO.GetImagePath(Model.ShopLogo))">
+            <p><span class="cnam">@(Model.ShopName)</span><span class="add bt_shopfav @(Model.isFavorite ? "favorited" : "")" shopid="@(Model.ShopId)">@(Model.isFavorite ? "已收藏" : "收　藏")<i></i></span></p>
+        </div>
+        <div class="sell-nav">
+            <ul>
+                <li class="active">排序</li>
+                <li>销量</li>
+            </ul>
+            <span class="switch-class"></span>
+        </div>
+        <div class="sellPro-list">
+            <ul id="databox"></ul>
+        </div>
+    </div>
+
+<script id="gdtmp" type="text/template">
+    <%_.each(gddatas, function(item) {%>
+    <li>
+        <div class="left-pro">
+            <img src="<%=item.Image%>">
+        </div>
+        <div class="right-proD">
+            <h4><a href="@Url.Action("Detail", "Product")/<%=item.ProductId%>?partnerid=@(Model.PartnerId)"><%=item.ProductName%></a></h4>
+            <p>累积销售<%=item.SaleNum%>笔</p>
+            <span><em>￥</em><%= item.SellPrice%></span>
+        </div>
+    </li>
+    <%});%>
+</script>
+
+<script src="~/Content/Public/js/dist/underscore.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/loading.js"></script>
+
+<script>
+    var curPage = 1;       //当前页
+    var isMoreGet = true;  //是否还在数据
+    var isLoading = false;
+    var TmplCon = "";
+    var skey = "@(Model.SearchKey)";
+    var databox;
+    var gddatas;   //数据变量
+
+
+        $(document).ready(function(){
+    
+            TmplCon = $("#gdtmp").html(); //获取模板内容
+            databox=$("#databox");
+            h_loading.init($("#autoLoad"));
+
+            getData();
+        
+            $(window).scroll(function () {
+                var scrollTop = $(this).scrollTop();
+                var scrollHeight = $(document).height();
+                var windowHeight = $(this).height();
+
+                if (scrollTop + windowHeight >= scrollHeight - 30) {
+                    curPage++;
+                    getData();
+                }
+            });
+
+            
+            $('.bt_shopfav').on('click', function () {
+                var shopId = $(this).attr('shopId');
+                var isAdd = $(this).hasClass("favorited") ? false : true;
+                var returnUrl = '/' + areaName + '/vshop?addFavorite=' + shopId + '&isAdd=' + isAdd;
+                checkLogin(returnUrl, function () {
+                    addFavorite(shopId, isAdd);
+                });
+            });
+
+            function addFavorite(shopId, isAdd) {
+                var loading = showLoading();
+                var method = '';
+                var title;
+                if (isAdd) {
+                    method = 'AddFavorite';
+                    title = '';
+                }
+                else {
+                    method = 'DeleteFavorite';
+                    title = '取消';
+                }
+                $.post('/' + areaName + '/DistributionMarket/' + method, { shopId: shopId }, function (result) {
+                    loading.close();
+                    if (result.success) {
+                        $.dialog.succeedTips(title + '收藏成功!');
+                        var bt_shopfav=$('.bt_shopfav');
+                        bt_shopfav.html(isAdd ? '已收藏<i></i>' : '收　藏<i></i>');
+                        if(isAdd)
+                        {
+                            bt_shopfav.addClass("favorited");
+                        }else{
+                            bt_shopfav.removeClass("favorited");
+                        }
+                    }
+                    else
+                        $.dialog.errorTips(result.msg);
+                });
+            }
+        })
+    
+        function getData() {
+            if (isMoreGet) {
+                //loading = showLoading();
+                if(!isLoading){
+                    isLoading=true;
+                    h_loading.show();
+                    $.post('@Url.Action("ProductList")', { shopId:@(Model.ShopId),skey: skey, page: curPage }, function (result) {
+                        //loading.close();
+                        isLoading=false;
+                        gddatas = result;
+                        if (gddatas.length > 0) {
+                            databox.append(_.template(TmplCon, gddatas));
+                            
+                            $(".left-pro").width($(".container").width()*25/64);
+                            $(".left-pro").height($(".container").width()*25/64-22);
+                            $(".left-pro>img").width($(".container").width()*25/64-22);
+                            $(".left-pro>img").height($(".container").width()*25/64-22);
+                            $(".right-proD").width($(".container").width()*39/64);
+                            $(".right-proD").height($(".container").width()*25/64-11);
+                            $(".sellPro-list>ul>li").height($(".container").width()*25/64);
+
+                            h_loading.hide();
+                        } else {
+                            isMoreGet = false;
+                            h_loading.nodata();
+                        }
+                    });
+                }
+            }
+        }
+    </script>

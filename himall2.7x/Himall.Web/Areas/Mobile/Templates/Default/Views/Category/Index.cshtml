@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "商城分类";
+    ViewBag.CopyRight = false;
+    ViewBag.FootIndex = 2;
+    ViewBag.ShowAside = 1;  // 显示更多按钮
+}
+@model IEnumerable<Himall.DTO.Category>
+    <div class="container" style="padding:0;">
+        @{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_SearchBox.cshtml");}
+        <div class="category-box">
+            <div class="category1" id="category1">
+                <ul class="clearfix">
+                    @{bool isFirst = true;}
+                    @foreach (var firstCategory in Model) {
+                             <li class="@(isFirst?"cur":"")">@firstCategory.Name</li>
+                        isFirst = false;
+                    }
+                </ul>
+            </div>
+            <div class="category2" id="category2">
+                @{isFirst = true;}
+                @foreach (var firstCategory in Model) {
+                    <dl style="@(isFirst?"display:block;":"")">
+                        @foreach (var secondCategory in firstCategory.SubCategories) {
+                            <dt>@secondCategory.Name</dt>
+                            <dd class="clearfix">
+                                @foreach (var thirdCategory in secondCategory.SubCategories) {
+                                    if (string.IsNullOrWhiteSpace(thirdCategory.Image)) {
+                                        thirdCategory.Image = "/Areas/Mobile/Templates/Default/Images/default.png";
+                                    }
+                                    <a href="/@ViewBag.AreaName/search?cid=@thirdCategory.Id">
+                                        <img src="@thirdCategory.Image" width="50" height="50">
+                                        <span>@thirdCategory.Name</span>
+                                    </a>
+                                }
+                            </dd>
+                        }
+                    </dl>
+                    isFirst = false;
+                }
+            </div>
+        </div>
+    </div>
+<script src="~/Scripts/iscroll.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/category.js"></script>
+@section Scripts
+{
+	<script>
+		var winxinShareArgs = {
+			share: {
+				title: '@(this.SiteSetting.SiteName)商品分类',
+				desc: '搜索全部@(this.SiteSetting.SiteName)商品，优质好货任你挑',
+				link: location.href,
+				imgUrl: '@Himall.Core.HimallIO.GetRomoteImagePath(this.SiteSetting.WXLogo)'
+			}
+		};
+	</script>
+
+	@Html.Partial("_WeiXinShare")
+}

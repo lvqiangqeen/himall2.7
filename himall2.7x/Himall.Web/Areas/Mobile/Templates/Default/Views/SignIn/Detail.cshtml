@@ -1,0 +1,69 @@
+﻿@model Himall.Web.Areas.Mobile.Models.SignInDetailModel
+@{
+    ViewBag.Title = "签到详情";
+    ViewBag.FootIndex = 4;
+    var signConfig = Model.SignConfig;
+    int signday = Model.CurSignDurationDay;
+    int getIntegral = signConfig.DayIntegral;
+    bool isDuration = false;
+    if (signConfig.DurationCycle > 0 && signConfig.DurationReward > 0) {
+        isDuration = true;
+        if (signday >= signConfig.DurationCycle) {
+            getIntegral = signConfig.DurationReward;
+        }
+    }
+}
+<link href="/Areas/Mobile/Templates/Default/Content/animate.css" rel="stylesheet" />
+<div class="container sign_in">
+    <header>
+        <span class="user-img"><img src="@(Himall.Core.HimallIO.GetImagePath(Model.UserInfo.Photo))" /></span>
+        <span class="user-msg"><span class="spec">Hi，<i class="name">@(Model.UserInfo.UserName)</i></span><em>|</em><span>积分：<i id="total-code">@(Model.MemberAvailableIntegrals)</i></span></span>
+    </header>
+    <section>
+        <div class="code-box"><h5></h5><h6><span id="fly-area"><em id="sign-day">@(Model.CurSignDaySum)</em><i>天</i></span></h6></div>
+        @if (Model.isCurSign) {
+            <h4 class="animated bounceInDown">+@(getIntegral)分</h4>
+        }
+        @if (isDuration) {
+            if (signday >= signConfig.DurationCycle) {
+                <h3>已连续签到<span>@(signConfig.DurationCycle)日</span>，额外获得<span>@(signConfig.DurationReward)分</span></h3>
+            }
+            else {
+                <h3>再签到<span>@(signConfig.DurationCycle - signday)日</span>，可额外获得<span>@(signConfig.DurationReward)分</span></h3>
+            }
+        }
+        <div class="go-btn"><a href="@("/"+ViewBag.AreaName+"/")">去商城逛逛</a></div>
+    </section>
+</div>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.min.js"></script>
+<script>
+/*HBUILDE SRART*/
+  $(function(){
+      document.addEventListener('plusready',function(){
+              var ms=plus.webview.currentWebview();
+              var fullPath=ms.fullpath;       
+              var url=ms.fullpath; 
+              $(".go-btn").on("click",function(e){
+                        e.preventDefault();
+                        mui.openWindow({
+                              id:'index.html',    
+                              url:url+'index.html',  
+                        });   
+              }); 
+      });
+  })
+/*HBUILDE END*/
+    
+</script>
+@if (!signConfig.IsEnable) {
+    <script>
+        $(function() {
+            $.dialog.errorTips(
+                "签到功能未开启",
+                function() {
+                    window.location.href="/"+"@(ViewBag.AreaName)"+"/";
+                });
+        });       
+       
+    </script>
+}

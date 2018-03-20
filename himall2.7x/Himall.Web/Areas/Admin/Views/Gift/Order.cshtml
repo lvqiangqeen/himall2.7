@@ -1,0 +1,50 @@
+﻿@using Himall.Core;
+@{
+    var explist = Himall.Web.Framework.ServiceHelper.Create<Himall.IServices.IExpressService>().GetAllExpress();
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.json.js"></script>
+<script src="~/Areas/Admin/Scripts/GiftOrderManagement.js"></script>
+
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active" value="" type="statusTab"><a>礼品兑换管理</a></li>
+        @foreach (var item in Enum.GetValues(typeof(Himall.Model.GiftOrderInfo.GiftOrderStatus)))
+        {
+            var itemdata = (Himall.Model.GiftOrderInfo.GiftOrderStatus)item;
+            switch (itemdata)
+            {
+                default:
+                    <li value="@((int)item)" type="statusTab"><a>@(itemdata.ToDescription())</a></li>
+                    break;
+
+            }
+        }
+    </ul>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">名称</label>
+                <input class="form-control input-ssm" type="text" id="skey">
+            </div>
+            <div class="form-group">
+                <button type="button" id="search" class="btn btn-primary btn-sm">搜索</button>
+            </div>
+        </form>
+    </div>
+
+    <table class="table clear-v39" id="list"></table>
+</div>
+<div id="expselectbox" class="clear-v40 dln" >
+    <select class="input-ssm cssCompanyName">
+        <option value="">选择快递公司</option>
+        @foreach (var logisticsCompany in explist)
+        {
+            <option value="@logisticsCompany.Name">@logisticsCompany.Name</option>
+        }
+        <option value="-1">其他</option>
+    </select>
+
+</div>

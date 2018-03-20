@@ -1,0 +1,24 @@
+
+<!--pages/search/search.wxml-->
+<view class="searchk padding24">
+  <view class="searchl">
+    <view class="iconfont icon__search font40 search_btn"></view>
+    <input placeholder="搜索商品" focus="true" bindinput="onInputKeyword" bindconfirm="onConfirmSearch" confirm-type="search" bindconfirm="onConfirmSearch" class="ptb16" />
+  </view>
+  <view class="searchr pt24 pl24" bindtap="gotoHome">取消</view>
+</view>
+<view class="searls padding24">
+  <view class="searlsl">搜索历史</view>    
+</view>
+<view class="searchlslist ml24" hidden="{{KeyWordList==null||KeyWordList.length<=0}}">
+  <block wx:for="{{KeyWordList}}" wx:key="*this">
+    <view class="searclibut ptb24">
+      <button  data-keyword="{{item}}" bindtap="onHistoryKeyWordClick">{{item}}</button>
+      <text class="iconfont icon__close1 font32" bindtap="removeKeyWord" data-keyword="{{item}}"></text>
+
+    </view>
+  </block>
+</view>
+<view class="searchlslistq pt24">
+  <button class="qkls pt16 pb16" bindtap="ClearKeyWord">清空历史记录</button>
+</view>

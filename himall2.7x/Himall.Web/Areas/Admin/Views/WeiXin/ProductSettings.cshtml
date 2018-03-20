@@ -1,0 +1,46 @@
+﻿<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+       
+        <li class="active"><a href="ProductSettings">热销商品管理</a></li>
+        <li><a href="javascript:;" id="addBtn">添加</a></li>
+    </ul>
+    <div class="search-box">
+        <form class="custom-inline">
+            <div class="form-group">
+                <label class="label-inline" for="">商品名称</label>
+                <input class="form-control input-ssm" type="text" id="productName">
+            </div>
+            <div class="form-group">
+                <label class="label-inline" for="">品牌</label>
+                <input class="form-control input-ssm" type="text" id="brandName" autocomplete="off">
+            </div><br />
+            <div class="form-group">
+                <label class="label-inline" for="">商品分类</label>
+                <select id="category1" class="form-control input-ssm">
+                    <option>分类</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-inline" for="">二级分类</label>
+                <select id="category2" class="form-control input-ssm">
+                    <option>分类</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-inline" for="">三级分类</label>
+                <select id="category3" class="form-control input-ssm">
+                    <option>分类</option>
+                </select>
+            </div>
+
+            <div class="submit"><button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button></div>
+        </form>
+    </div>
+    <table id="list" class="table"></table>
+</div>
+<input type="hidden" id="categoryId" value="" />
+
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Areas/Admin/Scripts/wxProductSettings.js"></script>

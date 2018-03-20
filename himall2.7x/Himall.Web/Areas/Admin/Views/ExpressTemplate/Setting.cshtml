@@ -1,0 +1,45 @@
+﻿@model Himall.Model.SiteSettingsInfo
+@{
+    ViewBag.Title = "物流设置";
+}
+
+<script src="~/Scripts/v.js"></script>
+<div class="container clear-r">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="./Management">快递单模板管理</a></li>
+        <li class="active"><a href="./Setting">物流设置</a></li>
+
+    </ul>
+    @using (Html.BeginForm("SaveSetting", "Collocation", FormMethod.Post, new { id = "form1" }))
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 clear-b control-label" for="">快递方式：</label>
+                <div class="col-sm-10 clear-b">
+                    <input type="radio" class="check-services" name="KuaidiType" id="KuaidiType1" value="0" @(Model.KuaidiType.Equals(0) ? "checked" : "") />快递100 &nbsp;&nbsp;
+                    <input type="radio" class="check-services" name="KuaidiType" id="KuaidiType2" value="1" @(Model.KuaidiType.Equals(1) ? "checked" : "") />快递鸟
+                </div>
+            </div>
+            <div class="form-group kd1" @(Html.Raw(Model.KuaidiType.Equals(1) ? "style='display:none;'" : ""))>
+                <label class="col-sm-2 control-label" for="">快递100Key：</label>
+                <div class="col-sm-3">@Html.EditorFor(item => item.Kuaidi100Key, new { htmlAttributes = new { @class = "form-control input-sm" } })</div>
+                <div class="col-sm-5"><span class="help-default">设置快递100Key用于查询物流信息.</span></div>
+            </div>
+            <div class="form-group kd2" @(Html.Raw(Model.KuaidiType.Equals(0) ? "style='display:none;'" : ""))>
+                <label class="col-sm-2 control-label" for="">app_key：</label>
+                <div class="col-sm-3">@Html.EditorFor(item => item.KuaidiApp_key, new { htmlAttributes = new { @class = "form-control input-sm" } })</div>
+            </div>
+            <div class="form-group kd2" @(Html.Raw(Model.KuaidiType.Equals(0) ? "style='display:none;'" : ""))>
+                <label class="col-sm-2 control-label" for="">appSecret：</label>
+                <div class="col-sm-3">@Html.EditorFor(item => item.KuaidiAppSecret, new { htmlAttributes = new { @class = "form-control input-sm" } })</div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="button" id="Save" class="btn btn-primary" value="保 存">
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/Areas/Admin/Scripts/ExpressTemplateSetting.js"></script>

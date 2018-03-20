@@ -1,0 +1,22 @@
+﻿@using Himall.Core;
+@model Himall.Model.AccountInfo
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Areas/Admin/Scripts/accountDetailManagement.js"></script>
+<script src="~/Areas/Admin/Scripts/AccountDetail.js"></script>
+<div class="container">
+    <ul class="breadcrumb clearfix">
+        <li><a>结算列表</a></li>
+        <li class="active"><a>已结算明细</a></li>
+
+    </ul>
+
+    <h3 class="table-hd"><span class="total-account">本期应结： <b>￥@Model.AccountAmount</b> (@Model.StartDate.ToShortDateString() - @Model.EndDate.AddMilliseconds(-1).ToShortDateString())</span></h3>
+    <table id="list" class="table"></table>
+
+</div>
+<input type="hidden" value="@Model.ShopId" id="Mshopid" />
+<input type="hidden" value="@Model.StartDate" id="Msd" />
+<input type="hidden" value="@Model.EndDate" id="Med" />

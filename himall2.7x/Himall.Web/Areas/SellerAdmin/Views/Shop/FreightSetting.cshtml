@@ -1,0 +1,23 @@
+﻿@model Himall.Web.Areas.SellerAdmin.Models.ShopFreightModel
+
+<script src="~/Scripts/autoNumeric.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/ShopFreightSetting.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>运费设置</a></li>
+    </ul>
+    <h5 class="tips-top"><span class="help-default"><i></i> 说明：您可在此处设置单笔订单折后满一定金额免运费，0代表不开启此功能</span></h5>
+    <form class="form-inline custom-inline">
+        <div class="form-group hide">
+            <label for="" class="label-inline w75">店铺运费</label>
+            <input type="text" id="freightInput" class="auto form-control input-sm" name="freight" value="@Model.Freight.ToString("F2")" data-d-group="0" data-a-sign="¥ ">
+        </div>
+        <div class="form-group">
+            <label for="" class="label-inline w75">订单额度</label>
+            <input type="text" class="form-control input-ssm auto Sclear-K5" name="freeFreight" id="freeFreightInput" value="@Model.FreeFreight.ToString("F2")" data-d-group="0" data-a-sign="¥ ">
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-primary btn-sm">保 存</button>
+        </div>
+    </form>
+</div>

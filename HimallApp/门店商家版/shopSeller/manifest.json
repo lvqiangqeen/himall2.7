@@ -1,0 +1,869 @@
+{
+	"@platforms": ["android", "iPhone"],
+	"id": "H5CFE7DED",/*应用的标识，创建应用时自动生成，勿手动修改*/
+	"name": "HiMall商家",/*应用名称，程序桌面图标名称*/
+	"version": {
+		"name": "2.6",/*应用版本名称*/
+		"code": "3"
+	},
+	"description": "hishop多用户商城系统-HiMall",/*应用描述信息*/
+	"icons": {
+		"72": "icon.png"
+	},
+	"launch_path": "index.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
+	"developer": {
+		"name": "hishop-xielingxiao",/*开发者名称*/
+		"email": "673921852@qq.com",/*开发者邮箱地址*/
+		"url": "http://www.hishop.com.cn"
+	},
+	"permissions": {
+		"Cache": {
+			"description": "管理应用缓存"
+		},
+		
+		"Console": {
+			"description": "跟踪调试输出日志"
+		},
+		"Events": {
+			"description": "应用扩展事件"
+		},
+		"File": {
+			"description": "访问本地文件系统"
+		},
+		"Invocation": {
+			"description": "使用Native.js能力"
+		},
+		"Storage": {
+			"description": "管理应用本地数据"
+		},
+		
+		"Runtime": {
+			"description": "访问运行期环境"
+		},
+		"XMLHttpRequest": {
+			"description": "跨域网络访问"
+		},
+		"Webview": {
+			"description": "窗口管理"
+		},
+		"NativeUI": {
+			"description": "原生UI控件"
+		},
+		
+		"NativeObj": {},"Navigator":{},"Device":{},"Camera":{},"Gallery":{},"Push":{},"Barcode":{},"Share":{}
+	},
+	"plus": {
+		"splashscreen": {
+			"autoclose": false,/*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
+			"waiting": true,
+			"delay": "3"
+		},
+		"runmode": "liberate",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
+		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
+		"distribute": {
+			"plugins": {"push":{"igexin":{"appid":"1524151983","appkey":"has2f5zbd4","appsecret":"64b0ac1ce0029b16c2ed536b5fd13b13"}},"payment":{},"share":{"qq":{"appid":"1105903503","description":"QQ分享"},"weixin":{"appid":"wx8c31877061477165","appsecret":"aa0bd0aebfdb67078cec6944c551fb46","description":"可选，微信分享"}},
+				"oauth": {
+					
+				}
+			},
+			"apple": {
+				"appid": "",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
+				"mobileprovision": "",/*iOS应用打包配置文件*/
+				"password": "",/*iOS应用打包个人证书导入密码*/
+				"p12": "",/*iOS应用打包个人证书，打包配置文件关联的个人证书*/
+				"devices": "universal",/*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
+				"UIReserveStatusbarOffset":false,
+				"frameworks": []
+			},
+			"google": {
+				"ImmersedStatusbar":true,
+				"packagename": "",/*Android应用包名，如io.dcloud.HelloH5*/
+				"keystore": "",/*Android应用打包使用的密钥库文件*/
+				"password": "",/*Android应用打包使用密钥库中证书的密码*/
+				"aliasname": "",/*Android应用打包使用密钥库中证书的别名*/
+				"permissions": ["<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>","<uses-permission android:name=\"android.permission.GET_TASKS\"/>","<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>","<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.VIBRATE\"/>","<uses-permission android:name=\"android.permission.READ_LOGS\"/>","<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>","<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>","<uses-permission android:name=\"android.permission.CALL_PHONE\"/>","<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>","<uses-feature android:name=\"android.hardware.camera.autofocus\"/>","<uses-feature android:name=\"android.hardware.camera\"/>","<uses-permission android:name=\"android.permission.RECEIVE_USER_PRESENT\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>","<uses-permission android:name=\"android.permission.CAMERA\"/>"]
+			},
+			"orientation": ["portrait-primary"],/*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/
+			"icons": {
+				"ios": {
+					"prerendered": true, /*应用图标是否已经高亮处理，在iOS6及以下设备上有效*/
+					"auto": "", /*应用图标，分辨率：512x512，用于自动生成各种尺寸程序图标*/
+					"iphone": {
+						"normal": "unpackage/res/icons/57x57.png",/*iPhone普通屏幕程序图标，分辨率：57x57*/
+						"retina": "unpackage/res/icons/114x114.png",/*iPhone高分屏程序图标，分辨率：114x114*/
+						"retina7": "unpackage/res/icons/120x120.png",/*iPhone iOS7高分屏程序图标，分辨率：120x120*/
+						"spotlight-normal": "unpackage/res/icons/29x29.png", /*iPhone Spotlight搜索程序图标，分辨率：29x29*/
+						"spotlight-retina": "unpackage/res/icons/58x58.png", /*iPhone高分屏Spotlight搜索程序图标，分辨率：58x58*/
+						"spotlight-retina7": "unpackage/res/icons/80x80.png",/*iPhone iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+						"settings-normal": "unpackage/res/icons/29x29.png", /*iPhone设置页面程序图标，分辨率：29x29*/
+						"settings-retina": "unpackage/res/icons/58x58.png",
+						"retina8": "unpackage/res/icons/180x180.png",
+						"settings-retina8": "unpackage/res/icons/87x87.png"
+					},
+					"ipad": {
+						"normal": "unpackage/res/icons/72x72.png", /*iPad普通屏幕程序图标，分辨率：72x72*/
+						"retina": "unpackage/res/icons/144x144.png", /*iPad高分屏程序图标，分辨率：144x144*/
+						"normal7": "unpackage/res/icons/76x76.png", /*iPad iOS7程序图标，分辨率：76x76*/
+						"retina7": "unpackage/res/icons/152x152.png", /*iPad iOS7高分屏程序图标，分辨率：152x152*/
+						"spotlight-normal": "unpackage/res/icons/50x50.png", /*iPad Spotlight搜索程序图标，分辨率：50x50*/
+						"spotlight-retina": "unpackage/res/icons/100x100.png", /*iPad高分屏Spotlight搜索程序图标，分辨率：100x100*/
+						"spotlight-normal7": "unpackage/res/icons/40x40.png",/*iPad iOS7 Spotlight搜索程序图标，分辨率：40x40*/
+						"spotlight-retina7": "unpackage/res/icons/80x80.png",/*iPad iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+						"settings-normal": "unpackage/res/icons/29x29.png",/*iPad设置页面程序图标，分辨率：29x29*/
+						"settings-retina": "unpackage/res/icons/58x58.png"
+					}
+				},
+				"android": {
+					"mdpi": "unpackage/res/icons/48x48.png", /*普通屏程序图标，分辨率：48x48*/
+					"ldpi": "unpackage/res/icons/48x48.png", /*大屏程序图标，分辨率：48x48*/
+					"hdpi": "unpackage/res/icons/72x72.png", /*高分屏程序图标，分辨率：72x72*/
+					"xhdpi": "unpackage/res/icons/96x96.png",/*720P高分屏程序图标，分辨率：96x96*/
+					"xxhdpi": "unpackage/res/icons/144x144.png","xxxhdpi":"unpackage/res/icons/192x192.png"
+				}
+			},
+			"splashscreen": {
+				"ios": {
+					"iphone": {"default":"G:/各种工作文件/PSD设计图/HiMall APP/Himall1.png","retina55":"F:/Himall/himall打包用/启动图/启动图/Himall5.png","retina47":"F:/Himall/himall打包用/启动图/启动图/Himall4.png","retina40":"F:/Himall/himall打包用/启动图/启动图/Himall3.png","retina35":"F:/Himall/himall打包用/启动图/启动图/Himall2.png"}
+				},
+				"android": {
+					"mdpi": "unpackage/res/splashscreen/Himall1.png", /*普通屏启动图片，分辨率：240x282*/
+					"ldpi": "unpackage/res/splashscreen/Himall2.png", /*大屏启动图片，分辨率：320x442*/
+					"hdpi": "unpackage/res/splashscreen/Himall3.png", /*高分屏启动图片，分辨率：480x762*/
+					"xhdpi": "unpackage/res/splashscreen/Himall4.png", /*720P高分屏启动图片，分辨率：720x1242*/
+					"xxhdpi": "unpackage/res/splashscreen/Himall5.png"
+				}
+			}
+		}
+	},"fullscreen":false,
+	"unpackage":[
+	],
+	"dependencies": {
+		"idle": {
+			"resources": []
+		},
+		"pages": {
+			"home.html": {
+				"resources": [
+					"js/template.js",
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/md5.js",
+					"fonts/mui.ttf",
+					"fonts/iconfont.ttf"
+				],
+				"refer": [
+					"product.html",
+					"order-list.html",
+					"refund-list.html",
+					"user-group.html",
+					"shop-guide.html",
+					"store-range.html",
+					"check-qrcode.html",
+					"veeker.html"
+				],
+				"priority": 0
+			},
+			"index.html": {
+				"resources": [
+					"home.html",
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/md5.js",
+					"fonts/mui.ttf",
+					"js/template.js",
+					"images/icon_refund.png",
+					"store.html",
+					"fonts/iconfont_2.ttf",
+					"images/icon_wx.png",
+					"images/icon_wxp.png",
+					"images/icon_qq.png"
+				],
+				"refer": [
+					"account.html",
+					"setting.html",
+					"login.html",
+					"product.html",
+					"goods-repertory.html",
+					"order-list.html",
+					"check-qrcode.html",
+					"refund-list.html",
+					"product-detail.html",
+					"seller-product.html",
+					"message.html"
+				],
+				"priority": 0
+			},
+			"setting.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"fonts/iconfont.ttf",
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css"
+				],
+				"refer": [
+					"change-password.html",
+					"login.html",
+					"shop-info.html",
+					"account-manage.html",
+					"bind-phone.html"
+				],
+				"priority": 0
+			},
+			"product.html": {
+				"resources": [
+					"js/delayimg.min.js",
+					"images/logo-bg.png",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/template.js",
+					"js/md5.js",
+					"images/icon_share.png",
+					"images/blank.gif",
+					"images/icon_wx.png",
+					"images/icon_wxp.png",
+					"images/icon_qq.png",
+					"js/swiper.min.js",
+					"js/jquery-1.12.0.min.js"
+				],
+				"refer": [
+					"setRepertory.html",
+					"product-detail.html"
+				],
+				"priority": 0
+			},
+			"login.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"css/account.css",
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/md5.js"
+				],
+				"refer": [
+					"forget-password.html",
+					"index.html"
+				],
+				"priority": 0
+			},
+			"store.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/template.js",
+					"js/md5.js",
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"order-list.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/blank.gif",
+					"js/template.js",
+					"js/md5.js",
+					"js/swiper.min.js"
+				],
+				"refer": [
+					"goods-deliver.html",
+					"order-details.html",
+					"logistics.html"
+				],
+				"priority": 0
+			},
+			"refund-list.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/blank.gif",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [
+					"refund-detail.html",
+					"logistics.html"
+				],
+				"priority": 0
+			},
+			"user-group.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [
+					"user-list.html"
+				],
+				"priority": 0
+			},
+			"user-list.html": {
+				"resources": [
+					"images/user.png",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [
+					"user-detail.html",
+					"shop-guide.html"
+				],
+				"priority": 0
+			},
+			"user-detail.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [
+					"user-data.html"
+				],
+				"priority": 0
+			},
+			"shop-guide.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"store-range.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"change-password.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/account.css",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"check-qrcode.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css"
+				],
+				"refer": [
+					"check-input.html",
+					"check-order.html"
+				],
+				"priority": 0
+			},
+			"veeker.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"check-input.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css"
+				],
+				"refer": [
+					"check-order.html"
+				],
+				"priority": 0
+			},
+			"check-order.html": {
+				"resources": [
+					"js/delayimg.min.js",
+					"fonts/iconfont.ttf",
+					"js/template.js",
+					"js/md5.js",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"images/blank.gif"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"forget-password.html": {
+				"resources": [
+					"images/blank.gif",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/account.css",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"goods-repertory.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/template.js",
+					"images/blank.gif",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"setRepertory.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"product-detail.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/template.js",
+					"js/md5.js",
+					"js/mui.zoom.js",
+					"js/mui.previewimage.js",
+					"js/swiper.min.js",
+					"images/icon_wx.png",
+					"images/icon_wxp.png",
+					"images/icon_qq.png"
+				],
+				"refer": [
+					"setRepertory.html"
+				],
+				"priority": 0
+			},
+			"shop-info.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.picker.js",
+					"js/mui.min.js",
+					"js/mui.poppicker.js",
+					"fonts/mui.ttf",
+					"js/region.js",
+					"css/account.css",
+					"css/mui.min.css",
+					"css/style.css",
+					"css/mui.poppicker.css",
+					"css/mui.picker.css",
+					"js/md5.js",
+					"js/mui.listpicker.js",
+					"css/mui.listpicker.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"account.html": {
+				"resources": [
+					"images/icon_sz.png",
+					"images/icon_history.png",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [
+					"account-nosettled.html",
+					"account-settled.html",
+					"account-history.html",
+					"account-inout.html",
+					"withdraw-apply.html"
+				],
+				"priority": 0
+			},
+			"account-nosettled.html": {
+				"resources": [
+					"fonts/iconfont.ttf",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"account-settled.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [
+					"account-detail.html"
+				],
+				"priority": 0
+			},
+			"account-detail.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"js/md5.js",
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"account-history.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [
+					"account-settled.html"
+				],
+				"priority": 0
+			},
+			"account-inout.html": {
+				"resources": [
+					"images/icon_service.png",
+					"images/icon_recharge.png",
+					"images/icon_refund.png",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/icon_withdraw.png",
+					"js/template.js",
+					"images/icon_in.png",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"withdraw-apply.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"js/md5.js",
+					"images/blank.gif"
+				],
+				"refer": [
+					"withdraw-account-bind1.html"
+				],
+				"priority": 0
+			},
+			"account-manage.html": {
+				"resources": [
+					"js/mui.min.js",
+					"js/template.js",
+					"js/md5.js",
+					"js/app.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css"
+				],
+				"refer": [
+					"withdraw-account-bind1.html"
+				],
+				"priority": 0
+			},
+			"withdraw-account-bind1.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"js/md5.js",
+					"images/blank.gif",
+					"fonts/iconfont.ttf"
+				],
+				"refer": [
+					"bind-phone.html",
+					"withdraw-account-bind2.html"
+				],
+				"priority": 0
+			},
+			"refund-detail.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"js/md5.js",
+					"images/blank.gif",
+					"js/delayimg.min.js",
+					"js/mui.zoom.js",
+					"js/mui.previewimage.js"
+				],
+				"refer": [
+					"refund-logs.html"
+				],
+				"priority": 0
+			},
+			"refund-logs.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"js/md5.js",
+					"js/delayimg.min.js",
+					"images/icon_top.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"seller-product.html": {
+				"resources": [
+					"js/app.js",
+					"js/delayimg.min.js",
+					"images/icon_wxp.png",
+					"fonts/mui.ttf",
+					"images/icon_qq.png",
+					"css/style.css",
+					"js/swiper.min.js",
+					"images/icon_share.png",
+					"images/icon_wx.png",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"fonts/iconfont.ttf",
+					"images/blank.gif",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [
+					"setRepertory.html",
+					"product-detail.html"
+				],
+				"priority": 0
+			},
+			"bind-phone.html": {
+				"resources": [
+					"images/blank.gif",
+					"js/md5.js",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"withdraw-account-bind2.html": {
+				"resources": [],
+				"refer": [
+					"withdraw-account-bind3.html"
+				],
+				"priority": 0
+			},
+			"withdraw-account-bind3.html": {
+				"resources": [
+					"images/success.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"message.html": {
+				"resources": [
+					"css/mui.min.css",
+					"fonts/iconfont_2.ttf",
+					"css/style.css",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [
+					"refund-detail.html",
+					"order-details.html",
+					"order-list.html"
+				],
+				"priority": 0
+			},
+			"order-details.html": {
+				"resources": [
+					"css/mui.min.css",
+					"css/style.css",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"fonts/iconfont_2.ttf",
+					"js/delayimg.min.js",
+					"js/template.js",
+					"js/md5.js",
+					"images/blank.gif"
+				],
+				"refer": [
+					"goods-deliver.html"
+				],
+				"priority": 0
+			},
+			"goods-deliver.html": {
+				"resources": [
+					"js/mui.zoom.js",
+					"fonts/iconfont_2.ttf",
+					"js/mui.previewimage.js",
+					"images/border_line.png",
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [
+					"qrcode.html"
+				],
+				"priority": 0
+			},
+			"logistics.html": {
+				"resources": [
+					"fonts/iconfont_2.ttf",
+					"images/border_line.png",
+					"js/mui.zoom.js",
+					"js/mui.previewimage.js",
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/template.js",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"qrcode.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css"
+				],
+				"refer": [],
+				"priority": 0
+			}
+		}
+	}
+}

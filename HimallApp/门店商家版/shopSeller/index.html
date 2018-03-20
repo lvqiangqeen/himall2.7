@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>首页</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body class='body_dom'>
+		<header class="mui-bar mui-bar-nav header-blue"></header>
+		<div class="mui-content notop" id="homeBox">
+			<div class="pull-loading mt20"><div class="mui-icon mui-spinner"></div>正在加载...</div>
+		</div>
+		<div id="popover" class="mui-popover himall-popover-index" style="width:90px;">  
+			  <ul class="mui-table-view">
+			    <li class="mui-table-view-cell"><a href="javascript:void(0)" onclick="himall.openVW('message.html')">消息</a><span class="mui-badge mui-badge-danger" style="font-size:12px;display:none;" id="noreadmsgcount"></span></li>
+			    <li class="mui-table-view-cell"  id="storeExtension"><a href="#">门店推广</a></li>  
+			  </ul>
+	     </div>
+		<div class="popItem-box hidden" id="showShareBox" style="top:100px;right:100px;">
+			<div class="line" id="qqLink" data-id="qq"><img src="images/icon_qq.png" width="68" height="69"/>分享给QQ好友</div>
+			<div class="line" id="wxLink" data-id="weixin" data-ex="WXSceneSession"><img src="images/icon_wx.png" width="68" height="69"/>分享给微信好友</div>
+			<div class="line" id="wxpLink" data-id="weixin" data-ex="WXSceneTimeline"><img src="images/icon_wxp.png" width="68" height="69"/>分享到微信朋友圈</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>  
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js" ></script>
+		<script>  
+			var ws,
+				loadPage,
+				isJoin=himall.isJoin();
+                qqLink = document.getElementById('qqLink'),
+				wxLink = document.getElementById("wxLink"),
+				wxpLink = document.getElementById("wxpLink"),
+				showShareBox = document.getElementById('showShareBox'),
+				storeName="",
+				storeId="",
+				imgpath="",
+				type="",
+				pwdMask=mui.createMask(function(){showShareBox.className+=' hidden'});
+			mui.init();
+			
+			var ajaxUrl='api/ShopBranchHome/GetShopBranchHome';
+			var msgCountUrl='api/ShopBranchHome/GetNoReadMessageCount';
+			if(isJoin){
+				ajaxUrl='api/ShopHome/GetShopHome';
+				msgCountUrl='api/ShopHome/GetNoReadMessageCount';
+			}
+			mui.plusReady(function() {
+				plus.navigator.setStatusBarStyle("UIStatusBarStyleBlackOpaque");
+				ws=plus.webview.currentWebview();
+                type=himall.getState().type;
+				if(type!=2) document.getElementById('storeExtension').style.display='none';  
+				ws.setStyle({scrollIndicator:'none'});
+				ws.setPullToRefresh({
+					support:true,
+					height:"50px",
+					range:"100px",
+					style: 'circle',
+					offset: '20px'
+				},function(){
+					setTimeout(function(){
+						loadPage();
+					},300)
+				});
+				
+				loadPage=function(){
+					mui.ajax(URL+ajaxUrl,{
+						data:himall.md5Data({
+							userkey:himall.getState().userkey
+						}),
+						dataType:'json',
+						type:'get',
+						success:function(data){
+							if(data.error_response){
+								himall.setState();
+								plus.nativeUI.toast('登录失效，请重新登录');
+								showLogin();
+								return;
+							}
+							data=data.data;
+                             storeName=data.shopName;
+							imgpath=URL+data.logo;  
+				            storeId=data.shopBranchId;
+							localStorage.setItem('curUserName',isJoin?data.shopName:('<i class="iconfont icon-store"></i>'+data.shopName));
+							data.isJoin = isJoin;
+							document.getElementById('homeBox').innerHTML=template('initData',data);
+							
+							if(isJoin){
+								himall.removeClass(document.getElementById('settle'),'hidden');
+								document.getElementById('checkOrder').className+=' hidden';
+								document.getElementById('repertory').className+=' hidden';
+							}
+							mui.ajax(URL+msgCountUrl,{
+								data:himall.md5Data({
+									userkey:himall.getState().userkey
+								}),
+								dataType:'json',
+								type:'get',
+								success:function(data){
+									count=data.count;
+									var d_noreadcount=document.getElementById('noreadmsgcount');
+									d_noreadcount.innerHTML=count;
+									if(count>0){
+										d_noreadcount.style.display="";
+										document.getElementById('news').className+=' active';
+									}else{
+										d_noreadcount.style.display="none";
+										himall.removeClass(document.getElementById('news'),'active');
+									}
+								}
+							});
+							
+							ws.endPullToRefresh();
+							
+							plus.navigator.closeSplashscreen();
+						},
+						error:function(xhr,type,errorThrown){
+							plus.navigator.closeSplashscreen();
+							var errorText='<div class="empty-show"><h4>网络不给力，请检查网络！</h4><button id="reloadWv" class="mui-btn mui-btn-negative">重新加载</button></div>'
+							document.getElementById('pullrefresh').innerHTML=errorText;
+						}
+					});
+				}
+				
+				if(himall.isLogin()){
+					loadPage();
+				}else{
+					showLogin();
+				}
+				
+			});
+	        document.getElementById('storeExtension').addEventListener('tap',function(){  
+				if(showShareBox.className.indexOf('hidden')!=-1){   
+					himall.removeClass(showShareBox,'hidden');
+					pwdMask.show(); 
+				}else{
+					pwdMask.close(); 
+				}
+			});
+			
+		   mui('#showShareBox').on('tap',".line",function(){
+				var s_id = this.getAttribute("data-id");
+		    	var ex = this.getAttribute("data-ex");
+		    	console.log(s_id)
+		    	console.log(ex)    
+				var params = {
+					title:storeName,
+					href:URL+'m-wap/shopbranch/index/'+storeId,
+					productImg:imgpath
+				};   
+				console.log(params.productImg)    
+				shareProduct(s_id,ex,params);
+		   });
+		    function shareProduct(id,ex,params){
+		    	var shares=initShare();
+		    	setTimeout(function(){
+		    		var share = shares[id];   
+			    	if (share.authenticated) {
+						shareMessage(share, ex, params);
+					} else {
+						share.authorize(function() {
+							shareMessage(share, ex, params);
+						}, function(e) {
+							plus.nativeUI.toast("认证授权失败!");
+						});
+					}
+		    	},500);
+		    }
+			
+			var isMove = false;
+			mui('#homeBox').on('touchstart', 'li', function(e) {
+				isMove = false;
+				this.style.backgroundColor = "#e6e6e6";
+			});
+			mui("#homeBox").on("touchmove", "li", function (e) {
+				isMove = true;
+				this.style.backgroundColor = "#fff";
+			});
+			mui("#homeBox").on("touchend", "li", function (e) {
+				this.style.backgroundColor = "#fff";
+				if(isMove) return;
+				if(isJoin&&this.getAttribute('data-href')=='product.html'){
+					himall.openVW('seller-product.html');
+				}else{
+					himall.openVW(this.getAttribute('data-href'));
+				}
+			});
+			
+			document.addEventListener('reloadData',function(){
+				ws.reload();
+			});
+			
+			template.helper("formatMoney", function(s){  
+		    	if (/[^0-9\.]/.test(s))  
+			        return "0";  
+			    if (s == null || s == "")  
+			        return "0";  
+			    s = s.toString().replace(/^(\d*)$/, "$1.");  
+			    s = (s + "00").replace(/(\d*\.\d\d)\d*/, "$1");  
+			    s = s.replace(".", ",");  
+			    var re = /(\d)(\d{3},)/;  
+			    while (re.test(s))  
+			        s = s.replace(re, "$1,$2");  
+			    s = s.replace(/,(\d\d)$/, ".$1");
+			    return s;
+		    });
+			
+			himall.quitApp();
+			himall.update();
+			
+			document.addEventListener('updateData',function(e){
+				loadPage();
+				});
+
+		</script>
+		<script type="text/html" id="initData">
+			<div class="index-head">
+				<div class="store-info">
+					<span>
+						{{if isJoin}}
+							{{shopName}}
+						{{else}}
+							<i class="iconfont icon-store"></i>{{shopName}}
+						{{/if}}
+					</span>
+					<a id="news" class="mui-icon mui-icon-more-filled mui-pull-right" href="#popover"></a>       
+				</div>  
+				<div class="store-total">
+					<h4>当日销售额</h4>
+					<h3>{{formatMoney(todayAmount)}}</h3>
+				</div>
+				<div class="store-data">
+					<p><span>当周销售额</span>{{formatMoney(weekAmount)}}</p>
+					<p><span>近3月销售额</span>{{formatMoney(threeMonthAmounht)}}</p>
+				</div>
+			</div>
+			<ul class="table-view-iconlist index-iconlist">
+				<li data-href="product.html">
+					<a>
+						<span class="iconfont icon-product"></span>
+						{{if ThreeDayNewProduct}}
+						<span class="mui-badge mui-badge-danger">{{ThreeDayNewProduct}}</span>
+						{{/if}}
+						商品管理
+					</a>
+				</li>
+				<li id="repertory" class="topNone" data-href="goods-repertory.html">
+					<a>
+						<span class="iconfont icon-shangpinku"></span>
+						{{if SevenDayNewMemeber}}
+						<span class="mui-badge mui-badge-danger">{{SevenDayNewMemeber}}</span>
+						{{/if}}
+						商品库
+					</a>
+				</li>
+				<li data-href="order-list.html">
+					<a>
+						<span class="iconfont icon-dingdanguanli"></span>
+						{{if PendingOrder}}
+						<span class="mui-badge mui-badge-danger">{{PendingOrder}}</span>
+						{{/if}}
+						订单管理
+					</a>
+				</li>
+				<li class="topNone" data-href="refund-list.html">
+					<a>
+						<span class="iconfont icon-shouhouguanli"></span>
+						{{if PendingRefund}}
+						<span class="mui-badge mui-badge-danger">{{PendingRefund}}</span>
+						{{/if}}
+						售后管理
+					</a>
+				</li>
+				<li class="hidden" id="settle" data-href="account.html">
+					<a>
+						<span class="iconfont icon-jiesuan1"></span>
+						结算
+					</a>
+				</li>
+				<li id="checkOrder" data-href="check-qrcode.html">
+					<a>
+						<span class="iconfont icon-hexiao"></span>
+						核销
+					</a>
+				</li>
+				<li data-href="store.html">
+					<a>
+						<span class="iconfont icon-yeji-copy"></span>
+						业绩
+					</a>
+				</li>
+				<li data-href="setting.html">
+					<a>
+						<span class="iconfont icon-shezhi"></span>
+						设置
+					</a>  
+				</li>
+			</ul>
+		</script>
+	</body>
+
+</html>

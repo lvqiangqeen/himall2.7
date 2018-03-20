@@ -1,0 +1,48 @@
+<!--pages/comment/comment.wxml-->
+<form bindsubmit="formSubmit" report-submit="false">
+<block wx:for="{{ProductList}}">
+  <view class="comentcont">
+    <view class="comenttiltetop">
+      <view class="comenttilte">
+        <view class="comtiltepic">
+          <image src="{{item.Image }}"></image>
+        </view>
+        <view class="comtright">
+          <view class="comtrightop">评分</view>
+          <view class="comtrightcout">
+            <text class="iconfont icon__star {{ScoreGrade[index].grade>=1?'':'icon-color'}}" bindtap="ScoreGrade" data-grade="1" data-index="{{index}}">
+            </text>
+            <text class="iconfont icon__star {{ScoreGrade[index].grade>=2?'':'icon-color'}}" bindtap="ScoreGrade" data-grade="2" data-index="{{index}}">
+            </text>
+            <text class="iconfont icon__star {{ScoreGrade[index].grade>=3?'':'icon-color'}}" bindtap="ScoreGrade" data-grade="3" data-index="{{index}}">
+            </text>
+            <text class="iconfont icon__star {{ScoreGrade[index].grade>=4?'':'icon-color'}}" bindtap="ScoreGrade" data-grade="4" data-index="{{index}}">
+            </text>
+            <text class="iconfont icon__star {{ScoreGrade[index].grade>=5?'':'icon-color'}}" bindtap="ScoreGrade" data-grade="5" data-index="{{index}}">
+            </text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="comenttext">
+      <textarea class="txtarea" name="txt_{{item.SkuId}}" placeholder="请输入对此商品的评价" />
+    </view>
+    <view class="comentstpic">晒图</view>
+    <view class="comentpic">
+      <view class="uploadimg" bindtap="ChooseImg" data-skuid="{{item.SkuId}}" data-index="{{index}}" data-coloum="1">
+        <image style="width:158rpx;height:158rpx;" src="{{UserCredentials[index].img1}}" />
+      </view>
+      <view class="uploadimg" bindtap="ChooseImg" data-skuid="{{item.SkuId}}" data-index="{{index}}" hidden="{{UserCredentials[index].ImgSize<1}}" data-coloum="2">
+        <image style="width:158rpx;height:158rpx;" src="{{UserCredentials[index].img2}}" />
+      </view>
+       <view class="uploadimg" bindtap="ChooseImg" data-skuid="{{item.SkuId}}" data-index="{{index}}" hidden="{{UserCredentials[index].ImgSize<2}}" data-coloum="3">
+        <image style="width:158rpx;height:158rpx;" src="{{UserCredentials[index].img3}}" />
+      </view>
+    </view>
+  </view>
+</block>
+<view class="comment-btn">
+  <button form-type="submit" class="btn-confirm">提交评论</button>
+</view>
+
+</form>

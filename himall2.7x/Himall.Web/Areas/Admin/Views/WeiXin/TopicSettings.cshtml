@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Himall.Web.Areas.Admin.Models.TopicModel>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        
+        <li class="active"><a>管理</a></li>
+        <li><a href="javascript:;" id="chooseTopicBtn">新增</a></li>
+        
+        
+    </ul>
+    <div>
+        <table class="table mt20">
+            <thead>
+                <tr>
+                    <th style="text-align:center">封面</th>
+                    <th style="text-align:center">标题</th>
+                    <th width="80" style="text-align:center">排序</th>
+                    <th width="200" style="text-align:center">标签</th>
+                    <th class="td-operate">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() > 0)
+                {
+                    foreach (var topic in Model)
+                    {
+                        <tr id="@topic.Id">
+                            <td width="230"><div style="text-align:center;" class="hiMallDatagrid-cell "><img width="100" height="24" src="@topic.FrontCoverImage"></div></td>
+                            <td>@topic.Name</td>
+                            <td><input class="text-order" type="text" orivalue="@topic.Sequence" name="sequence" value="@topic.Sequence"></td>
+                            <td>@topic.Tags</td>
+                            <td class="td-operate">
+                                <span class="btn-a">
+                                    <a class="delete-classify" name="delete">删除</a>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td style="text-align:center;" colspan="5"><h2 class="none-data" >还没有设置首页专题</h2></td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<div id="choose-topic" style="display:none">
+    <div class="topic-page-img upload-img clearfix" id="frontCoverImage">
+    </div>
+    <div class="choose-search" style="border-left: 1px solid #ddd;">
+        <div class="form-group">
+            <label class="label-inline" for="">专题标题</label>
+            <input class="form-control input-ssm" type="text" id="titleKeyword">
+        </div>
+        <div class="form-group">
+            <label class="label-inline" for="">标签</label>
+            <input class="form-control input-ssm" type="text" id="tagsKeyword">
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+    </div>
+    <table class="table table-bordered table-choose" id="list"></table>
+</div>
+
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Areas/Admin/Scripts/mobileHomeTopic.js"></script>

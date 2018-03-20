@@ -1,0 +1,112 @@
+﻿@using Himall.Model
+
+@{
+    ViewBag.Title = "收货地址管理";
+}
+@model List<Himall.Model.ShippingAddressInfo>
+
+<div class="container ShippingAddress">
+    <ul class="list-group address">
+        @foreach (var item in Model)
+        {
+            <li id="@item.Id" shipto="@item.ShipTo" phone="@item.Phone" regionfullname="@item.RegionFullName" address="@item.Address" regionid="@item.RegionId">
+                <div class="add-info" onclick="SetDefault(@item.Id)">
+                    <i class="glyphicon glyphicon-ok-@item.Id"></i>
+                    <h6>@item.ShipTo <span>@item.Phone</span></h6>
+                    <p>@item.RegionFullName@item.Address</p>
+                </div>
+                <div class="cho-addr">
+                    @if (item.IsDefault)
+                    {
+                        <lable><span class="default active"></span>默认</lable>
+                    }
+
+                    <span class="cho-btn">
+                        @if (!item.IsDefault)
+                        {
+                            <a class="edit" onclick="ChooseAddr(@item.Id)">设为默认</a>
+                        }
+                        <a class="edit" onclick="EditAddr(@item.Id)">编辑</a>
+                        <a class="del" onclick="DeleteAddr(this,@item.Id)">删除</a>
+                    </span>
+
+                </div>
+            </li>}
+    </ul>
+    <footer class="clearfix">
+        <a class="add-footer" onclick="EditAddr(0)"><i class="glyphicon glyphicon-plus"></i> 新增收货地址</a>
+    </footer>
+</div>
+
+<script>
+    var chooseUrl = '@Url.Action("SetDefaultUserShippingAddress")';
+    var setDefaultUrl = '@Url.Action("SetDefaultUserShippingAddress")';
+    var editUrl = '@Url.Action("EditShippingAddress")';
+    var deleteUrl = '@Url.Action("DeleteShippingAddress")';
+    var cacheKey = 'ChoseShippingAddress.Value';
+
+    function ChooseAddr(addId) {
+//      $(".glyphicon-ok-'" + addId + "'").addClass("active");
+        $.post(chooseUrl, { addId: addId }, function (result) {
+            if (result.success){
+            	window.location.reload();
+            	saveAndGoBack(addId);
+            }
+        });
+    }
+
+    function SetDefault(addId) {
+        var loading = showLoading();
+        $(".glyphicon-ok-'" + addId + "'").addClass("active");
+        $.post(setDefaultUrl, { addId: addId }, function (result) {
+            loading.close();
+            if (result.success)
+                saveAndGoBack(addId);
+        });
+    }
+
+    function EditAddr(addId) {
+        var isOrder = QueryString('isOrder');
+        if (isOrder) {
+            window.location.href = editUrl + '?addressId=' + addId + '&isOrder=' + isOrder;
+        }
+        else {
+            window.location.href = editUrl + '?addressId=' + addId;
+        }
+    }
+
+    function DeleteAddr(item, addId) {
+        var loading = showLoading();
+        $.post(deleteUrl, { addressId: addId }, function (result) {
+            if (result.success) {
+                loading.close();
+                $(item).closest('li').remove();
+                count = $('ul.address').children('li').length;
+                if (count == 0) {
+                    window.saveToLocalStorage(cacheKey, { isClear: true });
+                }
+            }
+        });
+    }
+
+    function saveAndGoBack(addId) {
+        var refer = window.sessionStorage.getItem("refer");
+        if (refer == null) {
+            window.location.href = location.href;
+        }
+        var li = $('#' + addId);
+        var value = {
+            id: addId,
+            shipTo: li.attr('shipTo'),
+            phone: li.attr('phone'),
+            regionFullName: li.attr('regionFullName'),
+            address: li.attr('address'),
+            regionId: li.attr('regionId')
+        };
+        window.saveToLocalStorage(cacheKey, value);
+        if (refer != null && refer != '') {
+            window.sessionStorage.removeItem("refer");
+            window.location.href = refer;
+        }
+    }
+</script>

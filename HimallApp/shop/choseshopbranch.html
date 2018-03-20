@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>自提门店选择</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<style>
+			.hide{display: none;}
+		</style>
+	</head>
+<body>
+    	<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">自提门店选择</h1>
+		</header>
+		<div class="mui-content">
+			<div class="container shop-branch">
+				<ul id="list" class="cl">
+				</ul>
+		 	</div>
+	    </div>
+		<script src="js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js"></script>
+   		<script src="js/template.js"></script>
+   		<script src="js/CommonJS.js"></script>
+    <script>
+         
+        mui.init({
+            swipeBack: true
+        });
+         
+		 var ws,loadPage;
+        var shopId = 0, regionId = 0, _page = 1, shippingAddressId = 0,shopBranchId=0;
+        var skuIds = '', counts = '';
+        var cacheKey='ChoseShopBranch.Value';
+		var cacheValue;
+        mui.plusReady(function() {
+        	ws=plus.webview.currentWebview();
+				ws.setStyle({scrollIndicator:'none'});
+				 shopId = ws.shopId;
+                regionId =ws.regionId;
+                shippingAddressId = ws.shippingAddressId;
+                skuIds = ws.skuIds;
+                counts = ws.counts;
+        		loadPage=function() { 
+                	mui.ajax(URL + 'api/Order/GetShopBranchs', {
+                    data: himall.md5Data({
+                        shopId: shopId,
+                        regionId: regionId,
+                        getParent: true,
+                        skuIds: skuIds,
+                        counts: counts,
+                        page: _page,
+                        rows: 20,
+                        shippingAddressId: shippingAddressId
+                    }),
+                    dataType: 'json',
+                    type: 'get',
+                    timeout: 10000,
+                    success: function (data) {
+                        console.log('数量： '+data.StoreList.length);
+                        if (data.Success == true) {
+                            var list = document.getElementById('list');
+                            if (data.StoreList.length > 0) {
+                                if (_page == 1)
+                                     list.innerHTML='';
+                                _page++;
+                            } else
+                                return;
+                            list.insertAdjacentHTML('beforeend', template('initStoreList', data));
+                            setStoreChecked();
+                        } else {
+                            plus.nativeUI.toast(data.Message)
+                        }
+                    },
+                    error: function (xhr, type, errorThrown) {
+                        plus.nativeUI.toast('操作失败，请检查网络')
+                    }
+                });
+             
+        }
+        	 	loadPage();
+        });
+        
+        mui('#list').on('change', '.j_radioStore', function() {
+				if (this.checked == true) {
+                    $(this).next().addClass("active");
+                    //设置商家选择的门店
+                     var value=window.getFromLocalStorate(cacheKey);
+					if($.isNullOrEmpty(value)){
+						value={};
+					}
+					value[shopId]={sbId: this.value, sbName: $(this).data('name'), shopId: shopId, regionId: regionId };
+					window.saveToLocalStorage(cacheKey, value);
+                    //设置商家选择的门店
+                     mui.fire(plus.webview.getWebviewById('order-submit.html'), 'updateData');
+                     setTimeout(function () {
+                            plus.webview.currentWebview().close();
+                        }, 500)
+                }
+			});
+		function setStoreChecked(){
+			cacheValue=window.getFromLocalStorate(cacheKey);
+			if(cacheValue!=null&&cacheValue[shopId].sbId>0){
+        		$(":radio[name='shopBranch'][value='" + cacheValue[shopId].sbId + "']").prop("checked", "checked");
+        	}
+		}
+        //$(function () {   
+           // $(window).scroll(function () {
+               // var scrollTop = $(this).scrollTop();
+                //var scrollHeight = $(document).height();
+                //var windowHeight = $(this).height();
+                //if (scrollTop + windowHeight >= scrollHeight) {
+                  //  loadPage();
+                //}
+            //});
+       // });
+        
+    </script>
+      <script type="text/html" id="initStoreList">
+       	 {{each StoreList as value index}}
+       	 <li class="cl 1">
+        <div class="branch-check">
+            <input id="rdo{{index}}" type="radio" class="j_radioStore" name="shopBranch" value="{{value.Id}}" data-name="{{value.ShopBranchName}}"  {{if value.Enabled==false}}disabled{{/if}} />
+        </div>
+        <div class="branch-info">
+            <p class="branch-name"><label for="rdo{{index}}">{{value.ShopBranchName}}</label></p>
+            <p><span class="{{if value.Enabled==true}}hide{{/if}}" style="color: #fff; background: #f8413d;padding: 0 10px; border-radius: 2px;">#该门店缺货</span></p>
+            <p class="branch-tel"><em>联系方式：</em>{{value.ContactPhone}}</p>
+            <p class="branch-addr">{{value.AddressDetail}}</p>
+        </div>
+        </li>
+     {{/each}}
+    </script>
+</body>
+</html>

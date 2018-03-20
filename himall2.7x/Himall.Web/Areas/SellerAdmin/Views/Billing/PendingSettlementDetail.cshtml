@@ -1,0 +1,71 @@
+﻿@using Himall.Core;
+@model Himall.DTO.OrderSettlementDetail
+<div class="container">
+    <ul class="breadcrumb clearfix">
+        <li><a>待结算订单</a></li>
+        <li class="active"><a>结算金额明细</a></li>
+    </ul>
+    <div class="tips-top-single mt20">
+        <span class="tips-top-single-icon">结算金额 = 商品实付 + 运费 - 平台佣金 - 分销佣金 - 退款金额 + 平台佣金退还 + 分销佣金退还</span>
+    </div>
+    <table id="list" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>时间</th>
+                <th>类型</th>
+                <th>收入</th>
+                <th>支出</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.OrderPayTime</td>
+                <td>商品实付</td>
+                <td>@Model.ProductsTotal</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>@Model.OrderPayTime</td>
+                <td>运费</td>
+                <td>@Model.Freight</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>@Model.OrderPayTime</td>
+                <td>平台佣金</td>
+                <td></td>
+                <td>@Model.PlatCommission</td>
+            </tr>
+            <tr>
+                <td>@Model.OrderPayTime</td>
+                <td>分销佣金</td>
+                <td></td>
+                <td>@Model.DistributorCommission</td>
+            </tr>
+            @if (!string.IsNullOrEmpty(Model.OrderRefundTime)) {
+                <tr>
+                    <td>@Model.OrderRefundTime</td>
+                    <td>退款金额</td>
+                    <td></td>
+                    <td>@Model.RefundAmount</td>
+                </tr>
+            }
+            @if (!string.IsNullOrEmpty(Model.OrderRefundTime)) {
+                <tr>
+                    <td>@Model.OrderRefundTime</td>
+                    <td>平台佣金退还</td>
+                    <td>@Model.PlatCommissionReturn</td>
+                    <td></td>
+                </tr>
+            }
+            @if (!string.IsNullOrEmpty(Model.OrderRefundTime)) {
+                <tr>
+                    <td>@Model.OrderRefundTime</td>
+                    <td>分销佣金退还</td>
+                    <td>@Model.DistributorCommissionReturn</td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

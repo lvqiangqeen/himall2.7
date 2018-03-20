@@ -1,0 +1,26 @@
+﻿@model Himall.Model.DistributorSettingInfo
+@{
+    ViewBag.Title = "分销规则查看";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="rate-detail">
+    @Html.Raw(Model.PromoterRule)
+    </div>
+</body>
+</html>
+
+<script>
+    var rate_H =$(document).height();
+    if($(".rate-detail").height()<rate_H-122){
+         $(document.body).height(rate_H-122);
+    }
+
+
+</script>

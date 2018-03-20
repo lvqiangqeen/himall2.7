@@ -1,0 +1,245 @@
+﻿@{
+    ViewBag.Title = "订单评价";
+    ViewBag.CopyRight = false;
+	var weiXinShareArgs=this.WeiXinShareArgs;
+}
+<style>
+    .container {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        overflow-y: auto;
+    }
+
+    .footer-buy {
+        height: 43px;
+        background-color: #f1f1f1;
+        border: none;
+        padding: 0;
+    }
+
+        .footer-buy #submit {
+            display: block;
+            width: 123px;
+            float: right;
+            background-color: #fc2e19;
+            color: #fff;
+            color: #fff;
+            font-size: 15px;
+            text-align: center;
+            height: 43px;
+            line-height: 43px;
+        }
+
+        .footer-buy p {
+            float: left;
+            display: inline-block;
+            font-size: 14px;
+            color: #494e52;
+            height: 43px;
+            line-height: 43px;
+            margin-left: 14px;
+        }
+
+            .footer-buy p i {
+                display: inline-block;
+                height: 15px;
+                width: 15px;
+                background-color: #fc2e19;
+                border-radius: 3px;
+                margin-right:10px;
+                position: relative;
+                top:14px;
+            }
+
+                .footer-buy p i em {
+                    color: #fff;
+                    font-size: 8px;
+                    text-align: center;
+                    line-height: 15px;
+                    position:relative;
+                    top:-13px;
+                }
+
+    .star-score {
+        top: 5px;
+    }
+
+    .comment-shop p {
+        margin-bottom: 15px;
+        padding: 0;
+    }
+</style>
+<input id="isValid" type="hidden" value="@((bool)ViewBag.Valid)" />
+@if ((bool)ViewBag.Valid) {
+    var products = (IEnumerable<Himall.Model.ProductEvaluation>)ViewBag.Products;
+    var orderItemIds = (IEnumerable<long>)ViewBag.OrderItemIds;
+    var i = 0;
+    <div class="container bg-white">
+        <div class="comment">
+            @foreach (var product in products) {
+                <div class="comment-goods" name="productComment" orderitemid="@orderItemIds.ElementAt(i)">
+                    <div class="comment-bar clearfix">
+                        <a class="block pull-left clearfix" href="@Url.Action("detail", "product", new {id=product.ProductId })">
+                            <img class="lazyload border-1" src="@Himall.Core.HimallIO.GetProductSizeImage(product.ThumbnailsUrl, 1, (int)Himall.CommonModel.ImageSize.Size_100)" width="80" height="80" />
+                        </a>
+                        <div class="comment-text">
+                            <textarea class="comment-textarea pull-left" placeholder="请写下您对该宝贝的使用心得" name="content"></textarea>
+                        </div>
+                    </div>
+                    <div class="comment-photo clearfix">
+                        @if (ViewBag.WeiXin == true) {
+                            <div class="wx-img-wrap pull-left" id="UploadPlace@(i)"></div>
+                            <div class="img-upload-btn pull-left" id="WXimages@(i)" onclick="UploadWXImage(@i)"><i class="glyphicon glyphicon-camera"></i></div>                                             
+                        }
+                        else {
+                            <div class="pic-upload" id="ProductImages@(i)"></div>
+                        }
+                    </div>
+                    <div class="comment-content clearfix">
+                        <p>
+                            <label class="star-text" for="">评分</label>
+                            <span class="star-score">
+                                <i class="star-c l"></i>
+                                <i class="star-c l"></i>
+                                <i class="star-c l"></i>
+                                <i class="star-c l"></i>
+                                <i class="star-c l"></i>
+                                <input type="hidden" value="5" name="mark" />
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                i++;
+            }
+        </div>
+        <div class="comment-shop">
+            <h5>店铺评分</h5>
+            <p>
+                <label for="">商品包装</label>
+                <span class="star-score star-d">
+                    <i class="l"></i>
+                    <i class="l"></i>
+                    <i class="l"></i>
+                    <i class="l"></i>
+                    <i class="l"></i>
+                    <input type="hidden" id="packMark" value="5">
+                </span>
+            </p>
+            <p>
+                <label for="">送货速度</label>
+                <span class="star-score star-d">
+                    <i class="l"></i>
+                    <i class="l"></i>
+                    <i class="l"></i>
+                    <i class="l"></i>
+                    <i class="l"></i>
+                    <input type="hidden" value="5" id="deliveryMark">
+                </span>
+            </p>
+            <p>
+                <label for="">配送服务</label>
+                <span class="star-score star-d">
+                    <i class="l"></i>
+                    <i class="l"></i>
+                    <i class="l"></i>
+                    <i class="l"></i>
+                    <i class="l"></i>
+                    <input type="hidden" value="5" id="serviceMark">
+                </span>
+            </p>
+        </div>
+        <footer class="footer-buy">
+            @*<p><i><em class="glyphicon glyphicon-ok"></em></i>匿名评价</p>*@
+            <a href="javascript:;" id="submit">提交评价 </a>
+        </footer>
+    </div>
+}
+<script src="~/Areas/Mobile/Templates/Default/Scripts/orderComment.js"></script>
+<script src="~/Scripts/jquery.form.js"></script>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+@if (weiXinShareArgs==null)
+{
+    <script>
+        $(function() {
+            for (var i = 0; i < $('.pic-upload').length; i++) {
+                $("#ProductImages" + i).himallUpload({
+                    imgFieldName: "ProductImages" + i,
+                    imagesCount: 5,
+                    canDel:true,
+                    isMobile: true
+                })
+            }
+        });
+    </script>
+}
+else{
+    <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+        $(function() {
+            var AppId = '@weiXinShareArgs.AppId'; // 必填，公众号的唯一标识
+            var Timestamp = @weiXinShareArgs.Timestamp; // 必填，生成签名的时间戳
+            var NonceStr = '@weiXinShareArgs.NonceStr'; // 必填，生成签名的随机串
+            var Signature = '@weiXinShareArgs.Signature'; // 必填，签名，见附录1
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: AppId, // 必填，公众号的唯一标识
+                timestamp: Timestamp, // 必填，生成签名的时间戳
+                nonceStr: NonceStr, // 必填，生成签名的随机串
+                signature: Signature, // 必填，签名，见附录1
+                jsApiList: ['chooseImage', 'uploadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+        });
+        function UploadWXImage(obj) {
+            var length = $("#UploadPlace" + obj +" .upload-img-box img").length;
+            if(length == 5) {
+                $.dialog.errorTips("最多只能选择五张图片！");
+                return;
+            }
+            var num = 5 - length;
+            wx.chooseImage({
+                count: num, // 默认9
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function(res) {
+                    var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    // $("#UploadPlace" + obj).html("");
+                    var i = 0,
+                        len = localIds.length;
+                    function UploadOneImage() {
+                        wx.uploadImage({
+                            localId: localIds[i], // 需要上传的图片的本地ID，由chooseImage接口获得
+                            isShowProgressTips: 1, // 默认为1，显示进度提示
+                            success: function(res) {
+                                var serverId = res.serverId; // 返回图片的服务器端ID
+                                var html = "<div  class='upload-img-box'><img width='60' src='"+localIds[i]+"' style='margin-right:8px;position:relative;' data-serverid='"+serverId+"'/>";
+                                    html += '<span class="glyphicon glyphicon-minus-sign" onclick="Remove(this)"style="position:relative;top:-55px;left:43px;font-size:13px;color:#d50014;"></span></div>';
+                                $("#UploadPlace" + obj).append(html);
+                                i++;
+                                if(i < len)
+                                UploadOneImage(localIds[i]);
+                            }
+                        });
+                    }
+                    UploadOneImage();
+                    /*$.each(localIds, function(index, localId) {
+                        wx.uploadImage({
+                            localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+                            isShowProgressTips: 1, // 默认为1，显示进度提示
+                            success: function(res) {
+                                var serverId = res.serverId; // 返回图片的服务器端ID
+                                var html = "<div  class='upload-img-box'><img width='60' src='"+localId+"' style='margin-right:8px;position:relative;' data-serverid='"+serverId+"'/>";
+                                    html += '<span class="glyphicon glyphicon-minus-sign" onclick="Remove(this)"style="position:relative;top:-55px;left:43px;font-size:13px;color:#d50014;"></span></div>';
+                                $("#UploadPlace" + obj).append(html);
+                            }
+                        });
+                    });*/
+                }
+            });
+        }
+        function Remove(obj) {
+            $(obj).parent().remove();
+        }
+    </script>
+}

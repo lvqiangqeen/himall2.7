@@ -1,0 +1,715 @@
+﻿@{ var memberInfo = ViewBag.Member as Himall.Model.UserMemberInfo;}
+@model Himall.Web.Areas.Web.Models.ProductPartialHeaderModel
+<!--ShopHeader start-->
+@{Html.RenderAction("TopInfo", "ProductPartial");}
+
+
+@if (ViewBag.TypeId == Himall.CommonModel.ThemeType.Customize)
+{
+	<style>
+    /*分类颜色*/
+    .categorys .mc { background-color: @ViewBag.ClassifiedsColor ; }
+
+    /*侧边栏*/
+    .right-side-menu, .right-side-menu li span { background-color: @ViewBag.FrameColor ; }
+    .right-side-menu li span:before { border-left-color: @ViewBag.FrameColor ; }
+
+
+    /*主色*/
+    .search-form .button, .categorys, .floor-nav li:hover, .floor-nav li.cur, .right-side-menu li:hover, .right-side-menu li.active, .right-side-menu li.side-cart em,
+    .right-side-menu li .side-point a,.side-cart-c .side-bt input[type="button"],.cart-list-goods .s-num span{ background-color: @ViewBag.MainColor ; }
+
+
+    .search-form{ border-color: @ViewBag.MainColor ; }
+
+    /*字体颜色*/
+    a:hover, .red, .top .top-link a, .hot-search a.active, .nav li.cur a, .nav li:hover a, .categorys .item dd a:hover, .search-form ul li:hover { color: @ViewBag.WritingColor ; }
+	</style>
+}
+
+<div class="header">
+	<div class="search-bar cl">
+		<a class="logo" href="/"><img src="@Himall.Core.HimallIO.GetImagePath(ViewBag.Logo)" alt="Himall" /></a>
+		<div class="shop-head-box">
+			<div class="shop-service">
+				<h3>@ViewBag.ShopName</h3>
+				<p>
+					@Html.Action("CustmerServices", "Product", new { shopId = Model.ShopId })
+				</p>
+			</div>
+			<ul class="shop-score">
+				<li id="ms">
+
+				</li>
+				<li id="wl">
+
+				</li>
+				<li id="fw">
+
+				</li>
+			</ul>
+			<div class="shop-moblie">
+				<span><i></i>手机端</span>
+				<div><img src="data:image/jpeg;base64,@ViewBag.VShopQR" /></div>
+			</div>
+		</div>
+		<div class="search shop-head-search">
+			<div class="search-form cl">
+				<ul>
+					<li>商品</li>
+					<li>店铺</li>
+				</ul>
+				<label>商品</label>
+				<input type="text" id="searchBox" class="text" name="" value="" placeholder="@ViewBag.Keyword" />
+				<input type="button" id="searchBtn" class="button" value="搜索" />
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<script src="~/Scripts/jquery.cookie.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Scripts/jquery.nicescroll.min.js"></script>
+
+<script>
+	function getQueryString(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) return unescape(r[2]); return null;
+	}
+
+
+	$(function () {
+		//搜索切换
+		$('.search-form label').click(function() {
+			$(this).siblings('ul').show();
+		});
+		$('.search-form ul li').click(function() {
+			$(this).parent().hide().siblings('label').text($(this).text());
+		});
+
+
+		function queryForm(pageNo) {
+			var keyWords = $('#searchBox').val();
+			var exp_keyWords = $("#text-stock-search").val();
+			var cid = getQueryString('cid');
+			var b_id = getQueryString('b_id');
+			var orderType = getQueryString('orderType');
+			var orderKey = getQueryString('orderKey');
+			//location.href = "/search?pageNo=" + pageNo + "&keywords=" + encodeURIComponent(keyWords ? keyWords : $('#searchBox').attr('placeholder'))
+			//                        + "&exp_keywords=" + exp_keyWords + "&cid=" + cid + "&b_id=" + b_id + "&orderType=" + orderType
+			//                        + "&orderKey=" + orderKey;
+			location.href = "/search/searchAd?pageNo=" + pageNo + "&keywords=" + encodeURIComponent(keyWords ? keyWords : $('#searchBox').attr('placeholder'))
+                                    + "&exp_keywords=" + exp_keyWords + "&cid=" + cid + "&b_id=" + b_id + "&orderType=" + orderType
+                                    + "&orderKey=" + orderKey;
+		}
+		//全站搜索
+		$('#searchBtn').click(function () {
+			var keyWords = $( '#searchBox' ).val();
+			var selected = $( ".search .search-form label" ).html();
+			if ( selected == "店铺" )
+			{
+				location.href = "/shopsearch?keywords=" + encodeURIComponent( keyWords ? keyWords : $( '#searchBox' ).attr( 'placeholder' ) )
+			}
+			else
+			{
+				location.href = "/search/searchAd?keywords=" + encodeURIComponent( keyWords ? keyWords : $( '#searchBox' ).attr( 'placeholder' ) )
+			}
+
+		});
+
+		$('#searchBox').keydown(function (e)
+		{
+			if(e.keyCode==13){
+				var keyWords = $('#searchBox').val();
+				location.href = "/search/searchAd?keywords=" + encodeURIComponent(keyWords ? keyWords : $('#searchBox').attr('placeholder'))
+			}
+		});
+
+		$('#btn-re-search').click(function () {
+			var keyWords = $('#key-re-search').val();
+			location.href = "/search/searchAd?keywords=" + encodeURIComponent(keyWords);
+		});
+
+		$('#btn-stock-search').click(function () {
+			queryForm(1);
+		});
+
+		$('#pageJump').click(function () {
+			var pageNo = parseInt($("#jumpInput").val());
+			queryForm(pageNo);
+		});
+	});
+
+</script>
+
+<script>
+	/* 计算规则：
+      高 （商家得分-同行业平均分）/（同行业商家最高得分-同行业平均分）
+      低 （同行业平均分-商家得分）/（同行业平均分-同行业商家最高低分）
+       */
+	$( function ()
+	{
+		var upImage = "up";
+		var dowmImage = "down";
+		var red = "red";
+		var green = "green";
+
+		var productAndDescription = parseFloat( "@ViewBag.ProductAndDescription" ).toFixed( 2 );
+		var productAndDescriptionPeer = parseFloat( "@ViewBag.ProductAndDescriptionPeer" ).toFixed( 2 );
+		var productAndDescriptionMax = parseFloat( "@ViewBag.ProductAndDescriptionMax" ).toFixed( 2 );
+		var productAndDescriptionMin = parseFloat( "@ViewBag.ProductAndDescriptionMin" ).toFixed( 2 );
+		var productAndDescriptionContrast = 0;
+		var productAndDescriptionColor = "";
+		if ( productAndDescription > productAndDescriptionPeer )
+		{
+			if ( productAndDescriptionMax - productAndDescriptionPeer == 0 )
+			{
+				productAndDescriptionContrast = "持平";
+			}
+			else
+			{
+				productAndDescriptionContrast = ( ( ( productAndDescription - productAndDescriptionPeer ) / ( productAndDescriptionMax - productAndDescriptionPeer ) ) * 100 ).toFixed( 2 ) + '%';
+			}
+			productAndDescriptionColor = red;
+		}
+		else
+		{
+			if ( productAndDescriptionPeer - productAndDescriptionMin == 0 )
+			{
+				productAndDescriptionContrast = "持平";
+				productAndDescriptionColor = red;
+			}
+			else
+			{
+				productAndDescriptionContrast = ( ( productAndDescriptionPeer - productAndDescription ) / ( productAndDescriptionPeer - productAndDescriptionMin ) * 100 ).toFixed( 2 ) + '%';
+				productAndDescriptionColor = green;
+			}
+		}
+
+		var sellerServiceAttitude = parseFloat( "@ViewBag.SellerServiceAttitude" ).toFixed( 2 );
+		var sellerServiceAttitudePeer = parseFloat( "@ViewBag.SellerServiceAttitudePeer" ).toFixed( 2 );
+		var sellerServiceAttitudeMax = parseFloat( "@ViewBag.SellerServiceAttitudeMax" ).toFixed( 2 );
+		var sellerServiceAttitudeMin = parseFloat( "@ViewBag.SellerServiceAttitudeMin" ).toFixed( 2 );
+		var sellerServiceAttitudeContrast = 0;
+		var sellerServiceAttitudeColor = "";
+
+		if ( sellerServiceAttitude > sellerServiceAttitudePeer )
+		{
+			if ( sellerServiceAttitudeMax - sellerServiceAttitudePeer == 0 )
+			{
+				sellerServiceAttitudeContrast = "持平";
+			}
+			else
+			{
+				sellerServiceAttitudeContrast = ( ( ( sellerServiceAttitude - sellerServiceAttitudePeer ) / ( sellerServiceAttitudeMax - sellerServiceAttitudePeer ) ) * 100 ).toFixed( 2 ) + '%';
+			}
+
+			sellerServiceAttitudeColor = red;
+		}
+		else
+		{
+			if ( sellerServiceAttitudePeer - sellerServiceAttitudeMin == 0 )
+			{
+				sellerServiceAttitudeContrast = "持平";
+				sellerServiceAttitudeColor = red;
+			}
+			else
+			{
+				sellerServiceAttitudeContrast = ( ( sellerServiceAttitudePeer - sellerServiceAttitude ) / ( sellerServiceAttitudePeer - sellerServiceAttitudeMin ) * 100 ).toFixed( 2 ) + '%';
+				sellerServiceAttitudeColor = green;
+			}
+
+		}
+
+
+		var sellerDeliverySpeed = parseFloat( "@ViewBag.SellerDeliverySpeed" ).toFixed( 2 );
+		var sellerDeliverySpeedPeer = parseFloat( "@ViewBag.SellerDeliverySpeedPeer" ).toFixed( 2 );
+		var sellerDeliverySpeedMax = parseFloat( "@ViewBag.SellerDeliverySpeedMax" ).toFixed( 2 );
+		var sellerDeliverySpeedMin = parseFloat( "@ViewBag.SellerDeliverySpeedMin" ).toFixed( 2 );
+		var sellerDeliverySpeedContrast = 0;
+		var sellerDeliverySpeedColor = "";
+		if ( sellerDeliverySpeed > sellerDeliverySpeedPeer )
+		{
+			if ( sellerDeliverySpeedMax - sellerDeliverySpeedPeer == 0 )
+			{
+				sellerDeliverySpeedContrast = "持平";
+			}
+			else
+			{
+				sellerDeliverySpeedContrast = ( ( ( sellerDeliverySpeed - sellerDeliverySpeedPeer ) / ( sellerDeliverySpeedMax - sellerDeliverySpeedPeer ) ) * 100 ).toFixed( 2 ) + '%';
+			}
+			sellerDeliverySpeedColor = red;
+		}
+		else
+		{
+			if ( sellerDeliverySpeedPeer - sellerDeliverySpeedMin == 0 )
+			{
+				sellerDeliverySpeedContrast = "持平";
+				sellerDeliverySpeedColor = red;
+			}
+			else
+			{
+				sellerDeliverySpeedContrast = ( ( sellerDeliverySpeedPeer - sellerDeliverySpeed ) / ( sellerDeliverySpeedPeer - sellerDeliverySpeedMin ) * 100 ).toFixed( 2 ) + '%';
+				sellerDeliverySpeedColor = green;
+			}
+		}
+
+
+		var productAndDescriptionImage = productAndDescription >= productAndDescriptionPeer ? upImage : dowmImage;
+		var sellerServiceAttitudeImage = sellerServiceAttitude >= sellerServiceAttitudePeer ? upImage : dowmImage;
+		var sellerDeliverySpeedImage = sellerDeliverySpeed >= sellerDeliverySpeedPeer ? upImage : dowmImage;
+
+		var ms = "<h3>描述</h3><p class='" + productAndDescriptionImage + "'><i></i>" + productAndDescription + "</p>";
+		var fw = "<h3>服务</h3><p class='" + sellerServiceAttitudeImage + "'><i></i>" + sellerServiceAttitude + "</p>";
+		var wl = "<h3>物流</h3><p class='" + sellerDeliverySpeedImage + "'><i></i>" + sellerDeliverySpeed + "</p>";
+
+		$( "#ms" ).html( ms );
+		$( "#fw" ).html( fw );
+		$( "#wl" ).html( wl );
+	} )
+</script>
+
+<div class="right-side">
+	<div class="right-side-menu">
+		<ul class="menu-top">
+			<li data-tag="user">
+				<i class="user" id="right_userCenter"><s></s></i>
+				<span>个人中心</span>
+			</li>
+			<s></s>
+			<li data-tag="cart" arrow class="side-cart" id="right_cart">
+				<i class="cart"><s></s></i>
+				<p>购物车</p>
+				<em>0</em>
+			</li>
+			<s></s>
+			<li data-tag="asset" arrow id="right_asset">
+				<i class="asset"><s></s></i>
+				<span>资产中心</span>
+				<div class="side-point">
+					该店铺可领优惠券<br />
+					<a>立即领取</a>
+				</div>
+			</li>
+			<li data-tag="at-goods" arrow id="right_goods">
+				<i class="at-goods"><s></s></i>
+				<span>关注商品</span>
+			</li>
+			<li data-tag="history" arrow id="right_history">
+				<i class="history"><s></s></i>
+				<span>浏览历史</span>
+			</li>
+		</ul>
+		<ul class="menu-bot">
+			<li>
+				<i class="go-top"></i>
+				<span>返回顶部</span>
+			</li>
+		</ul>
+	</div>
+	<div class="side-content">
+		<div class="side-cart-c">
+			<div class="side-bd">
+				<input type="hidden" value="@Himall.Model.ProductInfo.ProductAuditStatus.Audited.GetHashCode()" id="hidAuditStatus" />
+				<input type="hidden" value="@Himall.Model.ProductInfo.ProductSaleStatus.OnSale.GetHashCode()" id="hidSaleStatus" />
+				<div class="cart-top">
+					<label><input type="checkbox" name="s-checkAll" checked />全选</label>
+					<a href="/cart/cart" title="">查看全部</a>
+				</div>
+				<div class="cart-list">
+					<ul id="side-cart-list"></ul>
+				</div>
+			</div>
+			<div class="side-bt">
+				<div class="cart-total">
+					<span class="total-money">￥<em id="s-total-money">0</em></span>
+					<span class="total-num">已选<em id="s-total-num">0</em>件</span>
+				</div>
+				<input type="button" id="toSubmitOrder" value="购物车结算">
+			</div>
+		</div>
+
+		<div class="side-asset-c">
+			<div class="side-hd">
+				<a class="side-close" title="关闭">>></a>
+				<a href="/UserCenter?url=/userCoupon&tar=userCoupon" target="_blank">资产中心</a>
+			</div>
+			<div class="side-bd"  id="userCouponList">
+				<div class="side-asset-total cl">
+					<div>
+						<span>@Model.MemberIntegral</span>
+						<p>我的积分</p>
+					</div>
+					<div>
+						<span id="mycouponcount">@(Model.BaseCoupon.Count)</span>
+						<p>优惠券</p>
+					</div>
+				</div>
+				<div class="side-asset-list" id="myCouponList">
+					@{string cls = "";}
+					<p>已领取的优惠券</p>
+					<ul>
+						@foreach (var item in Model.BaseCoupon)
+						{
+							if (item.BasePrice >= 100) { cls = "coupon-lg"; }
+
+							else if (item.BasePrice <= 50) { cls = "coupon-sm"; }
+
+							<li class="@cls">
+								<a href="/Shop/Home/@item.BaseShopId" target="_blank">
+									<h5>@item.BaseShopName</h5>
+									@if (item.BaseType == Himall.Model.CouponType.Coupon)
+									{
+										Himall.Model.UserCouponInfo obj = (Himall.Model.UserCouponInfo)item;
+										if (obj.OrderAmount > 0)
+										{
+											<h3><span>￥@item.BasePrice</span>满@(obj.OrderAmount)可用</h3>
+										}
+										else
+										{
+											<h3><span>￥@item.BasePrice</span>无门槛(不含运费)</h3>
+										}
+									}
+									else if (item.BaseType == Himall.Model.CouponType.ShopBonus)
+									{
+										Himall.Model.ShopBonusReceiveInfo obj = (Himall.Model.ShopBonusReceiveInfo)item;
+										if (obj.Himall_ShopBonusGrant.Himall_ShopBonus.UseState == Himall.Model.ShopBonusInfo.UseStateType.FilledSend)
+										{
+											<h3><span>￥@item.BasePrice</span>满@{@obj.Himall_ShopBonusGrant.Himall_ShopBonus.UsrStatePrice}减@{@item.BasePrice}</h3>
+										}
+										else
+										{
+											<h3><span>￥@item.BasePrice</span>无门槛(不含运费)</h3>
+										}
+									}
+									<p>截止@(item.BaseEndTime.ToString("yyyy.MM.dd"))</p>
+								</a>
+
+							</li>
+						}
+					</ul>
+
+
+				</div>
+			</div>
+		</div>
+
+		<div class="side-atgoods-c">
+			<div class="side-hd">
+				<a class="side-close" title="关闭">>></a>
+				<a href="/UserCenter?url=/productConcern&tar=productConcern" target="_blank">关注商品</a>
+			</div>
+			<div class="side-bd">
+                <ul class="side-goods-list cl" id="memberConcern">
+                    @*@foreach (var item in (List<Himall.Model.FavoriteInfo>)Model.Concern)
+                    {
+                        <Himall.Model.FavoriteInfo>
+                            <li>
+                                <a href="@Url.Action(" Detail", "Product" , new { id=@item.ProductId})" target="_blank"><img src="@item.ProductInfo.GetImage(Himall.CommonModel.ImageSize.Size_50)" /></a>
+                                <p><a href="@Url.Action(" Detail", "Product" , new { id=@item.ProductId})" target="_blank">@item.ProductInfo.ProductName</a></p>
+                            </li>
+                    }*@
+            </ul>
+			</div>
+		</div>
+		<div class="side-history-c">
+			<div class="side-hd">
+				<a class="side-close" title="关闭">>></a>
+				<a href="javascript:void(0)" target="_blank">浏览历史</a>
+			</div>
+			<div class="side-bd">
+                <ul class="side-goods-list cl" id="userBrowsingProducts">
+
+                    @*@foreach (var item in Model.BrowsingProducts)
+                    {
+                        <li>
+                            <a href="@Url.Action(" Detail", "Product" , new { id=@item.ProductId})" target="_blank"><img src="@Himall.Core.HimallIO.GetProductSizeImage(item.ImagePath, 1, (int)Himall.CommonModel.ImageSize.Size_50)" /></a>
+                            <p><a href="@Url.Action(" Detail", "Product" , new { id=@item.ProductId})" target="_blank">@item.ProductName</a></p>
+                        </li>
+                    }*@
+                </ul>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	var islogin = @Model.isLogin;
+	$(function () {
+		//右侧菜单
+		$('#right_cart em').text($('shopping-amount').text());
+
+		var rightSide = $('.right-side');
+		var rightContent = $('.side-content');
+		$('.right-side .menu-top li[arrow]').click(function () {
+
+			if (!islogin) {
+				$.fn.login({}, function () {
+					location.href = "/";
+				}, '', '', '/Login/Login');
+			} else {
+
+				var tag = $(this).data('tag');
+				switch (tag) {
+					case 'cart':
+						loadCartInfo();
+						rightContent.find('.side-cart-c').show().siblings().hide();
+						break;
+					case 'asset':
+						rightContent.find('.side-asset-c').show().siblings().hide();
+						break;
+					case 'at-goods':
+						rightContent.find('.side-atgoods-c').show().siblings().hide();
+						break;
+					case 'history':
+						rightContent.find('.side-history-c').show().siblings().hide();
+						break;
+				}
+				if (rightContent.is(':hidden')) {
+					rightContent.show();
+					rightSide.css('right', '-220px').animate({ right: '0' }, 300);
+				}
+				$(this).addClass('active').siblings().removeClass('active');
+			}
+		});
+
+		$('.right-side-menu li').hover(function () {
+			$(this).find('span').show().stop(false, true).animate({ 'right': 40, 'opacity': 1 }, 300);
+		}, function () {
+			$(this).find('span').stop(false, true).animate({ 'right': 60, 'opacity': 0 }, 300, function () { $(this).hide() });
+		});
+
+		$(document).on('click', function (e) {
+			event = e ? e : window.event;
+			var obj = event.srcElement ? event.srcElement : event.target;
+			if (!$.contains(rightSide.get(0), obj)) {
+				sideRightClose();
+			}
+		});
+
+		function sideRightClose() {
+			if (rightContent.is(':visible')) {
+				if (!rightSide.is(':animated')) {
+					rightSide.animate({ right: '-220px' }, 200, function () {
+						rightContent.hide();
+						rightSide.css('right', 0);
+						$('.right-side .menu-top li[arrow]').removeClass('active')
+					});
+				}
+			}
+		}
+
+		$('.side-close').click(function () {
+			sideRightClose();
+		});
+
+
+		$('.go-top').click(function () {
+			$('body,html').animate({ 'scrollTop': 0 }, 300);
+		});
+
+		$('.side-cart-c .cart-list').height($(window).height() - 120);
+		$(window).resize(function () {
+			$('.side-cart-c .cart-list').height($(window).height() - 120);
+		});
+
+		$(".side-asset-c .side-bd,.side-atgoods-c .side-bd,.side-history-c .side-bd,.side-cart-c .cart-list").niceScroll({
+			cursorwidth: 5,
+			cursorcolor: "#616161",
+			cursorborder: 0,
+			cursorborderradius: 0
+		});
+
+
+		$('#toSubmitOrder').click(function () {
+			var arr = [], str = '';
+			$('input[name="checkItem"]').each(function (i, e) {
+				if ($(e).attr('checked')) {
+					arr.push($(e).data('cartid'));
+				}
+			});
+			str = (arr && arr.join(','));
+
+			if (str != "")
+				location.href = '/order/submit?' + 'cartItemIds=' + str;
+			else
+				$.dialog.errorTips("没有可结算的商品！");
+		});
+
+	});
+	var data = {};
+	function loadCartInfo() {
+
+		$.post('/cart/GetCartProducts', {}, function (cart) {
+			data = {};
+			$.each(cart.products, function (i, e) {
+				if (data[e.shopId]) {
+					if (!data[e.shopId]['name']) {
+						data[e.shopId]['name'] = e.shopName;
+					}
+					data[e.shopId]['shop'].push(e);
+				} else {
+					data[e.shopId] = {};
+					data[e.shopId]['shop'] = [];
+					data[e.shopId]['name'] = e.shopName;
+					data[e.shopId]['status'] = e.productstatus;
+					data[e.shopId]['shop'].push(e);
+				}
+			});
+			var strproductstatus = $("#hidSaleStatus").val();
+			var strproductauditstatus = $("#hidAuditStatus").val();
+			var list = '';
+			if (cart.products.length > 0) {
+				$.each(data, function (i, e) {
+					var shopPrice = 0;
+					var str = '';
+					$.each(e.shop, function (j, product) {
+
+						if (product.productstatus == strproductstatus) {
+							if (product.productauditstatus == strproductauditstatus) {
+								str += '\
+							<div class="cart-list-goods cl">\
+								<input class="checkbox" type="checkbox"  data-cartid="'+ product.cartItemId + '" name="checkItem" value="' + product.shopId + '" checked />';
+
+								str += '\
+								<a href="/product/detail/' + product.id + '" title="' + product.name + '" target="_blank"><img src="' + product.imgUrl + '" alt="" /></a>\
+								<div class="s-num"><span>' + product.count + '</span></div>\
+								<div class="s-g-price">'+ (product.price * product.count).toFixed(2) + '</div>\
+							</div>';
+
+								shopPrice = shopPrice + product.price * product.count;
+							}
+						}
+
+
+					});
+					list += '<li><div class="cart-list-shop cl">\
+						<input class="shopSelect" type="checkbox" value="' + i + '" name="checkShop" checked />\
+						<p><a href="/shop/home/'+ i + '" target="_blank">' + e.name + '</a></p>\
+						<span class="cart-shop-price" data-shoprice="'+ shopPrice.toFixed(2) + '">' + shopPrice.toFixed(2) + '</span>\
+						</div>'+ str + '</li>';
+
+				});
+				$('#side-cart-list').html(list);
+				$('#s-total-num').html(cart.totalCount);
+				$('#s-total-money').html(cart.amount.toFixed(2));
+				bindSelectAll();
+			}
+		});
+
+
+	}
+
+	function bindSelectAll() {
+		$('input[name="s-checkAll"]').change(function () {
+			var checked = this.checked;
+			$('#side-cart-list input[type=checkbox]').prop('checked', this.checked);
+			if (checked) {
+				$('#s-total-money').html(getCheckProductPrice());
+				$('#side-cart-list li').each(function () {
+					var shopP = $(this).find('.cart-shop-price');
+					shopP.html(shopP.data('shoprice').toFixed(2));
+				});
+			}
+			else {
+				$('#s-total-money').html("0.00");
+				$('#side-cart-list .cart-shop-price').html("0.00");
+
+			}
+			$('#s-total-num').html(getCheckProductCount());
+		});
+
+		$('input[name="checkShop"]').change(function () {
+			var checked = this.checked;
+			var total = $(this).siblings('.cart-shop-price').html();
+			$(this).parent().siblings().find('input[type="checkbox"]').prop('checked', checked);
+
+			var allShopChecked = true;
+			$('#side-cart-list input[type="checkbox"]').each(function () {
+				if (!$(this).prop('checked')) {
+					allShopChecked = false;
+				}
+			});
+			if (allShopChecked)
+				$('input[name="s-checkAll"]').prop('checked', true);
+			else
+				$('input[name="s-checkAll"]').prop('checked', false);
+
+			var t = 0;
+			$.each($(this).parent().siblings(), function () {
+				var a = $(this).find('input[name="checkItem"]:checked').siblings('.s-g-price').html();
+				t += (+a);
+			})
+			$(this).siblings('.cart-shop-price').html(t.toFixed(2));
+			$('#s-total-money').html(getCheckProductPrice());
+			$('#s-total-num').html(getCheckProductCount());
+		});
+
+		$('input[name="checkItem"]').change(function () {
+			var checked = this.checked;
+			if (checked)
+				$(this).prop('checked', checked);
+			else
+				$(this).removeAttr('checked');
+
+			//判断店铺下的所有商品是否全选中
+			var allProductChecked = true;
+			$(this).parent().siblings('.cart-list-goods').each(function () {
+				if (!$(this).find('input').prop('checked'))
+					allProductChecked = false;
+			});
+			if (allProductChecked)
+				$(this).parent().siblings().find('input[name="checkShop"]').prop('checked', checked);
+			else
+				$(this).parent().siblings().find('input[name="checkShop"]').removeAttr('checked');;
+
+			//判断所有店铺是否都选中了
+			var allShopChecked = true;
+			$('#side-cart-list input[type="checkbox"]').each(function (i, e) {
+				if (!$(this).prop('checked')) {
+					allShopChecked = false;
+				}
+			});
+			if (allShopChecked)
+				$('input[name="s-checkAll"]').prop('checked', true);
+			else
+				$('input[name="s-checkAll"]').removeAttr('checked');
+
+			var t = 0;
+			$.each($(this).parents('li').find('input[name="checkItem"]:checked'), function () {
+				var a = $(this).siblings('.s-g-price').html();
+				t += (+a);
+			})
+			$(this).parent().siblings('.cart-list-shop').find('.cart-shop-price').html(t.toFixed(2));
+
+			$('#s-total-money').html(getCheckProductPrice());
+			$('#s-total-num').html(getCheckProductCount());
+		});
+
+	}
+
+
+	function getCheckProductPrice() {
+		var t = 0;
+		$.each($('input[name="checkItem"]:checked'), function () {
+			var a = $(this).siblings('.s-g-price').html();
+			t += (+a);
+		})
+		return t.toFixed(2);
+	}
+
+	function getCheckProductCount() {
+		var t = 0;
+		$.each($('input[name="checkItem"]:checked'), function () {
+			var c = $(this).siblings('.s-num').children().html();
+			d = parseInt(c);
+			t += d;
+		})
+		return t;
+	}
+</script>
+<!--ShopHeader end-->

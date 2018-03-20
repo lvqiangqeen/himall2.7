@@ -1,0 +1,3431 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Himall.Core</name>
+    </assembly>
+    <members>
+        <member name="T:Himall.Core.Helper.ApiSignHelper">
+            <summary>
+            Api签名帮助类
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.ApiSignHelper.ConvertDateTimeInt(System.DateTime)">
+            <summary>
+            DateTime时间格式转换为Unix时间戳格式
+            </summary>
+            <param name="time"> DateTime时间格式</param>
+            <returns>Unix时间戳格式</returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ApiSignHelper.GetTime(System.String)">
+            <summary>
+            时间戳转为C#格式时间
+            </summary>
+            <param name="timeStamp">Unix时间戳格式</param>
+            <returns>C#格式时间</returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ApiSignHelper.CheckTimeStamp(System.String)">
+            <summary>
+            时间戳验证
+            </summary>
+            <param name="timestamp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ApiSignHelper.SortedData(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            数据排序
+            </summary>
+            <param name="dic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ApiSignHelper.Parameterfilter(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            参数过滤 sign  sign_type
+            </summary>
+            <param name="dic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ApiSignHelper.Data2Linkstring(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            生成待签名数据字符
+            </summary>
+            <param name="dic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ApiSignHelper.GetSign(System.Collections.Generic.IDictionary{System.String,System.String},System.String,System.String,System.String)">
+            <summary>
+            获取签名
+            </summary>
+            <param name="dic"></param>
+            <param name="appSecret"></param>
+            <param name="sign_type"></param>
+            <param name="_input_charset"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ApiSignHelper.BuildSign(System.String,System.String,System.String)">
+            <summary>
+            生成签名
+            </summary>
+            <param name="prestr"></param>
+            <param name="sign_type"></param>
+            <param name="_input_charset"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ApiSignHelper.Data2URIAndSign(System.Collections.Generic.IDictionary{System.String,System.String},System.String,System.String,System.String)">
+            <summary>
+            生成带签名的链接
+            </summary>
+            <param name="dic"></param>
+            <param name="appSecret"></param>
+            <param name="sign_type"></param>
+            <param name="_input_charset"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ApiSignHelper.CheckSign(System.Collections.Generic.IDictionary{System.String,System.String},System.String,System.String,System.String)">
+            <summary>
+            签名验证
+            </summary>
+            <param name="dic"></param>
+            <param name="appSecret"></param>
+            <param name="sign_type"></param>
+            <param name="_input_charset"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Himall.Core.Helper.QuartzHelper">
+            <summary>
+            ZJT 定时任务帮助类
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.ObjectHelper.DeepColne(System.Object)">
+            <summary>
+            深复制
+            </summary>
+            <param name="obj">待复制的对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ObjectHelper.DeepColne``1(``0)">
+            <summary>
+            深复制
+            </summary>
+            <param name="obj">待复制的对象</param>
+            <returns></returns>
+        </member>
+        <member name="P:Himall.Core.Helper.ZipHelper.ZipInfo.Success">
+            <summary>
+            解/压缩成功状态
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Helper.ZipHelper.ZipInfo.InfoMessage">
+            <summary>
+            解/压缩结果信息
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Helper.ZipHelper.ZipInfo.UnZipPath">
+            <summary>
+            输出目录
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.ZipHelper.CreateZipFile(System.String,System.String)">
+            <summary>
+            压缩文件(Zip)
+            </summary>
+            <param name="filesPath">待压缩文件目录</param>
+            <param name="zipFilePath">压缩文件输出目录</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ZipHelper.UnZipFile(System.String)">
+            <summary>
+            解压Zip文件
+            </summary>
+            <param name="zipFilePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.QRCodeHelper.Create(System.String,System.String)">
+            <summary>
+            生成二维码，并显示logo
+            </summary>
+            <param name="content"></param>
+            <param name="imagePath"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Himall.Core.Helper.CommonHelper">
+            <summary>
+            普通帮助类
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetDateTimeMS">
+            <summary>
+            获得当前时间的""yyyy-MM-dd HH:mm:ss:fffffff""格式字符串
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetDateTimeU">
+            <summary>
+            获得当前时间的""yyyy年MM月dd日 HH:mm:ss""格式字符串
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetDateTime">
+            <summary>
+            获得当前时间的""yyyy-MM-dd HH:mm:ss""格式字符串
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetDate">
+            <summary>
+            获得当前日期
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetChineseDate">
+            <summary>
+            获得中文当前日期
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetTime">
+            <summary>
+            获得当前时间(不含日期部分)
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetHour">
+            <summary>
+            获得当前小时
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetDay">
+            <summary>
+            获得当前天
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetMonth">
+            <summary>
+            获得当前月
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetYear">
+            <summary>
+            获得当前年
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetDayOfWeek">
+            <summary>
+            获得当前星期(数字)
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetWeek">
+            <summary>
+            获得当前星期(汉字)
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetIndexInArray(System.String,System.String[],System.Boolean)">
+            <summary>
+            获得字符串在字符串数组中的位置
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetIndexInArray(System.String,System.String[])">
+            <summary>
+            获得字符串在字符串数组中的位置
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.IsInArray(System.String,System.String[],System.Boolean)">
+            <summary>
+            判断字符串是否在字符串数组中
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.IsInArray(System.String,System.String[])">
+            <summary>
+            判断字符串是否在字符串数组中
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.IsInArray(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            判断字符串是否在字符串中
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.IsInArray(System.String,System.String,System.String)">
+            <summary>
+            判断字符串是否在字符串中
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.IsInArray(System.String,System.String)">
+            <summary>
+            判断字符串是否在字符串中
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.ObjectArrayToString(System.Object[],System.String)">
+            <summary>
+            将对象数组拼接成字符串
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.ObjectArrayToString(System.Object[])">
+            <summary>
+            将对象数组拼接成字符串
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.StringArrayToString(System.String[],System.String)">
+            <summary>
+            将字符串数组拼接成字符串
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.StringArrayToString(System.String[])">
+            <summary>
+            将字符串数组拼接成字符串
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.IntArrayToString(System.Int32[],System.String)">
+            <summary>
+            将整数数组拼接成字符串
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.IntArrayToString(System.Int32[])">
+            <summary>
+            将整数数组拼接成字符串
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.RemoveArrayItem(System.String[],System.String,System.Boolean,System.Boolean)">
+            <summary>
+            移除数组中的指定项
+            </summary>
+            <param name="array">源数组</param>
+            <param name="removeItem">要移除的项</param>
+            <param name="removeBackspace">是否移除空格</param>
+            <param name="ignoreCase">是否忽略大小写</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.RemoveArrayItem(System.String[])">
+            <summary>
+            移除数组中的指定项
+            </summary>
+            <param name="array">源数组</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.RemoveStringItem(System.String,System.String)">
+            <summary>
+            移除字符串中的指定项
+            </summary>
+            <param name="s">源字符串</param>
+            <param name="splitStr">分割字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.RemoveStringItem(System.String)">
+            <summary>
+            移除字符串中的指定项
+            </summary>
+            <param name="s">源字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.RemoveRepeaterItem(System.Int32[])">
+            <summary>
+            移除数组中的重复项
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.RemoveRepeaterItem(System.String[])">
+            <summary>
+            移除数组中的重复项
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetUniqueString(System.String)">
+            <summary>
+            去除字符串中的重复元素
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetUniqueString(System.String,System.String)">
+            <summary>
+            去除字符串中的重复元素
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.TBBRTrim(System.String)">
+            <summary>
+            去除字符串首尾处的空格、回车、换行符、制表符
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.ClearTBBR(System.String)">
+            <summary>
+            去除字符串中的空格、回车、换行符、制表符
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.DeleteNullOrSpaceRow(System.String)">
+            <summary>
+            删除字符串中的空行
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetHtmlBS(System.Int32)">
+            <summary>
+            获得指定数量的html空格
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetHtmlSpan(System.Int32)">
+            <summary>
+            获得指定数量的htmlSpan元素
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.SubDecimal(System.Decimal,System.Int32)">
+            <summary>
+            截取小数
+            </summary>
+            <param name="dec">小数值</param>
+            <param name="pointCount">保留小数点数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.GetEmailProvider(System.String)">
+             <summary>
+            获得邮箱提供者
+             </summary>
+             <param name="email">邮箱</param>
+             <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.EscapeRegex(System.String)">
+            <summary>
+            转义正则表达式
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.ConvertIPToInt64(System.String)">
+            <summary>
+            将ip地址转换成Int64类型
+            </summary>
+            <param name="ip">ip</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.HideEmail(System.String)">
+            <summary>
+            隐藏邮箱
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.CommonHelper.HideMobile(System.String)">
+            <summary>
+            隐藏手机
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.HtmlContentHelper.TransferToLocalImage(System.String,System.String,System.String,System.String)">
+            <summary>
+            将HTML中的图片转为本地图片
+            </summary>
+            <param name="htmlText">待转换的HTML文本</param>
+            <param name="desDir">图片要存储到的目录</param>
+            <param name="relativeRootPath">图片使用相对地址时的根目录</param>
+            <param name="imgSrcPreText">修改后的图片SRC的前缀</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.HtmlContentHelper.GetHtmlImageUrlList(System.String)">
+            <summary>   
+            取得HTML中所有图片的 URL。   
+            </summary>   
+            <param name="htmlText">HTML代码</param>   
+            <returns>图片的URL列表</returns>   
+        </member>
+        <member name="M:Himall.Core.Helper.HtmlContentHelper.RemoveScriptsAndStyles(System.String)">
+            <summary>
+            清除HTML中的JS脚本和style脚本
+            </summary>
+            <param name="htmlText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ImageHelper.GetJPEGCodec">
+            <summary>
+            获得当前系统安装的JPEG编码解码器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ImageHelper.CreateThumbnail(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            为指定的图片生成缩略图
+            </summary>
+            <param name="sourceFilename">图片源文件的完整文件名</param>
+            <param name="destFilename">缩略图文件的完整文件名</param>
+            <param name="width">缩略图宽度(px)</param>
+            <param name="height">缩略图高度(px)</param>
+        </member>
+        <member name="M:Himall.Core.Helper.ImageHelper.GenerateImageWatermark(System.String,System.String,System.String,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            生成图片水印
+            </summary>
+            <param name="originalPath">源图路径</param>
+            <param name="watermarkPath">水印图片路径</param>
+            <param name="targetPath">保存路径</param>
+            <param name="position">位置</param>
+            <param name="opacity">透明度</param>
+            <param name="quality">质量</param>
+        </member>
+        <member name="M:Himall.Core.Helper.ImageHelper.GenerateTextWatermark(System.String,System.String,System.String,System.Int32,System.String,System.Int32,System.Int32)">
+            <summary>
+            生成文字水印
+            </summary>
+            <param name="originalPath">源图路径</param>
+            <param name="targetPath">保存路径</param>
+            <param name="text">水印文字</param>
+            <param name="textSize">文字大小</param>
+            <param name="textFont">文字字体</param>
+            <param name="position">位置</param>
+            <param name="quality">质量</param>
+        </member>
+        <member name="M:Himall.Core.Helper.ImageHelper.GenerateCheckCode(System.String@)">
+            <summary>
+            生成验证码
+            </summary>
+            <param name="checkCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ImageHelper.TranserImageFormat(System.String,System.String,System.Drawing.Imaging.ImageFormat)">
+            <summary>
+            图片格式转换
+            </summary>
+            <param name="originalImagePath">原始图片地址</param>
+            <param name="newFormatImagePath">新格式图片地址</param>
+            <param name="fortmat">待转换的格式</param>
+        </member>
+        <member name="T:Himall.Core.Helper.SecureHelper">
+            <summary>
+            安装帮助类
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.SecureHelper.AESEncrypt(System.String,System.String)">
+            <summary>
+            AES加密
+            </summary>
+            <param name="encryptStr">加密字符串</param>
+            <param name="encryptKey">密钥</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.SecureHelper.AESDecrypt(System.String,System.String)">
+            <summary>
+            AES解密
+            </summary>
+            <param name="decryptStr">解密字符串</param>
+            <param name="decryptKey">密钥</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.SecureHelper.MD5(System.String)">
+            <summary>
+            MD5散列
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.SecureHelper.IsBase64String(System.String)">
+            <summary>
+            判断是否是Base64字符串
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.SecureHelper.IsSafeSqlString(System.String)">
+            <summary>
+            判断当前字符串是否存在SQL注入
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.SecureHelper.EncodeBase64(System.Text.Encoding,System.String)">
+            <summary> 
+            Base64加密 
+            </summary> 
+            <param name="codeName">加密采用的编码方式</param> 
+            <param name="source">待加密的明文</param> 
+            <returns></returns> 
+        </member>
+        <member name="M:Himall.Core.Helper.SecureHelper.EncodeBase64(System.String)">
+            <summary> 
+            Base64加密，采用utf8编码方式加密 
+            </summary> 
+            <param name="source">待加密的明文</param> 
+            <returns>加密后的字符串</returns> 
+        </member>
+        <member name="M:Himall.Core.Helper.SecureHelper.DecodeBase64(System.Text.Encoding,System.String)">
+            <summary> 
+            Base64解密 
+            </summary> 
+            <param name="codeName">解密采用的编码方式，注意和加密时采用的方式一致</param> 
+            <param name="result">待解密的密文</param> 
+            <returns>解密后的字符串</returns> 
+        </member>
+        <member name="M:Himall.Core.Helper.SecureHelper.DecodeBase64(System.String)">
+            <summary> 
+            Base64解密，采用utf8编码方式解密 
+            </summary> 
+            <param name="result">待解密的密文</param> 
+            <returns>解密后的字符串</returns> 
+        </member>
+        <member name="T:Himall.Core.Helper.StringHelper">
+            <summary>
+            字符串帮助类
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.StringHelper.GetStringLength(System.String)">
+            <summary>
+            获得字符串的长度,一个汉字的长度为1
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.StringHelper.SplitString(System.String,System.String)">
+            <summary>
+            分割字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <param name="splitStr">分隔字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.StringHelper.SplitString(System.String)">
+            <summary>
+            分割字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.StringHelper.SubString(System.String,System.Int32,System.Int32)">
+            <summary>
+            截取字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <param name="startIndex">开始位置的索引</param>
+            <param name="length">子字符串的长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.StringHelper.SubString(System.String,System.Int32)">
+            <summary>
+            截取字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <param name="length">子字符串的长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.StringHelper.TrimStart(System.String,System.String)">
+            <summary>
+            移除前导字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <param name="trimStr">移除字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.StringHelper.TrimStart(System.String,System.String,System.Boolean)">
+            <summary>
+            移除前导字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <param name="trimStr">移除字符串</param>
+            <param name="ignoreCase">是否忽略大小写</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.StringHelper.TrimEnd(System.String,System.String)">
+            <summary>
+            移除后导字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <param name="trimStr">移除字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.StringHelper.TrimEnd(System.String,System.String,System.Boolean)">
+            <summary>
+            移除后导字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <param name="trimStr">移除字符串</param>
+            <param name="ignoreCase">是否忽略大小写</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.StringHelper.Trim(System.String,System.String)">
+            <summary>
+            移除前导和后导字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <param name="trimStr">移除字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.StringHelper.Trim(System.String,System.String,System.Boolean)">
+            <summary>
+            移除前导和后导字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <param name="trimStr">移除字符串</param>
+            <param name="ignoreCase">是否忽略大小写</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.StringHelper.IndexOf(System.String,System.Int32)">
+            <summary>
+            获得指定顺序的字符在字符串中的位置索引
+            </summary>
+            <param name="s">字符串</param>
+            <param name="order">顺序</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.StringHelper.IndexOf(System.String,System.Char,System.Int32)">
+            <summary>
+            获得指定顺序的字符在字符串中的位置索引
+            </summary>
+            <param name="s">字符串</param>
+            <param name="c">字符</param>
+            <param name="order">顺序</param>
+            <returns></returns>
+        </member>
+        <member name="T:Himall.Core.Helper.TypeHelper">
+            <summary>
+            类型帮助类
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.TypeHelper.StringToInt(System.String,System.Int32)">
+            <summary>
+            将string类型转换成int类型
+            </summary>
+            <param name="s">目标字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.TypeHelper.StringToInt(System.String)">
+            <summary>
+            将string类型转换成int类型
+            </summary>
+            <param name="s">目标字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.TypeHelper.ObjectToInt(System.Object,System.Int32)">
+            <summary>
+            将object类型转换成int类型
+            </summary>
+            <param name="s">目标对象</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.TypeHelper.ObjectToInt(System.Object)">
+            <summary>
+            将object类型转换成int类型
+            </summary>
+            <param name="s">目标对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.TypeHelper.StringToBool(System.String,System.Boolean)">
+            <summary>
+            将string类型转换成bool类型
+            </summary>
+            <param name="s">目标字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.TypeHelper.ToBool(System.String)">
+            <summary>
+            将string类型转换成bool类型
+            </summary>
+            <param name="s">目标字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.TypeHelper.ObjectToBool(System.Object,System.Boolean)">
+            <summary>
+            将object类型转换成bool类型
+            </summary>
+            <param name="s">目标对象</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.TypeHelper.ObjectToBool(System.Object)">
+            <summary>
+            将object类型转换成bool类型
+            </summary>
+            <param name="s">目标对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.TypeHelper.StringToDateTime(System.String,System.DateTime)">
+            <summary>
+            将string类型转换成datetime类型
+            </summary>
+            <param name="s">目标字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.TypeHelper.StringToDateTime(System.String)">
+            <summary>
+            将string类型转换成datetime类型
+            </summary>
+            <param name="s">目标字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.TypeHelper.ObjectToDateTime(System.Object,System.DateTime)">
+            <summary>
+            将object类型转换成datetime类型
+            </summary>
+            <param name="s">目标对象</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.TypeHelper.ObjectToDateTime(System.Object)">
+            <summary>
+            将object类型转换成datetime类型
+            </summary>
+            <param name="s">目标对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.TypeHelper.StringToDecimal(System.String,System.Decimal)">
+            <summary>
+            将string类型转换成decimal类型
+            </summary>
+            <param name="s">目标字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.TypeHelper.StringToDecimal(System.String)">
+            <summary>
+            将string类型转换成decimal类型
+            </summary>
+            <param name="s">目标字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.TypeHelper.ObjectToDecimal(System.Object,System.Decimal)">
+            <summary>
+            将object类型转换成decimal类型
+            </summary>
+            <param name="s">目标对象</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.TypeHelper.ObjectToDecimal(System.Object)">
+            <summary>
+            将object类型转换成decimal类型
+            </summary>
+            <param name="s">目标对象</param>
+            <returns></returns>
+        </member>
+        <member name="T:Himall.Core.Helper.ValidateHelper">
+            <summary>
+            验证帮助类
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.IsEmail(System.String)">
+            <summary>
+            是否为邮箱名
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.IsMobile(System.String)">
+            <summary>
+            是否为手机号
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.IsPhone(System.String)">
+            <summary>
+            是否为固话号
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.IsIP(System.String)">
+            <summary>
+            是否为IP
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.IsIdCard(System.String)">
+            <summary>
+            是否是身份证号
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.CheckIDCard18(System.String)">
+            <summary>
+            是否为18位身份证号
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.CheckIDCard15(System.String)">
+            <summary>
+            是否为15位身份证号
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.IsDate(System.String)">
+            <summary>
+            是否为日期
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.IsNumeric(System.String)">
+            <summary>
+            是否是数值(包括整数和小数)
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.IsZipCode(System.String)">
+            <summary>
+            是否为邮政编码
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.IsImgFileName(System.String)">
+            <summary>
+            是否是图片文件名
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.InIP(System.String,System.String)">
+            <summary>
+            判断一个ip是否在另一个ip内
+            </summary>
+            <param name="sourceIP">检测ip</param>
+            <param name="targetIP">匹配ip</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.InIPList(System.String,System.String[])">
+            <summary>
+            判断一个ip是否在另一个ip内
+            </summary>
+            <param name="sourceIP">检测ip</param>
+            <param name="targetIPList">匹配ip列表</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.InIPList(System.String,System.String)">
+            <summary>
+            判断一个ip是否在另一个ip内
+            </summary>
+            <param name="sourceIP">检测ip</param>
+            <param name="targetIPStr">匹配ip</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.BetweenPeriod(System.String[],System.String@)">
+            <summary>
+            判断当前时间是否在指定的时间段内
+            </summary>
+            <param name="periodList">指定时间段</param>
+            <param name="liePeriod">所处时间段</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.BetweenPeriod(System.String,System.String@)">
+            <summary>
+            判断当前时间是否在指定的时间段内
+            </summary>
+            <param name="periodStr">指定时间段</param>
+            <param name="liePeriod">所处时间段</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.BetweenPeriod(System.String)">
+            <summary>
+            判断当前时间是否在指定的时间段内
+            </summary>
+            <param name="periodList">指定时间段</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.IsNumericArray(System.String[])">
+            <summary>
+            是否是数值(包括整数和小数)
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.IsNumericRule(System.String,System.String)">
+            <summary>
+            是否是数值(包括整数和小数)
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.ValidateHelper.IsNumericRule(System.String)">
+            <summary>
+            是否是数值(包括整数和小数)
+            </summary>
+        </member>
+        <member name="T:Himall.Core.Helper.WebHelper">
+            <summary>
+            Web帮助类
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.HtmlDecode(System.String)">
+            <summary>
+            HTML解码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.HtmlEncode(System.String)">
+            <summary>
+            HTML编码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.UrlDecode(System.String)">
+            <summary>
+            URL解码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.UrlEncode(System.String)">
+            <summary>
+            URL编码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.DeleteCookie(System.String)">
+            <summary>
+            删除指定名称的Cookie
+            </summary>
+            <param name="name">Cookie名称</param>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetCookie(System.String)">
+            <summary>
+            获得指定名称的Cookie值
+            </summary>
+            <param name="name">Cookie名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetCookie(System.String,System.String)">
+            <summary>
+            获得指定名称的Cookie中特定键的值
+            </summary>
+            <param name="name">Cookie名称</param>
+            <param name="key">键</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.SetCookie(System.String,System.String)">
+            <summary>
+            设置指定名称的Cookie的值
+            </summary>
+            <param name="name">Cookie名称</param>
+            <param name="value">值</param>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.SetCookie(System.String,System.String,System.DateTime)">
+            <summary>
+            设置指定名称的Cookie的值
+            </summary>
+            <param name="name">Cookie名称</param>
+            <param name="value">值</param>
+            <param name="expires">过期时间</param>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.SetCookie(System.String,System.String,System.String)">
+            <summary>
+            设置指定名称的Cookie特定键的值
+            </summary>
+            <param name="name">Cookie名称</param>
+            <param name="key">键</param>
+            <param name="value">值</param>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.SetCookie(System.String,System.String,System.String,System.DateTime)">
+            <summary>
+            设置指定名称的Cookie特定键的值
+            </summary>
+            <param name="name">Cookie名称</param>
+            <param name="key">键</param>
+            <param name="value">值</param>
+            <param name="expires">过期时间</param>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.IsGet">
+            <summary>
+            是否是get请求
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.IsPost">
+            <summary>
+            是否是post请求
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.IsAjax">
+            <summary>
+            是否是Ajax请求
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetQueryString(System.String,System.String)">
+            <summary>
+            获得查询字符串中的值
+            </summary>
+            <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetQueryString(System.String)">
+            <summary>
+            获得查询字符串中的值
+            </summary>
+            <param name="key">键</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetQueryInt(System.String,System.Int32)">
+            <summary>
+            获得查询字符串中的值
+            </summary>
+            <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetQueryInt(System.String)">
+            <summary>
+            获得查询字符串中的值
+            </summary>
+            <param name="key">键</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetFormString(System.String,System.String)">
+            <summary>
+            获得表单中的值
+            </summary>
+            <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetFormString(System.String)">
+            <summary>
+            获得表单中的值
+            </summary>
+            <param name="key">键</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetFormInt(System.String,System.Int32)">
+            <summary>
+            获得表单中的值
+            </summary>
+            <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetFormInt(System.String)">
+            <summary>
+            获得表单中的值
+            </summary>
+            <param name="key">键</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetUrlReferrer">
+            <summary>
+            获得上次请求的url
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetHost">
+            <summary>
+            获得请求的主机部分
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetPort">
+            <summary>
+            获取请求的端口号
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetUrl">
+            <summary>
+            获得请求的url
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetRawUrl">
+            <summary>
+            获得请求的原始url
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetIP">
+            <summary>
+            获得请求的ip
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetBrowserType">
+            <summary>
+            获得请求的浏览器类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetBrowserName">
+            <summary>
+            获得请求的浏览器名称
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetBrowserVersion">
+            <summary>
+            获得请求的浏览器版本
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetOSType">
+            <summary>
+            获得请求客户端的操作系统类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetOSName">
+            <summary>
+            获得请求客户端的操作系统名称
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.IsBrowser">
+            <summary>
+            判断是否是浏览器请求
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.IsMobile">
+            <summary>
+            是否是移动设备请求
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.IsCrawler">
+            <summary>
+            判断是否是搜索引擎爬虫请求
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetParmList(System.String)">
+            <summary>
+            获得参数列表
+            </summary>
+            <param name="data">数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetRequestData(System.String,System.String)">
+            <summary>
+            获得http请求数据
+            </summary>
+            <param name="url">请求地址</param>
+            <param name="postData">发送数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetRequestData(System.String,System.String,System.String)">
+            <summary>
+            获得http请求数据
+            </summary>
+            <param name="url">请求地址</param>
+            <param name="method">请求方式</param>
+            <param name="postData">发送数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetRequestData(System.String,System.String,System.String,System.Text.Encoding)">
+            <summary>
+            获得http请求数据
+            </summary>
+            <param name="url">请求地址</param>
+            <param name="method">请求方式</param>
+            <param name="postData">发送数据</param>
+            <param name="encoding">编码</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetRequestData(System.String,System.String,System.String,System.Text.Encoding,System.Int32)">
+            <summary>
+            获得http请求数据
+            </summary>
+            <param name="url">请求地址</param>
+            <param name="method">请求方式</param>
+            <param name="postData">发送数据</param>
+            <param name="encoding">编码</param>
+            <param name="timeout">超时值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetURLResponse(System.String,System.String,System.String,System.Text.Encoding,System.Int32)">
+            <summary>
+            获得http请求数据
+            </summary>
+            <param name="url">请求地址</param>
+            <param name="method">请求方式</param>
+            <param name="postData">发送数据</param>
+            <param name="encoding">编码</param>
+            <param name="timeout">超时值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.WebHelper.GetTrustLevel">
+            <summary>
+            获得当前应用程序的信任级别
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.XmlHelper.SerializeToXml(System.Object,System.String)">
+            <summary>
+            XML序列化
+            </summary>
+            <param name="obj">序列对象</param>
+            <param name="filePath">XML文件路径</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:Himall.Core.Helper.XmlHelper.DeserializeFromXML(System.Type,System.String)">
+            <summary>
+            XML反序列化
+            </summary>
+            <param name="type">目标类型(Type类型)</param>
+            <param name="filePath">XML文件路径</param>
+            <returns>序列对象</returns>
+        </member>
+        <member name="M:Himall.Core.Helper.XmlHelper.SerializeToXmlByOSS(System.Object,System.String)">
+            <summary>
+            XML序列化
+            </summary>
+            <param name="obj">序列对象</param>
+            <param name="filePath">XML文件路径</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:Himall.Core.Helper.XmlHelper.DeserializeFromXMLByOSS(System.Type,System.String)">
+            <summary>
+            XML反序列化
+            </summary>
+            <param name="type">目标类型(Type类型)</param>
+            <param name="filePath">XML文件路径</param>
+            <returns>序列对象</returns>
+        </member>
+        <member name="M:Himall.Core.Helper.IOHelper.GetMapPath(System.String)">
+            <summary>
+            获取当前目录
+            （网站为网站根目录，测试时为dll所在目录）
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.IOHelper.CopyFile(System.String,System.String,System.Boolean,System.String)">
+            <summary>
+            复制指定的文件到指定目录
+            </summary>
+            <param name="fileFullPath">源文件的全路径</param>
+            <param name="destination">目标目录</param>
+            <param name="isDeleteSourceFile">是否删除源文件</param>
+            <param name="fileName">目标文件名称,默认是原名称</param>
+            <exception cref="T:System.ArgumentNullException">源文件全路径为空</exception>
+            <exception cref="T:System.IO.FileNotFoundException">找不到源文件</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">找不到目标目录</exception>
+            <exception cref="T:System.Exception">复制文件异常</exception>
+        </member>
+        <member name="M:Himall.Core.Helper.IOHelper.GetDirectoryLength(System.String)">
+            <summary>
+            获取文件夹大小单位KB
+            </summary>
+            <param name="dirPath">文件夹路径</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Helper.IOHelper.urlToVirtual(System.String)">
+            <summary>
+            将物理路径转换成相对路径
+            </summary>
+            <param name="url">物理路径名称</param>
+            <returns>返回绝对路径</returns>
+        </member>
+        <member name="T:Himall.Core.IinjectContainer">
+            <summary>
+            依赖注入接口
+            </summary>
+        </member>
+        <member name="T:Himall.Core.LicenseChecker">
+            <summary>
+            授权验证
+            </summary>
+        </member>
+        <member name="M:Himall.Core.LicenseChecker.IsFilterHost(System.String)">
+            <summary>
+            检查当前域名时候是需要过滤的域名
+            </summary>
+            <param name="host"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.LicenseChecker.Check(System.String@,System.Boolean@,System.Boolean@,System.String)">
+            <summary>
+            检查店铺是否已经获得了商业授权的服务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Himall.Core.OnHimallStartMethodAttribute">
+            <summary>
+            提供对Himall程序启动的扩展支持
+            </summary>
+        </member>
+        <member name="P:Himall.Core.OnHimallStartMethodAttribute.MethodName">
+            <summary>
+            没有返回值的空参数签名
+            </summary>
+        </member>
+        <member name="P:Himall.Core.OnHimallStartMethodAttribute.Type">
+            <summary>
+            一个描述启动方法的类型的对象
+            </summary>
+        </member>
+        <member name="P:Himall.Core.OnHimallStartMethodAttribute.Order">
+            <summary>
+            启动顺序,数字越小越先启动
+            </summary>
+        </member>
+        <member name="M:Himall.Core.OnHimallStartMethodAttribute.#ctor(System.Type,System.String,System.Int32)">
+            <summary>
+            提供对Himall程序启动的扩展支持
+            </summary>
+            <param name="type">一个描述启动方法的类型的对象</param>
+            <param name="methodName">没有返回值的空参数签名</param>
+            <param name="order">启动顺序,数字越小越先启动</param>
+        </member>
+        <member name="M:Himall.Core.OnHimallStartMethodAttribute.Start">
+            <summary>
+            启动初始化
+            </summary>
+        </member>
+        <member name="T:Himall.Core.PlatformType">
+            <summary>
+            平台类型
+            </summary>
+        </member>
+        <member name="F:Himall.Core.PlatformType.PC">
+            <summary>
+            PC
+            </summary>
+        </member>
+        <member name="F:Himall.Core.PlatformType.WeiXin">
+            <summary>
+            微信
+            </summary>
+        </member>
+        <member name="F:Himall.Core.PlatformType.Android">
+            <summary>
+            安卓
+            </summary>
+        </member>
+        <member name="F:Himall.Core.PlatformType.IOS">
+            <summary>
+            苹果
+            </summary>
+        </member>
+        <member name="F:Himall.Core.PlatformType.Wap">
+            <summary>
+            触屏
+            </summary>
+        </member>
+        <member name="F:Himall.Core.PlatformType.Mobile">
+            <summary>
+            移动端
+            </summary>
+        </member>
+        <member name="T:Himall.Core.Plugins.PluginException">
+            <summary>
+            插件异常
+            </summary>
+        </member>
+        <member name="T:Himall.Core.Plugins.Message.ISMSPlugin">
+            <summary>
+            短信接口
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.ISMSPlugin.GetSMSAmount">
+            <summary>
+            获取短信剩余数量
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.ISMSPlugin.GetBuyLink">
+            <summary>
+            获取购买链接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.ISMSPlugin.GetLoginLink">
+            <summary>
+            获取登录链接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Himall.Core.Plugins.Message.MessageCouponInfo">
+            <summary>
+            发送优惠券消息需要的参数实体
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageCouponInfo.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageCouponInfo.Money">
+            <summary>
+            优惠券金额
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageCouponInfo.Url">
+            <summary>
+            Url
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageCouponInfo.SiteName">
+            <summary>
+            商城名称
+            </summary>
+        </member>
+        <member name="T:Himall.Core.Plugins.Message.StatusEnum">
+            <summary>
+            每个消息操作的状态
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageShopInfo.ShopName">
+            <summary>
+            店铺名称
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageShopInfo.ShopId">
+            <summary>
+            店铺ID
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageShopInfo.SiteName">
+            <summary>
+            商城名称
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.OrderId">
+            <summary>
+            订单号
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.ShopName">
+            <summary>
+            店铺名称
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.ShopId">
+            <summary>
+            店铺ID
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.ItemNumber">
+            <summary>
+            购买品类
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.Quantity">
+            <summary>
+            购买数量
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.TotalMoney">
+            <summary>
+            总价格
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.PaymentType">
+            <summary>
+            支付方式
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.PayTime">
+            <summary>
+            支付时间
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.PaymentStatus">
+            <summary>
+            支付状态
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.ShippingCompany">
+            <summary>
+            配送方式
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.ShippingNumber">
+            <summary>
+            物流单号
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.ShipTo">
+            <summary>
+            收货人
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.SiteName">
+            <summary>
+            商城名称
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.RefundOrderItemId">
+            <summary>
+            售后对应OrderItem
+            <para>0表示为订单整笔退款</para>
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.RefundId">
+            <summary>
+            售后编号
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.RefundMoney">
+            <summary>
+            退款金额
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.RefundQuantity">
+            <summary>
+            退货数量
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.RefundTime">
+            <summary>
+            售后申请时间
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.RefundAuditTime">
+            <summary>
+            售后审核时间
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.OrderTime">
+            <summary>
+            下单时间
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.ProductName">
+            <summary>
+            订单商品名称
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.OrderStatus">
+            <summary>
+            订单状态
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageOrderInfo.Remark">
+            <summary>
+            说明
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Message.MessageTypeEnum.OrderCreated">
+            <summary>
+            订单创建时
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Message.MessageTypeEnum.OrderPay">
+            <summary>
+            订单付款时
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Message.MessageTypeEnum.OrderShipping">
+            <summary>
+            订单发货时
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Message.MessageTypeEnum.OrderRefund">
+            <summary>
+            订单退款
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Message.MessageTypeEnum.RefundDeliver">
+            <summary>
+            售后发货
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Message.MessageTypeEnum.SendCouponSuccess">
+            <summary>
+            发送优惠券
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Message.MessageTypeEnum.ShopHaveNewOrder">
+            <summary>
+            店铺有新订单
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Message.MessageTypeEnum.ReceiveBonus">
+            <summary>
+            领取红包通知
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Message.MessageTypeEnum.LimitTimeBuy">
+            <summary>
+            限时购开始通知
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Message.MessageTypeEnum.SubscribeLimitTimeBuy">
+            <summary>
+            订阅限时购
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Message.MessageTypeEnum.FightGroupOpenSuccess">
+            <summary>
+            拼团：开团成功
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Message.MessageTypeEnum.FightGroupJoinSuccess">
+            <summary>
+            拼团：参团成功
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Message.MessageTypeEnum.FightGroupNewJoin">
+            <summary>
+            拼团：有新团员提示
+            <para>只提示给团长</para>
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Message.MessageTypeEnum.FightGroupFailed">
+            <summary>
+            拼团：拼团失败
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Message.MessageTypeEnum.FightGroupSuccess">
+            <summary>
+            拼团：拼团成功
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageUserInfo.CheckCode">
+            <summary>
+            验证码
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.MessageUserInfo.SiteName">
+            <summary>
+            商城名称
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.GetFormData">
+            <summary>
+            获取表单数据
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.SetFormValues(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
+            <summary>
+            设置表单数据
+            </summary>
+            <param name="values">表单数据键值对集合，键为表单项的name,值为用户填写的值</param>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.IMessagePlugin.Logo">
+            <summary>
+            Logo图片路径
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.IMessagePlugin.ShortName">
+            <summary>
+            简称
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.IMessagePlugin.EnableLog">
+            <summary>
+            是否开启记录
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.SendMessageCode(System.String,Himall.Core.Plugins.Message.MessageUserInfo)">
+            <summary>
+            发送验证码
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.SendTestMessage(System.String,System.String,System.String)">
+            <summary>
+            发送测试信息
+            </summary>
+            <param name="destination"></param>
+            <param name="content"></param>
+            <param name="title">邮件标题，短信可不填写</param>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.SendMessages(System.String[],System.String,System.String)">
+            <summary>
+            批量发送消息
+            </summary>
+            <param name="destination"></param>
+            <param name="content"></param>
+            <param name="title">邮件标题，短信可不填写</param>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.SendMessageOnShopAudited(System.String,Himall.Core.Plugins.Message.MessageShopInfo)">
+            <summary>
+            店铺审核通过
+            </summary>
+            <param name="sellerName"></param>
+            <param name="shopName"></param>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.SendMessageOnShopSuccess(System.String,Himall.Core.Plugins.Message.MessageShopInfo)">
+            <summary>
+            店铺开店成功
+            </summary>
+            <param name="sellerName"></param>
+            <param name="shopName"></param>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.SendMessageOnFindPassWord(System.String,Himall.Core.Plugins.Message.MessageUserInfo)">
+            <summary>
+            找回密码
+            </summary>
+            <param name="userName"></param>
+            <param name="code"></param>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.SendMessageOnOrderCreate(System.String,Himall.Core.Plugins.Message.MessageOrderInfo)">
+            <summary>
+            订单创建
+            </summary>
+            <param name="destination"></param>
+            <param name="??"></param>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.SendMessageOnOrderPay(System.String,Himall.Core.Plugins.Message.MessageOrderInfo)">
+            <summary>
+            订单支付
+            </summary>
+            
+            
+            <param name="destination"></param>
+            <param name="info"></param>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.SendMessageOnOrderShipping(System.String,Himall.Core.Plugins.Message.MessageOrderInfo)">
+            <summary>
+            订单发货
+            </summary>
+            <param name="destination"></param>
+            <param name="info"></param>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.SendMessageOnOrderRefund(System.String,Himall.Core.Plugins.Message.MessageOrderInfo)">
+            <summary>
+            订单退款
+            </summary>
+            <param name="destination"></param>
+            <param name="info"></param>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.SendMessageOnRefundDeliver(System.String,Himall.Core.Plugins.Message.MessageOrderInfo)">
+            <summary>
+            售后发货
+            </summary>
+            <param name="destination"></param>
+            <param name="info"></param>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.SendMessageOnCouponSuccess(System.String,Himall.Core.Plugins.Message.MessageCouponInfo)">
+            <summary>
+            优惠券发送成功提醒
+            </summary>
+            <param name="destination"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.Disable(Himall.Core.Plugins.Message.MessageTypeEnum)">
+            <summary>
+            关闭某项信息的发送
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.Enable(Himall.Core.Plugins.Message.MessageTypeEnum)">
+            <summary>
+            开启某项信息的发送
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.GetStatus(Himall.Core.Plugins.Message.MessageTypeEnum)">
+            <summary>
+            获取某项信息的状态
+            </summary>
+            <param name="e"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.GetAllStatus">
+            <summary>
+            获取所有项的状态
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.SetAllStatus(System.Collections.Generic.Dictionary{Himall.Core.Plugins.Message.MessageTypeEnum,Himall.Core.Plugins.Message.StatusEnum})">
+            批量设置所有项
+            
+        </member>
+        <member name="M:Himall.Core.Plugins.Message.IMessagePlugin.CheckDestination(System.String)">
+            <summary>
+            检查发送格式
+            </summary>
+            <param name="destination"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Himall.Core.Plugins.Message.IMessagePlugin.IsSettingsValid">
+            <summary>
+            是否已设置完成
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.PaymentPara.order_id">
+            <summary>
+            订单号
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.PaymentPara.out_trade_no">
+            <summary>
+            商户支付订单号
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.PaymentPara.pay_trade_no">
+            <summary>
+            交易号
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.PaymentPara.out_refund_no">
+            <summary>
+            商户退款单号
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.PaymentPara.total_fee">
+            <summary>
+            总金额
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.PaymentPara.refund_fee">
+            <summary>
+            退款金额
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.PaymentPara.return_url">
+            <summary>
+            返回接收地址
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.PaymentPara.notify_url">
+            <summary>
+            返回异步通知地址
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.EnterprisePayPara.out_trade_no">
+            <summary>
+            商户订单号
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.EnterprisePayPara.check_name">
+            <summary>
+            是否检测用户名
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.EnterprisePayPara.re_user_name">
+            <summary>
+            检测的用户名
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.EnterprisePayPara.amount">
+            <summary>
+            付款金额
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.EnterprisePayPara.openid">
+            <summary>
+            用户openid
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.EnterprisePayPara.desc">
+            <summary>
+            企业付款描述信息
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.EnterprisePayPara.spbill_create_ip">
+            <summary>
+            调用接口的机器Ip地址
+            </summary>
+        </member>
+        <member name="T:Himall.Core.Plugins.Payment.RefundRunMode">
+            <summary>
+            退款执行方式
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Payment.RefundRunMode.Sync">
+            <summary>
+            同步完成
+            <para>方法体内执行完成，直接返回退款结果</para>
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Payment.RefundRunMode.Async">
+            <summary>
+            异步完成
+            <para>方法体只负责请求参数生成，由前台完成请求。支付平台会异步返回请求结果。</para>
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Payment.RefundState.Success">
+            <summary>
+            成功
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Payment.RefundState.Failure">
+            <summary>
+            失败
+            </summary>
+        </member>
+        <member name="T:Himall.Core.Plugins.Payment.RefundFeeReturnModel">
+            <summary>
+            退款操作结果模型
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.RefundFeeReturnModel.RefundMode">
+            <summary>
+            退款执行方式
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.RefundFeeReturnModel.RefundResult">
+            <summary>
+            退款状态
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.RefundFeeReturnModel.OrderId">
+            <summary>
+            订单号
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.RefundFeeReturnModel.RefundId">
+            <summary>
+            退款编号
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.RefundFeeReturnModel.RefundNo">
+            <summary>
+            退款流水号
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.RefundFeeReturnModel.RefundTime">
+            <summary>
+            退款时间
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.RefundFeeReturnModel.ResponseContentWhenFinished">
+            <summary>
+            主业务处理完成后响应内容
+            即当主程序相关订单状态完成后，需要响应请求的内容
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.RefundFeeReturnModel.RequestMode">
+            <summary>
+            退款请求方式
+            <para>异步方式时使用</para>
+            </summary>
+        </member>
+        <member name="T:Himall.Core.Plugins.Payment.UrlType">
+            <summary>
+            链接类型
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Payment.UrlType.Page">
+            <summary>
+            普通页面链接
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Payment.UrlType.QRCode">
+            <summary>
+            二维码链接
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.Payment.UrlType.FormPost">
+            <summary>
+            需解析成表单提交的链接
+            </summary>
+        </member>
+        <member name="T:Himall.Core.Plugins.Payment.IPaymentPlugin">
+            <summary>
+            支付插件接口
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Plugins.Payment.IPaymentPlugin.ProcessReturn(System.Web.HttpRequestBase)">
+            <summary>
+            处理支付返回结果
+            </summary>
+            <param name="context">请求</param>
+            <exception cref="T:System.ApplicationException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Plugins.Payment.IPaymentPlugin.ProcessNotify(System.Web.HttpRequestBase)">
+            <summary>
+            处理异步通知结果
+            </summary>
+            <param name="queryString">请求参数</param>
+            <exception cref="T:System.ApplicationException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Plugins.Payment.IPaymentPlugin.GetRequestUrl(System.String,System.String,System.String,System.Decimal,System.String,System.String)">
+            <summary>
+            如果付款方式为在线付款则返回付款请求的url，否则返回空字符串
+            </summary>
+            <param name="returnUrl">服务器异步通知页面路径，需http://格式的完整路径，不能加?id=123这类自定义参数</param>
+            <param name="notifyUrl">页面跳转同步通知页面路径，需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/</param>
+            <param name="orderId">订单编号</param>
+            <param name="totalFee">订单总金额</param>
+            <param name="productInfo">订单商品信息</param>
+            <param name="openId">OpenId（部分支付需要）</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Plugins.Payment.IPaymentPlugin.ProcessRefundFee(Himall.Core.Plugins.Payment.PaymentPara)">
+            <summary>
+            退款处理
+            </summary>
+            <param name="para">退款所需参数</param>
+            <returns>退款成功时，返回不为空</returns>
+        </member>
+        <member name="M:Himall.Core.Plugins.Payment.IPaymentPlugin.ProcessRefundReturn(System.Web.HttpRequestBase)">
+            <summary>
+            处理退款返回结果
+            </summary>
+            <param name="context">请求</param>
+            <exception cref="T:System.ApplicationException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Plugins.Payment.IPaymentPlugin.ProcessRefundNotify(System.Web.HttpRequestBase)">
+            <summary>
+            处理退款异步通知结果
+            </summary>
+            <param name="queryString">请求参数</param>
+            <exception cref="T:System.ApplicationException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Plugins.Payment.IPaymentPlugin.EnterprisePay(Himall.Core.Plugins.Payment.EnterprisePayPara)">
+            <summary>
+            企业付款
+            </summary>
+            <param name="para"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.IPaymentPlugin.PluginListUrl">
+            <summary>
+            网站插件列表Url
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Plugins.Payment.IPaymentPlugin.GetFormData">
+            <summary>
+            获取表单数据
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Plugins.Payment.IPaymentPlugin.SetFormValues(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
+            <summary>
+            设置表单数据
+            </summary>
+            <param name="values">表单数据键值对集合，键为表单项的name,值为用户填写的值</param>
+        </member>
+        <member name="M:Himall.Core.Plugins.Payment.IPaymentPlugin.ConfirmPayResult">
+            <summary>
+            确认收到支付消息，获取待返回至第三方支付平台的内容
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.IPaymentPlugin.Logo">
+            <summary>
+            Logo图片路径
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.IPaymentPlugin.SupportPlatforms">
+            <summary>
+            支持的平台类型
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Plugins.Payment.IPaymentPlugin.Enable(Himall.Core.PlatformType)">
+            <summary>
+            开启对应平台的支付方式
+            </summary>
+            <param name="platform">待开启支付方式的平台</param>
+        </member>
+        <member name="M:Himall.Core.Plugins.Payment.IPaymentPlugin.Disable(Himall.Core.PlatformType)">
+            <summary>
+            禁用对应平台的支付方式
+            </summary>
+            <param name="platform">待禁用支付方式的平台</param>
+        </member>
+        <member name="M:Himall.Core.Plugins.Payment.IPaymentPlugin.IsEnable(Himall.Core.PlatformType)">
+            <summary>
+            检查是否已经开启了对应平台的支持功能
+            </summary>
+            <param name="platform">待检查的平台</param>
+            <returns></returns>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.IPaymentPlugin.RequestUrlType">
+            <summary>
+            支付请求链接类型
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.IPaymentPlugin.HelpImage">
+            <summary>
+            帮助图片(说明图片，仅在RequestUrlType为QRCode时有效)
+            </summary>
+        </member>
+        <member name="T:Himall.Core.Plugins.Payment.PaymentInfo">
+            <summary>
+            支付事件
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.PaymentInfo.OrderIds">
+            <summary>
+            支付订单号
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.PaymentInfo.TradNo">
+            <summary>
+            支付流水号
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.PaymentInfo.TradeTime">
+            <summary>
+            交易时间
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Payment.PaymentInfo.ResponseContentWhenFinished">
+            <summary>
+            主业务处理完成后响应内容
+            即当主程序相关订单状态完成后，需要响应请求的内容
+            </summary>
+        </member>
+        <member name="T:Himall.Core.Plugins.PluginNotFoundException">
+            <summary>
+            插件未找到异常
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Plugins.PluginNotFoundException.#ctor(System.String)">
+            <summary>
+            插件未找到异常
+            </summary>
+            <param name="pluginId">插件标识</param>
+        </member>
+        <member name="T:Himall.Core.Plugins.Express.ExpressPrintElement">
+            <summary>
+            打印元素
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Express.ExpressPrintElement.AllPrintElements">
+            <summary>
+            模板打印元素
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Express.ExpressPrintElement.PrintElementIndex">
+            <summary>
+            打印元素序号
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Express.ExpressPrintElement.LeftTopPoint">
+            <summary>
+            左上顶点位置
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Express.ExpressPrintElement.RightBottomPoint">
+            <summary>
+            右下顶点位置
+            </summary>
+        </member>
+        <member name="T:Himall.Core.Plugins.Express.ExpressPrintElement.Point">
+            <summary>
+            点
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Express.ExpressPrintElement.Point.X">
+            <summary>
+            X坐标
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.Express.ExpressPrintElement.Point.Y">
+            <summary>
+            Y坐标
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.IExpress.Name">
+            <summary>
+            快递名称
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.IExpress.DisplayName">
+            <summary>
+            显示名称
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.IExpress.TaobaoCode">
+            <summary>
+            淘宝Code
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.IExpress.Kuaidi100Code">
+            <summary>
+            快递100Code
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.IExpress.KuaidiNiaoCode">
+            <summary>
+            快递鸟Code
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.IExpress.Width">
+            <summary>
+            快递单宽
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.IExpress.Height">
+            <summary>
+            快递单高
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.IExpress.BackGroundImage">
+            <summary>
+            快递单图片
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.IExpress.Logo">
+            <summary>
+            Logo
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Plugins.IExpress.NextExpressCode(System.String)">
+            <summary>
+            获取下一个快递单号
+            </summary>
+            <param name="currentExpressCode">当前快递单号</param>
+            <returns></returns>
+        </member>
+        <member name="P:Himall.Core.Plugins.IExpress.Elements">
+            <summary>
+            所包含的打印元素
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Plugins.IExpress.CheckExpressCodeIsValid(System.String)">
+            <summary>
+            检查快递单号是否有效
+            </summary>
+            <param name="expressCode">快递单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Plugins.IExpress.UpdatePrintElement(System.Collections.Generic.IEnumerable{Himall.Core.Plugins.Express.ExpressPrintElement})">
+            <summary>
+            更新打印项
+            </summary>
+            <param name="printElements"></param>
+        </member>
+        <member name="P:Himall.Core.Plugins.FormData.FormItem.Name">
+            <summary>
+            表单项名称(对应name属性)
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.FormData.FormItem.DisplayName">
+            <summary>
+            表单项显示名称
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.FormData.FormItem.IsRequired">
+            <summary>
+            是否为必填项
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.FormData.FormItem.Type">
+            <summary>
+            表单项类型
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.FormData.FormItem.Value">
+            <summary>
+            表单项的值
+            </summary>
+        </member>
+        <member name="T:Himall.Core.Plugins.FormData.FormItemType">
+            <summary>
+            表单项类型
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.FormData.FormItemType.text">
+            <summary>
+            对应input中type="text"
+            </summary>
+        </member>
+        <member name="T:Himall.Core.Plugins.OAuth.IOAuthPlugin">
+            <summary>
+            信任登录插件接口
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.OAuth.IOAuthPlugin.ShortName">
+            <summary>
+            用于显示在界面上的短名称 
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Plugins.OAuth.IOAuthPlugin.GetFormData">
+            <summary>
+            获取表单数据
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Plugins.OAuth.IOAuthPlugin.SetFormValues(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
+            <summary>
+            设置表单数据
+            </summary>
+            <param name="values">表单数据键值对集合，键为表单项的name,值为用户填写的值</param>
+        </member>
+        <member name="M:Himall.Core.Plugins.OAuth.IOAuthPlugin.GetUserInfo(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            获取用户信息
+            </summary>
+            <param name="returnParams">用户登录后返回的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Plugins.OAuth.IOAuthPlugin.GetOpenLoginUrl(System.String)">
+            <summary>
+            登录链接地址
+            </summary>
+            <param name="returnUrl"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Himall.Core.Plugins.OAuth.IOAuthPlugin.Icon_Hover">
+            <summary>
+            登录图标（鼠标悬停图片）(16x16)
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.OAuth.IOAuthPlugin.Icon_Default">
+            <summary>
+            登录图标（默认样式图片）
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Plugins.OAuth.IOAuthPlugin.GetValidateContent">
+            <summary>
+            获取需要放置在首页Head中的验证内容
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Himall.Core.Plugins.OAuth.OAuthUserInfo">
+            <summary>
+            信任登录用户信息
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.OAuth.OAuthUserInfo.OpenId">
+            <summary>
+            从登录方返回的OpenId
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.OAuth.OAuthUserInfo.UnionId">
+            <summary>
+            多应用共享ID(微信)
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.OAuth.OAuthUserInfo.NickName">
+            <summary>
+            用户昵称
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.OAuth.OAuthUserInfo.RealName">
+            <summary>
+            用户真实姓名
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.OAuth.OAuthUserInfo.IsMale">
+            <summary>
+            是否为男性
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.IPlugin.WorkDirectory">
+            <summary>
+            插件工作目录
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Plugins.IPlugin.CheckCanEnable">
+            <summary>
+            检查是否可以开启插件
+            </summary>
+            <returns></returns>
+            <exception cref="T:Himall.Core.PluginConfigException"></exception>
+        </member>
+        <member name="T:Himall.Core.Plugins.Plugin`1">
+            <summary>
+            插件
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Himall.Core.Plugins.Plugin`1.Biz">
+            <summary>
+            相关业务
+            </summary>
+        </member>
+        <member name="T:Himall.Core.Plugins.PluginBase">
+            <summary>
+            插件实例基类
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.PluginBase.PluginInfo">
+            <summary>
+            插件信息
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.PluginInfo.PluginId">
+            <summary>
+            插件标识
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.PluginInfo.DisplayName">
+            <summary>
+            插件显示名称
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.PluginInfo.ClassFullName">
+            <summary>
+            程序集类全名
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.PluginInfo.Description">
+            <summary>
+            插件描述
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.PluginInfo.PluginDirectory">
+            <summary>
+            插件所在目录
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.PluginInfo.Type">
+            <summary>
+            插件类型(0-开放登录插件,1-支付插件,2-配送插件，3-消息插件，4-微信支付插件，5-短信插件，6-邮件插件)
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.PluginInfo.PluginTypes">
+            <summary>
+            插件类型
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.PluginInfo.Enable">
+            <summary>
+            是否开启
+            </summary>
+        </member>
+        <member name="P:Himall.Core.Plugins.PluginInfo.DisplayIndex">
+            <summary>
+            插件显示顺序
+            </summary>
+        </member>
+        <member name="T:Himall.Core.Plugins.PluginType">
+            <summary>
+            插件类型
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.PluginType.OauthPlugin">
+            <summary>
+            开放登录插件
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.PluginType.PayPlugin">
+            <summary>
+            支付插件
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.PluginType.Express">
+            <summary>
+            快递插件
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.PluginType.Message">
+            <summary>
+            消息插件
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.PluginType.SMS">
+            <summary>
+            手机短信插件
+            </summary>
+        </member>
+        <member name="F:Himall.Core.Plugins.PluginType.Email">
+            <summary>
+            邮件插件
+            </summary>
+        </member>
+        <member name="T:Himall.Core.PlatformNotSupportedException">
+            <summary>
+            平台不支持异常
+            </summary>
+        </member>
+        <member name="T:Himall.Core.Cache">
+            <summary>
+            Himall缓存
+            </summary>
+        </member>
+        <member name="T:Himall.Core.Cache.DoSub">
+            <summary>
+            接收数据处理方法定义
+            </summary>
+            <param name="d">数据</param>
+        </member>
+        <member name="M:Himall.Core.Cache.Load">
+            <summary>
+            加载缓存策略
+            </summary>
+            <exception cref="T:Himall.Core.CacheRegisterException"></exception>
+        </member>
+        <member name="P:Himall.Core.Cache.TimeOut">
+            <summary>
+            缓存过期时间
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Cache.Get(System.String)">
+            <summary>
+            获得指定键的缓存值
+            </summary>
+            <param name="key">缓存键</param>
+            <returns>缓存值</returns>
+        </member>
+        <member name="M:Himall.Core.Cache.Get``1(System.String)">
+            <summary>
+            获得指定键的缓存值
+            </summary>
+            <param name="key">缓存键</param>
+            <returns>缓存值</returns>
+        </member>
+        <member name="M:Himall.Core.Cache.Insert(System.String,System.Object)">
+            <summary>
+            将指定键的对象添加到缓存中
+            </summary>
+            <param name="key">缓存键</param>
+            <param name="data">缓存值</param>
+        </member>
+        <member name="M:Himall.Core.Cache.Insert``1(System.String,``0)">
+            <summary>
+            将指定键的对象添加到缓存中
+            </summary>
+            <param name="key">缓存键</param>
+            <param name="data">缓存值</param>
+        </member>
+        <member name="M:Himall.Core.Cache.Insert(System.String,System.Object,System.Int32)">
+            <summary>
+            将指定键的对象添加到缓存中，并指定过期时间
+            </summary>
+            <param name="key">缓存键</param>
+            <param name="data">缓存值</param>
+            <param name="cacheTime">缓存过期时间(秒钟)</param>
+        </member>
+        <member name="M:Himall.Core.Cache.Insert``1(System.String,``0,System.Int32)">
+            <summary>
+            将指定键的对象添加到缓存中，并指定过期时间
+            </summary>
+            <param name="key">缓存键</param>
+            <param name="data">缓存值</param>
+            <param name="cacheTime">缓存过期时间(秒钟)</param>
+        </member>
+        <member name="M:Himall.Core.Cache.Insert(System.String,System.Object,System.DateTime)">
+            <summary>
+            将指定键的对象添加到缓存中，并指定过期时间
+            </summary>
+            <param name="key">缓存键</param>
+            <param name="data">缓存值</param>
+            <param name="cacheTime">缓存过期时间</param>
+        </member>
+        <member name="M:Himall.Core.Cache.Insert``1(System.String,``0,System.DateTime)">
+            <summary>
+            将指定键的对象添加到缓存中，并指定过期时间
+            </summary>
+            <param name="key">缓存键</param>
+            <param name="data">缓存值</param>
+            <param name="cacheTime">缓存过期时间</param>
+        </member>
+        <member name="M:Himall.Core.Cache.Remove(System.String)">
+            <summary>
+            从缓存中移除指定键的缓存值
+            </summary>
+            <param name="key">缓存键</param>
+        </member>
+        <member name="M:Himall.Core.Cache.Exists(System.String)">
+            <summary>
+            判断key是否存在
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Cache.Send(System.String,System.Object)">
+            <summary>
+            缓存消息队列发送消息
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Cache.RegisterSubscribe``1(System.String,Himall.Core.Cache.DoSub)">
+            <summary>
+            注册订阅方法 
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Cache.UnRegisterSubscrib(System.String)">
+            <summary>
+            注销订阅方法
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Cache.GetCacheLocker(System.String)">
+            <summary>
+            获取缓存锁（当使用分布式缓存时，具有分布式锁特性）
+            使用时，请务必释放返回的Locker对象，否则会造成对应
+            缓存持续阻塞
+            </summary>
+            <param name="key">缓存键</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Cache.SetNX(System.String,System.String)">
+            <summary>
+            互斥写
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.Cache.SetNX(System.String,System.String,System.Int32)">
+            <summary>
+            互斥写
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <param name="cacheTime">缓存过期时间(秒钟)</param>
+            <returns></returns>
+        </member>
+        <member name="P:Himall.Core.ICache.TimeOut">
+            <summary>
+            缓存过期时间
+            </summary>
+        </member>
+        <member name="M:Himall.Core.ICache.Get(System.String)">
+            <summary>
+            获得指定键的缓存值
+            </summary>
+            <param name="key">缓存键</param>
+            <returns>缓存值</returns>
+        </member>
+        <member name="M:Himall.Core.ICache.Get``1(System.String)">
+            <summary>
+            获得指定键的缓存值
+            </summary>
+        </member>
+        <member name="M:Himall.Core.ICache.Remove(System.String)">
+            <summary>
+            从缓存中移除指定键的缓存值
+            </summary>
+            <param name="key">缓存键</param>
+        </member>
+        <member name="M:Himall.Core.ICache.Insert(System.String,System.Object)">
+            <summary>
+            将指定键的对象添加到缓存中
+            </summary>
+            <param name="key">缓存键</param>
+            <param name="data">缓存值</param>
+        </member>
+        <member name="M:Himall.Core.ICache.Insert``1(System.String,``0)">
+            <summary>
+            将指定键的对象添加到缓存中
+            </summary>
+            <param name="key">缓存键</param>
+            <param name="data">缓存值</param>
+        </member>
+        <member name="M:Himall.Core.ICache.Insert(System.String,System.Object,System.Int32)">
+            <summary>
+            将指定键的对象添加到缓存中，并指定过期时间
+            </summary>
+            <param name="key">缓存键</param>
+            <param name="data">缓存值</param>
+            <param name="cacheTime">缓存过期时间(秒钟)</param>
+        </member>
+        <member name="M:Himall.Core.ICache.Insert``1(System.String,``0,System.Int32)">
+            <summary>
+            将指定键的对象添加到缓存中，并指定过期时间
+            </summary>
+            <param name="key">缓存键</param>
+            <param name="data">缓存值</param>
+            <param name="cacheTime">缓存过期时间(秒钟)</param>
+        </member>
+        <member name="M:Himall.Core.ICache.Insert(System.String,System.Object,System.DateTime)">
+            <summary>
+            将指定键的对象添加到缓存中，并指定过期时间
+            </summary>
+            <param name="key">缓存键</param>
+            <param name="data">缓存值</param>
+            <param name="cacheTime">缓存过期时间</param>
+        </member>
+        <member name="M:Himall.Core.ICache.Insert``1(System.String,``0,System.DateTime)">
+            <summary>
+            将指定键的对象添加到缓存中，并指定过期时间
+            </summary>
+            <param name="key">缓存键</param>
+            <param name="data">缓存值</param>
+            <param name="cacheTime">缓存过期时间</param>
+        </member>
+        <member name="M:Himall.Core.ICache.SetNX(System.String,System.String)">
+            <summary>
+            互斥写
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.ICache.SetNX(System.String,System.String,System.Int32)">
+            <summary>
+            互斥写
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <param name="cacheTime">缓存过期时间(秒钟)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.ICache.Send(System.String,System.Object)">
+            <summary>
+            缓存队列发送信息
+            </summary>
+            <param name="key"></param>
+            <param name="data"></param>
+        </member>
+        <member name="M:Himall.Core.ICache.Exists(System.String)">
+            <summary>
+            判断key是否存在
+            </summary>
+        </member>
+        <member name="M:Himall.Core.ICache.RegisterSubscribe``1(System.String,Himall.Core.Cache.DoSub)">
+            <summary>
+            注册订阅方法 
+            </summary>
+        </member>
+        <member name="M:Himall.Core.ICache.UnRegisterSubscrib(System.String)">
+            <summary>
+            注销订阅方法
+            </summary>
+        </member>
+        <member name="M:Himall.Core.ICache.GetCacheLocker(System.String)">
+            <summary>
+            获取缓存锁（当使用分布式缓存时，具有分布式锁特性）
+            使用时，请务必释放返回的Locker对象，否则会造成对应
+            缓存持续阻塞
+            </summary>
+            <param name="key">缓存键</param>
+            <returns></returns>
+        </member>
+        <member name="T:Himall.Core.InstanceCreateException">
+            <summary>
+            实例创建异常
+            </summary>
+        </member>
+        <member name="T:Himall.Core.InvalidPropertyException">
+            <summary>
+            无效属性异常
+            </summary>
+        </member>
+        <member name="M:Himall.Core.InvalidPropertyException.#ctor">
+            <summary>
+            无效属性异常
+            </summary>
+        </member>
+        <member name="M:Himall.Core.InvalidPropertyException.#ctor(System.String)">
+            <summary>
+            无效属性异常
+            </summary>
+        </member>
+        <member name="M:Himall.Core.InvalidPropertyException.#ctor(System.String,System.Exception)">
+            <summary>
+            无效属性异常
+            </summary>
+        </member>
+        <member name="M:Himall.Core.PluginConfigException.#ctor(System.String)">
+            <summary>
+            插件配置异常
+            </summary>
+        </member>
+        <member name="M:Himall.Core.EnumHelper.ToDescription(System.Enum)">
+            <summary>
+            根据枚举类型和枚举值获取枚举描述
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.EnumHelper.ToDescriptionDictionary``1">
+            <summary>
+            转化枚举及其描述为字典类型
+            </summary>
+            <typeparam name="TEnum"></typeparam>
+            <param name="enumObj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.EnumHelper.ToDictionary``1">
+            <summary>
+            转化枚举及其Text值转为字典类型
+            </summary>
+            <typeparam name="TEnum"></typeparam>
+            <param name="enumObj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.EnumHelper.GetEnumDic(System.Type)">
+            <summary>
+             返回 Dic&lt;枚举项，描述&gt;
+            </summary>
+            <param name="enumType">枚举的类型</param>
+            <returns>Dic&lt;枚举项，描述&gt;</returns>
+        </member>
+        <member name="M:Himall.Core.EnumHelper.GetDescription(System.Type,System.String)">
+            <summary>
+            根据枚举类型和枚举值获取枚举描述
+            </summary>
+            <param name="enumType">枚举类型</param>
+            <param name="enumText">枚举值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.LinqHelper.DistinctBy``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})">
+            <summary>
+            去重复项
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TKey"></typeparam>
+            <param name="source"></param>
+            <param name="keySelector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.LinqHelper.GetDefaultPredicate``1(System.Linq.IQueryable{``0},System.Boolean)">
+            <summary>
+            构建初始查询条件
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="defultPredicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.LinqHelper.GetOrderBy``1(System.Linq.IQueryable{``0},System.Func{System.Linq.IQueryable{``0},System.Linq.IOrderedQueryable{``0}})">
+            <summary>
+            获取默认排序
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+            <param name="orderBy"></param>
+            <returns></returns>
+            <example>var ord=GetDefaultOrder(d=>d.OrderBy(o=>o.Id))</example>
+        </member>
+        <member name="T:Himall.Core.PredicateExtensions">
+            <summary>
+            条件组合扩展
+            </summary>
+        </member>
+        <member name="M:Himall.Core.PredicateExtensions.True``1">
+            <summary>
+            初始True
+            <para>主针对And拼接</para>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.PredicateExtensions.False``1">
+            <summary>
+            初始False
+            <para>主针对Or拼接</para>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.PredicateExtensions.Compose``1(System.Linq.Expressions.Expression{``0},System.Linq.Expressions.Expression{``0},System.Func{System.Linq.Expressions.Expression,System.Linq.Expressions.Expression,System.Linq.Expressions.Expression})">
+            <summary>
+            条件构建
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="first"></param>
+            <param name="second"></param>
+            <param name="merge"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.PredicateExtensions.And``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            And拼接
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="first"></param>
+            <param name="second"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.PredicateExtensions.Or``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Or拼接
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="first"></param>
+            <param name="second"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Himall.Core.ParameterRebinder">
+            <summary>
+            条件重组
+            </summary>
+        </member>
+        <member name="T:Himall.Core.PluginsManagement">
+            <summary>
+            插件
+            </summary>
+        </member>
+        <member name="F:Himall.Core.PluginsManagement.IntalledPlugins">
+            <summary>
+            已安装插件
+            </summary>
+        </member>
+        <member name="F:Himall.Core.PluginsManagement.registed">
+            <summary>
+            标记是否已经在创建时加载，插件已注册
+            </summary>
+        </member>
+        <member name="F:Himall.Core.PluginsManagement.strategiesRegisted">
+            <summary>
+            标记是否已经在创建时加载，策略已注册
+            </summary>
+        </member>
+        <member name="M:Himall.Core.PluginsManagement.GetInstalledPluginInfos(Himall.Core.Plugins.PluginType)">
+            <summary>
+            获取已安装的插件信息
+            </summary>
+            <param name="pluginType">插件类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.PluginsManagement.GetPluginInfo(System.String)">
+            <summary>
+            获取指定的插件信息
+            </summary>
+            <param name="pluginId">插件标识</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.PluginsManagement.GetInstalledPlugins``1(Himall.Core.Plugins.PluginType)">
+            <summary>
+            获取已安装的插件
+            </summary>
+            <param name="pluginType">插件类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.PluginsManagement.GetInstalledPlugin``1(System.String)">
+            <summary>
+            获取已安装的插件
+            </summary>
+            <param name="pluginType">插件类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.PluginsManagement.RegistAtStartStrategies">
+            <summary>
+            加载策略所有dll
+            </summary>
+            <param name="pluginsDirectory"></param>
+        </member>
+        <member name="M:Himall.Core.PluginsManagement.RegistAtStart">
+            <summary>
+            加载指定目录下所有dll
+            </summary>
+            <param name="pluginsDirectory"></param>
+        </member>
+        <member name="M:Himall.Core.PluginsManagement.EnablePlugin_Private(System.String,System.Boolean)">
+            <summary>
+            开启插件
+            </summary>
+            <param name="pluginId">插件标识</param>
+            <param name="enable">是否开启</param>
+        </member>
+        <member name="M:Himall.Core.PluginsManagement.InstallPlugin(System.String)">
+            <summary>
+            安装插件
+            </summary>
+            <param name="pluginFullDirectory"></param>
+        </member>
+        <member name="M:Himall.Core.PluginsManagement.UnInstallPlugin(System.String)">
+            <summary>
+            卸载插件
+            </summary>
+            <param name="classFullName"></param>
+        </member>
+        <member name="M:Himall.Core.PluginsManagement.GetPlugins``1">
+            <summary>
+            获取指定类型所有插件
+            </summary>
+            <typeparam name="T">插件类型</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.PluginsManagement.GetPlugin``1(System.String)">
+            <summary>
+            获取指定id的插件
+            </summary>
+            <typeparam name="T">插件类型</typeparam>
+            <param name="pluginId">插件Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.PluginsManagement.EnablePlugin(System.String,System.Boolean)">
+            <summary>
+            开启插件
+            </summary>
+            <param name="pluginId">插件Id</param>
+            <param name="enable">是否开启</param>
+        </member>
+        <member name="M:Himall.Core.PluginsManagement.InstallDll(System.String)">
+            <summary>
+            加载(安装)dll 
+            </summary>
+            <param name="dllFileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.PluginsManagement.AddPluginInfo(System.IO.FileInfo)">
+            <summary>
+            添加插件信息
+            </summary>
+            <param name="dllFile"></param>
+        </member>
+        <member name="M:Himall.Core.PluginsManagement.UpdatePluginList(Himall.Core.Plugins.PluginInfo)">
+            <summary>
+            更新插件列表
+            </summary>
+            <param name="plugin"></param>
+        </member>
+        <member name="M:Himall.Core.PluginsManagement.GetPluginFiles(System.String)">
+            <summary>
+            获取插件程序集文件
+            </summary>
+            <param name="pluginDirectory">插件所在目录</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.PluginsManagement.DeepClone(Himall.Core.Plugins.PluginInfo)">
+            <summary>
+            深复制IPlugin
+            </summary>
+            <param name="plugin"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Himall.Core.HimallException">
+            <summary>
+            Himall 异常
+            </summary>
+        </member>
+        <member name="T:Himall.Core.Job">
+            <summary>
+            自动化任务
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Job.Start">
+            <summary>
+            开启自动化任务
+            </summary>
+        </member>
+        <member name="M:Himall.Core.Log.Error(System.Object)">
+            <summary>
+            一般错误
+            </summary>
+            <param name="message">消息</param>
+        </member>
+        <member name="M:Himall.Core.Log.Error(System.Object,System.Exception)">
+            <summary>
+            一般错误
+            </summary>
+            <param name="message">消息</param>
+            <param name="exception">异常</param>
+        </member>
+        <member name="M:Himall.Core.Log.Info(System.Object)">
+            <summary>
+            信息
+            </summary>
+            <param name="message">消息</param>
+        </member>
+        <member name="M:Himall.Core.Log.Info(System.Object,System.Exception)">
+            <summary>
+            信息
+            </summary>
+            <param name="message">消息</param>
+            <param name="exception">异常</param>
+        </member>
+        <member name="M:Himall.Core.Log.Warn(System.Object)">
+            <summary>
+            警告
+            </summary>
+            <param name="message">消息</param>
+        </member>
+        <member name="M:Himall.Core.Log.Warn(System.Object,System.Exception)">
+            <summary>
+            警告
+            </summary>
+            <param name="message">消息</param>
+            <param name="exception">异常</param>
+        </member>
+        <member name="M:Himall.Core.Log.Debug(System.Object)">
+            <summary>
+            调试
+            </summary>
+            <param name="message">消息</param>
+        </member>
+        <member name="M:Himall.Core.Log.Debug(System.Object,System.Exception)">
+            <summary>
+            调试
+            </summary>
+            <param name="message">消息</param>
+            <param name="exception">异常</param>
+        </member>
+        <member name="T:Himall.Core.ICacheLocker">
+            <summary>
+            缓存锁
+            </summary>
+        </member>
+        <member name="M:Himall.Core.HimallIO.GetFilePath(System.String)">
+            <summary>
+            获取文件的绝对路径
+            </summary>
+            <param name="fileName">文件名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.HimallIO.GetImagePath(System.String,System.String)">
+            <summary>
+            获取图片的路径
+            </summary>
+            <param name="imageName">图片名称</param>
+            <param name="styleName">样式名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.HimallIO.GetFileContent(System.String)">
+            <summary>
+            获取文件内容
+            </summary>
+            <param name="fileName">文件名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.HimallIO.CreateFile(System.String,System.IO.Stream,Himall.Core.FileCreateType)">
+            <summary>
+            创建普通文件
+            </summary>
+            <param name="fileName">文件名</param>
+            <param name="stream">文件流</param>
+            <param name="fileCreateType"></param>
+        </member>
+        <member name="M:Himall.Core.HimallIO.CreateFile(System.String,System.String,Himall.Core.FileCreateType)">
+            <summary>
+            创建普通文件
+            </summary>
+            <param name="fileName"></param>
+            <param name="content">文件内容</param>
+            <param name="fileCreateType"></param>
+        </member>
+        <member name="M:Himall.Core.HimallIO.CreateDir(System.String)">
+            <summary>
+            创建一个目录
+            </summary>
+            <param name="dirName"></param>
+        </member>
+        <member name="M:Himall.Core.HimallIO.ExistFile(System.String)">
+            <summary>
+            是否存在该文件
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.HimallIO.ExistDir(System.String)">
+            <summary>
+            是否存在该目录
+            </summary>
+            <param name="dirName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.HimallIO.DeleteDir(System.String,System.Boolean)">
+            <summary>
+            删除目录
+            </summary>
+            <param name="dirName"></param>
+            <param name="recursive">要移除 路径中的目录、子目录和文件，则为 true；否则为 false</param>
+        </member>
+        <member name="M:Himall.Core.HimallIO.DeleteFile(System.String)">
+            <summary>
+            删除文件
+            </summary>
+            <param name="fileName"></param>
+        </member>
+        <member name="M:Himall.Core.HimallIO.DeleteFiles(System.Collections.Generic.List{System.String})">
+            <summary>
+            批量删除文件
+            </summary>
+            <param name="fileNames"></param>
+        </member>
+        <member name="M:Himall.Core.HimallIO.CopyFile(System.String,System.String,System.Boolean)">
+            <summary>
+            复制文件到新目录
+            </summary>
+            <param name="sourceFileName">原路径</param>
+            <param name="destFileName">目标路径</param>
+            <param name="overwrite">是否覆盖</param>
+        </member>
+        <member name="M:Himall.Core.HimallIO.MoveFile(System.String,System.String,System.Boolean)">
+            <summary>
+            移动文件到新目录
+            </summary>
+            <param name="sourceFileName">原路径</param>
+            <param name="destFileName">目标路径</param>
+            <param name="overwrite">是否覆盖</param>
+        </member>
+        <member name="M:Himall.Core.HimallIO.GetDirAndFiles(System.String,System.Boolean)">
+            <summary>
+            列出目录下的文件和子目录
+            </summary>
+            <param name="dirName"></param>
+            <param name="self">是否包含本身 默认为false</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.HimallIO.GetFiles(System.String,System.Boolean)">
+            <summary>
+            列出目录下所有文件
+            </summary>
+            <param name="dirName"></param>
+            <param name="self">是否包含自身</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.HimallIO.AppendFile(System.String,System.IO.Stream)">
+            <summary>
+            指定的文件下追加内容（如果文件不存在，则创建可追加文件）
+            </summary>
+            <param name="fileName"></param>
+            <param name="stream"></param>
+        </member>
+        <member name="M:Himall.Core.HimallIO.AppendFile(System.String,System.String)">
+            <summary>
+            指定的文件下追加内容（如果文件不存在，则创建可追加文件）
+            </summary>
+            <param name="fileName"></param>
+            <param name="content"></param>
+        </member>
+        <member name="M:Himall.Core.HimallIO.GetDirMetaInfo(System.String)">
+            <summary>
+             获取目录基本信息
+            </summary>
+            <param name="dirName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.HimallIO.GetFileMetaInfo(System.String)">
+            <summary>
+            获取文件基本信息
+            </summary>
+            <param name="fileName">文件名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.HimallIO.CreateThumbnail(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            创建缩略图
+            </summary>
+            <param name="sourceFilename"></param>
+            <param name="destFilename"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+        </member>
+        <member name="M:Himall.Core.HimallIO.GetProductSizeImage(System.String,System.Int32,System.Int32)">
+            <summary>
+            获取不同尺码的商品图片
+            </summary>
+            <param name="productPath"></param>
+            <param name="index"></param>
+            <param name="width"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.HimallIO.GetRomoteImagePath(System.String,System.String)">
+            <summary>
+            获取带(http)的全路径图片给APP或者接口调用
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.HimallIO.GetRomoteProductSizeImage(System.String,System.Int32,System.Int32)">
+            <summary>
+            获取带(http)的全路径各种尺寸的图片给APP或者接口调用
+            </summary>
+            <param name="productPath"></param>
+            <param name="index"></param>
+            <param name="width"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Himall.Core.IHimallIO">
+            <summary>
+            文件操作接口
+            </summary>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.GetFilePath(System.String)">
+            <summary>
+            获取文件的绝对路径
+            </summary>
+            <param name="fileName">文件名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.GetImagePath(System.String,System.String)">
+            <summary>
+            获取图片的路径
+            </summary>
+            <param name="imageName">图片文件名称</param>
+            <param name="styleName">图片的样式</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.GetFileContent(System.String)">
+            <summary>
+            获取文件内容
+            </summary>
+            <param name="fileName">文件名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.CreateFile(System.String,System.IO.Stream,Himall.Core.FileCreateType)">
+            <summary>
+            创建普通文件（该文件不可追加内容）
+            </summary>
+            <param name="fileName">文件名称</param>
+            <param name="stream">文件流</param>
+            <param name="fileCreateType">文件的创建类型 默认为创建新文件</param>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.CreateFile(System.String,System.String,Himall.Core.FileCreateType)">
+            <summary>
+            创建普通文件（该文件不可追加内容）
+            </summary>
+            <param name="fileName">文件名称</param>
+            <param name="content">文件内容</param>
+            <param name="fileCreateType">文件的创建类型</param>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.CreateDir(System.String)">
+            <summary>
+            创建目录
+            </summary>
+            <param name="dirName">目录名称</param>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.ExistFile(System.String)">
+            <summary>
+            判断文件是否存在
+            </summary>
+            <param name="fileName">文件名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.ExistDir(System.String)">
+            <summary>
+            判断目录是否存在
+            </summary>
+            <param name="dirName">目录名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.DeleteDir(System.String,System.Boolean)">
+            <summary>
+            删除目录
+            </summary>
+            <param name="dirName">要移除的目录的名称</param>
+            <param name="recursive">要移除 path 中的目录、子目录和文件，则为 true；否则为 false</param>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.DeleteFile(System.String)">
+            <summary>
+            删除文件
+            </summary>
+            <param name="fileName">文件名称</param>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.DeleteFiles(System.Collections.Generic.List{System.String})">
+            <summary>
+            删除多个文件
+            </summary>
+            <param name="fileNames">文件名称集合</param>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.CopyFile(System.String,System.String,System.Boolean)">
+            <summary>
+            将文件拷贝到新位置
+            </summary>
+            <param name="sourceFileName">要拷贝的文件名称</param>
+            <param name="destFileName">目标文件的名称</param>
+            <param name="overwrite">是否允许覆盖 默认为false</param>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.MoveFile(System.String,System.String,System.Boolean)">
+            <summary>
+            将文件移动到新位置
+            </summary>
+            <param name="sourceFileName">要移动的文件名称</param>
+            <param name="destFileName">目标文件的名称</param>
+            <param name="overwrite">是否允许覆盖 默认为false</param>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.GetDirAndFiles(System.String,System.Boolean)">
+            <summary>
+            列出目录下的文件和子目录
+            </summary>
+            <param name="dirName">目录名称</param>
+            <param name="self">是否包含本身 默认为false</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.GetFiles(System.String,System.Boolean)">
+            <summary>
+            列出目录下所有文件
+            </summary>
+            <param name="dirName">目录名称</param>
+            <param name="self">是否包含本身 false</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.AppendFile(System.String,System.IO.Stream)">
+            <summary>
+            指定的文件下追加内容（如果文件不存在，则创建可追加文件）
+            </summary>
+            <param name="fileName">文件名称</param>
+            <param name="stream">文件流</param>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.AppendFile(System.String,System.String)">
+            <summary>
+            指定的文件下追加内容（如果文件不存在，则创建可追加文件）
+            </summary>
+            <param name="fileName">文件名称</param>
+            <param name="content">追加内容</param>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.GetDirMetaInfo(System.String)">
+            <summary>
+            获取目录基本信息
+            </summary>
+            <param name="dirName">目录名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.GetFileMetaInfo(System.String)">
+            <summary>
+            获取文件基本信息
+            </summary>
+            <param name="fileName">文件名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.CreateThumbnail(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            生成图片缩略图
+            </summary>
+            <param name="sourceFilename"></param>
+            <param name="destFilename"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+        </member>
+        <member name="M:Himall.Core.IHimallIO.GetProductSizeImage(System.String,System.Int32,System.Int32)">
+            <summary>
+            获取不同尺寸的产品图片
+            </summary>
+            <param name="productPath"></param>
+            <param name="index"></param>
+            <param name="width"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Himall.Core.SerializableDictionary`2">
+            <summary>
+            标题：支持 XML 序列化的 Dictionary
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TValue"></typeparam>
+        </member>
+        <member name="M:Himall.Core.SerializableDictionary`2.ReadXml(System.Xml.XmlReader)">
+            <summary>
+            从对象的 XML 表示形式生成该对象
+            </summary>
+            <param name="reader"></param>
+        </member>
+        <member name="M:Himall.Core.SerializableDictionary`2.WriteXml(System.Xml.XmlWriter)">
+            <summary>
+            将对象转换为其 XML 表示形式
+            </summary>
+            <param name="writer"></param>
+        </member>
+    </members>
+</doc>

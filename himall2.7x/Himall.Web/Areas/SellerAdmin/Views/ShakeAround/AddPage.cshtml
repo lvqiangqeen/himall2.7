@@ -1,0 +1,147 @@
+﻿<script src="~/Scripts/jquery.himallUpload.js"></script>
+<style>
+
+</style>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li><a href="/SellerAdmin/ShakeAround/PageIndex">管理</a></li>
+        <li class="active"><a>新增</a></li>
+    </ul>
+
+    <div class="form-horizontal">
+
+        
+        <div class="form-group upload-img" name="icon_url" id="icon_url"></div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>主标题</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm cw" value="" name="title"  type="text" id="title">
+            </div>
+            <div class="col-sm-4"><span class="help-default">不超过6个字</span></div>
+        </div>
+
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>副标题</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm cw" value="" name="description"  type="text" id="description">
+            </div>
+            <div class="col-sm-4"><span class="help-default">不超过7个字</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>跳转URL</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm cw" value="" name="page_url"  type="text" id="page_url">
+            </div>
+            <div class="col-sm-4"><span class="help-default">建议页面大小不超过200KB</span></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>备注信息</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm cw" value="" name="comment" maxlength="50" type="text" id="comment">
+            </div>
+            <div class="col-sm-4"><span class="help-default">建议填写，方便页面配置设备</span></div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="button" id="Save" class="btn btn-primary" value="保 存">
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    $( function ()
+    {
+        $( '#Save' ).click( function ()
+        {
+            
+            var s = {};
+            s.id = 0;
+            s.title = $( "#title" ).val();
+            s.description = $( "#description" ).val();
+            s.page_url = $( "#page_url" ).val();
+            s.comment = $( "#comment" ).val();
+            s.icon_url = $( "input[type=hidden][name=icon_urlx]" ).val();
+
+            if ( !Verification( s ) )
+            {
+                return;
+            }
+            var loading = showLoading();
+            $.post( '/SellerAdmin/ShakeAround/SavePage', s, function ( result )
+            {
+                loading.close();
+                if ( result.success )
+                {
+                    $.dialog.tips( '保存成功' );
+                    window.location.href = "/SellerAdmin/ShakeAround/PageIndex";
+                }
+                else
+                    $.dialog.errorTips( '保存失败！' + result.msg );
+            } );
+        } )
+
+        $( '#icon_url' ).himallUpload( {
+            title: '<span class="red">*</span>缩略图',
+            imageDescript: '建议尺寸 120x120像素，不超过200x200像素，需为正方形',
+            displayImgSrc: '',
+            imgFieldName: "icon_urlx",
+            dataWidth: 8
+        } );
+    } )
+
+    function Verification( obj )
+    {
+        for ( var i in obj )
+        {
+            if ( obj[i] == null || obj[i] === "" )
+            {
+                $.dialog.errorTips( '请将资料填写完整！' );
+                return false;
+            }
+        }
+
+        if ( GetStringLength( obj.title ) > 12 )
+        {
+            $.dialog.errorTips( '标题不能超过6个文字或12个英文/数字！' );
+            return false;
+        }
+        else if ( GetStringLength( obj.description ) > 14 )
+        {
+            $.dialog.errorTips( '副标题不能超过7个文字或14个英文/数字！' );
+            return false;
+        }
+        else if ( GetStringLength( obj.comment ) > 30 )
+        {
+            $.dialog.errorTips( '备注不能超过15个文字' );
+            return false;
+        }
+
+        return true;
+    }
+
+    function GetStringLength( str )
+    {
+        ///获得字符串实际长度，中文2，英文1 
+        ///要获得长度的字符串 
+        var realLength = 0, len = str.length, charCode = -1;
+        for ( var i = 0; i < len; i++ )
+        {
+            charCode = str.charCodeAt( i );
+            if ( charCode >= 0 && charCode <= 128 )
+                realLength += 1;
+            else realLength += 2;
+        }
+        return realLength;
+    };
+</script>

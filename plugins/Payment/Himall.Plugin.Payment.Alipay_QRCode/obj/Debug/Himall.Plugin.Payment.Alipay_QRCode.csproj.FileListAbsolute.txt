@@ -1,0 +1,16 @@
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_QRCode\bin\Debug\logo.gif
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_QRCode\bin\Debug\plugin.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_QRCode\bin\Debug\alipay.gif
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_QRCode\bin\Debug\alipay_help.jpg
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_QRCode\bin\Debug\data.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_QRCode\bin\Debug\Himall.Plugin.Payment.Alipay_QRCode.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_QRCode\bin\Debug\Himall.Plugin.Payment.Alipay_QRCode.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_QRCode\bin\Debug\Himall.Core.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_QRCode\bin\Debug\Himall.PaymentPlugin.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_QRCode\bin\Debug\Himall.Plugin.Payment.Alipay.Base.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_QRCode\bin\Debug\Himall.PaymentPlugin.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_QRCode\bin\Debug\Himall.Plugin.Payment.Alipay.Base.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_QRCode\bin\Debug\Himall.Core.xml
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_QRCode\obj\Debug\Himall.Plugin.Payment.Alipay_QRCode.csprojResolveAssemblyReference.cache
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_QRCode\obj\Debug\Himall.Plugin.Payment.Alipay_QRCode.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Payment\Himall.Plugin.Payment.Alipay_QRCode\obj\Debug\Himall.Plugin.Payment.Alipay_QRCode.pdb

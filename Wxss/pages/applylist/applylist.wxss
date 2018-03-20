@@ -1,0 +1,147 @@
+/* applylist.wxss */
+page {
+   background: #f5f5f5;
+   border-top:1rpx solid #e0e0e0;
+   color: #212121;
+}
+
+.font-arial{
+  font-family: Arial;
+}
+
+.applylist{
+   overflow: hidden;
+}
+
+.applylist .item{
+  margin-top: 24rpx;
+  overflow: hidden;
+  font-size: 28rpx;
+}
+
+.item .hd{
+  font-size: 28rpx;
+  line-height: 32rpx;
+  background: #fff;
+  overflow: hidden;
+  padding:32rpx 24rpx;
+}
+
+.item .hd .num{
+  float: left;
+}
+
+.item .hd .state{
+  float: right;
+  color: #FF5722;
+}
+
+.item .bd{
+  background: #f9f9f9;
+  padding:0rpx 24rpx;
+  overflow: hidden;
+}
+
+.item .bd .comm{
+  overflow: hidden;
+  margin-top: 32rpx; 
+  padding-bottom: 32rpx;
+  border-bottom: 1rpx solid #e0e0e0;
+}
+
+.item .bd .comm:last-child{ 
+  border-bottom: 0;
+}
+
+.item .bd .pic{
+   float:left;
+   width:129rpx;
+   height: 129rpx;
+   background: #fff;
+   border: 1rpx solid #e0e0e0;
+   margin-right: 16rpx;
+}
+
+.item .bd .pic image{
+   width:128rpx;
+   height: 128rpx;
+}
+
+.item .bd .info{
+   float: left;
+   width: 400rpx;
+}
+
+.item .bd .info .name{
+   font-size: 28rpx;
+   line-height: 36rpx; color: #212121;
+   height: 72rpx;
+   overflow: hidden;
+   text-overflow:ellipsis;
+   display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+
+}
+
+.item .bd .info .para{
+   margin-top: 28rpx;
+   font-size: 28rpx;
+   line-height: 36rpx;
+   overflow: hidden;
+   color: #747474;
+}
+
+.item .bd .price{
+   float: right;
+   width: 120rpx;
+   font-size: 28rpx;
+   line-height: 36rpx;
+   overflow: hidden;
+   text-align: right;
+   color: #212121;
+}
+.item .bd .price .sell{ font-size: 28rpx; line-height: 36rpx; color: #212121;}
+
+.item .bd .price view{display: inline-block;}
+
+.item .fd{
+   background: #fff;
+   overflow: hidden;
+}
+
+.item .fd .money{
+   text-align: right;
+   line-height: 40rpx;
+   font-size: 28rpx;
+   padding: 24rpx;
+   border-bottom: 1rpx solid #e0e0e0;
+}
+
+.item .fd .trade{
+   color: #747474;
+   margin-right: 24rpx;
+}
+
+.item .fd .refund{
+   color: #424242;
+}
+
+.item .fd .operate{
+    height: 64rpx;
+    padding:24rpx;
+    text-align: right;
+}
+
+.operate .btn-apply{
+    border:1rpx solid #ff5722;
+    background: #fff; 
+    width: 120rpx;
+    height: 62rpx;
+    color:#ff5722;
+    float: right;
+    line-height: 62rpx; 
+    font-size: 28rpx;
+}
+
+ 

@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "选择商家类型";
+}
+<link type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.min.css" rel="stylesheet" />
+<link type="text/css" href="~/Areas/Mobile/Templates/Default/Content/custom.css" rel="stylesheet" />
+@*<header class="mui-bar mui-bar-nav Gheader ">
+               <a class="mui-action-back mui-icon mui-pull-left back"  href="@(Url.Action("step1"))">返回</a>
+               <h1 class="mui-title">选择商家类型</h1>
+           </header>*@
+<div class="shop_container">
+    <div class="bussiness">
+        <a href="javascript:" onclick="selectShop(0)">
+            <img src="~/Areas/Mobile/Templates/Default/Images/ic_enterprise.png" />
+            <span>我是企业</span>
+        </a>
+    </div>
+    <div class="person">
+        <a href="javascript:" onclick="selectShop(1)">
+            <img src="~/Areas/Mobile/Templates/Default/Images/ic_personal.png" />
+            <span>我是个人</span>
+        </a>
+    </div>
+</div>
+<script type="text/javascript">
+    function selectShop(businessType) {
+        $.post("Agreement", { agree: "on", BusinessType: businessType }, function () {
+            location.href = "step3";
+        });
+    }
+</script>

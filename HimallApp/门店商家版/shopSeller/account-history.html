@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>历史账单</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header-blue2">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">历史账单</h1>
+		</header>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper account">
+			<div class="mui-scroll">
+				<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed account-history" id="trackList">
+			    </ul>
+			</div>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/template.js" ></script>
+		<script>
+			var w,
+		    	isEnd = false,
+				page = 0,
+		    	userkey = himall.getState().userkey,
+		    	trackList = document.getElementById("trackList");
+			mui.init({
+				pullRefresh : {
+				    container:'#pullrefresh',
+				    deceleration:0.0006,
+				    up : {
+					    contentrefresh : "正在加载...",
+					    contentnomore:'已加载全部',
+					    callback :initTrackList
+				    }
+				}
+			});
+			mui.plusReady(function() {
+				w=plus.nativeUI.showWaiting('',{padlock:true});
+				initTrackList('reset');
+				var ws=plus.webview.currentWebview();
+            	ws.setPullToRefresh({
+					support:true,
+					height:"50px",
+					range:"100px",
+					style: 'circle',
+					offset: '20px'
+				},function(){
+					setTimeout(function(){
+						reloadPage();
+						ws.endPullToRefresh();
+					},300)
+				});
+			});
+			function initTrackList(re){
+				var self=this;
+		      	if (!isEnd) {
+		      		page++;
+			        mui.ajax(URL+'API/ShopSettlement/GetShopYearSettledHistory',{
+			        	data:himall.md5Data({
+							userKey:userkey,
+							pageno:page,
+							pagesize:20
+						}),
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							if(data.rows.length <20){
+								isEnd = true;
+							}
+							if(re){
+								trackList.innerHTML=template('initTrackList', data);
+					        	mui('#pullrefresh').pullRefresh().scrollTo(0,0,20);;
+					        }else{
+				        		trackList.insertAdjacentHTML('beforeend',template('initTrackList', data));	
+					        	self.endPullupToRefresh(isEnd);
+					        }
+							if(page==1){
+								if(w){
+									w.close();
+								}
+								himall.removeClass(document.querySelector('.mui-content'),'transparent');
+								if(data.rows.length <= 0){
+									document.querySelector('.mui-pull-bottom-pocket').style.opacity=0;
+									trackList.innerHTML='';
+								}else{
+									document.querySelector('.mui-pull-bottom-pocket').style.opacity=1;
+								}
+							}else{
+								self.endPullupToRefresh(isEnd);
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							if(page!=1){
+								plus.nativeUI.toast('请求失败，请检查网络重试');
+								self.endPullupToRefresh(isEnd);
+								page--;
+							}
+							
+						}
+					});
+			    }else{
+			    	self.endPullupToRefresh(isEnd);
+			    }
+			}
+		    function reloadPage() {
+                isEnd = false;
+                page = 0;
+                mui('#pullrefresh').pullRefresh().refresh(true);
+                initTrackList('reset');
+            }
+		    mui('#trackList').on('tap', 'li', function(e) {
+				himall.openVW('account-settled.html', {WeekSettlementId:this.getAttribute('data-id'),data:this.getAttribute('data-num'),period:this.getAttribute('data-period')});
+			});
+		</script>
+		<script type="text/html" id="initTrackList">
+			{{each rows}}
+			<li class="mui-table-view-cell" data-id="{{$value.AccountId}}" data-num="{{$value.SettlementAmount}}" data-period="{{$value.BillingCycleStr}}">
+	            <div class="mui-table mui-navigate-right">
+	                <div class="mui-table-cell mui-col-xs-10">
+	                    <h4 class="mui-ellipsis">结算周期 {{$value.BillingCycleStr}}</h4>
+	                    <p class="mui-h6 mui-ellipsis">{{$value.AccountTimeStr}}</p>
+	                </div>
+	                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+	                    <span class="mui-h5">{{$value.SettlementAmount}}</span>
+	                </div>
+	            </div>
+	        </li>
+	        {{/each}}
+		</script>
+	</body>
+
+</html>

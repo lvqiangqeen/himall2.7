@@ -1,0 +1,81 @@
+﻿.homepage-header-bg a, .homepage-header-bg img, .homepage-header-photo a, .homepage-header-photo img {
+    vertical-align: bottom;
+}
+
+.homepage-header-bg img {
+    width: 320px;
+    height: auto;
+}
+
+.homepage-header-bg.style2 img {
+    width: 140px;
+}
+
+.homepage-header-photo img {
+    width: 65px;
+    height: auto;
+}
+
+.Header_style2_panel {
+    min-height: 500px;
+    width: 320px;
+    background: url(/Content/PublicMob/images/ind3_bj.jpg) center no-repeat #191919;
+    background-size: cover;
+}
+
+.Header_style20_panel {
+    min-height: 500px;
+    width: 320px;
+    background: url(/Content/PublicMob/images/20.jpg) center no-repeat #191919;
+    background-size: cover;
+}
+
+.header_style2_dataset_pic {
+    width: 26px;
+    padding: 5px;
+    background-color: #999;
+}
+
+    .header_style2_dataset_pic img {
+        width: 100%;
+        height: auto;
+    }
+
+.Header_style3_panel {
+    min-height: 500px;
+    width: 320px;
+    background: url(/Content/PublicMob/images/ind2_1.jpg) center no-repeat #191919;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.colorPanel {
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+    border: 1px solid #eee;
+    vertical-align: top;
+    cursor: pointer;
+}
+
+.homeBbox a b {
+    margin-top: 8px;
+}
+
+.Header_style4_panel {
+    min-height: 500px;
+    width: 320px;
+    background: url(/Content/PublicMob/images/ind1_bj.jpg) center no-repeat #191919;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.Header_style_panel {
+    min-height: 500px;
+    width: 320px;
+    background-size: cover;
+}
+
+.nodrag .members_con {
+    margin: -10px 0 3.125% 0 !important;
+}

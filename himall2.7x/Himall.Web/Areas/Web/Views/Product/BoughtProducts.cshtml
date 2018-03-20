@@ -1,0 +1,32 @@
+﻿@{
+    Layout = null;
+}
+@model List<Himall.Web.Areas.Web.Models.HotProductInfo>
+@if (@Model.Count > 0)
+{
+    <div class="m m2 m3">
+        <div class="mt">
+            <h2>购买该商品的还购买了</h2>
+        </div>
+        <div class="mc">
+            <ul>
+                @foreach (var p in Model)
+                {
+                    <li class="fore1">
+                        <div class="p-img">
+                            <a href="@Url.Action("detail", "Product" , new { id=@p.Id })" title="@p.Name" target="_blank">
+                                <img src="@Himall.Core.HimallIO.GetProductSizeImage(p.ImgPath, 1, (int)Himall.CommonModel.ImageSize.Size_220)" alt="@p.Name">
+                            </a>
+                        </div>
+                        <div class="p-name">
+                            <a href="@Url.Action("detail", "Product" , new { id=@p.Id })" title="@p.Name" target="_blank">@p.Name</a>
+                        </div>
+                        <div class="p-info p-bfc">
+                            <div class="p-price"><strong>￥@p.Price.ToString("f2")</strong></div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+}

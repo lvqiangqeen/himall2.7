@@ -1,0 +1,73 @@
+﻿@model Himall.Web.Areas.Admin.Models.Product.CategoryModel
+
+@{
+    ViewBag.Title = "Edit";
+    var error = ViewBag.Error;
+}
+
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Areas/Admin/Scripts/CategoryEdit.js"></script>
+
+<script type="text/javascript">
+   
+</script>
+<input type="hidden" value="@(Himall.Core.HimallIO.GetImagePath(Model.Icon))" id="Micon"/>
+<input type="hidden" value="@error" id="Mero" />
+<div class="container">
+    <ul class="breadcrumb clearfix">
+        <li><a>分类列表</a></li>
+        <li><a>编辑分类</a></li>
+    </ul>
+    @using (Html.BeginForm("Edit", "Category", new { Area = "Admin" }, FormMethod.Post, new { id = "categoryForm", @class = "form-horizontal" }))
+    {
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">名称：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control input-sm" })
+            </div>
+            <div class="col-sm-3">@Html.ValidationMessageFor(m => m.Name, "", new { @class = "help-default cor-red" })</div>
+        </div>
+        <div id="upload-img" class="form-group upload-img">
+
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">选择类型：</label>
+            <div class="col-sm-3">
+                @*<select class="form-control input-sm" name="TypeId">*@
+                @*@Html.GenerateTypeSelect(((IEnumerable<Himall.Model.ProductTypeInfo>)ViewBag.Types), Model.TypeId,-1)*@
+                @Html.DropDownListFor(t => t.TypeId, (IEnumerable<SelectListItem>)ViewBag.Types, new { @class = "form-control input-sm " })
+                @*</select>*@
+            </div>
+            <div class="col-sm-3">
+                @Html.ValidationMessageFor(t => t.TypeId)
+            </div>
+        </div>
+        if ((int)ViewBag.Depth == 3)
+        {
+            <div class="form-group">
+                <label for="" class="col-sm-2 control-label">分佣比例：</label>
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(m => m.CommisRate, new { @class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-1"><span class="help-default">%</span></div>
+                <div class="col-sm-3">@Html.ValidationMessageFor(m => m.CommisRate, "", new { @class = "help-default cor-red" })</div>
+            </div>
+        }
+        else
+        {
+            @Html.HiddenFor(m => m.CommisRate)
+        }
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">保 存</button>
+            </div>
+        </div>
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.Depth)
+        @Html.HiddenFor(m => m.ParentCategoryId)
+    }
+
+</div>

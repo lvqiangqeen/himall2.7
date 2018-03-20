@@ -1,0 +1,272 @@
+﻿ @model Himall.Web.Areas.Web.Models.HomePageModel
+
+
+@using Himall.Model
+@{
+    Layout = "~/Areas/Web/Views/Shared/_HeadAndFoot.cshtml";
+    //Layout = null;
+    ViewBag.Title = Model.Title;
+}
+@section Style{
+    <link href="~/Areas/Web/Content/style.css" rel="stylesheet" />
+
+}
+
+<!--content start-->
+<div class="first-screen cl">
+    <div class="slide-box">
+        <!-- 自动轮播图片-->
+        <div id="slide">
+            <ul class="slide-items">
+                @foreach (var silder in Model.slideImage)
+                {
+
+                    <li>
+                        <a href="@(silder.Url)" target="_blank" style="background-image:url(@Himall.Core.HimallIO.GetImagePath(silder.ImageUrl))"></a>
+                    </li>
+
+                }
+            </ul>
+        </div>
+        <div class="small-banner">
+
+            <a href="@Model.imageAdsTop[0].Url" target="_blank"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(Model.imageAdsTop[0].ImageUrl)" /></a>
+            <div class="banner-separator"></div>
+            <a href="@Model.imageAdsTop[1].Url" target="_blank"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(Model.imageAdsTop[1].ImageUrl)" /></a>
+        </div>
+    </div>
+
+</div>
+
+<div class="content">
+
+    <!--生活橱窗-->
+    <div class="live-show">
+        <ul>
+            <li><a href="@Model.CenterAds[0].Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(Model.CenterAds[0].ImageUrl)" /></a></li>
+            <li><a href="@Model.CenterAds[1].Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(Model.CenterAds[1].ImageUrl)" /></a></li>
+            <li><a href="@Model.CenterAds[2].Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(Model.CenterAds[2].ImageUrl)" /></a></li>
+        </ul>
+    </div>
+
+    @if (Model.FlashSaleModel.Count > 0)
+    {
+        <div class="Limited-buy">
+            <h5><s></s></h5>
+            <ul>
+                @foreach (var item in Model.FlashSaleModel)
+                {
+                    if (item.Quantity > 0)
+                    {
+                        <li>
+                            <span class="num-p">
+                                <b class="b1">仅余</b>
+                                @for (int i = 0; i < item.Quantity.ToString().Length; i++)
+                                {
+                                    <em>@item.Quantity.ToString()[i] </em>
+                                }
+                                <b class="b2">件</b>
+                            </span>
+                            <a class="limi-img" href="/LimitTimeBuy/Detail/@item.Id"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@item.ProductImg" width="230" height="230" /></a>
+                            <span class="old-p">原价<s>@item.MarketPrice</s></span>
+                            <span class="now-p">RMB<b>@item.MinPrice</b></span>
+                            <a class="buy-it-now" href="/LimitTimeBuy/Detail/@item.Id">立即抢购</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="sale-out">
+                            <span class="num-p">
+                                <b>已售完</b>
+                            </span>
+                            <a class="limi-img"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@item.ProductImg" width="230" height="230" /></a>
+                            <span class="old-p">原价<s>@item.MarketPrice</s></span>
+                            <span class="now-p">RMB<b>@item.MinPrice</b></span>
+                            <a class="buy-it-now">立即抢购</a>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    }
+
+    @*人气单品*@
+    <div class="content_re">
+        <div class="content_recont">
+            <h3>人气单品<em>Popular Item</em></h3>
+            <ul>
+                @foreach (var item in Model.imageAds)
+                {
+                    <li><a href="@item.Url" target="_blank"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(item.ImageUrl)"></a></li>
+                }
+            </ul>
+        </div>
+    </div>
+    <!-- 楼层循环-->
+    <div class="floors">
+        @{int floorIndex = 0;}
+        @foreach (var floor in Model.floorModels)
+        {
+            floorIndex++;
+            Html.RenderPartial("HomeFloorDetail" + floor.StyleLevel, floor);
+        }
+
+    </div>
+
+    <!--品牌旗舰店-->
+    <div class="Brand-shop">
+        <h3>品牌旗舰店<span>Flagship Store</span></h3>
+        <div class="BD-content">
+            <div class="BD-left">
+                <a href="@Model.ShopAds[0].Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(Model.ShopAds[0].ImageUrl)" /></a>
+            </div>
+            <div class="BD-mid">
+                <b class="bd-prev"></b>
+                <b class="bd-next"></b>
+                <div class="BD-wrap">
+                    <div class="scroll-wrap">
+                        <div class="scroll-brand clearfix">
+                            <ul>
+                                @for (int i = 0; i < Model.brands.listBrands.Count; i++)
+                                {
+                                    var c = Model.brands.listBrands[i];
+                                    <li><a href="/Search/SearchAd?b_id=@c.Id" title="@c.Name"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(c.Img)" class="lazyload" alt="@c.Name" /></a></li>
+
+                                    if ((i + 1) % 15 == 0 && !Model.brands.listBrands.Count.Equals(15))
+                                    {
+                                        @Html.Raw("</ul></div><div class=\"scroll-brand clearfix\"><ul>")
+                                    }
+                                }
+
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="BD-right">
+                <a href="@Model.ShopAds[1].Url"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Himall.Core.HimallIO.GetImagePath(Model.ShopAds[1].ImageUrl)" /></a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--楼层定位导航-->
+<div class="floor-nav">
+    <ul>
+        @{var m = Model.floorModels.Count();}
+        @for (var t = 0; t < m; t++)
+        {
+            var s = t == 0 ? "class='cur'" : "";
+            var txt = Model.floorModels[t].Name.Length > 2 ? Model.floorModels[t].Name.Substring(0, 2) : Model.floorModels[t].Name;
+            <li @s><a><span>@txt</span><em>@(t + 1)F</em></a></li>
+        }
+    </ul>
+</div>
+@section Script
+{
+    <script src="~/Areas/Web/Scripts/userInfo.js"></script>
+    <script src="~/Areas/Web/Scripts/home.js"></script>
+<script src="~/Scripts/JumpPlatForm.js"></script>
+	<script>
+ 		var advertisementImagePath = '@Himall.Core.HimallIO.GetImagePath(Model.AdvertisementImagePath)';
+		var advertisementUrl = '@Model.AdvertisementUrl';
+		if (advertisementImagePath != '') {
+			$(function () {
+				var div = $('<div id="adv_div"><a href="' + advertisementUrl + '" style="background-image: url(' + advertisementImagePath + ');"></a><div class="close">关闭</div></div>');
+				var div2 = $('<div id="adv_div"><a href="' + advertisementUrl + '"><img src="' + advertisementImagePath + '"></a><div class="close">关闭</div></div>');
+				$('body').prepend(div);
+				$('img', div2).load(function () {
+					div.height(90);
+				});
+				$('.close', div).click(function () {
+					div.remove();
+				});
+			});
+		}
+		
+		//$(function () {
+		//    $(".floor-six img").attr("src", "Areas/Web/Images/integra-bg.png")
+		//    $(".floor-seven img").attr("src", "Areas/Web/Images/integra-bg.png")
+		//    $(".floor-eight img").attr("src", "Areas/Web/Images/integra-bg.png")
+		//})
+		
+
+
+		//楼层品牌轮播
+		$(function () {
+			$('.content-brand').each(function() {//content-brand
+				scrollFloorBrand( $(this) );
+			});
+			function scrollFloorBrand(obj) {
+				var Bindex = 0,
+					Bwidth = 188,
+					timer = null,
+					scrollA = $(obj).find('.scroll-A'),
+					Blen = scrollA.length,
+					oPrev = $(obj).children('.prev'),
+					oNext = $(obj).children('.next');
+					console.log( oPrev );
+				function NextBrand() {
+					if (Bindex == Blen) {
+						Bindex = 0;
+					}
+					scrollA.stop(true, false).animate({ left: -Bindex * Bwidth + "px" }, 600)
+				}
+				function PrevBrand() {
+					if (Bindex == -1) {
+						Bindex = Blen - 1;
+					}
+					scrollA.stop(true, false).animate({ left: -Bindex * Bwidth + "px" }, 600)
+				}
+				oPrev.click(function () {
+					Bindex++;
+					NextBrand();
+					console.log(Bindex);
+				});
+				oNext.click(function () {
+					Bindex--;
+					PrevBrand();
+					console.log(Bindex);
+				});
+			}
+		});
+		//底部品牌轮播
+		$(function () {
+			$(function () {
+				var
+				index = 0;
+				Swidth = 550;
+				timer = null;
+				Slen = $(".BD-wrap .scroll-brand").length;
+				function NextPage() {
+					if (index > Slen - 1) {
+						index = 0;
+					}
+					$(".BD-wrap .scroll-brand").stop(true, false).animate({ left: -index * Swidth + "px" }, 600)
+				}
+
+				function PrevPage() {
+					if (index < 0) {
+						index = Slen - 1;
+					}
+
+					$(".BD-wrap .scroll-brand").stop(true, false).animate({ left: -index * Swidth + "px" }, 600)
+				}
+
+
+
+				$(".BD-mid .bd-next").click(function () {
+					index++;
+					NextPage();
+				});
+
+				$(".BD-mid .bd-prev").click(function () {
+					index--;
+					PrevPage();
+				});
+
+			});
+		})
+	</script>
+}

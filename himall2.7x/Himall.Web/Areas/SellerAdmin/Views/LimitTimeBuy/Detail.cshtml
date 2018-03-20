@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "Detail";
+}
+@model Himall.Model.FlashSaleModel
+
+<div class="container">
+    <ul class="breadcrumb clearfix">
+
+        <li><a href="../Management">限时购列表</a></li>
+        <li><a>查看详情</a></li>
+
+
+    </ul>
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>活动标题：</label>
+            <div class="col-sm-7"><label class=" control-label" for="">@Model.Title</label></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>活动商品：</label>
+            <div class="col-sm-9"><label class="control-label" for="">@Model.ProductName</label></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>商品详情：</label><br>
+            <div class="col-sm-9">
+                <table id="tbl" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td style='text-align:center'>主商品</td>
+                            <td style='text-align:center'>规格</td>
+                            <td style='text-align:center'>原价</td>
+                            <td style='text-align:center'>限时价</td>
+                            <td style='text-align:center'>库存</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{bool isFirst = true;}
+                        @foreach( var item in Model.Details )
+                        {
+                            if( isFirst && Model.Details.Count > 1 )
+                            {
+                                <tr>
+                                    <td rowspan="@Model.Details.Count" style='text-align:center'><img src="@(Himall.Core.HimallIO.GetProductSizeImage(Model.ProductImg, 1, (int)Himall.CommonModel.ImageSize.Size_50))" /></td>
+                                    <td style='text-align:center'>@item.Color  @item.Size  @item.Version</td>
+                                    <td style='text-align:center'>@item.SalePrice</td>
+                                    <td style='text-align:center'>@item.Price</td>
+                                    <td style='text-align:center'>@item.Stock</td>
+                                </tr>
+                            }
+                            else if( isFirst && Model.Details.Count == 1 )
+                            {
+                                <tr>
+                                    <td style='text-align:center'><img src="@(Himall.Core.HimallIO.GetProductSizeImage(Model.ProductImg,1,50))" /></td>
+                                    <td style='text-align:center'>@item.Color  @item.Size  @item.Version</td>
+                                    <td style='text-align:center'>@item.SalePrice</td>
+                                    <td style='text-align:center'>@item.Price</td>
+                                    <td style='text-align:center'>@item.Stock</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td style='text-align:center'>@item.Color  @item.Size  @item.Version</td>
+                                    <td style='text-align:center'>@item.SalePrice</td>
+                                    <td style='text-align:center'>@item.Price</td>
+                                    <td style='text-align:center'>@item.Stock</td>
+                                </tr>
+                            }
+                            isFirst = false;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>活动分类：</label>
+            <div class="col-sm-3"><label class="control-label" for="">@Model.CategoryName</label></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>开始时间：</label>
+            <div class="col-sm-3"><label class=" control-label" for="">@Model.BeginDate</label></div>
+       
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>结束时间：</label>
+            <div class="col-sm-3"><label class="control-label" for="">@Model.EndDate</label></div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>购买限制：</label>
+            <div class="col-sm-3"><label class="control-label" for="">@Model.LimitCountOfThePeople</label></div>
+           
+        </div>
+    </div>

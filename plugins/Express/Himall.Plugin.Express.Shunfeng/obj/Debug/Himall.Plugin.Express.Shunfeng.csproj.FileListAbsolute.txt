@@ -1,0 +1,10 @@
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shunfeng\bin\Debug\plugin.config
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shunfeng\bin\Debug\Himall.Plugin.Express.Shunfeng.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shunfeng\bin\Debug\Himall.Plugin.Express.Shunfeng.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shunfeng\bin\Debug\Himall.Core.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shunfeng\bin\Debug\Himall.ExpressPlugin.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shunfeng\bin\Debug\Himall.ExpressPlugin.pdb
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shunfeng\bin\Debug\Himall.Core.xml
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shunfeng\obj\Debug\Himall.Plugin.Express.Shunfeng.csprojResolveAssemblyReference.cache
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shunfeng\obj\Debug\Himall.Plugin.Express.Shunfeng.dll
+D:\Users\Administrator\Desktop\2121\HiMall2.61\HiMall2.61\plugins\Express\Himall.Plugin.Express.Shunfeng\obj\Debug\Himall.Plugin.Express.Shunfeng.pdb

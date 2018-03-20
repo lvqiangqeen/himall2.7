@@ -1,0 +1,247 @@
+﻿@using Himall.Core;
+@using Himall.DTO;
+@model Himall.Model.OrderInfo
+@{var itemDis = Model.OrderItemInfo.Sum(i => i.DiscountAmount); var shopBranchInfo = ViewBag.ShopBranchInfo as ShopBranch;}
+<script src="~/Areas/Admin/Scripts/OrderDetail.js"></script>
+
+<div class="container clear-q1">
+    <ul class="breadcrumb clearfix" style="margin-bottom:0;">
+        <li><a>订单列表</a></li>
+        <li><a>查看订单详情 </a></li>
+    </ul>
+
+    <div class="order-info clearfix mr20">
+        <h3> <span></span>订单信息</h3>
+        <div class="caption">
+            <div class="form-group clearfix">
+                <label class="col-sm-4">订单状态：</label>
+                <div class="col-sm-5 form-control-static">@Model.OrderStatus.ToDescription()</div>
+                @if (Model.OrderType == Himall.Model.OrderInfo.OrderTypes.FightGroup)
+                {
+                    <div class="col-sm-3 form-control-static">
+                        <span class="fgordstatus fgordstatus@(Model.FightGroupOrderJoinStatus.GetHashCode())">@(Model.FightGroupOrderJoinStatus.ToDescription())</span>
+                    </div>
+                }
+            </div>
+            <div class="form-group clearfix"><label class="col-sm-4">订 单 号：</label><div class="col-sm-8 form-control-static">@Model.Id</div></div>
+            <div class="form-group clearfix"><label class="col-sm-4">买家：</label><div class="col-sm-8 form-control-static">@Model.UserName</div></div>
+            <div class="form-group clearfix"><label class="col-sm-4">下单时间：</label><div class="col-sm-8 form-control-static">@Model.OrderDate.ToString("yyyy-MM-dd HH:mm:ss")</div></div>
+
+            @if (Model.PayDate != null && Model.OrderStatus != Himall.Model.OrderInfo.OrderOperateStatus.WaitPay)
+            {
+                if (@Model.OrderTotalAmount == 0)
+                {
+                    <div class="form-group clearfix"><label class="col-sm-4">支付方式：</label> <div class="col-sm-8 form-control-static">积分支付</div></div>
+                }
+                else if (string.IsNullOrEmpty(Model.PaymentTypeName))
+                {
+                    <div class="form-group clearfix"><label class="col-sm-4">支付方式：</label><div class="col-sm-8 form-control-static">平台确认收款  <span>【备注：@{@Model.PayRemark}】<</span></div></div>
+    }
+    else
+    {
+        <div class="form-group clearfix"><label class="col-sm-4">支付方式：</label> <div class="col-sm-8 form-control-static">@Model.PaymentTypeName @Model.PayRemark</div> </div>
+        <div class="form-group clearfix"><label class="col-sm-4">支付流水号：</label><div class="col-sm-8 form-control-static">@Model.GatewayOrderId</div></div>
+        }
+    }
+            <div class="form-group clearfix"><label class="col-sm-4">支付时间：</label><div class="col-sm-8 form-control-static">@(Model.PayDate.HasValue ? Model.PayDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</div></div>
+            @if (Model.InvoiceType != Himall.Model.InvoiceType.None)
+            {
+                <div class="form-group clearfix"><label class="col-sm-4">发票抬头：</label><div class="col-sm-8 form-control-static">@Model.InvoiceTitle</div></div>
+                <div class="form-group clearfix"><label class="col-sm-4">发票内容：</label><div class="col-sm-8 form-control-static">@Model.InvoiceContext</div></div>
+            }
+            @if (Model.SellerRemarkFlag.HasValue)
+            {
+                <div class="form-group" title="@Model.SellerRemark">
+                    <label class="col-sm-4">商家备注：</label>
+
+
+                    <div class="col-sm-8 form-control-static" id="txtSellerRemark">@Model.SellerRemark</div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="delivery-info clearfix">
+        <h3><span></span>收货信息</h3>
+        <div class="caption">
+            <div class="form-group clearfix"><label class="col-sm-4">收 货 人：</label><div class="col-sm-8 form-control-static">@Model.ShipTo</div></div>
+            <div class="form-group clearfix"><label class="col-sm-4">手机号码：</label><div class="col-sm-8 form-control-static">@Model.CellPhone</div></div>
+            <div class="form-group clearfix"><label class="col-sm-4">收货地址：</label><div class="col-sm-8 form-control-static">@Model.RegionFullName @Model.Address</div></div>
+
+            @if (!string.IsNullOrEmpty(Model.ExpressCompanyName))
+            {
+                <div class="form-group clearfix"><label class="col-sm-4">物流公司：</label><div class="col-sm-8 form-control-static">@Model.ExpressCompanyName</div></div>
+            }
+            @*@if (Model.PayDate != null && Model.OrderStatus != Himall.Model.OrderInfo.OrderOperateStatus.WaitPay && Model.OrderStatus != Himall.Model.OrderInfo.OrderOperateStatus.WaitSelfPickUp)
+            {
+                if (@Model.OrderTotalAmount == 0)
+                {
+                    <div class="form-group clearfix"><label class="col-sm-4">支付方式：</label><div class="col-sm-8 form-control-static">积分支付</div></div>
+                }
+                else if (string.IsNullOrEmpty(Model.PaymentTypeName))
+                {
+                    <div class="form-group clearfix"><label class="col-sm-4">支付方式：</label><div class="col-sm-8 form-control-static">平台确认收款  <span>【备注：@{@Model.PayRemark}】</span></div></div>
+                }
+                else
+                {
+                    <div class="form-group clearfix"><label class="col-sm-4">支付方式：</label> <div class="col-sm-8 form-control-static">@Model.PaymentTypeName @Model.PayRemark</div></div>
+                 }
+            }*@
+            @if (Model.DeliveryType == Himall.CommonModel.Enum.DeliveryType.SelfTake)
+            {
+                @*<div class="orderstate-detail">
+                        <p><label>核销人：</label><span>@ViewBag.ShopBranchContactUser </span></p>
+                        <p><label>核销时间：</label><span>@(Model.FinishDate.HasValue? Model.FinishDate.Value.ToString("yyyy-MM-dd"):string.Empty)</span></p>
+                    </div>*@
+                <div class="form-group clearfix">
+                    <label class="col-sm-4">核销时间：</label>
+                    <div class="col-sm-8 form-control-static">@(Model.FinishDate.HasValue ? Model.FinishDate.Value.ToString("yyyy-MM-dd") : string.Empty)</div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="col-sm-4">核销人：</label>
+                    <div class="col-sm-8 form-control-static">@ViewBag.ShopBranchContactUser</div>
+                </div>
+            }
+            @if (Model.OrderStatus != Himall.Model.OrderInfo.OrderOperateStatus.WaitSelfPickUp)
+            {
+                <div class="form-group clearfix"><label class="col-sm-4">发货时间：</label><div class="col-sm-8 form-control-static">@(Model.ShippingDate.HasValue ? Model.ShippingDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</div></div>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.ShipOrderNumber))
+            {
+                <div class="form-group clearfix"><label class="col-sm-4">快递单号：</label><div class="col-sm-8 form-control-static">@Model.ShipOrderNumber      <a href="javascript:;" onclick="showExpress();">查看物流信息</a></div></div>
+            }
+            @if (shopBranchInfo != null)
+            {
+                if (Model.DeliveryType != Himall.CommonModel.Enum.DeliveryType.SelfTake)
+                {
+                <div class="form-group"><label class="col-sm-4">配送门店：</label><div class="col-sm-8 form-control-static">@shopBranchInfo.ShopBranchName</div></div>
+                <div class="form-group"><label class="col-sm-4">配送方式：</label><div class="col-sm-8 form-control-static">门店配送</div></div>
+                <div class="form-group"><label class="col-sm-4">配送时间：</label><div class="col-sm-8 form-control-static">@(Model.ShippingDate.HasValue ? Model.ShippingDate.Value.ToString("yyyy-MM-dd") : "任意时间")</div></div>
+                }
+                <div class="form-group"><label class="col-sm-4">联系方式：</label><div class="col-sm-8 form-control-static">@shopBranchInfo.ContactPhone</div></div>
+                <div class="form-group"><label class="col-sm-4">门店地址：</label><div class="col-sm-8 form-control-static">@shopBranchInfo.AddressFullName</div></div>
+            }
+            @*<p>买家备注：@Model.UserRemark</p>*@<p></p>
+        </div>
+    </div>
+
+    <div class="order-detail-list">
+        <h3><span></span>订单清单</h3>
+        <table class="table clearfix">
+            <thead>
+                <tr class="tac">
+                    <th class="tac" width="300">商品名称</th>
+                    <th class="tac" width="100">规格</th>
+                    <th class="tac" width="100">单价/数量</th>
+                    @if (itemDis != 0)
+                    {
+                        <th class="tac">改价</th>
+                    }
+                    <th class="tac" width="100">总价</th>
+                    <th class="tac" width="100">佣金</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var orderItem in Model.OrderItemInfo)
+                {
+                    <tr class="tac">
+                        <td class="name-info tal">
+                            <a target="_blank" href="/product/detail/@orderItem.ProductId">
+                                <img class="ml15" width="40" height="40" src="@(Himall.Core.HimallIO.GetProductSizeImage(orderItem.ThumbnailsUrl, 1, (int)Himall.CommonModel.ImageSize.Size_50))">@orderItem.ProductName
+                            </a>
+                        </td>
+                        <td>@orderItem.Color @orderItem.Size @orderItem.Version</td>
+                        <td>@orderItem.SalePrice.ToString("F2")*@orderItem.Quantity</td>
+                        @if (itemDis != 0)
+                        {
+                            <td>
+                                @if (@orderItem.DiscountAmount > 0)
+                                {
+                                    <span>-@orderItem.DiscountAmount.ToString("F2")</span>
+                                }
+                                else
+                                {
+                                    <span>+@Math.Abs(orderItem.DiscountAmount).ToString("F2")</span>
+                                }
+                            </td>
+                        }
+                        <td class="clear-q2">@orderItem.RealTotalPrice.ToString("F2")</td>
+
+                        <td>@((orderItem.CommisRate * (orderItem.RealTotalPrice - orderItem.RefundPrice)).ToString("F2"))</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="order-bottom-detail clearfix">
+            <!--留言字段添加6-12-->
+            <div class="leave-message">
+                <label>买家留言：</label>
+                <span>@Model.OrderRemarks</span>
+            </div>
+            <div class="order-total">
+                <span><label>商品总价：</label><i>￥ @Model.ProductTotalAmount.ToString("F2")</i></span>
+                @if (Model.FullDiscount > 0)
+            {
+                    <span><label>满减优惠:</label><i>-￥@Model.FullDiscount.ToString("F2")</i></span>
+                }
+
+                @if (Model.DiscountAmount > 0)
+                {
+                    <span><label>优惠券抵扣金额:</label><i>-￥@Model.DiscountAmount.ToString("F2")</i></span>
+                }
+                @if (Model.IntegralDiscount > 0)
+                {
+                    <span><label>积分抵扣金额：</label><i> ￥@Model.IntegralDiscount.ToString("F2")</i></span>
+                }
+                @if (itemDis != 0)
+                {
+                    <span>
+                        <label class="pl4">商家改价：</label>
+                        @if (itemDis > 0)
+                        {
+                            <i>- @itemDis</i>
+                        }
+                        else
+                        {
+                            <i>+ @(-itemDis)</i>
+                        }
+                    </span>
+                }
+                <span><label>运费：</label><i>￥@Model.Freight.ToString("F2")</i></span>
+                <span><label class="clear-q2">订单实付金额：</label><i class="clear-q2">￥@Model.OrderTotalAmount.ToString("F2")</i></span>
+            </div>
+        </div>
+        <div class="delivery-detail" id="delivery-detail">
+            <p class="clear-q3">物流详情<span class="detail-open"></span></p>
+            <div id="tbExpressData" class="clearfix clear-q4">
+            </div>
+        </div>
+
+        <div class="order-log">
+            <p>订单操作日志<span class="list-open"></span></p>
+            <table class="table dln">
+                <thead>
+                    <tr>
+                        <th class="tac">操作者</th>
+                        <th class="tac">时间</th>
+                        <th class="tac">描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var orderOperationLog in Model.OrderOperationLogInfo)
+                    {
+                        <tr class="tac">
+                            <td>@orderOperationLog.Operator</td>
+                            <td>@orderOperationLog.OperateDate</td>
+                            <td>@orderOperationLog.OperateContent</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <input type="hidden" value="@Model.ExpressCompanyName" id="MECo" />
+    <input type="hidden" value="@Model.ShipOrderNumber" id="MSOn" />
+</div>

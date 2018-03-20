@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>专题详情页</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">专题详情</h1>
+		</header>
+		<div id="scrollDiv" class="scroll-div">
+			<div class="mui-content transparent">
+				<div id="topicDetail" class="topic-head">
+				</div>
+				<ul class="mui-table-view mui-grid-view mui-clearfix vshop-product" id="productsList"></ul>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js" ></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/template.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true
+			});
+			var productList='',
+				dataC;
+			mui.plusReady(function() {
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				topicId = plus.webview.currentWebview().topicId;
+				mui.ajax(URL+'api/Topic/GetTopicDetail',{
+					data:himall.md5Data({
+						id:topicId
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(data.Success=='true'){
+							dataC=data;
+							document.getElementsByClassName('mui-title')[0].innerText=dataC.Topic.Name;
+							var html='';
+							html+='<img src="'+dataC.Topic.TopImage+'"/>';
+							if(dataC.Topic.TopicModule.length>0){
+								html+='<div class="topic-nav"><div class="mui-scroll-wrapper">'+
+								'<div class="mui-scroll">';
+						        	for(var i=0;i<dataC.Topic.TopicModule.length;i++){
+						        		if(i==0)
+											html+='<a class="cur">'+dataC.Topic.TopicModule[i].Name+'</a>';
+										else
+											html+='<a>'+dataC.Topic.TopicModule[i].Name+'</a>';
+						            }
+						        	html+='</div>'+
+									'</div>'+
+								'</div>';
+					        	document.getElementById('topicDetail').innerHTML=html;
+					        	document.querySelector('.mui-scroll').style.width=dataC.Topic.TopicModule.length*74+'px';
+					        	mui('.mui-scroll-wrapper').scroll({scrollY:false ,scrollX: true,bounce: true,indicators:false})
+					        	document.getElementById('productsList').innerHTML=template('initProduct',dataC.Topic.TopicModule[0]);;
+			                    delayimg.init({content:document.getElementById('scrollDiv')});
+					        }
+							w.close();
+							himall.removeClass(document.querySelector('.mui-content'),'transparent');
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						reloadWvLoad();
+					}
+				});
+			});
+			
+			mui('#productsList').on('tap', 'a', function() {
+				showProduct(this.getAttribute('data-id'));
+			});
+			
+			var index;
+            mui('#topicDetail').on('tap','.topic-nav a',function(){
+            	index=getIndex(this);
+            	document.getElementById('productsList').innerHTML=template('initProduct',dataC.Topic.TopicModule[index]);
+            	document.getElementsByClassName('cur')[0].className='';
+            	this.className='cur';
+            	
+            	delayimg.init({content:document.getElementById('scrollDiv')});
+            });
+			
+			
+		</script>
+		
+		<script type="text/html" id="initProduct">
+			{{each TopicModelProduct}}
+				<li class="mui-table-view-cell mui-media mui-col-xs-6">
+        			<div class="vshop-product-box">
+						<a data-id="{{$value.Id}}">
+							<div class="p-img"><b data-delay-background="{{$value.Image}}"></b></div>
+							<div class="mui-media-body">{{$value.Name}}</div>
+							<p class="vshop-product-price"><span>¥ {{$value.Price}}</span></p>
+						</a>
+					</div>
+        		</li>
+        	{{/each}}
+		</script>
+		
+	</body>
+
+</html>

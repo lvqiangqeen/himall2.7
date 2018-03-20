@@ -1,0 +1,141 @@
+﻿body {
+    background: #f1f1f1;
+}
+
+.homeCpay {
+    width: 95px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background: none !important;
+    border: 1px solid #603b1b;
+    border-radius: 0;
+    font-size: 12px;
+    position: absolute;
+    top: 150px;
+    left: 50%;
+    margin-left: -50px;
+}
+
+    .homeCpay a {
+        display: inline-block;
+        color: #603b1b;
+        width: 100%;
+        line-height: 30px;
+    }
+
+.homeCmargin {
+    height: 30px;
+    overflow: hidden;
+    text-align: center;
+    margin: 50px auto 0;
+}
+
+.homeCtitle {
+    width: 90%;
+    color: #603b1b;
+    font-size: 25px;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 5px;
+    margin: 0 auto;
+    line-height: 33px;
+}
+
+.homeCcon {
+    width: 100%;
+    text-align: center;
+    padding-top: 0;
+    font-size: 12px;
+    color: #603b1b;
+    line-height: 20px;
+}
+
+.homeCnav {
+    width: 100%;
+    height: 65px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: rgba(0,0,0,.5) none repeat scroll !important;
+}
+
+.homeCnavbox {
+    width: 100%;
+    overflow: hidden;
+    height: 65px;
+}
+
+    .homeCnavbox ul {
+        width: 100%;
+        position: relative;
+    }
+
+        .homeCnavbox ul li {
+            float: left;
+            text-align: center;
+            overflow: hidden;
+            width: 25%;
+        }
+
+            .homeCnavbox ul li a {
+                height: 65px;
+                display: block;
+                overflow: hidden;
+            }
+
+                .homeCnavbox ul li a img {
+                    padding-top: 6px;
+                }
+
+                .homeCnavbox ul li a h2 {
+                    color: #fff;
+                    font-size: 15px;
+                    padding-top: 5px;
+                }
+
+.mobile10_nav, .mobile10_nav ul {
+    width: 100%;
+    height: 100%;
+}
+
+    .mobile10_nav ul li {
+        float: left;
+        width: 49.8%;
+        height: 33.3%;
+        text-align: center;
+        border: #999289 solid 1px;
+        border-width: 0 1px 1px 0;
+    }
+
+        .mobile10_nav ul li a {
+            display: block;
+        }
+
+.members_nav1 ul li span img {
+    width: 70% !important;
+    margin: 15px auto 10px;
+}
+
+.mobile10_nav ul li b {
+    display: block;
+    color: #fff;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.mobile10_nav ul li:nth-child(even) {
+    border-right: 0;
+}
+
+.mobile10_nav ul li:nth-child(5), .mobile10_nav ul li:nth-child(6) {
+    border-bottom: 0;
+}
+
+.members_flash, .members_imgad {
+    margin-bottom: 15px;
+}
+
+.membersbox-box {
+    margin-top: -10px;
+}

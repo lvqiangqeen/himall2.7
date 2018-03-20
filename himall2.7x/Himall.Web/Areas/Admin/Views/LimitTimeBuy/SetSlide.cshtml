@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "SlideManagement";
+}
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallUpload.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Areas/Admin/Scripts/LimitTimeBuySetSlide.js"></script>
+
+
+<div class="container">
+
+    <ul class="nav nav-tabs-custom clearfix">
+        <li ><a href="./Management">活动列表</a></li>
+        <li class ="active"><a>活动页面设置</a></li>
+        <li><a href="./BoughtList">服务购买列表</a></li>
+        <li><a href="./MarketCategory">活动商品分类</a></li>
+        <li><a href="./ServiceSetting">服务费用设置</a></li>
+        <li><a href="./ConfigSetting">活动参数设置</a></li>
+
+    </ul>
+
+
+        <a  id="AddSlide" class="btn" ><span class="glyphicon glyphicon-plus" style="color:#8d9092"></span>&nbsp; 新增轮播图</a>
+
+    <table id="slideDatagrid" class="table"></table>
+
+    @*<div style="margin:10px 0px;">
+        <span>注：最多同时增加<strong>6</strong>张图片</span>
+    </div>*@
+</div>
+
+

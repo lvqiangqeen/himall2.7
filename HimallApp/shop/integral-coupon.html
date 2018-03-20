@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>积分优惠券</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">积分优惠券</h1>
+		</header>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper transparent">
+			<div class="mui-scroll">
+				<ul class="integral-coupon integral-product" id="integralCoupon"></ul>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/template.js" ></script>
+		<script>
+			var isnodata = false,
+				page = 1,
+				integralCoupon=document.getElementById('integralCoupon');
+			mui.init({
+				pullRefresh : {
+				    container:'#pullrefresh',
+				    deceleration:0.0006,
+				    up : {
+					    contentrefresh : "正在加载...",
+					    contentnomore:'已加载全部优惠券',
+					    callback :function(){
+					      	var self=this;
+					      	if (!isnodata) {
+					      		page++;
+						        mui.ajax(URL+'api/Coupon/GetIntegralCoupon',{
+						        	data:himall.md5Data({
+										page:page,
+										pagesize:10
+									}),
+									dataType:'json',
+									type:'get',
+									timeout:10000,
+									success:function(data){
+					                    if(data.Total>0){
+											integralCoupon.insertAdjacentHTML('beforeend',template('initCoupon', data));
+											delayimg.render();
+										}
+					                    if (data.Total<=page*10) {isnodata = true;}
+										self.endPullupToRefresh(isnodata);
+									},
+									error:function(xhr,type,errorThrown){
+										plus.nativeUI.toast('请求失败，请检查网络')
+									}
+								});
+						    }else{
+						    	self.endPullupToRefresh(isnodata);
+						    }
+				    	}
+				    }
+				},
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				var ws=plus.webview.currentWebview(),
+					w=plus.nativeUI.showWaiting('',{padlock:true});
+				ws.setStyle({scrollIndicator:'none'});
+				mui.ajax(URL+'api/Coupon/GetIntegralCoupon',{
+					data:himall.md5Data({
+						page:page,
+						pagesize:10
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if (data.Total<=10) {isnodata = true;}
+						integralCoupon.innerHTML=template('initCoupon', data);
+						delayimg.init();
+						w.close();
+						himall.removeClass(document.getElementById('pullrefresh'),'transparent');
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						reloadWvLoad();
+					}
+				});
+			});
+			
+			mui('#integralCoupon').on('tap', '.getCoupon', function() {
+				if(himall.isLogin()){
+					var _this=this,
+						btnArray = ['确认','取消'];
+					mui.confirm('此券需要'+_this.getAttribute('data-pay')+'积分，是否兑换？', '', btnArray, function(e) {
+						if(e.index == 0) {
+							var w=plus.nativeUI.showWaiting('',{padlock:true});
+							mui.ajax(URL+'api/coupon/PostAcceptCoupon',{
+								data:himall.md5Data({
+									couponId:_this.getAttribute('data-id'),
+									userkey:himall.getState().userkey
+								}),
+								dataType:'json',
+								type:'POST',
+								timeout:10000,
+								success:function(data){
+									w.close();
+									if(data.Success=="true"){
+										plus.nativeUI.toast('恭喜您，优惠券兑换成功');
+									}else{
+										if(data.Status==2)
+											plus.nativeUI.toast('优惠券已经过期');
+										if(data.Status==3)
+											plus.nativeUI.toast('每个ID限兑'+_this.getAttribute("data-max")+'张，您兑换次数已满');
+										if(data.Status==4)
+											plus.nativeUI.toast('您下手慢了，被抢光了~');
+										if(data.Status==5)
+											plus.nativeUI.toast('抱歉，您的积分不足攒够再来吧~');
+									}
+								},
+								error:function(xhr,type,errorThrown){
+									w.close();
+									plus.nativeUI.toast('优惠券兑换失败，请检查网络')
+								}
+							});
+						}
+					});
+				}else{
+					showLogin();
+				}
+			});
+			
+
+		</script>
+		
+		<script type="text/html" id="initCoupon">
+        	{{each Models}}
+        		<li>
+					<div class="p-img">
+						<b data-delay-background="{{$value.ShowIntegralCover}}"></b>
+						{{if $value.StockQuantity==0}}
+							<span>已兑完</span>
+						{{/if}}
+					</div>
+					<div class="p-text">
+						<h3>{{$value.ShopName}}</h3>
+						{{if $value.OrderAmount!=0}}
+							<p>{{$value.Price}} 元券满{{$value.OrderAmount}}可用</p>
+						{{else}}
+							<p>{{$value.Price}} 元券无门槛使用 </p>
+						{{/if}}
+						<h6><span>{{$value.NeedIntegral}}</span> 积分<a class="getCoupon" data-id="{{$value.Id}}" data-pay="{{$value.NeedIntegral}}" data-max="{{$value.PerMax}}">马上兑</a></h6>
+					</div>
+				</li>
+            {{/each}}
+		</script>
+	</body>
+
+</html>

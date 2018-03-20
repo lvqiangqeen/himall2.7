@@ -1,0 +1,62 @@
+﻿<!--Foot start-->
+<div class="footer">
+    <div class="site-footerimg"><img src="@(Himall.Core.HimallIO.GetImagePath(SiteSetting.PCBottomPic))" width="1190" height="106" />@*<img src="~/Areas/Web/Images/footerimg_03.png" />*@</div>
+<div class="warpa">
+    <div class="footer-service cl">
+        <div class="fc-logo">
+            <img src="~/Areas/Web/Images/fc_logo_03.png" />
+        </div>
+        <div class="fc-left clearfix">
+            @{
+                int i = 1;
+                var pageFootService = (IEnumerable<Himall.Web.Areas.Web.Models.PageFootServiceModel>)ViewBag.PageFootService;
+            }
+            @if (pageFootService != null)
+            {
+                foreach (var t in pageFootService)
+                {
+                    if (t != null)
+                    {
+                        <dl class="fore@(i++)">
+                            <dt><strong>@t.CateogryName</strong></dt>
+                            <dd>
+                                @{var articles = (IEnumerable<Himall.Model.ArticleInfo>)t.Articles;}
+                                @if (articles != null)
+                                {
+                                    foreach (var article in t.Articles)
+                                    {
+                                        if (null != article)
+                                        {
+                                            <p><a href="@Url.Action("Details", "Article", new { id = article.Id }) " target="_blank" rel="nofollow">@article.Title</a></p>
+                                        }
+                                    }
+                                }
+                            </dd>
+                        </dl>
+                    }
+                }
+            }
+        </div>   
+		<div class="qrcode">
+			<img  class="lazyload" src="@(Himall.Core.HimallIO.GetImagePath(ViewBag.QRCode))"/>
+			<h3>扫码关注</h3> 
+			<p>@(ViewBag.SiteName)官方微信</p>
+		</div>
+    </div>
+</div>
+
+<div class="copyright">
+	<div class="warp">
+		@{string pageFoot = ViewBag.PageFoot==null?string.Empty: ViewBag.PageFoot as string;}
+		@Html.Raw(pageFoot)
+	</div>
+</div>
+</div>
+@{
+	string footScript = this.SiteSetting.FlowScript;
+	if (!string.IsNullOrWhiteSpace(footScript))
+	{
+		@Html.Raw(footScript)
+	}
+}
+<!--Foot end-->

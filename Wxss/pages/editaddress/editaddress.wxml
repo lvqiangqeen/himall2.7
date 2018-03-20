@@ -1,0 +1,62 @@
+<!--pages/raiseaddress/raiseaddress.wxml-->
+<view class="container mt24 font32">
+    <view class="loginpassword borderbott0m padding24">
+      <text class="pl24 line_height40">收货人</text>
+      <input bindinput="bindShipToTap" placeholder="请填写收货人姓名" value="{{addressData.ShipTo}}" type="text" maxlength="-1" />
+    </view>
+    <view class="loginpassword borderbott0m padding24">
+      <text class="pl24 line_height40">联系电话</text>
+      <input bindinput="bindCellPhoneTap" placeholder="请填写联系方式"  value="{{addressData.CellPhone}}" type="text" maxlength="-1" />
+    </view>
+    <view catchtap="bindFullAddressTap" class="loginpassword borderbott0m padding24">
+      <text class="pl24 line_height40">所在地区</text>
+      <view class="regionname {{isCss?'regionname-color':''}}"> {{FullRegionName}}</view>
+      <view  class="iconfont arrow_right mr24 arrow_right_w"></view>
+    </view>
+ </view> 
+
+ <view class="beizhu">
+    <view class="form-group-name">详细地址</view>
+  </view>
+  <view class="beizhu bg-white pb24">
+    <textarea class="group-area" rows="2" bindinput="bindAddressTap" placeholder="请输入小区、楼号门牌号等信息" value="{{addressData.Address}}"/>
+  </view>
+
+ 
+
+
+    <view class="xinzheng mt24 ml24 mr24">
+      <button bindtap="bindSaveTapTap">保存收货地址</button>
+</view>
+
+
+<block wx:if="{{showDistpicker}}" wx:key="show-picker">
+  <view class="distpicker {{showDistpicker ? '' : 'hidden'}}">
+    <view class="distpicker-btn">
+      <view class="distpicker-cancel-btn" bindtap="distpickerCancel">取消</view>
+      <view class="distpicker-sure-btn" catchtap="distpickerSure">确定</view>
+    </view>
+    <picker-view indicator-style="height: 40px;" class="distpicker-content" value="{{value}}" bindchange="changeArea">
+      <!-- 省 -->
+      <picker-view-column>
+        <view wx:for="{{provinceName}}" wx:key="province" class="area-item">{{item}}</view>
+      </picker-view-column>
+      <!-- 市 -->
+      <picker-view-column>
+        <view wx:for="{{cityName}}" wx:key="city" class="area-item">{{item}}</view>
+      </picker-view-column>
+      <!-- 区 -->
+      <picker-view-column>
+          <view wx:for="{{districtName}}" wx:key="district" class="area-item">{{item}}</view>
+      </picker-view-column>
+       <!--街道 
+      <picker-view-column>
+        <view wx:for="{{streetName}}" wx:key="street" class="area-item">{{item}}</view>
+      </picker-view-column>-->
+    </picker-view>
+  </view>
+</block>
+
+
+<view class="mask" catchtap="distpickerCancel" hidden="{{!showDistpicker}}"></view>
+<view class="message {{showMessage ? 'fade-in' : ''}}" hidden="{{!showMessage}}">{{messageContent}}</view>

@@ -1,0 +1,139 @@
+/* ApplyRetuns.wxss */
+/* ApplyRefund.wxss */
+
+page {
+  background: #f5f5f5;
+}
+
+.page-section {
+  margin-top: 24rpx;
+  overflow: hidden;
+}
+
+.line {
+   position: relative;
+ } 
+ .line wx-view{
+   position: absolute;
+   border-bottom: 1rpx solid #e0e0e0;
+   top: -1rpx;
+   left: 0rpx;
+   right: 0rpx;
+ }
+ 
+.form-group {
+  padding:24rpx;
+  font-size: 32rpx;
+  line-height: 48rpx;
+  overflow: hidden;
+  display:flex;
+  position:relative;
+  color: #212121;
+}
+
+.form-group .width520{ width: 520rpx;}
+
+.form-group .selecttxt{
+  color:#bdbdbd;
+}
+
+.beizhu{
+  padding: 24rpx 24rpx 8rpx 24rpx;
+  font-size: 32rpx;
+  line-height: 48rpx;
+  overflow: hidden;
+  display:flex;
+  position:relative;
+  color: #212121;
+  border-bottom: 1rpx solid #e0e0e0;
+  }
+
+.beizhu .form-group-name {
+  color: #747474;
+  font-size: 28rpx;
+  line-height: 40rpx;
+}
+
+.beizhu .group-area{padding:6rpx 0 10rpx 0; font-size: 32rpx; line-height: 40rpx; color: #212121; width: 100%;height:76rpx;}
+.beizhu .group-area:-moz-placeholder{ color: #bdbdbd;}
+.beizhu image{ margin-bottom:16rpx;}
+.form-group:not(:last-child):after{
+  content: '';
+  position: absolute;
+  bottom:0;
+  right:0;
+  width: 726rpx;
+  border-bottom: 1rpx solid #e0e0e0;
+}
+
+ 
+.form-group-name {
+  margin-right: 16rpx;
+  width:168rpx;
+  overflow:hidden;
+}
+.width540{width: 540rpx; line-height: 48rpx; font-size: 32rpx; color: #212121;}
+
+.form-group-input input{
+width:500rpx; text-align: center;
+}
+
+
+.come-icon {
+  font-size: 13px;
+  right:24rpx;
+  position:absolute;
+  color: #9e9e9e;
+}
+.change-num{ padding:6rpx 16rpx; border: 1rpx #BDBDBD solid; border-radius:30rpx; float:left;}
+.change-num .muse,.change-num .add{width:24rpx; height: 24rpx; font-size: 24rpx;  text-align:center; color: #BDBDBD; padding-top: 2rpx; float: left;}
+
+.change-num .input_num{width:80rpx; color: #212121; font-size: 32rpx; line-height: 50rpx;float:left; text-align: center;}
+.change_text{ float: left; width: 180rpx; margin-left: 16rpx; font-size: 24rpx; line-height: 48rpx; color: #747474; padding: 6rpx 0; }
+
+.form-group-input input.money{ width: 150rpx; float: left;  padding-right: 16rpx; color: #212121; font-size: 32rpx; line-height: 48rpx; text-align: left; font-family: Arial}
+.form-group-input input.txtmoney{font-family: Arial}
+.form-group-input text.money_text{ float:right; color:red; font-size: 24rpx;}
+
+.btn {
+  width: 702rpx;
+  margin: 0 auto;
+  overflow: hidden;
+  text-align: center;
+  margin-bottom:51rpx;
+}
+
+.submit {
+  color: #fff;
+  width: 100%;
+  border-radius: 8rpx;
+  margin-top: 48rpx;
+  font-size: 36rpx;
+  line-height: 48rpx;
+  padding: 24rpx 0;
+  background: linear-gradient(to right, #FF5722 0%,#FF1919 100%);
+  border:none;
+}
+
+.cancel {
+  color: #424242;
+  background: #FBFAFC;
+  border-radius: 8rpx;
+  margin-top: 24rpx;
+  font-size: 36rpx;
+  line-height: 48rpx;
+  padding: 24rpx 0;
+  border:1rpx solid #D6D5D6;
+
+}
+.uploadimg{width:25%;}
+
+.uploadimg image{
+      border:1rpx solid #e0e0e0;
+      overflow: hidden;
+}
+
+
+.showdiaolg{position:absolute;bottom:0rpx;width:100%;background:#fff;text-align:center;overflow:hidden; z-index: 99;}
+.showdiaolg view{border-bottom:1rpx solid #d6d5d6;height:75rpx;line-height:75rpx; z-index: 99;}
+.showdiaolg view:last{border-bottom:0}

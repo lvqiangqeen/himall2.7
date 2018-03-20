@@ -1,0 +1,419 @@
+﻿@model Himall.Web.Areas.Web.Models.RefundApplyModel
+@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "退换货申请";
+    long MaxRGDNumber = Model.MaxRefundGoodsNumber;
+    decimal MaxRefundAmount = Model.MaxRefundAmount.Value;
+    Himall.Model.OrderInfo OrderData = Model.OrderInfo;
+    long? OrderItemId = Model.OrderItemId;
+    int RefundType = 0;
+    bool isRefundOrder = Model.IsOrderAllRefund;    //是否为整笔订单退款
+    if (Model.RefundMode.HasValue)
+    {
+        RefundType = 1;
+        if (Model.RefundMode.Value == Himall.Model.OrderRefundInfo.OrderRefundMode.ReturnGoodsRefund)
+        {
+            RefundType = 2;
+        }
+    }
+    if (isRefundOrder)
+    {
+        RefundType = 1;
+    }
+    string cartpics = "";
+    if (!string.IsNullOrWhiteSpace(Model.CertPic1))
+    {
+        cartpics += Himall.Core.HimallIO.GetImagePath(Model.CertPic1) + ",";
+    }
+    if (!string.IsNullOrWhiteSpace(Model.CertPic2))
+    {
+        cartpics += Himall.Core.HimallIO.GetImagePath(Model.CertPic2) + ",";
+    }
+    if (!string.IsNullOrWhiteSpace(Model.CertPic3))
+    {
+        cartpics += Himall.Core.HimallIO.GetImagePath(Model.CertPic3) + ",";
+    }
+    if (cartpics.Length > 0)
+    {
+        cartpics = cartpics.Substring(0, cartpics.Length - 1);
+    }
+}
+<script src="~/Scripts/jquery.form.js"></script>
+<script src="~/Scripts/jquery.uploadPictures.js"></script>
+
+<style>
+    .tb-void tbody tr td { padding: 20px 0; }
+</style>
+<div class="box1 lh24">
+    <div class="title bot-border">
+        <h3 class="title_txt curr">售后申请</h3>
+    </div>
+    <div class="border-box">
+        <table class="tb-void tb-line">
+            @if (isRefundOrder)
+            {
+                <colgroup>
+                    <col width="400" />
+                    <col width="200" />
+                    <col width="100" />
+                    <col width="100" />
+                    <col width="100" />
+                </colgroup>
+                <thead>
+                    <tr class="tr">
+                        <th>订单编号</th>
+                        <th>下单时间</th>
+                        <th>运费</th>
+                        <th>实付金额</th>
+                        <th>可退金额</th>
+                    </tr>
+                </thead>
+            }
+            else
+            {
+                <colgroup>
+                    <col width="500" />
+                    <col width="100" />
+                    <col width="100" />
+                </colgroup>
+                <thead>
+                    <tr class="tr">
+                        <th>商品</th>
+                        <th>购买数量</th>
+                        <th>实付金额</th>
+                    </tr>
+                </thead>
+            }
+            <tbody>
+                <tr class="tr-td">
+                    @if (isRefundOrder)
+                    {
+                        <td><a target="_blank" href="@Url.Action("Detail", "UserOrder", new { id=OrderData.Id})">@(OrderData.Id)</a></td>
+                        <td>@(OrderData.OrderDate.ToString("yyyy-MM-dd HH:mm:ss"))</td>
+                        <td>￥@(OrderData.Freight.ToString("F2"))</td>
+                        <td>￥@((OrderData.ProductTotalAmount - OrderData.DiscountAmount).ToString("F2"))</td>
+                        <td class="ftx-04">￥@OrderData.OrderEnabledRefundAmount.ToString("F2")</td>
+                    }
+                    else
+                    {
+                        var orditem = Model.OrderItems.FirstOrDefault();
+                        var spc = "";
+                        if (!string.IsNullOrWhiteSpace(orditem.Color)) { spc += orditem.ColorAlias + "：" + orditem.Color; }
+                        if (!string.IsNullOrWhiteSpace(orditem.Size)) { spc += "，" + orditem.SizeAlias + "：" + orditem.Size; }
+                        if (!string.IsNullOrWhiteSpace(orditem.Version)) { spc += "，" + orditem.VersionAlias + "：" + orditem.Version; }
+                        spc = spc.TrimStart('，');
+                        spc = string.IsNullOrWhiteSpace(spc) ? "" : "【" + spc + "】";
+                        <td class="t-l">
+                            <a target="_blank" href="/Product/Detail/@orditem.ProductId">
+                                <img width="50" height="50" title="" src="@Himall.Core.HimallIO.GetProductSizeImage(orditem.ThumbnailsUrl, 1, (int)Himall.CommonModel.ImageSize.Size_50)" />@orditem.ProductName @spc
+                            </a>
+                        </td>
+                        <td>@(orditem.Quantity)件</td>
+                        <td class="ftx-04">￥@orditem.RealTotalPrice.ToString("F2")</td>
+                    }
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+    <input type="hidden" name="maxNumber" value="@(MaxRGDNumber)">
+    <input type="hidden" name="maxPrice" value="@(MaxRefundAmount.ToString("F2"))">
+    <input type="hidden" name="refGoodsPrice" id="refGoodsPrice" value="@(Model.RefundGoodsPrice.ToString("F2"))">
+    <div class="border-box">
+        <div class="user-set userset-lcol">
+            <div class="form">
+                <form id="form1" action="@Url.Action("RefundApply")" method="post">
+                    <input type="hidden" name="OrderId" value="@(OrderData.Id)" />
+                    <input type="hidden" name="OrderItemId" value="@(OrderItemId)">
+                    @Html.Hidden("Id", (Model.RefundId.HasValue ? Model.RefundId.Value : 0))
+                    <div class="item">
+                        <span class="label"><em>*</em>售后类型：</span>
+                        <div class="fl">
+                            <label>@Html.RadioButton("RefundType", 1, RefundType == 1) 仅退款</label>
+                            @if (!isRefundOrder)
+                            {<label>@Html.RadioButton("RefundType", 2, RefundType == 2) 退货退款</label>}
+                        </div>
+                    </div>
+                    <div class="item" id="ReturnGoodsBox">
+                        <span class="label"><em>*</em>退货数量：</span>
+                        <div class="fl">
+                            @Html.TextBox("ReturnQuantity", MaxRGDNumber, new Dictionary<string, object>() {
+                       { "class", "input-item" },
+                       {"maxlength","20"},
+                       { "data-check", "0" } }) 件
+                            <span class="ftx-03" id="ReturnQuantity">（最多@(MaxRGDNumber)件）</span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="label">退款金额：</span>
+                        <div class="fl">
+                            @{
+                                var amounthtmlattr = new Dictionary<string, object>() {
+                       { "class", "input-item" },
+                       {"maxlength","20"},
+                       { "data-check", "0" }
+                       };
+                                if (isRefundOrder)
+                                {
+                                    amounthtmlattr.Add("disabled", "");
+                                }
+                            }
+                            @Html.TextBox("Amount", MaxRefundAmount.ToString("F2"), amounthtmlattr) 元
+                            <span class="ftx-03" id="Amount">（最多@(MaxRefundAmount.ToString("F2"))元）</span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="label"><em>*</em>退款理由：</span>
+                        <div class="fl">
+                            @Html.DropDownList("Reason", Model.RefundReasons, new Dictionary<string, object>() {
+                       { "class", "textarea-item" },
+                       { "data-check", "0" }})
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="label"><em>*</em>退款原因：</span>
+                        <div class="fl">
+                            @Html.TextArea("ReasonDetail", Model.RefundReasonDetail, new Dictionary<string, object>() {
+                       { "class", "textarea-item" },
+                       { "data-check", "0" }})
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="label"><em>*</em>联系人：</span>
+                        <div class="fl">
+                            @Html.TextBox("ContactPerson", Model.ContactPerson, new Dictionary<string, object>() {
+                       { "class", "input-item" },
+                       {"maxlength","20"},
+                       { "data-check", "0" } })
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="label"><em>*</em>联系电话：</span>
+                        <div class="fl">
+                            @Html.TextBox("ContactCellPhone", Model.ContactCellPhone, new Dictionary<string, object>() {
+                       { "class", "input-item" },
+                       {"maxlength","20"},
+                       { "data-check", "0" } })
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="label"><em>*</em>退款方式：</span>
+                        <div class="fl">
+                            @Html.DropDownList("RefundPayType", Model.RefundWay, new { @class = "textarea-item" })
+                        </div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.ReturnGoodsAddress))
+                    {
+                        <div class="item returnGoodsAddress" style="display:none">
+                            <span class="label"><em>*</em>退货方式：</span>
+                            <div class="fl">
+                                送至门店
+                            </div>
+                            <div class="fl" style="margin-left:10px">
+                                退货点：@Model.ReturnGoodsAddress
+                            </div>
+                        </div>
+                    }
+                    <input type="hidden" id="CertPic1" name="CertPic1" value="@(Himall.Core.HimallIO.GetImagePath(Model.CertPic1))" />
+                    <input type="hidden" id="CertPic2" name="CertPic2" value="@(Himall.Core.HimallIO.GetImagePath(Model.CertPic2))" />
+                    <input type="hidden" id="CertPic3" name="CertPic3" value="@(Himall.Core.HimallIO.GetImagePath(Model.CertPic3))" />
+
+                    <div class="item">
+                        <span class="label"><em>&nbsp;</em>售后凭证：</span>
+                        <div class="fl" id="RefundCert">
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <span class="label">&nbsp;</span>
+                        <div class="fl">
+                            <input type="submit" class="btn-5" id="bt-submit" value="提交" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/v.js"></script>
+<script type="text/javascript">
+    var isLoading = false;
+
+    //获取上传成功后的图片路径CertPic
+    function getUploadImages() {
+        var aryImgs = $('#RefundCert').uploadPictures("getImgSrc");
+        console.log(aryImgs.join(","));
+        return false;
+    }
+
+    var maxNumber = $(':input[name=maxNumber]').val(),
+        maxPrice = $(':input[name=maxPrice]').val();
+
+
+    $(function () {
+        $("#Reason").focus();
+
+        $('#RefundCert').uploadPictures({
+            title: '售后凭证',
+            imageDescript: '',
+            displayImgSrc: '@(cartpics)',
+            imgFieldName: "RefundCertPic",
+            defaultImg: '/Images/default_100x100.png',
+            pictureSize: '',
+            imagesCount: 3,
+            dataWidth: 6
+        });
+
+        $("#ReturnQuantity").on("blur", function () {
+            var refGoodsPrice = $("#refGoodsPrice").val();
+            refGoodsPrice = parseFloat(refGoodsPrice);
+            var rnum = $(this).val();
+            rnum = parseInt(rnum);
+            maxNumber = parseInt(maxNumber);
+            if (refGoodsPrice > 0 && rnum > 0) {
+                var ram = (rnum * refGoodsPrice).toFixed(2);
+                ram = parseFloat(ram);
+                maxPrice = parseFloat(maxPrice);
+                if (rnum >= maxNumber) {
+                    ram = maxPrice;
+                }
+                if (ram > maxPrice) {
+                    ram = maxPrice;
+                }
+                $("#Amount").val(ram);
+            }
+        });
+    });
+
+    var loadingobj;
+    var a = v({
+        form: 'form1',
+        beforeSubmit: function () {
+            var RefundTypedom = $("input[name=RefundType]:checked");
+            if (!RefundTypedom) {
+                $.dialog.errorTips("请选择售后类型", '', 3);
+                return false;
+            }
+            RefundType = RefundTypedom.val();
+            if (!RefundType) {
+                $.dialog.errorTips("请选择售后类型", '', 3);
+                return false;
+            }
+            if (RefundType.length < 1) {
+                $.dialog.errorTips("请选择售后类型", '', 3);
+                return false;
+            }
+            var a = $('#Reason').val();
+            //var a = $('#RefundAccount').val();
+            //if (a.length < 3) {
+            //    $.dialog.errorTips("请填写转款方式/银行", '', 3);
+            //    return false;
+            //}
+
+            var reasonDetail = $("#ReasonDetail").val();
+            if (RefundType.length >= 1000) {
+                $.dialog.errorTips("退款原因在1000字以内", '', 3);
+                return false;
+            }
+
+            if (isLoading) { return false; }
+            loadingobj = showLoading();
+            isLoading = true;
+            $("#bt-submit").val("提交中...");
+            var rpics = $("input[name='RefundCertPic']");
+            if (rpics.length > 0) {
+                $("#CertPic1").val("");
+                $("#CertPic2").val("");
+                $("#CertPic3").val("");
+                rpics.each(function (index) {
+                    var _t = $(this);
+                    $("#CertPic" + (index + 1)).val(_t.val());
+                });
+            }
+        },
+        ajaxSubmit: true,
+        afterSubmit: function (data) {// 表单提交成功回调
+            isLoading = false;
+            loadingobj.close();
+            $("#bt-submit").val("提交");
+            if (data.success) {
+                $.dialog.succeedTips("提交成功！", function () {
+                    window.location.href = "/OrderRefund/Detail/" + data.Data;
+                }, 3);
+            } else {
+                if (data.status == 2) {
+                    window.location.href = "/OrderRefund/Detail/" + data.Data;
+                }
+                else {
+                    $.dialog.errorTips(data.msg, '', 3);
+                }
+            }
+        }
+    });
+    a.add(
+        {
+            target: 'Amount',
+            ruleType: 'money',
+            fnRule: function () {
+                var a = $('#Amount').val();
+                if ((+a) > (+maxPrice)) {
+                    return false;
+                }
+            },
+            error: '不能超过' + maxPrice + '元!'
+        },
+        {
+            target: 'Reason',
+            ruleType: 'required',
+            beforeBlur: function () {
+                var a = $('#Reason').val();
+                if (a.length < 1) {
+                    return false;
+                }
+            },
+            error: '请选择售后原因!'
+        },
+        {
+            target: 'ContactPerson',
+            //ruleType: 'ce&&required',
+            rule: /^[\u4E00-\u9FA5A-Za-z0-9_\ ]{1,20}$/i,
+            error: '名字不能包含非法字符!'
+        },
+        {
+            target: 'ContactCellPhone',
+            ruleType: 'mobile||phone',
+            error: '请输入正确的电话号码!'
+        }
+    );
+    $("input[name='RefundType']").click(function () {
+        var _t = $(this);
+        rtype = _t.val();
+        ChangeRefundType(rtype);
+    });
+
+    function ChangeRefundType(v) {
+        var rgbox = $("#ReturnGoodsBox");
+        if (v == 2) {
+            rgbox.show();
+            $('.returnGoodsAddress').show();
+            a.add({
+                target: 'ReturnQuantity',
+                ruleType: 'uint',// v.js规则验证
+                fnRule: function () {// 增加函数验证来补充规则验证的不足 库默认规则验证优先
+                    var a = $('#ReturnQuantity').val();
+                    if ((+a) > (+maxNumber)) {
+                        return false;
+                    }
+                },
+                error: '不能超过' + maxNumber + '件或者只能为数字!'
+            });
+        } else {
+            rgbox.hide();
+            $('.returnGoodsAddress').hide();
+            a.remove('ReturnQuantity');
+        }
+
+    }
+    ChangeRefundType(@(RefundType));
+</script>

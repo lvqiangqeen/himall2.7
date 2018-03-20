@@ -1,0 +1,68 @@
+﻿@model Himall.Web.Areas.Mobile.Models.DistributionShopShowModel
+@{
+    ViewBag.Title = Model.ShopName+"";
+}
+
+<div class="container sell-combine" style="padding:0!important">
+        <div class="combine-top">
+            <img src="@(Himall.Core.HimallIO.GetImagePath(Model.ShopLogo))">
+             <p><span class="cnam">@(Model.ShopName)</span><span class="add bt_shopfav @(Model.isFavorite ? "favorited" : "")" shopid="@(Model.ShopId)">@(Model.isFavorite ? "已收藏" : "收　藏")<i></i></span></p>
+        </div>
+        <div class="sell-nav">
+            <ul>
+                <li class="datasort on" data-sort="0">排序</li>
+                <li class="datasort" data-sort="1">销量</li>
+            </ul>
+            <span class="switch-class"></span>
+        </div>
+        <div class="sellPro-list">
+            <ul id="databox"></ul>
+        </div>
+        <div id="autoLoad" class="loading"></div>
+    </div>
+
+<script id="gdtmp" type="text/template">
+    <%_.each(gddatas, function(item) {%>
+    <li>
+        <div class="left-pro">
+            <img src="<%=item.Image%>">
+        </div>
+        <div class="right-proD" data-pid="<%=item.ProductId%>" data-uid="@(Model.PartnerId)">
+            <h4><a href="@Url.Action("Detail", "Product")/<%=item.ProductId%>?partnerid=@(Model.PartnerId)"><%=item.ProductName%></a></h4>
+            <p>累积销售<%=item.SaleNum%>笔</p>
+            <span><em>￥</em><%= item.SellPrice%></span>
+        </div>
+    </li>
+    <%});%>
+</script>
+
+<script src="~/Content/Public/js/dist/underscore.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/loading.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/DistributionMarketShop.js"></script>
+
+<script>
+    skey = "@(Model.SearchKey)";
+    shopid = "@(Model.ShopId)";
+
+    $(function () {
+        $('#databox').on('click', '.right-proD', function () {
+            var _t = $(this);
+            var pid = _t.data("pid");
+            var uid = _t.data("uid");
+            var _url = "@Url.Action("Detail", "Product", new { id = "#id#", partnerid="#uid#" })";
+            _url = _url.replace("%23id%23", pid);
+            _url = _url.replace("%23uid%23", uid);
+            window.location.href = _url;
+        });
+    });
+    function showData()
+    {
+        $(".left-pro").width($(".container").width()*25/64);
+        $(".left-pro").height($(".container").width()*25/64-22);
+        $(".left-pro>img").width($(".container").width()*25/64-22);
+        $(".left-pro>img").height($(".container").width()*25/64-22);
+        $(".right-proD").width($(".container").width()*39/64);
+        $(".right-proD").height($(".container").width()*25/64-11);
+        $(".sellPro-list>ul>li").height($(".container").width()*25/64);
+    }
+</script>

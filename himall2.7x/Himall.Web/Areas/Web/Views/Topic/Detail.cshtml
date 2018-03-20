@@ -1,0 +1,65 @@
+﻿@model Himall.Model.TopicInfo
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<style>
+    .nav-bar{display:none;}
+    
+</style>
+
+@if (Model != null)
+{
+    <div class="topic" style="background-image:url(@Model.BackgroundImage)">
+        <div class="topic-navbar">
+            <p>
+                <a href="~/">首页</a>
+                <a target="" href="/topic/list">专题</a>
+            </p>
+            
+        </div>
+        <div class="topic-html">
+            @*@MvcHtmlString.Create(Model.SelfDefineText)*@
+           <a href="#">
+                <img src="@Model.TopImage" alt="" class="tp-img" />
+            </a>
+        </div>
+        <div class="topic-nav">
+            <ul>
+                @{
+                string className = "";
+                for (int i = 0; i < Model.TopicModuleInfo.Count(); i++)
+                {
+                    className = i == 0 ? "curr" : "";
+                    <li class="@className"><a href="javascript:void(0)">@(Model.TopicModuleInfo.ElementAt(i).Name)</a></li>
+                }
+                }
+            </ul>
+        </div>
+        <div class="w cl">
+            @for (int i = 0; i < Model.TopicModuleInfo.Count(); i++)
+        {
+        <div class="topic-goods-Z">
+            <h3 class="topic-title" style="text-align:@(Model.TopicModuleInfo.ElementAt(i).TitleAlign);">@(Model.TopicModuleInfo.ElementAt(i).Name)</h3>
+            <ul class="cl">
+                @foreach (var product in Model.TopicModuleInfo.ElementAt(i).ModuleProductInfo)
+                {
+                <li>
+                    <div class="p-img">
+                        <a href="@Url.Action("Detail", "Product", new { id = product.ProductId })" target="_blank" title="">
+                            <img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@product.ProductInfo.GetImage(Himall.CommonModel.ImageSize.Size_220)" />
+                        </a>
+                    </div>
+                    <div class="p-name"><div class="pname-1"><a href="@Url.Action("Detail", "Product", new { id = product.ProductId })" target="_blank" title="">@product.ProductInfo.ProductName</a></div></div>
+                    <div class="p-price">￥@product.ProductInfo.MinSalePrice</div><a href="@Url.Action("Detail", "Product", new { id = product.ProductId })" target="_blank" class="btn-buy ">立即抢购</a>
+                </li>
+                }
+            </ul>
+        </div>
+        }
+            <div class="peggy"></div>
+        </div>
+    </div>
+}
+<script src="~/Areas/Web/Scripts/topicDetail.js"></script>

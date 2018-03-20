@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.FootIndex = 1;
+    ViewBag.Title = "微店列表";
+}
+@model Himall.Model.VShopInfo
+<div class="container page-vshop-home">
+    @if (Model != null) {
+        <section class="vshop-section vshop-recomm-section">
+            <div class="vshop-item">
+                <div class="vshop-head">
+                    <a href="/@ViewBag.AreaName/VShop/Detail/@Model.Id">
+                        <p class="v-logo"><img src="@(Himall.Core.HimallIO.GetImagePath(Model.Logo))" /></p>
+                        <p class="v-name">@Model.Name</p>
+                        <p class="v-hots">宝贝数 <span>@ViewBag.ProductCount</span> / 关注度 <span>@ViewBag.FavoritesCount</span></p>
+                        <p class="v-tags"><span><em>@ViewBag.Tags</em></span></p>
+                        <a class='btn btn-primary btn-sm @(ViewBag.IsFavorite ? "fav-yes" : "")' type="addFavorite" shopid="@Model.ShopId"></a>
+                    </a>
+                </div>
+                <ul class="v-goods clearfix">
+                    @{var products = (IEnumerable<Himall.Web.Areas.Mobile.Models.ProductItem>)ViewBag.TopShopProducts;}
+                    @foreach (var product in products) {
+                        <li>
+                            <a class="p-img" href="/@ViewBag.AreaName/product/detail/@product.Id"><img src="@product.ImageUrl" alt=""></a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="vshop-recomm-tip">推荐</div>
+        </section>
+    }
+    <section class="vshop-section" id="shopList"></section>
+    <div class="more-btn" id="more"></div>
+    @{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_4ButtonsFoot.cshtml");}
+</div>
+<a class="WX-backtop" href="#"></a>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/vshopMain.js"></script>
+<script>
+	var winxinShareArgs = {
+		share: {
+			title: '与你分享一些不错的店铺',
+			desc: '我发现了一些不错的店铺，分享给你，快去看看吧。',
+			link: location.href,
+			imgUrl: '@(Himall.Core.HimallIO.GetRomoteImagePath(this.SiteSetting.WXLogo))'
+		}
+	};
+</script>
+
+@Html.Partial("_WeiXinShare")

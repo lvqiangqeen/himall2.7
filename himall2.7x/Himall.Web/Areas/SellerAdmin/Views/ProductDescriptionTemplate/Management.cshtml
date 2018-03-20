@@ -1,0 +1,30 @@
+﻿<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/productDescriptionTemplateManagement.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a href="management">管理</a></li>
+        <li><a href="add?id=0">新增</a></li>
+    </ul>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">版式名称</label>
+                <input class="form-control input-ssm" type="text" id="name">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">版式位置</label>
+                <select class="form-control input-ssm" id="position">
+                    <option value="">全部</option>
+                    <option value="1">顶部</option>
+                    <option value="2">底部</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchBtn">搜索</button>
+            </div>
+        </form>
+    </div>
+    <table class="table" id="list"></table>
+</div>
+

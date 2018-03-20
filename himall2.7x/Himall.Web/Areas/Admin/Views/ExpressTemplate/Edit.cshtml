@@ -1,0 +1,35 @@
+﻿@model Himall.Core.Plugins.IExpress
+
+<script>
+    var expressTemplateName = '@Model.Name'
+
+</script>
+
+<style>
+    .container.clear-v53 .box1{background: url(@Model.BackGroundImage) no-repeat;}
+</style>
+
+<div class="container clear-v53">
+    <ul class="breadcrumb clearfix">
+        <li><a>快递单模板管理</a></li>
+        <li class="active"><a>编辑</a></li>
+    </ul>
+
+    <div class="clearfix box-print">
+        <div id="widgetBox"></div>
+    </div>
+    <img src="@Model.BackGroundImage" width="868"  id="id_img">
+    <div id="id_parent">
+        <div class="box1" id="canvas">
+        </div>
+
+    </div>
+    <div class="clear-v-55">
+        <span id="ids" class="btn btn-primary" >确认</span>
+        @*<span class="btn btn-default fr" style="margin-right:15px;">打印</span>*@
+    </div>
+    
+</div>
+
+
+<script src="~/Areas/Admin/Scripts/expressTemplateEdit.js"></script>

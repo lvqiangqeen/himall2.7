@@ -1,0 +1,100 @@
+﻿@model Himall.DTO.CouponSendByRegisterModel
+@{
+    ViewBag.title = "注册有礼";
+}
+
+<link rel="stylesheet" href="/Areas/Web/Content/register-gift.css">
+<script src="/Areas/Mobile/Templates/Default/Scripts/move.js"></script>
+<div class="rgift-container">
+    <div class="bd">
+        <div class="con">
+            <div class="rgift-slider">
+                <div class="rgift-slider-inner">
+                    <ul id="J_slider_wrap">
+                        @foreach (var item in Model.CouponIds)
+                        {
+                            <li>
+                                <span>
+                                    <em>¥</em>
+                                    <strong>@item.Price</strong>
+                                    <p>@item.OrderAmount</p>
+                                </span>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+                <div class="rgift-slider-nav" id="J_slider_nav"></div>
+            </div>
+            <a class="register-link" href="@(Url.Action("Index", "Register", new { type ="gift"}))">领取 @Model.price 元礼包</a>
+        </div>
+    </div>
+    <div class="ft">
+        <div class="con">
+            <div class="rule">
+                <h4><strong>活动规则:</strong></h4>
+                <p><strong>1.活动期间，优惠券数量有限，发完为止；</strong></p>
+                <p><strong>2.本活动为不定时开启，活动开启阶段，所有新注册的会员均能参加活动；</strong></p>
+            </div>
+            <div class="weixin">
+                <img src="/Areas/Web/Images/rgift-weixin.jpg">
+                <strong>扫码关注</strong>
+                <p>himall官方微信</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    window.onload = function () {
+        
+        if (@Model.total ==0||@((int)Model.Status) ==0) {
+            $.dialog.errorTips("很抱歉！优惠券已被领完，请期待下次活动！", function () {
+                window.location.href="/";
+            },3);
+        }
+        
+        var oWrap = document.getElementById('J_slider_wrap');
+        var oNav = document.getElementById('J_slider_nav');
+        var aItem = oWrap.getElementsByTagName('li');
+        var aSpan = oNav.getElementsByTagName('span');
+        var num = 0; // 默认显示第几组，0为第一组
+        var w = aItem[0].offsetWidth + 20;
+
+        oWrap.style.width = aItem.length * w + 'px';
+        oWrap.style.left = -num * w * 3 + 'px';
+
+        // 每3个为一组生成一个圆点导航
+        var oNavHtml = '';
+        var oNavInt = parseInt(aItem.length / 3);
+        if (aItem.length % 3 == 0) {
+            for (var i = 0; i < oNavInt; i++) {
+                oNavHtml += '<span></span>';
+            }
+        } else {
+            for (var i = 0; i < oNavInt + 1; i++) {
+                oNavHtml += '<span></span>';
+            }
+        }
+        oNav.innerHTML = oNavHtml;
+
+        // 初始化
+        function fnTab() {
+            for (var i = 0; i < aSpan.length; i++) {
+                aSpan[i].className = '';
+            }
+            aSpan[num].className = 'selected';
+        }
+        fnTab();
+
+        // 点击滚动
+        for (var i = 0; i < aSpan.length; i++) {
+            aSpan[i].index = i;
+            aSpan[i].onclick = function () {
+                num = this.index;
+                startMove(oWrap, { left: -num * w * 3 }, 400, 'easeOut');
+                fnTab();
+            }
+        }
+    }
+
+</script>

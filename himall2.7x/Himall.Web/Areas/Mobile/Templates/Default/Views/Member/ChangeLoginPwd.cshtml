@@ -1,0 +1,62 @@
+﻿@model Himall.Model.UserMemberInfo
+@{
+    ViewBag.Title = "修改密码";
+    bool isFirst = false;
+    isFirst = Model.PasswordSalt.StartsWith("o");
+}
+@*<meta name="viewport" content="width=device-width" />
+<link rel="stylesheet" href="/Content/bootstrap.min.css">
+<link rel="stylesheet" href="/Areas/Mobile/Templates/Default/Content/custom.css">
+<script src="/Scripts/jquery-1.7.1.min.js"></script>*@
+<style> html,body{ background: #fff;}</style>
+<div class="container  ">
+    <div class="Acc-Manag">
+        <label>用户账号：<span>@Model.UserName</span></label>
+        <input id="old" type="password" placeholder="请输入老密码" value="@(isFirst ? Guid.NewGuid().ToString("N") : "")" @(isFirst ? "disabled" : "")/>
+        <input id="new" type="password" placeholder="请输入新密码" />
+        <input id="repeat" type="password" placeholder="请确认密码" />
+        <input id="change" class="btn" type="button" value="提交" />
+    </div>
+</div>
+<script>
+    $('#change').click(function () {
+        var password = $.trim($('#old').val());
+        var newPassword = $.trim($('#new').val());
+        var repeatPassword = $.trim($('#repeat').val());
+        if (!password) {
+            $.dialog.errorTips('请输入密码');
+            return;
+        }
+        if (!newPassword) {
+            $.dialog.errorTips('请输入新密码');
+            return;
+        }
+        if (!repeatPassword) {
+            $.dialog.errorTips('请输入确认密码');
+            return;
+        }
+        if (newPassword != repeatPassword) {
+            $.dialog.errorTips('两次输入的密码不一致');
+            return;
+        }
+        if (newPassword < 6 && newPassword > 20) {
+            $.dialog.errorTips("密码长度在6-20位之间");
+            return;
+        }
+        var loading = showLoading("数据提交中...");
+        $.post('/' + areaName + '/Member/ChangePassword', { oldpassword: password, password: newPassword }, function (result) {
+            loading.close();
+            if(result.success)
+            {
+                $.dialog.succeedTips('修改成功!', function () {
+                    var returnUrl = '/' + areaName + '/Member/Center';
+                    location.replace(decodeURIComponent(returnUrl));
+                })
+            }
+            else
+            {
+                $.dialog.errorTips('修改失败' + result.msg);
+            }
+        });
+    });
+</script>

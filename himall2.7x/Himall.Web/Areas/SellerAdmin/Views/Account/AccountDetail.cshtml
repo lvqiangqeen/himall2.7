@@ -1,0 +1,52 @@
+﻿@using Himall.Core;
+@model Himall.Model.AccountInfo
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/AccountAccountDetail.js"></script>
+<div class="container">
+    <ul class="breadcrumb clearfix">
+
+        <li class="active"><a>结算列表</a></li>
+        <li><a>未结算明细</a></li>
+
+    </ul>
+    <div class="search-box" id="search-box">
+        <form class="custom-inline" role="form">
+            <div class="form-group">
+                <label class="label-inline" for="">类型</label>
+                <select class="form-control input-ssm" id="selEnumOrderType">
+                    <option selected="selected" value="1">订单列表</option>
+                    <option value="0">退款/退货列表</option>
+                    <option value="2">营销服务费列表</option>
+                    <option value="3">分销佣金</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-inline" for="">开始日期</label>
+                <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text" >
+            </div>
+            <div class="form-group">
+                <label class="label-inline" for="">结束日期</label>
+                <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text" >
+            </div>
+
+
+            <button type="button" class="btn btn-primary btn-sm" id="searchButton" onclick="search()">搜索</button>
+        </form>
+    </div>
+    <h3 class="table-hd">@Model.ShopName<span class="total-account">本期应结： <b>￥@Model.PeriodSettlement</b> (@Model.StartDate - @Model.EndDate)</span></h3>
+    <table id="ListOrder" class="table table-bordered"></table>
+    <table id="ListReturnOrder" class="table table-bordered"></table>
+    <table id="ListAgreement" class="table table-bordered"></table>
+    <table id="ListBrokerage" class="table table-bordered"></table>
+</div>
+
+<script type="text/javascript">
+    var accountId = "@Model.Id";
+
+</script>

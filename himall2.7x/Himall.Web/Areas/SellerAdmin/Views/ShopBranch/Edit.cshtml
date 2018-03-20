@@ -1,0 +1,209 @@
+﻿@model Himall.DTO.ShopBranch
+@{
+    ViewBag.Title = "编辑";
+}
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/jquery.hishopUpload.js"></script>
+<script src="https://map.qq.com/api/js?v=2.exp" type="text/javascript" charset="utf-8"></script>
+<style>
+    .table > tbody > tr:hover {
+        background-color: #fff;
+    }
+    .dialog-form .input-sm {
+        width:auto;
+    }
+</style>
+<div class="container store-edit Sclear-M">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("Management")">门店管理</a></li>
+        <li class="active"><a>编辑门店</a></li>
+        <li><a href="@Url.Action("Setting")">门店设置</a></li>
+    </ul>
+    <form class="form-horizontal" id="from_Save1" role="form" action="Edit" method="post">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        <h3>填写门店基本信息</h3>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td align="right" width="15%"><em class="red">* </em>门店名称：</td>
+                    <td>
+                        <div class="dEdit_1">
+                            <div class="col-sm-7">
+                                @Html.TextBoxFor(item => item.ShopBranchName, new { @class = "form-control input-sm", placeholder = "不能超过15个字", maxlength = 15 })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.ValidationMessageFor(item => item.ShopBranchName)
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><em class="red">* </em>门店地址：</td>
+                    <td>
+                        <div class="dEdit_3">
+                            <div class="col-sm-6">
+                                <div id="area-selector"></div>
+                                @Html.HiddenFor(e => e.AddressId, new { @id = "AddressId" })
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><em class="red">* </em>详细地址：</td>
+                    <td>
+                        <div class="dEdit_1">
+                            <div class="col-sm-6" style="width: 47%;">
+                                @Html.TextBoxFor(item => item.AddressDetail, new { @class = "form-control input-sm", placeholder = "不能超过50个字", maxlength = 50 })
+                            </div>
+                            @*<div class="col-sm-3">
+                                @Html.ValidationMessageFor(item => item.AddressDetail)
+                            </div>*@
+                            <div class="col-sm-2" style="padding-left: 0;"><a class="btn btn-default" id="js_search_pos" onclick="getResult()">搜索地图</a></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" style="vertical-align: top;"><em class="red">* </em>地图定位：</td>
+                    <td>
+                        <div class="col-sm-8">
+                            <div class="map-box" id="container" style="width: 603px; height: 300px; float: left;"></div>
+                            <div class="des" id="map_des" style="display: none; float: left;">请选择一个地址并点击地图中的“导入门店地址”</div>
+                            <div class="info-box" id="infoDiv" style="display: none"></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><em class="red"></em>配送半径：</td>
+                    <td>
+                        <div class="dEdit_1">
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(item => item.ServeRadius, new { @class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2"><span class="Sclear-P40">公里</span></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" style="vertical-align: top;"><em class="red"></em>配送范围：</td>
+                    <td>
+                        <div class="col-sm-8">
+                            <table cellpadding="0" cellspacing="0" class="table table-striped" id="scoplist" style="border-radius: 0; margin-bottom: 5px;display:none">
+                                @*<tr>
+                                    <th width="66%">配送范围</th>
+                                    <th>操作</th>
+                                </tr>*@
+                            </table>
+                            <a id="addDeliveryScop" class="btn btn-default" href="javascript:void(0)" style="border: none;padding-left: 0 !important;">添加配送范围</a>
+                        </div>
+                        @Html.Hidden("txtRegionScop", (string)ViewBag.RegionIdList)
+                        @Html.Hidden("txtRegionScopName", (string)ViewBag.RegionNameList)
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><em class="red">* </em>联系人：</td>
+                    <td>
+                        <div class="dEdit_1">
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(item => item.ContactUser, new { @class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.ValidationMessageFor(item => item.ContactUser)
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><em class="red">* </em>联系电话：</td>
+                    <td>
+                        <div class="dEdit_1">
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(item => item.ContactPhone, new { @class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.ValidationMessageFor(item => item.ContactPhone)
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><em class="red"></em>门店Banner：</td>
+                    <td>
+                        <div id="storeBanner" class="form-group upload-img" style="margin-top: 8px;margin-bottom: 8px;padding-left: 15px;"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        <h3>账号信息</h3>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td align="right" width="15%"><em class="red">* </em>管理员账号：</td>
+                    <td>
+                        <div class="dEdit_1">
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(item => item.UserName, new { @class = "form-control input-sm", @disabled = "disabled" })
+                                @Html.HiddenFor(e => e.UserName, new { })
+                            </div>
+                            @*<div class="col-sm-3">
+                                @Html.ValidationMessageFor(item => item.UserName)
+                            </div>*@
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">密码：</td>
+                    <td>
+                        <div class="dEdit_1">
+                            <div class="col-sm-3">
+                                <input name="PasswordOne" class="form-control input-sm" type="password"/>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">确认密码：</td>
+                    <td>
+                        <div class="dEdit_1">
+                            <div class="col-sm-3">
+                                <input name="PasswordTwo" class="form-control input-sm" type="password" />
+                            </div>
+                         </div>
+                    </td>
+                </tr>
+        </table>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-9">
+                <button type="button" onclick="checkData()" class="btn btn-primary" style="width: 150px;padding: 10px 15px !important;">保 存</button>
+            </div>
+        </div>
+        @Html.HiddenFor(e => e.Id, new { @id = "Id" })
+        @Html.HiddenFor(e => e.Longitude)
+        @Html.HiddenFor(e => e.Latitude)
+        @Html.HiddenFor(e => e.ShopImages)
+    </form>
+</div>
+<div class="dialog-form" id="reply-form" style="display:none;">
+    <div class="form-group">
+        <div class="dEdit_3">
+            <div id="area-selector-Delivery"></div>
+            @Html.Hidden("DeliveryScopAddressId")
+        </div>
+    </div>
+</div>
+<input type="hidden" value="@Url.Action("Management")" id="urlManagement" />
+<input type="hidden" value="@Himall.Core.HimallIO.GetImagePath(Model.ShopImages)" id="displayShopImagesSrc" />
+<script src="~/Scripts/jquery.himall.Region.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/ShopBranchEdit.js"></script>

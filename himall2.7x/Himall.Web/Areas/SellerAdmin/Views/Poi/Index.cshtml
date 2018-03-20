@@ -1,0 +1,127 @@
+﻿<script src="~/Scripts/jquery.hiMallDatagrid.js"></script>
+<script src="~/Scripts/jquery.himallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li class="active"><a>管理</a></li>
+        <li><a href="addpage">新增</a></li>
+    </ul>
+    <table id="list" class="table"></table>
+
+</div>
+
+
+
+<script type="text/javascript">
+    $( function ()
+    {
+        loadGrid();
+    } )
+
+    function loadGrid()
+    {
+        $( "#list" ).hiMallDatagrid( {
+            url: './List',
+            nowrap: false,
+            rownumbers: true,
+            NoDataMsg: '没有找到符合条件的数据',
+            border: false,
+            fit: true,
+            fitColumns: true,
+            pagination: true,
+            idField: "poi_id",
+            pageSize: 15,
+            pagePosition: 'bottom',
+            pageNumber: 1,
+            queryParams: {},
+            operationButtons: "#orderOperate",
+            columns:
+			[[
+                { field: "business_name", title: '门店名称', width: 150, align: "center" },
+                { field: "address", title: '门店地址', width: 250, align: "center" },
+                {
+                    field: "available_state", title: '基本信息状态', width: 100, align: "center", formatter: function ( value, row, index )
+                    {
+                        if ( row.available_state == 2 )
+                        {
+                            return "审核中";
+                        }
+                        else if ( row.available_state == 3 )
+                        {
+                            return "生效";
+                        }
+                        else if ( row.available_state == 4 )
+                        {
+                            return "审核驳回";
+                        }
+                        else if ( row.available_state == 1 )
+                        {
+                            return "系统错误";
+                        }
+                    }
+                },
+                {
+                    field: "update_status", title: '服务信息状态', width: 100, align: "center", formatter: function ( value, row, index )
+                    {
+                        if ( row.update_status == 0 )
+                        {
+                            return "无";
+                        }
+                        else
+                        {
+                            return "更新审核中";
+                        }
+                    }
+                },
+                {
+                    field: "operation", title: '操作', width: 100, align: "center", formatter: function ( value, row, index )
+                    {
+                        var id = row.poi_id;
+
+                        var html = '<span class="btn-a">';
+                        html += '<a class="good-check" href="Detail/' + id + '">详情</a>';
+                        if ( row.update_status == 0 )
+                        {
+                            html += '<a class="good-check" href="EditPage/' + id + '">编辑</a>';
+                        }
+                        //else
+                        //{
+                        //    html += '<a title="距上次增加(编辑)暂未通过审核，通过后予以编辑">编辑</a>';
+                        //}
+                        if ( row.available_state != 2 )
+                        {
+                            html += '<a class="good-check" onclick="del(\'' + id + '\')">删除</a>';
+                        }
+                        html += '</span>';
+
+                        return html;
+                    }
+                }
+			]]
+        } )
+    }
+
+    function del( id )
+    {
+        var loading = showLoading();
+        $.post( "./DelPoi", { id: id }, function ( data )
+        {
+            loading.close();
+            if ( data.success )
+            {
+                $.dialog.tips( "删除成功" );
+                $( "#list" ).hiMallDatagrid( 'reload', { pageNumber: 1 } );
+            }
+            else
+            {
+                $.dialog.tips( data.msg );
+            }
+        } )
+    }
+</script>

@@ -1,0 +1,134 @@
+﻿@model Himall.DTO.ChargePayModel
+@{
+    ViewBag.Title = "订单支付";
+    Layout = "~/Areas/Web/Views/Shared/_PayTopBar.cshtml";
+    var orders = Model.Orders;
+}
+<div class="w990 main">
+    <div class="m mainbody">
+        <div class="mc">
+            <s class="icon-succ04"></s>
+            <h3 class="orderinfo">提交成功，请您尽快付款！</h3>
+            <ul class="list-orderinfo">
+                <li>充值单号：@orders.Id</li>
+            </ul>
+            <p class="mb-tip">您已申请账户余额充值，请立即支付！ 充值金额：<strong class="ftx-01">@((Model.TotalAmount).ToString("F2"))</strong> 元</p>
+        </div>
+    </div>
+    <div class="m pay-box">
+        <div class="mc">
+            <h5 class="subtit">请选择支付方式</h5>
+            <ul class="list-bank">
+                @{var i = 0;}
+                @foreach (var payment in Model.models)
+                {
+                    <li>
+                        <label>
+                            <input type="radio" class="jdradio" value="@payment.RequestUrl" name="requestUrl" id="@payment.Id" urltype="@((int)payment.UrlType)" />
+                            <img width="165" height="48" alt="微信PC" src="@payment.Logo" /><!----插件中的图片暂不处理-->
+                        </label>
+                    </li>
+                }
+            </ul>
+            <div class="btns"><a class="btn-next" href="javascript:;" id="nextBtn">下一步</a></div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="orderIds" value="@Model.OrderIds" />
+<script>
+    $(function () {
+        $('.progress-').hide();
+        var orderIds = $('#orderIds').val();
+        $('input[name="requestUrl"]').change(function () {
+            var url = $(this).val();
+            if ($(this).attr('urlType') == "1")
+                url = '/pay/QRPay?url=' + url + '&id=' + $(this).attr('id') + '&orderIds=' + orderIds+'&type=charge';
+
+            $('#nextBtn').attr('urlType', $(this).attr('urlType'));
+            $('#nextBtn').attr('formdata', url);
+
+            $('#nextBtn').removeAttr('href');
+            $('#nextBtn').removeAttr('target');
+            if ($(this).attr('urlType') != "2" ) {
+                $('#nextBtn').attr('href', url);
+                $('#nextBtn').attr('target', "_blank");
+            }
+        });
+
+        $('#nextBtn').click(function () {
+            var t = $("input[name='requestUrl']:checked").val();
+            if (t == undefined)
+            {
+                $.dialog.tips('请选择支付方式！');
+                return;
+            }
+            if ($(this).attr('urlType') == "2") {
+                var url = $(this).attr('formdata');
+                BuildPostForm('pay_form', url, '_blank').submit();
+            }
+
+            if ($(this).attr('href') != 'javascript:;' || $(this).attr('urlType') == "2") {
+
+                $.dialog({
+                    title: '登录平台支付',
+                    lock: true,
+                    content: '<p>请您在新打开的支付平台页面进行支付，支付完成前请不要关闭该窗口</p>',
+                    padding: '30px 20px',
+                    button: [
+				    {
+				        name: '已完成支付',
+				        callback: function () {
+				            location.href = '/userCenter?url=/UserCapital/&tar=';
+				        }
+				    },
+				    {
+				        name: '支付遇到问题',
+				        callback: function () {
+
+				        }
+				    }]
+                });
+            }
+
+
+        });
+
+    });
+    function BuildPostForm(fm, url, target) {
+        var e = null, el = [];
+        if (!fm || !url)
+            return e;
+        target = target || '_blank';
+        e = document.getElementById(fm);
+        if (!e) {
+            e = document.createElement('Form');
+            e.Id = fm;
+            document.body.appendChild(e);
+        }
+
+        e.method = 'post';
+        e.target = target;
+        e.style.display = 'none';
+        e.enctype = 'application/x-www-form-urlencoded';
+
+        var idx = url.indexOf('?');
+        var para = [], op = [];
+        if (idx > 0) {
+            para = url.substring(idx + 1, url.length).split('&');
+            url = url.substr(0, idx);//截取URL
+            var keypair = [];
+            for (var p=0 ; p < para.length; p++) {
+                idx = para[p].indexOf('=');
+                if (idx > 0) {
+                    el.push('<input type="hidden" name="' + para[p].substr(0, idx) + '" id="frm' + para[p].substr(0, idx) + '" value="' + para[p].substring(idx + 1, para[p].length) + '" />');
+                }
+            }
+        }
+
+        e.innerHTML = el.join('');
+        e.action = url;
+        return e;
+    };
+</script>

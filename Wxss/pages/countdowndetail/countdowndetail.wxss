@@ -1,0 +1,412 @@
+/* pages/ProductDetails/ProductDetails.wxss */
+page {
+  padding-bottom: 90rpx;
+}
+
+.slide-image {
+  display: inline;
+}
+
+.swiper-box {
+  height: 750rpx;
+}
+
+.swiper-box .wx-swiper-dots.wx-swiper-dots-horizontal {
+  margin-bottom: 24rpx;
+  background: #d7d7d7;
+  border: 1rpx solid #d7d7d7;
+  border-radius: 20rpx;
+  padding: 5rpx 15rpx;
+}
+
+.swiper-box .wx-swiper-dot {
+  display: inline-flex;
+}
+
+.swiper-box .wx-swiper-dot-active {
+  background: #fff;
+}
+.productcont {
+  background: #f5f5f5;
+  margin-bottom: 9rpx;
+}
+.productxq{
+  background: #fff;
+ margin-top: 24rpx;
+} 
+.productjs {
+  background: #fff; overflow: hidden;
+}
+.mt15{margin-top: 15rpx;background: #fff;}
+.name {
+  max-height: 100rpx;
+  line-height: 52rpx;
+  overflow: hidden;
+  font-size: 36rpx;
+  color: #000;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  margin-top: 24rpx;
+}
+.jjname {
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 28rpx;
+  margin-top: 16rpx;
+  color: #515a5f; line-height: 44rpx;
+}
+.pricel{display: flex;}
+.oldprice{ color: #fff; text-decoration: line-through; font-size:28rpx; margin-left: 24rpx;}
+.saleprice{font-size: 48rpx; color: #fff; }
+.saleprice text{font-size: 48rpx; }
+.yunfei,.xiaoliang{font-size: 24rpx;width: 350rpx;}
+.jshuright{padding:16rpx 0;width: 194rpx;background:#f4511e; line-height: 40rpx;color: #fff; position: absolute;right:0;top:0;font-size: 24rpx; text-align: center;}
+
+.jshuright view{font-size: 30rpx;}
+.xiaoliang{ text-align: right;}
+.hdonglist {
+  border-bottom: 1rpx solid #e0e0e0;
+  padding:24rpx;
+  font-size:32rpx;
+  overflow: hidden; line-height: 48rpx;
+  position:relative; background: #f9f9f9;
+}
+.hdonglist .iconfont{font-size: 28rpx; text-align: right; color: #9e9e9e;}
+.counpon-icon {
+ 
+  margin-right:15rpx;
+  display:flex;
+  font-size: 28rpx;
+  line-height:48rpx;
+  float: left;
+  width: 90%
+}
+
+.other .counpon-icon{
+  font-size: 32rpx;
+}
+.hdonglist.other{
+  background: #fff;
+  margin: 24rpx 0;
+  color: #212121;
+}
+.promote_item text{font-size: 28rpx;}
+.houhui_name{border: 1rpx solid #ff5722; padding: 4rpx 8rpx;color: #ff5722;display: inline-block; border-radius:5rpx;line-height: 24rpx; white-space: nowrap; font-size: 24rpx;}
+.promote_item1{width: 100rpx;}
+.xqcont{ overflow: hidden;}
+.btn-area{position: fixed; bottom: 0; background: #fff; display: flex;width: 750rpx;font-size: 28rpx;border-top:1rpx solid #e0e0e0; }
+.btn-area navigator{width: 100rpx; text-align: center;font-size: 20rpx;}
+.icon image{width: 44rpx;height:44rpx;margin-top: 10rpx;display: inline-block;margin-bottom: 5rpx;}
+.btn-area navigator.goumai{width: 650rpx;  background: linear-gradient(to right, #ff5722, #ff1a1a); height:98rpx; text-align: center; line-height:98rpx; color: #fff;font-size:36rpx;}
+.btmbg{position: fixed;height: 100%; width: 100%;background: #000; zoom: 1;top: 0;left:0; opacity: 0.3;}
+.lqyhq {
+  position: fixed;
+  bottom: 0;
+  z-index: 1000;
+  overflow: hidden;
+  background: #fff;
+  font-size: 24rpx;  height: 840rpx;
+  overflow-y: scroll;width:750rpx;
+}
+.nronggaodu{
+
+   height: 468rpx;
+  overflow-y: scroll;
+}
+.gouwqnr {
+  height: 800rpx;
+  overflow-y: scroll;
+  padding: 24rpx;
+}
+
+.lqyhqtitle .lqicon {
+  width: 64rpx;
+  height: 39rpx;
+  float: left;
+  vertical-align: top;
+}
+
+.lqyhqtitle  text {
+  float: left;
+  margin-top: 3rpx;
+}
+
+.lqicon1 {
+  width: 40rpx;
+  height: 40rpx;
+  float: right;
+}
+
+.lqyhqtitle {
+  padding: 24rpx; 
+  overflow: hidden;
+}
+
+.lqyhqtitle text { 
+  font-size: 32rpx;
+  margin-top: 3rpx;
+}
+
+.lqicon3 {
+  width: 679rpx;
+  margin: 0 auto;
+  height: 199rpx;
+  display: block;
+  margin-top: 24rpx;
+  margin-bottom: 24rpx;
+}
+
+.youhuiquan {
+  position: relative;
+  border-radius: 10rpx;
+  margin-bottom: 24rpx;
+}
+
+.nrong { 
+  color: #fff;
+  padding: 0 24rpx;
+  background: #ff5252;
+  overflow: hidden;
+  border-top-left-radius: 10rpx;
+  border-top-right-radius: 10rpx;
+}
+
+.nrje {
+  text-align: center;
+  height: 96rpx;
+  font-size: 48rpx;
+  line-height: 96rpx;
+  float: left;
+}
+
+.nrje text {
+  font-family: Arial;
+}
+
+.nrtime {
+  width: 420rpx;
+  margin-left: 20rpx;
+}
+
+.nrtimelqan {  
+  background: #fff;
+  overflow: hidden;
+  padding: 16rpx 24rpx;
+  border-bottom-left-radius: 10rpx;
+  border-bottom-right-radius: 10rpx;
+}
+
+.nrtimelqan button {
+  float: right;
+  border: 1rpx solid #212121;
+  background: #fff;
+  width: 100rpx;
+  height: 60rpx;
+  display: inline-block;
+  line-height:60rpx;
+  color: #212121;
+  font-size: 24rpx;
+  padding: 0;
+}
+
+.nrong .nrtimelist {
+  font-size: 24rpx;  
+  line-height: 80rpx; 
+  float: right;
+}
+ 
+ 
+.none {
+  display: none;
+}
+
+.sezhi {
+  width: 700rpx;
+  margin: 0 auto;
+  margin-top: 24rpx;
+}
+.sezhi_last_child{border-bottom:1rpx solid #e0e0e0; padding-bottom: 24rpx;width: 700rpx;
+  margin: 0 auto;}
+ .goumaisl {  width: 700rpx;
+  margin: 0 auto;
+  padding-top: 25rpx;
+
+}
+
+.sezhicont image {
+  border: 1rpx solid #fff;
+  width: 95rpx;
+  height: 95rpx;
+  margin-top: 20rpx;
+  margin-right: 16rpx;
+}
+
+.sezhicont image.active {
+  border: 1rpx solid #f95959;
+}
+.sezhicont text {
+  border: 1rpx solid #fff;
+  padding:0 24rpx; line-height: 56rpx;
+  display: block;
+  float: left;
+  margin-top: 10rpx;
+  margin-right: 24rpx; white-space: nowrap;
+  border-radius: 5px;
+  background: #f5f5f5;
+  font-size: 24rpx;
+}
+
+.sezhicont .SKUSelectValueClass {
+  border: 1rpx solid #ff5722;
+  background: #ff5722;color: #fff;
+}
+
+.sezhicont {
+  clear: both;
+  overflow: hidden;
+}
+.goumkuang {
+  display: flex;
+  margin-left: 30rpx;
+}
+
+.goumaisl {
+  display: flex;
+  line-height: 60rpx;
+}
+.jian, .jia {
+  width: 70rpx;
+  height: 62rpx;
+  border: 1rpx solid #e0e0e0;
+  text-align: center;
+  line-height: 62rpx;
+  font-size: 28rpx;color: #cecece;background: #eeeeee;
+}
+
+.jia {
+  color: #9e9e9e;
+  background: #eee;
+}
+
+.goumaisl input {
+  width: 96rpx;
+  height: 62rpx;
+  text-align: center;
+  line-height: 62rpx;
+  border-top: 1rpx solid #e0e0e0;
+  border-bottom: 1rpx solid #e0e0e0;
+}
+.taojstime{ background:#ff7043;height: 112rpx; line-height:112rpx;font-size: 48rpxpx;position: relative;}
+.jijkais{ background: #81d4fa;}
+.jstime{ background: #aeaeae;}
+.jijkais .jshuright{background: #29b6f6;}
+.jstime .jshuright{background: #8d8d8d;}
+.taojstime image{width: 32rpx;height: 32rpx; float: left; margin-left: 24rpx; margin-right: 24rpx; margin-top: 16rpx;}
+.meixiangou{border-radius:25rpx;background: #ffc267;width: 200rpx; height: 50rpx; line-height: 50rpx; color: #fff; text-align: center; font-size: 26rpx; margin-top: 10rpx;}
+.btn-area navigator.jiksname{ background: linear-gradient(to right, #03a9f4, #0288d1);}
+.btn-area navigator.hdongjs{ background: linear-gradient(to right, #b1b1b1, #aeaeae);}
+.skuvalueclass {
+  border: 0rpx solid #c9c8cd;
+  background: #e0e0e0;
+  margin-right: 50rpx;
+}
+.SKUSelectValueClass {
+  border: 0rpx solid #e6393d;
+  background: #ff5252;
+  margin-right: 50rpx;
+}
+.saleprice .qianggoujia{ margin-right: 10rpx; font-size: 14px;}
+.sezhititle{ margin-bottom: 30rpx;}
+
+  .guigecont .saleprice{ font-size: 36rpx;
+  color: #ff5722;}
+.lijigoumai {
+  border: none;
+  background: #fe5722;
+  width: 750rpx;
+  border-radius: 0;
+  color: #fff;
+  margin-top: 45rpx;
+  height: 98rpx;
+  line-height: 98rpx;
+  font-size: 36rpx; position: absolute;bottom:0;
+}
+.nrtimelqan .nrtimelist-con {
+  float: left; 
+  width: 500rpx;
+  font-size: 24rpx;
+  line-height: 30rpx;
+}
+.nrtimelist-con .nrtimelist{line-height: 32rpx; clear: both}
+.nrtimelist-con .nrtimelist view{ float: left;}
+.nrtimelqan .nrtimelist-con .nrtimelist .dian {
+     font-size: 18rpx;
+     color: #ff5252;line-height: 25rpx;height: 25rpx;
+     margin-right: 15rpx; float: left;
+}
+
+
+/*商品规格*/
+.guigecha {
+  color: #616161;
+  text-align: right;
+}
+.positionre{ position: relative;
+    height: 718rpx;
+    margin-bottom:98rpx;}
+.skuchoose{overflow: initial;overflow-y: initial;}
+.guigecont {
+  width: 450rpx;
+  margin-left: 224rpx; 
+  font-size: 28rpx;
+}
+
+.guigeconkc {
+  margin-top: 5rpx;
+  color: #424242;
+}
+
+.guigeyxhs {
+  margin-top: 10rpx;
+  color: #424242;
+  line-height: 44rpx;
+}
+
+
+.guige {
+  width: 702rpx;
+  margin: 0 auto;
+  display: flex;
+  margin-top: 24rpx;
+  border-bottom: 1rpx solid #e0e0e0;
+  padding-bottom: 24rpx;
+  height:174rpx;
+  box-sizing:border-box;
+}
+
+.guigeimg {
+  width: 200rpx; 
+  height: 200rpx; 
+  position:absolute;
+  top:-48rpx;
+  box-sizing: border-box;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  z-index: 999;
+}
+
+.guigeimg {
+  width: 200rpx; 
+  height: 200rpx; 
+  position:absolute;
+  top:-48rpx;
+  box-sizing: border-box;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  z-index: 999;
+}

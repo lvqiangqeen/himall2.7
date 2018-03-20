@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>消息列表</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-left-nav"></span>返回</button>
+			<h1 class="mui-title">消息列表</h1>
+		</header>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div class="message-row" id="datalist">
+					<div class="pull-loading"><div class="mui-icon mui-spinner"></div>正在加载...</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/html" id="initData">
+			{{each rows as item}} {{if item.showTitle}}
+			<p>{{item.sendtime.substr(0,4)}}-{{item.sendtime.substr(5,2)}}-{{item.sendtime.substr(8,2)}}</p>{{/if}}
+			<ul>
+				<li data-id="{{item.Id}}" data-sid="{{item.SourceId}}" data-isread="{{item.IsRead?'1':'0'}}" data-type="{{item.TypeId}}" data-hasshopbranch="{{item.HasShopbranch}}" class="msgitem {{if item.IsRead}}read{{/if}}">
+					<h4>
+						<span class="iconfont2 icon-envelope"></span>
+						{{item.Title}}
+					</h4>
+					<p>{{item.Content}}</p>
+					{{if item.OrderPayDate}}<span>付款时间：{{item.OrderPayDate.replace("T"," ")}}</span>{{/if}}
+					<span class="mui-icon mui-icon-arrowright message-go"></span>
+				</li>
+			</ul>
+			{{/each}}
+		</script>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/template.js"></script>
+		<script>
+			var isEnd = false,
+				page = 0,
+				userkey = himall.getState().userkey,
+				List = document.getElementById('datalist'),
+				curMinDate = 0,
+				isJoin = himall.isJoin();
+
+			var dataUrl = 'api/ShopBranchMessage/GetMessages';
+			var readUrl = 'api/ShopBranchMessage/PostReadMessage';
+			if(isJoin) {
+				dataUrl = 'api/ShopMessage/GetMessages';
+				readUrl = 'api/ShopMessage/PostReadMessage';
+			}
+
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					deceleration: 0.0006,
+					up: {
+						contentrefresh: "正在加载...",
+						contentnomore: '已加载完全部',
+						callback: loadPage
+					}
+				},
+				swipeBack: true,
+				beforeback: function() {
+					mui.fire(plus.webview.getWebviewById(plus.runtime.appid), 'updateData');
+				}
+			});
+			if(mui.os.android)
+				document.getElementsByClassName('mui-scroll')[0].className = '';
+
+			mui.plusReady(function() {
+				var ws = plus.webview.currentWebview();
+				ws.setStyle({scrollIndicator:'none'});
+				setTimeout(function(){
+					loadPage('reset');
+				},300);
+				ws.setPullToRefresh({
+					support: true,
+					height: "50px",
+					range: "100px",
+					style: 'circle',
+					offset: '20px'
+				}, function() {
+					setTimeout(function() {
+						reloadPage();
+						ws.endPullToRefresh();
+					}, 300)
+				});
+			});
+			mui('#datalist').on('tap', '.msgitem', function(e) {
+				var type = this.getAttribute('data-type'),
+					id = this.getAttribute('data-id'),
+					isread = this.getAttribute('data-isread'),
+					sid = this.getAttribute('data-sid'),
+					hasshopbranch=this.getAttribute('data-hasshopbranch');
+					
+				if(isread != "1") {
+					this.setAttribute('data-isread',1);
+					this.classList.add('read');
+					mui.ajax(URL + readUrl, {
+						data: himall.md5Data({
+							id: id,
+							userkey: userkey
+						}),
+						dataType: 'json',
+						type: 'POST',
+						timeout: 10000,
+						success: function(data) {
+						}
+					});
+				}
+				var jumpurl = "order-details.html";
+				var urldata = {};
+				switch(type) {
+					case "1":
+						jumpurl = "order-details.html";
+						urldata.orderId = sid;
+						break;
+					case "2":
+						jumpurl = "refund-detail.html";
+						urldata.refundId = sid;
+						break;
+				}
+				if(type==1&&hasshopbranch<=0&&(!isJoin)){
+					plus.nativeUI.toast("该订单已被转移");
+					return;
+				}
+				himall.openVW(jumpurl, urldata);
+			});
+
+			function loadPage(re) {
+				var self = this;
+				curMinDate = 0;
+				if(!isEnd) {
+					page++;
+					mui.ajax(URL + dataUrl, {
+						data: himall.md5Data({
+							pageno: page,
+							pagesize: 10,
+							userkey: userkey
+						}),
+						dataType: 'json',
+						type: 'get',
+						timeout: 10000,
+						success: function(data) {
+							if(data.rows.length < 10) {
+								isEnd = true;
+							}
+							for(var i = 0, len = data.rows.length; i < len; i++) {
+								var item = data.rows[i];
+								var curdate = getInt(item.sendtime);
+								if(curMinDate == 0) {
+									curMinDate = curdate;
+									item.showTitle = true;
+								}
+								if(curdate != curMinDate) {
+									curMinDate = curdate;
+									item.showTitle = true;
+								}
+							}
+							if(re) {
+								List.innerHTML = template('initData', data);
+								mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 20);
+							} else {
+								List.insertAdjacentHTML('beforeend', template('initData', data));
+								self.endPullupToRefresh(isEnd);
+							}
+							if(page == 1) {
+								if(data.rows.length > 0) {
+									document.querySelector('.mui-pull-bottom-pocket').style.opacity = 1;
+								} else {
+									List.innerHTML = '<div class="empty-show"><h4>暂无消息...</h4></div>';
+									document.querySelector('.mui-pull-bottom-pocket').style.opacity = 0;
+								}
+							}
+
+						},
+						error: function(xhr, type, errorThrown) {
+							if(page == 1) {
+								reloadWvLoad();
+							} else {
+								plus.nativeUI.toast('请求失败，请检查网络重试');
+								self.endPullupToRefresh(isEnd);
+								page--;
+							}
+
+						}
+					});
+				} else {
+					self.endPullupToRefresh(isEnd);
+				}
+			}
+			//将日期字符串转为int型
+			function getInt(str) {
+				str = str.substr(0, 4) + str.substr(5, 2) + str.substr(8, 2);
+				return parseInt(str);
+			}
+			function reloadPage(){
+				isEnd = false;
+				page = 0;
+				mui('#pullrefresh').pullRefresh().refresh(true);
+				loadPage('reset');
+			}
+		</script>
+	</body>
+
+</html>

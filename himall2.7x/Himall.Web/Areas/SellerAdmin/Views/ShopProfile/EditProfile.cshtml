@@ -1,0 +1,48 @@
+﻿@{
+    Layout = "~/Areas/SellerAdmin/Views/Shared/_ShopProfile.cshtml";
+    var manager = ViewBag.Manager as Himall.Model.ManagerInfo;
+
+    List<string> menuItem = new List<string>() {
+       "<li><a>入驻协议</a></li>",
+       "<li><a>商家信息提交</a></li>",
+       "<li><a>店铺信息提交</a></li>",
+       "<li><a>审核状态</a></li>"
+    };
+
+    var step = (int)ViewBag.Step;
+
+}
+<link rel="stylesheet" type="text/css" href="~/Areas/Web/Content/common.css" />
+<style>
+.top .quick_list .dropdown-menu{left:3px!important;}
+.top .hover .blank{display:none!important}
+.top .quick_list .service .dropdown-menu{min-width:80px!important}
+ .top .quick_list li.app-qrcode.service .dropdown-menu{min-width:110px!important}
+  .top .quick_list li.moblie-qrcode .dropdown-menu{min-width:90px!important}
+.top .dropdown-menu:after{display:none;}
+.top .hover .outline{height:29px!important}
+.top .hover .outline{top:0!important}
+.top .quick_list .dropdown-menu{width:97%}
+.top .hover .dropdown-menu{top:27px}
+.top li b{right:-5px;}
+.content{width:1354px; top: 20px; }
+#ascrail2000 div{background-color:#fff!important}
+</style>
+<div class="aside">
+    <ul class="aside-list">
+        @for (int i = 0; i < menuItem.Count; i++)
+        {
+            if (i == step)
+            {
+                @Html.Raw(menuItem[i].Replace("<li>", "<li class='current'>"))
+            }
+            else
+            {
+                @Html.Raw(menuItem[i])
+            }
+        }
+    </ul>
+</div>
+<div class="content">
+    <iframe id='iframe' src='@ViewBag.Frame' name='iframe' frameborder='0' scrolling='auto'></iframe>
+</div>

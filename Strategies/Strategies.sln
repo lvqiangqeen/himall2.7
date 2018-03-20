@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Himall.Strategy.AspNetCache", "Cache\Himall.Core.Plugin.AspNetCache\Himall.Strategy.AspNetCache.csproj", "{B85C38D8-8BDA-4410-BCFC-8F81304FF9A1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cache", "Cache", "{3125E418-E9AA-4CDA-A0D1-693A5558D3CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Himall.Strategy.Memecached", "Cache\Himall.Core.Plugin.Memecache\Himall.Strategy.Memecached.csproj", "{C81263EE-0420-45E6-88E2-4828652ADC90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Himall.Strategy.Redis", "Cache\Himall.Strategy.Redis\Himall.Strategy.Redis.csproj", "{0E94AC01-96E8-43F1-A47F-CDC84B283920}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IO", "IO", "{9B05F828-069A-4EEC-ACA5-456741E9AD2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Himall.Strategy.OSS", "Himall.Strategy.OSS\Himall.Strategy.OSS.csproj", "{4A6DD208-0DB7-4C4C-ADFA-8D931B2B65A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Himall.Strategy.AspNetIO", "Himall.Strategy.AspNetIO\Himall.Strategy.AspNetIO.csproj", "{FFF76B75-E457-4B09-8CE1-2B2F9052DDDA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B85C38D8-8BDA-4410-BCFC-8F81304FF9A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B85C38D8-8BDA-4410-BCFC-8F81304FF9A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B85C38D8-8BDA-4410-BCFC-8F81304FF9A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B85C38D8-8BDA-4410-BCFC-8F81304FF9A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C81263EE-0420-45E6-88E2-4828652ADC90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C81263EE-0420-45E6-88E2-4828652ADC90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C81263EE-0420-45E6-88E2-4828652ADC90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C81263EE-0420-45E6-88E2-4828652ADC90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E94AC01-96E8-43F1-A47F-CDC84B283920}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E94AC01-96E8-43F1-A47F-CDC84B283920}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E94AC01-96E8-43F1-A47F-CDC84B283920}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E94AC01-96E8-43F1-A47F-CDC84B283920}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A6DD208-0DB7-4C4C-ADFA-8D931B2B65A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A6DD208-0DB7-4C4C-ADFA-8D931B2B65A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A6DD208-0DB7-4C4C-ADFA-8D931B2B65A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A6DD208-0DB7-4C4C-ADFA-8D931B2B65A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFF76B75-E457-4B09-8CE1-2B2F9052DDDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFF76B75-E457-4B09-8CE1-2B2F9052DDDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFF76B75-E457-4B09-8CE1-2B2F9052DDDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFF76B75-E457-4B09-8CE1-2B2F9052DDDA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B85C38D8-8BDA-4410-BCFC-8F81304FF9A1} = {3125E418-E9AA-4CDA-A0D1-693A5558D3CD}
+		{C81263EE-0420-45E6-88E2-4828652ADC90} = {3125E418-E9AA-4CDA-A0D1-693A5558D3CD}
+		{0E94AC01-96E8-43F1-A47F-CDC84B283920} = {3125E418-E9AA-4CDA-A0D1-693A5558D3CD}
+		{4A6DD208-0DB7-4C4C-ADFA-8D931B2B65A1} = {9B05F828-069A-4EEC-ACA5-456741E9AD2D}
+		{FFF76B75-E457-4B09-8CE1-2B2F9052DDDA} = {9B05F828-069A-4EEC-ACA5-456741E9AD2D}
+	EndGlobalSection
+EndGlobal

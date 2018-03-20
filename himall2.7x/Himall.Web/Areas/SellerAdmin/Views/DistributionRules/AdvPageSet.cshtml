@@ -1,0 +1,55 @@
+﻿@model Himall.Web.Areas.SellerAdmin.Models.ShopDistributorAdvPageSetModel
+@{
+	ViewBag.Title = "聚合页推广设置";
+}
+<script src="~/Areas/SellerAdmin/Scripts/DistributionRulesAdvPageSet.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        
+        <li><a href="@Url.Action("Manage")">分销商品设置</a></li>
+        <li><a href="@Url.Action("DefaultBrokerage")">默认佣金比例设置</a></li>
+        <li class="active"><a>聚合页推广设置</a></li>
+    </ul>
+    <h5 class="tips-top"><span class="help-default"><i></i>  说明：当本店铺的分销聚合页通过微信分享到朋友圈或发送给好友时链接所使用的图标、标题及详情描述。</span></h5>
+
+
+    <div class="form-horizontal">
+        @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "post", OnBegin = "beginpost", OnSuccess = "successpost" }))
+    {
+            <div class="form-group upload-img" id="DistributorShareLogo"></div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><span class="red">*</span>链接名称：</label>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(d => d.DistributorShareName, new { @class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.ValidationMessageFor(model => model.DistributorShareName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><span class="red">*</span>详情描述：</label>
+                <div class="col-sm-4">
+                    @Html.TextAreaFor(d => d.DistributorShareContent, new { @class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.ValidationMessageFor(model => model.DistributorShareContent, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary" id="btsubmit">保 存</button>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+<input type="hidden" value="@(HimallIO.GetImagePath(Model.DistributorShareLogo))" id="MDSlogo" />
+@Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.hishopUpload.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+

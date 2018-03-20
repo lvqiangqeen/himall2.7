@@ -1,0 +1,137 @@
+<!--/pages/productsearch/productsearch.wxml-->
+<view class="page-section bg-wihte">
+  <view>
+    <view class="search">
+      <view class="searchinput">
+        <input type="text" class="searchplaceholder" placeholder="寻找您喜爱的商品"></input>
+        <text class="iconfont icon-sousuo_sousuo"></text>
+      </view>
+    </view>
+
+  </view>
+
+  <view class="search-container border-top">
+    <view class="container-l" style="height:{{LHeight}}px">
+      <block wx:for="{{CategoryList}}" wx:for-index="idx">
+        <view class="categroy  border-bottom {{idx==Css.FirstIndex?'active':''}}" bindtap="ChooseCategory" data-index="{{idx}}" data-cid="{{item.cid}}" data-grade="1">
+          <view class="m">{{item.name}}</view>
+        </view>
+      </block>
+    </view>
+
+    <view class="container-r">
+
+      <view class="container-r-title-table">
+        <view class="table-headersort border-bottom">
+          <view class="table-headersort-title {{Css.SortIndex==1?'active':''}}" bindtap="SortClick" data-sortby="ProductId" data-index="1">
+               <view class="bd">
+                    <view class="tit">综合排序</view> 
+               </view>
+          </view>
+          <view class="table-headersort-title {{Css.SortIndex==2?'active':''}}" bindtap="SortClick" data-sortby="SalePrice" data-index="2">
+               <view class="bd">
+                    <view class="tit">按价格</view>
+                    <view class="term">
+                          <view class="triangle-up">  <!--向上的三角--> </view>
+                          <view class="triangle-down">  <!--向下的三角--> </view>
+                    </view>
+               </view>
+          </view>
+          <view class="table-headersort-title {{Css.SortIndex==3?'active':''}}" bindtap="SortClick" data-sortby="SaleCounts" data-index="3">
+               <view class="bd">
+                    <view class="tit">按销量</view>
+                    <view class="term">
+                          <view class="triangle-up">  <!--向上的三角--> </view>
+                          <view class="triangle-down">  <!--向下的三角--> </view>
+                    </view>
+               </view> 
+          </view>
+        </view>
+      </view>
+
+      <view class="table-subcategory border-bottom">
+        <view class="{{Css.SecondIndex==0?'subcategory-active':''}}" hidden="{{CurrentCategory.subs.length==0}}" bindtap="ChooseCategory" data-index="0" data-cid="{{CurrentCategory.cid}}" data-grade="2">全部分类</view>
+        <block wx:for="{{CurrentCategory.subs}}" wx:for-index="idx">
+          <view bindtap="ChooseCategory" data-index="{{idx+1}}" data-cid="{{item.cid}}" data-grade="2" class="{{Css.SecondIndex==idx+1?'subcategory-active':''}}">{{item.name}}</view>
+        </block>
+      </view>
+
+      <view class="pro-list">
+        <block wx:for="{{ProductList}}" wx:for-index="idx">
+          <view class="border-bottom">
+            <view class="search-pro">
+              <view class="search-pro-pic" bindtap="ChooseProduct" data-productId="{{item.ProductId}}">
+                <image src="{{item.Pic}}" style="width:100%;height:142rpx" />
+              </view>
+              <view class="search-pro-txt">
+                <view class="search-pro-txt-name" bindtap="ChooseProduct" data-productId="{{item.ProductId}}">{{item.ProductName}}</view>
+                <view class="search-rpo-txt-price">
+                  <view class="saleprice">
+                    ￥<text>{{item.SalePrice}}</text>
+                    <text class="oldprice">
+                    ￥<text>{{item.MarketPrice}}</text>
+                    </text>
+                  </view>
+                  <view class="search-pro-shop">
+                    <view class="search-pro-add" hidden="{{item.CartQuantity>0&&!item.HasSKU}}" bindtap="BuyProduct" data-productid="{{item.ProductId}}" data-sku="{{item.HasSKU}}" data-index="{{idx}}">+
+                      <view hidden="{{item.CartQuantity<=0}}">{{item.CartQuantity}}</view>
+                    </view>
+                    <view class="search-pro-buy" hidden="{{item.HasSKU||(!item.HasSKU&&item.CartQuantity<=0)}}">
+                      <view class="l" bindtap="minusCount" data-index="{{idx}}">-</view>
+                      <input class="m" type="text" value="{{item.CartQuantity>0?item.CartQuantity:1}}" />
+                      <view class="r" bindtap="addCount" data-index="{{idx}}">+</view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+
+
+
+  <view class="sku-list" hidden="{{isShow}}">
+    <view class="sku-item-t">
+      <view class="sku-item-pic">
+        <image src="{{CurrentSku.ImageUrl.length<=0?CurrentProduct.ImageUrl:CurrentSku.ImageUrl}}" class="lqicon" mode="aspectFit"></image>
+      </view>
+      <view class="sku-item-des">
+        <view class="saleprice">￥
+          <text> {{CurrentSku.SalePrice}}</text>
+        </view>
+        <view class="sku-item-stock">库存{{CurrentSku.Stock}}</view>
+        <view class="sku-item-select" hidden="{{SkuItemList==''||SkuItemList.length==0}}">已选：{{selectedSkuContent}}</view>
+      </view>
+      <view class="sku-item-close" bindtap="onSkuHide">
+        <image src="/images/yjq_04.jpg" class="lqicon1"></image>
+      </view>
+    </view>
+    <block wx:for="{{CurrentProduct.SkuItems}}" wx:key="AttributeId" wx:for-index="i">
+      <view class="sku-item-m">
+        <view class="sku-item-name">{{item.AttributeName}}</view>
+        <view class="sku-item-values">
+          <block wx:for="{{item.AttributeValue}}" wx:key="ValueId" wx:for-item="sku">
+            <image class="{{sku.UseAttributeImage=='selected'?'SKUSelectValueClass':'skuvalueclass'}}" wx:if="{{sku.ImageUrl!=''}}" src="{{sku.ImageUrl}}" id="{{sku.ValueId}}" data-skuvalue="{{sku.Value}}" data-indexcount="{{i}}" bindtap="onSkuClick"></image>
+
+            <text class="{{sku.UseAttributeImage=='selected'?'SKUSelectValueClass':'skuvalueclass'}}" id="{{sku.ValueId}}" wx:else="sku.ImageUrl==''" data-skuvalue="{{sku.Value}}" data-indexcount="{{i}}" bindtap="onSkuClick"> {{sku.Value}} </text>
+          </block>
+        </view>
+      </view>
+    </block>
+    <view class="sku-item-b">
+      <text>购买数量</text>
+      <view class="sku-item-num">
+        <view class="add" bindtap="reduceAmount">-</view>
+        <input placeholder="{{buyAmount}}" value="{{buyAmount}}" bindinput="changeAmount" bindconfirm="changeAmount" type="number" />
+        <view class="muse" bindtap="addAmount">+</view>
+      </view>
+    </view>
+    <button class="btn_shopcart" bindtap="commitBuy">加入购物车</button>
+  </view>
+
+
+
+</view>

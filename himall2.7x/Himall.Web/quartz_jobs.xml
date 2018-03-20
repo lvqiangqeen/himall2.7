@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This file contains job definitions in schema version 2.0 format -->
+<job-scheduling-data xmlns="http://quartznet.sourceforge.net/JobSchedulingData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
+  <processing-directives>
+    <overwrite-existing-data>true</overwrite-existing-data>
+  </processing-directives>
+  <schedule>
+
+    <job>
+      <name>orderJob</name>
+      <group>orderGroup</group>
+      <description>Order job for Quartz Server</description>
+      <job-type>Himall.Service.Job.OrderJob, Himall.Service</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+    </job>
+    <trigger>
+      <cron>
+        <name>orderTrigger</name>
+        <group>orderGruop</group>
+        <job-name>orderJob</job-name>
+        <job-group>orderGroup</job-group>
+        <cron-expression>0 50 * * * ?</cron-expression>
+      </cron>
+    </trigger>
+
+    <job>
+      <name>BrokerageJob</name>
+      <group>BrokerageGroup</group>
+      <description>Brokerage job for Quartz Server</description>
+      <job-type>Himall.Service.Job.BrokerageJob, Himall.Service</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+    </job>
+    <trigger>
+      <cron>
+        <name>BrokerageTrigger</name>
+        <group>BrokerageGruop</group>
+        <job-name>BrokerageJob</job-name>
+        <job-group>BrokerageGroup</job-group>
+        <cron-expression>0 50 * * * ?</cron-expression>
+      </cron>
+    </trigger>
+    
+    
+    
+    <job>
+      <name>orderCommentsJob</name>
+      <group>orderCommentsGroup</group>
+      <description>order comments for Quartz Server</description>
+      <job-type>Himall.Service.Job.OrderCommentsJob, Himall.Service</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+    </job>
+    <trigger>
+      <cron>
+        <name>orderCommentsTrigger</name>
+        <group>orderCommentsGroup</group>
+        <job-name>orderCommentsJob</job-name>
+        <job-group>orderCommentsGroup</job-group>
+        <cron-expression>0 50 * * * ?</cron-expression>
+      </cron>
+    </trigger>
+
+    <job>
+      <name>accountJob</name>
+      <group>accountGroup</group>
+      <description>account job for Quartz Server</description>
+      <job-type>Himall.Service.Job.AccountJob, Himall.Service</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+    </job>
+    <trigger>
+      <cron>
+        <name>accountTrigger</name>
+        <group>accountGroup</group>
+        <description>account trigger to simply fire sample job</description>
+        <job-name>accountJob</job-name>
+        <job-group>accountGroup</job-group>
+        <misfire-instruction>SmartPolicy</misfire-instruction>
+        <cron-expression>0 50 * * * ?</cron-expression>
+      </cron>
+    </trigger>
+
+
+    <job>
+      <name>refundJob</name>
+      <group>refundGroup</group>
+      <description>refund job for Quartz Server</description>
+      <job-type>Himall.Service.Job.RefundJob, Himall.Service</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+    </job>
+    <trigger>
+      <cron>
+        <name>refundTrigger</name>
+        <group>refundGruop</group>
+        <job-name>refundJob</job-name>
+        <job-group>refundGroup</job-group>
+        <cron-expression>0 0/20 * * * ? *</cron-expression>
+      </cron>
+    </trigger>
+
+    <job>
+      <name>shopJob</name>
+      <group>shopGroup</group>
+      <description>shop job for Quartz Server</description>
+      <job-type>Himall.Service.Job.ShopJob, Himall.Service</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+    </job>
+    <trigger>
+      <cron>
+        <name>shopTrigger</name>
+        <group>shopGruop</group>
+        <job-name>shopJob</job-name>
+        <job-group>shopGroup</job-group>
+        <cron-expression>0 0 0,23 * * ? *</cron-expression>
+      </cron>
+    </trigger>
+  
+
+    <job>
+      <name>fightgroupJob</name>
+      <group>fightgroupGroup</group>
+      <description>fight group job for Quartz Server</description>
+      <job-type>Himall.Service.Job.FightGroupJob, Himall.Service</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+    </job>
+    <trigger>
+      <cron>
+        <name>fightgroupTrigger</name>
+        <group>fightgroupGruop</group>
+        <job-name>fightgroupJob</job-name>
+        <job-group>fightgroupGroup</job-group>
+        <cron-expression>0 0/20 * * * ? *</cron-expression>
+      </cron>
+    </trigger>
+  
+    <job>
+      <name>StatisticOrderJob</name>
+      <group>StatisticOrderGroup</group>
+      <description>StatisticOrder job for Quartz Server</description>
+      <job-type>Himall.Service.Job.StatisticOrderJob, Himall.Service</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+    </job>
+    <trigger>
+      <cron>
+        <name>StatisticOrderJobTrigger</name>
+        <group>StatisticOrderGruop</group>
+        <job-name>StatisticOrderJob</job-name>
+        <job-group>StatisticOrderGroup</job-group>
+        <cron-expression>0 0/10 * * * ?</cron-expression>
+      </cron>
+    </trigger>
+    
+    <job>
+      <name>StatisticOrderProductJob</name>
+      <group>StatisticOrderProductGroup</group>
+      <description>StatisticOrderProduct job for Quartz Server</description>
+      <job-type>Himall.Service.Job.StatisticOrderProductJob, Himall.Service</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+    </job>
+    <trigger>
+      <cron>
+        <name>StatisticOrderProductJobTrigger</name>
+        <group>StatisticOrderProductGruop</group>
+        <job-name>StatisticOrderProductJob</job-name>
+        <job-group>StatisticOrderProductGroup</job-group>
+        <cron-expression>0 0/10 * * * ?</cron-expression>
+      </cron>
+    </trigger>
+  </schedule>
+</job-scheduling-data>

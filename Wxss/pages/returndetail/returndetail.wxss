@@ -1,0 +1,294 @@
+/* returndetail.wxss */
+page {
+   background: #f5f5f5;
+   border-top:1rpx solid #e0e0e0;
+   color: #212121;
+}
+
+.font-arial{
+  font-family: Arial;
+}
+  
+.returndetail-con{
+   background: #fff;
+   overflow: hidden; 
+   margin-top: 24rpx;
+   font-size: 32rpx;
+   border-bottom: 1rpx solid #e0e0e0;
+}
+
+.item{ 
+  overflow: hidden;
+  font-size: 28rpx;
+}
+
+.item .hd{
+  height: 92rpx;
+  line-height: 92rpx;
+  background: #fff;
+  overflow: hidden;
+  padding:0 24rpx;
+}
+
+.item .hd .num{
+  float: left;
+}
+
+.item .hd .state{
+  float: right;
+  color: #ff5722;
+}
+
+.item .bd{
+  background: #f9f9f9;
+  padding:16rpx 24rpx;
+  overflow: hidden;
+}
+
+.item .bd .comm{
+  overflow: hidden;
+  padding:16rpx 0; 
+  border-bottom: 1rpx solid #e0e0e0;
+}
+
+.item .bd .comm:last-child{ 
+  border-bottom: 0;
+}
+
+.item .bd .pic{
+   float:left;
+   width:130rpx;
+   border: 1rpx solid #e0e0e0;
+   margin-right: 18rpx;
+}
+
+.item .bd .pic image{
+   width:128rpx;
+   height: 128rpx;
+}
+.li2 {
+  height: 100%;
+  width:96rpx;
+float:left;
+margin-right:24rpx;
+
+}
+.li2 image{
+  width:2.5rem;
+  height: 2.5rem;
+}
+
+.item .bd .info{
+   float: left;
+   width: 400rpx;
+   margin-right: 18rpx;
+}
+
+.item .bd .info .name{
+   height: 70rpx;
+   line-height: 35rpx;
+   overflow: hidden;
+}
+
+.item .bd .info .para{
+   margin-top: 18rpx;
+   height: 40rpx;
+   line-height: 40rpx;
+   overflow: hidden;
+   color: #747474;
+}
+
+.item .bd .price{
+   float: right;
+   width: 120rpx;
+   height: 70rpx;
+   line-height: 35rpx;
+   overflow: hidden;
+   text-align: right
+}
+
+.item .fd{
+   background: #fff;
+   padding: 24rpx;
+   overflow: hidden;
+   border-top: 1rpx solid #e0e0e0;
+   line-height: 48rpx;
+   font-size: 28rpx;
+}
+
+.item .fd .li{
+   padding: 8rpx 0;
+   overflow: hidden;
+   font-size:28rpx;
+   line-height: 40rpx;
+}
+
+.item .fd .li .title,.customer .title{
+   float: left;
+   width: 160rpx;
+   overflow: hidden;
+   margin-right: 16rpx;
+   font-size:28rpx;
+   line-height: 48rpx;
+}
+
+.item .fd .li .con,.customer .con{
+   float: right;
+   overflow: hidden;
+   text-align: right;
+}
+
+.customer .icon-more text{
+  width: 30rpx;
+  height: 19rpx;
+  margin-top:10rpx;
+  float: right;
+}
+
+.customer{
+   overflow: hidden;
+}
+.schedule{
+   padding: 24rpx 0rpx 0rpx 0rpx; 
+}
+.rotate{
+  transform:rotate(180deg);
+-ms-transform:rotate(180deg); /* Internet Explorer */
+-moz-transform:rotate(180deg); /* Firefox */
+-webkit-transform:rotate(180deg); /* Safari 和 Chrome */
+-o-transform:rotate(180deg); 
+}
+
+.schedule .dl .dd{ 
+   border-left: 1rpx solid #e0e0e0;
+   margin-left: 8rpx;
+   
+}
+
+.schedule .dl .dd:last-child,.schedule .dl .dd:last-child.active{ 
+   border-left: 0rpx solid #fff; 
+}
+
+.schedule .dl .dd .line{ 
+   height: 0rpx;
+   overflow: hidden;
+   clear: both;
+}
+
+.schedule .dl .dd .lis{
+   margin-left: -12rpx;
+}
+
+.schedule .dl .dd .icon{
+    background:rgba(0, 0, 0, 0);
+    height: 24rpx;
+    width: 24rpx;
+    border-radius: 100%;
+    overflow: hidden;
+    float: left;
+    margin-right: 16rpx; 
+    line-height:40rpx;
+}
+
+.schedule .dl .dd .icon view{
+    background:#e0e0e0;
+    height: 16rpx;
+    width: 16rpx;
+    border-radius: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+    margin-top: 4rpx; 
+}
+
+.schedule .dl .dd .exp{
+    float: left;
+    width: 638rpx;
+    overflow: hidden;
+    line-height:40rpx;
+    margin-top: -8rpx;
+    padding-bottom: 24rpx;
+    margin-bottom: 24rpx;
+    border-bottom: 1rpx solid #e0e0e0;
+}
+
+.schedule .dl .dd:last-child .exp{ 
+   border-bottom:0px;
+}
+
+
+.schedule .dl .dd .exp .name{
+    font-size: 28rpx;
+    color: #7d7d7d;
+    line-height:40rpx;
+    margin-bottom:8rpx;
+}
+
+.schedule .dl .dd .exp .time{
+    font-size: 24rpx;
+    color: #bdbdbd;
+    line-height:32rpx;
+}
+
+.schedule .dl .dd.active .icon{
+    background: #aee6ff; 
+}
+
+.schedule .dl .dd.active .icon view{
+    background:#00b0ff; 
+}
+
+.schedule .dl .dd.active .exp .name{ 
+    color: #00b0ff;
+}
+
+
+.comment-btn{
+   padding: 48rpx 24rpx 24rpx 24rpx;
+}
+
+
+.comment-btn button{
+  height: 88rpx;
+  line-height: 88rpx;
+  margin-bottom: 24rpx;
+  font-size: 36rpx;
+}
+
+.comment-btn button::after{
+  border: 0;
+}
+
+button.btn-confirm{
+   background: #ff4820;
+   color: #fff;
+}
+
+button.btn-confirm:hover{
+   background: #ff1f00;
+}
+
+.jinge button {
+  border: none;
+  display: block;
+  background: #ff5722;
+  color: #fff;
+  height: 98rpx;
+  line-height: 98rpx;
+  float: right;
+  font-size: 34rpx;
+  width: 236rpx;
+  border-radius: 0rpx;
+}
+.tuikuan{
+  border: none;
+  display: block;
+  background: #ff5722;
+  color: #fff;
+  height: 98rpx;
+  line-height: 98rpx;
+  float: right;
+  font-size: 34rpx;
+  width: 236rpx;
+  text-align: center;
+  border-radius: 0rpx;
+}

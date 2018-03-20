@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>微店优惠券</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">店铺优惠券</h1>
+		</header>
+		<div id="scrollDiv" class="scroll-div">
+			<div class="mui-content transparent">
+				<div class="coupon-list">
+					<div class="coupon-bd" style="margin-top: 10px;">
+		            </div>
+	            </div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/md5.js"></script>
+		<script>
+			mui.init({swipeBack: true});
+			
+			var shopid;
+			
+			mui.plusReady(function() {
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				shopid=plus.webview.currentWebview().shopid;
+				mui.ajax(URL+'api/coupon/GetShopCouponList',{
+					data:himall.md5Data({
+						shopId:shopid,
+						userkey:himall.getState().userkey
+					}),
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(data.Success=='true'){
+							var html='',
+								couponList='';
+							html+='<ul style="display:block;">';
+							for(var i=0; i<data.Coupon.length; i++){
+								var color,btnmsg='点击领取',hasmask='';
+								if(data.Coupon[i].Price<50)
+									color='coupon-blue';
+								else if(data.Coupon[i].Price>=100)
+									color='coupon-gold';
+								else
+									color='coupon-red';
+									
+								if(data.Coupon[i].Receive==1){
+									btnmsg='点击领取';
+									hasmask='';
+								}else if(data.Coupon[i].Receive==3){
+									btnmsg='已领取';
+									hasmask='hasmask';
+								}else if(data.Coupon[i].Receive==5){
+									btnmsg='积分不足';
+									hasmask='hasmask';
+								}
+									
+								couponList+='<li class="getCoupon '+hasmask+'" data-id="'+data.Coupon[i].CouponId+'">'+
+									'<div class="cou-text">'+
+										'<div class="cou-price '+color+'">'+
+											'<h3><i>¥</i>'+data.Coupon[i].Price+'</h3>'+
+											'<p>满'+data.Coupon[i].OrderAmount+'元使用</p>'+
+										'</div>'+
+	                                '</div>'+
+									'<div class="cou-card">'+
+//	                                    '<div><a><img src="'+(data.Coupon[i].VShopLogo||'images/logo.png')+'"></a></div>'+
+	                                    '<h3>'+data.Coupon[i].CouponName+'</h3>'+
+	                                    '<p>使用期限 '+(data.Coupon[i].StartTime).split(' ')[0]+' - '+(data.Coupon[i].EndTime).split(' ')[0]+'</p>'+
+	                                '</div>'+
+	                                '<div class="btnclick">'+btnmsg+'<div>'
+	                            '</li>';
+	                        }
+	                        html+=couponList+'</ul>';
+	                        
+							document.getElementsByClassName('coupon-bd')[0].insertAdjacentHTML('beforeend',html);
+				            
+				            himall.removeClass(document.querySelector('.mui-content'),'transparent');
+						}else{
+							plus.nativeUI.toast(data.ErrorMsg);
+							plus.webview.currentWebview().close();
+						}
+						w.close();
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						reloadWvLoad();
+					}
+				});
+				
+			});
+			
+			mui('.coupon-list').on('tap', '.getCoupon', function() {
+				if(himall.isLogin()){
+					var w=plus.nativeUI.showWaiting('',{padlock:true});
+					var _this=this;
+					mui.ajax(URL+'api/coupon/PostAcceptCoupon',{
+						data:himall.md5Data({
+							couponId:_this.getAttribute('data-id'),
+							userkey:himall.getState().userkey
+						}),
+						dataType:'json',
+						type:'POST',
+						timeout:10000,
+						success:function(data){
+							w.close();
+							if(data.Success=="true"){
+								_this.insertAdjacentHTML('beforeend','<div class="coupon-user"><a>立即使用</a></div>');
+								plus.nativeUI.toast('优惠券领取成功');
+							}else{
+								if(data.Status==2)
+									plus.nativeUI.toast('优惠券已经过期');
+								if(data.Status==3)
+									plus.nativeUI.toast('达到每个用户领取最大张数');
+								if(data.Status==4)
+									plus.nativeUI.toast('优惠券已领完');
+								if(data.Status==5)
+									plus.nativeUI.toast('积分不足');
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							plus.nativeUI.toast('优惠券领取失败，请检查网络')
+						}
+					});
+				}else{
+					showLogin();
+				}
+				
+			});
+			
+			mui('.coupon-list').on('tap', '.coupon-user', function(e) {
+				e.stopPropagation();
+				plus.webview.currentWebview().close();
+			});
+			
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <title>门店首页</title>
+    <link href="css/mui.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+    <style>
+        body, html {
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <header class="mui-bar mui-bar-nav md">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title"></h1>
+    </header>
+
+    <div class="mui-content index">
+        <div class="index-topimg"></div>
+        <div class="index-address navigate-arrow">
+        </div>
+        <div class="index-category">
+            <div class="categoryLeft" id="categoryLeft">
+                <div class="mui-scroll-wrapper" id="scroll1">
+                    <div class="mui-scroll">
+                        <ul class="mui-clearfix" id="categoryOneList">
+                            <li class="cur" id="0">全部分类</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="categoryRight" id="categoryRight">
+                <ul id="productList"></ul>
+            </div>
+        </div>
+        <div class="bottom-btn" id="call">
+            <span>电话</span>
+        </div>
+    </div>
+    <script src="js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/mui.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/md5.js"></script>
+    <script src="js/delayimg.min.js"></script>
+    <script src="js/template.js"></script>
+    <script>
+        var dataC,
+            categoryElem2 = document.getElementById('categoryRight'),
+            Longitude="",
+            Latitude="",
+            storeName="",
+            doscroll=true;
+        mui.init({
+            swipeBack: true
+        });
+        mui.plusReady(function () {
+//      	plus.geolocation.getCurrentPosition( function ( p ) {
+//          		var lat=p.coords.latitude;
+//          		var lon=p.coords.longitude;  
+//          		mui(".mui-content").on("tap",".index-address",function(){
+//          			      var local=new plus.maps.Point(lon,lat);
+//			            	  var destination=new plus.maps.Point(Longitude,Latitude);
+//			            	  plus.maps.openSysMap( destination, storeName, local );   
+//          		});  
+//			}, function ( e ) {
+//				plus.nativeUI.toast("定位失败，请检查定位是否开启");
+//			});
+			if (navigator.geolocation){ 
+			    navigator.geolocation.getCurrentPosition(function(position){
+			    	var lat = position.coords.latitude; //纬度 
+					var lon = position.coords.longitude; //经度 
+					mui.ajax(TENXUNMAP, {
+	                    data: {
+	                    	locations: lat+','+lon,
+	                    	type: 1,
+	                    	key: MAPKEY
+	                    },
+	                    dataType: 'json',
+	                    type: 'get',
+	                    timeout: 10000,
+	                    success: function (data) {
+	                        lat = data.locations[0].lat;
+	                        lon = data.locations[0].lng;
+	                        fromLatLng = lat+','+lon;
+	    					mui(".mui-content").on("tap",".index-address",function(){
+            			      var local=new plus.maps.Point(lon,lat);
+			            	  var destination=new plus.maps.Point(Longitude,Latitude);
+			            	  plus.maps.openSysMap( destination, storeName, local );   
+		            		}); 
+	                    },
+	                    error: function (xhr, type, errorThrown) {
+                    	   console.log(errorThrown);  
+	                    }
+	                });
+					
+			    },function(error){
+			    	switch(error.code) { 
+					    case error.PERMISSION_DENIED: 
+					      plus.nativeUI.toast("定位失败,请检查是否允许定位"); 
+					      break; 
+					    case error.POSITION_UNAVAILABLE: 
+					      plus.nativeUI.toast("定位失败,位置信息是不可用"); 
+					      break; 
+					    case error.TIMEOUT: 
+					      plus.nativeUI.toast("定位失败,请求获取位置超时"); 
+					      break; 
+					    case error.UNKNOWN_ERROR: 
+					      plus.nativeUI.toast("定位失败,定位系统失效"); 
+					      break; 
+					} 
+			    });
+		    }else{
+		    	plus.nativeUI.toast("该浏览器不支持地理定位");
+		    }
+        });
+        mui('#scroll1').scroll({
+            indicators: false //是否显示滚动条
+        });
+        var hminus = $('.index-topimg').height() + $('.index-address').height() + $('.bottom-btn').height() + $('.mui-bar-nav').height();
+        $('.index-category').height($(window).height() - hminus);
+        mui('#categoryLeft').on('tap', 'li', function () {
+            categoryElem2.scrollTop = 0;
+            document.getElementsByClassName('cur')[0].className = '';
+            this.className = 'cur';
+            shopCategoryId = Number(this.getAttribute('id'));
+            lodeEnd = false;
+            curpageindex = 1;
+            total = -1;
+            storeObj.LoadView(shopCategoryId);
+        });
+        document.getElementById("call").addEventListener('tap', function () {
+            var btnArray = ['取消', '呼叫'];
+            mui.confirm(contactPhone, '', btnArray, function (e) {
+                if (e.index == 1) {
+                    location.href = "tel:" + contactPhone;
+                }
+            })
+        });
+        $("#categoryRight").scroll(function () {
+            var scrollTop = $(this).scrollTop();
+            var scrollHeight = $(this)[0].scrollHeight;
+            var windowHeight = $(this).height();
+            if (scrollTop + windowHeight >= scrollHeight) {
+				if(doscroll){
+					setTimeout(function () {
+	                    loadData();
+	                }, 200);
+	                doscroll=false;
+				}
+            }
+        });
+        var content = document.getElementById('categoryOneList');
+        var contactPhone = '', shopId = 0, shopBranchId=0;
+        //加载门店信息
+        mui.plusReady(function () {
+            shopBranchId = plus.webview.currentWebview().Id;
+            mui.ajax(URL + 'api/ShopBranchList/GetStoreHome', {
+                data: himall.md5Data({
+                    shopBranchId: shopBranchId
+                }),
+                dataType: 'json',
+                type: 'get',
+                timeout: 10000,
+                success: function (data) {
+                    if (data.Success == true) {                
+                        $(".mui-title").html(data.StoreInfo.ShopBranchName);
+                        $(".index-address").html(data.StoreInfo.AddressDetail);
+                        if(data.StoreInfo.ShopImages.length>0){
+							$(".index-topimg").css("backgroundImage","url("+data.StoreInfo.ShopImages+")");                        	
+                        }else{
+                        	$(".index-topimg").css("backgroundImage","url(images/index-banner.png)");
+                        }
+                        Longitude=data.StoreInfo.Longitude;
+                        Latitude=data.StoreInfo.Latitude;
+                        storeName=data.StoreInfo.ShopBranchName;
+                        contactPhone = data.StoreInfo.ContactPhone;
+                        shopId = data.StoreInfo.ShopId;
+                        shopBranchId = data.StoreInfo.Id;
+                        content.insertAdjacentHTML('beforeend', template('initData', data));//商家一级分类
+                        shopCategoryId = Number($("#categoryLeft li:first").attr("id"));//默认加载第一个
+                        storeObj.LoadView(shopCategoryId);//第一次默认加载
+                    } else {
+                        plus.nativeUI.toast(data.Message)
+                    }
+                },
+                error: function (xhr, type, errorThrown) {
+                    reloadWvLoad();
+                }
+            });
+            mui('#productList').on('tap', '.goods-url', function() {
+				showProduct(this.getAttribute('data-id'));
+			});
+        });
+        var productList = document.getElementById('productList');
+        var curpagesize = 10, curpageindex = 1, total = -1, lodeEnd = false, shopCategoryId = 0;
+        function loadData() {
+            if (lodeEnd)
+                return;
+            mui.ajax(URL + 'api/ShopBranchList/GetProductList', {
+                data: himall.md5Data({
+                    pageNo: curpageindex,
+                    pageSize: curpagesize,
+                    shopId: shopId,
+                    shopBranchId: shopBranchId,
+                    shopCategoryId: shopCategoryId,
+                    userkey:himall.getState().userkey
+                }),
+                dataType: 'json',
+                type: 'get',
+                timeout: 10000,
+                success: function (data) {
+                    if (data.Success == true) {
+                        if (curpageindex == 1) {//每个分类加载第一页的时候开始清空，后面append
+                            productList.innerHTML='';
+                        }
+                        total = data.total;
+                        if (data.ProductList.length > 0) {
+                            productList.insertAdjacentHTML('beforeend', template('initProductData', data));//商家一级分类及其子类下商品
+                            curpageindex += 1;
+                            if (total == data.ProductList.length) {
+                                lodeEnd = true;
+                            }
+                        } else {
+                            lodeEnd = true; 
+                        }
+                    } else {
+                        plus.nativeUI.toast(data.Message)
+                    }
+                    doscroll = true;
+                },
+                error: function (xhr, type, errorThrown) {
+                    reloadWvLoad();
+                }
+            });
+        }
+        var storeObj = {
+            curView: -1,
+            LoadView: function (suff) {
+                if (storeObj.curView == suff) {
+                    return;
+                }
+                loadData();
+                storeObj.curView = shopCategoryId;
+            }
+        }
+    </script>
+    <script type="text/html" id="initData">
+        {{each ShopCategory as value index}}
+        <li class="" id={{value.Id}}>{{value.Name}}</li>
+        {{/each}}
+    </script>
+    <script type="text/html" id="initProductData">
+        {{each ProductList}}
+        <li class="goods-url" data-id={{$value.Id}}>
+            <img src="{{$value.RelativePath}}" />
+            <div class="content">
+                <h3>{{$value.ProductName}}</h3>
+                <p>销量 {{$value.SaleCounts}}{{$value.MeasureUnit}}</p>
+                <span class="money"><span>¥</span> {{$value.MinSalePrice}}</span>
+            </div>
+        </li>
+        {{/each}}
+    </script>
+</body>
+</html>
