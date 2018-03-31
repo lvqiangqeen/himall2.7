@@ -1151,11 +1151,13 @@ namespace Himall.Web.Areas.Web.Controllers
             decimal discount = 1M;
             if (CurrentUser != null)
             {
+                //获取折扣
                 discount = CurrentUser.MemberDiscount;
             }
             var shopInfo = ShopApplication.GetShop(productInfo.ShopId);
             if (shopInfo.IsSelf)
             {
+                //计算会员折扣价
                 model.Price = string.IsNullOrWhiteSpace(price) ? (productInfo.MinSalePrice * discount).ToString("f2") : (Convert.ToDecimal(price) * discount).ToString("f2");
             }
             else
