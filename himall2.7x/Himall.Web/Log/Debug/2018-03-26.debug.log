@@ -1,0 +1,112 @@
+
+
+
+ 记录时间：2018-03-26 11:17:46,120 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-03-26 11:18:13,839 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-03-26 11:18:13 839:[当前请求URL：http://localhost:60362/；请求的参数为：；页面加载的时间：10631.3227 毫秒] 
+
+
+
+
+ 记录时间：2018-03-26 11:18:15,004 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-03-26 11:18:15 004:[当前请求URL：http://localhost:60362/；请求的参数为：；页面加载的时间：15791.3844 毫秒] 
+
+
+
+
+ 记录时间：2018-03-26 11:18:53,187 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-03-26 11:18:53 186:[当前请求URL：http://localhost:60362/__browserLink/requestData/6cdb05231da04b38a5fc11e82c1debfa?version=2；请求的参数为：version=2；页面加载的时间：36814.9175 毫秒] 
+
+
+
+
+ 记录时间：2018-03-26 11:18:54,218 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-03-26 11:18:54 218:[当前请求URL：http://localhost:60362/Login；请求的参数为：；页面加载的时间：37789.5002 毫秒] 
+
+
+
+
+ 记录时间：2018-03-26 11:19:01,932 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-03-26 11:19:01 932:[当前请求URL：http://localhost:60362/；请求的参数为：；页面加载的时间：8792.5537 毫秒] 
+
+
+
+
+ 记录时间：2018-03-26 18:25:59,924 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-03-26 18:26:12,276 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-03-26 06:26:12 276:[当前请求URL：http://localhost:60362/；请求的参数为：；页面加载的时间：10218.765 毫秒] 
+
+
+
+
+ 记录时间：2018-03-26 18:28:17,972 
+日志级别：  DEBUG 
+出错类：Himall.Application.MemberApplication.SendMemberCode  
+错误描述：Code:18063 
+
+
+
+
+ 记录时间：2018-03-26 18:31:56,173 
+日志级别：  DEBUG 
+出错类：Himall.Application.MemberApplication.SendMemberCode  
+错误描述：Code:87437 
+
+
+
+
+ 记录时间：2018-03-26 18:34:00,474 
+日志级别：  DEBUG 
+出错类：Himall.Application.MemberApplication.SendMemberCode  
+错误描述：Code:63646 
+
+
+
+
+ 记录时间：2018-03-26 18:34:29,814 
+日志级别：  DEBUG 
+出错类：Himall.Application.MemberApplication.SendMemberCode  
+错误描述：Code:35712 
+
+
+
+
+ 记录时间：2018-03-26 18:34:38,811 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-03-26 06:34:38 811:[当前请求URL：http://localhost:60362/SellerAdmin/ShopProfile/SendCode；请求的参数为：；页面加载的时间：9479.9268 毫秒] 
+
+
+
+
+ 记录时间：2018-03-26 18:35:20,398 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-03-26 06:35:20 398:[当前请求URL：http://localhost:60362/Login；请求的参数为：；页面加载的时间：8534.9729 毫秒] 
+

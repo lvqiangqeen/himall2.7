@@ -10,3 +10,9 @@ E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\Himall.Web\bin\Himall.A
 E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\Himall.API\obj\Debug\Himall.API.csprojResolveAssemblyReference.cache
 E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\Himall.API\obj\Debug\Himall.API.dll
 E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\Himall.API\obj\Debug\Himall.API.pdb
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\Himall.API.dll.config
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\Himall.API.dll
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\Himall.API.pdb
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.API\obj\Debug\Himall.API.csprojResolveAssemblyReference.cache
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.API\obj\Debug\Himall.API.dll
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.API\obj\Debug\Himall.API.pdb

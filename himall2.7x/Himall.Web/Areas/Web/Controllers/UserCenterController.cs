@@ -220,6 +220,7 @@ namespace Himall.Web.Areas.Web.Controllers
 
 				if (member.InviteUserId.HasValue)
 				{
+                    //获取会员积分与相应折扣
 					var inviteMember = _iMemberService.GetMember(member.InviteUserId.Value);
 					if (inviteMember != null)
 						ServiceHelper.Create<IMemberInviteService>().AddInviteIntegel(member, inviteMember);

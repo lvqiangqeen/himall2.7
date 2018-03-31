@@ -875,6 +875,8 @@ namespace Himall.Web.Areas.Web.Controllers
             model.Price = string.IsNullOrWhiteSpace(price) ? product.MinSalePrice.ToString("f2") : price;
             #endregion
 
+            
+
 
             model.Product = product;
             //检查当前产品是否产自官方自营店
