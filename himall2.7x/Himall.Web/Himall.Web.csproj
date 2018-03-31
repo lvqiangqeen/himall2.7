@@ -788,6 +788,7 @@
     <Content Include="Areas\Admin\Scripts\IntegralRuleManagement.js" />
     <Content Include="Areas\Admin\Scripts\memberDetail.js" />
     <Content Include="Areas\Admin\Scripts\MemberGroup.js" />
+    <Content Include="Areas\Admin\Scripts\memberManagementAuth.js" />
     <Content Include="Areas\Admin\Scripts\memberPowerManagement.js" />
     <Content Include="Areas\Admin\Scripts\MessageGroupPhone.js" />
     <Content Include="Areas\Admin\Scripts\pageSettings-floorDetail4.js" />
@@ -3605,6 +3606,7 @@
     <Content Include="Areas\Admin\Views\WXSmallProgram\EditTemplate.cshtml" />
     <Content Include="Areas\Admin\Views\WXSmallProgram\ProductSetting.cshtml" />
     <Content Include="Areas\Admin\Views\WXSmallProgram\EditWXMessage.cshtml" />
+    <Content Include="Areas\Admin\Views\Member\ManagementAuth.cshtml" />
     <None Include="Properties\PublishProfiles\Deploy.pubxml" />
     <Content Include="Areas\Admin\Views\PageSettings\AddHomeFloorDetail7.cshtml" />
     <Content Include="Areas\Admin\Views\PageSettings\AddHomeFloorDetail8.cshtml" />

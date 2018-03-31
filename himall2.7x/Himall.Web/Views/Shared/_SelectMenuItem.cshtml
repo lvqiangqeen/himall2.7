@@ -3,6 +3,7 @@
     var localStorageKey = "SelectmenuItem-LocalStorageKey";
     if (window.localStorage) {
         $(document).on('click', '.nav.navbar-nav .dropdown-menu a,.aside .aside-list a', function (e) {
+            
             window.localStorage.setItem(localStorageKey, $(e.target).attr('href'));
         });
     }

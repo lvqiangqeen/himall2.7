@@ -210,6 +210,7 @@ E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.SmallProgAPI\bin\Debug
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.SmallProgAPI\obj\Debug\Himall.SmallProgAPI.csprojResolveAssemblyReference.cache
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.SmallProgAPI\obj\Debug\Himall.SmallProgAPI.dll
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.SmallProgAPI\obj\Debug\Himall.SmallProgAPI.pdb
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.SmallProgAPI\obj\Debug\Himall.SmallProgAPI.csprojResolveAssemblyReference.cache
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.SmallProgAPI\bin\Debug\AutoMapper.Net4.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.SmallProgAPI\bin\Debug\Himall.SmallProgAPI.dll.config
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.SmallProgAPI\bin\Debug\Himall.SmallProgAPI.dll
@@ -260,6 +261,5 @@ C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.SmallProgAPI\bin\Debug\S
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.SmallProgAPI\bin\Debug\Senparc.Weixin.MP.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.SmallProgAPI\bin\Debug\Autofac.Configuration.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.SmallProgAPI\bin\Debug\Senparc.Weixin.xml
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.SmallProgAPI\obj\Debug\Himall.SmallProgAPI.csprojResolveAssemblyReference.cache
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.SmallProgAPI\obj\Debug\Himall.SmallProgAPI.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.SmallProgAPI\obj\Debug\Himall.SmallProgAPI.pdb

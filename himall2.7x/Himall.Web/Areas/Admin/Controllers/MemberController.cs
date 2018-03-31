@@ -15,6 +15,7 @@ using System.Web;
 using System.Web.Mvc;
 using Himall.Web.Areas.Admin.Models.Member;
 
+
 namespace Himall.Web.Areas.Admin.Controllers
 {
     public class MemberController : BaseAdminController
@@ -65,6 +66,29 @@ namespace Himall.Web.Areas.Admin.Controllers
             var model = new DataGridModel<DTO.Members>() { rows = result.Models, total = result.Total };
             return Json(model);
         }
+
+        [Description("管理授权")]
+        public ActionResult ManagementAuth()
+        {
+            var pageModel = _iMemberLabelService.GetMemberLabelList(new LabelQuery() { });
+            ViewBag.LabelInfos = pageModel.Models.ToList();
+            var grades = MemberGradeApplication.GetMemberGradeList();
+            return View(grades);
+        }
+
+        public ActionResult ManagementList(int page, string keywords, int rows)
+        {
+            // var model;
+            // return Json(model);
+            var result = ManagerApplication.GetMemberList(new ManagerQuery() {
+               
+                PageNo = page,
+                PageSize = rows
+            });
+
+            return View();
+        }
+
 
         [Description("导出会员数据")]
         public ActionResult ExportToExcel(string keywords = "", long? labelid = null, 

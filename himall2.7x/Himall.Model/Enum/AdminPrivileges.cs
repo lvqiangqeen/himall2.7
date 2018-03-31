@@ -77,6 +77,8 @@ namespace Himall.Model
         MemberInvite = 4007,
         [Privilege("会员", "预付款管理", 4008, "Capital/Index", "Capital")]
         Capital = 4008,
+        [Privilege("会员", "商家权限", 4011, "member/managementAuth", "member")]
+        LabelAuth = 4011,
 
         ///*店铺*/
         [Privilege("店铺", "店铺管理", 5001, "shop/management?type=Auditing", "Shop")]

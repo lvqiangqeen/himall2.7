@@ -112,6 +112,7 @@ E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\Himall.IServiceTest\bin
 E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\Himall.IServiceTest\obj\Debug\Himall.IServiceTest.csprojResolveAssemblyReference.cache
 E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\Himall.IServiceTest\obj\Debug\Himall.IServiceTest.dll
 E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\Himall.IServiceTest\obj\Debug\Himall.IServiceTest.pdb
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.IServiceTest\obj\Debug\Himall.IServiceTest.csprojResolveAssemblyReference.cache
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.IServiceTest\bin\Debug\Himall.IServiceTest.dll.config
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.IServiceTest\bin\Debug\Himall.IServiceTest.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.IServiceTest\bin\Debug\Himall.IServiceTest.pdb
@@ -169,6 +170,5 @@ C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.IServiceTest\bin\Debug\S
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.IServiceTest\bin\Debug\zh-Hans\EntityFramework.resources.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.IServiceTest\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.IServiceTest\bin\Debug\zh-Hans\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.IServiceTest\obj\Debug\Himall.IServiceTest.csprojResolveAssemblyReference.cache
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.IServiceTest\obj\Debug\Himall.IServiceTest.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.IServiceTest\obj\Debug\Himall.IServiceTest.pdb

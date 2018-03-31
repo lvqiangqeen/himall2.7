@@ -8,6 +8,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
 
+using Himall.CommonModel;
+using EntityFramework.Extensions;
+using MySql.Data.MySqlClient;
+using Dapper;
+using Himall.IServices.QueryModel;
+
 namespace Himall.Service
 {
     public class ManagerService : ServiceBase, IManagerService
@@ -437,6 +443,16 @@ namespace Himall.Service
             Context.SaveChanges();
 
         }
+
+        public QueryPageModel<ManagerInfo> GetManagersList(ManagerQuery query)
+        {
+            int total = 0;
+            IQueryable<ManagerInfo> users = Context.ManagerInfo.AsQueryable();
+            users = users.GetPage(out total, query.PageNo, query.PageSize, d => d.OrderBy(o => o.Id));
+            QueryPageModel<ManagerInfo> pageModel = new QueryPageModel<ManagerInfo>() { Models = users.ToList(), Total = total };
+            return pageModel;
+        }
+
     }
 }
 

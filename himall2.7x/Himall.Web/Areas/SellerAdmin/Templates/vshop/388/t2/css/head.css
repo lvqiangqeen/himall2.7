@@ -1,0 +1,40 @@
+﻿.mobile10_nav, .mobile10_nav ul {
+    width: 100%;
+    height: 100%;
+}
+
+    .mobile10_nav ul li {
+        float: left;
+        width: 49.8%;
+        height: 33.3%;
+        text-align: center;
+        border: #999289 solid 1px;
+        border-width: 0 1px 1px 0;
+    }
+
+        .mobile10_nav ul li a {
+            display: block;
+        }
+
+        .mobile10_nav ul li b {
+            display: block;
+            color: #fff;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .mobile10_nav ul li:nth-child(even) {
+            border-right: 0;
+        }
+
+        .mobile10_nav ul li:nth-child(5), .mobile10_nav ul li:nth-child(6) {
+            border-bottom: 0;
+        }
+
+.members_flash, .members_imgad {
+    margin-bottom: 15px;
+}
+
+.membersbox-box {
+    margin-top: -10px;
+}

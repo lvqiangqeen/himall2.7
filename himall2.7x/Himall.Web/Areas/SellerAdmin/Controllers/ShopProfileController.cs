@@ -155,14 +155,14 @@ namespace Himall.Web.Areas.SellerAdmin.Controllers
             long uid = ShopApplication.GetShopManagers(CurrentSellerManager.ShopId);
             var mTheme = ShopApplication.GetSettled();
             var model = MemberApplication.GetMemberAccountSafety(uid);
-            if (!mTheme.CompanyVerificationType.Equals(Himall.CommonModel.VerificationType.VerifyEmail) && shopProfileStep1.MemberPhone.Equals(""))
-            {
-                return Json(new { success = false, msg = "必须认证手机！" });
-            }
-            if (!mTheme.CompanyVerificationType.Equals(Himall.CommonModel.VerificationType.VerifyPhone) && shopProfileStep1.MemberEmail.Equals(""))
-            {
-                return Json(new { success = false, msg = "必须认证邮箱！" });
-            }
+            //if (!mTheme.CompanyVerificationType.Equals(Himall.CommonModel.VerificationType.VerifyEmail) && shopProfileStep1.MemberPhone.Equals(""))
+            //{
+            //    return Json(new { success = false, msg = "必须认证手机！" });
+            //}
+            //if (!mTheme.CompanyVerificationType.Equals(Himall.CommonModel.VerificationType.VerifyPhone) && shopProfileStep1.MemberEmail.Equals(""))
+            //{
+            //    return Json(new { success = false, msg = "必须认证邮箱！" });
+            //}
 
             //修改真实姓名
             var member = MemberApplication.GetMembers(uid);
@@ -170,38 +170,38 @@ namespace Himall.Web.Areas.SellerAdmin.Controllers
             MemberApplication.UpdateMember(member);
 
             //手机认证
-            if (!shopProfileStep1.MemberPhone.Equals(model.Phone))
-            {
-                string pluginId = "Himall.Plugin.Message.SMS";
-                int result = MemberApplication.CheckMemberCode(pluginId, shopProfileStep1.PhoneCode, shopProfileStep1.MemberPhone, uid);
-                string strMsg = "";
-                switch (result)
-                {
-                    case 0: strMsg = "手机验证码错误！"; break;
-                    case -1: strMsg = "此手机号已绑定！"; break;
-                }
-                if (!strMsg.Equals(""))
-                {
-                    return Json(new { success = false, msg = strMsg });
-                }
-            }
+            //if (!shopProfileStep1.MemberPhone.Equals(model.Phone))
+            //{
+            //    string pluginId = "Himall.Plugin.Message.SMS";
+            //    int result = MemberApplication.CheckMemberCode(pluginId, shopProfileStep1.PhoneCode, shopProfileStep1.MemberPhone, uid);
+            //    string strMsg = "";
+            //    switch (result)
+            //    {
+            //        case 0: strMsg = "手机验证码错误！"; break;
+            //        case -1: strMsg = "此手机号已绑定！"; break;
+            //    }
+            //    if (!strMsg.Equals(""))
+            //    {
+            //        return Json(new { success = false, msg = strMsg });
+            //    }
+            //}
 
             //邮箱认证
-            if (!shopProfileStep1.MemberEmail.Equals(model.Email))
-            {
-                string pluginId = "Himall.Plugin.Message.Email";
-                int result = MemberApplication.CheckMemberCode(pluginId, shopProfileStep1.EmailCode, shopProfileStep1.MemberEmail, uid);
-                string strMsg = "";
-                switch (result)
-                {
-                    case 0: strMsg = "邮箱验证码错误！"; break;
-                    case -1: strMsg = "此邮箱已绑定！"; break;
-                }
-                if (!strMsg.Equals(""))
-                {
-                    return Json(new { success = false, msg = strMsg });
-                }
-            }
+            //if (!shopProfileStep1.MemberEmail.Equals(model.Email))
+            //{
+            //    string pluginId = "Himall.Plugin.Message.Email";
+            //    int result = MemberApplication.CheckMemberCode(pluginId, shopProfileStep1.EmailCode, shopProfileStep1.MemberEmail, uid);
+            //    string strMsg = "";
+            //    switch (result)
+            //    {
+            //        case 0: strMsg = "邮箱验证码错误！"; break;
+            //        case -1: strMsg = "此邮箱已绑定！"; break;
+            //    }
+            //    if (!strMsg.Equals(""))
+            //    {
+            //        return Json(new { success = false, msg = strMsg });
+            //    }
+            //}
 
 
             return Json(new { success = true, msg = "成功！" });

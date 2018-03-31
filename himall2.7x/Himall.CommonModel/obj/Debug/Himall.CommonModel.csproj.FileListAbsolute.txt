@@ -31,4 +31,3 @@ C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.CommonModel\bin\Debug\Ne
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.CommonModel\bin\Debug\Newtonsoft.Json.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.CommonModel\obj\Debug\Himall.CommonModel.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.CommonModel\obj\Debug\Himall.CommonModel.pdb
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.CommonModel\obj\Debug\Himall.CommonModel.csprojResolveAssemblyReference.cache

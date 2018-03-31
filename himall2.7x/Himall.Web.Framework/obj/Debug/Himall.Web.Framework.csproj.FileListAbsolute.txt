@@ -270,6 +270,7 @@ E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web.Framework\bin\Debu
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web.Framework\obj\Debug\Himall.Web.Framework.csprojResolveAssemblyReference.cache
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web.Framework\obj\Debug\Himall.Web.Framework.dll
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web.Framework\obj\Debug\Himall.Web.Framework.pdb
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web.Framework\obj\Debug\Himall.Web.Framework.csprojResolveAssemblyReference.cache
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web.Framework\bin\Debug\Himall.Web.Framework.dll.config
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web.Framework\bin\Debug\Himall.Web.Framework.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web.Framework\bin\Debug\Himall.Web.Framework.pdb
@@ -335,6 +336,5 @@ C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web.Framework\bin\Debug\
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web.Framework\bin\Debug\zh-Hans\System.Web.WebPages.resources.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web.Framework\bin\Debug\zh-Hans\System.Web.WebPages.Deployment.resources.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web.Framework\bin\Debug\zh-Hans\System.Web.WebPages.Razor.resources.dll
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web.Framework\obj\Debug\Himall.Web.Framework.csprojResolveAssemblyReference.cache
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web.Framework\obj\Debug\Himall.Web.Framework.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web.Framework\obj\Debug\Himall.Web.Framework.pdb

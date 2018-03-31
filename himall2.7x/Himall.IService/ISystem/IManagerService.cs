@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Himall.IServices
 {
     public interface IManagerService : IService
@@ -157,5 +158,8 @@ namespace Himall.IServices
         /// <param name="userName"></param>
         /// <returns></returns>
         ManagerInfo GetSellerManager(string userName);
+
+        CommonModel.QueryPageModel<ManagerInfo> GetManagersList(ManagerQuery query);
+
     }
 }

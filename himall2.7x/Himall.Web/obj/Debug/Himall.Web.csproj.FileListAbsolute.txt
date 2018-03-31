@@ -617,6 +617,7 @@ E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web\bin\zh-Hans\System
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web\obj\Debug\Himall.Web.csprojResolveAssemblyReference.cache
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web\obj\Debug\Himall.Web.dll
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web\obj\Debug\Himall.Web.pdb
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\obj\Debug\Himall.Web.csprojResolveAssemblyReference.cache
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\AutoMapper.Net4.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\Himall.Web.dll.config
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\Himall.Web.dll
@@ -729,7 +730,6 @@ C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\sv\FluentValidat
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\tr\FluentValidation.resources.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\zh-Hans\System.Web.Mvc.resources.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\zh-Hans\System.Web.Optimization.resources.dll
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\obj\Debug\Himall.Web.csprojResolveAssemblyReference.cache
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\obj\Debug\Himall.Web.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\obj\Debug\Himall.Web.pdb
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\System.Web.Helpers.xml

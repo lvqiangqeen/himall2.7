@@ -168,6 +168,9 @@ E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\WinShopServices\obj\Deb
 E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\WinShopServices\obj\Debug\WinShopServices.csproj.GenerateResource.Cache
 E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\WinShopServices\obj\Debug\WinShopServices.exe
 E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\WinShopServices\obj\Debug\WinShopServices.pdb
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\obj\Debug\WinShopServices.csprojResolveAssemblyReference.cache
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\obj\Debug\WinShopServices.ProjectInstaller.resources
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\obj\Debug\WinShopServices.csproj.GenerateResource.Cache
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\ServiceSetting.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\WinShopServices.exe.config
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\WinShopServices.exe
@@ -227,6 +230,7 @@ C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\Syste
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\Senparc.Weixin.MP.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\Autofac.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\Autofac.Configuration.xml
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\MySql.Data.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\Senparc.Weixin.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\MongoDB.Driver.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\System.Web.Razor.xml
@@ -240,19 +244,5 @@ C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\zh-Ha
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\zh-Hans\System.Web.WebPages.Razor.resources.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\zh-Hans\System.Web.WebPages.resources.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\zh-Hans\System.Web.WebPages.Deployment.resources.dll
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\obj\Debug\WinShopServices.csprojResolveAssemblyReference.cache
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\obj\Debug\WinShopServices.ProjectInstaller.resources
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\obj\Debug\WinShopServices.csproj.GenerateResource.Cache
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\obj\Debug\WinShopServices.exe
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\obj\Debug\WinShopServices.pdb
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\Himall.Application.pdb
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\Himall.Service.pdb
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\MySql.Data.xml
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\AutoMapper.dll
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\Dapper.dll
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\Hishop.Weixin.MP.dll
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\Common.Logging.Core.dll
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\AutoMapper.xml
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\Dapper.xml
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\Common.Logging.Core.pdb
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinShopServices\bin\Debug\Common.Logging.Core.xml

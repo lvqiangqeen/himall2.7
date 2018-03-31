@@ -301,30 +301,31 @@
     	var bindEmail='@Model.MemberEmail';
 
         $('#nextStep').click(function () {
+           
             var form = $('#form_step1');
             if (form.valid()) {
             	if (verificationType == 2 || verificationType == 0) {
             		var memberPhone=$('#MemberPhone');
             		var input_phoneCode = $('#PhoneCode');
-            		if (input_phoneCode.val() == ''&&memberPhone.val()!=bindPhone) {
-            			if (input_phoneCode.closest('.form-group').is(':hidden'))
-            				$.dialog.errorTips('请先获取手机验证码');
-            			else
-            				$.dialog.errorTips('请输入手机验证码');
-            			return false;
-            		}
+            		//if (input_phoneCode.val() == ''&&memberPhone.val()!=bindPhone) {
+            		//	if (input_phoneCode.closest('.form-group').is(':hidden'))
+            		//		$.dialog.errorTips('请先获取手机验证码');
+            		//	else
+            		//		$.dialog.errorTips('请输入手机验证码');
+            		//	return false;
+            		//}
             	}
 
             	if (verificationType == 2 || verificationType == 1) {
             		var memberEmail=$('#MemberEmail');
             		var input_emailCode = $('#EmailCode');
-            		if (input_emailCode.val() == ''&&memberEmail.val()!=bindEmail) {
-            			if (input_emailCode.closest('.form-group').is(':hidden'))
-            				$.dialog.errorTips('请先获取邮箱验证码');
-            			else
-            				$.dialog.errorTips('请输入邮箱验证码');
-            			return false;
-            		}
+            		//if (input_emailCode.val() == ''&&memberEmail.val()!=bindEmail) {
+            		//	if (input_emailCode.closest('.form-group').is(':hidden'))
+            		//		$.dialog.errorTips('请先获取邮箱验证码');
+            		//	else
+            		//		$.dialog.errorTips('请输入邮箱验证码');
+            		//	return false;
+            		//}
             	}
 
                 var bizNOPhoto = true;

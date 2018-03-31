@@ -128,6 +128,9 @@ E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\WinOrderCommentsService
 E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\WinOrderCommentsService\obj\Debug\WinOrderCommentsService.csproj.GenerateResource.Cache
 E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\WinOrderCommentsService\obj\Debug\WinOrderCommentsService.exe
 E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\WinOrderCommentsService\obj\Debug\WinOrderCommentsService.pdb
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\obj\Debug\WinOrderCommentsService.csprojResolveAssemblyReference.cache
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\obj\Debug\WinOrderCommentsService.ProjectInstaller.resources
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\obj\Debug\WinOrderCommentsService.csproj.GenerateResource.Cache
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\ServiceSetting.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\WinOrderCommentsService.exe.config
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\WinOrderCommentsService.exe
@@ -165,6 +168,7 @@ C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Deb
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Newtonsoft.Json.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\EntityFramework.Extended.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Senparc.Weixin.MP.xml
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\MySql.Data.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Senparc.Weixin.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Quartz.pdb
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Quartz.xml
@@ -179,13 +183,10 @@ C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Deb
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\MongoDB.Driver.Core.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\zh-Hans\EntityFramework.resources.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\obj\Debug\WinOrderCommentsService.csprojResolveAssemblyReference.cache
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\obj\Debug\WinOrderCommentsService.ProjectInstaller.resources
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\obj\Debug\WinOrderCommentsService.csproj.GenerateResource.Cache
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\obj\Debug\WinOrderCommentsService.exe
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\obj\Debug\WinOrderCommentsService.pdb
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\MySql.Data.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Dapper.dll
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Hishop.Weixin.MP.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Himall.ServiceProvider.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Autofac.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Autofac.Configuration.dll
@@ -193,5 +194,3 @@ C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Deb
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Himall.ServiceProvider.pdb
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Autofac.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Autofac.Configuration.xml
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Himall.Service.pdb
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Hishop.Weixin.MP.dll

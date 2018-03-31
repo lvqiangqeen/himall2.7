@@ -10,9 +10,9 @@ E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\Himall.Web\bin\Himall.O
 E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\HiMall.OpenApi\obj\Debug\HiMall.OpenApi.csprojResolveAssemblyReference.cache
 E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\HiMall.OpenApi\obj\Debug\Himall.OpenApi.dll
 E:\大型系统源码\HIimall系列\Himall2.7\himall2.7x\HiMall.OpenApi\obj\Debug\Himall.OpenApi.pdb
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\HiMall.OpenApi\obj\Debug\HiMall.OpenApi.csprojResolveAssemblyReference.cache
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\Himall.OpenApi.dll.config
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\Himall.OpenApi.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\Himall.OpenApi.pdb
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\HiMall.OpenApi\obj\Debug\HiMall.OpenApi.csprojResolveAssemblyReference.cache
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\HiMall.OpenApi\obj\Debug\Himall.OpenApi.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\HiMall.OpenApi\obj\Debug\Himall.OpenApi.pdb

@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,9 @@ using Himall.Core;
 using Himall.IServices;
 using Himall.IServices.QueryModel;
 using Himall.Model;
+using Himall.DTO;
+using Himall.Application.Mappers;
+using Himall.CommonModel;
 
 namespace Himall.Application
 {
@@ -225,6 +229,14 @@ namespace Himall.Application
         public static ManagerInfo GetSellerManager(string userName)
         {
             return  _iManagerService.GetSellerManager(userName);
+        }
+
+        public static QueryPageModel<DTO.Manager> GetMemberList(ManagerQuery query)
+        {
+            var list = _iManagerService.GetManagersList(query);
+            var members =Mapper.Map<QueryPageModel<DTO.Manager>>(list);
+            var grades = MemberGradeApplication.GetMemberGradeList();
+            return members;
         }
     }
 }
