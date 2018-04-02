@@ -231,10 +231,10 @@ namespace Himall.Application
             return  _iManagerService.GetSellerManager(userName);
         }
 
-        public static QueryPageModel<DTO.Manager> GetMemberList(ManagerQuery query)
+        public static QueryPageModel<ManagerInfo> GetMemberList(ManagerQuery query)
         {
             var list = _iManagerService.GetManagersList(query);
-            var members =Mapper.Map<QueryPageModel<DTO.Manager>>(list);
+            var members =Mapper.Map<QueryPageModel<ManagerInfo>>(list);
             var grades = MemberGradeApplication.GetMemberGradeList();
             return members;
         }

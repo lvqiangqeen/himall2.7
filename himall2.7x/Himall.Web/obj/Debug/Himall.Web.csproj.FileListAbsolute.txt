@@ -732,14 +732,13 @@ C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\zh-Hans\System.W
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\zh-Hans\System.Web.Optimization.resources.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\obj\Debug\Himall.Web.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\obj\Debug\Himall.Web.pdb
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\System.Web.Helpers.xml
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\zh-Hans\System.Web.Helpers.resources.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\Himall.Application.pdb
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\Himall.Service.pdb
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\System.Web.Razor.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\System.Web.WebPages.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\System.Web.WebPages.Deployment.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\System.Web.WebPages.Razor.xml
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\zh-Hans\System.Web.Helpers.resources.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\zh-Hans\System.Web.Razor.resources.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\zh-Hans\System.Web.WebPages.resources.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\zh-Hans\System.Web.WebPages.Deployment.resources.dll

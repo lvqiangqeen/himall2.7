@@ -78,15 +78,13 @@ namespace Himall.Web.Areas.Admin.Controllers
 
         public ActionResult ManagementList(int page, string keywords, int rows)
         {
-            // var model;
-            // return Json(model);
             var result = ManagerApplication.GetMemberList(new ManagerQuery() {
                
                 PageNo = page,
                 PageSize = rows
             });
-
-            return View();
+            var model = new DataGridModel<ManagerInfo>() { rows = result.Models, total = result.Total };
+            return Json(model);
         }
 
 
