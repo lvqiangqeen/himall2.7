@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Himall.Model
 {
-    public partial class ManagerInfo:ISellerManager,IPaltManager
+    public partial class ManagerInfo : ISellerManager, IPaltManager
     {
 
         //管理员角色名
@@ -31,7 +31,10 @@ namespace Himall.Model
         /// <summary>
         /// 是否主账号
         /// </summary>
-        public bool IsMainAccount { get {
+        public bool IsMainAccount
+        {
+            get
+            {
                 if (this.UserName.Contains(":"))
                 {
                     return false;
@@ -42,5 +45,22 @@ namespace Himall.Model
                 }
             }
         }
+
+        /// <summary>
+        /// 会员等级名称
+        /// </summary>
+        public string GradeName { set; get; }
+
+        /// <summary>
+        /// 会员可用积分
+        /// </summary>
+        public long AvailableIntegral { get; set; }
+
+        /// <summary>
+        /// 会员历史积分
+        /// </summary>
+        public long HistoryIntegral { set; get; }
+        public int MemberGradeId { get; set; }
+
     }
 }

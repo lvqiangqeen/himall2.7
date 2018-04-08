@@ -18,7 +18,7 @@ $(function () {
         weekStart: 1,
         minView: 2
     });
-   
+
     $("#inputStartDate").on('changeDate', function () {
         if ($("#inputEndDate").val()) {
             if ($("#inputStartDate").val() > $("#inputEndDate").val()) {
@@ -170,7 +170,7 @@ function query() {
             keyWords: $("#autoTextBox").val(), labelid: labelid, isSeller: isseller,
             isFocus: isfocus, regtimeStart: rtstart, regtimeEnd: rtend,
             gradeId: gradeId, mobile: mobile, weChatNick: weChatNick,
-            status:status
+            status: status
         },
         toolbar: /*"#goods-datagrid-toolbar",*/'',
         operationButtons: "#batchOperate",
@@ -199,11 +199,12 @@ function query() {
         {
             field: "operation", operation: true, title: "操作",
             formatter: function (value, row, index) {
+                debugger
                 var id = row.Id.toString();
                 var html = ["<span class=\"btn-a\">"];
-                html.push("<a onclick=\"AddLabel('" + id + "');\">编辑标签</a>");
+                html.push("<a onclick=\"AddLabel('" + id + "');\">编辑权限</a>");
                 html.push("<a href='MemberDetail/" + id + "'>查看</a>");
-               
+
                 html.push("</span>");
                 return html.join("");
             }
@@ -213,20 +214,20 @@ function query() {
 }
 
 function AddLabel(memberid) {
-    if ($('input[name=check_Label]').length == 0) {
+    if ($('input[name=radio_Label]').length == 0) {
         $.dialog.alert('没有可添加的标签，请到标签管理添加！');
         return;
     }
     $.ajax({
         type: 'post',
         url: 'GetMemberLabel',
-        data: { id: memberid },
+        data: { Id: memberid },
         success: function (data) {
-            $('input[name=check_Label]').each(function (i, checkbox) {
+            $('input[name=radio_Label]').each(function (i, checkbox) {
                 $(checkbox).get(0).checked = false;
             });
             $.each(data.Data, function (i, item) {
-                $('#check_' + item.LabelId).get(0).checked = true;
+                $('#radio_' + item.LabelId).get(0).checked = true;
             });
             $.dialog({
                 title: '会员标签',
@@ -237,14 +238,15 @@ function AddLabel(memberid) {
                 padding: '10px 60px',
                 okVal: '确定',
                 ok: function () {
+                    
                     var ids = [];
-                    $('input[name=check_Label]').each(function (i, checkbox) {
-                        if ($(checkbox).get(0).checked) {
-                            ids.push($(checkbox).attr('datavalue'));
+                    $('input[name=radio_Label]').each(function (i, radio) {
+                        if ($(radio).get(0).checked) {
+                            ids.push($(radio).attr('value'));
                         }
                     });
                     var loading = showLoading();
-                    $.post('SetMemberLabel', { id: memberid, labelids: ids.join(',') }, function (result) {
+                    $.post('../Manager/update', { Id:memberid, MemberGradeId: ids.join(',') }, function (result) {
                         if (result.Success) {
                             query();
                             $.dialog.tips('设置成功！');
@@ -268,7 +270,7 @@ function batchAddLabels() {
         $.dialog.tips('请选择会员！');
         return;
     }
-    $('input[name=check_Label]').each(function (i, checkbox) {
+    $('input[name=radio_Label]').each(function (i, checkbox) {
         $(checkbox).get(0).checked = false;
     });
 
@@ -282,7 +284,7 @@ function batchAddLabels() {
         okVal: '确定',
         ok: function () {
             var labelids = [];
-            $('input[name=check_Label]').each(function (i, checkbox) {
+            $('input[name=radio_Label]').each(function (i, checkbox) {
                 if ($(checkbox).get(0).checked) {
                     labelids.push($(checkbox).attr('datavalue'));
                 }
@@ -364,10 +366,10 @@ function ExportExecl() {
     var href = "/Admin/Member/ExportToExcel?keyWords=" + $("#autoTextBox").val();
     if (labelid != "" && labelid != undefined)
         href += "&labelid=" + labelid;
-    if (isseller ) {
+    if (isseller) {
         href += "&isSeller=" + isseller;
     }
-    if (isfocus ) {
+    if (isfocus) {
         href += "&isFocus=" + isfocus;
     }
     if (status != null && status != "")

@@ -236,6 +236,16 @@ namespace Himall.Application
             var list = _iManagerService.GetManagersList(query);
             var members =Mapper.Map<QueryPageModel<ManagerInfo>>(list);
             var grades = MemberGradeApplication.GetMemberGradeList();
+            foreach (var m in members.Models)
+            {
+                var memberIntegral = MemberIntegralApplication.GetMemberIntegral(m.Id);
+                m.GradeName = MemberGradeApplication.GetMemberGradeByIntegral(grades, memberIntegral.HistoryIntegrals).GradeName;
+                if (memberIntegral != null)
+                {
+                    m.AvailableIntegral = memberIntegral.AvailableIntegrals;
+                    m.HistoryIntegral = memberIntegral.HistoryIntegrals;
+                }
+            }
             return members;
         }
     }

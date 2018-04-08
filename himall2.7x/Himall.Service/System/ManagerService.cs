@@ -453,6 +453,15 @@ namespace Himall.Service
             return pageModel;
         }
 
+        public void Update(ManagerInfo model)
+        {
+            
+            var  user = Context.ManagerInfo.Where(a => a.Id == model.Id).FirstOrDefault();
+            //var label = Context.ManagerInfo.FirstOrDefault(e => e.Id == model.Id);
+            user.MemberGradeId = model.MemberGradeId;
+            Context.SaveChanges();
+        }
+
     }
 }
 

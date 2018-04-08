@@ -59,6 +59,13 @@ namespace Himall.Web.Areas.Admin.Controllers
             return Json(new Result() { success = true, msg = "删除成功！" });
         }
 
+        public JsonResult Update(ManagerInfo model)
+        {
+            _iManagerService.Update(model);
+            return Json(new Result() { success = true, msg = "更新成功！" });
+        }
+
+
         [HttpPost]
         public JsonResult RoleList()
         {

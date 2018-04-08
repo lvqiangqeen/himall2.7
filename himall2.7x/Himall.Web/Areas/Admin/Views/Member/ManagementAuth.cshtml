@@ -112,14 +112,17 @@
 </div>
 
 <div class="dialog-form" style="display:none;" id="divSetLabel">
-    @if (ViewBag.LabelInfos != null)
+    @if (Model != null)
     {
-        foreach (var label in labelinfos)
+        foreach (var label in Model)
         {
+            string value = Convert.ToString(label.Id);
+
             <div class="form-group" style="width: 150px; float: left; border: none; white-space: nowrap; overflow: hidden; margin: 10px; text-overflow: ellipsis;">
-                @Html.CheckBox("check_Label", new { value = label.LabelName, id = "check_" + label.Id, datavalue = label.Id })
-                @label.LabelName
+                @Html.RadioButton("radio_Label", value)
+                @label.GradeName
             </div>
+           
         }
     }
 </div>
