@@ -160,6 +160,7 @@ namespace Himall.IServices
         ManagerInfo GetSellerManager(string userName);
 
         CommonModel.QueryPageModel<ManagerInfo> GetManagersList(ManagerQuery query);
+        void Update(ManagerInfo model);
 
     }
 }
