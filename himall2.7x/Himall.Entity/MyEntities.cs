@@ -10,7 +10,7 @@ namespace Himall.Entity
 	[DbConfigurationType(typeof(DbContextConfiguration))]
 	public class MyEntities:Entities
 	{
-		static MyEntities()
+		static MyEntities() 
 		{
 			EntityFramework.Container container = new EntityFramework.Container();
 			EntityFramework.Locator.RegisterDefaults(container);
