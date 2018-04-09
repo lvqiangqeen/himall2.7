@@ -186,12 +186,11 @@ C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Deb
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\obj\Debug\WinOrderCommentsService.exe
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\obj\Debug\WinOrderCommentsService.pdb
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Dapper.dll
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Hishop.Weixin.MP.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Himall.ServiceProvider.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Autofac.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Autofac.Configuration.dll
-C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Himall.Service.pdb
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Dapper.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Himall.ServiceProvider.pdb
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Autofac.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Autofac.Configuration.xml
+C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\WinOrderCommentsService\bin\Debug\Himall.Service.pdb
