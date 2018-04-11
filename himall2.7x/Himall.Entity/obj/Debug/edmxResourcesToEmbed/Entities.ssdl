@@ -1119,6 +1119,7 @@
     <Property Name="CreateDate" Type="datetime" Precision="0" Nullable="false" />
     <Property Name="Remark" Type="varchar" MaxLength="1000" />
     <Property Name="RealName" Type="varchar" MaxLength="1000" />
+    <Property Name="MemberGradeId" Type="bigint" />
   </EntityType>
   <EntityType Name="Himall_MarketServiceRecord">
     <Key>

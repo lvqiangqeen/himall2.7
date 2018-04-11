@@ -1345,6 +1345,7 @@
     <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
     <Property Name="RealName" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="MemberGradeId" Type="Int64" />
   </EntityType>
   <EntityType Name="MemberOpenIdInfo">
     <Key>

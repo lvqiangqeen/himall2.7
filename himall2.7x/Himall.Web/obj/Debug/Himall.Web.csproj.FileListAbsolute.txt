@@ -743,3 +743,5 @@ C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\zh-Hans\System.W
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\zh-Hans\System.Web.WebPages.resources.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\zh-Hans\System.Web.WebPages.Deployment.resources.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
+E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web\bin\System.Web.Helpers.xml
+E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web\bin\zh-Hans\System.Web.Helpers.resources.dll

@@ -1124,6 +1124,7 @@
           <Property Name="CreateDate" Type="datetime" Precision="0" Nullable="false" />
           <Property Name="Remark" Type="varchar" MaxLength="1000" />
           <Property Name="RealName" Type="varchar" MaxLength="1000" />
+		  <Property Name="MemberGradeId" Type="bigint"/>
         </EntityType>
         <EntityType Name="Himall_MarketServiceRecord">
           <Key>
@@ -6265,6 +6266,7 @@
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="RealName" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+		  <Property Name="MemberGradeId" Type="Int64" />
         </EntityType>
         <EntityType Name="MemberOpenIdInfo">
           <Key>
@@ -10666,6 +10668,7 @@
           <EntitySetMapping Name="Himall_Managers">
             <EntityTypeMapping TypeName="Himall.Model.ManagerInfo">
               <MappingFragment StoreEntitySet="Himall_Managers">
+                <ScalarProperty Name="MemberGradeId" ColumnName="MemberGradeId" />
                 <ScalarProperty Name="RealName" ColumnName="RealName" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />

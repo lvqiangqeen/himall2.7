@@ -323,6 +323,332 @@
         <EntityTypeShape EntityType="Himall.Model.SearchProductsInfo" Width="1.5" PointX="45.375" PointY="22.75" />
         <EntityTypeShape EntityType="Himall.Model.WXSmallChoiceProductsInfo" Width="1.5" PointX="24.375" PointY="25.75" />
         <EntityTypeShape EntityType="Himall.Model.WXAppletFormDatasInfo" Width="1.5" PointX="39.375" PointY="37.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_accountdetails" Width="1.5" PointX="26.375" PointY="45.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_accountmeta" Width="1.5" PointX="40.375" PointY="4.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_accountpurchaseagreement" Width="1.5" PointX="44.375" PointY="29.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_accounts" Width="1.5" PointX="20.5" PointY="46.875" />
+        <EntityTypeShape EntityType="Himall.Model.himall_active" Width="1.5" PointX="10.75" PointY="46.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_activemarketservice" Width="1.5" PointX="46.75" PointY="19.25" />
+        <EntityTypeShape EntityType="Himall.Model.himall_activeproducts" Width="1.5" PointX="46.75" PointY="38.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_agentproducts" Width="1.5" PointX="47.25" PointY="107.625" />
+        <EntityTypeShape EntityType="Himall.Model.himall_agreement" Width="1.5" PointX="12.75" PointY="47.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_appbasesafesetting" Width="1.5" PointX="47.75" PointY="22.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_applywithdraw" Width="1.5" PointX="5.75" PointY="48.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_appmessages" Width="1.5" PointX="7.75" PointY="48.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_articlecategories" Width="1.5" PointX="0.75" PointY="48.5" />
+        <EntityTypeShape EntityType="Himall.Model.himall_articles" Width="1.5" PointX="3" PointY="48" />
+        <EntityTypeShape EntityType="Himall.Model.himall_attributes" Width="1.5" PointX="50" PointY="86.5" />
+        <EntityTypeShape EntityType="Himall.Model.himall_attributevalues" Width="1.5" PointX="52.25" PointY="83.875" />
+        <EntityTypeShape EntityType="Himall.Model.himall_autoreply" Width="1.5" PointX="47.75" PointY="25.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_banners" Width="1.5" PointX="48.75" PointY="38.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_bonus" Width="1.5" PointX="48" PointY="56" />
+        <EntityTypeShape EntityType="Himall.Model.himall_bonusreceive" Width="1.5" PointX="50.25" PointY="80.25" />
+        <EntityTypeShape EntityType="Himall.Model.himall_brands" Width="1.5" PointX="39.75" PointY="88" />
+        <EntityTypeShape EntityType="Himall.Model.himall_brokerageincome" Width="1.5" PointX="47.75" PointY="1" />
+        <EntityTypeShape EntityType="Himall.Model.himall_brokeragerefund" Width="1.5" PointX="50" PointY="2" />
+        <EntityTypeShape EntityType="Himall.Model.himall_browsinghistory" Width="1.5" PointX="55.25" PointY="96.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_businesscategories" Width="1.5" PointX="45" PointY="113.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_businesscategoriesapply" Width="1.5" PointX="45.75" PointY="143.625" />
+        <EntityTypeShape EntityType="Himall.Model.himall_businesscategoriesapplydetail" Width="1.5" PointX="48" PointY="114.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_capital" Width="1.5" PointX="33.75" PointY="47.125" />
+        <EntityTypeShape EntityType="Himall.Model.himall_capitaldetail" Width="1.5" PointX="36" PointY="47" />
+        <EntityTypeShape EntityType="Himall.Model.himall_cashdeposit" Width="1.5" PointX="42" PointY="88" />
+        <EntityTypeShape EntityType="Himall.Model.himall_cashdepositdetail" Width="1.5" PointX="44.25" PointY="88" />
+        <EntityTypeShape EntityType="Himall.Model.himall_categories" Width="1.5" PointX="42.75" PointY="111.25" />
+        <EntityTypeShape EntityType="Himall.Model.himall_categorycashdeposit" Width="1.5" PointX="45" PointY="129.375" />
+        <EntityTypeShape EntityType="Himall.Model.himall_chargedetail" Width="1.5" PointX="48.75" PointY="42.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_chargedetailshop" Width="1.5" PointX="49.75" PointY="22.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_collocation" Width="1.5" PointX="51" PointY="111.625" />
+        <EntityTypeShape EntityType="Himall.Model.himall_collocationporuducts" Width="1.5" PointX="53.25" PointY="107.625" />
+        <EntityTypeShape EntityType="Himall.Model.himall_collocationskus" Width="1.5" PointX="55.5" PointY="103.25" />
+        <EntityTypeShape EntityType="Himall.Model.himall_combodetail" Width="1.5" PointX="49.75" PointY="46.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_coupon" Width="1.5" PointX="42" PointY="139.375" />
+        <EntityTypeShape EntityType="Himall.Model.himall_couponrecord" Width="1.5" PointX="44.25" PointY="117.125" />
+        <EntityTypeShape EntityType="Himall.Model.himall_couponsendbyregister" Width="1.5" PointX="42" PointY="136" />
+        <EntityTypeShape EntityType="Himall.Model.himall_couponsendbyregisterdetailed" Width="1.5" PointX="44.25" PointY="138" />
+        <EntityTypeShape EntityType="Himall.Model.himall_couponsetting" Width="1.5" PointX="49.75" PointY="49.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_customerservices" Width="1.5" PointX="9.75" PointY="50.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_deliveryscope" Width="1.5" PointX="50.75" PointY="11.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_distributionproducts" Width="1.5" PointX="52.5" PointY="101" />
+        <EntityTypeShape EntityType="Himall.Model.himall_distributionsharesetting" Width="1.5" PointX="11.75" PointY="50.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_distributionuserlink" Width="1.5" PointX="47.25" PointY="70.5" />
+        <EntityTypeShape EntityType="Himall.Model.himall_distributorsetting" Width="1.5" PointX="50.75" PointY="32.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_favorites" Width="1.5" PointX="50.25" PointY="107.625" />
+        <EntityTypeShape EntityType="Himall.Model.himall_favoriteshops" Width="1.5" PointX="42" PointY="154.375" />
+        <EntityTypeShape EntityType="Himall.Model.himall_fightgroupactive" Width="1.5" PointX="33.75" PointY="50.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_fightgroupactiveimg" Width="1.5" PointX="50.75" PointY="35.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_fightgroupactiveitem" Width="1.5" PointX="35.75" PointY="50.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_fightgrouporder" Width="1.5" PointX="50.75" PointY="38.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_fightgroups" Width="1.5" PointX="51.75" PointY="5.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_fightgroupspackage" Width="1.5" PointX="50.75" PointY="43.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_flashsale" Width="1.5" PointX="47.25" PointY="99.875" />
+        <EntityTypeShape EntityType="Himall.Model.himall_flashsaleconfig" Width="1.5" PointX="51.75" PointY="14.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_flashsaledetail" Width="1.5" PointX="51.75" PointY="17.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_flashsaleremind" Width="1.5" PointX="51.75" PointY="20.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_floorbrands" Width="1.5" PointX="52.25" PointY="86.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_floorcategories" Width="1.5" PointX="56.25" PointY="107.25" />
+        <EntityTypeShape EntityType="Himall.Model.himall_floorproducts" Width="1.5" PointX="52.25" PointY="93.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_floortabldetails" Width="1.5" PointX="54.5" PointY="73.5" />
+        <EntityTypeShape EntityType="Himall.Model.himall_floortabls" Width="1.5" PointX="52.25" PointY="73.375" />
+        <EntityTypeShape EntityType="Himall.Model.himall_floortopics" Width="1.5" PointX="52.25" PointY="76.375" />
+        <EntityTypeShape EntityType="Himall.Model.himall_freightareacontent" Width="1.5" PointX="49" PointY="29" />
+        <EntityTypeShape EntityType="Himall.Model.himall_freightareadetail" Width="1.5" PointX="51.75" PointY="23.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_freighttemplate" Width="1.5" PointX="46.75" PointY="29" />
+        <EntityTypeShape EntityType="Himall.Model.himall_fulldiscountrules" Width="1.5" PointX="25.75" PointY="51.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_giftorderitem" Width="1.5" PointX="31" PointY="47.875" />
+        <EntityTypeShape EntityType="Himall.Model.himall_gifts" Width="1.5" PointX="51.75" PointY="27.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_giftsorder" Width="1.5" PointX="28.75" PointY="47" />
+        <EntityTypeShape EntityType="Himall.Model.himall_handslideads" Width="1.5" PointX="30.75" PointY="51.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_homecategories" Width="1.5" PointX="45" PointY="110.25" />
+        <EntityTypeShape EntityType="Himall.Model.himall_homecategoryrows" Width="1.5" PointX="37.75" PointY="51.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_homefloors" Width="1.5" PointX="50" PointY="90.25" />
+        <EntityTypeShape EntityType="Himall.Model.himall_imageads" Width="1.5" PointX="51.75" PointY="46.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_integralmallads" Width="1.5" PointX="51.75" PointY="49.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_inviterecord" Width="1.5" PointX="47.25" PointY="62.5" />
+        <EntityTypeShape EntityType="Himall.Model.himall_inviterule" Width="1.5" PointX="52.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_invoicecontext" Width="1.5" PointX="0.75" PointY="52.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_invoicetitle" Width="1.5" PointX="2.75" PointY="52.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_label" Width="1.5" PointX="4.75" PointY="52.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_limittimemarket" Width="1.5" PointX="6.75" PointY="52.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_logs" Width="1.5" PointX="52.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_managers" Width="1.5" PointX="18.75" PointY="52.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_marketservicerecord" Width="1.5" PointX="49" PointY="19" />
+        <EntityTypeShape EntityType="Himall.Model.himall_marketsetting" Width="1.5" PointX="46.75" PointY="16" />
+        <EntityTypeShape EntityType="Himall.Model.himall_marketsettingmeta" Width="1.5" PointX="49" PointY="15.875" />
+        <EntityTypeShape EntityType="Himall.Model.himall_memberactivitydegree" Width="1.5" PointX="27.75" PointY="52.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_memberbuycategory" Width="1.5" PointX="52.75" PointY="32.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_membercommission" Width="1.5" PointX="52.75" PointY="35.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_memberconsumestatistics" Width="1.5" PointX="52.75" PointY="39.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_membercontacts" Width="1.5" PointX="52.75" PointY="42.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_membergrade" Width="1.5" PointX="47.75" PointY="52.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_membergroup" Width="1.5" PointX="49.75" PointY="52.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_memberintegral" Width="1.5" PointX="47.25" PointY="80.5" />
+        <EntityTypeShape EntityType="Himall.Model.himall_memberintegralexchangerules" Width="1.5" PointX="51.75" PointY="52.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_memberintegralrecord" Width="1.5" PointX="47.25" PointY="77.125" />
+        <EntityTypeShape EntityType="Himall.Model.himall_memberintegralrecordaction" Width="1.5" PointX="49.5" PointY="77.5" />
+        <EntityTypeShape EntityType="Himall.Model.himall_memberintegralrule" Width="1.5" PointX="53.75" PointY="4.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_memberlabel" Width="1.5" PointX="53.75" PointY="13.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_memberopenids" Width="1.5" PointX="47.25" PointY="83.375" />
+        <EntityTypeShape EntityType="Himall.Model.himall_members" Width="1.5" PointX="45" PointY="76.625" />
+        <EntityTypeShape EntityType="Himall.Model.himall_membersignin" Width="1.5" PointX="53.75" PointY="16.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_menus" Width="1.5" PointX="53.75" PointY="19.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_messagelog" Width="1.5" PointX="53.75" PointY="23.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_mobilehomeproducts" Width="1.5" PointX="47.25" PointY="130.375" />
+        <EntityTypeShape EntityType="Himall.Model.himall_mobilehometopics" Width="1.5" PointX="45" PointY="132.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_moduleproducts" Width="1.5" PointX="47.25" PointY="104.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_openids" Width="1.5" PointX="13.75" PointY="53.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_ordercomments" Width="1.5" PointX="45" PointY="59.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_ordercomplaints" Width="1.5" PointX="45" PointY="51.375" />
+        <EntityTypeShape EntityType="Himall.Model.himall_orderexpressdata" Width="1.5" PointX="15.75" PointY="53.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_orderitems" Width="1.5" PointX="45" PointY="66.25" />
+        <EntityTypeShape EntityType="Himall.Model.himall_orderoperationlogs" Width="1.5" PointX="45" PointY="56.5" />
+        <EntityTypeShape EntityType="Himall.Model.himall_orderpay" Width="1.5" PointX="53.75" PointY="26.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_orderrefundlogs" Width="1.5" PointX="39.75" PointY="53.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_orderrefunds" Width="1.5" PointX="47.25" PointY="154.125" />
+        <EntityTypeShape EntityType="Himall.Model.himall_orders" Width="1.5" PointX="42.75" PointY="63.5" />
+        <EntityTypeShape EntityType="Himall.Model.himall_paymentconfig" Width="1.5" PointX="53.75" PointY="29.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_pendingsettlementorders" Width="1.5" PointX="41.75" PointY="53.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_photospace" Width="1.5" PointX="53.75" PointY="45.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_photospacecategory" Width="1.5" PointX="53.75" PointY="49.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_plataccount" Width="1.5" PointX="46.75" PointY="7.5" />
+        <EntityTypeShape EntityType="Himall.Model.himall_plataccountitem" Width="1.5" PointX="49" PointY="7" />
+        <EntityTypeShape EntityType="Himall.Model.himall_platvisits" Width="1.5" PointX="53.75" PointY="52.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_productattributes" Width="1.5" PointX="52.25" PointY="96.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_productbrokerage" Width="1.5" PointX="50.25" PointY="99.875" />
+        <EntityTypeShape EntityType="Himall.Model.himall_productcomments" Width="1.5" PointX="47.25" PointY="93.25" />
+        <EntityTypeShape EntityType="Himall.Model.himall_productcommentsimages" Width="1.5" PointX="49.5" PointY="94.875" />
+        <EntityTypeShape EntityType="Himall.Model.himall_productconsultations" Width="1.5" PointX="47.25" PointY="88.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_productdescriptions" Width="1.5" PointX="47.25" PointY="133.25" />
+        <EntityTypeShape EntityType="Himall.Model.himall_productdescriptiontemplates" Width="1.5" PointX="54.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_productrelationproducts" Width="1.5" PointX="54.75" PointY="7.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_products" Width="1.5" PointX="45" PointY="96.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_productshopcategories" Width="1.5" PointX="50.25" PointY="104.875" />
+        <EntityTypeShape EntityType="Himall.Model.himall_productvistis" Width="1.5" PointX="47.25" PointY="137.125" />
+        <EntityTypeShape EntityType="Himall.Model.himall_productwords" Width="1.5" PointX="8.75" PointY="54.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_promoter" Width="1.5" PointX="47.25" PointY="67.25" />
+        <EntityTypeShape EntityType="Himall.Model.himall_receivingaddressconfig" Width="1.5" PointX="42" PointY="95.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_recruitplan" Width="1.5" PointX="54.75" PointY="10.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_recruitsetting" Width="1.5" PointX="29.75" PointY="54.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_refundreason" Width="1.5" PointX="54.75" PointY="32.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_roleprivileges" Width="1.5" PointX="48" PointY="13" />
+        <EntityTypeShape EntityType="Himall.Model.himall_roles" Width="1.5" PointX="45.75" PointY="12.875" />
+        <EntityTypeShape EntityType="Himall.Model.himall_searchproducts" Width="1.5" PointX="54.75" PointY="35.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_segmentwords" Width="1.5" PointX="35.75" PointY="54.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_sellerspecificationvalues" Width="1.5" PointX="45" PointY="126.375" />
+        <EntityTypeShape EntityType="Himall.Model.himall_sendmessagerecord" Width="1.5" PointX="42" PointY="132.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_sendmessagerecordcoupon" Width="1.5" PointX="44.25" PointY="141" />
+        <EntityTypeShape EntityType="Himall.Model.himall_sendmessagerecordcouponsn" Width="1.5" PointX="54.75" PointY="41.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_sensitivewords" Width="1.5" PointX="0.75" PointY="55.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_settled" Width="1.5" PointX="2.75" PointY="55.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shippingaddresses" Width="1.5" PointX="47.25" PointY="73.375" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shopaccount" Width="1.5" PointX="44.75" PointY="46.625" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shopaccountitem" Width="1.5" PointX="47" PointY="46" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shopbonus" Width="1.5" PointX="42" PointY="147.875" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shopbonusgrant" Width="1.5" PointX="44.25" PointY="149.5" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shopbonusreceive" Width="1.5" PointX="46.5" PointY="149.125" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shopbranch" Width="1.5" PointX="10.75" PointY="55.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shopbranchmanagers" Width="1.5" PointX="55.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shopbranchskus" Width="1.5" PointX="55.75" PointY="13.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shopbrandapplys" Width="1.5" PointX="42" PointY="100.125" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shopbrands" Width="1.5" PointX="42" PointY="104.875" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shopcategories" Width="1.5" PointX="48" PointY="111.625" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shopdistributorsetting" Width="1.5" PointX="55.75" PointY="17.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shopfooter" Width="1.5" PointX="55.75" PointY="20.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shopgrades" Width="1.5" PointX="20.75" PointY="55.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shophomemoduleproducts" Width="1.5" PointX="55.25" PointY="99.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shophomemodules" Width="1.5" PointX="53" PointY="89.625" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shophomemodulestopimg" Width="1.5" PointX="55.25" PointY="89.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shopopenapisetting" Width="1.5" PointX="22.75" PointY="55.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shoppingcarts" Width="1.5" PointX="53.25" PointY="103.625" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shoprenewrecord" Width="1.5" PointX="55.75" PointY="23.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shops" Width="1.5" PointX="39.75" PointY="93.375" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shopvistis" Width="1.5" PointX="24.75" PointY="55.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_shopwithdraw" Width="1.5" PointX="55.75" PointY="27.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_sitesettings" Width="1.5" PointX="55.75" PointY="44.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_sitesigninconfig" Width="1.5" PointX="55.75" PointY="47.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_skus" Width="1.5" PointX="47.25" PointY="120.625" />
+        <EntityTypeShape EntityType="Himall.Model.himall_slideads" Width="1.5" PointX="55.75" PointY="50.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_specificationvalues" Width="1.5" PointX="42.75" PointY="126.375" />
+        <EntityTypeShape EntityType="Himall.Model.himall_statisticordercomments" Width="1.5" PointX="42" PointY="145.25" />
+        <EntityTypeShape EntityType="Himall.Model.himall_templatevisualizationsettings" Width="1.5" PointX="50.75" PointY="55.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_theme" Width="1.5" PointX="55.75" PointY="54.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_topicmodules" Width="1.5" PointX="45" PointY="122.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_topics" Width="1.5" PointX="42.75" PointY="122.25" />
+        <EntityTypeShape EntityType="Himall.Model.himall_typebrands" Width="1.5" PointX="42.75" PointY="107.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_types" Width="1.5" PointX="40.5" PointY="112.125" />
+        <EntityTypeShape EntityType="Himall.Model.himall_virtualorder" Width="1.5" PointX="56.75" PointY="7.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_vshop" Width="1.5" PointX="42" PointY="91.25" />
+        <EntityTypeShape EntityType="Himall.Model.himall_vshopextend" Width="1.5" PointX="44.25" PointY="92" />
+        <EntityTypeShape EntityType="Himall.Model.himall_weiactivityaward" Width="1.5" PointX="42" PointY="46.125" />
+        <EntityTypeShape EntityType="Himall.Model.himall_weiactivityinfo" Width="1.5" PointX="39.75" PointY="47.375" />
+        <EntityTypeShape EntityType="Himall.Model.himall_weiactivitywininfo" Width="1.5" PointX="42" PointY="49.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_weixinbasic" Width="1.5" PointX="56.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_weixinmsgtemplate" Width="1.5" PointX="16.75" PointY="56.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_wxacctoken" Width="1.5" PointX="26.75" PointY="56.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_wxappletformdatas" Width="1.5" PointX="56.75" PointY="32.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_wxcardcodelog" Width="1.5" PointX="48" PointY="34" />
+        <EntityTypeShape EntityType="Himall.Model.himall_wxcardlog" Width="1.5" PointX="45.75" PointY="34" />
+        <EntityTypeShape EntityType="Himall.Model.himall_wxshop" Width="1.5" PointX="56.75" PointY="35.75" />
+        <EntityTypeShape EntityType="Himall.Model.himall_wxsmallchoiceproducts" Width="1.5" PointX="40.75" PointY="7.75" />
+        <EntityTypeShape EntityType="Himall.Model.taocan_item" Width="1.5" PointX="56.75" PointY="38.75" />
+        <EntityTypeShape EntityType="Himall.Model.taocan_menu" Width="1.5" PointX="52.75" PointY="56.75" />
+        <AssociationConnector Association="Himall.Model.himall_accountdetails_ibfk_11" />
+        <AssociationConnector Association="Himall.Model.himall_accountpurchaseagreement_ibfk_11" />
+        <AssociationConnector Association="Himall.Model.himall_marketservicerecord_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.FK_Himall_AgentProducts_ProductId1" />
+        <AssociationConnector Association="Himall.Model.FK_Himall_AgentProducts_UserId1" />
+        <AssociationConnector Association="Himall.Model.himall_articles_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_attributes_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_attributevalues_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_productattributes_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.FK_Reference_11" />
+        <AssociationConnector Association="Himall.Model.FK_UserId1" />
+        <AssociationConnector Association="Himall.Model.himall_floorbrands_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_shopbrandapplys_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_shopbrands_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_typebrands_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.FK_Himall_Brund_IncomeId1" />
+        <AssociationConnector Association="Himall.Model.himall_browsinghistory_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_browsinghistory_ibfk_2" />
+        <AssociationConnector Association="Himall.Model.himall_businesscategories_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.FR_BussinessCateApply1" />
+        <AssociationConnector Association="Himall.Model.FR_BussinessCateApply_Cid1" />
+        <AssociationConnector Association="Himall.Model.FK_Reference_Himall_CapitalDetail1" />
+        <AssociationConnector Association="Himall.Model.himall_cashdeposit_ibfk_11" />
+        <AssociationConnector Association="Himall.Model.himall_cashdepositdetail_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.FK_CategoryId1" />
+        <AssociationConnector Association="Himall.Model.FK_Himall_CategoriesObligation_Categories1" />
+        <AssociationConnector Association="Himall.Model.himall_categories_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_floorcategories_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_homecategories_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.FK_Collocation_CollPoruducts1" />
+        <AssociationConnector Association="Himall.Model.FK_ColloProuducts_Skus1" />
+        <AssociationConnector Association="Himall.Model.FK_Product_CollPoruducts1" />
+        <AssociationConnector Association="Himall.Model.FK_Product_ColloSkus1" />
+        <AssociationConnector Association="Himall.Model.FK_Reference_coupon1" />
+        <AssociationConnector Association="Himall.Model.FK_Reference_messageCoupon1" />
+        <AssociationConnector Association="Himall.Model.himall_coupon_ibfk_11" />
+        <AssociationConnector Association="Himall.Model.himall_couponrecord_ibfk_21" />
+        <AssociationConnector Association="Himall.Model.himall_couponrecord_ibfk_11" />
+        <AssociationConnector Association="Himall.Model.FK_Reference_z1" />
+        <AssociationConnector Association="Himall.Model.FK_DistributionProducts_z1" />
+        <AssociationConnector Association="Himall.Model.himall_DistributionUserLink_FK_User1" />
+        <AssociationConnector Association="Himall.Model.himall_favorites_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_favorites_ibfk_2" />
+        <AssociationConnector Association="Himall.Model.Himall_FavoriteShop_fk_11" />
+        <AssociationConnector Association="Himall.Model.FK_FSProductId1" />
+        <AssociationConnector Association="Himall.Model.FK_FSProductId3" />
+        <AssociationConnector Association="Himall.Model.FK_FSShopId1" />
+        <AssociationConnector Association="Himall.Model.FK_FSShopId31" />
+        <AssociationConnector Association="Himall.Model.himall_floorbrands_ibfk_2" />
+        <AssociationConnector Association="Himall.Model.himall_floorcategories_ibfk_2" />
+        <AssociationConnector Association="Himall.Model.himall_floorproducts_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_floorproducts_ibfk_2" />
+        <AssociationConnector Association="Himall.Model.TabIdFK1" />
+        <AssociationConnector Association="Himall.Model.FloorIdFK1" />
+        <AssociationConnector Association="Himall.Model.himall_floortopics_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_freightareacontent_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.FK_Himall_Gitem_OrderId1" />
+        <AssociationConnector Association="Himall.Model.InviteMember1" />
+        <AssociationConnector Association="Himall.Model.RegMember1" />
+        <AssociationConnector Association="Himall.Model.himall_marketsettingmeta_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_memberintegral_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_memberintegralrecord_ibfk_11" />
+        <AssociationConnector Association="Himall.Model.himall_memberintegralrecordaction_ibfk_11" />
+        <AssociationConnector Association="Himall.Model.himall_memberopenids_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.FK_Himall_Promoter_UserId1" />
+        <AssociationConnector Association="Himall.Model.FK_useUserID1" />
+        <AssociationConnector Association="Himall.Model.FK_zzzUserID1" />
+        <AssociationConnector Association="Himall.Model.himall_productcomments_ibfk_41" />
+        <AssociationConnector Association="Himall.Model.himall_shippingaddresses_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_shoppingcarts_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_mobilehomeproducts_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_mobilehometopics_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_moduleproducts_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_moduleproducts_ibfk_2" />
+        <AssociationConnector Association="Himall.Model.himall_ordercomments_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_ordercomplaints_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_orderitems_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_orderrefunds_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_productcomments_ibfk_11" />
+        <AssociationConnector Association="Himall.Model.himall_orderoperationlogs_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.FK_Himall_Pltem_AccoutID1" />
+        <AssociationConnector Association="Himall.Model.himall_productattributes_ibfk_2" />
+        <AssociationConnector Association="Himall.Model.FK_Himall_ProductBrokerage_ProductId1" />
+        <AssociationConnector Association="Himall.Model.FK_Himall_ProductBrokerage_ShopId1" />
+        <AssociationConnector Association="Himall.Model.FR_CommentImages1" />
+        <AssociationConnector Association="Himall.Model.himall_productcomments_ibfk_2" />
+        <AssociationConnector Association="Himall.Model.himall_productcomments_ibfk_31" />
+        <AssociationConnector Association="Himall.Model.himall_productconsultations_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_productdescriptions_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.FK_SHOPID1" />
+        <AssociationConnector Association="Himall.Model.himall_productshopcategories_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_productvistis_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_shophomemoduleproducts_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_shoppingcarts_ibfk_2" />
+        <AssociationConnector Association="Himall.Model.himall_skus_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_productshopcategories_ibfk_2" />
+        <AssociationConnector Association="Himall.Model.FK_RACShopId1" />
+        <AssociationConnector Association="Himall.Model.himall_roleprivileges_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_sellerspecificationvalues_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.FK_Reference_message1" />
+        <AssociationConnector Association="Himall.Model.FK_Himall_Shtem_AccoutID1" />
+        <AssociationConnector Association="Himall.Model.FK_ShopBonusId1" />
+        <AssociationConnector Association="Himall.Model.FK_zzzShopId1" />
+        <AssociationConnector Association="Himall.Model.FK_BonusGrantId1" />
+        <AssociationConnector Association="Himall.Model.himall_shopbrandapplys_ibfk_21" />
+        <AssociationConnector Association="Himall.Model.himall_shopbrands_ibfk_21" />
+        <AssociationConnector Association="Himall.Model.himall_shophomemoduleproducts_ibfk_2" />
+        <AssociationConnector Association="Himall.Model.FK_SFTHomeModuleId1" />
+        <AssociationConnector Association="Himall.Model.himall_statisticordercomments_ibfk_11" />
+        <AssociationConnector Association="Himall.Model.himall_vshop_ibfk_11" />
+        <AssociationConnector Association="Himall.Model.himall_specificationvalues_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_topicmodules_ibfk_1" />
+        <AssociationConnector Association="Himall.Model.himall_typebrands_ibfk_2" />
+        <AssociationConnector Association="Himall.Model.himall_vshopextend_ibfk_11" />
+        <AssociationConnector Association="Himall.Model.FK_Himall_WeiActivityAward_21" />
+        <AssociationConnector Association="Himall.Model.FK_Himall_WeiActivityWinInfo_W21" />
+        <AssociationConnector Association="Himall.Model.FK_Himall_WXLog_CardLogId1" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

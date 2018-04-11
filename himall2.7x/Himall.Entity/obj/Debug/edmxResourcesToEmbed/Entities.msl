@@ -436,6 +436,7 @@
     <EntitySetMapping Name="Himall_Managers">
       <EntityTypeMapping TypeName="Himall.Model.ManagerInfo">
         <MappingFragment StoreEntitySet="Himall_Managers">
+          <ScalarProperty Name="MemberGradeId" ColumnName="MemberGradeId" />
           <ScalarProperty Name="RealName" ColumnName="RealName" />
           <ScalarProperty Name="Remark" ColumnName="Remark" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />

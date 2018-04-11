@@ -60,7 +60,7 @@ namespace Himall.Model
         /// 会员历史积分
         /// </summary>
         public long HistoryIntegral { set; get; }
-        public int MemberGradeId { get; set; }
+        public long MemberGradeId { get; set; }
 
     }
 }

@@ -1,0 +1,64 @@
+
+
+
+ 记录时间：2018-04-11 22:58:52,439 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-04-11 22:59:38,660 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-11 10:59:38 660:[当前请求URL：http://localhost:60362/；请求的参数为：；页面加载的时间：40604.4845 毫秒] 
+
+
+
+
+ 记录时间：2018-04-11 23:01:08,856 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-04-11 23:01:28,541 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-11 11:01:28 541:[当前请求URL：http://localhost:60362/；请求的参数为：；页面加载的时间：14561.413 毫秒] 
+
+
+
+
+ 记录时间：2018-04-11 23:01:49,416 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-11 11:01:49 416:[当前请求URL：http://localhost:60362/Admin/Login；请求的参数为：；页面加载的时间：9912.8358 毫秒] 
+
+
+
+
+ 记录时间：2018-04-11 23:02:00,914 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-11 11:02:00 914:[当前请求URL：http://localhost:60362/Admin/Login/login；请求的参数为：；页面加载的时间：5643.8522 毫秒] 
+
+
+
+
+ 记录时间：2018-04-11 23:02:19,908 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-11 11:02:19 908:[当前请求URL：http://localhost:60362/Admin/member/managementAuth；请求的参数为：；页面加载的时间：8322.8439 毫秒] 
+
+
+
+
+ 记录时间：2018-04-11 23:02:55,302 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-11 11:02:55 301:[当前请求URL：http://localhost:60362/Admin/Manager/update；请求的参数为：；页面加载的时间：27080.2347 毫秒] 
+
