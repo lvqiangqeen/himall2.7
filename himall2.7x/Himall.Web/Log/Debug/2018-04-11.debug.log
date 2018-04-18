@@ -62,3 +62,19 @@
 出错类：Himall.Web.MvcApplication.Application_EndRequest  
 错误描述：2018-04-11 11:02:55 301:[当前请求URL：http://localhost:60362/Admin/Manager/update；请求的参数为：；页面加载的时间：27080.2347 毫秒] 
 
+
+
+
+ 记录时间：2018-04-11 23:03:47,982 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-04-11 23:04:02,391 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-11 11:04:02 390:[当前请求URL：http://localhost:60362/；请求的参数为：；页面加载的时间：10455.0471 毫秒] 
+

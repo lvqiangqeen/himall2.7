@@ -16,3 +16,9 @@ C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\Himall.OpenApi.d
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.Web\bin\Himall.OpenApi.pdb
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\HiMall.OpenApi\obj\Debug\Himall.OpenApi.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\HiMall.OpenApi\obj\Debug\Himall.OpenApi.pdb
+E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web\bin\Himall.OpenApi.dll.config
+E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web\bin\Himall.OpenApi.dll
+E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web\bin\Himall.OpenApi.pdb
+E:\BaiduNetdiskDownload\多用户商城\himall2.7x\HiMall.OpenApi\obj\Debug\HiMall.OpenApi.csprojResolveAssemblyReference.cache
+E:\BaiduNetdiskDownload\多用户商城\himall2.7x\HiMall.OpenApi\obj\Debug\Himall.OpenApi.dll
+E:\BaiduNetdiskDownload\多用户商城\himall2.7x\HiMall.OpenApi\obj\Debug\Himall.OpenApi.pdb

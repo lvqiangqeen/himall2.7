@@ -1,0 +1,90 @@
+
+
+
+ 记录时间：2018-04-19 00:04:20,756 
+日志级别：  INFO  
+出错类：Himall.Web.Areas.Admin.Controllers.LoginController.Login  
+错误描述：用户名和密码不匹配 
+
+Himall.Core.HimallException: 用户名和密码不匹配
+
+
+
+ 记录时间：2018-04-19 00:04:28,018 
+日志级别：  INFO  
+出错类：Himall.Web.Areas.Admin.Controllers.LoginController.Login  
+错误描述：用户名和密码不匹配 
+
+Himall.Core.HimallException: 用户名和密码不匹配
+
+
+
+ 记录时间：2018-04-19 00:06:01,272 
+日志级别：  INFO  
+出错类：Himall.Web.Areas.Admin.Controllers.LoginController.Login  
+错误描述：用户名和密码不匹配 
+
+Himall.Core.HimallException: 用户名和密码不匹配
+
+
+
+ 记录时间：2018-04-19 00:06:12,910 
+日志级别：  INFO  
+出错类：Himall.Web.Areas.Admin.Controllers.LoginController.Login  
+错误描述：用户名和密码不匹配 
+
+Himall.Core.HimallException: 用户名和密码不匹配
+
+
+
+ 记录时间：2018-04-19 00:06:27,456 
+日志级别：  INFO  
+出错类：Himall.Web.Areas.Admin.Controllers.LoginController.CheckCheckCode  
+错误描述：30分钟内登录错误3次以上需要提供验证码 
+
+Himall.Core.HimallException: 30分钟内登录错误3次以上需要提供验证码
+
+
+
+ 记录时间：2018-04-19 00:06:42,455 
+日志级别：  INFO  
+出错类：Himall.Web.Areas.Admin.Controllers.LoginController.CheckCheckCode  
+错误描述：验证码错误 
+
+Himall.Core.HimallException: 验证码错误
+
+
+
+ 记录时间：2018-04-19 00:06:50,064 
+日志级别：  INFO  
+出错类：Himall.Web.Areas.Admin.Controllers.LoginController.Login  
+错误描述：用户名和密码不匹配 
+
+Himall.Core.HimallException: 用户名和密码不匹配
+
+
+
+ 记录时间：2018-04-19 00:09:56,289 
+日志级别：  INFO  
+出错类：Himall.Service.MemberGradeService.AddMemberGrade  
+错误描述：等级之间的积分不能相同 
+
+Himall.Core.HimallException: 等级之间的积分不能相同
+
+
+
+ 记录时间：2018-04-19 00:09:59,019 
+日志级别：  INFO  
+出错类：Himall.Service.MemberGradeService.AddMemberGrade  
+错误描述：已存在相同名称的等级 
+
+Himall.Core.HimallException: 已存在相同名称的等级
+
+
+
+ 记录时间：2018-04-19 00:35:30,008 
+日志级别：  INFO  
+出错类：Himall.Web.Areas.Web.Controllers.ProductController.Detail  
+错误描述：很抱歉，您查看的商品不存在，可能被转移。 
+
+Himall.Core.HimallException: 很抱歉，您查看的商品不存在，可能被转移。
