@@ -1,0 +1,508 @@
+﻿@charset "utf-8";
+body {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    outline: none;
+    border: none;
+    font-style: normal;
+}
+
+.clearfix {
+    clear: both;
+}
+
+img {
+    vertical-align: middle;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+.header {
+    height: 80px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    background-color: #000000;
+    filter: alpha(opacity=70);
+    opacity: 0.7;
+    -moz-opacity: 0.7;
+    z-index: 100;
+}
+
+.logo {
+    padding-left: 100px;
+}
+
+.nav {
+    position: absolute;
+    top: 0px;
+    left: 300px;
+    height: 80px;
+    line-height: 80px;
+}
+
+.nav ul > li {
+    display: inline;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.nav ul>li>a{
+	color:#ffffff;
+}
+
+.nav ul > li:hover {
+    font-size: 16px;
+}
+
+.contact {
+    position: absolute;
+    top: 0px;
+    right: 200px;
+    height: 80px;
+    line-height: 80px;
+}
+
+.contact div {
+    display: inline;
+    margin-right: 20px;
+}
+
+.phone_num {
+    color: #ffffff;
+}
+
+.banner {
+    height: 420px;
+    width: 100%;
+}
+
+.banner_img img {
+    height: 420px;
+    width: 100%;
+}
+
+.banner_img_item{
+    position: relative;
+    left: 50%;
+    top: -23px;
+}
+.banner_img_item span.cur{
+    background-color: #f7f7f7;
+}
+.banner_img_item span{
+    display: inline-block;
+    background-color: #666666;
+    width: 20px;
+    height:5px;
+}
+
+.budget {
+    position: absolute;
+    top: 300px;
+    left: 50%;
+    background-color: #000000;
+    color: #ffffff;
+    height: 100px;
+    width: 600px;
+    margin-left: -300px;
+    padding-left: 20px;
+    filter: alpha(opacity=70);
+    opacity: 0.7;
+    -moz-opacity: 0.7;
+}
+
+#consult_name {
+    height: 30px;
+    width: 130px;
+    margin-right: 10px;
+    padding: 2px;
+}
+
+#consult_phone {
+    height: 30px;
+    width: 220px;
+    margin-right: 10px;
+    padding: 2px;
+}
+
+#consult_btn {
+    height: 34px;
+    width: 130px;
+    background-color: #2e6da4;
+    color: #ffffff;
+}
+
+.taocan_menu {
+    background-color: #f7f7f7;
+    height: 150px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.taocan_menu div {
+    height: 100px;
+    width: 160px;
+    background-color: #ffffff;
+    margin-right: 25px;
+    color: #777777;
+}
+
+.taocan_menu div img {
+    display: block;
+    margin-left: 60px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 35px;
+}
+
+.taocan_menu div a {
+    color: #000;
+}
+
+.taocan1 {
+    height: 650px;
+    width: 100%;
+}
+
+.taocan_desc {
+    position: relative;
+    left: 50%;
+    top: 20px;
+    margin-left: -300px;
+    width: 600px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+}
+
+.taocan_hr {
+    height: 1px;
+    border: none;
+    border-top: 1px solid #555555;
+    display: inline-block;
+    width: 30%;
+}
+
+.taocan1_img {
+    position: relative;
+    left: 50%;
+    top: 80px;
+    margin-left: -480px;
+    width: 960px;
+}
+
+.taocan1_normal {
+    text-align: center;
+}
+
+.taocan1_big {
+    text-align: center;
+}
+
+.taocan1_normal > span {
+    width: 280px;
+    height: 140px;
+    background-color: #9d9d9d;
+    display: inline-block;
+    margin: 5px;
+}
+.taocan1_normal > span img {
+    width: 280px;
+    height: 140px;
+   vertical-align: super;
+}
+
+.taocan1_big > span {
+    width: 280px;
+    height: 180px;
+    background-color: #9d9d9d;
+    display: inline-block;
+    margin: 5px;
+}
+
+.taocan1_big > span img {
+    width: 280px;
+    height: 180px;
+    vertical-align: super;
+}
+
+.taocan2 {
+    height: 650px;
+    width: 100%;
+    background-color: #f7f7f7;
+}
+
+.desc {
+    width: 30%;
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 20px;
+}
+
+.taocan2_item {
+    font-size: 16px;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+.taocan2_item>a:hover {
+    color: #d58512;
+}
+
+.active>a {
+    color: #d58512;
+}
+
+.taocan2_content {
+    position: relative;
+    left: 50%;
+    top: 80px;
+    margin-left: -480px;
+    width: 1000px;
+    margin-top: 20px;
+}
+
+.taocan2_imgs {
+    display: inline-block;
+    border: solid 3px #d58512;
+}
+
+.taocan2_imgs img {
+    width: 850px;
+    height: 400px;
+}
+
+.switch {
+    display: inline;
+}
+
+.switch img {
+    width: 55px;
+    height: 90px;
+}
+.taocan1_new{
+    position: relative;
+    left: 50%;
+    top: 80px;
+    margin-left: -500px;
+    width: 1100px;
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    flex-flow: wrap;
+}
+.taocan1_new div{
+    height: 240px;
+    width: 200px;
+    background-color: #9d9d9d;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+.taocan1_new div img {
+    height: 240px;
+    width: 200px;
+    display: block;
+}
+.taocan2_links{
+    width: 850px;
+    height:450px ;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: inline-block;
+    text-align: center;
+}
+.taocan2_links div span{
+    display: inline-block;
+    margin: 5px;
+}
+.footer1{
+    height: 230px;
+    width: 100%;
+    background-color: #122b40;
+    color: #9d9d9d;
+}
+.footer_content{
+    position: relative;
+    top:10px;
+    left: 50%;
+    margin-left: -40%;
+    border-bottom: solid 1px #ffffff;width: 80%;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+}
+.footer_menu{
+    display: inline-block;
+}
+.footer_menu div{
+    display: inline-block;
+    margin-right: 30px;
+    margin-top: 40px;
+}
+.menu_title{
+    font-size: 14px;
+    color: #ffffff;
+    display: block;
+}
+.menu_item>li a{
+    font-size: 12px;
+    line-height: 20px;
+	color:#fff;
+}
+.footer_img{
+    display: inline-block;
+    margin-top: 40px;
+}
+.footer_img img{
+    vertical-align: super;
+}
+.sub_banner_img{
+    padding-left: 100px;
+    padding-right: 100px;
+    background-color: #122b40;
+
+}
+.sub_banner_img img{
+    height: 600px;
+    width:100%;
+}
+.cur_position{
+    height: 50px;
+    padding-left: 100px;
+    line-height: 50px;
+    font-size: 14px;
+    color: #666;
+}
+.cur_position span{
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.chengluo{
+    text-align: center;
+    background-color: #f7f7f7;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.chengluo img{
+    height: 120px;
+    width:120px;
+    margin-right: 100px;
+}
+.main_container{
+    padding-top: 20px;
+}
+.taocan_title{
+    text-align: center;
+}
+.yuyue{
+    width: 100%;
+    padding-top: 20px;
+}
+.yuyue>div{
+    position: relative;
+    top: 0;
+    left: 50%;
+    margin-left: -40%;
+    background-color: #d5d5d5;
+    height: 100px;
+    width: 80%;
+
+}
+.main_content{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.main_content>div{
+    position: relative;
+    top: 0;
+    left: 50%;
+    margin-left: -40%;
+    width: 80%;
+}
+.yuyue_btn1{
+    width: 90%;
+    height: 60%;
+    background-color: #666;
+    color: #fff;
+    font-size: 30px;
+    border-radius: 5px;
+}
+.yuyue_btn2{
+    width: 80%;
+    height: 60%;
+    background-color: #666;
+    color: #fff;
+    font-size: 30px;
+    border-radius: 5px;
+}
+.yuyue table span{
+    display: block;
+    margin-bottom: 6px;
+}
+.yuyue input{
+    height:30px;
+    width: 65%;
+}
+.taocan_info{
+    position: absolute;
+    top:280px;
+    right: 100px;
+    width: 400px;
+    height: 280px;
+    padding-left: 20px;
+    padding-top: 40px;
+}
+.action_btn{
+    width: 150px;
+    height:40px;
+    background-color: #eea236;
+    font-size: 16px;
+    color: #ffffff;
+    margin-right: 20px;
+}
+.banner_title{
+    font-size: 20px;font-weight: 600;display: block;
+}
+.banner_title_other{
+    font-size:14px;
+    color: #ffffff;
+    margin-right: 20px;
+}
+.taocan_price{
+    font-size: 20px;
+}
+.detail_type{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.detail_type span{
+    height: 30px;
+    width: 100px;
+    display: inline-block;
+    border: solid 1px #ffffff;
+    margin-right: 20px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 14px;
+    color: #ffffff;
+}
+.detail_type span.detail_type_active{
+    border: solid 1px #eea236;
+    color: #d58512;
+}

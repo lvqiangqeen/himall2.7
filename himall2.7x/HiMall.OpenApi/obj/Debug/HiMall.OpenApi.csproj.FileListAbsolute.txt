@@ -22,3 +22,9 @@ E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web\bin\Himall.OpenApi
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\HiMall.OpenApi\obj\Debug\HiMall.OpenApi.csprojResolveAssemblyReference.cache
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\HiMall.OpenApi\obj\Debug\Himall.OpenApi.dll
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\HiMall.OpenApi\obj\Debug\Himall.OpenApi.pdb
+D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\Himall.Web\bin\Himall.OpenApi.dll.config
+D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\Himall.Web\bin\Himall.OpenApi.dll
+D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\Himall.Web\bin\Himall.OpenApi.pdb
+D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\HiMall.OpenApi\obj\Debug\HiMall.OpenApi.csprojResolveAssemblyReference.cache
+D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\HiMall.OpenApi\obj\Debug\Himall.OpenApi.dll
+D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\HiMall.OpenApi\obj\Debug\Himall.OpenApi.pdb

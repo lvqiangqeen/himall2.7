@@ -30,3 +30,10 @@ E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.CommonModel\bin\Debug\
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.CommonModel\bin\Debug\Newtonsoft.Json.xml
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.CommonModel\obj\Debug\Himall.CommonModel.dll
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.CommonModel\obj\Debug\Himall.CommonModel.pdb
+D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\Himall.CommonModel\bin\Debug\Himall.CommonModel.dll
+D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\Himall.CommonModel\bin\Debug\Himall.CommonModel.pdb
+D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\Himall.CommonModel\bin\Debug\Newtonsoft.Json.dll
+D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\Himall.CommonModel\bin\Debug\Newtonsoft.Json.xml
+D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\Himall.CommonModel\obj\Debug\Himall.CommonModel.csprojResolveAssemblyReference.cache
+D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\Himall.CommonModel\obj\Debug\Himall.CommonModel.dll
+D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\Himall.CommonModel\obj\Debug\Himall.CommonModel.pdb
