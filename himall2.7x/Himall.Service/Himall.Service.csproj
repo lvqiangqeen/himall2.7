@@ -133,6 +133,7 @@
     <Compile Include="Product\SkuService.cs" />
     <Compile Include="Shop\AppMessageService.cs" />
     <Compile Include="Shop\ShopAppletService.cs" />
+    <Compile Include="Site\TaoCanService.cs" />
     <Compile Include="SpecificationService.cs" />
     <Compile Include="Job\BrokerageJob.cs" />
     <Compile Include="Job\FightGroupJob.cs" />

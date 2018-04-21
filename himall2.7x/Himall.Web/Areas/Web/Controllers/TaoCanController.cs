@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Himall.Model;
+using Himall.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +13,9 @@ namespace Himall.Web.Areas.Web.Controllers
 		// GET: Web/TaoCan
 		public ActionResult Index()
 		{
+			TaoCanService taocanService = new TaoCanService();
+			List<TaoCanMenu> taocanMenuList = taocanService.GetTaoCanMenu();
+			ViewBag.taocanMenuList = taocanMenuList;
 			return View();
 		}
 

@@ -330,6 +330,7 @@
     <Compile Include="Models\ShopBranchInfo.cs" />
     <Compile Include="Models\ShopRenewRecord.cs" />
     <Compile Include="Models\StatisticsPendingSettlement.cs" />
+    <Compile Include="Models\TaoCanMenu.cs" />
     <Compile Include="Models\VirtualOrderInfo.cs" />
     <Compile Include="OrderExpressInfo.cs">
       <DependentUpon>Entities.tt</DependentUpon>
