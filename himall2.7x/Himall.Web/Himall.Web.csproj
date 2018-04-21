@@ -356,6 +356,7 @@
     <Compile Include="Areas\SellerAdmin\Models\TypeAttributesModel.cs" />
     <Compile Include="Areas\SellerAdmin\Models\TemplateVisualization\VTemplateEditModel.cs" />
     <Compile Include="Areas\Web\Controllers\RegisterActivityController.cs" />
+    <Compile Include="Areas\Web\Controllers\TaoCanController.cs" />
     <Compile Include="Areas\Web\Models\CartCartModel.cs" />
     <Compile Include="Areas\Web\Models\HomeBrands.cs" />
     <Compile Include="Areas\Web\Models\ProductActives.cs" />
@@ -3649,6 +3650,8 @@
     <Content Include="Areas\Web\Content\taocan\content\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Areas\Web\Content\taocan\content\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Areas\Web\Content\taocan\content\images\装修套餐2.psd" />
+    <Content Include="Areas\Web\Views\TaoCan\Index.cshtml" />
+    <Content Include="Areas\Web\Views\TaoCan\TaoCanInfo.cshtml" />
     <None Include="Properties\PublishProfiles\Deploy.pubxml" />
     <Content Include="Areas\Admin\Views\PageSettings\AddHomeFloorDetail7.cshtml" />
     <Content Include="Areas\Admin\Views\PageSettings\AddHomeFloorDetail8.cshtml" />
