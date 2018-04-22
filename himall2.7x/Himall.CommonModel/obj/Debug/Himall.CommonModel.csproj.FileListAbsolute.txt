@@ -24,12 +24,6 @@ C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.CommonModel\bin\Debug\Ne
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.CommonModel\bin\Debug\Newtonsoft.Json.xml
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.CommonModel\obj\Debug\Himall.CommonModel.dll
 C:\Users\QINWEI\Desktop\2.7\himall2.7\himall2.7x\Himall.CommonModel\obj\Debug\Himall.CommonModel.pdb
-E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.CommonModel\bin\Debug\Himall.CommonModel.dll
-E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.CommonModel\bin\Debug\Himall.CommonModel.pdb
-E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.CommonModel\bin\Debug\Newtonsoft.Json.dll
-E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.CommonModel\bin\Debug\Newtonsoft.Json.xml
-E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.CommonModel\obj\Debug\Himall.CommonModel.dll
-E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.CommonModel\obj\Debug\Himall.CommonModel.pdb
 D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\Himall.CommonModel\bin\Debug\Himall.CommonModel.dll
 D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\Himall.CommonModel\bin\Debug\Himall.CommonModel.pdb
 D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\Himall.CommonModel\bin\Debug\Newtonsoft.Json.dll
@@ -37,3 +31,10 @@ D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\Himall.CommonModel\bin\Debug\Newt
 D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\Himall.CommonModel\obj\Debug\Himall.CommonModel.csprojResolveAssemblyReference.cache
 D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\Himall.CommonModel\obj\Debug\Himall.CommonModel.dll
 D:\WorkProjects\WorkFiles\himall2.7\himall2.7x\Himall.CommonModel\obj\Debug\Himall.CommonModel.pdb
+E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.CommonModel\bin\Debug\Himall.CommonModel.dll
+E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.CommonModel\bin\Debug\Himall.CommonModel.pdb
+E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.CommonModel\bin\Debug\Newtonsoft.Json.dll
+E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.CommonModel\bin\Debug\Newtonsoft.Json.xml
+E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.CommonModel\obj\Debug\Himall.CommonModel.csprojResolveAssemblyReference.cache
+E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.CommonModel\obj\Debug\Himall.CommonModel.dll
+E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.CommonModel\obj\Debug\Himall.CommonModel.pdb
