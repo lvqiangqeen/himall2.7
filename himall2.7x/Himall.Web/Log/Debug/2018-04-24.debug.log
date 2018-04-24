@@ -406,3 +406,91 @@
 出错类：Himall.Web.MvcApplication.Application_EndRequest  
 错误描述：2018-04-24 08:55:34 455:[当前请求URL：http://localhost:60362/Admin/member/managementAuth；请求的参数为：；页面加载的时间：15888 毫秒] 
 
+
+
+
+ 记录时间：2018-04-24 23:49:11,882 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-04-24 23:49:30,342 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-24 11:49:30 341:[当前请求URL：http://localhost:60362/；请求的参数为：；页面加载的时间：15035.0064 毫秒] 
+
+
+
+
+ 记录时间：2018-04-24 23:49:55,715 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-24 11:49:55 714:[当前请求URL：http://localhost:60362/Admin/Login；请求的参数为：；页面加载的时间：13563.0672 毫秒] 
+
+
+
+
+ 记录时间：2018-04-24 23:49:58,833 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-24 11:49:58 833:[当前请求URL：http://localhost:60362/Admin/Login；请求的参数为：；页面加载的时间：5194.9985 毫秒] 
+
+
+
+
+ 记录时间：2018-04-24 23:58:07,441 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-24 11:58:07 441:[当前请求URL：http://localhost:60362/Product/Detail/704；请求的参数为：；页面加载的时间：151122.858 毫秒] 
+
+
+
+
+ 记录时间：2018-04-24 23:58:08,903 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-24 11:58:08 903:[当前请求URL：http://localhost:60362/Product/Details/704；请求的参数为：；页面加载的时间：108669.4639 毫秒] 
+
+
+
+
+ 记录时间：2018-04-24 23:59:12,767 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-24 11:59:12 766:[当前请求URL：http://localhost:60362/Product/GetProductDetails；请求的参数为：；页面加载的时间：5495.8462 毫秒] 
+
+
+
+
+ 记录时间：2018-04-24 23:59:12,906 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-24 11:59:12 905:[当前请求URL：http://localhost:60362/product/GetHotProduct?productId=705&categoryId=10；请求的参数为：productId=705&categoryId=10；页面加载的时间：5623.1833 毫秒] 
+
+
+
+
+ 记录时间：2018-04-24 23:59:13,438 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-24 11:59:13 438:[当前请求URL：http://localhost:60362/product/GetProductActives；请求的参数为：；页面加载的时间：6155.5995 毫秒] 
+
+
+
+
+ 记录时间：2018-04-24 23:59:13,785 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-24 11:59:13 785:[当前请求URL：http://localhost:60362/Login/GetCheckCode；请求的参数为：；页面加载的时间：6504.5271 毫秒] 
+
+
+
+
+ 记录时间：2018-04-24 23:59:14,283 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-24 11:59:14 283:[当前请求URL：http://localhost:60362/Login/GetOAuthList?_=1524585547182；请求的参数为：_=1524585547182；页面加载的时间：7001.8496 毫秒] 
+

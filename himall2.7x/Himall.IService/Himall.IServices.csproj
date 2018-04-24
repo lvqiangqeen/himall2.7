@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CacheKeyCollection.cs" />
+    <Compile Include="IManager\IManagersGrade.cs" />
     <Compile Include="IMarket\IFullDiscountService.cs" />
     <Compile Include="IOrder\IVirtualOrderService.cs" />
     <Compile Include="IProduct\ISearchProductService.cs" />

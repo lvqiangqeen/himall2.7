@@ -265,6 +265,7 @@
     <Compile Include="Areas\Admin\Controllers\AdminPublicController.cs" />
     <Compile Include="Areas\Admin\Controllers\BillingController.cs" />
     <Compile Include="Areas\Admin\Controllers\FullDiscountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ManagersGradeController.cs" />
     <Compile Include="Areas\Admin\Controllers\MarketingController.cs" />
     <Compile Include="Areas\Admin\Controllers\RegionAreaController.cs" />
     <Compile Include="Areas\Admin\Controllers\ShopWithDrawController.cs" />
@@ -4024,6 +4025,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Templates\common\style\fonts\" />
+    <Folder Include="Areas\Admin\Views\ManagersGrade\" />
     <Folder Include="Areas\Admin\Views\MobileHomeProducts\" />
     <Folder Include="Areas\Admin\Views\SlideImageSettings\" />
     <Folder Include="Areas\Mobile\Views\FightGroupM\" />

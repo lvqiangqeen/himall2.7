@@ -10,6 +10,6 @@ namespace Himall.Model
         /// 是否可以删除
         /// <para>拥有关联礼品时不可删除</para>
         /// </summary>
-        public bool IsNoDelete { get; set; }
+        public bool IsNoDelete { get; set;  }
     }
 }

@@ -1,0 +1,72 @@
+
+
+
+ 记录时间：2018-04-25 00:00:03,267 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-25 12:00:03 266:[当前请求URL：http://localhost:60362/Product/Detail/705；请求的参数为：；页面加载的时间：6268.3903 毫秒] 
+
+
+
+
+ 记录时间：2018-04-25 00:06:51,860 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-25 12:06:51 860:[当前请求URL：http://localhost:60362/Product/GetProductDetails；请求的参数为：；页面加载的时间：407979.1961 毫秒] 
+
+
+
+
+ 记录时间：2018-04-25 00:06:52,125 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-25 12:06:52 125:[当前请求URL：http://localhost:60362/Product/GetConsultationByProduct?pId=705&pageNo=1&pageSize=10；请求的参数为：pId=705&pageNo=1&pageSize=10；页面加载的时间：408203.7929 毫秒] 
+
+
+
+
+ 记录时间：2018-04-25 00:06:52,373 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-25 12:06:52 372:[当前请求URL：http://localhost:60362/Login/GetCheckCode；请求的参数为：；页面加载的时间：406341.8398 毫秒] 
+
+
+
+
+ 记录时间：2018-04-25 00:06:52,910 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-25 12:06:52 910:[当前请求URL：http://localhost:60362/product/GetHotProduct?productId=705&categoryId=10；请求的参数为：productId=705&categoryId=10；页面加载的时间：408925.7138 毫秒] 
+
+
+
+
+ 记录时间：2018-04-25 00:06:53,368 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-25 12:06:53 368:[当前请求URL：http://localhost:60362/Login/GetOAuthList?_=1524585603838；请求的参数为：_=1524585603838；页面加载的时间：407337.4878 毫秒] 
+
+
+
+
+ 记录时间：2018-04-25 00:06:53,954 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-25 12:06:53 954:[当前请求URL：http://localhost:60362/product/GetProductActives；请求的参数为：；页面加载的时间：410003.5831 毫秒] 
+
+
+
+
+ 记录时间：2018-04-25 00:07:21,055 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-25 12:07:21 055:[当前请求URL：http://localhost:60362/Admin/member/managementAuth；请求的参数为：；页面加载的时间：7965.3756 毫秒] 
+
+
+
+
+ 记录时间：2018-04-25 00:09:03,384 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-04-25 12:09:03 384:[当前请求URL：http://localhost:60362/Admin/MemberGrade/management；请求的参数为：；页面加载的时间：7582.9333 毫秒] 
+

@@ -238,6 +238,7 @@
     <Compile Include="IntegralMallAdInfo.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="ManagersGrade.cs" />
     <Compile Include="MemberActivityDegreeInfo.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
