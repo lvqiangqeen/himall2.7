@@ -301,7 +301,12 @@ namespace Himall.Web.Areas.Admin.Controllers
             var memberLabels = _iMemberService.GetMemberLabels(id);
             return Json(new { Success = true, Data = memberLabels });
         }
-
+        //根据managerid获取等级
+        public JsonResult GetGradeTypeLabel(long id)
+        {
+            var memberLabels = _iMemberService.GetMemberLabels(id);
+            return Json(new { Success = true, Data = memberLabels });
+        }
         public JsonResult SetMemberLabel(long id, string labelids)
         {
             List<long> ids = new List<long>();

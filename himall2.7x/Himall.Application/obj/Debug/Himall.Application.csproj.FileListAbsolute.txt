@@ -34,3 +34,9 @@ E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web\bin\Himall.Applica
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Application\obj\Debug\Himall.Application.csprojResolveAssemblyReference.cache
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Application\obj\Debug\Himall.Application.dll
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Application\obj\Debug\Himall.Application.pdb
+E:\商城\himall2.7\himall2.7x\Himall.Web\bin\Himall.Application.dll.config
+E:\商城\himall2.7\himall2.7x\Himall.Web\bin\Himall.Application.dll
+E:\商城\himall2.7\himall2.7x\Himall.Web\bin\Himall.Application.pdb
+E:\商城\himall2.7\himall2.7x\Himall.Application\obj\Debug\Himall.Application.csprojResolveAssemblyReference.cache
+E:\商城\himall2.7\himall2.7x\Himall.Application\obj\Debug\Himall.Application.dll
+E:\商城\himall2.7\himall2.7x\Himall.Application\obj\Debug\Himall.Application.pdb

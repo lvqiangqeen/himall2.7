@@ -2746,6 +2746,7 @@
     <Property Name="Integral" Type="Int32" Nullable="false" />
     <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
     <Property Name="Discount" Type="Decimal" Nullable="false" />
+    <Property Name="GradeType" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="MemberIntegral">
     <Key>

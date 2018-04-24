@@ -17,7 +17,8 @@
                 <th class="tac">会员等级</th>
                 <th class="tac">需要积分</th>
                 <th class="tac">可享折扣率</th>
-                <th width="500" class="tac">备注</th>
+                <th class="tac" width="200">等级分类</th>
+                <th width="300" class="tac">备注</th>
                 <th class="td-operate tac">操作</th>
             </tr>
         </thead>
@@ -39,6 +40,20 @@
                         </td>
                         <td>
                             @grade.Discount
+                        </td>
+                        <td>
+                            @if (grade.GradeType == 0)
+                            {
+                                @:会员
+                            }
+                            else if (grade.GradeType == 1)
+                            {
+                                @:工长，设计师，装企
+                            }
+                            else if (grade.GradeType == 2)
+                            {
+                                @:总经销
+                            }
                         </td>
                         <td>@grade.Remark</td>
                         <td class="td-operate">

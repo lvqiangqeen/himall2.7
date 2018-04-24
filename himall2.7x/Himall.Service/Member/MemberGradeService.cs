@@ -20,7 +20,7 @@ namespace Himall.Service
         {
             if (model.Integral < 0)
                 throw new HimallException("积分不能为负数");
-            if (Context.MemberGrade.Any(a => a.Integral == model.Integral))
+            if (Context.MemberGrade.Any(a => a.Integral == model.Integral && a.GradeType==model.GradeType))
             {
                 throw new HimallException("等级之间的积分不能相同");
             }
@@ -34,7 +34,7 @@ namespace Himall.Service
 
         public void UpdateMemberGrade(MemberGrade model)
         {
-            if (Context.MemberGrade.Any(a => a.Integral == model.Integral && a.Id != model.Id))
+            if (Context.MemberGrade.Any(a => a.Integral == model.Integral && a.GradeType==model.GradeType && a.Id != model.Id))
             {
                 throw new HimallException("等级之间的积分不能相同");
             }

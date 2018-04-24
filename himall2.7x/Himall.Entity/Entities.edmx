@@ -1206,6 +1206,7 @@
           <Property Name="Integral" Type="int" Nullable="false" />
           <Property Name="Remark" Type="varchar" MaxLength="1000" />
           <Property Name="Discount" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+		  <Property Name="GradeType" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Himall_MemberGroup">
           <Key>
@@ -7667,6 +7668,7 @@
           <Property Name="Integral" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="Discount" Type="Decimal" Nullable="false" />
+		  <Property Name="GradeType" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="MemberIntegral">
           <Key>
@@ -11425,6 +11427,7 @@
                 <ScalarProperty Name="Integral" ColumnName="Integral" />
                 <ScalarProperty Name="GradeName" ColumnName="GradeName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+				<ScalarProperty Name="GradeType" ColumnName="GradeType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -20,5 +20,7 @@ namespace Himall.Model
         public int Integral { get; set; }
         public string Remark { get; set; }
         public decimal Discount { get; set; }
+        public int GradeType { get; set; }
+        
     }
 }

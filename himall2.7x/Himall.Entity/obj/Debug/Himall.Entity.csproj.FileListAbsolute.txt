@@ -34,3 +34,9 @@ E:\BaiduNetdiskDownload\多用户商城\Web\Himall.Web\bin\Himall.Entity.pdb
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Entity\obj\Debug\Himall.Entity.csprojResolveAssemblyReference.cache
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Entity\obj\Debug\Himall.Entity.dll
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Entity\obj\Debug\Himall.Entity.pdb
+E:\商城\himall2.7\Web\Himall.Web\bin\Himall.Entity.dll.config
+E:\商城\himall2.7\Web\Himall.Web\bin\Himall.Entity.dll
+E:\商城\himall2.7\Web\Himall.Web\bin\Himall.Entity.pdb
+E:\商城\himall2.7\himall2.7x\Himall.Entity\obj\Debug\Himall.Entity.csprojResolveAssemblyReference.cache
+E:\商城\himall2.7\himall2.7x\Himall.Entity\obj\Debug\Himall.Entity.dll
+E:\商城\himall2.7\himall2.7x\Himall.Entity\obj\Debug\Himall.Entity.pdb

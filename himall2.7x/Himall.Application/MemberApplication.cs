@@ -534,6 +534,7 @@ namespace Himall.Application
             foreach (var m in members.Models)
             {
                 var memberIntegral = MemberIntegralApplication.GetMemberIntegral(m.Id);
+                //获取等级
                 m.GradeName = MemberGradeApplication.GetMemberGradeByIntegral(grades, memberIntegral.HistoryIntegrals).GradeName;
                 if (memberIntegral != null)
                 {

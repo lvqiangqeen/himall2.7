@@ -1193,6 +1193,7 @@
           <ScalarProperty Name="Integral" ColumnName="Integral" />
           <ScalarProperty Name="GradeName" ColumnName="GradeName" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="GradeType" ColumnName="GradeType" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

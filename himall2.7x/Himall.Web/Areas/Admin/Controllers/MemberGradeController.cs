@@ -62,10 +62,10 @@ namespace Himall.Web.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult Add(MemberGrade model)
         {
-            if (!(1 <= model.Discount && model.Discount <= 10))
-            {
-                return Json(new Result() { success = false, msg = "可享受折扣率允许范围1-10折！" });
-            }
+            //if (!(1 <= model.Discount && model.Discount <= 10))
+            //{
+            //    return Json(new Result() { success = false, msg = "可享受折扣率允许范围1-10折！" });
+            //}
             string erroMsg;
             if (!CheckMemberGrade(model, out erroMsg))
             {
@@ -78,10 +78,10 @@ namespace Himall.Web.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult Edit(MemberGrade model)
         {
-            if (!(1 <= model.Discount && model.Discount <= 10))
-            {
-                return Json(new Result() { success = false, msg = "可享受折扣率允许范围1-10折！" });
-            }
+            //if (!(1 <= model.Discount && model.Discount <= 10))
+            //{
+            //    return Json(new Result() { success = false, msg = "可享受折扣率允许范围1-10折！" });
+            //}
             string erroMsg;
             if (!CheckMemberGrade(model, out erroMsg))
             {

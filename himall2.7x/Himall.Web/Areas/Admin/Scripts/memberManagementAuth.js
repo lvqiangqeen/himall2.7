@@ -199,7 +199,7 @@ function query() {
         {
             field: "operation", operation: true, title: "操作",
             formatter: function (value, row, index) {
-                debugger
+                
                 var id = row.Id.toString();
                 var html = ["<span class=\"btn-a\">"];
                 html.push("<a onclick=\"AddLabel('" + id + "');\">编辑权限</a>");
