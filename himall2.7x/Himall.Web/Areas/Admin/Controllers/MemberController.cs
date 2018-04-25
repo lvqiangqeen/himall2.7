@@ -20,11 +20,14 @@ namespace Himall.Web.Areas.Admin.Controllers
 {
     public class MemberController : BaseAdminController
     {
+        //获取商户信息
+        IManagerService _iManagerService;
         IMemberService _iMemberService;
         IRegionService _iRegionService;
         IMemberLabelService _iMemberLabelService;
-        public MemberController(IMemberService iMemberService, IRegionService iRegionService, IMemberLabelService iMemberLabelService)
+        public MemberController(IManagerService iManagerService, IMemberService iMemberService, IRegionService iRegionService, IMemberLabelService iMemberLabelService)
         {
+            _iManagerService = iManagerService;
             _iMemberService = iMemberService;
             _iRegionService = iRegionService;
             _iMemberLabelService = iMemberLabelService;
@@ -67,19 +70,19 @@ namespace Himall.Web.Areas.Admin.Controllers
             return Json(model);
         }
 
-        [Description("管理授权")]
+        [Description("商家类型分配")]
         public ActionResult ManagementAuth()
         {
             var pageModel = _iMemberLabelService.GetMemberLabelList(new LabelQuery() { });
             ViewBag.LabelInfos = pageModel.Models.ToList();
-            var grades = MemberGradeApplication.GetMemberGradeList();
+            var grades = MemberGradeApplication.GetManageGradeList();
             return View(grades);
         }
 
         public ActionResult ManagementList(int page, string keywords, int rows)
         {
             var result = ManagerApplication.GetMemberList(new ManagerQuery() {
-               
+                keyWords = keywords,
                 PageNo = page,
                 PageSize = rows
             });
@@ -301,11 +304,11 @@ namespace Himall.Web.Areas.Admin.Controllers
             var memberLabels = _iMemberService.GetMemberLabels(id);
             return Json(new { Success = true, Data = memberLabels });
         }
-        //根据managerid获取等级
+        //根据managerid获取商户类型
         public JsonResult GetGradeTypeLabel(long id)
         {
-            var memberLabels = _iMemberService.GetMemberLabels(id);
-            return Json(new { Success = true, Data = memberLabels });
+            var Manager = _iManagerService.GetmSellerManager(id);
+            return Json(new { Success = true, MemberGradeId = Manager.MemberGradeId , BondMoney= Manager.BondMoney });
         }
         public JsonResult SetMemberLabel(long id, string labelids)
         {

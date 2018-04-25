@@ -28,6 +28,10 @@ namespace Himall.Service
         public UserMemberInfo GetMemberByName(string userName)
         {
             UserMemberInfo result = Context.UserMemberInfo.FirstOrDefault(d=>d.UserName== userName);
+            if (result == null)
+            {
+                result = new UserMemberInfo();
+            }
             return result;
         }
 
@@ -557,9 +561,24 @@ namespace Himall.Service
             return memberinfo;
         }
 
-        private string GetMemberGrade(int historyIntegrals)
+        private string GetMemberGrade(int historyIntegrals,int id)
         {
-            var grade = Context.MemberGrade.OrderByDescending(a => a.Integral).FirstOrDefault(a => a.Integral <= historyIntegrals);
+            var member = Context.UserMemberInfo.Where(a => a.Id == id).FirstOrDefault();
+            var manager = Context.ManagerInfo.Where(a => a.UserName == member.UserName).FirstOrDefault();
+            long GradeType = 0;
+            var bondmoney = 0;
+            MemberGrade grade = new MemberGrade();
+            if (manager != null)
+            {
+                GradeType = manager.MemberGradeId;
+                bondmoney = manager.BondMoney;
+                grade = Context.MemberGrade.Where(a => a.GradeType == GradeType && a.BondMoney == bondmoney).OrderByDescending(a => a.Integral).FirstOrDefault(a => a.Integral <= historyIntegrals);
+            }
+            else
+            {
+                grade = Context.MemberGrade.Where(a=>a.GradeType==0 && a.BondMoney==0).OrderByDescending(a => a.Integral).FirstOrDefault(a => a.Integral <= historyIntegrals);
+            }
+            
             if (grade == null)
             {
                 return "Vip0";
@@ -584,7 +603,7 @@ namespace Himall.Service
             UserCenterModel model = new UserCenterModel();
             //  model.Expenditure = context.UserMemberInfo.FindById(id).Expenditure;
             var historyIntegral = Context.MemberIntegral.Where(a => a.MemberId == id).Select(a => a.HistoryIntegrals).FirstOrDefault();
-            model.GradeName = GetMemberGrade(historyIntegral);
+            model.GradeName = GetMemberGrade(historyIntegral, id);
             model.Intergral = Context.MemberIntegral.Where(a => a.MemberId == id).Select(a => a.AvailableIntegrals).FirstOrDefault();
             model.UserCoupon = Context.CouponRecordInfo.Count(a => a.UserId == id && a.CounponStatus == CouponRecordInfo.CounponStatuses.Unuse && a.Himall_Coupon.EndTime > DateTime.Now);
             model.UserCoupon += Context.ShopBonusReceiveInfo.Count(p => p.UserId == id && p.State == ShopBonusReceiveInfo.ReceiveState.NotUse && p.Himall_ShopBonusGrant.Himall_ShopBonus.BonusDateEnd > DateTime.Now);

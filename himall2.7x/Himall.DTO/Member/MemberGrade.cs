@@ -12,5 +12,7 @@ namespace Himall.DTO
         public string GradeName { get; set; }
         public int Integral { get; set; }
         public string Remark { get; set; }
+        public int GradeType { get; set; }
+        public int BondMoney { get; set; }
     }
 }

@@ -63,6 +63,11 @@ namespace Himall.IServices
         /// <returns></returns>
         ManagerInfo GetSellerManager(long userId);
         /// <summary>
+        /// 获取商家信息
+        /// </summary>
+        /// <returns></returns>
+        ManagerInfo GetmSellerManager(long userId);
+        /// <summary>
         /// 添加一个平台管理员
         /// </summary>
         /// <param name="model"></param>

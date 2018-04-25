@@ -18,7 +18,8 @@
                 <th class="tac">需要积分</th>
                 <th class="tac">可享折扣率</th>
                 <th class="tac" width="200">等级分类</th>
-                <th width="300" class="tac">备注</th>
+                <th class="tac">保证金</th>
+                <th width="200" class="tac">备注</th>
                 <th class="td-operate tac">操作</th>
             </tr>
         </thead>
@@ -44,7 +45,7 @@
                         <td>
                             @if (grade.GradeType == 0)
                             {
-                                @:会员
+                                @:普通商家
                             }
                             else if (grade.GradeType == 1)
                             {
@@ -55,6 +56,7 @@
                                 @:总经销
                             }
                         </td>
+                        <td>@grade.BondMoney</td>
                         <td>@grade.Remark</td>
                         <td class="td-operate">
                             <span class="btn-a"><a href="edit/@grade.Id">编辑</a></span>

@@ -17,6 +17,7 @@ namespace Himall.Application
    public   class ManagerApplication
     {
         private static IManagerService _iManagerService = ObjectContainer.Current.Resolve<IManagerService>();
+        private static IMemberService _iMemberService= ObjectContainer.Current.Resolve<IMemberService>();
         /// <summary>
         /// 更新店铺状态
         /// </summary>
@@ -230,7 +231,9 @@ namespace Himall.Application
         {
             return  _iManagerService.GetSellerManager(userName);
         }
-
+        /// <summary>
+        /// 获取商家信息列表
+        /// </summary>
         public static QueryPageModel<ManagerInfo> GetMemberList(ManagerQuery query)
         {
             var list = _iManagerService.GetManagersList(query);
@@ -238,8 +241,10 @@ namespace Himall.Application
             var grades = MemberGradeApplication.GetMemberGradeList();
             foreach (var m in members.Models)
             {
-                var memberIntegral = MemberIntegralApplication.GetMemberIntegral(m.Id);
-                m.GradeName = MemberGradeApplication.GetMemberGradeByIntegral(grades, memberIntegral.HistoryIntegrals).GradeName;
+                //获取用户积分
+                var member = _iMemberService.GetMemberByName(m.UserName);
+                var memberIntegral = MemberIntegralApplication.GetMemberIntegral(member.Id);
+                m.GradeName = MemberGradeApplication.GetMemberGradeByIntegralandType(grades, memberIntegral.HistoryIntegrals, Convert.ToInt32(m.MemberGradeId),m.BondMoney).GradeName;
                 if (memberIntegral != null)
                 {
                     m.AvailableIntegral = memberIntegral.AvailableIntegrals;

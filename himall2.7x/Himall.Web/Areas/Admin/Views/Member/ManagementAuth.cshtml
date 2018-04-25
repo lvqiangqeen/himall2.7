@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "管理授权";
+    ViewBag.Title = "商家管理";
     List<Himall.Model.LabelInfo> labelinfos = (List<Himall.Model.LabelInfo>)ViewBag.LabelInfos;
     var selectItems = labelinfos.Select(e => new SelectListItem() { Text = e.LabelName, Value = e.Id.ToString() }).ToList();
     selectItems.Insert(0, new SelectListItem { Text = "选择", Value = "0" });
@@ -26,14 +26,6 @@
                 <input class="form-control input-ssm" type="text" id="autoTextBox" autocomplete="off">
             </div>
             <div class="form-group">
-                <label class="label-inline w75" for="">微信昵称</label>
-                <input class="form-control input-ssm" id="weChatNick" type="text">
-            </div>
-            <div class="form-group">
-                <label class="label-inline w75" for="">手机号码</label>
-                <input class="form-control input-ssm" type="text" id="mobile">
-            </div>
-            <div class="form-group">
                 <label class="label-inline w75" for="">会员等级</label>
                 <select class="form-control input-ssm" id="grade">
                     <option value="">全部</option>
@@ -44,21 +36,9 @@
                 </select>
             </div>
             <div class="form-group">
-                <label class="label-inline w75" for="">会员状态</label>
-                <select class="form-control input-ssm" id="status">
-                    <option value="">全部</option>
-                    <option value="false">正常</option>
-                    <option value="true">冻结</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="label-inline w75" for="">会员标签</label>
-                @Html.DropDownList("labelSelect", selectItems, new { @class = "form-control input-ssm" })
-            </div>
-            <div class="form-group">
                 <button type="button" id="searchBtn" class="btn btn-primary btn-sm">搜 索</button>
             </div>
-            <span class="menu-shrink menber-m" id="btnAdvanceSearch" style="top:-3px;"></span>
+            <span class="menu-shrink menber-m" id="btnAdvanceSearch" style="top:-3px;display:none;" ></span>
             <div id="divAdvanceSearch" class="dln">
                 <div class="form-group">
                     <label class="label-inline w75" for="">注册时间</label>
@@ -112,18 +92,25 @@
 </div>
 
 <div class="dialog-form" style="display:none;" id="divSetLabel">
-    @if (Model != null)
-    {
-        foreach (var label in Model)
-        {
-            string value = Convert.ToString(label.Id);
-
-            <div class="form-group" style="width: 150px; float: left; border: none; white-space: nowrap; overflow: hidden; margin: 10px; text-overflow: ellipsis;">
-                @Html.RadioButton("radio_Label", value)
-                @label.GradeName
-            </div>
-           
-        }
-    }
+    <div style="margin-bottom: 20px;">
+        商家类别：
+        <input name="radio_Label" type="radio" value="0" style="margin-left: 20px;">
+        普通商家
+        <input name="radio_Label" type="radio" value="1" style="margin-left: 20px;">
+        工长，设计师，装企
+        <input name="radio_Label" type="radio" value="2" style="margin-left:20px;">
+        总经销
+    </div>
+    <div style="margin-bottom: 20px;">
+        保证金：
+        <input name="radio_bao" type="radio" value="0" style="margin-left: 20px;">
+        无
+        <input name="radio_bao" type="radio" value="10000" style="margin-left: 20px;">
+        10000
+        <input name="radio_bao" type="radio" value="20000" style="margin-left:20px;">
+        20000
+        <input name="radio_bao" type="radio" value="50000" style="margin-left:20px;">
+        50000
+    </div>
 </div>
 

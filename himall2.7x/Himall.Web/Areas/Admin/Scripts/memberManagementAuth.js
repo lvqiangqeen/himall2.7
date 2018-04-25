@@ -180,8 +180,21 @@ function query() {
             { field: "Id", hidden: true },
             { field: "UserName", title: '会员名' },
             { field: "Nick", title: '微信昵称' },
-            { field: "GradeName", title: '等级', width: 50 },
-            { field: "AvailableIntegral", title: '积分', width: 60 },
+            {
+                field: "MemberGradeId", title: '会员类型',
+                formatter: function (value, row, index) {
+                    var html = "";
+                    if (row.MemberGradeId==0)
+                        html += '普通商家';
+                    else if (row.MemberGradeId == 1)
+                        html += '工长，设计师，装企';
+                    else
+                        html += '总经销';
+                    return html;
+                }
+            },
+            { field: "GradeName", title: '等级', width: 60 },           
+            { field: "AvailableIntegral", title: '积分', width: 30 },
                { field: "NetAmount", title: '净消费' },
             { field: "CellPhone", title: '手机' },
             { field: "CreateDateStr", title: '创建日期' },
@@ -202,8 +215,8 @@ function query() {
                 
                 var id = row.Id.toString();
                 var html = ["<span class=\"btn-a\">"];
-                html.push("<a onclick=\"AddLabel('" + id + "');\">编辑权限</a>");
-                html.push("<a href='MemberDetail/" + id + "'>查看</a>");
+                html.push("<a onclick=\"AddLabel('" + id + "');\">选择类型</a>");
+                //html.push("<a href='MemberDetail/" + id + "'>查看</a>");
 
                 html.push("</span>");
                 return html.join("");
@@ -220,15 +233,17 @@ function AddLabel(memberid) {
     }
     $.ajax({
         type: 'post',
-        url: 'GetMemberLabel',
+        url: 'GetGradeTypeLabel',
         data: { Id: memberid },
         success: function (data) {
-            $('input[name=radio_Label]').each(function (i, checkbox) {
-                $(checkbox).get(0).checked = false;
-            });
-            $.each(data.Data, function (i, item) {
-                $('#radio_' + item.LabelId).get(0).checked = true;
-            });
+            //$('input[name=radio_Label]').each(function (i, checkbox) {
+            //    $(checkbox).get(0).checked = false;
+            //});
+            $("input[type=radio][name=radio_Label][value=" + data.MemberGradeId + "]").attr("checked", 'checked');
+            $("input[type=radio][name=radio_bao][value=" + data.BondMoney + "]").attr("checked", 'checked');
+            //$.each(data.Data, function (i, item) {
+            //    $('#radio_' + item.LabelId).get(0).checked = true;
+            //});
             $.dialog({
                 title: '会员标签',
                 lock: true,
@@ -238,7 +253,12 @@ function AddLabel(memberid) {
                 padding: '10px 60px',
                 okVal: '确定',
                 ok: function () {
-                    
+                    var bao = [];
+                    $('input[name=radio_bao]').each(function (i, radio) {
+                        if ($(radio).get(0).checked) {
+                            bao.push($(radio).attr('value'));
+                        }
+                    });
                     var ids = [];
                     $('input[name=radio_Label]').each(function (i, radio) {
                         if ($(radio).get(0).checked) {
@@ -246,7 +266,7 @@ function AddLabel(memberid) {
                         }
                     });
                     var loading = showLoading();
-                    $.post('../Manager/update', { Id:memberid, MemberGradeId: ids.join(',') }, function (result) {
+                    $.post('../Manager/update', { Id: memberid, MemberGradeId: ids.join(','), BondMoney: bao.join(',') }, function (result) {
                         if (result.Success) {
                             query();
                             $.dialog.tips('设置成功！');

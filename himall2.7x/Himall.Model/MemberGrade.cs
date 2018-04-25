@@ -21,6 +21,7 @@ namespace Himall.Model
         public string Remark { get; set; }
         public decimal Discount { get; set; }
         public int GradeType { get; set; }
-        
+        public int BondMoney { get; set; }
+
     }
 }

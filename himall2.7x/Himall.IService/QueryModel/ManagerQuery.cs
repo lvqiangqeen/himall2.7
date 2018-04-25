@@ -11,5 +11,10 @@ namespace Himall.IServices.QueryModel
         public long ShopID { set; get; }
 
         public long userID { set; get; }
+
+        /// <summary>
+        /// 会员名
+        /// </summary>
+        public string keyWords { get; set; }
     }
 }

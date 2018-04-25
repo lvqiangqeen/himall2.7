@@ -62,6 +62,7 @@ namespace Himall.Web.Areas.Web.Controllers
         public ActionResult Home()
         {
             UserCenterHomeModel viewModel = new UserCenterHomeModel();
+            long id = CurrentSellerManager.Id;
             var model = _iMemberService.GetUserCenterModel(CurrentUser.Id);
             viewModel.userCenterModel = model;
             viewModel.UserName = CurrentUser.Nick == "" ? CurrentUser.UserName : CurrentUser.Nick;

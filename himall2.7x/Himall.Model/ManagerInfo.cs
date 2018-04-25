@@ -24,6 +24,8 @@ namespace Himall.Model
         public System.DateTime CreateDate { get; set; }
         public string Remark { get; set; }
         public string RealName { get; set; }
-
+        public long MemberGradeId { get; set; }
+        public int BondMoney { get; set; }
+        
     }
 }

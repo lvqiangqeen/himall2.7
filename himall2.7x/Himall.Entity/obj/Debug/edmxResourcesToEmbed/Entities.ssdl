@@ -1120,6 +1120,7 @@
     <Property Name="Remark" Type="varchar" MaxLength="1000" />
     <Property Name="RealName" Type="varchar" MaxLength="1000" />
     <Property Name="MemberGradeId" Type="bigint" />
+    <Property Name="BondMoney" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Himall_MarketServiceRecord">
     <Key>
@@ -1202,6 +1203,7 @@
     <Property Name="Remark" Type="varchar" MaxLength="1000" />
     <Property Name="Discount" Type="decimal" Precision="8" Scale="2" Nullable="false" />
     <Property Name="GradeType" Type="int" Nullable="false" />
+    <Property Name="BondMoney" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Himall_MemberGroup">
     <Key>

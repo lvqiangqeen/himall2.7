@@ -1125,6 +1125,7 @@
           <Property Name="Remark" Type="varchar" MaxLength="1000" />
           <Property Name="RealName" Type="varchar" MaxLength="1000" />
 		  <Property Name="MemberGradeId" Type="bigint"/>
+		  <Property Name="BondMoney" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Himall_MarketServiceRecord">
           <Key>
@@ -1207,6 +1208,7 @@
           <Property Name="Remark" Type="varchar" MaxLength="1000" />
           <Property Name="Discount" Type="decimal" Precision="8" Scale="2" Nullable="false" />
 		  <Property Name="GradeType" Type="int" Nullable="false" />
+		  <Property Name="BondMoney" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Himall_MemberGroup">
           <Key>
@@ -6268,6 +6270,7 @@
           <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="RealName" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
 		  <Property Name="MemberGradeId" Type="Int64" />
+		  <Property Name="BondMoney" Type="Int32" Nullable="false"/>
         </EntityType>
         <EntityType Name="MemberOpenIdInfo">
           <Key>
@@ -7669,6 +7672,7 @@
           <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="Discount" Type="Decimal" Nullable="false" />
 		  <Property Name="GradeType" Type="Int32" Nullable="false" />
+		  <Property Name="BondMoney" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="MemberIntegral">
           <Key>
@@ -10670,6 +10674,7 @@
           <EntitySetMapping Name="Himall_Managers">
             <EntityTypeMapping TypeName="Himall.Model.ManagerInfo">
               <MappingFragment StoreEntitySet="Himall_Managers">
+			  <ScalarProperty Name="BondMoney" ColumnName="BondMoney" />
                 <ScalarProperty Name="MemberGradeId" ColumnName="MemberGradeId" />
                 <ScalarProperty Name="RealName" ColumnName="RealName" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
@@ -11428,6 +11433,7 @@
                 <ScalarProperty Name="GradeName" ColumnName="GradeName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
 				<ScalarProperty Name="GradeType" ColumnName="GradeType" />
+				<ScalarProperty Name="BondMoney" ColumnName="BondMoney" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

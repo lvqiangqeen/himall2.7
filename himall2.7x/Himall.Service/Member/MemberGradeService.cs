@@ -79,7 +79,14 @@ namespace Himall.Service
             }
             return result;
         }
-
+        /// <summary>
+        /// 获取商户等级列表
+        /// </summary>
+        public IEnumerable<MemberGrade> GetManagerGradeList()
+        {
+            List<MemberGrade> result = Context.MemberGrade.Where(c=>c.GradeType!=0).ToList();
+            return result;
+        }
         /// <summary>
         /// 通过用户编号获取用户等级编号
         /// </summary>

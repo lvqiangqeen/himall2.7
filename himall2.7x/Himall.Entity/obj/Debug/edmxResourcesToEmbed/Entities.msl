@@ -436,6 +436,7 @@
     <EntitySetMapping Name="Himall_Managers">
       <EntityTypeMapping TypeName="Himall.Model.ManagerInfo">
         <MappingFragment StoreEntitySet="Himall_Managers">
+          <ScalarProperty Name="BondMoney" ColumnName="BondMoney" />
           <ScalarProperty Name="MemberGradeId" ColumnName="MemberGradeId" />
           <ScalarProperty Name="RealName" ColumnName="RealName" />
           <ScalarProperty Name="Remark" ColumnName="Remark" />
@@ -1194,6 +1195,7 @@
           <ScalarProperty Name="GradeName" ColumnName="GradeName" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="GradeType" ColumnName="GradeType" />
+          <ScalarProperty Name="BondMoney" ColumnName="BondMoney" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

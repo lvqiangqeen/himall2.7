@@ -28,3 +28,9 @@ E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.Web\bin\Himall.API.pdb
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.API\obj\Debug\Himall.API.csprojResolveAssemblyReference.cache
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.API\obj\Debug\Himall.API.dll
 E:\BaiduNetdiskDownload\多用户商城\himall2.7x\Himall.API\obj\Debug\Himall.API.pdb
+E:\商城\himall2.7\himall2.7x\Himall.Web\bin\Himall.API.dll.config
+E:\商城\himall2.7\himall2.7x\Himall.Web\bin\Himall.API.dll
+E:\商城\himall2.7\himall2.7x\Himall.Web\bin\Himall.API.pdb
+E:\商城\himall2.7\himall2.7x\Himall.API\obj\Debug\Himall.API.csprojResolveAssemblyReference.cache
+E:\商城\himall2.7\himall2.7x\Himall.API\obj\Debug\Himall.API.dll
+E:\商城\himall2.7\himall2.7x\Himall.API\obj\Debug\Himall.API.pdb

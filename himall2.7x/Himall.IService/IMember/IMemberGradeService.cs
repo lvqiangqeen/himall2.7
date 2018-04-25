@@ -22,6 +22,8 @@ namespace Himall.IServices
         MemberGrade GetMemberGrade(long id);
 
         IEnumerable<MemberGrade> GetMemberGradeList();
+
+        IEnumerable<MemberGrade> GetManagerGradeList();
         /// <summary>
         /// 通过用户编号获取用户等级编号
         /// </summary>

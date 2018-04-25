@@ -1346,6 +1346,7 @@
     <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
     <Property Name="RealName" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
     <Property Name="MemberGradeId" Type="Int64" />
+    <Property Name="BondMoney" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="MemberOpenIdInfo">
     <Key>
@@ -2747,6 +2748,7 @@
     <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
     <Property Name="Discount" Type="Decimal" Nullable="false" />
     <Property Name="GradeType" Type="Int32" Nullable="false" />
+    <Property Name="BondMoney" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="MemberIntegral">
     <Key>

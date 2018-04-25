@@ -149,7 +149,13 @@ namespace Himall.Service
             }
             return manager;
         }
-
+        //获取商家信息
+        public ManagerInfo GetmSellerManager(long userId)
+        {
+            ManagerInfo manager = null;
+            manager = Context.ManagerInfo.Where(item => item.Id == userId && item.ShopId != 0).FirstOrDefault();
+            return manager;
+        }
         public void AddPlatformManager(ManagerInfo model)
         {
             if (model.RoleId == 0)
@@ -447,7 +453,11 @@ namespace Himall.Service
         public QueryPageModel<ManagerInfo> GetManagersList(ManagerQuery query)
         {
             int total = 0;
-            IQueryable<ManagerInfo> users = Context.ManagerInfo.AsQueryable();
+            IQueryable<ManagerInfo> users = Context.ManagerInfo.AsQueryable().Where(c=>c.ShopId!=0);
+            if (!string.IsNullOrWhiteSpace(query.keyWords))
+            {
+                users = users.Where(d => d.UserName.Equals(query.keyWords));
+            }
             users = users.GetPage(out total, query.PageNo, query.PageSize, d => d.OrderBy(o => o.Id));
             QueryPageModel<ManagerInfo> pageModel = new QueryPageModel<ManagerInfo>() { Models = users.ToList(), Total = total };
             return pageModel;
@@ -459,6 +469,7 @@ namespace Himall.Service
             var  user = Context.ManagerInfo.Where(a => a.Id == model.Id).FirstOrDefault();
             //var label = Context.ManagerInfo.FirstOrDefault(e => e.Id == model.Id);
             user.MemberGradeId = model.MemberGradeId;
+            user.BondMoney = model.BondMoney;
             Context.SaveChanges();
         }
 
