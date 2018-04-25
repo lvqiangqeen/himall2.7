@@ -34,7 +34,7 @@ namespace Himall.Service
 
         public void UpdateMemberGrade(MemberGrade model)
         {
-            if (Context.MemberGrade.Any(a => a.Integral == model.Integral && a.GradeType==model.GradeType && a.Id != model.Id))
+            if (Context.MemberGrade.Any(a => a.Integral == model.Integral &&a.BondMoney==model.BondMoney && a.GradeType==model.GradeType && a.Id != model.Id))
             {
                 throw new HimallException("等级之间的积分不能相同");
             }

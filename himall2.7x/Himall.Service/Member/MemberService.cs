@@ -280,7 +280,7 @@ namespace Himall.Service
             if (result != null)
             {
                 int memberIntergral = GetHistoryIntegral(result.Id);
-                result.MemberDiscount = GetMemberDiscount(memberIntergral);
+                result.MemberDiscount = GetMemberDiscount(memberIntergral, result.Id);
             }
             return result;
         }
@@ -552,7 +552,7 @@ namespace Himall.Service
                     //}).ToList();
 
                     int memberIntergral = GetHistoryIntegral(member.Id);
-                    member.MemberDiscount = GetMemberDiscount(memberIntergral);
+                    member.MemberDiscount = GetMemberDiscount(memberIntergral, member.Id);
 
                 }
                 if (memberinfo != null)
@@ -561,7 +561,7 @@ namespace Himall.Service
             return memberinfo;
         }
 
-        private string GetMemberGrade(int historyIntegrals,int id)
+        private string GetMemberGrade(int historyIntegrals,long id)
         {
             var member = Context.UserMemberInfo.Where(a => a.Id == id).FirstOrDefault();
             var manager = Context.ManagerInfo.Where(a => a.UserName == member.UserName).FirstOrDefault();
@@ -590,9 +590,23 @@ namespace Himall.Service
             var historyIntegral = Context.MemberIntegral.Where(a => a.MemberId == userId).Select(a => a.HistoryIntegrals).FirstOrDefault();
             return historyIntegral;
         }
-        private decimal GetMemberDiscount(int historyIntegrals)
+        private decimal GetMemberDiscount(int historyIntegrals,long id)
         {
-            var grade = Context.MemberGrade.OrderByDescending(a => a.Integral).FirstOrDefault(a => a.Integral <= historyIntegrals);
+            var member = Context.UserMemberInfo.Where(a => a.Id == id).FirstOrDefault();
+            var manager = Context.ManagerInfo.Where(a => a.UserName == member.UserName).FirstOrDefault();
+            long GradeType = 0;
+            var bondmoney = 0;
+            MemberGrade grade = new MemberGrade();
+            if (manager != null)
+            {
+                GradeType = manager.MemberGradeId;
+                bondmoney = manager.BondMoney;
+                grade = Context.MemberGrade.Where(a => a.GradeType == GradeType && a.BondMoney == bondmoney).OrderByDescending(a => a.Integral).FirstOrDefault(a => a.Integral <= historyIntegrals);
+            }
+            else
+            {
+                grade = Context.MemberGrade.Where(a => a.GradeType == 0 && a.BondMoney == 0).OrderByDescending(a => a.Integral).FirstOrDefault(a => a.Integral <= historyIntegrals);
+            }
             if (grade != null)
                 return grade.Discount / 10;
             return 1;
@@ -1109,7 +1123,7 @@ namespace Himall.Service
                 if (memberInfo != null)
                 {
                     int memberIntergral = GetHistoryIntegral(memberInfo.Id);
-                    memberInfo.MemberDiscount = GetMemberDiscount(memberIntergral);
+                    memberInfo.MemberDiscount = GetMemberDiscount(memberIntergral, memberInfo.Id);
                 }
             }
             return memberInfo;
