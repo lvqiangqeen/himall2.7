@@ -649,6 +649,7 @@
         <AssociationConnector Association="Himall.Model.FK_Himall_WeiActivityAward_21" />
         <AssociationConnector Association="Himall.Model.FK_Himall_WeiActivityWinInfo_W21" />
         <AssociationConnector Association="Himall.Model.FK_Himall_WXLog_CardLogId1" />
+        <EntityTypeShape EntityType="Himall.Model.taocan_tcitem" Width="1.5" PointX="40.375" PointY="5.125" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

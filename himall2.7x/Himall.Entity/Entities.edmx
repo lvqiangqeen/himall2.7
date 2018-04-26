@@ -1127,6 +1127,43 @@
 		  <Property Name="MemberGradeId" Type="bigint"/>
 		  <Property Name="BondMoney" Type="int" Nullable="false" />
         </EntityType>
+		<EntityType Name="taocan_tcitem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="100"/>
+          <Property Name="menu_id" Type="int"/>
+          <Property Name="brief" Type="varchar" MaxLength="100"/>
+          <Property Name="main_content" Type="text"/>
+          <Property Name="link_url" Type="varchar" MaxLength="100"/>
+          <Property Name="thumbnail" Type="varchar" MaxLength="200"/>
+          <Property Name="image" Type="varchar" MaxLength="200" />
+          <Property Name="delete_flag" Type="int"/>
+        </EntityType>
+		<EntityType Name="taocan_tcmenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="100"/>
+          <Property Name="parent_id" Type="int"/>
+          <Property Name="is_parent" Type="int"/>
+          <Property Name="link_url" Type="varchar" MaxLength="100"/>
+          <Property Name="delete_flag" Type="int"/>
+        </EntityType>
+		<EntityType Name="taocao_tcinfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="100"/>
+          <Property Name="menu_id" Type="int"/>
+          <Property Name="sub_title" Type="varchar" MaxLength="100"/>
+		  <Property Name="brief" Type="varchar" MaxLength="200"/>
+		  <Property Name="main_content" Type="text"/>
+          <Property Name="delete_flag" Type="int"/>
+        </EntityType>
         <EntityType Name="Himall_MarketServiceRecord">
           <Key>
             <PropertyRef Name="Id" />
@@ -4333,6 +4370,9 @@
           <EntitySet Name="Himall_LimitTimeMarket" EntityType="Self.Himall_LimitTimeMarket" Schema="himall3.0" store:Type="Tables" />
           <EntitySet Name="Himall_Logs" EntityType="Self.Himall_Logs" Schema="himall3.0" store:Type="Tables" />
           <EntitySet Name="Himall_Managers" EntityType="Self.Himall_Managers" Schema="himall3.0" store:Type="Tables" />
+		  <EntitySet Name="taocan_tcitem" EntityType="Self.taocan_tcitem" Schema="himall3.0" store:Type="Tables" />
+		  		  <EntitySet Name="taocan_tcmenu" EntityType="Self.taocan_tcmenu" Schema="himall3.0" store:Type="Tables" />
+				   <EntitySet Name="taocao_tcinfo" EntityType="Self.taocao_tcinfo" Schema="himall3.0" store:Type="Tables" />
           <EntitySet Name="Himall_MarketServiceRecord" EntityType="Self.Himall_MarketServiceRecord" Schema="himall3.0" store:Type="Tables" />
           <EntitySet Name="Himall_MarketSetting" EntityType="Self.Himall_MarketSetting" Schema="himall3.0" store:Type="Tables" />
           <EntitySet Name="Himall_MarketSettingMeta" EntityType="Self.Himall_MarketSettingMeta" Schema="himall3.0" store:Type="Tables" />
@@ -5004,6 +5044,9 @@
           <EntitySet Name="Himall_ImageAds" EntityType="Himall.Model.ImageAdInfo" />
           <EntitySet Name="Himall_Logs" EntityType="Himall.Model.LogInfo" />
           <EntitySet Name="Himall_Managers" EntityType="Himall.Model.ManagerInfo" />
+		  <EntitySet Name="taocan_tcitem" EntityType="Himall.Model.taocan_tcitem" />
+		  <EntitySet Name="taocan_tcmenu" EntityType="Himall.Model.taocan_tcmenu" />
+		  <EntitySet Name="taocao_tcinfo" EntityType="Himall.Model.taocao_tcinfo" />
           <EntitySet Name="Himall_MemberOpenIds" EntityType="Himall.Model.MemberOpenIdInfo" />
           <EntitySet Name="Himall_Members" EntityType="Himall.Model.UserMemberInfo" />
           <EntitySet Name="Himall_ModuleProducts" EntityType="Himall.Model.ModuleProductInfo" />
@@ -6271,6 +6314,43 @@
           <Property Name="RealName" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
 		  <Property Name="MemberGradeId" Type="Int64" />
 		  <Property Name="BondMoney" Type="Int32" Nullable="false"/>
+        </EntityType>
+		<EntityType Name="taocan_tcitem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="menu_id" Type="Int32" />
+          <Property Name="brief" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="main_content" Type="String" FixedLength="false" Unicode="true" />
+          <Property Name="link_url" Type="String"  MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="thumbnail" Type="String" MaxLength="200" FixedLength="false" Unicode="true"/>
+          <Property Name="image" Type="String" MaxLength="200" FixedLength="false" Unicode="true"/>
+          <Property Name="delete_flag" Type="Int32" />
+        </EntityType>
+		<EntityType Name="taocan_tcmenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="parent_id" Type="Int32" />
+		  <Property Name="is_parent" Type="Int32" />
+          <Property Name="link_url" Type="String"  MaxLength="100" FixedLength="false" Unicode="true" />
+      <Property Name="delete_flag" Type="Int32" />
+        </EntityType>
+		<EntityType Name="taocao_tcinfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+		  <Property Name="sub_title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="menu_id" Type="Int32" />
+		  <Property Name="brief" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="main_content" Type="String" FixedLength="false" Unicode="true" />
+      <Property Name="delete_flag" Type="Int32" />
         </EntityType>
         <EntityType Name="MemberOpenIdInfo">
           <Key>
@@ -10688,6 +10768,46 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+		 <EntitySetMapping Name="taocan_tcitem">
+            <EntityTypeMapping TypeName="Himall.Model.taocan_tcitem">
+              <MappingFragment StoreEntitySet="taocan_tcitem">
+			  <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="menu_id" ColumnName="menu_id" />
+                <ScalarProperty Name="brief" ColumnName="brief" />
+                <ScalarProperty Name="main_content" ColumnName="main_content" />
+                <ScalarProperty Name="link_url" ColumnName="link_url" />
+                <ScalarProperty Name="thumbnail" ColumnName="thumbnail" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="delete_flag" ColumnName="delete_flag" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+		 <EntitySetMapping Name="taocan_tcmenu">
+            <EntityTypeMapping TypeName="Himall.Model.taocan_tcmenu">
+              <MappingFragment StoreEntitySet="taocan_tcmenu">
+			  <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="parent_id" ColumnName="parent_id" />
+                <ScalarProperty Name="is_parent" ColumnName="is_parent" />
+                <ScalarProperty Name="link_url" ColumnName="link_url" />
+                <ScalarProperty Name="delete_flag" ColumnName="delete_flag" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+		 <EntitySetMapping Name="taocao_tcinfo">
+            <EntityTypeMapping TypeName="Himall.Model.taocao_tcinfo">
+              <MappingFragment StoreEntitySet="taocao_tcinfo">
+			  <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="sub_title" ColumnName="sub_title" />
+                <ScalarProperty Name="menu_id" ColumnName="menu_id" />
+                <ScalarProperty Name="brief" ColumnName="brief" />
+                <ScalarProperty Name="main_content" ColumnName="main_content" />
+				<ScalarProperty Name="delete_flag" ColumnName="delete_flag" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>		  
           <EntitySetMapping Name="Himall_MemberOpenIds">
             <EntityTypeMapping TypeName="Himall.Model.MemberOpenIdInfo">
               <MappingFragment StoreEntitySet="Himall_MemberOpenIds">

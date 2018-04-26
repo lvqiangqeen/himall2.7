@@ -193,6 +193,7 @@
     <Compile Include="Statistic\OrderAndSaleStatisticsService.cs" />
     <Compile Include="System\AppBaseService.cs" />
     <Compile Include="System\ZTJLService.cs" />
+    <Compile Include="taocan\taocan_tcitemService.cs" />
     <Compile Include="TemplateVisualization\PhotoSpaceService.cs" />
     <Compile Include="System\SensitiveWordService.cs" />
     <Compile Include="System\SystemAgreementService.cs" />

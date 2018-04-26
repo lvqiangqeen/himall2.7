@@ -411,6 +411,9 @@
     <Compile Include="ShopWithDrawInfo.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="taocan_tcitem.cs" />
+    <Compile Include="taocan_tcmenu.cs" />
+    <Compile Include="taocao_tcinfo.cs" />
     <Compile Include="ThemeInfo.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>

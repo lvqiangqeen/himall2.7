@@ -450,6 +450,33 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="taocan_tcitem">
+      <EntityTypeMapping TypeName="Himall.Model.taocan_tcitem">
+        <MappingFragment StoreEntitySet="taocan_tcitem">
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="menu_id" ColumnName="menu_id" />
+          <ScalarProperty Name="brief" ColumnName="brief" />
+          <ScalarProperty Name="main_content" ColumnName="main_content" />
+          <ScalarProperty Name="link_url" ColumnName="link_url" />
+          <ScalarProperty Name="thumbnail" ColumnName="thumbnail" />
+          <ScalarProperty Name="image" ColumnName="image" />
+          <ScalarProperty Name="delete_flag" ColumnName="delete_flag" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="taocan_tcmenu">
+      <EntityTypeMapping TypeName="Himall.Model.taocan_tcmenu">
+        <MappingFragment StoreEntitySet="taocan_tcmenu">
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="parent_id" ColumnName="parent_id" />
+          <ScalarProperty Name="is_parent" ColumnName="is_parent" />
+          <ScalarProperty Name="link_url" ColumnName="link_url" />
+          <ScalarProperty Name="delete_flag" ColumnName="delete_flag" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Himall_MemberOpenIds">
       <EntityTypeMapping TypeName="Himall.Model.MemberOpenIdInfo">
         <MappingFragment StoreEntitySet="Himall_MemberOpenIds">

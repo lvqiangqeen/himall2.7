@@ -61,6 +61,9 @@ namespace Himall.Entity
         public virtual DbSet<ImageAdInfo> ImageAdInfo { get; set; }
         public virtual DbSet<LogInfo> LogInfo { get; set; }
         public virtual DbSet<ManagerInfo> ManagerInfo { get; set; }
+        public virtual DbSet<taocan_tcitem> taocan_tcitem { get; set; }
+        public virtual DbSet<taocan_tcmenu> taocan_tcmenu { get; set; }
+        public virtual DbSet<taocao_tcinfo> taocao_tcinfo { get; set; }
         public virtual DbSet<MemberOpenIdInfo> MemberOpenIdInfo { get; set; }
         public virtual DbSet<UserMemberInfo> UserMemberInfo { get; set; }
         public virtual DbSet<ModuleProductInfo> ModuleProductInfo { get; set; }
@@ -233,7 +236,6 @@ namespace Himall.Entity
         public virtual DbSet<SearchProductsInfo> SearchProductsInfo { get; set; }
         public virtual DbSet<WXSmallChoiceProductsInfo> WXSmallChoiceProductsInfo { get; set; }
         public virtual DbSet<WXAppletFormDatasInfo> WXAppletFormDatasInfo { get; set; }
-    
         public virtual int Job_Account(Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate)
         {
             var startDateParameter = startDate.HasValue ?

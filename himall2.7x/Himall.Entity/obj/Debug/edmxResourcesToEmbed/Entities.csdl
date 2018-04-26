@@ -81,6 +81,8 @@
     <EntitySet Name="Himall_ImageAds" EntityType="Himall.Model.ImageAdInfo" />
     <EntitySet Name="Himall_Logs" EntityType="Himall.Model.LogInfo" />
     <EntitySet Name="Himall_Managers" EntityType="Himall.Model.ManagerInfo" />
+    <EntitySet Name="taocan_tcitem" EntityType="Himall.Model.taocan_tcitem" />
+    <EntitySet Name="taocan_tcmenu" EntityType="Himall.Model.taocan_tcmenu" />
     <EntitySet Name="Himall_MemberOpenIds" EntityType="Himall.Model.MemberOpenIdInfo" />
     <EntitySet Name="Himall_Members" EntityType="Himall.Model.UserMemberInfo" />
     <EntitySet Name="Himall_ModuleProducts" EntityType="Himall.Model.ModuleProductInfo" />
@@ -1347,6 +1349,31 @@
     <Property Name="RealName" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
     <Property Name="MemberGradeId" Type="Int64" />
     <Property Name="BondMoney" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="taocan_tcitem">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="menu_id" Type="Int32" />
+    <Property Name="brief" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="main_content" Type="String" FixedLength="false" Unicode="true" />
+    <Property Name="link_url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="thumbnail" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="image" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="delete_flag" Type="Int32" />
+  </EntityType>
+  <EntityType Name="taocan_tcmenu">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="parent_id" Type="Int32" />
+    <Property Name="is_parent" Type="Int32" />
+    <Property Name="link_url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="delete_flag" Type="Int32" />
   </EntityType>
   <EntityType Name="MemberOpenIdInfo">
     <Key>

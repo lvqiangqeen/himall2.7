@@ -236,11 +236,11 @@ function AddLabel(memberid) {
         url: 'GetGradeTypeLabel',
         data: { Id: memberid },
         success: function (data) {
-            //$('input[name=radio_Label]').each(function (i, checkbox) {
-            //    $(checkbox).get(0).checked = false;
-            //});
-            $("input[type=radio][name=radio_Label][value=" + data.MemberGradeId + "]").attr("checked", 'checked');
-            $("input[type=radio][name=radio_bao][value=" + data.BondMoney + "]").attr("checked", 'checked');
+            $('input:radio[name="radio_Label"]').removeAttr('checked');
+            $('input:radio[name="radio_bao"]').removeAttr('checked');
+            //注意这里要用prop
+            $("input[type=radio][name=radio_Label][value=" + data.MemberGradeId + "]").prop("checked", 'checked');
+            $("input[type=radio][name=radio_bao][value=" + data.BondMoney + "]").prop("checked", 'checked');
             //$.each(data.Data, function (i, item) {
             //    $('#radio_' + item.LabelId).get(0).checked = true;
             //});
