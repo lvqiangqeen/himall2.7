@@ -1147,6 +1147,18 @@
     <Property Name="link_url" Type="varchar" MaxLength="100" />
     <Property Name="delete_flag" Type="int" />
   </EntityType>
+  <EntityType Name="taocao_tcinfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="varchar" MaxLength="100" />
+    <Property Name="menu_id" Type="int" />
+    <Property Name="sub_title" Type="varchar" MaxLength="100" />
+    <Property Name="brief" Type="varchar" MaxLength="200" />
+    <Property Name="main_content" Type="text" />
+    <Property Name="delete_flag" Type="int" />
+  </EntityType>
   <EntityType Name="Himall_MarketServiceRecord">
     <Key>
       <PropertyRef Name="Id" />
@@ -4354,6 +4366,7 @@
     <EntitySet Name="Himall_Managers" EntityType="Self.Himall_Managers" Schema="himall3.0" store:Type="Tables" />
     <EntitySet Name="taocan_tcitem" EntityType="Self.taocan_tcitem" Schema="himall3.0" store:Type="Tables" />
     <EntitySet Name="taocan_tcmenu" EntityType="Self.taocan_tcmenu" Schema="himall3.0" store:Type="Tables" />
+    <EntitySet Name="taocao_tcinfo" EntityType="Self.taocao_tcinfo" Schema="himall3.0" store:Type="Tables" />
     <EntitySet Name="Himall_MarketServiceRecord" EntityType="Self.Himall_MarketServiceRecord" Schema="himall3.0" store:Type="Tables" />
     <EntitySet Name="Himall_MarketSetting" EntityType="Self.Himall_MarketSetting" Schema="himall3.0" store:Type="Tables" />
     <EntitySet Name="Himall_MarketSettingMeta" EntityType="Self.Himall_MarketSettingMeta" Schema="himall3.0" store:Type="Tables" />

@@ -477,6 +477,19 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="taocao_tcinfo">
+      <EntityTypeMapping TypeName="Himall.Model.taocao_tcinfo">
+        <MappingFragment StoreEntitySet="taocao_tcinfo">
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="sub_title" ColumnName="sub_title" />
+          <ScalarProperty Name="menu_id" ColumnName="menu_id" />
+          <ScalarProperty Name="brief" ColumnName="brief" />
+          <ScalarProperty Name="main_content" ColumnName="main_content" />
+          <ScalarProperty Name="delete_flag" ColumnName="delete_flag" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Himall_MemberOpenIds">
       <EntityTypeMapping TypeName="Himall.Model.MemberOpenIdInfo">
         <MappingFragment StoreEntitySet="Himall_MemberOpenIds">

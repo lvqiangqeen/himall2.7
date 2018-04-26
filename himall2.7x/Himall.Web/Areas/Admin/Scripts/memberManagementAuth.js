@@ -179,12 +179,12 @@ function query() {
             { checkbox: true, width: 39 },
             { field: "Id", hidden: true },
             { field: "UserName", title: '会员名' },
-            { field: "Nick", title: '微信昵称' },
+            { field: "BondMoney", title: '保证金' },
             {
                 field: "MemberGradeId", title: '会员类型',
                 formatter: function (value, row, index) {
                     var html = "";
-                    if (row.MemberGradeId==0)
+                    if (row.MemberGradeId == 0)
                         html += '普通商家';
                     else if (row.MemberGradeId == 1)
                         html += '工长，设计师，装企';
@@ -193,11 +193,22 @@ function query() {
                     return html;
                 }
             },
-            { field: "GradeName", title: '等级', width: 60 },           
+            { field: "GradeName", title: '等级', width: 60 },
             { field: "AvailableIntegral", title: '积分', width: 30 },
-               { field: "NetAmount", title: '净消费' },
-            { field: "CellPhone", title: '手机' },
-            { field: "CreateDateStr", title: '创建日期' },
+            {
+                field: "CreateDate", title: '创建日期',
+                formatter: function (value, row, index) {
+                    var d = new Date(parseInt(value.replace("/Date(", "").replace(")/", ""), 10));
+                    var year = d.getFullYear();
+                    var month = d.getMonth() + 1;
+                    var date = d.getDate();
+                    var hour = d.getHours();
+                    var minute = d.getMinutes();
+                    var second = d.getSeconds();
+                    return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":" + second;
+                }
+
+            },
             {
                 field: "Disabled", title: '状态',
                 formatter: function (value, row, index) {
@@ -212,7 +223,7 @@ function query() {
         {
             field: "operation", operation: true, title: "操作",
             formatter: function (value, row, index) {
-                
+
                 var id = row.Id.toString();
                 var html = ["<span class=\"btn-a\">"];
                 html.push("<a onclick=\"AddLabel('" + id + "');\">选择类型</a>");
