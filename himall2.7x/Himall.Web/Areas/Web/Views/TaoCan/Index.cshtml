@@ -1,6 +1,14 @@
-﻿
+﻿@using Himall.Model
+@using Himall.Service
 @{
-    ViewBag.Title = "Index";
+	ViewBag.Title = "Index";
+	List<taocan_tcmenu> menus = ViewBag.taocanMenuList as List<taocan_tcmenu>;
+	List<taocan_tcmenu> MainMenus = menus.Where(m => m.Id <= 6 && m.parent_id == 0).ToList();
+	taocan_tcitemService taocanService = new taocan_tcitemService();
+	//整装套餐 items
+	List<taocan_tcitem> zztcItems = taocanService.GetTaoCanItems(7);
+	//家具套餐 items
+	List<taocan_tcitem> jjtcItems = taocanService.GetTaoCanItems(9);
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -16,12 +24,10 @@
 		<div class="nav">
 			<ul id="main_nav">
 				<li><a href="#">商城首页</a></li>
-				<li><a href="#">厂家团购</a></li>
-				<li><a href="#">装修套餐</a></li>
-				<li><a href="#">个性定制</a></li>
-				<li><a href="#">设计方案</a></li>
-				<li><a href="#">装修专题</a></li>
-				<li><a href="#">招商加盟</a></li>
+				@foreach (taocan_tcmenu m in MainMenus)
+				{
+					<li><a href="@m.link_url">@m.title</a></li>
+				}
 			</ul>
 		</div>
 		<div class="contact">
@@ -61,34 +67,71 @@
 		</div>
 		<div class="taocan_menu">
 			<div>
-				<a href="#">
-					<img src="~/Areas/Web/Content/taocan/content/images/icon1.png">
-					整装套餐
-				</a>
+				@{
+					taocan_tcmenu zztc = menus.FirstOrDefault(m => m.Id == 7);
+					if (zztc != null && !String.IsNullOrWhiteSpace(zztc.link_url))
+					{
+
+						<a href="@zztc.link_url">
+							<img src="~/Areas/Web/Content/taocan/content/images/icon1.png">
+							整装套餐
+						</a>
+					}
+				}
 			</div>
 			<div>
-				<a href="#">
-					<img src="~/Areas/Web/Content/taocan/content/images/icon2.png">
-					主材套餐
-				</a>
+				@{
+					taocan_tcmenu zctc = menus.FirstOrDefault(m => m.Id == 8);
+					if (zctc != null && !String.IsNullOrWhiteSpace(zctc.link_url))
+					{
+
+						<a href="@zctc.link_url">
+							<img src="~/Areas/Web/Content/taocan/content/images/icon2.png">
+							主材套餐
+						</a>
+					}
+				}
+
 			</div>
 			<div>
-				<a href="#">
-					<img src="content/images/icon3.png">
-					家具套餐
-				</a>
+				@{
+					taocan_tcmenu jjtc = menus.FirstOrDefault(m => m.Id == 9);
+					if (jjtc != null && !String.IsNullOrWhiteSpace(jjtc.link_url))
+					{
+
+						<a href="@jjtc.link_url">
+							<img src="content/images/icon3.png">
+							家具套餐
+						</a>
+					}
+				}
 			</div>
 			<div>
-				<a href="#">
-					<img src="~/Areas/Web/Content/taocan/content/images/icon4.png">
-					单选套餐
-				</a>
+				@{
+					taocan_tcmenu dxtc = menus.FirstOrDefault(m => m.Id == 10);
+					if (dxtc != null && !String.IsNullOrWhiteSpace(dxtc.link_url))
+					{
+
+						<a href="@dxtc.link_url">
+							<img src="~/Areas/Web/Content/taocan/content/images/icon4.png">
+							单选套餐
+						</a>
+					}
+				}
+
 			</div>
 			<div>
-				<a href="#">
-					<img src="~/Areas/Web/Content/taocan/content/images/icon5.png">
-					软装套餐
-				</a>
+				@{
+					taocan_tcmenu rztc = menus.FirstOrDefault(m => m.Id == 10);
+					if (rztc != null && !String.IsNullOrWhiteSpace(rztc.link_url))
+					{
+						<a href="@rztc.link_url">
+							<img src="~/Areas/Web/Content/taocan/content/images/icon5.png">
+							软装套餐
+						</a>
+					}
+				}
+
 			</div>
 		</div>
 	</div>
@@ -103,21 +146,63 @@
 			</span>
 		</div>
 		<div class="taocan1_img">
-			<div class="taocan1_normal">
-				<span><a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
-				<span><a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
-				<span><a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
-			</div>
+			@if (zztcItems.Count >= 3)
+			{
+				<div class="taocan1_normal">
+					@for (int i = 0; i < 3; i++)
+					{
+						if (!string.IsNullOrWhiteSpace(zztcItems[i].link_url))
+						{
+							<span><a href="@zztcItems[i].link_url"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
+						}
+						else
+						{
+							<span><a href="~/Areas/Web/TaoCan/TaoCanInfo?id=@zztcItems[i].Id"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
+						}
+					}
+				</div>
+			}
 			<div class="taocan1_big">
+				@if (zztcItems.Count >= 4)
+				{
+					if (!string.IsNullOrWhiteSpace(zztcItems[4].link_url))
+					{
+						<span><a href="@zztcItems[4].link_url"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
+					}
+					else
+					{
+						<span><a href="~/Areas/Web/TaoCan/TaoCanInfo?id=@zztcItems[4].Id"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
+					}
+				}
 				<span><a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
-				<span><a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
-				<span><a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
+				@if (zztcItems.Count >= 5)
+				{
+					if (!string.IsNullOrWhiteSpace(zztcItems[5].link_url))
+					{
+						<span><a href="@zztcItems[5].link_url"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
+					}
+					else
+					{
+						<span><a href="~/Areas/Web/TaoCan/TaoCanInfo?id=@zztcItems[5].Id"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
+					}
+				}
 			</div>
-			<div class="taocan1_normal">
-				<span><a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
-				<span><a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
-				<span><a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
-			</div>
+			@if (zztcItems.Count > 6)
+			{
+				<div class="taocan1_normal">
+					@for (int i = 6; i < 9; i++)
+				{
+					if (!string.IsNullOrWhiteSpace(zztcItems[i].link_url))
+					{
+							<span><a href="@zztcItems[i].link_url"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
+					}
+					else
+					{
+							<span><a href="~/Areas/Web/TaoCan/TaoCanInfo?id=@zztcItems[i].Id"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
+					}
+				}
+				</div>
+			}
 		</div>
 	</div>
 	<div class="taocan2">
@@ -174,38 +259,20 @@
 			</span>
 		</div>
 		<div class="taocan1_new">
-			<div>
-				<a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a>
-			</div>
-			<div>
-				<a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a>
-			</div>
-			<div>
-				<a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a>
-			</div>
-			<div>
-				<a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a>
-			</div>
-			<div>
-				<a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a>
-
-			</div>
-			<div>
-				<a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a>
-			</div>
-			<div>
-				<a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a>
-			</div>
-			<div>
-				<a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a>
-			</div>
-			<div>
-				<a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a>
-			</div>
-			<div>
-				<a href="#"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a>
-
-			</div>
+			@if (jjtcItems != null && jjtcItems.Count > 0)
+			{
+				foreach (taocan_tcitem item in jjtcItems)
+				{
+					if (!string.IsNullOrWhiteSpace(item.link_url))
+					{
+						<span><a href="@item.link_url"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
+					}
+					else
+					{
+						<span><a href="~/Areas/Web/TaoCan/TaoCanInfo?id=@item.Id"><img src="~/Areas/Web/Content/taocan/content/images/img1.png"></a></span>
+					}
+				}
+			}
 		</div>
 	</div>
 	<div class="taocan2">
@@ -347,5 +414,3 @@
 	<script src="~/Areas/Web/Content/taocan/content/js/taocan1.js"></script>
 </body>
 </html>
-
-

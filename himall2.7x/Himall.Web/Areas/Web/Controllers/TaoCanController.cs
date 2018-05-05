@@ -13,11 +13,12 @@ namespace Himall.Web.Areas.Web.Controllers
 		// GET: Web/TaoCan
 		public ActionResult Index()
 		{
-			TaoCanService taocanService = new TaoCanService();
-			List<TaoCanMenu> taocanMenuList = taocanService.GetTaoCanMenu();
+			taocan_tcitemService taocanService = new taocan_tcitemService();
+			List<taocan_tcmenu> taocanMenuList = taocanService.GetTaoCanMenus();
 			ViewBag.taocanMenuList = taocanMenuList;
 			return View();
 		}
+
 
 		public ActionResult TaoCanInfo(int id)
 		{
