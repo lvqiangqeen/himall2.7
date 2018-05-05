@@ -3,10 +3,14 @@
 @{
 	ViewBag.Title = "Index";
 	List<taocan_tcmenu> menus = ViewBag.taocanMenuList as List<taocan_tcmenu>;
-	List<taocan_tcmenu> MainMenus = menus.Where(m => m.Id <= 6 && m.parent_id == 0).ToList();
+	List<taocan_tcmenu> MainMenus = menus.Where(me => me.Id <= 6 && me.parent_id == 0).ToList();
 	taocan_tcitemService taocanService = new taocan_tcitemService();
 	//整装套餐 items
 	List<taocan_tcitem> zztcItems = taocanService.GetTaoCanItems(7);
+	//单选套餐 menu
+	List<taocan_tcmenu> dxMenus = menus.Where(me => me.parent_id == 10 && me.delete_flag == 0).ToList();
+	//主材套餐 menu
+	List<taocan_tcmenu> zcMenus = menus.Where(me => me.parent_id == 8 && me.delete_flag == 0).ToList();
 	//家具套餐 items
 	List<taocan_tcitem> jjtcItems = taocanService.GetTaoCanItems(9);
 	//品牌实力
@@ -217,33 +221,45 @@
 				精选品牌 立刻拥有
 			</span>
 			<br>
-			<span class="taocan2_item active">
-				<a href="#">时尚简单</a>
-			</span>
-			<span class="taocan2_item">
-				<a href="#">时尚简单</a>
-			</span>
-			<span class="taocan2_item">
-				<a href="#">时尚简单</a>
-			</span>
-			<span class="taocan2_item">
-				<a href="#">时尚简单</a>
-			</span>
-			<span class="taocan2_item">
-				<a href="#">时尚简单</a>
-			</span>
-			<span class="taocan2_item">
-				<a href="#">时尚简单</a>
-			</span>
+			@if (zcMenus != null && zcMenus.Count > 0)
+			{
+				for (int i = 0; i < zcMenus.Count; i++)
+				{
+					if (i == 0)
+					{
+						<span class="taocan2_item active">
+							<a href="#">@zcMenus[i].title</a>
+						</span>
+					}
+					else
+					{
+						<span class="taocan2_item">
+							<a href="#">@zcMenus[i].title</a>
+						</span>
+					}
+				}
+			}
 		</div>
 		<div id="taocan_zhucai" class="taocan2_content">
 			<div class="switch prev">
 				<img src="~/Areas/Web/Content/taocan/content/images/prev.png">
 			</div>
 			<div class="taocan2_imgs">
-				<img src="~/Areas/Web/Content/taocan/content/images/img2.png">
-				<img src="~/Areas/Web/Content/taocan/content/images/img3.png" style="display: none">
-				<img src="~/Areas/Web/Content/taocan/content/images/img2.png" style="display: none">
+				@{ List<taocan_tcitem> zcfirstItmes = taocanService.GetTaoCanItems((int)zcMenus[0].Id).ToList();}
+				@if (zcfirstItmes != null && zcfirstItmes.Count > 0)
+				{
+					for (int i = 0; i < zcfirstItmes.Count; i++)
+					{
+						if (i == 0)
+						{
+							<img src="~/Areas/Web/Content/taocan/content/images/@zcfirstItmes[i].thumbnail">
+						}
+						else
+						{
+							<img src="~/Areas/Web/Content/taocan/content/images/@zcfirstItmes[i].thumbnail" style="display: none">
+						}
+					}
+				}
 			</div>
 			<div class="switch next">
 				<img src="~/Areas/Web/Content/taocan/content/images/next.png">
@@ -287,33 +303,45 @@
 				精选品牌 立刻拥有
 			</span>
 			<br>
-			<span class="taocan2_item active">
-				<a href="#">客餐厅</a>
-			</span>
-			<span class="taocan2_item">
-				<a href="#">厨房</a>
-			</span>
-			<span class="taocan2_item">
-				<a href="#">书房</a>
-			</span>
-			<span class="taocan2_item">
-				<a href="#">卧室</a>
-			</span>
-			<span class="taocan2_item">
-				<a href="#">卫生间</a>
-			</span>
-			<span class="taocan2_item">
-				<a href="#">阳台</a>
-			</span>
+			@if (dxMenus != null && dxMenus.Count > 0)
+			{
+				for (int i = 0; i < dxMenus.Count; i++)
+				{
+					if (i == 0)
+					{
+						<span class="taocan2_item active">
+							<a href="#">@dxMenus[i].title</a>
+						</span>
+					}
+					else
+					{
+						<span class="taocan2_item">
+							<a href="#">@dxMenus[i].title</a>
+						</span>
+					}
+				}
+			}
 		</div>
 		<div id="taocan_single" class="taocan2_content">
 			<div class="switch prev">
 				<img src="~/Areas/Web/Content/taocan/content/images/prev.png">
 			</div>
 			<div class="taocan2_imgs">
-				<img src="~/Areas/Web/Content/taocan/content/images/img2.png">
-				<img src="~/Areas/Web/Content/taocan/content/images/img3.png" style="display: none">
-				<img src="~/Areas/Web/Content/taocan/content/images/img2.png" style="display: none">
+				@{ List<taocan_tcitem> firstItmes=  taocanService.GetTaoCanItems((int)dxMenus[0].Id).ToList();}
+				@if (firstItmes != null && firstItmes.Count > 0)
+				{
+					for (int i = 0; i < firstItmes.Count; i++)
+					{
+						if (i == 0)
+						{
+							<img src="~/Areas/Web/Content/taocan/content/images/@firstItmes[i].thumbnail">
+						}
+						else
+						{
+							<img src="~/Areas/Web/Content/taocan/content/images/@firstItmes[i].thumbnail" style="display: none">
+						}
+					}
+				}
 			</div>
 			<div class="switch next">
 				<img src="~/Areas/Web/Content/taocan/content/images/next.png">
@@ -335,6 +363,8 @@
 				<img src="~/Areas/Web/Content/taocan/content/images/prev.png">
 			</div>
 			<div class="taocan2_links">
+				@{ int n1 = pptcItems.Count / 9;
+					int m1 = pptcItems.Count % 9;}
 				@if (pptcItems != null && pptcItems.Count > 9)
 				{
 					<div>
@@ -351,33 +381,12 @@
 						}
 					</div>
 
-					@{  int n = pptcItems.Count / 9;
-						int m = pptcItems.Count % 9;
-
-						if (n > 1)
-						{
-							for (int i = 1; i <= n; i++)
-							{
-								<div style="display: none">
-									@for (int j = i * 9 + 1; j < (i + 1) * 9; j++)
-									{
-										if (!string.IsNullOrWhiteSpace(pptcItems[j].link_url))
-										{
-											<span><a href="@pptcItems[j].link_url"><img src="~/Areas/Web/Content/taocan/content/images/link.png"></a></span>
-										}
-										else
-										{
-											<span><a href="/Areas/Web/TaoCan/TaoCanInfo?id=@pptcItems[j].Id"><img src="~/Areas/Web/Content/taocan/content/images/link.png"></a></span>
-										}
-									}
-								</div>
-							}
-						}
-
-						if (m > 0)
+					@if (n1 > 1)
+					{
+						for (int i = 1; i <= n1; i++)
 						{
 							<div style="display: none">
-								@for (int j = n * 9 + 1; j < (m + 1) * 9+m; j++)
+								@for (int j = i * 9 + 1; j < (i + 1) * 9; j++)
 								{
 									if (!string.IsNullOrWhiteSpace(pptcItems[j].link_url))
 									{
@@ -391,23 +400,41 @@
 							</div>
 						}
 					}
-						}
-						else
-						{
-							<div>
-								@for (int i = 0; i < pptcItems.Count; i++)
+
+					if (m1 > 0)
+					{
+						<div style="display: none">
+							@for (int j = n1 * 9 + 1; j < (m1 + 1) * 9 + m1; j++)
+							{
+								if (!string.IsNullOrWhiteSpace(pptcItems[j].link_url))
 								{
-									if (!string.IsNullOrWhiteSpace(pptcItems[i].link_url))
-									{
-										<span><a href="@pptcItems[i].link_url"><img src="~/Areas/Web/Content/taocan/content/images/link.png"></a></span>
-									}
-									else
-									{
-										<span><a href="/Areas/Web/TaoCan/TaoCanInfo?id=@pptcItems[i].Id"><img src="~/Areas/Web/Content/taocan/content/images/link.png"></a></span>
-									}
+									<span><a href="@pptcItems[j].link_url"><img src="~/Areas/Web/Content/taocan/content/images/link.png"></a></span>
 								}
-							</div>
+								else
+								{
+									<span><a href="/Areas/Web/TaoCan/TaoCanInfo?id=@pptcItems[j].Id"><img src="~/Areas/Web/Content/taocan/content/images/link.png"></a></span>
+								}
+							}
+						</div>
+					}
+
+				}
+				else
+				{
+					<div>
+						@for (int i = 0; i < pptcItems.Count; i++)
+						{
+							if (!string.IsNullOrWhiteSpace(pptcItems[i].link_url))
+							{
+								<span><a href="@pptcItems[i].link_url"><img src="~/Areas/Web/Content/taocan/content/images/link.png"></a></span>
+							}
+							else
+							{
+								<span><a href="/Areas/Web/TaoCan/TaoCanInfo?id=@pptcItems[i].Id"><img src="~/Areas/Web/Content/taocan/content/images/link.png"></a></span>
+							}
 						}
+					</div>
+				}
 
 			</div>
 			<div class="switch next" style="line-height: 450px;">
