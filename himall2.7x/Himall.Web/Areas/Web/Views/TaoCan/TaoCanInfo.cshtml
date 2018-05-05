@@ -1,6 +1,8 @@
-﻿
+﻿@using Himall.Model
 @{
-    ViewBag.Title = "TaoCanInfo";
+	ViewBag.Title = "TaoCanInfo";
+	taocao_tcinfo tcInfo= ViewBag.TcInfo as taocao_tcinfo;
+	List<taocan_tcmenu> MainMenus= ViewBag.MainMenus as List<taocan_tcmenu>;
 }
 
 <!DOCTYPE html>
@@ -17,12 +19,10 @@
 		<div class="nav">
 			<ul id="main_nav">
 				<li><a href="#">商城首页</a></li>
-				<li><a href="#">厂家团购</a></li>
-				<li><a href="#">装修套餐</a></li>
-				<li><a href="#">个性定制</a></li>
-				<li><a href="#">设计方案</a></li>
-				<li><a href="#">装修专题</a></li>
-				<li><a href="#">招商加盟</a></li>
+				@foreach (taocan_tcmenu m in MainMenus)
+				{
+					<li><a href="@m.link_url">@m.title</a></li>
+				}
 			</ul>
 		</div>
 		<div class="contact">
@@ -43,9 +43,9 @@
 		</div>
 		<div class="taocan_info">
 			<div style="margin-bottom: 20px;">
-				<span class="banner_title">整装套餐: 简约时尚套餐</span>
-				<span class="banner_title_other">使用户型：3室2厅2卫</span>
-				<span class="banner_title_other">使用面积：100m - 120m</span>
+				<span class="banner_title">@(tcInfo.title):@tcInfo.brief</span>
+				<span class="banner_title_other">使用户型：@tcInfo.huxing</span>
+				<span class="banner_title_other">使用面积：@tcInfo.mianji</span>
 			</div>
 			<div class="taocan_price">价格：<span>￥1198</span>/平米</div>
 			<div class="detail_type">
@@ -103,7 +103,7 @@
 		</div>
 		<div class="main_content">
 			<div>
-				<img src="~/Areas/Web/Content/taocan/content/images/miancontent.png">
+				@tcInfo.main_content
 			</div>
 		</div>
 	</div>

@@ -22,8 +22,11 @@ namespace Himall.Web.Areas.Web.Controllers
 
 		public ActionResult TaoCanInfo(int id)
 		{
-            taocan_tcitemService ser = new taocan_tcitemService();
-            taocan_tcitem item = ser.Gettaocan_tcitem(1);
+			taocan_tcitemService ser = new taocan_tcitemService();
+			taocao_tcinfo info = ser.GetTaoCanInfo(id);
+			List<taocan_tcmenu> mainMenus = ser.GetTaoCanMenus().Where(me => me.Id <= 6 && me.parent_id == 0).ToList();
+			ViewBag.TcInfo = info;
+			ViewBag.MainMenus = mainMenus;
 			return View();
 		}
 	}
