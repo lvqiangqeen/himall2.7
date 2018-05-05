@@ -1163,6 +1163,8 @@
 		  <Property Name="brief" Type="varchar" MaxLength="200"/>
 		  <Property Name="main_content" Type="text"/>
           <Property Name="delete_flag" Type="int"/>
+			<Property Name="huxing" Type="varchar" MaxLength="45"/>
+			<Property Name="mianji" Type="varchar" MaxLength="45"/>
         </EntityType>
         <EntityType Name="Himall_MarketServiceRecord">
           <Key>
@@ -10805,6 +10807,8 @@
                 <ScalarProperty Name="main_content" ColumnName="main_content" />
 				<ScalarProperty Name="delete_flag" ColumnName="delete_flag" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+				  <ScalarProperty Name="huxing" ColumnName="huxing" />
+				  <ScalarProperty Name="mianji" ColumnName="mianji" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>		  
