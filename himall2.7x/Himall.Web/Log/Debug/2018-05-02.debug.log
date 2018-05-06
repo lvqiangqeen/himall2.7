@@ -1,0 +1,48 @@
+
+
+
+ 记录时间：2018-05-02 22:32:11,676 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-05-02 22:32:29,139 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-05-02 10:32:29 138:[当前请求URL：http://localhost:60362/；请求的参数为：；页面加载的时间：13953.3328 毫秒] 
+
+
+
+
+ 记录时间：2018-05-02 22:36:42,579 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-05-02 22:37:02,017 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-05-02 10:37:02 017:[当前请求URL：http://localhost:60362/；请求的参数为：；页面加载的时间：14606.9427 毫秒] 
+
+
+
+
+ 记录时间：2018-05-02 23:25:37,900 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-05-02 23:25:58,830 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-05-02 11:25:58 829:[当前请求URL：http://localhost:60362/；请求的参数为：；页面加载的时间：16907.2246 毫秒] 
+

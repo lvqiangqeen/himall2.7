@@ -1386,6 +1386,8 @@
     <Property Name="menu_id" Type="Int32" />
     <Property Name="brief" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="main_content" Type="String" FixedLength="false" Unicode="true" />
+    <Property Name="huxing" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+    <Property Name="mianji" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
     <Property Name="delete_flag" Type="Int32" />
   </EntityType>
   <EntityType Name="MemberOpenIdInfo">

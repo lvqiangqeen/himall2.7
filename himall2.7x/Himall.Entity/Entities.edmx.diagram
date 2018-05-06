@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3e0a3d4000934e77befdfe6216bee880" Name="Diagram1" ZoomLevel="37">
+      <Diagram DiagramId="3e0a3d4000934e77befdfe6216bee880" Name="Diagram1" ZoomLevel="24">
         <EntityTypeShape EntityType="Himall.Model.CategoryInfo" Width="2.125" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="Himall.Model.AttributeInfo" Width="3.25" PointX="2.875" PointY="24.5" />
         <EntityTypeShape EntityType="Himall.Model.AttributeValueInfo" Width="2.875" PointX="9.5" PointY="25.5" />
@@ -650,6 +650,8 @@
         <AssociationConnector Association="Himall.Model.FK_Himall_WeiActivityWinInfo_W21" />
         <AssociationConnector Association="Himall.Model.FK_Himall_WXLog_CardLogId1" />
         <EntityTypeShape EntityType="Himall.Model.taocan_tcitem" Width="1.5" PointX="40.375" PointY="5.125" />
+        <EntityTypeShape EntityType="Himall.Model.taocao_tcinfo" Width="1.5" PointX="44.375" PointY="30.25" />
+        <EntityTypeShape EntityType="Himall.Model.taocan_tcmenu" Width="1.5" PointX="45.375" PointY="6.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

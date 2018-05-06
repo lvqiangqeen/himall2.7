@@ -487,6 +487,8 @@
           <ScalarProperty Name="main_content" ColumnName="main_content" />
           <ScalarProperty Name="delete_flag" ColumnName="delete_flag" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="huxing" ColumnName="huxing" />
+          <ScalarProperty Name="mianji" ColumnName="mianji" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -196,7 +196,7 @@
 			@if (zztcItems.Count > 6)
 			{
 				<div class="taocan1_normal">
-					@for (int i = 6; i < 9; i++)
+					@for (int i = 6; i < 8; i++)
 				{
 					if (!string.IsNullOrWhiteSpace(zztcItems[i].link_url))
 					{
@@ -381,7 +381,7 @@
 						}
 					</div>
 
-					@if (n1 > 1)
+					if (n1 > 1)
 					{
 						for (int i = 1; i <= n1; i++)
 						{
@@ -401,7 +401,7 @@
 						}
 					}
 
-					if (m1 > 0)
+					@*if (m1 > 0)
 					{
 						<div style="display: none">
 							@for (int j = n1 * 9 + 1; j < (m1 + 1) * 9 + m1; j++)
@@ -416,7 +416,7 @@
 								}
 							}
 						</div>
-					}
+					}*@
 
 				}
 				else

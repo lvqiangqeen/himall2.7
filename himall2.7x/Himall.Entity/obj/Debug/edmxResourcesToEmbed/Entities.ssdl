@@ -1158,6 +1158,8 @@
     <Property Name="brief" Type="varchar" MaxLength="200" />
     <Property Name="main_content" Type="text" />
     <Property Name="delete_flag" Type="int" />
+    <Property Name="huxing" Type="varchar" MaxLength="45" />
+    <Property Name="mianji" Type="varchar" MaxLength="45" />
   </EntityType>
   <EntityType Name="Himall_MarketServiceRecord">
     <Key>

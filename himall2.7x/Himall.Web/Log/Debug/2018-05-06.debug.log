@@ -1,0 +1,120 @@
+
+
+
+ 记录时间：2018-05-06 23:21:24,155 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-05-06 23:21:43,964 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-05-06 11:21:43 962:[当前请求URL：http://localhost:60362/；请求的参数为：；页面加载的时间：15449.1103 毫秒] 
+
+
+
+
+ 记录时间：2018-05-06 23:24:12,680 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-05-06 23:24:46,635 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-05-06 23:27:44,799 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-05-06 11:27:44 798:[当前请求URL：http://localhost:60362/TaoCan/Index；请求的参数为：；页面加载的时间：129312.6796 毫秒] 
+
+
+
+
+ 记录时间：2018-05-06 23:29:31,996 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-05-06 11:29:31 996:[当前请求URL：http://localhost:60362/TaoCan/Index；请求的参数为：；页面加载的时间：104536.9176 毫秒] 
+
+
+
+
+ 记录时间：2018-05-06 23:34:31,438 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-05-06 11:34:31 438:[当前请求URL：http://localhost:60362/TaoCan/Index；请求的参数为：；页面加载的时间：297155.7895 毫秒] 
+
+
+
+
+ 记录时间：2018-05-06 23:37:17,200 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-05-06 23:39:37,074 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-05-06 11:39:37 073:[当前请求URL：http://localhost:60362/TaoCan/Index；请求的参数为：；页面加载的时间：134763.6157 毫秒] 
+
+
+
+
+ 记录时间：2018-05-06 23:39:42,330 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-05-06 11:39:42 330:[当前请求URL：http://localhost:60362/；请求的参数为：；页面加载的时间：140020.6033 毫秒] 
+
+
+
+
+ 记录时间：2018-05-06 23:40:54,243 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-05-06 23:41:10,494 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-05-06 11:41:10 493:[当前请求URL：http://localhost:60362/；请求的参数为：；页面加载的时间：12801.2836 毫秒] 
+
+
+
+
+ 记录时间：2018-05-06 23:41:33,769 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-05-06 11:41:33 769:[当前请求URL：http://localhost:60362/TaoCan/Index；请求的参数为：；页面加载的时间：6006.9837 毫秒] 
+
+
+
+
+ 记录时间：2018-05-06 23:45:07,047 
+日志级别：  DEBUG 
+出错类：Himall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-05-06 11:45:07 047:[当前请求URL：http://localhost:60362/TaoCan/Index；请求的参数为：；页面加载的时间：14728.1861 毫秒] 
+
+
+
+
+ 记录时间：2018-05-06 23:46:24,123 
+日志级别：  DEBUG 
+出错类：Himall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
